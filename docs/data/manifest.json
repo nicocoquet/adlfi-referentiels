@@ -1,0 +1,24 @@
+{
+  "project": "Référentiels AdlFI",
+  "schema_version": "0.1.0",
+  "modules": {
+    "lieux": {
+      "status": "preparation",
+      "data": null
+    },
+    "autorites": {
+      "status": "preparation",
+      "data": null
+    },
+    "organismes": {
+      "status": "prototype",
+      "data": "data/organismes.json",
+      "data_schema": "0.3.0"
+    },
+    "natures-operations": {
+      "status": "preparation",
+      "data": null
+    }
+  },
+  "usage": "Un répertoire public de données de référence distinct de l'Atlas documentaire AdlFI."
+}

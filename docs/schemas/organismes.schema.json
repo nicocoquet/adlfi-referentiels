@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nicocoquet.github.io/adlfi-referentiels/schemas/organismes.schema.json",
+  "title": "Référentiels AdlFI — Export d'autorités institutionnelles",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "dataset",
+    "totals",
+    "authorities",
+    "relations",
+    "locations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.3.0"
+    },
+    "dataset": {
+      "const": "adlfi-referentiels/organismes"
+    },
+    "totals": {
+      "type": "object",
+      "required": [
+        "authorities",
+        "organismes",
+        "services",
+        "catalog_included",
+        "catalog_excluded"
+      ]
+    },
+    "authorities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/authority"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    },
+    "locations": {
+      "type": "array"
+    }
+  },
+  "$defs": {
+    "authority": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "presentation",
+        "names",
+        "classification",
+        "activity",
+        "identifiers",
+        "geography"
+      ],
+      "properties": {
+        "id": {
+          "pattern": "^(ORG|SER)-[0-9]{4}$",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "ORG",
+            "SER"
+          ]
+        },
+        "presentation": {
+          "type": "object",
+          "required": [
+            "visible",
+            "catalog",
+            "media"
+          ]
+        },
+        "names": {
+          "type": "object",
+          "required": [
+            "preferred",
+            "history",
+            "legal_status_history"
+          ]
+        },
+        "classification": {
+          "type": "object"
+        },
+        "activity": {
+          "type": "object"
+        },
+        "identifiers": {
+          "type": "object"
+        },
+        "geography": {
+          "type": "object"
+        },
+        "website": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "usage": {
+          "type": "object"
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "target",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "type": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "validation": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

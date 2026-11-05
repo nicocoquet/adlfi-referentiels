@@ -1,0 +1,13 @@
+# Fichiers de travail non publiés
+*.xlsx
+*.xls
+*.xlsm
+*.zip
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.env
+node_modules/
+site/
