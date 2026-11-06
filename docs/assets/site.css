@@ -37,3 +37,72 @@
 .cards.list-mode .card-visual{width:66px;height:66px}.cards.list-mode .card-identity{grid-template-columns:66px minmax(0,1fr)}
 .cards.list-mode .image-placeholder small{display:none}.cards.list-mode .card-visual svg{width:24px;height:24px}
 @media(max-width:480px){.card-identity{grid-template-columns:84px minmax(0,1fr)}.card-visual{width:84px;height:84px}.card-identity .card-title{font-size:15px}.image-placeholder small{font-size:8px}}
+
+
+/* v0.3 — cartouche de laboratoire : identité, tutelles et logos séparés */
+.cards .laboratory-card{grid-column:1/-1;gap:0;padding:18px 20px 15px}
+.lab-head{margin-bottom:16px}
+.lab-head .lab-kind{font-size:11px;letter-spacing:.035em;text-transform:uppercase;padding:4px 8px}
+.lab-head .ident{border-left:1px solid #d4dfe2;padding-left:11px;margin-left:2px;font-size:12px}
+.lab-head .state{margin-left:auto}
+.lab-layout{display:grid;grid-template-columns:144px minmax(0,1fr);gap:20px;align-items:start}
+.lab-visual{width:144px;aspect-ratio:1;border:1px solid #dfe9eb;border-radius:12px;overflow:hidden;background:#eef5f6;display:flex;align-items:center;justify-content:center}
+.lab-image{width:100%;height:100%;object-fit:cover;display:block}
+.lab-primary-logo{width:100%;height:100%;object-fit:contain;padding:14px;background:#fff;display:block}
+.lab-image-placeholder{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;color:#88a5ab;text-align:center;padding:12px}
+.lab-image-placeholder svg{width:41px;height:41px}
+.lab-image-placeholder small{font-size:10px;line-height:1.3;max-width:100px}
+.lab-content{min-width:0}
+.laboratory-card .lab-title{font-size:clamp(20px,2.1vw,26px);line-height:1.17;overflow-wrap:anywhere}
+.lab-meta{margin:4px 0 6px;color:#607580;font-size:15px;font-weight:600}
+.lab-place{font-size:13px;color:#607780;margin:0 0 6px;overflow-wrap:anywhere}
+.lab-website{font-size:12px;font-weight:650;text-underline-offset:2px;text-decoration:underline;display:inline-flex;gap:6px;align-items:center}
+.lab-website:hover{text-decoration-thickness:2px}
+.lab-tutelles{margin-top:10px;color:#425966}
+.lab-field-label{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#788d95;font-weight:650}
+.lab-tutelles ul{margin:3px 0 0;padding-left:19px;font-size:12px;line-height:1.5}
+.lab-tutelles li{padding-left:1px;overflow-wrap:anywhere}
+.lab-extra,.lab-tutelles-undocumented{font-size:11px;color:#899aa0}
+.lab-tutelles-undocumented{margin:10px 0 0;font-style:italic}
+.lab-logo-band{display:flex;align-items:center;flex-wrap:wrap;gap:12px 25px;border-top:1px solid #e6ecee;margin-top:17px;padding:13px 0 2px}
+.lab-logo-item{display:flex;align-items:center;justify-content:center;min-width:72px;max-width:170px;height:62px}
+.lab-tutelle-logo{max-width:160px;max-height:58px;width:auto;height:auto;object-fit:contain;display:block}
+.lab-logo-extra{font-size:11px;color:#81929a}
+.lab-foot{margin-top:16px;padding-top:12px}
+.lab-foot .ref{font-size:11px}
+.lab-foot .details-trigger{font-size:12px}
+.cards.list-mode .laboratory-card{gap:0;padding:13px 15px}
+.cards.list-mode .lab-head{margin-bottom:8px}
+.cards.list-mode .lab-layout{grid-template-columns:72px minmax(0,1fr);gap:12px}
+.cards.list-mode .lab-visual{width:72px}
+.cards.list-mode .lab-image-placeholder small{display:none}
+.cards.list-mode .laboratory-card .lab-title{font-size:17px}
+.cards.list-mode .lab-meta{font-size:12px;margin:2px 0}
+.cards.list-mode .lab-place{font-size:11px}
+.cards.list-mode .lab-tutelles,.cards.list-mode .lab-tutelles-undocumented,.cards.list-mode .lab-logo-band{display:none}
+.cards.list-mode .lab-foot{margin-top:10px}
+@media(max-width:760px){
+  .cards .laboratory-card{padding:15px}
+  .lab-layout{grid-template-columns:110px minmax(0,1fr);gap:14px}
+  .lab-visual{width:110px}
+  .laboratory-card .lab-title{font-size:21px}
+  .lab-logo-item{height:52px;max-width:125px}
+  .lab-tutelle-logo{max-width:120px;max-height:48px}
+}
+@media(max-width:480px){
+  .lab-head{flex-wrap:wrap;row-gap:5px;margin-bottom:12px}
+  .lab-head .ident{font-size:10px}
+  .lab-head .lab-kind{font-size:10px}
+  .lab-layout{grid-template-columns:82px minmax(0,1fr);gap:12px}
+  .lab-visual{width:82px;border-radius:8px}
+  .lab-image-placeholder svg{width:30px;height:30px}
+  .lab-image-placeholder small{font-size:8px}
+  .laboratory-card .lab-title{font-size:18px}
+  .lab-meta{font-size:12px}
+  .lab-place{font-size:11px}
+  .lab-tutelles ul{font-size:11px}
+  .lab-logo-band{gap:10px 14px}
+  .lab-logo-item{height:43px;max-width:112px}
+  .lab-tutelle-logo{max-width:108px;max-height:40px}
+  .lab-foot{flex-wrap:wrap}
+}
