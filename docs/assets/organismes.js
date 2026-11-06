@@ -46,7 +46,11 @@
   function parentBlock(r,compact=false) {
     const links=establishedRattachements(r);
     if(!links.length) return '';
-    const display=links.slice(0,compact?2:10).map(rel=>{
+    const orderedLinks=(r.kind==='ORG' && r.classification.type==='laboratoire')
+      ? [...links].sort((a,b)=>(a.type==='tutelle' && b.type==='tutelle')
+        ? tutelleTextOrder(recordById.get(a.target),recordById.get(b.target)) : 0)
+      : links;
+    const display=orderedLinks.slice(0,compact?2:10).map(rel=>{
       const parent=recordById.get(rel.target);
       const type=rel.end?'Rattachement historique':(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
       const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
@@ -58,13 +62,23 @@
 
   // Cartouche éditorial des laboratoires : uniquement les tutelles validées
   // sans date de fin, jamais les relations proposées ou historiques.
+  // Classement éditorial : les noms sont toujours alphabétiques.
+  const tutelleTextOrder=(a,b)=>collator.compare(a.names.preferred,b.names.preferred)
+    || collator.compare(a.id,b.id);
+  // Les logos suivent une priorité institutionnelle propre, indépendante du texte :
+  // ministère de la Culture, puis CNRS, puis autres tutelles par nom.
+  const LOGO_ORDER=new Map([['ORG-0023',0],['ORG-0004',1]]);
+  const tutelleLogoOrder=(a,b)=>(LOGO_ORDER.get(a.id)??2)-(LOGO_ORDER.get(b.id)??2)
+    || tutelleTextOrder(a,b);
+
   function laboratoryTutelles(r) {
     const seen=new Set();
     return (relsById.get(r.id)||[])
       .filter(rel=>rel.source===r.id && rel.type==='tutelle'
         && VALID_STATES.has(rel.validation||'') && !rel.end && recordById.has(rel.target))
       .filter(rel=>{if(seen.has(rel.target))return false;seen.add(rel.target);return true})
-      .map(rel=>recordById.get(rel.target));
+      .map(rel=>recordById.get(rel.target))
+      .sort(tutelleTextOrder);
   }
   function laboratoryCard(r) {
     const tutelles=laboratoryTutelles(r);
@@ -83,6 +97,7 @@
       : '<p class="lab-tutelles-undocumented">Tutelles non documentées dans le référentiel</p>';
     // Une illustration de la tutelle n'est jamais substituée à son logo.
     const logos=tutelles.filter(t=>t.presentation.media.logo)
+      .sort(tutelleLogoOrder)
       .map(t=>({name:t.names.preferred,html:assetImg(t.presentation.media.logo,'Logo de '+t.names.preferred,'lab-tutelle-logo')}))
       .filter(x=>x.html);
     const logoBand=logos.length
@@ -214,7 +229,7 @@
     const r=recordById.get(id);if(!r)return;
     const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&['valide','validee','validée'].includes(x.validation||''));
     const byType=Object.groupBy?Object.groupBy(verified,x=>x.type||'relation'):verified.reduce((a,x)=>{(a[x.type||'relation'] ||= []).push(x);return a},{});
-    const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${items.map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'actuel ou inconnu')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
+    const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${(type==='tutelle'?[...items].sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))):items).map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'actuel ou inconnu')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
     const historical=r.names.history.filter(x=>x.label && ['valide','validee','validée'].includes(x.validation||''));
     const others=r.names.history.filter(x=>x.label && !['valide','validee','validée'].includes(x.validation||''));
     const nameHist=historical.length?`<ul class="subtle-list">${historical.map(x=>`<li>${esc(x.label)}${x.start||x.end?` <small>(${esc(x.start||'?')}–${esc(x.end||'?')})</small>`:''}</li>`).join('')}</ul>`:'';
