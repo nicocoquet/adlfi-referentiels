@@ -59,22 +59,27 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertNotIn('"source_documentaire"',text)
         self.assertNotIn('"editorial"',text)
 
-    def test_media_directories_and_image_priority(self):
+    def test_shared_authority_media_and_unique_roles(self):
         self.assertEqual(export_organismes.SITE_ROOT, ROOT / 'docs')
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / 'assets/organismes').mkdir(parents=True)
-            (root / 'assets/logos').mkdir(parents=True)
-            (root / 'assets/organismes/ORG-0001.webp').write_bytes(b'image')
-            (root / 'assets/logos/ORG-0001.svg').write_text('<svg/>',encoding='utf-8')
+            folder = root / 'assets/organismes'
+            folder.mkdir(parents=True)
+            # Un même logo est utilisé pour l'ORG elle-même et comme tutelle.
+            (folder / 'ORG-0004-logo.svg').write_text('<svg/>', encoding='utf-8')
+            (folder / 'ORG-0001-illustration.webp').write_bytes(b'image')
+            (folder / 'ORG-0001-logo.png').write_bytes(b'logo')
             with patch.object(export_organismes,'SITE_ROOT',root):
-                media = export_organismes.media_for('ORG-0001')
-                self.assertEqual(media, {
-                    'image':'assets/organismes/ORG-0001.webp',
-                    'logo':'assets/logos/ORG-0001.svg'})
+                self.assertEqual(export_organismes.media_for('ORG-0004'), {
+                    'image': None,
+                    'logo': 'assets/organismes/ORG-0004-logo.svg'})
+                self.assertEqual(export_organismes.media_for('ORG-0001'), {
+                    'image': 'assets/organismes/ORG-0001-illustration.webp',
+                    'logo': 'assets/organismes/ORG-0001-logo.png'})
                 self.assertEqual(export_organismes.media_for('ORG-NONVALIDE'),
                                  {'image':None,'logo':None})
-                (root / 'assets/organismes/ORG-0001.png').write_bytes(b'duplicate')
+                # Deux extensions pour le même rôle ne sont pas permises.
+                (folder / 'ORG-0001-logo.svg').write_text('<svg/>',encoding='utf-8')
                 with self.assertRaises(ValueError):
                     export_organismes.media_for('ORG-0001')
 
