@@ -107,20 +107,24 @@ def split_sigles(raw):
     return [v.strip() for v in re.split(r'\s*[;|]\s*',raw) if v.strip()]
 
 
-# Images déposées manuellement, sans inférence ni téléchargement de logos.
+# Une seule bibliothèque par autorité : réutilisation d'un logo en visuel
+# principal de l'ORG et dans le bandeau des tutelles, sans copie du fichier.
+# Les deux variantes éventuelles (logo / illustration) ont des rôles distincts.
 MEDIA_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.svg')
 SITE_ROOT = Path(__file__).resolve().parents[1] / 'docs'
 
 def media_for(ident: str):
     if not re.fullmatch(r'(?:ORG|SER)-[0-9]{4}', ident):
         return {'image': None, 'logo': None}
-    def find(folder):
-        candidates = [SITE_ROOT / 'assets' / folder / (ident + suffix) for suffix in MEDIA_EXTENSIONS]
+    folder = SITE_ROOT / 'assets' / 'organismes'
+    def find(role):
+        candidates = [folder / (ident + '-' + role + suffix)
+                      for suffix in MEDIA_EXTENSIONS]
         matches = [p for p in candidates if p.is_file()]
         if len(matches) > 1:
-            raise ValueError(f'Plusieurs fichiers image pour {ident} dans {folder}: {matches}')
-        return 'assets/' + folder + '/' + matches[0].name if matches else None
-    return {'image': find('organismes'), 'logo': find('logos')}
+            raise ValueError(f'Plusieurs médias {role} pour {ident}: {matches}')
+        return 'assets/organismes/' + matches[0].name if matches else None
+    return {'image': find('illustration'), 'logo': find('logo')}
 
 def build(source: Path):
     sh=parse_workbook(source)
