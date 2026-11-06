@@ -47,8 +47,11 @@
     const links=establishedRattachements(r);
     if(!links.length) return '';
     const orderedLinks=(r.kind==='ORG' && r.classification.type==='laboratoire')
-      ? [...links].sort((a,b)=>(a.type==='tutelle' && b.type==='tutelle')
-        ? tutelleTextOrder(recordById.get(a.target),recordById.get(b.target)) : 0)
+      ? [
+          ...links.filter(rel=>rel.type==='tutelle')
+            .sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))),
+          ...links.filter(rel=>rel.type!=='tutelle')
+        ]
       : links;
     const display=orderedLinks.slice(0,compact?2:10).map(rel=>{
       const parent=recordById.get(rel.target);
