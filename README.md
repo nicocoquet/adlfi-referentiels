@@ -23,8 +23,8 @@ docs/                        # fichiers publiés par GitHub Pages
   assets/
     site.css
     organismes.js
-    organismes/               # images principales ORG-XXXX.jpg, SER-XXXX.jpg...
-    logos/                    # identités visuelles de rattachement
+    organismes/               # médias uniques des autorités : ORG-XXXX-logo.svg,
+                               # ORG-XXXX-illustration.webp, SER-XXXX-logo.svg...
   data/organismes.json        # JSON généré pour l'interface
   data/manifest.json          # état des modules et format des exports
   schemas/organismes.schema.json
@@ -82,6 +82,7 @@ Ce prototype ne nécessite ni MkDocs, ni construction JavaScript : le serveur pu
 - Les relations non validées ne sont jamais affichées comme des rattachements certains.
 - `pays_iso2` désigne le **pays de rattachement institutionnel**, `ville_reference` les villes déclarées ; **ne pas géocoder** un nom de ville libre sans identifiant vérifié.
 - Les libellés institutionnels suivent les conventions éditoriales AdlFI, distinctes des formes juridiques littérales.
+- Tous les médias des autorités (y compris les logos utilisés dans les bandeaux de tutelles) sont déposés **une seule fois** dans `docs/assets/organismes/`, avec les suffixes `-logo` et `-illustration`. Voir `docs/assets/GUIDE-IMAGES.md`.
 - Les images doivent être ajoutées après vérification des droits et des crédits. Aucune image commerciale ou institutionnelle n'est récupérée automatiquement.
 - La licence des données et les mentions légales du site restent à déterminer avant une publication de production.
 
