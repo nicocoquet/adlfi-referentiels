@@ -3,6 +3,9 @@
 import json
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+from scripts import export_organismes
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'docs/data/organismes.json'
@@ -55,6 +58,25 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertNotIn('"commentaire"',text)
         self.assertNotIn('"source_documentaire"',text)
         self.assertNotIn('"editorial"',text)
+
+    def test_media_directories_and_image_priority(self):
+        self.assertEqual(export_organismes.SITE_ROOT, ROOT / 'docs')
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'assets/organismes').mkdir(parents=True)
+            (root / 'assets/logos').mkdir(parents=True)
+            (root / 'assets/organismes/ORG-0001.webp').write_bytes(b'image')
+            (root / 'assets/logos/ORG-0001.svg').write_text('<svg/>',encoding='utf-8')
+            with patch.object(export_organismes,'SITE_ROOT',root):
+                media = export_organismes.media_for('ORG-0001')
+                self.assertEqual(media, {
+                    'image':'assets/organismes/ORG-0001.webp',
+                    'logo':'assets/logos/ORG-0001.svg'})
+                self.assertEqual(export_organismes.media_for('ORG-NONVALIDE'),
+                                 {'image':None,'logo':None})
+                (root / 'assets/organismes/ORG-0001.png').write_bytes(b'duplicate')
+                with self.assertRaises(ValueError):
+                    export_organismes.media_for('ORG-0001')
 
     def test_site_files_exist(self):
         self.assertTrue((ROOT/'docs/index.html').exists())
