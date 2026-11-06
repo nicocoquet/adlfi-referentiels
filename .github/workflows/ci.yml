@@ -23,3 +23,5 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Contrôler la syntaxe JavaScript
         run: node --check docs/assets/organismes.js
+      - name: Vérifier les classements de tutelles
+        run: node tests/test_tutelles_order.js
