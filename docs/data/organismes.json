@@ -23,7 +23,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0001-logo.webp"
         }
       },
       "names": {
@@ -212,7 +212,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0004-logo.webp"
         }
       },
       "names": {
@@ -800,7 +800,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0022-logo.webp"
         }
       },
       "names": {
@@ -857,7 +857,7 @@
         "visible": false,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0023-logo.svg"
         }
       },
       "names": {
@@ -3839,7 +3839,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0076-logo.svg"
         }
       },
       "names": {
@@ -14711,7 +14711,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": null
+          "logo": "assets/organismes/ORG-0261-logo.webp"
         }
       },
       "names": {

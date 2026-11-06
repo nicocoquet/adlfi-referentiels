@@ -33,26 +33,77 @@
   let data,records,recordById,relsById;
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
-  const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement']);
+  const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
   const BLDG = '<svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27V11l11-6 11 6v16M9 27v-9h14v9M13 9v5M19 9v5M3 27h26"/><path d="M14 27v-5h4v5"/></svg>';
   const assetImg=(path,alt,className)=> {
-    if (!path || !/^assets\/(?:organismes|logos)\/(?:ORG|SER)-\d{4}\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
+    if (!path || !/^assets\/organismes\/(?:ORG|SER)-\d{4}-(?:logo|illustration)\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
     return `<img class="${className}" src="../${esc(path)}" alt="${esc(alt)}" loading="lazy" decoding="async">`;
   };
   const establishedRattachements=r=>(relsById.get(r.id)||[])
     .filter(rel=>rel.source===r.id && VALID_STATES.has(rel.validation||'') && RATTACHEMENT_TYPES.has(rel.type) && recordById.has(rel.target));
-  const parentVisual=(parent)=>assetImg(parent.presentation.media.logo||parent.presentation.media.image,
+  const parentVisual=(parent)=>assetImg(parent.presentation.media.logo,
     'Identité visuelle : '+parent.names.preferred,'parent-logo') || `<span class="parent-picto">${BLDG}</span>`;
   function parentBlock(r,compact=false) {
     const links=establishedRattachements(r);
     if(!links.length) return '';
     const display=links.slice(0,compact?2:10).map(rel=>{
       const parent=recordById.get(rel.target);
-      const type=rel.end?'Rattachement historique':(rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
+      const type=rel.end?'Rattachement historique':(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
       const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
       return `<div class="attachment-item" title="${esc(type)}"><span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span></div>`;
     }).join('');
     return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s)</span>`:''}</div>`;
+  }
+
+
+  // Cartouche éditorial des laboratoires : uniquement les tutelles validées
+  // sans date de fin, jamais les relations proposées ou historiques.
+  function laboratoryTutelles(r) {
+    const seen=new Set();
+    return (relsById.get(r.id)||[])
+      .filter(rel=>rel.source===r.id && rel.type==='tutelle'
+        && VALID_STATES.has(rel.validation||'') && !rel.end && recordById.has(rel.target))
+      .filter(rel=>{if(seen.has(rel.target))return false;seen.add(rel.target);return true})
+      .map(rel=>recordById.get(rel.target));
+  }
+  function laboratoryCard(r) {
+    const tutelles=laboratoryTutelles(r);
+    const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
+    const labMeta=[r.names.acronym,r.identifiers.lab].filter(Boolean).map(esc).join(' · ');
+    const place=[r.geography.cities_label,country(r.geography.institutional_country_iso2)]
+      .filter((v,i)=>i===0?Boolean(v):Boolean(r.geography.institutional_country_iso2))
+      .map(esc).join(' · ') || 'Localisation à documenter';
+    const website=safeUrl(r.website);
+    const media=r.presentation.media;
+    const visual=(media.image && assetImg(media.image,'Illustration du laboratoire : '+r.names.preferred,'lab-image'))
+      || (media.logo && assetImg(media.logo,'Logo du laboratoire : '+r.names.preferred,'lab-primary-logo'))
+      || `<span class="lab-image-placeholder" aria-label="Visuel non renseigné">${BLDG}<small>Visuel à documenter</small></span>`;
+    const trustees=tutelles.length
+      ? `<div class="lab-tutelles"><span class="lab-field-label">Tutelles</span><ul>${tutelles.slice(0,4).map(t=>`<li>${esc(t.names.preferred)}</li>`).join('')}</ul>${tutelles.length>4?`<span class="lab-extra">+ ${tutelles.length-4} autre(s) tutelle(s) dans la fiche</span>`:''}</div>`
+      : '<p class="lab-tutelles-undocumented">Tutelles non documentées dans le référentiel</p>';
+    // Une illustration de la tutelle n'est jamais substituée à son logo.
+    const logos=tutelles.filter(t=>t.presentation.media.logo)
+      .map(t=>({name:t.names.preferred,html:assetImg(t.presentation.media.logo,'Logo de '+t.names.preferred,'lab-tutelle-logo')}))
+      .filter(x=>x.html);
+    const logoBand=logos.length
+      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.slice(0,4).map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}${logos.length>4?`<span class="lab-logo-extra">+ ${logos.length-4} logos</span>`:''}</div>`
+      : '';
+    const count=r.usage.affiliations_linked;
+    const usage=count===1?'1 affiliation source liée':count>1?`${count} affiliations sources liées`:'Aucune affiliation source liée';
+    return `<article class="authority-card laboratory-card" data-id="${esc(r.id)}">
+      <div class="card-head lab-head"><span class="kind lab-kind">Laboratoire</span><span class="ident">${esc(r.id)}</span><span class="state"><span class="state-dot ${stateclass}"></span>${flagLabel(r.activity.active)}</span></div>
+      <div class="lab-layout">
+        <div class="lab-visual">${visual}</div>
+        <div class="lab-content"><h2 class="card-title lab-title">${esc(r.names.preferred)}</h2>
+          ${labMeta?`<p class="lab-meta">${labMeta}</p>`:''}
+          <p class="lab-place" title="Ville de référence et pays de rattachement institutionnel">${place}</p>
+          ${website?`<a class="lab-website" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Site officiel <span aria-hidden="true">↗</span></a>`:''}
+          ${trustees}
+        </div>
+      </div>
+      ${logoBand}
+      <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
+    </article>`;
   }
 
   const valueFor=(r,k)=>{
@@ -125,6 +176,7 @@
     return sorted;
   }
   function card(r){
+    if(r.kind==='ORG' && r.classification.type==='laboratoire')return laboratoryCard(r);
     const cat=r.classification.bsr||'Non classé';
     const typ=r.classification.type?natural(r.classification.type):'Type non précisé';
     const sector=r.classification.sector?natural(r.classification.sector):null;

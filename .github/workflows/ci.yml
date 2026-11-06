@@ -1,0 +1,25 @@
+name: Vérifications du référentiel
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tester le schéma et l'export des médias
+        run: python3 -m unittest discover -s tests -v
+      - name: Contrôler la syntaxe JavaScript
+        run: node --check docs/assets/organismes.js
