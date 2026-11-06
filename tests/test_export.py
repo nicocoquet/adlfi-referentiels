@@ -83,6 +83,20 @@ class TestReferentielOrganismes(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     export_organismes.media_for('ORG-0001')
 
+    def test_laboratory_cards_keep_the_standard_grid(self):
+        # Les laboratoires ne doivent pas occuper les deux colonnes :
+        # le résultat filtré doit conserver la même largeur de cartouche.
+        import re
+        css = (ROOT / 'docs/assets/site.css').read_text(encoding='utf-8')
+        grid = re.search(r'\\.cards\\s*\\{([^}]*)\\}', css)
+        self.assertIsNotNone(grid)
+        self.assertIn('grid-template-columns:repeat(2,minmax(0,1fr))',
+                      grid.group(1))
+        lab = re.search(r'\\.cards\\s+\\.laboratory-card\\s*\\{([^}]*)\\}', css)
+        self.assertIsNotNone(lab)
+        self.assertNotIn('grid-column', lab.group(1))
+        self.assertIn('.cards.list-mode{grid-template-columns:1fr}', css)
+
     def test_site_files_exist(self):
         self.assertTrue((ROOT/'docs/index.html').exists())
         for p in ['lieux','autorites','organismes','natures-operations']:
