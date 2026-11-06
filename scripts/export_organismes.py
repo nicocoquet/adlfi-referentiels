@@ -109,7 +109,7 @@ def split_sigles(raw):
 
 # Images déposées manuellement, sans inférence ni téléchargement de logos.
 MEDIA_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.svg')
-SITE_ROOT = Path(__file__).resolve().parents[1]
+SITE_ROOT = Path(__file__).resolve().parents[1] / 'docs'
 
 def media_for(ident: str):
     if not re.fullmatch(r'(?:ORG|SER)-[0-9]{4}', ident):
