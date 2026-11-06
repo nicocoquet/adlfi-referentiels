@@ -33,7 +33,7 @@
   let data,records,recordById,relsById;
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
-  const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement']);
+  const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
   const BLDG = '<svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27V11l11-6 11 6v16M9 27v-9h14v9M13 9v5M19 9v5M3 27h26"/><path d="M14 27v-5h4v5"/></svg>';
   const assetImg=(path,alt,className)=> {
     if (!path || !/^assets\/(?:organismes|logos)\/(?:ORG|SER)-\d{4}\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
@@ -48,7 +48,7 @@
     if(!links.length) return '';
     const display=links.slice(0,compact?2:10).map(rel=>{
       const parent=recordById.get(rel.target);
-      const type=rel.end?'Rattachement historique':(rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
+      const type=rel.end?'Rattachement historique':(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
       const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
       return `<div class="attachment-item" title="${esc(type)}"><span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span></div>`;
     }).join('');
