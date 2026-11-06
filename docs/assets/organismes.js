@@ -36,12 +36,12 @@
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
   const BLDG = '<svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27V11l11-6 11 6v16M9 27v-9h14v9M13 9v5M19 9v5M3 27h26"/><path d="M14 27v-5h4v5"/></svg>';
   const assetImg=(path,alt,className)=> {
-    if (!path || !/^assets\/(?:organismes|logos)\/(?:ORG|SER)-\d{4}\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
+    if (!path || !/^assets\/organismes\/(?:ORG|SER)-\d{4}-(?:logo|illustration)\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
     return `<img class="${className}" src="../${esc(path)}" alt="${esc(alt)}" loading="lazy" decoding="async">`;
   };
   const establishedRattachements=r=>(relsById.get(r.id)||[])
     .filter(rel=>rel.source===r.id && VALID_STATES.has(rel.validation||'') && RATTACHEMENT_TYPES.has(rel.type) && recordById.has(rel.target));
-  const parentVisual=(parent)=>assetImg(parent.presentation.media.logo||parent.presentation.media.image,
+  const parentVisual=(parent)=>assetImg(parent.presentation.media.logo,
     'Identité visuelle : '+parent.names.preferred,'parent-logo') || `<span class="parent-picto">${BLDG}</span>`;
   function parentBlock(r,compact=false) {
     const links=establishedRattachements(r);
