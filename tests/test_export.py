@@ -88,11 +88,11 @@ class TestReferentielOrganismes(unittest.TestCase):
         # le résultat filtré doit conserver la même largeur de cartouche.
         import re
         css = (ROOT / 'docs/assets/site.css').read_text(encoding='utf-8')
-        grid = re.search(r'\\.cards\\s*\\{([^}]*)\\}', css)
+        grid = re.search(r'\.cards\s*\{([^}]*)\}', css)
         self.assertIsNotNone(grid)
         self.assertIn('grid-template-columns:repeat(2,minmax(0,1fr))',
                       grid.group(1))
-        lab = re.search(r'\\.cards\\s+\\.laboratory-card\\s*\\{([^}]*)\\}', css)
+        lab = re.search(r'\.cards\s+\.laboratory-card\s*\{([^}]*)\}', css)
         self.assertIsNotNone(lab)
         self.assertNotIn('grid-column', lab.group(1))
         self.assertIn('.cards.list-mode{grid-template-columns:1fr}', css)
