@@ -83,6 +83,74 @@
       .map(rel=>recordById.get(rel.target))
       .sort(tutelleTextOrder);
   }
+
+  // Succession d'autorités distinctes ; les affiliations ne sont jamais fusionnées.
+  const SUCCESSION_TYPES=new Set(['succession_institutionnelle','succession_service']);
+  let evolutionById=new Map();
+  const EVOLUTION_MONTHS=['janvier','février','mars','avril','mai','juin',
+    'juillet','août','septembre','octobre','novembre','décembre'];
+  function evolutionDate(raw){
+    if(!raw)return null;
+    const value=String(raw),m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if(!m)return value;
+    const month=Number(m[2]),day=Number(m[3]);
+    if(month<1||month>12||day<1||day>31)return value;
+    return (day===1?'1er':String(day))+' '+EVOLUTION_MONTHS[month-1]+' '+m[1];
+  }
+  function evolutionEntries(r){
+    return (evolutionById.get(r.id)||[]).map(item=>{
+      const partner=recordById.get(item.other);
+      return partner?{...item,partner}:null;
+    }).filter(Boolean).sort((a,b)=>a.direction!==b.direction
+      ?(a.direction==='successor'?-1:1)
+      :collator.compare(a.partner.names.preferred,b.partner.names.preferred));
+  }
+  const evolutionTypeLabel=type=>type==='succession_service'
+    ?'Succession de service':'Succession institutionnelle';
+  function evolutionGroupLabel(r,direction,count){
+    if(direction==='predecessor')return count===1?'Structure antérieure':'Structures antérieures';
+    const suffix=r.kind==='SER'?'à ce service':r.classification.type==='laboratoire'
+      ?'à ce laboratoire':'à cet organisme';
+    return (count===1?'Structure ayant succédé ':'Structures ayant succédé ')+suffix;
+  }
+  function evolutionLink(item){
+    const p=item.partner,allowed=p.presentation.visible;
+    const name=p.names.acronym||p.names.preferred;
+    const context=p.identifiers?.lab?[p.id,p.identifiers.lab].join(' · '):p.id;
+    const visual=assetImg(p.presentation.media.logo||p.presentation.media.image,
+      'Identité visuelle : '+p.names.preferred,'evolution-thumbnail')
+      ||`<span class="evolution-thumbnail-placeholder">${BLDG}</span>`;
+    const date=evolutionDate(item.relation.start);
+    const label=evolutionTypeLabel(item.relation.type)+(date?' · au '+date:'');
+    const content=`<span class="evolution-thumbnail-wrap">${visual}</span>
+      <span class="evolution-link-content"><strong title="${esc(p.names.preferred)}">${esc(name)}</strong>
+        <span>${esc(context)}</span><small>${esc(label)}</small></span>
+      <span class="evolution-link-symbol" aria-hidden="true">${allowed?'↗':''}</span>`;
+    return allowed?`<button type="button" class="evolution-link" data-detail="${esc(p.id)}"
+      aria-label="Consulter la fiche de ${esc(p.names.preferred)}">${content}</button>`
+      :`<div class="evolution-link evolution-unlinked" title="Autorité hors catalogue">${content}</div>`;
+  }
+  function evolutionBlock(r,compact=false){
+    const entries=evolutionEntries(r);
+    if(!entries.length)return '';
+    const shown=compact?entries.slice(0,2):entries;
+    const groups=[];
+    for(const direction of ['successor','predecessor']){
+      const all=entries.filter(e=>e.direction===direction);
+      const list=shown.filter(e=>e.direction===direction);
+      if(!list.length)continue;
+      groups.push(`<div class="evolution-group"><div class="evolution-group-label">${esc(evolutionGroupLabel(r,direction,all.length))}</div>
+        ${list.map(evolutionLink).join('')}</div>`);
+    }
+    const remaining=entries.length-shown.length;
+    return `<section class="evolution-panel${compact?' evolution-compact':''}"
+      aria-label="Évolution institutionnelle"><h3>Évolution institutionnelle</h3>
+      ${groups.join('')}
+      ${remaining?`<p class="evolution-more">+ ${remaining} autre(s) relation(s) dans la fiche</p>`:''}
+      ${compact?'':`<p class="evolution-note">Ces relations concernent des autorités distinctes :
+      elles ne fusionnent pas leurs notices ni leurs affiliations historiques.</p>`}</section>`;
+  }
+
   function laboratoryCard(r) {
     const tutelles=laboratoryTutelles(r);
     const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
@@ -120,6 +188,7 @@
         </div>
       </div>
       ${logoBand}
+      ${evolutionBlock(r,true)}
       <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
     </article>`;
   }
@@ -210,6 +279,7 @@
       <div class="card-identity"><div class="card-visual">${primary}</div><div class="card-identity-copy"><h2 class="card-title">${esc(r.names.preferred)}${sigle}</h2><div class="card-cats"><span class="cat bsr">${esc(cat)}</span><span class="cat">${esc(typ)}</span>${sector?`<span class="cat">${esc(sector)}</span>`:''}</div><p class="card-sub">${iden||'Identifiants complémentaires non renseignés'}</p></div></div>
       <div class="lineinfo"><span class="glyph" aria-hidden="true">⌖</span><span>${geography}</span></div>
       ${parentBlock(r,true)}
+      ${evolutionBlock(r,true)}
       <div class="card-foot"><span class="ref">${r.usage.affiliations_linked?`${r.usage.affiliations_linked} affiliation(s) source liée(s)`:'Aucune affiliation source liée'}</span><button class="details-trigger" type="button" data-detail="${r.id}">Consulter la fiche →</button></div></article>`;
   }
 
@@ -256,6 +326,7 @@
     <section class="detail-block"><h3>Dénominations historiques validées</h3>${nameHist||'<p class="detail-desc">Aucune dénomination historique validée dans le tableau dédié.</p>'}${others.length?`<p class="detail-desc" style="margin-top:8px">${others.length} autre(s) forme(s) historique(s) restent documentées avec un statut de validation distinct, sans être présentées ici comme établies.</p>`:''}</section>
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
     <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section><section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
+    ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
     <section class="detail-block"><h3>Affiliations documentées</h3><dl class="detail-dl">${row('Libellés sources liés',esc(r.usage.affiliations_linked))}${row('Dont correspondances validées',esc(r.usage.affiliations_validated))}</dl><p class="detail-desc" style="margin-top:7px">Ces nombres décrivent les rapprochements du référentiel, non le nombre de notices archéologiques publiées.</p></section>
     </div>`;
     $('#detail-content').innerHTML=content;
@@ -271,8 +342,16 @@
     let url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='adlfi-referentiels-organismes-selection.csv';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
   }
   function init(d){
-    data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
-    d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
+    data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();evolutionById=new Map();
+    d.relations.forEach(x=>{
+      if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x);
+      if(!SUCCESSION_TYPES.has(x.type)||!VALID_STATES.has(x.validation||'')
+        ||!recordById.has(x.source)||!recordById.has(x.target))return;
+      if(!evolutionById.has(x.source))evolutionById.set(x.source,[]);
+      if(!evolutionById.has(x.target))evolutionById.set(x.target,[]);
+      evolutionById.get(x.source).push({other:x.target,direction:'successor',relation:x});
+      evolutionById.get(x.target).push({other:x.source,direction:'predecessor',relation:x});
+    });
     const withCity=records.filter(x=>x.geography.cities_label).length;
     $('#summary').innerHTML=`<span class="summary-chip"><strong>${d.totals.catalog_included}</strong> autorités au catalogue</span><span class="summary-chip"><strong>${withCity}</strong> villes renseignées</span><span class="summary-chip">Référentiel AdlFI · 1.10</span>`;
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
@@ -286,7 +365,11 @@
     $('#toggle-view').addEventListener('click',e=>{state.view=state.view==='cards'?'list':'cards';e.target.textContent=state.view==='cards'?'Liste':'Cartouches';e.target.setAttribute('aria-pressed',String(state.view==='list'));render()});
     $('#csv-export').addEventListener('click',downloadCSV);
     $('#close-details').addEventListener('click',()=>{$('#details').close();updateHash('')});
-    $('#details').addEventListener('click',e=>{if(e.target===$('#details'))$('#details').close()});
+    $('#details').addEventListener('click',e=>{
+      const trigger=e.target.closest?.('button[data-detail]');
+      if(trigger){details(trigger.dataset.detail);return;}
+      if(e.target===$('#details'))$('#details').close();
+    });
     $('#details').addEventListener('close',()=>{if(location.hash)updateHash('')});
     render();const id=decodeURIComponent(location.hash.replace('#',''));if(recordById.has(id))details(id,false);
   }
