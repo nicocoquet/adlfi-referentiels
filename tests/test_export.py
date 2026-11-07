@@ -96,7 +96,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIsNotNone(lab)
         self.assertNotIn('grid-column', lab.group(1))
         self.assertIn('.cards.list-mode{grid-template-columns:1fr}', css)
-        band = re.search(r'\\.lab-logo-band\\s*\\{([^}]*)\\}', css)
+        band = re.search(r'\.lab-logo-band\s*\{([^}]*)\}', css)
         self.assertIsNotNone(band)
         self.assertIn('justify-content:center', band.group(1))
 
