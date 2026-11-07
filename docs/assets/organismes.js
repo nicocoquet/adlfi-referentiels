@@ -97,6 +97,17 @@
     if(month<1||month>12||day<1||day>31)return value;
     return (day===1?'1er':String(day))+' '+EVOLUTION_MONTHS[month-1]+' '+m[1];
   }
+  function indexEvolutions(relations){
+    evolutionById=new Map();
+    for(const x of relations){
+      if(!SUCCESSION_TYPES.has(x.type)||!VALID_STATES.has(x.validation||'')
+        ||!recordById.has(x.source)||!recordById.has(x.target))continue;
+      if(!evolutionById.has(x.source))evolutionById.set(x.source,[]);
+      if(!evolutionById.has(x.target))evolutionById.set(x.target,[]);
+      evolutionById.get(x.source).push({other:x.target,direction:'successor',relation:x});
+      evolutionById.get(x.target).push({other:x.source,direction:'predecessor',relation:x});
+    }
+  }
   function evolutionEntries(r){
     return (evolutionById.get(r.id)||[]).map(item=>{
       const partner=recordById.get(item.other);
@@ -121,7 +132,7 @@
       'Identité visuelle : '+p.names.preferred,'evolution-thumbnail')
       ||`<span class="evolution-thumbnail-placeholder">${BLDG}</span>`;
     const date=evolutionDate(item.relation.start);
-    const label=evolutionTypeLabel(item.relation.type)+(date?' · au '+date:'');
+    const label=evolutionTypeLabel(item.relation.type)+(date?' · '+date:'');
     const content=`<span class="evolution-thumbnail-wrap">${visual}</span>
       <span class="evolution-link-content"><strong title="${esc(p.names.preferred)}">${esc(name)}</strong>
         <span>${esc(context)}</span><small>${esc(label)}</small></span>
@@ -342,16 +353,9 @@
     let url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='adlfi-referentiels-organismes-selection.csv';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
   }
   function init(d){
-    data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();evolutionById=new Map();
-    d.relations.forEach(x=>{
-      if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x);
-      if(!SUCCESSION_TYPES.has(x.type)||!VALID_STATES.has(x.validation||'')
-        ||!recordById.has(x.source)||!recordById.has(x.target))return;
-      if(!evolutionById.has(x.source))evolutionById.set(x.source,[]);
-      if(!evolutionById.has(x.target))evolutionById.set(x.target,[]);
-      evolutionById.get(x.source).push({other:x.target,direction:'successor',relation:x});
-      evolutionById.get(x.target).push({other:x.source,direction:'predecessor',relation:x});
-    });
+    data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
+    d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
+    indexEvolutions(d.relations);
     const withCity=records.filter(x=>x.geography.cities_label).length;
     $('#summary').innerHTML=`<span class="summary-chip"><strong>${d.totals.catalog_included}</strong> autorités au catalogue</span><span class="summary-chip"><strong>${withCity}</strong> villes renseignées</span><span class="summary-chip">Référentiel AdlFI · 1.10</span>`;
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
