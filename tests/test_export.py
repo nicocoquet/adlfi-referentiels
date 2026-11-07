@@ -83,6 +83,31 @@ class TestReferentielOrganismes(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     export_organismes.media_for('ORG-0001')
 
+    def test_all_published_logos_are_present_and_unique(self):
+        # Une identité visuelle unique par autorité, réutilisable comme tutelle.
+        import re
+        folder = ROOT / 'docs/assets/organismes'
+        files = {'assets/organismes/' + p.name for p in folder.iterdir()
+                 if p.is_file() and re.fullmatch(
+                     r'(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)',
+                     p.name)}
+        logos = {}
+        for record in self.d['authorities']:
+            ref = record['presentation']['media']['logo']
+            if ref:
+                self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)$')
+                self.assertEqual(ref.split('/')[-1][:8], record['id'])
+                self.assertNotIn(ref, logos)
+                logos[ref] = record['id']
+        self.assertEqual(set(logos), files)
+        self.assertEqual(len(logos), 147)
+        self.assertEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 136)
+        self.assertEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
+        self.assertEqual(self.authorities['ORG-0079']['presentation']['media']['logo'],
+                         'assets/organismes/ORG-0079-logo.webp')
+        self.assertEqual(self.authorities['SER-0083']['presentation']['media']['logo'],
+                         'assets/organismes/SER-0083-logo.webp')
+
     def test_laboratory_cards_keep_the_standard_grid(self):
         # Les laboratoires ne doivent pas occuper les deux colonnes :
         # le résultat filtré doit conserver la même largeur de cartouche.
