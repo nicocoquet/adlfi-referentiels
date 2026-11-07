@@ -2,16 +2,16 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-10_20261107.xlsx",
-    "source_sha256": "1af3e69fac1e9dc31aabe835314e7dc73e6ea8538dba57fb8722e4dfa6430bec",
+    "source_filename": "AdlFI_referentiel_1-10_20261107_consolide_culture.xlsx",
+    "source_sha256": "fbb6c367a7fe2f52e3dfd5215d6bc76938236dbead73bbc444da7f17d41e0e0d",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires."
   },
   "totals": {
-    "authorities": 761,
+    "authorities": 763,
     "organismes": 611,
-    "services": 150,
-    "catalog_included": 704,
+    "services": 152,
+    "catalog_included": 706,
     "catalog_excluded": 57
   },
   "authorities": [
@@ -876,7 +876,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1959",
         "end": null,
         "catalog": "exclure"
       },
@@ -1560,7 +1560,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1969",
         "end": null,
         "catalog": "exclure"
       },
@@ -1895,9 +1895,17 @@
           {
             "label": "DAC Océan Indien",
             "type": "ancienne_denomination",
-            "start": null,
-            "end": null,
-            "validation": "a_verifier",
+            "start": "2011-01-01",
+            "end": "2018-08-31",
+            "validation": "valide",
+            "acronym": null
+          },
+          {
+            "label": "Direction régionale des Affaires culturelles de La Réunion",
+            "type": "ancienne_denomination",
+            "start": "1981-12-20",
+            "end": "2010-12-31",
+            "validation": "valide",
             "acronym": null
           }
         ],
@@ -1911,7 +1919,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1981-12-20",
         "end": null,
         "catalog": "exclure"
       },
@@ -1967,9 +1975,9 @@
         "level": "regional"
       },
       "activity": {
-        "active": true,
-        "start": null,
-        "end": null,
+        "active": false,
+        "start": "1992",
+        "end": "2019-12-31",
         "catalog": "exclure"
       },
       "identifiers": {
@@ -2014,7 +2022,16 @@
         "acronym": "DAC Martinique",
         "other_acronyms": [],
         "historical_free_text": null,
-        "history": [],
+        "history": [
+          {
+            "label": "Direction régionale des Affaires culturelles de Martinique",
+            "type": "ancienne_denomination",
+            "start": "1984-07",
+            "end": "2010-12-31",
+            "validation": "valide",
+            "acronym": null
+          }
+        ],
         "legal_status_history": []
       },
       "classification": {
@@ -2025,7 +2042,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1984-07",
         "end": null,
         "catalog": "exclure"
       },
@@ -2082,7 +2099,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1989",
         "end": null,
         "catalog": "exclure"
       },
@@ -2433,7 +2450,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "2016",
         "end": null,
         "catalog": "exclure"
       },
@@ -2661,7 +2678,7 @@
       },
       "activity": {
         "active": false,
-        "start": "1977-02-03",
+        "start": "1980",
         "end": "2015-12-31",
         "catalog": "exclure"
       },
@@ -2775,7 +2792,7 @@
       },
       "activity": {
         "active": false,
-        "start": "1977-02-03",
+        "start": "1969",
         "end": "2015-12-31",
         "catalog": "exclure"
       },
@@ -3345,7 +3362,7 @@
       },
       "activity": {
         "active": false,
-        "start": "1977-02-03",
+        "start": "1969",
         "end": "2015-12-31",
         "catalog": "exclure"
       },
@@ -4301,7 +4318,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "2013-03-01",
         "end": null,
         "catalog": "inclure"
       },
@@ -17784,7 +17801,7 @@
       },
       "activity": {
         "active": null,
-        "start": "1998-01-01",
+        "start": "1882",
         "end": null,
         "catalog": "inclure"
       },
@@ -26884,8 +26901,17 @@
         "preferred": "Institut national du patrimoine",
         "acronym": "INP",
         "other_acronyms": [],
-        "historical_free_text": null,
-        "history": [],
+        "historical_free_text": "École nationale du patrimoine",
+        "history": [
+          {
+            "label": "École nationale du patrimoine",
+            "type": "ancienne_denomination",
+            "start": "1990",
+            "end": "2001",
+            "validation": "valide",
+            "acronym": null
+          }
+        ],
         "legal_status_history": []
       },
       "classification": {
@@ -26896,7 +26922,7 @@
       },
       "activity": {
         "active": null,
-        "start": null,
+        "start": "1990",
         "end": null,
         "catalog": "inclure"
       },
@@ -41980,16 +42006,7 @@
         "acronym": "Drassm",
         "other_acronyms": [],
         "historical_free_text": null,
-        "history": [
-          {
-            "label": "Direction des recherches archéologiques sous-marines",
-            "type": "ancienne_denomination",
-            "start": null,
-            "end": null,
-            "validation": "a_verifier",
-            "acronym": null
-          }
-        ],
+        "history": [],
         "legal_status_history": []
       },
       "classification": {
@@ -42000,7 +42017,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1996",
         "end": null,
         "catalog": "inclure"
       },
@@ -42228,7 +42245,7 @@
       },
       "activity": {
         "active": null,
-        "start": null,
+        "start": "1999-01-01",
         "end": null,
         "catalog": "inclure"
       },
@@ -42342,7 +42359,7 @@
       },
       "activity": {
         "active": null,
-        "start": null,
+        "start": "1975",
         "end": null,
         "catalog": "inclure"
       },
@@ -44080,6 +44097,129 @@
         "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": false
+      }
+    },
+    {
+      "id": "SER-0151",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Direction des recherches archéologiques sous-marines",
+        "acronym": "DRASM",
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [
+          {
+            "label": "Département des recherches archéologiques sous-marines",
+            "type": "ancienne_denomination",
+            "start": "1991",
+            "end": "1996",
+            "validation": "valide",
+            "acronym": null
+          }
+        ],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_etat_historique",
+        "bsr": "MC",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": false,
+        "start": "1966-09-30",
+        "end": "1996",
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Marseille",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0152",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Centre national de la recherche archéologique subaquatique",
+        "acronym": "CNRAS",
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_etat_historique",
+        "bsr": "MC",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": false,
+        "start": "1980",
+        "end": "1996",
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Annecy",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
       }
     }
   ],
@@ -47809,6 +47949,51 @@
       "start": null,
       "end": null,
       "validation": "a_verifier"
+    },
+    {
+      "id": "REL-0288",
+      "source": "ORG-0478",
+      "target": "ORG-0023",
+      "type": "tutelle",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0130",
+      "source": "SER-0151",
+      "target": "SER-0083",
+      "type": "fusion_constitutive",
+      "start": "1996",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0131",
+      "source": "SER-0152",
+      "target": "SER-0083",
+      "type": "fusion_constitutive",
+      "start": "1996",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0132",
+      "source": "SER-0111",
+      "target": "ORG-0023",
+      "type": "rattachement_service",
+      "start": "1999-01-01",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0133",
+      "source": "SER-0118",
+      "target": "SER-0037",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
     }
   ],
   "locations": [
