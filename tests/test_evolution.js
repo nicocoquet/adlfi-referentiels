@@ -37,6 +37,10 @@ const halmaHtml=api.block(halma,true);
 assert.match(halmaHtml,/Structure ayant succédé à ce laboratoire/);
 assert.match(halmaHtml,/data-detail="ORG-0601"/);
 assert.match(halmaHtml,/Succession institutionnelle · 1er janvier 2026/);
+assert.ok(halmaHtml.includes('<strong title="'+hartis.names.preferred+'">'+hartis.names.preferred+'</strong>'),
+  'Le nom normalisé de HARTIS est affiché, non son seul acronyme');
+assert.ok(halmaHtml.includes('ORG-0601 · HARTIS · UMR 9028'),
+  'L’acronyme et le numéro d’unité figurent dans les métadonnées');
 const hartisHtml=api.block(hartis,false);
 assert.match(hartisHtml,/Structures? antérieures?/);
 assert.match(hartisHtml,/data-detail="ORG-0079"/);

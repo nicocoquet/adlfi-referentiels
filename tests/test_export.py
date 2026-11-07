@@ -96,6 +96,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIsNotNone(lab)
         self.assertNotIn('grid-column', lab.group(1))
         self.assertIn('.cards.list-mode{grid-template-columns:1fr}', css)
+        band = re.search(r'\.lab-logo-band\s*\{([^}]*)\}', css)
+        self.assertIsNotNone(band)
+        self.assertIn('justify-content:center', band.group(1))
 
     def test_culture_master_consolidation(self):
         # Dates et autorités issues du maître consolidé du 7 novembre 2026.
