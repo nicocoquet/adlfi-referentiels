@@ -97,6 +97,46 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertNotIn('grid-column', lab.group(1))
         self.assertIn('.cards.list-mode{grid-template-columns:1fr}', css)
 
+    def test_culture_master_consolidation(self):
+        # Dates et autorités issues du maître consolidé du 7 novembre 2026.
+        expected = {
+            'ORG-0023': '1959',
+            'ORG-0035': '1969', 'ORG-0055': '1980',
+            'ORG-0057': '1969', 'ORG-0067': '1969',
+            'ORG-0041': '1981-12-20', 'ORG-0042': '1992',
+            'ORG-0043': '1984-07', 'ORG-0044': '1989',
+            'ORG-0051': '2016', 'ORG-0478': '1990',
+            'ORG-0314': '1882', 'ORG-0083': '2013-03-01',
+            'SER-0083': '1996', 'SER-0111': '1999-01-01',
+            'SER-0118': '1975',
+            'SER-0151': '1966-09-30', 'SER-0152': '1980',
+        }
+        for key, start in expected.items():
+            self.assertEqual(self.authorities[key]['activity']['start'], start,
+                             key)
+        self.assertFalse(self.authorities['ORG-0042']['activity']['active'])
+        self.assertEqual(self.authorities['ORG-0042']['activity']['end'],
+                         '2019-12-31')
+        self.assertEqual(self.authorities['ORG-0478']['names']['history'][0]['label'],
+                         'École nationale du patrimoine')
+        self.assertEqual(len(self.authorities['ORG-0041']['names']['history']), 2)
+        self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
+                         '1991')
+        self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
+        self.assertEqual(self.d['totals']['organismes'], 611)
+        self.assertEqual(self.d['totals']['services'], 152)
+        self.assertEqual(len(self.d['relations']), 419)
+        rels = {rel['id']: rel for rel in self.d['relations']}
+        for key, src, dst, role in [
+            ('REL-0288','ORG-0478','ORG-0023','tutelle'),
+            ('RSE-0130','SER-0151','SER-0083','fusion_constitutive'),
+            ('RSE-0131','SER-0152','SER-0083','fusion_constitutive'),
+            ('RSE-0132','SER-0111','ORG-0023','rattachement_service'),
+            ('RSE-0133','SER-0118','SER-0037','rattachement_service')]:
+            self.assertEqual((rels[key]['source'], rels[key]['target'],
+                              rels[key]['type'], rels[key]['validation']),
+                             (src, dst, role, 'valide'))
+
     def test_site_files_exist(self):
         self.assertTrue((ROOT/'docs/index.html').exists())
         for p in ['lieux','autorites','organismes','natures-operations']:
