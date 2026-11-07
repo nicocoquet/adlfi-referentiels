@@ -126,8 +126,13 @@
   }
   function evolutionLink(item){
     const p=item.partner,allowed=p.presentation.visible;
-    const name=p.names.acronym||p.names.preferred;
-    const context=p.identifiers?.lab?[p.id,p.identifiers.lab].join(' · '):p.id;
+    const name=p.names.preferred;
+    // Le titre est le nom éditorial normalisé, jamais le seul acronyme.
+    // L'acronyme demeure une aide à l'identification, sous le titre.
+    const context=[p.id,
+      p.names.acronym && p.names.acronym.toLocaleLowerCase('fr')!==name.toLocaleLowerCase('fr')
+        ?p.names.acronym:null,
+      p.identifiers?.lab].filter(Boolean).join(' · ');
     const visual=assetImg(p.presentation.media.logo||p.presentation.media.image,
       'Identité visuelle : '+p.names.preferred,'evolution-thumbnail')
       ||`<span class="evolution-thumbnail-placeholder">${BLDG}</span>`;
