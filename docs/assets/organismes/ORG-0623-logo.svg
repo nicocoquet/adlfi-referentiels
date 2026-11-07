@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<svg width="660" height="510" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" version="1.0">
+ <defs id="defs939">
+  <rect height="39.84" id="rect1474" width="107.41" x="416.03" y="533.27"/>
+ </defs>
+ <metadata id="metadata887">Created by potrace 1.16, written by Peter Selinger 2001-2019image/svg+xml</metadata>
+ <g class="layer">
+  <title>Layer 1</title>
+  <g fill="#000000" id="g933" transform="matrix(0.1, 0, 0, -0.1, -2.91941e-08, 784)">
+   <path d="m80,6590l0,-1190l735,0l735,0l0,225l0,225l-510,0l-510,0l0,965l0,965l-225,0l-225,0l0,-1190z" id="path889"/>
+   <path d="m4780,7270l0,-510l220,0l220,0l0,290l0,290l515,0l515,0l0,220l0,220l-735,0l-735,0l0,-510z" id="path891"/>
+   <path d="m2940,6085l0,-685l225,0l225,0l0,685l0,685l-225,0l-225,0l0,-685z" id="path893"/>
+   <path d="m5800,6310l0,-460l-510,0l-510,0l0,-225l0,-225l735,0l735,0l0,685l0,685l-225,0l-225,0l0,-460z" id="path895"/>
+   <path d="m6410,2980l0,-70l-135,0l-135,0l0,-60l0,-60l195,0l195,0l0,130l0,130l-60,0l-60,0l0,-70z" id="path931"/>
+  </g>
+  <text fill="#000000" font-family="sans-serif" font-size="30px" font-style="normal" font-weight="normal" id="text1544" stroke-width="0.75" x="359.79" xml:space="preserve" y="543.86"/>
+  <g id="g1632">
+   <text fill="#73c6cb" font-family="sans-serif" font-size="30px" font-style="normal" font-weight="normal" id="text1540" letter-spacing="12.58px" stroke-width="0.75" x="288.59" xml:space="preserve" y="339.91">
+    <tspan dx="0 0 0 2.8299999 1.16 0 -1.11 0.51999998 0 0.73000008 -2.25" fill="#73c6cb" font-family="&#x27;Avenir Next&#x27;, &#x27;Avenir Next LT Pro&#x27;, sans-serif" font-style="normal" font-weight="bold" id="tspan1538" stroke-width="0.75" x="288.59" y="339.91">LABORATOIRE</tspan>
+   </text>
+   <rect fill="#73c6cb" height="60.02" id="rect1534" opacity="1" stroke-linejoin="round" stroke-width="0.31" width="45.01" x="293.36" y="6.69"/>
+   <rect fill="#73c6cb" height="12.87" id="rect1536" opacity="1" stroke-linejoin="round" stroke-width="0.29" width="12" x="641" y="468.13"/>
+   <text fill="#888888" fill-opacity="0.97" font-family="sans-serif" font-size="24.2px" font-style="normal" font-weight="normal" id="text1578" stroke-width="0.6" x="479.48" xml:space="preserve" y="506.07">
+    <tspan dx="0 1.62 1.84 0 -1.1900001 0 0.20999999 -0.19" fill="#888888" fill-opacity="0.97" id="tspan1576" stroke-width="0.6" x="479.48" y="506.07">UMR 7020</tspan>
+   </text>
+   <g id="g877" transform="translate(6)">
+    <text fill="#000000" font-family="sans-serif" font-size="30px" font-style="normal" font-weight="normal" id="text1572" letter-spacing="10.99px" stroke-width="0.77" transform="translate(449.685, -4.02411) scale(0.97553, 1.02508)" x="-106.04" xml:space="preserve" y="434.98">
+     <tspan dx="-101 0 0 0 0 0 0 3.6500001 2.2551844 1.2095989" fill="#000000" font-family="&#x27;Avenir Next&#x27;, &#x27;Avenir Next LT Pro&#x27;, sans-serif" font-size="30px" id="tspan1570" stroke-width="0.77" x="-114.04" y="434.98">&amp; DES SYSTÈMES</tspan>
+    </text>
+    <text fill="#000000" font-family="sans-serif" font-size="30.3px" font-style="normal" font-weight="normal" id="text1540-5" letter-spacing="11.23px" stroke-width="0.77" transform="translate(449.685, -4.02411) scale(0.975654, 1.02495)" x="-248.22" xml:space="preserve" y="386.02">
+     <tspan dx="0 1.25 0 0.15000001 2.3599999 3.6400001 2.6099999 1.1799999 3.26 0 0 -0.46000001 3.27 0.94" fill="#000000" font-family="&#x27;Avenir Next&#x27;, &#x27;Avenir Next LT Pro&#x27;, sans-serif" font-size="30.3px" font-style="normal" font-weight="normal" id="tspan1538-1" stroke-width="0.77" x="-248.22" y="386.02">D&#x27;INFORMATIQUE</tspan>
+    </text>
+   </g>
+   <text font-family="sans-serif" font-size="30px" id="text1472" letter-spacing="9.19px" x="289.68" xml:space="preserve" y="-139.02"/>
+  </g>
+ </g>
+</svg>
