@@ -86,6 +86,20 @@ Ce prototype ne nécessite ni MkDocs, ni construction JavaScript : le serveur pu
 - Les images doivent être ajoutées après vérification des droits et des crédits. Aucune image commerciale ou institutionnelle n'est récupérée automatiquement.
 - La licence des données et les mentions légales du site restent à déterminer avant une publication de production.
 
+## Évolution institutionnelle des autorités
+
+L'explorateur présente les liens de succession entre autorités **distinctes**, sans réattribuer ni fusionner leurs affiliations historiques.
+
+- Types affichés dans la première version : `succession_institutionnelle` (ORG) et `succession_service` (SER).
+- Les relations doivent être au statut `valide` ; celles à vérifier demeurent dans le JSON mais ne sont pas présentées comme établies.
+- Les relations sont lisibles dans les deux sens : « Structure ayant succédé » et « Structure antérieure ».
+- Les deux premiers liens éventuels figurent dans les cartouches ; la fiche détaillée présente toutes les relations éligibles avec leur date et la navigation vers les autorités du catalogue.
+- Le cartouche reste dans la grille à deux colonnes, même après un filtrage.
+- Une autorité exclue du catalogue reste identifiable par son nom mais ne déclenche pas une navigation vers une fiche publique.
+- Les autres types historiques (`fusion_constitutive`, `scission_constitutive`, `succession_partielle`, `filiation_partielle`) sont conservés dans les données mais nécessitent une rédaction et une visualisation propres ; ils ne sont pas assimilés à une succession simple.
+
+Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et porte le SHA-256 du classeur source.
+
 ## Développement futur
 
 - Identifier les lieux avec le COG millésimé et GeoNames selon la provenance.

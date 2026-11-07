@@ -25,3 +25,5 @@ jobs:
         run: node --check docs/assets/organismes.js
       - name: Vérifier les classements de tutelles
         run: node tests/test_tutelles_order.js
+      - name: Vérifier les successions et liens entre autorités
+        run: node tests/test_evolution.js

@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-10_20261106.xlsx",
-    "source_sha256": "2edb53c3fee9cf8be70ff67c4270073e31b09725c28793685f5834c1a9bc6fb6",
+    "source_filename": "AdlFI_referentiel_1-10_20261107.xlsx",
+    "source_sha256": "1af3e69fac1e9dc31aabe835314e7dc73e6ea8538dba57fb8722e4dfa6430bec",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires."
   },
@@ -40167,7 +40167,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40224,7 +40224,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40395,7 +40395,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40452,7 +40452,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40509,7 +40509,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40737,7 +40737,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -40908,7 +40908,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -40965,7 +40965,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41022,7 +41022,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41079,7 +41079,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41136,7 +41136,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41193,7 +41193,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41250,7 +41250,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41307,7 +41307,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41364,7 +41364,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41421,7 +41421,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41478,7 +41478,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41535,7 +41535,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41592,7 +41592,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41649,7 +41649,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41706,7 +41706,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -41763,7 +41763,7 @@
       },
       "activity": {
         "active": false,
-        "start": null,
+        "start": "1991",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -44316,7 +44316,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0028",
@@ -44325,7 +44325,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0029",
@@ -44334,7 +44334,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0030",
@@ -44343,7 +44343,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0031",
@@ -44352,7 +44352,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0032",
@@ -44361,7 +44361,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0033",
@@ -44370,7 +44370,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0034",
@@ -44379,7 +44379,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0035",
@@ -44388,7 +44388,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0036",
@@ -44397,7 +44397,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0037",
@@ -44406,7 +44406,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0038",
@@ -44415,7 +44415,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0039",
@@ -44424,7 +44424,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0040",
@@ -44433,7 +44433,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0041",
@@ -44442,7 +44442,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0042",
@@ -44451,7 +44451,7 @@
       "type": "succession_institutionnelle",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0043",
@@ -44460,7 +44460,7 @@
       "type": "succession_institutionnelle",
       "start": "2002-02-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "REL-0044",
@@ -46654,18 +46654,18 @@
       "source": "SER-0001",
       "target": "ORG-0007",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0002",
       "source": "SER-0002",
       "target": "ORG-0032",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0003",
@@ -46674,7 +46674,7 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0004",
@@ -46683,34 +46683,34 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0005",
       "source": "SER-0005",
       "target": "ORG-0035",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0006",
       "source": "SER-0006",
       "target": "ORG-0036",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0007",
       "source": "SER-0007",
       "target": "ORG-0037",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0008",
@@ -46719,7 +46719,7 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0009",
@@ -46728,7 +46728,7 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0010",
@@ -46737,16 +46737,16 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0011",
       "source": "SER-0011",
       "target": "ORG-0045",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0012",
@@ -46755,7 +46755,7 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0013",
@@ -46764,151 +46764,151 @@
       "type": "rattachement_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0014",
       "source": "SER-0014",
       "target": "ORG-0052",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0015",
       "source": "SER-0015",
       "target": "ORG-0053",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0016",
       "source": "SER-0016",
       "target": "ORG-0054",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0017",
       "source": "SER-0017",
       "target": "ORG-0055",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0018",
       "source": "SER-0018",
       "target": "ORG-0056",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0019",
       "source": "SER-0019",
       "target": "ORG-0057",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0020",
       "source": "SER-0020",
       "target": "ORG-0058",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0021",
       "source": "SER-0021",
       "target": "ORG-0059",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0022",
       "source": "SER-0022",
       "target": "ORG-0060",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0023",
       "source": "SER-0023",
       "target": "ORG-0061",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0024",
       "source": "SER-0024",
       "target": "ORG-0062",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0025",
       "source": "SER-0025",
       "target": "ORG-0063",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0026",
       "source": "SER-0026",
       "target": "ORG-0064",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0027",
       "source": "SER-0027",
       "target": "ORG-0065",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0028",
       "source": "SER-0028",
       "target": "ORG-0066",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0029",
       "source": "SER-0029",
       "target": "ORG-0067",
       "type": "rattachement_service",
-      "start": null,
+      "start": "1991",
       "end": "2015-12-31",
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0030",
@@ -46917,7 +46917,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0031",
@@ -46926,7 +46926,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0032",
@@ -46935,7 +46935,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0033",
@@ -46944,7 +46944,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0034",
@@ -46953,7 +46953,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0035",
@@ -46962,7 +46962,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0036",
@@ -46971,7 +46971,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0037",
@@ -46980,7 +46980,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0038",
@@ -46989,7 +46989,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0039",
@@ -46998,7 +46998,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0040",
@@ -47007,7 +47007,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0041",
@@ -47016,7 +47016,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0042",
@@ -47025,7 +47025,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0043",
@@ -47034,7 +47034,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0044",
@@ -47043,7 +47043,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0045",
@@ -47052,7 +47052,7 @@
       "type": "succession_service",
       "start": "2016-01-01",
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0046",
