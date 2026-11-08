@@ -149,3 +149,7 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
   .evolution-link-content strong{font-size:12px}
   .evolution-link-content small{font-size:9.5px}
 }
+
+/* Navigation de retour aux modules depuis les pages internes */
+.page-intro .back-home{display:inline-block;margin:0 0 9px;color:var(--teal);font-size:12px;font-weight:650;text-decoration:none}
+.page-intro .back-home:hover{text-decoration:underline}
