@@ -372,8 +372,7 @@
     data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
-    const withCity=records.filter(x=>x.geography.cities_label).length;
-    $('#summary').innerHTML=`<span class="summary-chip"><strong>${d.totals.catalog_included}</strong> autorités au catalogue</span><span class="summary-chip"><strong>${withCity}</strong> villes renseignées</span><span class="summary-chip">Référentiel AdlFI · 1.10</span>`;
+
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
     $('#toggle-filters').addEventListener('click',e=>{const panel=$('.filter-panel');const open=panel.classList.toggle('mobile-filters-open');e.target.setAttribute('aria-expanded',String(open));e.target.textContent=open?'Masquer':'Afficher';});
     $('#sort').addEventListener('change',e=>{state.sort=e.target.value;state.page=1;render()});
