@@ -153,3 +153,19 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 /* Navigation de retour aux modules depuis les pages internes */
 .page-intro .back-home{display:inline-block;margin:0 0 9px;color:var(--teal);font-size:12px;font-weight:650;text-decoration:none}
 .page-intro .back-home:hover{text-decoration:underline}
+
+/* Accueil : cinq cartouches alignés, avec adaptation progressive aux écrans étroits. */
+.home-five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;align-items:stretch;margin:0 0 35px}
+.home-five>section{min-width:0;min-height:0;height:100%}
+.home-five .hero-home{display:block;position:relative;min-height:0;padding:24px}
+.home-five .hero-home>div:first-child{position:relative;z-index:1}
+.home-five .hero-home h1{font-size:clamp(24px,2vw,29px);overflow-wrap:anywhere}
+.home-five .hero-home p:not(.eyebrow){font-size:13px}
+.home-five .hero-home .map-pattern{position:absolute;inset:auto 0 0 0;min-height:0;height:145px;pointer-events:none;opacity:.65}
+.home-five .hero-panel{display:flex;flex-direction:column;padding:24px}
+.home-five .hero-panel h2{overflow-wrap:anywhere}
+.home-five .hero-panel p:not(.eyebrow){overflow-wrap:anywhere}
+.home-five .hero-panel .soft-link{margin-top:auto;padding-top:12px}
+@media(max-width:1280px){.home-five{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:880px){.home-five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.home-five{grid-template-columns:minmax(0,1fr)}}
