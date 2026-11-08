@@ -20,13 +20,11 @@
   const flagLabel = v => v === true?'Actif':v === false?'Inactif':'À confirmer';
   const state={q:'',sort:'alpha',view:'cards',page:1,pageSize:18,selected:{}};
   const facets=[
-    {key:'kind',label:'Nature',open:true},
     {key:'activity',label:'Activité',open:true},
-    {key:'bsr',label:'Catégorie BSR',open:true},
-    {key:'sector',label:'Secteur institutionnel',open:false},
-    {key:'country',label:'Pays institutionnel',open:false},
-    {key:'type',label:'Type d’organisme / service',open:false},
-    {key:'level',label:'Collectivités · échelon territorial',open:false},
+    {key:'bsr',label:'Catégorie',open:true},
+    {key:'sector',label:'Secteur',open:false},
+    {key:'level',label:'Périmètre',open:false},
+    {key:'country',label:'Pays',open:false},
     {key:'quality',label:'Complétude documentaire',open:false}
   ];
   facets.forEach(f=>state.selected[f.key]=new Set());
@@ -230,7 +228,20 @@
     }
     return [];
   };
-  const valLabel=(k,v)=>v==='—'?'Non renseigné':k==='country'?country(v):k==='type'?natural(v):natural(v);
+  // Libellés éditoriaux des facettes, sans altérer les codes du JSON.
+  const bsrFacetLabels={COL:'Collectivité territoriale',PRIV:'Entreprise'};
+  const levelFacetLabels={
+    national:'National',regional:'Régional',departemental:'Départemental',
+    communal:'Communal',intercommunal:'Intercommunal',
+    metropole:'Métropole',metropolitain:'Métropolitain'
+  };
+  const valLabel=(k,v)=>{
+    if(v==='—')return 'Non renseigné';
+    if(k==='country')return country(v);
+    if(k==='bsr')return bsrFacetLabels[v]||natural(v);
+    if(k==='level')return levelFacetLabels[v]||natural(v);
+    return natural(v);
+  };
   const searchText=r=>[
     r.id,r.names.preferred,r.names.acronym,r.names.other_acronyms.join(' '),r.names.historical_free_text,
     ...r.names.history.flatMap(h=>[h.label,h.acronym]),r.geography.cities_label,
