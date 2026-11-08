@@ -100,8 +100,8 @@ class TestReferentielOrganismes(unittest.TestCase):
                 self.assertNotIn(ref, logos)
                 logos[ref] = record['id']
         self.assertEqual(set(logos), files)
-        self.assertEqual(len(logos), 147)
-        self.assertEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 136)
+        self.assertEqual(len(logos), 150)
+        self.assertEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 139)
         self.assertEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
         self.assertEqual(self.authorities['ORG-0079']['presentation']['media']['logo'],
                          'assets/organismes/ORG-0079-logo.webp')
@@ -126,7 +126,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIn('justify-content:center', band.group(1))
 
     def test_culture_master_consolidation(self):
-        # Dates et autorités issues du maître consolidé du 7 novembre 2026.
+        # Jalons historiques maintenus et effectifs du maître 1.15 (8 novembre 2026).
         expected = {
             'ORG-0023': '1959',
             'ORG-0035': '1969', 'ORG-0055': '1980',
@@ -151,9 +151,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 611)
-        self.assertEqual(self.d['totals']['services'], 152)
-        self.assertEqual(len(self.d['relations']), 419)
+        self.assertEqual(self.d['totals']['organismes'], 631)
+        self.assertEqual(self.d['totals']['services'], 155)
+        self.assertEqual(len(self.d['relations']), 472)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
