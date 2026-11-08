@@ -160,7 +160,7 @@
     }
     const remaining=entries.length-shown.length;
     return `<section class="evolution-panel${compact?' evolution-compact':''}"
-      aria-label="Évolution institutionnelle"><h3>Évolution institutionnelle</h3>
+      aria-label="Évolution institutionnelle">${compact?'':'<h3>Évolution institutionnelle</h3>'}
       ${groups.join('')}
       ${remaining?`<p class="evolution-more">+ ${remaining} autre(s) relation(s) dans la fiche</p>`:''}
       ${compact?'':`<p class="evolution-note">Ces relations concernent des autorités distinctes :

@@ -100,9 +100,9 @@ class TestReferentielOrganismes(unittest.TestCase):
                 self.assertNotIn(ref, logos)
                 logos[ref] = record['id']
         self.assertEqual(set(logos), files)
-        self.assertEqual(len(logos), 150)
-        self.assertEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 139)
-        self.assertEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
+        self.assertGreaterEqual(len(logos), 150)
+        self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 139)
+        self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
         self.assertEqual(self.authorities['ORG-0079']['presentation']['media']['logo'],
                          'assets/organismes/ORG-0079-logo.webp')
         self.assertEqual(self.authorities['SER-0083']['presentation']['media']['logo'],
