@@ -157,15 +157,15 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 /* Accueil : cinq cartouches alignés, avec adaptation progressive aux écrans étroits. */
 .home-five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;align-items:stretch;margin:0 0 35px}
 .home-five>section{min-width:0;min-height:0;height:100%}
-.home-five .hero-home{display:block;position:relative;min-height:0;padding:24px}
-.home-five .hero-home>div:first-child{position:relative;z-index:1}
+.home-five .hero-home{position:relative;min-height:0}
+
 .home-five .hero-home h1{font-size:clamp(24px,2vw,29px);overflow-wrap:anywhere}
 .home-five .hero-home p:not(.eyebrow){font-size:13px}
-.home-five .hero-home .map-pattern{position:absolute;inset:auto 0 0 0;min-height:0;height:145px;pointer-events:none;opacity:.65}
+
 .home-five .hero-panel{display:flex;flex-direction:column;padding:24px}
 .home-five .hero-panel h2{overflow-wrap:anywhere}
 .home-five .hero-panel p:not(.eyebrow){overflow-wrap:anywhere}
-.home-five .hero-panel .soft-link{margin-top:auto;padding-top:12px}
+
 @media(max-width:1280px){.home-five{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:880px){.home-five{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.home-five{grid-template-columns:minmax(0,1fr)}}
@@ -196,8 +196,8 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 /* Liens de consultation : seul le module Organismes est accessible. */
 .home-five .soft-link--disabled{cursor:default;text-decoration:none;pointer-events:none;opacity:.75}
 .home-five .hero-panel--pending .soft-link--disabled:hover{color:#526b74}
-.home-five .hero-home>div:first-child{display:flex;flex-direction:column;height:100%}
-.home-five .hero-home .soft-link--disabled{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:#d3e3e8;opacity:.85}
+
+
 
 /* Accueil — fonds documentaires dissociés des commandes de consultation. */
 .home-five .home-card{display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden;min-width:0}
@@ -213,3 +213,12 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .home-five .hero-home .home-card__footer .soft-link--disabled{color:#d3e3e8;opacity:.88;align-self:center;margin:0;padding:0}
 @media(max-width:880px){.home-five .home-card__art{height:210px}}
 @media(max-width:480px){.home-five .home-card__body{padding:22px 20px 0}.home-five .home-card__art{height:185px}}
+
+/* Cartouches de l’accueil — continuité image/bandeau et alignement typographique.
+   Une seule marge auto sépare le texte de l’illustration ;
+   le pied d’un cartouche illustré suit directement l’image. */
+.home-five .hero-home.home-card{display:flex}
+.home-five .home-card__body .eyebrow{font-size:11px;line-height:1.5;letter-spacing:.11em;font-weight:770;margin:0 0 8px}
+.home-five .home-card__body :is(h1,h2){font:600 24px/1.2 Georgia,"Iowan Old Style",serif;letter-spacing:-.01em;margin:0 0 9px}
+.home-five .home-card__art img{opacity:.82}
+.home-five .home-card--illustrated .home-card__footer{margin-top:0}
