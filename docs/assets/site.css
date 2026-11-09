@@ -198,3 +198,18 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .home-five .hero-panel--pending .soft-link--disabled:hover{color:#526b74}
 .home-five .hero-home>div:first-child{display:flex;flex-direction:column;height:100%}
 .home-five .hero-home .soft-link--disabled{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:#d3e3e8;opacity:.85}
+
+/* Accueil — fonds documentaires dissociés des commandes de consultation. */
+.home-five .home-card{display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden;min-width:0}
+.home-five .home-card__body{position:relative;z-index:2;flex:0 0 auto;min-width:0;padding:24px 22px 0}
+.home-five .hero-home .home-card__body{display:block;height:auto}
+.home-five .home-card__body>p:last-child{margin-bottom:0}
+.home-five .home-card__art{position:relative;z-index:1;flex:0 0 auto;height:clamp(150px,16vw,220px);overflow:hidden;min-width:0;margin-top:auto}
+.home-five .home-card__art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.15) 16%,#000 54%,#000 100%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.15) 16%,#000 54%,#000 100%)}
+.home-five .home-card__footer{position:relative;z-index:3;display:flex;justify-content:center;align-items:center;flex:0 0 auto;min-height:56px;margin-top:auto;padding:12px 14px;background:#fff;border-top:1px solid #e5ebed;text-align:center}
+.home-five .home-card__footer .soft-link{display:inline-block;align-self:center;margin:0;padding:0;text-align:center}
+.home-five .hero-panel--pending .home-card__footer{background:#edf0f1;border-color:#d5dfe1}
+.home-five .hero-home .home-card__footer{background:#225469;border-color:rgba(255,255,255,.2)}
+.home-five .hero-home .home-card__footer .soft-link--disabled{color:#d3e3e8;opacity:.88;align-self:center;margin:0;padding:0}
+@media(max-width:880px){.home-five .home-card__art{height:210px}}
+@media(max-width:480px){.home-five .home-card__body{padding:22px 20px 0}.home-five .home-card__art{height:185px}}
