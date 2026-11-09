@@ -250,3 +250,10 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 @media(min-width:1490px){.site-top>.brand{margin-left:calc((100vw - 1490px)/2 + 28px)}}
 @media(max-width:760px){.site-top{height:72px;padding:0;gap:12px}.site-top>.brand{margin-left:16px}.header-adlfi-logo{width:auto;height:100%}}
 @media(max-width:480px){.site-top{height:66px;gap:8px}.site-top>.brand{margin-left:12px}.header-adlfi-logo{width:auto;height:100%}.brand-main{font-size:1rem}.brand-sub{font-size:.63rem;max-width:180px}}
+
+/* Rappel visuel des modules dans l’introduction, sans ajout de contenu éditorial. */
+.page-intro--with-art{position:relative;isolation:isolate;overflow:hidden;min-height:128px}
+.page-intro--with-art > :not(.page-intro__art){position:relative;z-index:2}
+.page-intro__art{position:absolute;right:28px;top:0;bottom:0;width:min(38%,390px);z-index:1;pointer-events:none;opacity:.18;-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 30%,#000 66%);mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 30%,#000 66%)}
+.page-intro__art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 39%}
+@media(max-width:760px){.page-intro--with-art{min-height:0}.page-intro__art{display:none}}
