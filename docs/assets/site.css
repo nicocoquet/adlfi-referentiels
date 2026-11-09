@@ -192,3 +192,9 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .site-footer p{margin:0}
 .site-footer a{text-decoration:underline;text-decoration-color:var(--terracotta);text-underline-offset:4px}
 @media(max-width:600px){.project-partners{gap:12px 25px}.partner-logo--culture{width:190px}.partner-logo--msh{width:170px}.partner-logo--cnrs{width:75px}}
+
+/* Liens de consultation : seul le module Organismes est accessible. */
+.home-five .soft-link--disabled{cursor:default;text-decoration:none;pointer-events:none;opacity:.75}
+.home-five .hero-panel--pending .soft-link--disabled:hover{color:#526b74}
+.home-five .hero-home>div:first-child{display:flex;flex-direction:column;height:100%}
+.home-five .hero-home .soft-link--disabled{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:#d3e3e8;opacity:.85}
