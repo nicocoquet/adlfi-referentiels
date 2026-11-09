@@ -126,7 +126,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIn('justify-content:center', band.group(1))
 
     def test_culture_master_consolidation(self):
-        # Jalons historiques maintenus et effectifs du maître 1.15 (8 novembre 2026).
+        # Jalons historiques maintenus et effectifs du maître 1.16 v2 (8 novembre 2026).
         expected = {
             'ORG-0023': '1959',
             'ORG-0035': '1969', 'ORG-0055': '1980',
@@ -151,9 +151,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 631)
-        self.assertEqual(self.d['totals']['services'], 155)
-        self.assertEqual(len(self.d['relations']), 472)
+        self.assertEqual(self.d['totals']['organismes'], 634)
+        self.assertEqual(self.d['totals']['services'], 165)
+        self.assertEqual(len(self.d['relations']), 482)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
@@ -165,9 +165,32 @@ class TestReferentielOrganismes(unittest.TestCase):
                               rels[key]['type'], rels[key]['validation']),
                              (src, dst, role, 'valide'))
 
+
+    def test_2026_preventive_archaeology_operators(self):
+        # Les nouvelles autorités des listes ministérielles sont distinctes de leurs tutelles.
+        expected = {
+            'SER-0157': 'ORG-0653',
+            'SER-0158': 'ORG-0654',
+            'SER-0159': 'ORG-0240',
+            'SER-0160': 'ORG-0145',
+            'SER-0161': 'ORG-0096',
+            'SER-0162': 'ORG-0102',
+            'SER-0163': 'ORG-0655',
+            'SER-0164': 'ORG-0339',
+            'SER-0165': 'ORG-0294',
+            'SER-0166': 'ORG-0189',
+        }
+        relations = {(r['source'], r['target'], r['type'], r['validation'])
+                     for r in self.d['relations']}
+        self.assertEqual(self.d['totals']['authorities'], 799)
+        for service, tutelle in expected.items():
+            self.assertIn(service, self.authorities)
+            self.assertIn(tutelle, self.authorities)
+            self.assertIn((service, tutelle, 'rattachement_service', 'valide'), relations)
+
     def test_site_files_exist(self):
         self.assertTrue((ROOT/'docs/index.html').exists())
-        for p in ['lieux','autorites','organismes','natures-operations']:
+        for p in ['lieux','personnes','autorites','organismes','natures-operations']:
             self.assertTrue((ROOT/f'docs/{p}/index.html').exists())
         self.assertTrue((ROOT/'docs/.nojekyll').exists())
 

@@ -2,17 +2,17 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-15_20261108_services_lots1-17_Besancon.xlsx",
-    "source_sha256": "bbd127ec7c752481b7b09ba55af85a70576d29b268652e9ed4945697f10124a6",
+    "source_filename": "AdlFI_referentiel_1-16_20261108v2.xlsx",
+    "source_sha256": "4faf791b705305e3c2363ed8af6bbb1d56fd88590a4ab548851ff51198d57810",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires."
   },
   "totals": {
-    "authorities": 786,
-    "organismes": 631,
-    "services": 155,
-    "catalog_included": 715,
-    "catalog_excluded": 71
+    "authorities": 799,
+    "organismes": 634,
+    "services": 165,
+    "catalog_included": 725,
+    "catalog_excluded": 74
   },
   "authorities": [
     {
@@ -411,7 +411,7 @@
       },
       "activity": {
         "active": true,
-        "start": "31432",
+        "start": "1986-01-20",
         "end": null,
         "catalog": "inclure"
       },
@@ -3534,7 +3534,7 @@
       "activity": {
         "active": false,
         "start": "2010-02",
-        "end": "42748",
+        "end": "2017-01-13",
         "catalog": "inclure"
       },
       "identifiers": {
@@ -7922,14 +7922,14 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "2017-01-01",
         "end": null,
         "catalog": "inclure"
       },
@@ -8934,7 +8934,7 @@
       },
       "activity": {
         "active": false,
-        "start": "30875",
+        "start": "1984-07-12",
         "end": "2015-12-31",
         "catalog": "inclure"
       },
@@ -9447,7 +9447,7 @@
       },
       "activity": {
         "active": true,
-        "start": "30431",
+        "start": "1983-04-25",
         "end": null,
         "catalog": "inclure"
       },
@@ -14519,7 +14519,7 @@
       },
       "activity": {
         "active": true,
-        "start": "42019",
+        "start": "2015-01-15",
         "end": null,
         "catalog": "inclure"
       },
@@ -15767,7 +15767,7 @@
       },
       "classification": {
         "type": "laboratoire",
-        "bsr": "MSH",
+        "bsr": "LAB",
         "sector": "public",
         "level": null
       },
@@ -19875,7 +19875,7 @@
       },
       "classification": {
         "type": "laboratoire",
-        "bsr": "MSH",
+        "bsr": "LAB",
         "sector": "public",
         "level": null
       },
@@ -19995,7 +19995,7 @@
       },
       "activity": {
         "active": null,
-        "start": "33982",
+        "start": "1993-01-13",
         "end": null,
         "catalog": "inclure"
       },
@@ -20167,7 +20167,7 @@
       "activity": {
         "active": false,
         "start": "1986",
-        "end": "34700",
+        "end": "1995-01-01",
         "catalog": "inclure"
       },
       "identifiers": {
@@ -20280,7 +20280,7 @@
       },
       "activity": {
         "active": true,
-        "start": "40176",
+        "start": "2009-12-29",
         "end": null,
         "catalog": "inclure"
       },
@@ -20394,7 +20394,7 @@
       },
       "activity": {
         "active": true,
-        "start": "41747",
+        "start": "2014-04-18",
         "end": null,
         "catalog": "inclure"
       },
@@ -20850,7 +20850,7 @@
       },
       "activity": {
         "active": true,
-        "start": "42244",
+        "start": "2015-08-28",
         "end": null,
         "catalog": "inclure"
       },
@@ -20964,7 +20964,7 @@
       },
       "activity": {
         "active": null,
-        "start": "38399",
+        "start": "2005-02-16",
         "end": null,
         "catalog": "inclure"
       },
@@ -21193,7 +21193,7 @@
       "activity": {
         "active": false,
         "start": null,
-        "end": "44124",
+        "end": "2020-10-20",
         "catalog": "inclure"
       },
       "identifiers": {
@@ -21751,7 +21751,16 @@
         "acronym": "CEM",
         "other_acronyms": [],
         "historical_free_text": null,
-        "history": [],
+        "history": [
+          {
+            "label": "Centre d’études médiévales d’Auxerre",
+            "type": "variante_ministerielle",
+            "start": null,
+            "end": null,
+            "validation": "valide",
+            "acronym": null
+          }
+        ],
         "legal_status_history": []
       },
       "classification": {
@@ -21762,7 +21771,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1996",
         "end": null,
         "catalog": "inclure"
       },
@@ -27045,7 +27054,7 @@
       },
       "activity": {
         "active": true,
-        "start": "34831",
+        "start": "1995-05-12",
         "end": null,
         "catalog": "inclure"
       },
@@ -27217,7 +27226,7 @@
       "activity": {
         "active": false,
         "start": "2007",
-        "end": "40906",
+        "end": "2011-12-29",
         "catalog": "inclure"
       },
       "identifiers": {
@@ -28385,7 +28394,7 @@
       },
       "classification": {
         "type": "laboratoire",
-        "bsr": "MSH",
+        "bsr": "LAB",
         "sector": "public",
         "level": null
       },
@@ -29018,7 +29027,7 @@
       },
       "activity": {
         "active": true,
-        "start": "42002",
+        "start": "2014-12-29",
         "end": null,
         "catalog": "exclure"
       },
@@ -32865,7 +32874,7 @@
       },
       "activity": {
         "active": true,
-        "start": "43196",
+        "start": "2018-04-06",
         "end": null,
         "catalog": "inclure"
       },
@@ -33606,7 +33615,7 @@
       },
       "activity": {
         "active": true,
-        "start": "27241",
+        "start": "1974-07-31",
         "end": null,
         "catalog": "inclure"
       },
@@ -34866,7 +34875,7 @@
       "classification": {
         "type": "organisme_national_recherche",
         "bsr": null,
-        "sector": "associatif",
+        "sector": "prive",
         "level": null
       },
       "activity": {
@@ -34876,7 +34885,7 @@
         "catalog": "inclure"
       },
       "identifiers": {
-        "ror": null,
+        "ror": "https://ror.org/01hhn8329",
         "rnsr": null,
         "idref": null,
         "wikidata": null,
@@ -35207,7 +35216,7 @@
       },
       "classification": {
         "type": "institut_recherche",
-        "bsr": null,
+        "bsr": "AUT",
         "sector": "public",
         "level": null
       },
@@ -35264,7 +35273,7 @@
       },
       "classification": {
         "type": "academie_sciences",
-        "bsr": null,
+        "bsr": "AUT",
         "sector": "public",
         "level": null
       },
@@ -35779,7 +35788,7 @@
       },
       "classification": {
         "type": "ministere",
-        "bsr": null,
+        "bsr": "AUT",
         "sector": "public",
         "level": null
       },
@@ -36520,7 +36529,7 @@
       },
       "classification": {
         "type": "administration_centrale_etrangere",
-        "bsr": null,
+        "bsr": "AUT",
         "sector": "public",
         "level": null
       },
@@ -36620,6 +36629,177 @@
         "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true
+      }
+    },
+    {
+      "id": "ORG-0653",
+      "kind": "ORG",
+      "presentation": {
+        "catalog": "exclure",
+        "visible": false,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Ville d’Autun",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "collectivite_territoriale",
+        "bsr": "COL",
+        "sector": "public",
+        "level": "communal"
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "exclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Autun",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "ORG-0654",
+      "kind": "ORG",
+      "presentation": {
+        "catalog": "exclure",
+        "visible": false,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Département du Morbihan",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "collectivite_territoriale",
+        "bsr": "COL",
+        "sector": "public",
+        "level": "departemental"
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "exclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Vannes",
+        "locations": []
+      },
+      "website": "https://www.morbihan.fr/",
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": false
+      }
+    },
+    {
+      "id": "ORG-0655",
+      "kind": "ORG",
+      "presentation": {
+        "catalog": "exclure",
+        "visible": false,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Communauté de communes de l’Oise Picarde",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "epci",
+        "bsr": "COL",
+        "sector": "public",
+        "level": "intercommunal"
+      },
+      "activity": {
+        "active": true,
+        "start": "2017-01-01",
+        "end": null,
+        "catalog": "exclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Breteuil",
+        "locations": []
+      },
+      "website": "https://www.cc-oisepicarde.fr/",
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": false
       }
     },
     {
@@ -38701,7 +38881,16 @@
         "acronym": null,
         "other_acronyms": [],
         "historical_free_text": null,
-        "history": [],
+        "history": [
+          {
+            "label": "Direction de l’archéologie préventive de Douaisis Agglo",
+            "type": "variante_ministerielle",
+            "start": null,
+            "end": null,
+            "validation": "valide",
+            "acronym": null
+          }
+        ],
         "legal_status_history": []
       },
       "classification": {
@@ -38711,7 +38900,7 @@
         "level": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": "2002",
         "end": null,
         "catalog": "inclure"
@@ -38735,7 +38924,7 @@
         "source_occurrences_linked": 66
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
@@ -40147,6 +40336,14 @@
             "end": null,
             "validation": "valide",
             "acronym": null
+          },
+          {
+            "label": "Service Archéologie et patrimoine du département du Nord",
+            "type": "variante_ministerielle",
+            "start": null,
+            "end": null,
+            "validation": "a_verifier",
+            "acronym": null
           }
         ],
         "legal_status_history": []
@@ -40722,7 +40919,16 @@
         "acronym": null,
         "other_acronyms": [],
         "historical_free_text": null,
-        "history": [],
+        "history": [
+          {
+            "label": "Service Recherche archéologique de la Mayenne",
+            "type": "variante_ministerielle",
+            "start": null,
+            "end": null,
+            "validation": "a_verifier",
+            "acronym": null
+          }
+        ],
         "legal_status_history": []
       },
       "classification": {
@@ -45934,6 +46140,576 @@
         "country_unrecorded": false,
         "no_website": true
       }
+    },
+    {
+      "id": "SER-0157",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique de la Ville d’Autun",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Autun",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0158",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service départemental d’archéologie du Morbihan",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Vannes",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0159",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique des Ardennes",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Charleville-Mézières",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0160",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologie du Grand Reims",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Reims",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0161",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologie préventive de l’Eurométropole de Metz",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Metz",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0162",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique du Département de l’Aisne",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Laon",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0163",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique de la communauté de communes de l’Oise Picarde",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Vendeuil-Caply",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0164",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologie d’Amiens Métropole",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Amiens",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0165",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique municipal de Béziers",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Béziers",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
+    },
+    {
+      "id": "SER-0166",
+      "kind": "SER",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": null
+        }
+      },
+      "names": {
+        "preferred": "Service archéologique départemental des Pyrénées-Orientales",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": []
+      },
+      "classification": {
+        "type": "service_archeologique_territorial",
+        "bsr": "COL",
+        "sector": null,
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": null,
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Perpignan",
+        "locations": []
+      },
+      "website": null,
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": true
+      }
     }
   ],
   "relations": [
@@ -50182,6 +50958,96 @@
       "target": "ORG-0652",
       "type": "participation_service_commun",
       "start": "2019-04-01",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0185",
+      "source": "SER-0157",
+      "target": "ORG-0653",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0186",
+      "source": "SER-0158",
+      "target": "ORG-0654",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0187",
+      "source": "SER-0159",
+      "target": "ORG-0240",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0188",
+      "source": "SER-0160",
+      "target": "ORG-0145",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0189",
+      "source": "SER-0161",
+      "target": "ORG-0096",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0190",
+      "source": "SER-0162",
+      "target": "ORG-0102",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0191",
+      "source": "SER-0163",
+      "target": "ORG-0655",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0192",
+      "source": "SER-0164",
+      "target": "ORG-0339",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0193",
+      "source": "SER-0165",
+      "target": "ORG-0294",
+      "type": "rattachement_service",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0194",
+      "source": "SER-0166",
+      "target": "ORG-0189",
+      "type": "rattachement_service",
+      "start": null,
       "end": null,
       "validation": "valide"
     }
