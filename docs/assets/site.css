@@ -156,7 +156,7 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 
 /* Accueil : cinq cartouches alignés, avec adaptation progressive aux écrans étroits. */
 .home-five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;align-items:stretch;margin:0 0 35px}
-.home-five>section{min-width:0;min-height:0;height:100%}
+.home-five>section,.home-five>a.home-card-link{min-width:0;min-height:0;height:100%}
 .home-five .hero-home{position:relative;min-height:0}
 
 .home-five .hero-home h1{font-size:clamp(24px,2vw,29px);overflow-wrap:anywhere}
@@ -175,8 +175,8 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .home-five .hero-panel--pending h2{color:#586d78}
 .home-five .hero-panel--pending .eyebrow{color:#7a878f}
 .home-five .hero-panel--pending p:not(.eyebrow){color:#62717a}
-.home-five .hero-panel--pending .soft-link{color:#526b74}
-.home-five .hero-panel--pending .soft-link:hover{color:var(--teal)}
+
+
 
 /* Logos des partenaires sous les modules, hors footer. */
 .project-partners{display:flex;align-items:center;justify-content:center;gap:clamp(22px,4.5vw,68px);flex-wrap:wrap;padding:16px 10px 28px;margin:0 auto;max-width:100%;min-height:100px}
@@ -194,8 +194,8 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 @media(max-width:600px){.project-partners{gap:12px 25px}.partner-logo--culture{width:190px}.partner-logo--msh{width:170px}.partner-logo--cnrs{width:75px}}
 
 /* Liens de consultation : seul le module Organismes est accessible. */
-.home-five .soft-link--disabled{cursor:default;text-decoration:none;pointer-events:none;opacity:.75}
-.home-five .hero-panel--pending .soft-link--disabled:hover{color:#526b74}
+
+
 
 
 
@@ -206,11 +206,11 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .home-five .home-card__body>p:last-child{margin-bottom:0}
 .home-five .home-card__art{position:relative;z-index:1;flex:0 0 auto;height:clamp(150px,16vw,220px);overflow:hidden;min-width:0;margin-top:auto}
 .home-five .home-card__art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.15) 16%,#000 54%,#000 100%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.15) 16%,#000 54%,#000 100%)}
-.home-five .home-card__footer{position:relative;z-index:3;display:flex;justify-content:center;align-items:center;flex:0 0 auto;min-height:56px;margin-top:auto;padding:12px 14px;background:#fff;border-top:1px solid #e5ebed;text-align:center}
-.home-five .home-card__footer .soft-link{display:inline-block;align-self:center;margin:0;padding:0;text-align:center}
-.home-five .hero-panel--pending .home-card__footer{background:#edf0f1;border-color:#d5dfe1}
-.home-five .hero-home .home-card__footer{background:#225469;border-color:rgba(255,255,255,.2)}
-.home-five .hero-home .home-card__footer .soft-link--disabled{color:#d3e3e8;opacity:.88;align-self:center;margin:0;padding:0}
+
+
+
+
+
 @media(max-width:880px){.home-five .home-card__art{height:210px}}
 @media(max-width:480px){.home-five .home-card__body{padding:22px 20px 0}.home-five .home-card__art{height:185px}}
 
@@ -220,16 +220,20 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .home-five .hero-home.home-card{display:flex}
 .home-five .home-card__body .eyebrow{font-size:11px;line-height:1.5;letter-spacing:.11em;font-weight:770;margin:0 0 8px}
 .home-five .home-card__body :is(h1,h2){font:600 24px/1.2 Georgia,"Iowan Old Style",serif;letter-spacing:-.01em;margin:0 0 9px}
-.home-five .home-card__art img{opacity:.82}
-.home-five .home-card--illustrated .home-card__footer{margin-top:0}
+
+
 
 /* Accueil : léger relief au survol des cinq cartouches, sans animer les contenus. */
-.home-five .home-card{transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
-.home-five .home-card:hover{transform:translateY(-2px);border-color:#b4cbd1;box-shadow:0 9px 22px rgba(23,57,74,.12)}
+.home-five .home-card-link{cursor:pointer;color:inherit;text-decoration:none;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.home-five .home-card-link:hover{transform:translateY(-2px);border-color:#b4cbd1;box-shadow:0 9px 22px rgba(23,57,74,.12);text-decoration:none}
+.home-five .home-card-link:focus-visible{outline:3px solid #74b6c1;outline-offset:3px}
 .home-five .hero-home.home-card{border:1px solid rgba(255,255,255,.12)}
-.home-five .hero-home.home-card:hover{border-color:#85b6c1;box-shadow:0 10px 24px rgba(11,45,63,.22)}
-@media(prefers-reduced-motion:reduce){.home-five .home-card{transition:none}.home-five .home-card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.home-five .home-card-link{transition:none}.home-five .home-card-link:hover{transform:none}}
 
 /* Pied de page : partenaires institutionnels, sans modification au survol. */
 .site-footer .project-partners{width:100%;margin:0;max-width:none;padding:12px 0 20px;min-height:0}
 .site-footer .partner-logo{transition:none}
+
+/* Les illustrations remplissent le bas des cartes, sans pied de lien séparé. */
+.home-five .home-card__art img{opacity:.82}
+.home-five .hero-home .home-card__art{margin-top:auto}
