@@ -16,6 +16,12 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+# Compatible avec l'exécution CLI et l'import du module depuis les tests.
+if __package__:
+    from .sector_inheritance import apply_sector_inheritance
+else:
+    from sector_inheritance import apply_sector_inheritance
+
 MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'
 REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 NS = {'x': MAIN}
@@ -246,15 +252,18 @@ def build(source: Path):
                            'no_website':not bool(site)}}
             entities.append(rec)
     if len({x['id'] for x in entities})!=len(entities):raise ValueError('IDs ORG/SER dupliqués')
+    sector_audit = apply_sector_inheritance(entities, relations)
     # No unverified relation automatically converted into an established institutional fact.
     by_kind=Counter(x['kind'] for x in entities)
     public={'schema_version':'0.3.0','dataset':'adlfi-referentiels/organismes',
         'provenance':{'source_filename':source.name,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
                       'exported_at_utc':dt.datetime.fromtimestamp(int(os.environ['SOURCE_DATE_EPOCH']),dt.timezone.utc).isoformat(timespec='seconds') if os.environ.get('SOURCE_DATE_EPOCH') else None,
-                      'caution':'Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires.'},
+                      'caution':'Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés sans attribuer ce secteur à une date donnée.'},
         'totals':{'authorities':len(entities),'organismes':by_kind['ORG'],'services':by_kind['SER'],
                   'catalog_included':sum(x['presentation']['visible'] for x in entities),
-                  'catalog_excluded':sum(not x['presentation']['visible'] for x in entities)},
+                  'catalog_excluded':sum(not x['presentation']['visible'] for x in entities),
+                  'service_sector_resolution':sector_audit['counts'],
+                  'service_sector_unresolved_ids':sector_audit['unresolved_service_ids']},
         'authorities':entities, 'relations':relations,'locations':locations}
     return public
 
