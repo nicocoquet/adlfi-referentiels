@@ -258,9 +258,9 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .page-intro__art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 39%}
 @media(max-width:760px){.page-intro--with-art{min-height:0}.page-intro__art{display:none}}
 
-/* Variante compacte du rappel graphique pour l’en-tête Organismes.
-   Le réseau inférieur de l’illustration est privilégié au bâtiment seul. */
-.page-intro--organismes .page-intro__art{
+/* Variante compacte commune du rappel graphique pour les en-têtes des modules.
+   L’illustration est recentrée sur ses motifs inférieurs pour limiter le recadrage. */
+.page-intro--compact-art .page-intro__art{
   top:8px;
   right:28px;
   bottom:10px;
@@ -269,7 +269,7 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
   -webkit-mask-image:radial-gradient(ellipse 85% 90% at 60% 51%,#000 36%,transparent 100%);
   mask-image:radial-gradient(ellipse 85% 90% at 60% 51%,#000 36%,transparent 100%);
 }
-.page-intro--organismes .page-intro__art img{
+.page-intro--compact-art .page-intro__art img{
   object-fit:cover;
   object-position:center bottom;
 }

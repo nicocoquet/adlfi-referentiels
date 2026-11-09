@@ -5,9 +5,9 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 ## Rubriques
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
-- **Autorités (personnes)** — noms, variantes et identifiants (en préparation).
+- **Personnes** — noms, variantes et identifiants (en préparation).
 - **Organismes** — premier explorateur fonctionnel des ORG et SER (données réelles du maître 1.15).
-- **Natures d'opérations** — codes historiques, libellés et référentiels (en préparation).
+- **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
 
@@ -17,7 +17,8 @@ Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des 
 docs/                        # fichiers publiés par GitHub Pages
   index.html
   lieux/index.html
-  autorites/index.html
+  personnes/index.html
+  autorites/index.html       # ancienne URL redirigée vers /personnes/
   organismes/index.html
   natures-operations/index.html
   assets/
