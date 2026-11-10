@@ -2,10 +2,10 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-39_20261109_arbitrages_catalogue.xlsx",
-    "source_sha256": "1b08a3953a5164acf5b3217ffdd4374252bbd4325e772bae819b5882bb6cc968",
+    "source_filename": "AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx",
+    "source_sha256": "c0e401ad4c5fa1af46be0f58ec0a989d8bfcb04ada403a2a925e2dce13d2c7ca",
     "exported_at_utc": null,
-    "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés sans attribuer ce secteur à une date donnée."
+    "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée."
   },
   "totals": {
     "authorities": 819,
@@ -15,13 +15,9 @@
     "catalog_excluded": 205,
     "service_sector_resolution": {
       "prive": 2,
-      "public": 162,
-      "unresolved": 2
+      "public": 164
     },
-    "service_sector_unresolved_ids": [
-      "SER-0151",
-      "SER-0152"
-    ]
+    "service_sector_unresolved_ids": []
   },
   "authorities": [
     {
@@ -48666,11 +48662,11 @@
       "classification": {
         "type": "service_etat_historique",
         "bsr": "MC",
-        "sector": null,
+        "sector": "public",
         "level": null,
         "sector_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_attachment"
+          "method": "explicit",
+          "field": "Services.secteur_institutionnel"
         }
       },
       "activity": {
@@ -48703,7 +48699,7 @@
         "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true,
-        "sector_unresolved": true
+        "sector_unresolved": false
       }
     },
     {
@@ -48728,11 +48724,11 @@
       "classification": {
         "type": "service_etat_historique",
         "bsr": "MC",
-        "sector": null,
+        "sector": "public",
         "level": null,
         "sector_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_attachment"
+          "method": "explicit",
+          "field": "Services.secteur_institutionnel"
         }
       },
       "activity": {
@@ -48765,7 +48761,7 @@
         "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true,
-        "sector_unresolved": true
+        "sector_unresolved": false
       }
     },
     {
