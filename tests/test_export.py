@@ -25,6 +25,37 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['catalog_excluded'],
                          sum(not x['presentation']['visible'] for x in self.authorities.values()))
 
+    def test_published_sector_inheritance_1_39(self):
+        # Distribution éditoriale : le secteur SER est hérité, pas renseigné dans le XLSX.
+        self.assertEqual(
+            self.d['provenance']['source_filename'],
+            'AdlFI_referentiel_1-39_20261109_arbitrages_catalogue.xlsx')
+        self.assertEqual(
+            self.d['provenance']['source_sha256'],
+            '1b08a3953a5164acf5b3217ffdd4374252bbd4325e772bae819b5882bb6cc968')
+        services = [a for a in self.authorities.values() if a['kind'] == 'SER']
+        self.assertEqual(len(services), 166)
+        inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
+        unresolved = [a for a in services if a['classification']['sector_origin']['method'] == 'unresolved']
+        self.assertEqual(len(inherited), 164)
+        self.assertEqual(len(unresolved), 2)
+        self.assertEqual(
+            {a['id'] for a in unresolved}, {'SER-0151', 'SER-0152'})
+        for a in inherited:
+            self.assertIn(a['classification']['sector'], ('public', 'prive'))
+            self.assertTrue(a['classification']['sector_origin']['org_ids'])
+            self.assertFalse(a['quality']['sector_unresolved'])
+        for a in unresolved:
+            self.assertIsNone(a['classification']['sector'])
+            self.assertTrue(a['quality']['sector_unresolved'])
+        visible = [a for a in self.authorities.values() if a['presentation']['visible']]
+        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 413)
+        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 199)
+        self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 2)
+        scp = self.authorities['ORG-0292']
+        self.assertEqual(scp['classification']['bsr'], 'PRIV')
+        self.assertEqual(scp['classification']['sector'], 'public')
+
     def test_identity_hierarchy(self):
         musee=self.authorities['ORG-0013']
         ville=self.authorities['ORG-0027']
@@ -126,7 +157,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIn('justify-content:center', band.group(1))
 
     def test_culture_master_consolidation(self):
-        # Jalons historiques maintenus et effectifs du maître 1.16 v2 (8 novembre 2026).
+        # Jalons historiques maintenus et effectifs du maître 1.39 (9 novembre 2026).
         expected = {
             'ORG-0023': '1959',
             'ORG-0035': '1969', 'ORG-0055': '1980',
@@ -151,9 +182,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 634)
-        self.assertEqual(self.d['totals']['services'], 165)
-        self.assertEqual(len(self.d['relations']), 482)
+        self.assertEqual(self.d['totals']['organismes'], 653)
+        self.assertEqual(self.d['totals']['services'], 166)
+        self.assertEqual(len(self.d['relations']), 521)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
@@ -182,7 +213,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         }
         relations = {(r['source'], r['target'], r['type'], r['validation'])
                      for r in self.d['relations']}
-        self.assertEqual(self.d['totals']['authorities'], 799)
+        self.assertEqual(self.d['totals']['authorities'], 819)
         for service, tutelle in expected.items():
             self.assertIn(service, self.authorities)
             self.assertIn(tutelle, self.authorities)
