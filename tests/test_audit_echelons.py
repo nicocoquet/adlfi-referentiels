@@ -39,7 +39,7 @@ class AuditEchelonsTests(unittest.TestCase):
         self.assertEqual(result['issues'],[])
 
     def test_syndicat_mixte_stays_undetermined(self):
-        result=audit_org_rows([authority('ORG-0093','syndicat_mixte','')])
+        result=audit_org_rows([authority('ORG-0998','syndicat_mixte','')])
         self.assertEqual(result['summary']['focus'],1)
         self.assertEqual(result['issues'],[])
 
