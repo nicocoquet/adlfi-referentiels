@@ -9,8 +9,8 @@ def org(id, sector='public'):
     return {'id': id, 'kind': 'ORG', 'classification': {'sector': sector}, 'quality': {}}
 
 
-def ser(id):
-    return {'id': id, 'kind': 'SER', 'classification': {'sector': None}, 'quality': {}}
+def ser(id, sector=None):
+    return {'id': id, 'kind': 'SER', 'classification': {'sector': sector}, 'quality': {}}
 
 
 def link(id, source, target, *, type='rattachement_service', validation='valide'):
@@ -49,6 +49,32 @@ class SectorInheritanceTests(unittest.TestCase):
             link('RSE-2', 'SER-0002', 'ORG-0001', validation='rejete')])
         self.assertEqual(result['unresolved_service_ids'], ['SER-0001', 'SER-0002'])
         self.assertTrue(all(x['quality']['sector_unresolved'] for x in entities[1:]))
+
+    def test_explicit_historical_sector_without_attachment(self):
+        entities = [ser('SER-0151', 'public'), ser('SER-0152', 'public')]
+        result = apply_sector_inheritance(entities, [])
+        self.assertEqual(result['counts'], {'public': 2})
+        self.assertEqual(result['unresolved_service_ids'], [])
+        for service in entities:
+            self.assertEqual(service['classification']['sector_origin'], {
+                'method': 'explicit', 'field': 'Services.secteur_institutionnel'})
+            self.assertFalse(service['quality']['sector_unresolved'])
+
+    def test_explicit_sector_and_validated_attachment_agree(self):
+        entities = [org('ORG-0001'), ser('SER-0151', 'public')]
+        apply_sector_inheritance(entities, [link('RSE-1', 'SER-0151', 'ORG-0001')])
+        origin = entities[1]['classification']['sector_origin']
+        self.assertEqual(origin['method'], 'explicit')
+        self.assertEqual(origin['corroborated_by']['org_ids'], ['ORG-0001'])
+
+    def test_explicit_sector_disagreement_blocks_export(self):
+        entities = [org('ORG-0001', 'prive'), ser('SER-0151', 'public')]
+        with self.assertRaisesRegex(ValueError, 'Secteur explicite contradictoire'):
+            apply_sector_inheritance(entities, [link('RSE-1', 'SER-0151', 'ORG-0001')])
+
+    def test_invalid_explicit_sector_blocks_export(self):
+        with self.assertRaisesRegex(ValueError, 'Secteur explicite inconnu'):
+            apply_sector_inheritance([ser('SER-0151', 'indetermine')], [])
 
     def test_sector_conflict_blocks_export(self):
         entities = [org('ORG-0001'), org('ORG-0002', 'prive'), ser('SER-0001')]
