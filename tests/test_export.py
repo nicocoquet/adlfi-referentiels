@@ -25,33 +25,36 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['catalog_excluded'],
                          sum(not x['presentation']['visible'] for x in self.authorities.values()))
 
-    def test_published_sector_inheritance_1_39(self):
-        # Distribution éditoriale : le secteur SER est hérité, pas renseigné dans le XLSX.
+    def test_published_sector_resolution_1_40(self):
+        # 164 SER héritent leur secteur, deux historiques portent une attribution directe documentée.
         self.assertEqual(
             self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-39_20261109_arbitrages_catalogue.xlsx')
+            'AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx')
         self.assertEqual(
             self.d['provenance']['source_sha256'],
-            '1b08a3953a5164acf5b3217ffdd4374252bbd4325e772bae819b5882bb6cc968')
+            'c0e401ad4c5fa1af46be0f58ec0a989d8bfcb04ada403a2a925e2dce13d2c7ca')
         services = [a for a in self.authorities.values() if a['kind'] == 'SER']
         self.assertEqual(len(services), 166)
         inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
-        unresolved = [a for a in services if a['classification']['sector_origin']['method'] == 'unresolved']
+        explicit = [a for a in services if a['classification']['sector_origin']['method'] == 'explicit']
         self.assertEqual(len(inherited), 164)
-        self.assertEqual(len(unresolved), 2)
+        self.assertEqual(len(explicit), 2)
         self.assertEqual(
-            {a['id'] for a in unresolved}, {'SER-0151', 'SER-0152'})
+            {a['id'] for a in explicit}, {'SER-0151', 'SER-0152'})
         for a in inherited:
             self.assertIn(a['classification']['sector'], ('public', 'prive'))
             self.assertTrue(a['classification']['sector_origin']['org_ids'])
             self.assertFalse(a['quality']['sector_unresolved'])
-        for a in unresolved:
-            self.assertIsNone(a['classification']['sector'])
-            self.assertTrue(a['quality']['sector_unresolved'])
+        for a in explicit:
+            self.assertEqual(a['classification']['sector'], 'public')
+            self.assertEqual(a['classification']['sector_origin']['field'], 'Services.secteur_institutionnel')
+            self.assertFalse(a['quality']['sector_unresolved'])
+        self.assertEqual(self.d['totals']['service_sector_unresolved_ids'], [])
+        self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 2, 'public': 164})
         visible = [a for a in self.authorities.values() if a['presentation']['visible']]
-        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 413)
+        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 415)
         self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 199)
-        self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 2)
+        self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 0)
         scp = self.authorities['ORG-0292']
         self.assertEqual(scp['classification']['bsr'], 'PRIV')
         self.assertEqual(scp['classification']['sector'], 'public')
