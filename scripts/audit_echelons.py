@@ -19,6 +19,8 @@ FOCUS_LEVELS = frozenset({'intercommunal', 'metropole', 'metropolitain'})
 FOCUS_TYPES = frozenset({'epci', 'syndicat_mixte'})
 # Dossier historique identifié hors des filtres génériques, à conserver jusqu'à résolution.
 FOCUS_IDENTIFIERS = frozenset({'ORG-0093'})
+# Personnes morales distinctes documentées par SIREN : décision d'affiliation à instruire.
+IDENTITY_REVIEW = frozenset({'ORG-0093'})
 
 
 def field(row: dict, key: str) -> str:
@@ -49,6 +51,10 @@ def audit_org_rows(orgs: list[dict]) -> dict:
                            'statut_validation':field(row, 'statut_validation'),
                            'affichage_catalogue':field(row, 'affichage_catalogue')})
 
+        if ident in IDENTITY_REVIEW:
+            add('identite_juridique_a_scinder',
+                'SIREN 200006336 (2006–2020) et 200094746 (depuis 2020-12-11) ; '
+                'ne pas fusionner des personnes morales ni réattribuer les affiliations sans contrôle')
         if level and level not in LEVELS:
             add('niveau_hors_vocabulaire', 'Valeur non reconnue du niveau institutionnel')
         if level == 'metropole':
