@@ -16,6 +16,12 @@ class AuditEchelonsTests(unittest.TestCase):
         self.assertEqual(result['summary']['visible_with_level'],1)
         self.assertEqual(result['issues'],[])
 
+    def test_alsace_identity_split_is_flagged(self):
+        result=audit_org_rows([authority('ORG-0093','collectivite_territoriale','regional')])
+        self.assertIn('identite_juridique_a_scinder',
+                      [x['code_controle'] for x in result['issues']])
+        self.assertEqual(result['summary']['focus'],1)
+
     def test_metropole_is_not_level(self):
         result=audit_org_rows([authority('ORG-0161','collectivite_territoriale','metropole')])
         codes={r['code_controle'] for r in result['issues']}
