@@ -18,8 +18,8 @@ def apply_sector_inheritance(authorities: list[dict], relations: list[dict]) -> 
 
     Each derived value has an auditable set of originating ORGs and relation IDs.
     A graph cycle, inconsistent source, or competing sectors blocks publication.
-    SERs without a valid attachment remain unresolved, rather than being assigned
-    the sector of a successor or any unverified institution.
+    SERs without a valid attachment remain unresolved unless an explicit sector
+    is attested in the Services sheet. This is never inferred from a successor.
     """
     by_id = {authority['id']: authority for authority in authorities}
     if len(by_id) != len(authorities):
@@ -56,8 +56,17 @@ def apply_sector_inheritance(authorities: list[dict], relations: list[dict]) -> 
         if authority['kind'] != 'SER':
             continue
         service_id = authority['id']
+        declared_sector = authority['classification'].get('sector')
+        if declared_sector is not None and declared_sector not in SECTORS:
+            raise ValueError(f'Secteur explicite inconnu pour {service_id} : {declared_sector!r}')
         paths = paths_to_org(service_id)
         if not paths:
+            if declared_sector is not None:
+                authority['classification']['sector_origin'] = {
+                    'method': 'explicit', 'field': 'Services.secteur_institutionnel'}
+                authority['quality']['sector_unresolved'] = False
+                counts[declared_sector] += 1
+                continue
             authority['classification']['sector'] = None
             authority['classification']['sector_origin'] = {
                 'method': 'unresolved', 'reason': 'no_validated_attachment'}
@@ -77,14 +86,29 @@ def apply_sector_inheritance(authorities: list[dict], relations: list[dict]) -> 
             detail = ', '.join(f'{org_id}={sector}' for org_id, sector in sorted(sectors.items()))
             raise ValueError(f'Secteurs contradictoires pour {service_id} : {detail}')
 
-        authority['classification']['sector'] = distinct.pop()
-        authority['classification']['sector_origin'] = {
-            'method': 'inherited',
-            'scope': 'all_validated_attachments',
-            'org_ids': sorted(sectors),
-            'relation_ids': sorted({rid for _, route in paths for rid in route}),
-        }
+        inherited_sector = distinct.pop()
+        if declared_sector is not None and declared_sector != inherited_sector:
+            raise ValueError(
+                f'Secteur explicite contradictoire pour {service_id} : '
+                f'{declared_sector} contre {inherited_sector}')
+        authority['classification']['sector'] = inherited_sector
+        if declared_sector is not None:
+            authority['classification']['sector_origin'] = {
+                'method': 'explicit',
+                'field': 'Services.secteur_institutionnel',
+                'corroborated_by': {
+                    'org_ids': sorted(sectors),
+                    'relation_ids': sorted({rid for _, route in paths for rid in route}),
+                },
+            }
+        else:
+            authority['classification']['sector_origin'] = {
+                'method': 'inherited',
+                'scope': 'all_validated_attachments',
+                'org_ids': sorted(sectors),
+                'relation_ids': sorted({rid for _, route in paths for rid in route}),
+            }
         authority['quality']['sector_unresolved'] = False
-        counts[authority['classification']['sector']] += 1
+        counts[inherited_sector] += 1
 
     return {'counts': dict(sorted(counts.items())), 'unresolved_service_ids': sorted(unresolved)}
