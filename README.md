@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données réelles du maître 1.39 du 9 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données réelles du maître 1.40 du 10 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -103,9 +103,9 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 
 ## Secteur institutionnel des services
 
-Le secteur `public`/`prive` des SER est calculé dans le JSON, par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
+Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
 
-Dans le maître 1.39 : **819 autorités** (653 ORG et 166 SER), **614 fiches visibles** ; sur les 166 SER, **162 sont publics**, **2 privés** et **2 restent non résolus** (`SER-0151` et `SER-0152`). Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
+Dans le maître 1.40 : **819 autorités** (653 ORG et 166 SER), **614 fiches visibles** ; sur les 166 SER, **164 sont publics** et **2 privés**. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
 ## Développement futur
