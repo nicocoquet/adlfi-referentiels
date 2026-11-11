@@ -192,17 +192,17 @@ class TestReferentielOrganismes(unittest.TestCase):
         folder = ROOT / 'docs/assets/organismes'
         legacy = {'assets/organismes/' + p.name for p in folder.iterdir()
                   if p.is_file() and re.fullmatch(
-                      r'(?:ORG|SER)-[0-9]{4}-logo\\.(?:webp|svg|png|jpg|jpeg)',
+                      r'(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)',
                       p.name)}
         canonical = {'assets/organismes/' + p.name for p in folder.iterdir()
-                     if p.is_file() and re.fullmatch(r'(?:ORG|SER)-[0-9]{4}\\.jpg', p.name)}
+                     if p.is_file() and re.fullmatch(r'(?:ORG|SER)-[0-9]{4}\.jpg', p.name)}
         logos = {}
         for record in self.d['authorities']:
             ident = record['id']
             ref = record['presentation']['media']['logo']
             if not ref:
                 continue
-            self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}(?:-logo\\.(?:webp|svg|png|jpg|jpeg)|\\.jpg)$')
+            self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}(?:-logo\.(?:webp|svg|png|jpg|jpeg)|\.jpg)$')
             self.assertEqual(ref.split('/')[-1][:8], ident)
             self.assertTrue((ROOT / 'docs' / ref).is_file(), f'Média absent : {ref}')
             self.assertNotIn(ref, logos, f'Logo réutilisé par plusieurs autorités : {ref}')
