@@ -222,8 +222,7 @@
     if(k==='sector')return [r.classification.sector||'—'];
     if(k==='country')return [r.geography.institutional_country_iso2||'—'];
     if(k==='type')return [r.classification.type||'—'];
-    if(k==='level')return r.classification.level && (r.kind==='SER' || INSTITUTIONAL_LEVEL_TYPES.has(r.classification.type))
-      ? [r.classification.level] : [];
+    if(k==='level')return r.classification.level ? [r.classification.level] : [];
     if(k==='quality'){
       const q=r.quality,a=[];
       if(q.activity_unknown)a.push('Activité à préciser');
