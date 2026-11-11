@@ -23,7 +23,7 @@
     {key:'activity',label:'Activité',open:true},
     {key:'bsr',label:'Catégorie',open:true},
     {key:'sector',label:'Secteur',open:false},
-    {key:'level',label:'Périmètre',open:false},
+    {key:'level',label:'Échelon institutionnel',open:false},
     {key:'country',label:'Pays',open:false},
     {key:'quality',label:'Complétude documentaire',open:false}
   ];
@@ -207,6 +207,14 @@
     </article>`;
   }
 
+  // Les niveaux institutionnels sont documentés pour certaines ORG seulement.
+  // Ne pas inférer ici l'échelon des SER, des associations, des entreprises ni des
+  // syndicats mixtes dont la composition territoriale reste à instruire.
+  const INSTITUTIONAL_LEVEL_TYPES=new Set([
+    'collectivite_territoriale','epci','musee','etablissement_public',
+    'etablissement_public_administratif','agence_federale'
+  ]);
+
   const valueFor=(r,k)=>{
     if(k==='kind')return [r.kind];
     if(k==='activity')return [r.activity.active===true?'oui':r.activity.active===false?'non':'unknown'];
@@ -214,7 +222,7 @@
     if(k==='sector')return [r.classification.sector||'—'];
     if(k==='country')return [r.geography.institutional_country_iso2||'—'];
     if(k==='type')return [r.classification.type||'—'];
-    if(k==='level')return r.kind==='ORG' && r.classification.type==='collectivite_territoriale' && r.classification.level
+    if(k==='level')return r.kind==='ORG' && r.classification.level && INSTITUTIONAL_LEVEL_TYPES.has(r.classification.type)
       ? [r.classification.level] : [];
     if(k==='quality'){
       const q=r.quality,a=[];
@@ -233,7 +241,8 @@
   const levelFacetLabels={
     national:'National',regional:'Régional',departemental:'Départemental',
     communal:'Communal',intercommunal:'Intercommunal',
-    metropole:'Métropole',metropolitain:'Métropolitain'
+    metropole:'Métropole (forme)',metropolitain:'Métropolitain (statut particulier)',
+    cantonal:'Cantonal',provincial:'Provincial'
   };
   const valLabel=(k,v)=>{
     if(v==='—')return 'Non renseigné';
