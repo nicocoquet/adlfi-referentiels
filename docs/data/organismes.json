@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-41_20261111_Archeologie_Alsace_echelons.xlsx",
-    "source_sha256": "d9ec168c72871e5a5c712aa36f79547d9bf0431bcde8c7c6529cd1e5aa257f07",
+    "source_filename": "AdlFI_referentiel_1-42_20261111_EPCI_syndicats_lot02.xlsx",
+    "source_sha256": "4003217420d73ae03ec05f96385f9e7efa0f52b99191cdbd7402f9500169869c",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée."
   },
@@ -5495,10 +5495,23 @@
             "acronym": null
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0007",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2014-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200044618"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -5894,10 +5907,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0008",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2002-10-21",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/241800507-ca-bourges-plus"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -6065,10 +6091,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0009",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2013-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200033181-ca-chartres-metropole"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -8885,13 +8924,26 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0010",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2011-12-31",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200030195"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
@@ -8945,7 +8997,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -8999,13 +9051,26 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0011",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2016-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200054807-metropole-d-aix-marseille-provence"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
@@ -9977,10 +10042,23 @@
             "acronym": "CUB"
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0012",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2015-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/243300316-bordeaux-metropole"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -10551,13 +10629,26 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0013",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2015-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/243100518-toulouse-metropole"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
@@ -11902,7 +11993,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -11965,10 +12056,23 @@
             "acronym": null
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0014",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2017-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200066355-ca-sete-agglopole-mediterranee"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -12264,7 +12368,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -12318,10 +12422,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0015",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2016-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200055655-ca-roissy-pays-de-france"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -13672,13 +13789,26 @@
             "acronym": null
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0016",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2015-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/244400404"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": null,
@@ -13786,10 +13916,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0017",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "syndicat_intercommunal_vocation_unique",
+            "start": "1988-03-23",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/252500814-si-a-vocation-archeologique-de-mandeure-et-mathay"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -19210,10 +19353,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0018",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "1999-12-30",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/248000531-ca-amiens-metropole"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -22899,7 +23055,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -23526,7 +23682,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -23979,10 +24135,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0019",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "2008-11-17",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200017341"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -24036,10 +24205,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0020",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "2017-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200066363-cc-de-la-haute-ariege"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -24093,10 +24275,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0021",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "2001-08-20",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/248600447"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -24150,10 +24345,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0022",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "2014-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200043016-cc-val-de-charente"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -24207,10 +24415,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0023",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2002-12-31",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/243400819-ca-herault-mediterranee"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -29114,13 +29335,26 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0024",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "metropole_epci",
+            "start": "2017-05-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/244500468"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
@@ -29228,7 +29462,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0025",
+            "type": "syndicat_mixte",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "syndicat_mixte_ouvert",
+            "start": "1989-10-03",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/253601587-sm-du-parc-naturel-regional-de-la-brenne"
+          }
+        ]
       },
       "classification": {
         "type": "syndicat_mixte",
@@ -35539,7 +35786,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0026",
+            "type": "syndicat_mixte",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "syndicat_mixte_ouvert",
+            "start": "2022-08-17",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://sy-archeologie.fr/nous-connaitre/qui-sommes-nous"
+          }
+        ]
       },
       "classification": {
         "type": "syndicat_mixte",
@@ -35710,10 +35970,23 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0027",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2019-12-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200090751"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -36644,7 +36917,20 @@
             "acronym": null
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0028",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_urbaine",
+            "start": "2019-07-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.grandbesancon.fr/la-communaute-urbaine/linstitution/que-fait-la-cu/"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
@@ -36815,7 +37101,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0029",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "2017-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200068005-cc-de-l-oise-picarde"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
@@ -36989,7 +37288,7 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal"
@@ -37100,7 +37399,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0030",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2017-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200067205-ca-du-cotentin"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
