@@ -21,6 +21,8 @@ class AuditHistorique149Tests(unittest.TestCase):
             if r['kind']=='ORG' and r['id'] not in ('ORG-0409','ORG-0590','ORG-0670')][:54]
         self.assertEqual(len(ids),57)
         indexed={x['id']:x for x in after['authorities']}
+        # Le maître 1.47 contenait déjà ADERA, contrairement au JSON public.
+        indexed['ORG-0662']['names']['acronym']='ADERA'
         for k in range(58):
             org=ids[k if k<57 else 56]
             kind=('designation_historique_organe' if k<48
@@ -53,6 +55,23 @@ class AuditHistorique149Tests(unittest.TestCase):
         data=self.candidate()
         data['relations'][1]['id']=data['relations'][0]['id']
         with self.assertRaisesRegex(AssertionError,'dupliqués'):
+            audit(self.baseline,data,ROOT)
+
+    def test_accept_only_documented_acronym_correction(self):
+        result=audit(self.baseline,self.candidate(),ROOT)
+        self.assertEqual(result['correction_acronyme_publication_anterieure'],
+                         ['ORG-0662: null → ADERA'])
+
+    def test_reject_wrong_adera_acronym(self):
+        data=self.candidate()
+        next(x for x in data['authorities'] if x['id']=='ORG-0662')['names']['acronym']='ADERAS'
+        with self.assertRaisesRegex(AssertionError,'acronyme du maître différent'):
+            audit(self.baseline,data,ROOT)
+
+    def test_reject_unrelated_acronym_correction(self):
+        data=self.candidate()
+        next(x for x in data['authorities'] if x['id']=='ORG-0001')['names']['acronym']='INATTENDU'
+        with self.assertRaisesRegex(AssertionError,'hors historique/média'):
             audit(self.baseline,data,ROOT)
 
     def test_reject_sector_change(self):
