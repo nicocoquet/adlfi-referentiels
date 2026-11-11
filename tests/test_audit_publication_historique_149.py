@@ -10,7 +10,27 @@ ROOT=Path(__file__).resolve().parents[1]
 class AuditHistorique149Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.baseline=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
+        published=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
+        cls.baseline=copy.deepcopy(published)
+        # Les tests du garde-fou restent valides après la publication 1.49 :
+        # reconstruire un instantané "avant migration" sans fixture privée.
+        if published['provenance']['source_filename']==SOURCE_FILE:
+            ids={f'HIS-{i:04d}' for i in range(67,125)}
+            for a in cls.baseline['authorities']:
+                history=a['names']['history']
+                old=[h for h in history if h.get('id') not in ids]
+                for h in old:
+                    h.pop('id',None)
+                    h.pop('source',None)
+                a['names']['history']=old
+            old_org=next(a for a in cls.baseline['authorities'] if a['id']=='ORG-0662')
+            old_org['names']['acronym']=None
+            cls.baseline['provenance']['source_filename']=(
+                'AdlFI_referentiel_1-47_20261111_echelons_competences_Inrap.xlsx')
+            cls.baseline['provenance']['source_sha256']=(
+                '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51')
+        assert sum(len(a['names']['history']) for a in cls.baseline['authorities']
+                   if a['kind']=='ORG')==66
 
     def candidate(self):
         after=copy.deepcopy(self.baseline)

@@ -9,6 +9,12 @@ from scripts import export_organismes
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'docs/data/organismes.json'
+SOURCES = {
+    'AdlFI_referentiel_1-47_20261111_echelons_competences_Inrap.xlsx':
+        '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51',
+    'AdlFI_referentiel_1-49_20261111_Historique_consolide.xlsx':
+        '41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642',
+}
 
 
 class TestReferentielOrganismes(unittest.TestCase):
@@ -25,14 +31,11 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['catalog_excluded'],
                          sum(not x['presentation']['visible'] for x in self.authorities.values()))
 
-    def test_published_sector_resolution_1_47(self):
-        # 172 SER ont un secteur explicite dans le maître 1.47 ; 2 cas historiques héritent.
-        self.assertEqual(
-            self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-47_20261111_echelons_competences_Inrap.xlsx')
-        self.assertEqual(
-            self.d['provenance']['source_sha256'],
-            '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51')
+    def test_published_sector_resolution(self):
+        # La publication 1.49 conserve le même secteur institutionnel des SER.
+        name = self.d['provenance']['source_filename']
+        self.assertIn(name, SOURCES)
+        self.assertEqual(self.d['provenance']['source_sha256'], SOURCES[name])
         services = [a for a in self.authorities.values() if a['kind'] == 'SER']
         self.assertEqual(len(services), 174)
         inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
@@ -85,8 +88,11 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(new['names']['legal_status_history'][0]['legal_form'],
                          'syndicat_mixte_ouvert')
         self.assertIsNone(old['presentation']['media']['logo'])
-        self.assertEqual(new['presentation']['media']['logo'],
-                         'assets/organismes/ORG-0675-logo.webp')
+        self.assertEqual(
+            new['presentation']['media']['logo'],
+            ('assets/organismes/ORG-0675.jpg'
+             if self.d['provenance']['source_filename'].startswith('AdlFI_referentiel_1-49_')
+             else 'assets/organismes/ORG-0675-logo.webp'))
         self.assertIsNone(old['website'])
         self.assertEqual(new['website'], 'https://www.archeologie.alsace/')
         rels = {r['id']: r for r in self.d['relations']}
@@ -180,22 +186,42 @@ class TestReferentielOrganismes(unittest.TestCase):
                     export_organismes.media_for('ORG-0001')
 
     def test_all_published_logos_are_present_and_unique(self):
-        # Une identité visuelle unique par autorité, réutilisable comme tutelle.
+        # Les logos canoniques ID.jpg ont priorité dans la publication 1.49 ;
+        # les médias historiques restent sur le disque pour compatibilité.
         import re
         folder = ROOT / 'docs/assets/organismes'
-        files = {'assets/organismes/' + p.name for p in folder.iterdir()
-                 if p.is_file() and re.fullmatch(
-                     r'(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)',
-                     p.name)}
+        legacy = {'assets/organismes/' + p.name for p in folder.iterdir()
+                  if p.is_file() and re.fullmatch(
+                      r'(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)',
+                      p.name)}
+        canonical = {'assets/organismes/' + p.name for p in folder.iterdir()
+                     if p.is_file() and re.fullmatch(r'(?:ORG|SER)-[0-9]{4}\.jpg', p.name)}
         logos = {}
         for record in self.d['authorities']:
+            ident = record['id']
             ref = record['presentation']['media']['logo']
-            if ref:
-                self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)$')
-                self.assertEqual(ref.split('/')[-1][:8], record['id'])
-                self.assertNotIn(ref, logos)
-                logos[ref] = record['id']
-        self.assertEqual(set(logos), files)
+            if not ref:
+                continue
+            self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}(?:-logo\.(?:webp|svg|png|jpg|jpeg)|\.jpg)$')
+            self.assertEqual(ref.split('/')[-1][:8], ident)
+            self.assertTrue((ROOT / 'docs' / ref).is_file(), f'Média absent : {ref}')
+            self.assertNotIn(ref, logos, f'Logo réutilisé par plusieurs autorités : {ref}')
+            logos[ref] = ident
+        is_149 = self.d['provenance']['source_filename'].startswith(
+            'AdlFI_referentiel_1-49_')
+        if is_149:
+            # Tous les JPEG canoniques sont utilisés ; les anciens logos ne
+            # restent dans le JSON que lorsqu'aucun JPEG canonique n'existe.
+            self.assertTrue(canonical.issubset(logos.keys()))
+            self.assertEqual(
+                set(logos),
+                canonical | {ref for ref in legacy
+                             if 'assets/organismes/' + ref.split('/')[-1][:8] + '.jpg' not in canonical})
+            self.assertEqual(logos['assets/organismes/ORG-0008.jpg'], 'ORG-0008')
+            self.assertEqual(logos['assets/organismes/ORG-0675.jpg'], 'ORG-0675')
+        else:
+            # Contrat de l'instantané publié 1.47.
+            self.assertEqual(set(logos), legacy)
         self.assertGreaterEqual(len(logos), 150)
         self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 139)
         self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
