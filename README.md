@@ -122,6 +122,16 @@ utilisées ; `quality.level_unresolved` signale les SER non résolus.
 Le champ décrit un **échelon institutionnel**, jamais le territoire de compétence.
 La facette, la fiche et le CSV utilisent la même valeur calculée.
 
+
+**Contrat de champs (compatible avec le maître actuel) :** pour une ORG,
+`echelon_institutionnel` explicite prime sur l'ancien
+`echelon_territorial` ; pour un SER, l'échelon explicite se trouve
+uniquement dans `Services.echelon_institutionnel`. Le champ facultatif
+`perimetre_competence` est exporté séparément sous
+`classification.territorial_competence` et **n'est jamais hérité** de l'ORG.
+Dans le maître 1.46, ces colonnes nouvelles n'existent pas encore : leur
+absence est acceptée sans modification des valeurs sources.
+
 **Point éditorial ouvert :** l'ORG nationale Inrap (`ORG-0008`) a
 `echelon_territorial` vide dans le maître 1.46. Les huit directions Inrap
 restent donc sans échelon hérité tant qu'une source explicite et une convention
