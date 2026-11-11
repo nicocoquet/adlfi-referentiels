@@ -1,6 +1,6 @@
 # Dossier contrôlé — séparation des deux personnes morales Archéologie Alsace
 
-**État au 10 novembre 2026 :** proposition de migration, **aucune modification du maître ni du JSON public**. Source du dossier : maître `AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx`.
+**État au 11 novembre 2026 :** réconciliation XML complète des **181 occurrences sur 181**, proposition de migration toujours non appliquée ; **aucune modification du maître ni du JSON public**. Source du dossier : maître `AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx`.
 
 ## 1. Deux identités attestées
 
@@ -32,16 +32,26 @@ Références :
 - https://www.alsace.eu/delib-cd68/Rapports_Annexes/67adec56-870e-4203-8ee5-e23753dbe5c0.pdf (statuts de la personne morale historique)
 - https://www.pappers.fr/entreprise/pair-archeologie-alsace-200006336
 
-## 2. Correspondances d'affiliation (maître 1.40)
+## 2. Correspondances d'affiliation : réconciliation XML exhaustive (11 novembre 2026)
 
-| Source | Libellé XML | Occurrences | COR existante | Rattachement actuel | Décision de traitement |
-|---|---|---:|---|---|---|
-| `AFF-0047` | Pair | 57 | `COR-0054` | `ORG-0093` validée | Conserver provisoirement sur l'ORG historique ; vérifier les emplois rétrospectifs éventuels |
-| `AFF-0048` | Archéologie Alsace | 124 | `COR-0055` | `ORG-0093` validée | **Bloquer la distribution**, et contrôler les notices XML individuellement (année d'opération/publication, signature et contexte) |
+Quatre fichiers XML distincts ont été analysés ; deux doublons présents dans une archive complémentaire ont été écartés. **Toutes les mentions du maître 1.40 ont été retrouvées dans les balises TEI `<affiliation>`**.
 
-**Point crucial :** le maître donne seulement un nombre agrégé d'occurrences par libellé. Il ne fournit ni identifiant de notice ni date pour chacune de ces occurrences. On ne peut pas déduire combien des 124 appartiennent à l'établissement de 2016–2020 ou au syndicat créé en décembre 2020. Ne pas créer de lien doublement validé, ne pas attribuer toutes ces occurrences au successeur, et ne pas interpréter les années de publication comme années d'affiliation.
+| Source | Libellé | Années d'opération des notices | Occurrences XML | COR existante | Attribution chronologique |
+|---|---|---|---:|---|---|
+| `AdlFI_Alsace_2015.xml` | Pair | 2014–2015 | 57 | `COR-0054` / `AFF-0047` | `ORG-0093` historique |
+| `AdlFI_Grand-Est_2016.xml` | Archéologie Alsace | 2016 | 48 | `COR-0055` / `AFF-0048` | `ORG-0093` historique |
+| `AdlFI_Grand-Est_2017_part1.xml` | — | — | 0 | — | Sans objet |
+| `AdlFI_Grand-Est_2017_part2.xml` | Archéologie Alsace | 2017 | 76 | `COR-0055` / `AFF-0048` | `ORG-0093` historique |
+| **Total** | | | **181** | 57 + 124 | **181 à conserver sur l'ancienne ORG** |
 
-En cas d'homonymie historique dans les XML, une correspondance simple `AFF-0048 → ORG` est insuffisante. Il faudra maintenir l'entrée source brute `AFF-0048`, préserver son nombre de 124, et documenter des résolutions **par notice ou par occurrence**, avec date et provenance. Cela peut requérir une table de désambiguïsation, à concevoir après examen du corpus.
+Le total de **124** mentions « Archéologie Alsace » est intégralement constitué des **48** mentions d'opérations de 2016 et des **76** mentions d'opérations de 2017. Ces opérations sont antérieures au 11 décembre 2020. Le maintien des correspondances `AFF-0047 → ORG-0093` et `AFF-0048 → ORG-0093` est donc documenté ; **aucune des 181 occurrences ne doit être transférée automatiquement au syndicat mixte successeur**.
+
+**Précaution historiographique :** le titre du corpus renvoie à l'année **d'opération**, pas nécessairement à la date d'édition ou de publication des notices. Certaines notices ont été publiées ou révisées après 2020. Le libellé rétrospectif « Archéologie Alsace », y compris pour les opérations de 2016 antérieures au changement de nom du 15 octobre 2016, **n'atteste pas le nom juridique en usage à la date exacte de l'opération**. Il permet néanmoins de rattacher l'opération à la personne morale historique déjà créée en 2006, non au successeur de 2020.
+
+Contrôle de provenance SHA-256 du fichier `AdlFI_Grand-Est_2016.xml` : `55af34c7a7a8fc7733e4ffa237584e1f7a482c665cfac2d4dcee5a6ba8e69333`. La copie dans le ZIP transmis est **octet pour octet identique**.
+
+Les preuves par occurrence (nom du fichier, numéro de notice, intitulé, identifiant XML `aff...`, année d'opération) sont conservées dans un rapport CSV/JSON de travail remis à l'éditeur, sans verser les fichiers XML au dépôt public. Reproduction avec `scripts/audit_alsace_xml.py` : l'audit échoue si les effectifs ne correspondent plus à 57 + 124 ou si une opération associée dépasse l'année 2019.
+
 
 ## 3. Relations
 
@@ -54,7 +64,7 @@ En cas d'homonymie historique dans les XML, une correspondance simple `AFF-0048 
 1. Conserver `ORG-0093` sur la personne morale **200006336** ; corriger son statut actif, sa forme, sa chronologie et sa dénomination historique.
 2. Créer `ORG-0675` pour **200094746** ; réexaminer le site web et le média actuel pour ne pas l'attribuer au mauvais organisme.
 3. Créer et dater la relation de succession `REL-0305`.
-4. **Avant de rendre la migration publique**, récupérer les notices XML concernées, dater chaque mention `AFF-0048` puis modéliser les éventuelles ambigüités.
+4. **Résolu le 11 novembre 2026 :** les 181 affiliations sont retrouvées et datées par année d'opération dans les quatre XML. Maintenir `COR-0054` et `COR-0055` vers `ORG-0093` ; ne pas créer de correspondance avec `ORG-0675` pour les notices anciennes. Conserver le rapport d'audit comme preuve de désambiguïsation.
 5. Ne corriger le champ `echelon_territorial` ni sur l’ancienne autorité ni sur le successeur par simple déduction de leur nom ou de leur zone d'activité.
 6. Vérifier que les modifications d'identité se répercutent sur `Historique`, `Correspondances_affiliations`, `Relations`, puis sur le JSON de publication, ses tests et les liens entre fiches.
 7. Réévaluer si un `identifiant_siren` optionnel dans `Organismes` devient nécessaire pour l'identification juridique des ORG françaises.
@@ -62,7 +72,8 @@ En cas d'homonymie historique dans les XML, une correspondance simple `AFF-0048 
 ## 5. Exécution de l'audit
 
 ```bash
-python3 -m scripts.audit_alsace_identity /chemin/vers/AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx --output-dir /tmp/audit-alsace
+python3 -m scripts.audit_alsace_xml AdlFI_Alsace_2015.xml AdlFI_Grand-Est_2016.xml AdlFI_Grand-Est_2017_part1.xml AdlFI_Grand-Est_2017_part2.xml --output-dir /tmp/audit-alsace
+python3 -m scripts.audit_alsace_identity /chemin/vers/AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx --xml-corpus AdlFI_Alsace_2015.xml AdlFI_Grand-Est_2016.xml AdlFI_Grand-Est_2017_part1.xml AdlFI_Grand-Est_2017_part2.xml --output-dir /tmp/audit-alsace
 ```
 
-Sortie : `dossier-identites-alsace.json`, avec identifiants candidats, dates, correspondances, enjeux et décisions bloquantes. Ce script est **en lecture seule** et n'effectue jamais de migration de données.
+Sorties : `audit-alsace-xml.json`, `affiliations-alsace-xml.csv`, `dossier-identites-alsace.json`, avec les 181 attestations, les identifiants candidats, les dates, les correspondances et les seules décisions institutionnelles encore à traiter. Ce script est **en lecture seule** et n'effectue jamais de migration de données.
