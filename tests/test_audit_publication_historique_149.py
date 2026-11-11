@@ -37,6 +37,24 @@ class AuditHistorique149Tests(unittest.TestCase):
         result=audit(self.baseline,self.candidate(),ROOT)
         self.assertEqual(result['new_history'],58)
 
+    def test_accept_same_relations_in_different_order(self):
+        data=self.candidate()
+        data['relations'].reverse()
+        result=audit(self.baseline,data,ROOT)
+        self.assertEqual(result['new_history'],58)
+
+    def test_reject_relation_content_change(self):
+        data=self.candidate()
+        data['relations'][0]['target']='ORG-9999'
+        with self.assertRaisesRegex(AssertionError,'Relation modifiée'):
+            audit(self.baseline,data,ROOT)
+
+    def test_reject_relation_duplicate(self):
+        data=self.candidate()
+        data['relations'][1]['id']=data['relations'][0]['id']
+        with self.assertRaisesRegex(AssertionError,'dupliqués'):
+            audit(self.baseline,data,ROOT)
+
     def test_reject_sector_change(self):
         data=self.candidate()
         data['authorities'][0]['classification']['sector']='prive'
