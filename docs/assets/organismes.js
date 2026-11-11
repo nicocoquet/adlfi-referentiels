@@ -36,8 +36,8 @@
   // Un JPEG carré sRGB par autorité : dépôt direct sous ORG-XXXX.jpg / SER-XXXX.jpg.
   // Les chemins JSON historiques restent des replis durant la migration.
   const assetImg=(path,alt,className,ident)=> {
-    if (!/^(?:ORG|SER)-\\d{4}$/.test(ident||'')) return null;
-    const legacy=path && /^assets\\/organismes\\/(?:ORG|SER)-\\d{4}-(?:logo|illustration)\\.(?:jpg|jpeg|png|svg|webp)$/.test(path)
+    if (!/^(?:ORG|SER)-\d{4}$/.test(ident||'')) return null;
+    const legacy=path && /^assets\/organismes\/(?:ORG|SER)-\d{4}-(?:logo|illustration)\.(?:jpg|jpeg|png|svg|webp)$/.test(path)
       ? path : null;
     return `<img class="${esc(className)}" src="../assets/organismes/${esc(ident)}.jpg"
       alt="${esc(alt)}" loading="lazy" decoding="async" data-authority-logo
