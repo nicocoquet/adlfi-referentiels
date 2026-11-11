@@ -52,8 +52,8 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['service_sector_unresolved_ids'], [])
         self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 2, 'public': 172})
         visible = [a for a in self.authorities.values() if a['presentation']['visible']]
-        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 392)
-        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 199)
+        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 396)
+        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 195)
         self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 0)
         scp = self.authorities['ORG-0292']
         self.assertEqual(scp['classification']['bsr'], 'PRIV')
