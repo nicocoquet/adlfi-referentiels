@@ -1,7 +1,7 @@
 # Lot 01 — arbitrages validés et modalités d'application
 
 **Date :** 10 novembre 2026  
-**État :** arbitrages éditoriaux acceptés ; modifications du maître encore à appliquer, sous contrôle.
+**État au 11 novembre 2026 :** arbitrages appliqués au maître privé 1.41, publiés dans le JSON et déployés par la [PR n° 12](https://github.com/nicocoquet/adlfi-referentiels/pull/12). Les coordonnées de cellules ci-dessous décrivent l'état initial du **maître 1.40** (à ne pas réutiliser dans un autre millésime).
 
 Les identifiants et les données ci-dessous ont été vérifiés sur `AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx`. **Ne jamais déposer ce maître dans le dépôt public.**
 
@@ -53,4 +53,4 @@ Sources :
 
 ## Publication
 
-Aucune modification de `docs/data/organismes.json` ou de la facette n'est à publier tant que le **XLSX maître** n'a pas été consolidé et le nouveau JSON vérifié par les tests. Les données du site restent celles du maître 1.40.
+**Publié** : données du maître 1.41 intégrées dans `docs/data/organismes.json` et déployées après CI GitHub. La facette « Périmètre » actuelle **n'est pas encore refondue** ; le chantier d'élargissement aux musées et SER reste à traiter séparément.

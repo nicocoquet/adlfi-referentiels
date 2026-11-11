@@ -1,12 +1,12 @@
 # Dossier contrôlé — séparation des deux personnes morales Archéologie Alsace
 
-**État au 11 novembre 2026 :** réconciliation XML complète des **181 occurrences sur 181** ; **maître privé 1.41 consolidé** et contrôlé (voir `CONSOLIDATION-MAITRE-1-41.md`). Le JSON public reste à l'état 1.40, aucune publication GitHub Pages à ce stade. Source du dossier : maître `AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx`.
+**État au 11 novembre 2026 :** réconciliation XML complète des **181 occurrences sur 181** ; **maître privé 1.41 consolidé** et contrôlé (voir `CONSOLIDATION-MAITRE-1-41.md`). Le JSON 1.41 est publié dans `main` par la [PR n° 12](https://github.com/nicocoquet/adlfi-referentiels/pull/12) ; CI et déploiement Pages réussis. Source du dossier : maître `AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx`.
 
 ## 1. Deux identités attestées
 
 | | Établissement historique | Structure actuelle |
 |---|---|---|
-| Identifiant AdlFI | `ORG-0093` **à conserver** | `ORG-0675` **créé dans le maître privé 1.41** |
+| Identifiant AdlFI | `ORG-0093` **à conserver** | `ORG-0675` **créé et publié avec le maître 1.41** |
 | Nom éditorial retenu | Archéologie Alsace (depuis 2016) | Archéologie Alsace (depuis 2020) |
 | Autre dénomination | Pôle d’archéologie interdépartemental rhénan (Pair), 2006–2016 | — |
 | SIREN | `200006336` | `200094746` |
@@ -18,7 +18,7 @@
 | Catégorie BSR | `COL` | `COL` |
 | Échelon territorial | **À déterminer** ; l’actuel `regional` décrit le territoire d'activité et non un niveau juridique | **À déterminer** : structure regroupant des collectivités de niveaux différents |
 | Site actuel | URL actuelle transférée à `ORG-0675` dans le maître 1.41 | https://www.archeologie.alsace/ |
-| Visuel | Rechercher la version historique appropriée | Éventuelle réaffectation contrôlée du logo `ORG-0093-logo.webp` vers le nouvel ID |
+| Visuel | Rechercher la version historique appropriée | Logo actuel réaffecté à `ORG-0675-logo.webp` (fichier inchangé) ; aucun logo présenté sur la fiche historique |
 
 ### Chronologie documentaire
 
@@ -56,17 +56,17 @@ Les preuves par occurrence (nom du fichier, numéro de notice, intitulé, identi
 ## 3. Relations
 
 - `REL-0054` : relation `ORG-0093 → ORG-0092` de type `rattachement_administratif`, statut `a_verifier` et date absente. Ne pas la transférer automatiquement à la nouvelle ORG : la Collectivité européenne d'Alsace est **membre** du syndicat mixte (BANATIC), ce qui n'est pas une tutelle administrative au sens de cette relation.
-- `REL-0305` : identifiant **candidat**, proposé pour `succession_institutionnelle` `ORG-0093 → ORG-0675`, date d'effet `2020-12-11`. Créé et validé dans le maître privé 1.41 sur la base des SIREN et de BANATIC ; sa publication est conditionnée aux contrôles de l'export JSON.
+- `REL-0305` : identifiant **publié**, retenu pour `succession_institutionnelle` `ORG-0093 → ORG-0675`, date d'effet `2020-12-11`. Créé et validé dans le maître privé 1.41, puis publié après contrôle des SIREN, de la source BANATIC et des relations du JSON.
 - Ne pas rabattre une `succession_institutionnelle` sur un `rattachement_administratif`.
 
 ## 4. Préconditions de migration dans le maître
 
 1. **Appliqué au maître 1.41** : `ORG-0093` conservée pour la personne morale **200006336**, activité, forme juridique, chronologie et dénomination historique corrigées.
-2. **Appliqué** : `ORG-0675` créée pour **200094746** et URL actuelle transférée ; attribution du logo **encore à vérifier**.
+2. **Appliqué** : `ORG-0675` créée pour **200094746**, URL et logo actuels transférés (sans attribuer ce logo à la personne morale historique).
 3. **Appliqué** : relation de succession `REL-0305` créée et datée 2020-12-11.
 4. **Résolu le 11 novembre 2026 :** les 181 affiliations sont retrouvées et datées par année d'opération dans les quatre XML. Maintenir `COR-0054` et `COR-0055` vers `ORG-0093` ; ne pas créer de correspondance avec `ORG-0675` pour les notices anciennes. Conserver le rapport d'audit comme preuve de désambiguïsation.
-5. Ne corriger le champ `echelon_territorial` ni sur l’ancienne autorité ni sur le successeur par simple déduction de leur nom ou de leur zone d'activité.
-6. Vérifier que les modifications d'identité se répercutent sur `Historique`, `Correspondances_affiliations`, `Relations`, puis sur le JSON de publication, ses tests et les liens entre fiches.
+5. **Appliqué** : `echelon_territorial` laissé sans valeur pour les deux entités ; ne pas le déduire de leur nom ou de leur zone d'activité.
+6. **Vérifié** : concordance entre `Historique`, `Correspondances_affiliations`, `Relations`, le JSON publié et les tests ; la succession est navigable dans l'interface.
 7. Réévaluer si un `identifiant_siren` optionnel dans `Organismes` devient nécessaire pour l'identification juridique des ORG françaises.
 
 ## 5. Exécution de l'audit
