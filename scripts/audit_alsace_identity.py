@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Audit documentaire non destructif de la rupture de personne morale d'Archéologie Alsace.
 
-Usage : python3 -m scripts.audit_alsace_identity MAITRE.xlsx --output-dir /tmp/audit-alsace
+Usage : python3 -m scripts.audit_alsace_identity MAITRE.xlsx --xml-corpus *.xml --output-dir /tmp/audit-alsace
 Ne modifie jamais le classeur et ne crée aucune autorité ni correspondance validée.
 """
 from __future__ import annotations
@@ -13,6 +13,7 @@ import re
 from pathlib import Path
 
 from .export_organismes import parse_workbook
+from .audit_alsace_xml import audit_xml_documents
 
 OLD = 'ORG-0093'
 SOURCE_PAIR = 'AFF-0047'
@@ -41,7 +42,12 @@ def _next_id(rows: list[dict], field: str, prefix: str) -> str:
     return f'{prefix}-{max(ids)+1:04d}'
 
 
-def build_dossier(sheets: dict, source_sha256: str | None = None) -> dict:
+def build_dossier(sheets: dict, source_sha256: str | None = None, corpus_report: dict | None = None) -> dict:
+    corpus_verified = False
+    if corpus_report is not None:
+        if corpus_report.get('status') != 'reconciliation_complete' or corpus_report.get('total') != 181 or corpus_report.get('actual') != {'Pair': 57, 'Archéologie Alsace': 124}:
+            raise ValueError('Corpus XML non réconcilié avec les 181 occurrences du maître')
+        corpus_verified = True
     orgs = sheets['Organismes']
     sources = sheets['Affiliations_sources']
     corrs = sheets['Correspondances_affiliations']
@@ -84,12 +90,14 @@ def build_dossier(sheets: dict, source_sha256: str | None = None) -> dict:
             'occurrences': expected_count,
             'current_authority': OLD,
             'proposed_handling': (
+                'conserver sur ORG-0093 (corpus documenté, années d’opération 2014–2015)' if corpus_verified else
                 'conserver sur l’autorité historique (libellé ancien ; contrôler les emplois tardifs)'
                 if sid == SOURCE_PAIR else
+                'conserver sur ORG-0093 : 48 occurrences d’opérations 2016, 76 de 2017, toutes antérieures au syndicat de 2020' if corpus_verified else
                 'ne pas répartir sans examen des notices XML, de leurs dates et du contexte'
             ),
-            'validation': 'a_revoir_pour_identite',
-            'context_required': sid == SOURCE_ALSACE,
+            'validation': 'documente_par_xml' if corpus_verified else 'a_revoir_pour_identite',
+            'context_required': sid == SOURCE_ALSACE and not corpus_verified,
         })
 
     if sum(x['occurrences'] for x in rows) != 181:
@@ -141,10 +149,12 @@ def build_dossier(sheets: dict, source_sha256: str | None = None) -> dict:
         },
         'affiliations': rows,
         'total_source_occurrences': 181,
-        'blocked': ['Répartition des 124 occurrences AFF-0048 sans corpus XML',
-                    'Migration des autorités sans validation des références des notices',
-                    'Transfert automatique de REL-0054',
-                    'Attribution automatique d’un échelon régional'],
+        'xml_corpus_reconciled': corpus_verified,
+        'xml_corpus_sha256': [item['sha256'] for item in corpus_report['sources']] if corpus_verified else [],
+        'blocked': ([] if corpus_verified else ['Répartition des 124 occurrences AFF-0048 sans corpus XML'])
+                   + ['Transfert automatique de REL-0054',
+                      'Attribution automatique d’un échelon régional',
+                      'Modification non contrôlée des identifiants et relations du maître'],
         'documentation': DOCUMENTATION,
     }
 
@@ -152,17 +162,20 @@ def build_dossier(sheets: dict, source_sha256: str | None = None) -> dict:
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
+    parser.add_argument('--xml-corpus', type=Path, nargs='+', default=None)
     parser.add_argument('--output-dir', type=Path, required=True)
     args = parser.parse_args(argv)
+    corpus_report = audit_xml_documents(args.xml_corpus) if args.xml_corpus else None
     dossier = build_dossier(parse_workbook(args.source),
-                            hashlib.sha256(args.source.read_bytes()).hexdigest())
+                            hashlib.sha256(args.source.read_bytes()).hexdigest(),
+                            corpus_report=corpus_report)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     target = args.output_dir / 'dossier-identites-alsace.json'
     target.write_text(json.dumps(dossier, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({
         'candidat_org': dossier['proposed_new_authority'],
         'occurrences': dossier['total_source_occurrences'],
-        'a_contextualiser': next(a['occurrences'] for a in dossier['affiliations']
+        'a_contextualiser': sum(a['occurrences'] for a in dossier['affiliations']
                                if a['context_required']),
         'rapport': str(target),
     }, ensure_ascii=False))
