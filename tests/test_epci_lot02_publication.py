@@ -80,7 +80,7 @@ class EPCI42PublicationTests(unittest.TestCase):
         self.assertIn("INSTITUTIONAL_LEVEL_TYPES.has(r.classification.type)",source)
         self.assertNotIn("r.classification.type==='collectivite_territoriale' && r.classification.level",source)
         # No SER level inference without dated institutional attachment.
-        self.assertIn("r.kind==='ORG' && r.classification.level",source)
+        self.assertIn("r.kind==='SER' || INSTITUTIONAL_LEVEL_TYPES.has(r.classification.type)",source)
 
 
 if __name__=='__main__':
