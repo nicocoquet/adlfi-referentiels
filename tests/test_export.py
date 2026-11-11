@@ -167,6 +167,13 @@ class TestReferentielOrganismes(unittest.TestCase):
                     'logo': 'assets/organismes/ORG-0001-logo.png'})
                 self.assertEqual(export_organismes.media_for('ORG-NONVALIDE'),
                                  {'image':None,'logo':None})
+                # Un JPEG ID.jpg est prioritaire et reste un logo unique,
+                # y compris lorsque d'anciens fichiers demeurent présents.
+                (folder / 'ORG-0001.jpg').write_bytes(b'jpeg')
+                self.assertEqual(export_organismes.media_for('ORG-0001'), {
+                    'image': None,
+                    'logo': 'assets/organismes/ORG-0001.jpg'})
+                (folder / 'ORG-0001.jpg').unlink()
                 # Deux extensions pour le même rôle ne sont pas permises.
                 (folder / 'ORG-0001-logo.svg').write_text('<svg/>',encoding='utf-8')
                 with self.assertRaises(ValueError):
