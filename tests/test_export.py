@@ -87,12 +87,20 @@ class TestReferentielOrganismes(unittest.TestCase):
                          'institution_interdepartementale')
         self.assertEqual(new['names']['legal_status_history'][0]['legal_form'],
                          'syndicat_mixte_ouvert')
-        self.assertIsNone(old['presentation']['media']['logo'])
+        # Le logo historique ORG-0093 a été ajouté au lot de publication
+        # 1.49 ; son absence était propre à l'instantané 1.47.
+        is_149 = self.d['provenance']['source_filename'].startswith(
+            'AdlFI_referentiel_1-49_')
+        self.assertEqual(
+            old['presentation']['media']['logo'],
+            'assets/organismes/ORG-0093.jpg' if is_149 else None)
         self.assertEqual(
             new['presentation']['media']['logo'],
-            ('assets/organismes/ORG-0675.jpg'
-             if self.d['provenance']['source_filename'].startswith('AdlFI_referentiel_1-49_')
-             else 'assets/organismes/ORG-0675-logo.webp'))
+            'assets/organismes/ORG-0675.jpg' if is_149
+            else 'assets/organismes/ORG-0675-logo.webp')
+        if is_149:
+            self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0093.jpg').is_file())
+            self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0675.jpg').is_file())
         self.assertIsNone(old['website'])
         self.assertEqual(new['website'], 'https://www.archeologie.alsace/')
         rels = {r['id']: r for r in self.d['relations']}
