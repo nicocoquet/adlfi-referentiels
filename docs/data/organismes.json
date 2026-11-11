@@ -2,16 +2,16 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-40_20261110_secteur_historique_DRASM_CNRAS.xlsx",
-    "source_sha256": "c0e401ad4c5fa1af46be0f58ec0a989d8bfcb04ada403a2a925e2dce13d2c7ca",
+    "source_filename": "AdlFI_referentiel_1-41_20261111_Archeologie_Alsace_echelons.xlsx",
+    "source_sha256": "d9ec168c72871e5a5c712aa36f79547d9bf0431bcde8c7c6529cd1e5aa257f07",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée."
   },
   "totals": {
-    "authorities": 819,
-    "organismes": 653,
+    "authorities": 820,
+    "organismes": 654,
     "services": 166,
-    "catalog_included": 614,
+    "catalog_included": 615,
     "catalog_excluded": 205,
     "service_sector_resolution": {
       "prive": 2,
@@ -4874,7 +4874,7 @@
         "visible": true,
         "media": {
           "image": null,
-          "logo": "assets/organismes/ORG-0093-logo.webp"
+          "logo": null
         }
       },
       "names": {
@@ -4886,24 +4886,37 @@
           {
             "label": "Pôle d’archéologie interdépartemental rhénan",
             "type": "ancienne_denomination",
-            "start": "2006",
-            "end": "2015",
+            "start": "2006-09-01",
+            "end": "2016-10-14",
             "validation": "valide",
             "acronym": "Pair"
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0003",
+            "type": "etablissement_public",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "institution_interdepartementale",
+            "start": "2006-09-01",
+            "end": "2020-12-11",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.pappers.fr/entreprise/pair-archeologie-alsace-200006336"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "etablissement_public",
         "bsr": "COL",
         "sector": "public",
-        "level": "regional"
+        "level": null
       },
       "activity": {
-        "active": true,
-        "start": "2006",
-        "end": null,
+        "active": false,
+        "start": "2006-09-01",
+        "end": "2020-12-11",
         "catalog": "inclure"
       },
       "identifiers": {
@@ -4918,7 +4931,7 @@
         "cities_label": "Sélestat",
         "locations": []
       },
-      "website": "https://www.archeologie.alsace/",
+      "website": null,
       "usage": {
         "affiliations_linked": 2,
         "affiliations_validated": 2,
@@ -4929,7 +4942,7 @@
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
-        "no_website": false
+        "no_website": true
       }
     },
     {
@@ -14067,13 +14080,26 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0005",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2000-12-31",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/245901160-ca-valenciennes-metropole"
+          }
+        ]
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": "metropole"
+        "level": "intercommunal"
       },
       "activity": {
         "active": true,
@@ -24244,7 +24270,7 @@
         "type": "collectivite_territoriale",
         "bsr": "COL",
         "sector": "public",
-        "level": "intercommunal"
+        "level": "communal"
       },
       "activity": {
         "active": null,
@@ -36482,7 +36508,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0006",
+            "type": "collectivite_territoriale",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "collectivite_statut_particulier",
+            "start": "2015-01-01",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.insee.fr/fr/information/7929497"
+          }
+        ]
       },
       "classification": {
         "type": "collectivite_territoriale",
@@ -37906,6 +37945,76 @@
         "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true
+      }
+    },
+    {
+      "id": "ORG-0675",
+      "kind": "ORG",
+      "presentation": {
+        "catalog": "inclure",
+        "visible": true,
+        "media": {
+          "image": null,
+          "logo": "assets/organismes/ORG-0675-logo.webp"
+        }
+      },
+      "names": {
+        "preferred": "Archéologie Alsace",
+        "acronym": null,
+        "other_acronyms": [],
+        "historical_free_text": null,
+        "history": [],
+        "legal_status_history": [
+          {
+            "id": "STH-0004",
+            "type": "syndicat_mixte",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "syndicat_mixte_ouvert",
+            "start": "2020-12-11",
+            "end": null,
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/200094746-smo-archeologie-alsace-aa"
+          }
+        ]
+      },
+      "classification": {
+        "type": "syndicat_mixte",
+        "bsr": "COL",
+        "sector": "public",
+        "level": null
+      },
+      "activity": {
+        "active": true,
+        "start": "2020-12-11",
+        "end": null,
+        "catalog": "inclure"
+      },
+      "identifiers": {
+        "ror": null,
+        "rnsr": null,
+        "idref": null,
+        "wikidata": null,
+        "lab": null
+      },
+      "geography": {
+        "institutional_country_iso2": "FR",
+        "cities_label": "Sélestat",
+        "locations": []
+      },
+      "website": "https://www.archeologie.alsace/",
+      "usage": {
+        "affiliations_linked": 0,
+        "affiliations_validated": 0,
+        "source_occurrences_linked": 0
+      },
+      "quality": {
+        "activity_unknown": false,
+        "end_missing": false,
+        "city_unrecorded": false,
+        "country_unrecorded": false,
+        "no_website": false
       }
     },
     {
@@ -52529,6 +52638,15 @@
       "target": "ORG-0260",
       "type": "fusion_constitutive",
       "start": "2017-01-01",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "REL-0305",
+      "source": "ORG-0093",
+      "target": "ORG-0675",
+      "type": "succession_institutionnelle",
+      "start": "2020-12-11",
       "end": null,
       "validation": "valide"
     },
