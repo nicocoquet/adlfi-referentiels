@@ -73,6 +73,8 @@ const logos=html.match(/<div class="lab-logo-band"[^>]*>([\s\S]*?)<\/div>/)?.[1]
 assert.deepEqual([...texts.matchAll(/<li>([^<]+)<\/li>/g)].map(m=>m[1]).join('|'),
   'Aix Marseille Université|Centre national de la recherche scientifique|Établissement français du sang|Ministère de la Culture');
 assert.equal([...logos.matchAll(/title="([^"]+)"/g)].map(m=>m[1]).join('|'),
-  'Ministère de la Culture|Centre national de la recherche scientifique|Aix Marseille Université',
-  'Les logos publiés ont la priorité souhaitée ; une tutelle sans logo demeure dans le texte');
+  'Ministère de la Culture|Centre national de la recherche scientifique|Aix Marseille Université|Établissement français du sang',
+  'Le navigateur recherche un JPEG pour chaque tutelle, même sans logo dans le JSON');
+assert.match(logos, /assets\/organismes\/ORG-0399\.jpg/,
+  'Le logo carré non encore connu du JSON est recherché par son ID');
 console.log('OK — classement textuel, logos prioritaires, relations validées et rendu du cartouche');

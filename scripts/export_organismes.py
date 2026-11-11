@@ -132,6 +132,11 @@ def media_for(ident: str):
         if len(matches) > 1:
             raise ValueError(f'Plusieurs médias {role} pour {ident}: {matches}')
         return 'assets/organismes/' + matches[0].name if matches else None
+    # Le carré JPEG ID.jpg est la convention prioritaire. Lorsqu'il est
+    # absent, le contrat JSON historique reste reconnu pour la transition.
+    canonical = folder / (ident + '.jpg')
+    if canonical.is_file():
+        return {'image': None, 'logo': 'assets/organismes/' + canonical.name}
     return {'image': find('illustration'), 'logo': find('logo')}
 
 def build(source: Path):

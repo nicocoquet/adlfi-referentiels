@@ -33,14 +33,52 @@
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
   const BLDG = '<svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27V11l11-6 11 6v16M9 27v-9h14v9M13 9v5M19 9v5M3 27h26"/><path d="M14 27v-5h4v5"/></svg>';
-  const assetImg=(path,alt,className)=> {
-    if (!path || !/^assets\/organismes\/(?:ORG|SER)-\d{4}-(?:logo|illustration)\.(?:jpg|jpeg|png|svg|webp)$/.test(path)) return null;
-    return `<img class="${className}" src="../${esc(path)}" alt="${esc(alt)}" loading="lazy" decoding="async">`;
+  // Un JPEG carré sRGB par autorité : dépôt direct sous ORG-XXXX.jpg / SER-XXXX.jpg.
+  // Les chemins JSON historiques restent des replis durant la migration.
+  const assetImg=(path,alt,className,ident)=> {
+    if (!/^(?:ORG|SER)-\d{4}$/.test(ident||'')) return null;
+    const legacy=path && /^assets\/organismes\/(?:ORG|SER)-\d{4}-(?:logo|illustration)\.(?:jpg|jpeg|png|svg|webp)$/.test(path)
+      ? path : null;
+    return `<img class="${esc(className)}" src="../assets/organismes/${esc(ident)}.jpg"
+      alt="${esc(alt)}" loading="lazy" decoding="async" data-authority-logo
+      ${legacy ? `data-legacy-src="../${esc(legacy)}"` : ''}>`;
   };
+  // L'évènement error d'une image ne remonte pas par bubbling : capture obligatoire.
+  // Un logo nouvellement déposé fonctionne sans rafraîchir le JSON.
+  if (typeof document !== 'undefined') document.addEventListener('error',event=>{
+    const img=event.target;
+    if (!(img instanceof HTMLImageElement) || !img.hasAttribute('data-authority-logo')) return;
+    const fallback=img.dataset.legacySrc;
+    if (fallback && !img.dataset.legacyAttempted) {
+      img.dataset.legacyAttempted='1';
+      img.src=fallback;
+      return;
+    }
+    const bandItem=img.closest('.lab-logo-item');
+    if (bandItem) {
+      const band=bandItem.closest('.lab-logo-band');
+      bandItem.remove();
+      if (band && !band.querySelector('.lab-logo-item')) band.remove();
+      return;
+    }
+    if (img.classList.contains('parent-logo')) {
+      const replacement=document.createElement('span');
+      replacement.className='parent-picto';
+      replacement.innerHTML=BLDG;
+      img.replaceWith(replacement);
+      return;
+    }
+    const cls=img.classList.contains('evolution-thumbnail')?'evolution-thumbnail-placeholder'
+      :img.classList.contains('lab-primary-logo')?'lab-image-placeholder':'image-placeholder';
+    const replacement=document.createElement('span');
+    replacement.className=cls;
+    replacement.innerHTML=BLDG;
+    img.replaceWith(replacement);
+  },true);
   const establishedRattachements=r=>(relsById.get(r.id)||[])
     .filter(rel=>rel.source===r.id && VALID_STATES.has(rel.validation||'') && RATTACHEMENT_TYPES.has(rel.type) && recordById.has(rel.target));
   const parentVisual=(parent)=>assetImg(parent.presentation.media.logo,
-    'Identité visuelle : '+parent.names.preferred,'parent-logo') || `<span class="parent-picto">${BLDG}</span>`;
+    'Identité visuelle : '+parent.names.preferred,'parent-logo',parent.id) || `<span class="parent-picto">${BLDG}</span>`;
   function parentBlock(r,compact=false) {
     const links=establishedRattachements(r);
     if(!links.length) return '';
@@ -132,7 +170,7 @@
         ?p.names.acronym:null,
       p.identifiers?.lab].filter(Boolean).join(' · ');
     const visual=assetImg(p.presentation.media.logo||p.presentation.media.image,
-      'Identité visuelle : '+p.names.preferred,'evolution-thumbnail')
+      'Identité visuelle : '+p.names.preferred,'evolution-thumbnail',p.id)
       ||`<span class="evolution-thumbnail-placeholder">${BLDG}</span>`;
     const date=evolutionDate(item.relation.start);
     const label=evolutionTypeLabel(item.relation.type)+(date?' · '+date:'');
@@ -174,19 +212,20 @@
       .map(esc).join(' · ') || 'Localisation à documenter';
     const website=safeUrl(r.website);
     const media=r.presentation.media;
-    const visual=(media.image && assetImg(media.image,'Illustration du laboratoire : '+r.names.preferred,'lab-image'))
-      || (media.logo && assetImg(media.logo,'Logo du laboratoire : '+r.names.preferred,'lab-primary-logo'))
-      || `<span class="lab-image-placeholder" aria-label="Visuel non renseigné">${BLDG}<small>Visuel à documenter</small></span>`;
+    const visual=assetImg(media.logo||media.image,
+      'Logo du laboratoire : '+r.names.preferred,'lab-primary-logo',r.id);
     const trustees=tutelles.length
       ? `<div class="lab-tutelles"><span class="lab-field-label">Tutelles</span><ul>${tutelles.slice(0,4).map(t=>`<li>${esc(t.names.preferred)}</li>`).join('')}</ul>${tutelles.length>4?`<span class="lab-extra">+ ${tutelles.length-4} autre(s) tutelle(s) dans la fiche</span>`:''}</div>`
       : '<p class="lab-tutelles-undocumented">Tutelles non documentées dans le référentiel</p>';
-    // Une illustration de la tutelle n'est jamais substituée à son logo.
-    const logos=tutelles.filter(t=>t.presentation.media.logo)
+    // Le logo carré local de chaque tutelle est recherché directement.
+    // Les entrées sans fichier sont retirées à l'échec de chargement.
+    const logos=tutelles
       .sort(tutelleLogoOrder)
-      .map(t=>({name:t.names.preferred,html:assetImg(t.presentation.media.logo,'Logo de '+t.names.preferred,'lab-tutelle-logo')}))
+      .map(t=>({name:t.names.preferred,html:assetImg(t.presentation.media.logo||t.presentation.media.image,
+        'Logo de '+t.names.preferred,'lab-tutelle-logo',t.id)}))
       .filter(x=>x.html);
     const logoBand=logos.length
-      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.slice(0,4).map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}${logos.length>4?`<span class="lab-logo-extra">+ ${logos.length-4} logos</span>`:''}</div>`
+      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}</div>`
       : '';
     const count=r.usage.affiliations_linked;
     const usage=count===1?'1 affiliation source liée':count>1?`${count} affiliations sources liées`:'Aucune affiliation source liée';
@@ -307,7 +346,7 @@
     const sigle=r.names.acronym?` <span class="acronym">(${esc(r.names.acronym)})</span>`:'';
     const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
     const iden=[r.identifiers.lab?esc(r.identifiers.lab):null,r.identifiers.rnsr?'RNSR '+esc(r.identifiers.rnsr):null].filter(Boolean).join(' · ');
-    const primary=assetImg(r.presentation.media.image||r.presentation.media.logo,'Illustration : '+r.names.preferred,'authority-image')||`<span class="image-placeholder">${BLDG}<small>Illustration à ajouter</small></span>`;
+    const primary=assetImg(r.presentation.media.logo||r.presentation.media.image,'Logo : '+r.names.preferred,'authority-image',r.id)||`<span class="image-placeholder">${BLDG}<small>Illustration à ajouter</small></span>`;
     const excluded=!r.presentation.visible?'<span class="editorial-state">Hors catalogue</span>':'';
     return `<article class="authority-card${r.presentation.visible?'':' editorial-hidden'}" data-id="${esc(r.id)}">
       <div class="card-head"><span class="kind ${r.kind==='SER'?'ser':''}">${r.kind}</span><span class="ident">${esc(r.id)}</span>${excluded}<span class="state"><span class="state-dot ${stateclass}"></span>${flagLabel(r.activity.active)}</span></div>
