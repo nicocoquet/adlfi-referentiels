@@ -62,7 +62,10 @@
       return;
     }
     if (img.classList.contains('parent-logo')) {
-      img.replaceWith(Object.assign(document.createElement('span'),{className:'parent-picto'}));
+      const replacement=document.createElement('span');
+      replacement.className='parent-picto';
+      replacement.innerHTML=BLDG;
+      img.replaceWith(replacement);
       return;
     }
     const cls=img.classList.contains('evolution-thumbnail')?'evolution-thumbnail-placeholder'
@@ -222,7 +225,7 @@
         'Logo de '+t.names.preferred,'lab-tutelle-logo',t.id)}))
       .filter(x=>x.html);
     const logoBand=logos.length
-      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.slice(0,4).map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}${logos.length>4?`<span class="lab-logo-extra">+ ${logos.length-4} logos</span>`:''}</div>`
+      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}</div>`
       : '';
     const count=r.usage.affiliations_linked;
     const usage=count===1?'1 affiliation source liée':count>1?`${count} affiliations sources liées`:'Aucune affiliation source liée';
