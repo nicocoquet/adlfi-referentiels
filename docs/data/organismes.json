@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-42_20261111_EPCI_syndicats_lot02.xlsx",
-    "source_sha256": "4003217420d73ae03ec05f96385f9e7efa0f52b99191cdbd7402f9500169869c",
+    "source_filename": "AdlFI_referentiel_1-43_20261111_historique_EPCI_lot03.xlsx",
+    "source_sha256": "4062516f4f5bf66b4c160d980c7199cbca8edb91dd10d50ab2ffb1dc06d10108",
     "exported_at_utc": null,
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée."
   },
@@ -10641,6 +10641,42 @@
             "date_precision": "jour",
             "validation": "valide",
             "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/243100518-toulouse-metropole"
+          },
+          {
+            "id": "STH-0035",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "district",
+            "start": "1992",
+            "end": "2000",
+            "date_precision": "annee",
+            "validation": "valide",
+            "source": "https://metropole.toulouse.fr/institutions-et-territoires/toulouse-metropole/decouvrir-la-metropole"
+          },
+          {
+            "id": "STH-0036",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2001",
+            "end": "2008",
+            "date_precision": "annee",
+            "validation": "valide",
+            "source": "https://metropole.toulouse.fr/institutions-et-territoires/toulouse-metropole/decouvrir-la-metropole"
+          },
+          {
+            "id": "STH-0037",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_urbaine",
+            "start": "2009",
+            "end": "2014",
+            "date_precision": "annee",
+            "validation": "valide",
+            "source": "https://metropole.toulouse.fr/institutions-et-territoires/toulouse-metropole/decouvrir-la-metropole"
           }
         ]
       },
@@ -10652,7 +10688,7 @@
       },
       "activity": {
         "active": true,
-        "start": "2015-01-01",
+        "start": "1992",
         "end": null,
         "catalog": "exclure"
       },
@@ -12365,7 +12401,32 @@
             "acronym": null
           }
         ],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0031",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "1994",
+            "end": "2012-12-31",
+            "date_precision": "mixte",
+            "validation": "valide",
+            "source": "https://politique.pappers.fr/commune/document/160074f44e4460f8af523ea0f0b3e20a"
+          },
+          {
+            "id": "STH-0032",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2013-01-01",
+            "end": "2015-12-31",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://politique.pappers.fr/commune/document/160074f44e4460f8af523ea0f0b3e20a"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
@@ -13801,6 +13862,30 @@
             "date_precision": "jour",
             "validation": "valide",
             "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/244400404"
+          },
+          {
+            "id": "STH-0038",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "district",
+            "start": "1991",
+            "end": "2000",
+            "date_precision": "annee",
+            "validation": "valide",
+            "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/244400404"
+          },
+          {
+            "id": "STH-0039",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_urbaine",
+            "start": "2001-01-01",
+            "end": "2014-12-31",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000029497446"
           }
         ]
       },
@@ -13812,7 +13897,7 @@
       },
       "activity": {
         "active": null,
-        "start": null,
+        "start": "1991",
         "end": null,
         "catalog": "inclure"
       },
@@ -23679,7 +23764,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0033",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "1999",
+            "end": "2016-12-31",
+            "date_precision": "mixte",
+            "validation": "valide",
+            "source": "https://www.ccomptes.fr/fr/publications/communaute-de-communes-riom-communaute-puy-de-dome-0"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
@@ -23688,9 +23786,9 @@
         "level": "intercommunal"
       },
       "activity": {
-        "active": null,
-        "start": null,
-        "end": null,
+        "active": false,
+        "start": "1999",
+        "end": "2016-12-31",
         "catalog": "exclure"
       },
       "identifiers": {
@@ -23712,7 +23810,7 @@
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
@@ -29347,6 +29445,42 @@
             "date_precision": "jour",
             "validation": "valide",
             "source": "https://www.banatic.interieur.gouv.fr/intercommunalite/244500468"
+          },
+          {
+            "id": "STH-0040",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_communes",
+            "start": "1999",
+            "end": "2001",
+            "date_precision": "annee",
+            "validation": "valide",
+            "source": "https://www.orleans-metropole.fr/actualites/detail/50-ans-dintercommunalite"
+          },
+          {
+            "id": "STH-0041",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_agglomeration",
+            "start": "2002-01-01",
+            "end": "2016-12-31",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.orleans-metropole.fr/actualites/detail/50-ans-dintercommunalite"
+          },
+          {
+            "id": "STH-0042",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "communaute_urbaine",
+            "start": "2017-01-01",
+            "end": "2017-04-30",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://www.orleans-metropole.fr/fileadmin/orleans-metropole/MEDIA/kiosque/divers/RA_2017_Metropole_WEB.pdf"
           }
         ]
       },
@@ -29358,7 +29492,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1999",
         "end": null,
         "catalog": "exclure"
       },
@@ -37285,7 +37419,20 @@
         "other_acronyms": [],
         "historical_free_text": null,
         "history": [],
-        "legal_status_history": []
+        "legal_status_history": [
+          {
+            "id": "STH-0034",
+            "type": "epci",
+            "sector": "public",
+            "bsr": "COL",
+            "legal_form": "syndicat_intercommunal_vocation_unique",
+            "start": "1998-12-28",
+            "end": "2015-12-31",
+            "date_precision": "jour",
+            "validation": "valide",
+            "source": "https://politique.pappers.fr/commune/document/103dc57174feb7e5e9f681d33c935dd2"
+          }
+        ]
       },
       "classification": {
         "type": "epci",
