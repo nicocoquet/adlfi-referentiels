@@ -45,7 +45,7 @@
   };
   // L'évènement error d'une image ne remonte pas par bubbling : capture obligatoire.
   // Un logo nouvellement déposé fonctionne sans rafraîchir le JSON.
-  document.addEventListener('error',event=>{
+  if (typeof document !== 'undefined') document.addEventListener('error',event=>{
     const img=event.target;
     if (!(img instanceof HTMLImageElement) || !img.hasAttribute('data-authority-logo')) return;
     const fallback=img.dataset.legacySrc;
