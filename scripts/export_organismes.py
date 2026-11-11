@@ -275,7 +275,7 @@ def build(source: Path):
     public={'schema_version':'0.3.0','dataset':'adlfi-referentiels/organismes',
         'provenance':{'source_filename':source.name,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
                       'exported_at_utc':dt.datetime.fromtimestamp(int(os.environ['SOURCE_DATE_EPOCH']),dt.timezone.utc).isoformat(timespec='seconds') if os.environ.get('SOURCE_DATE_EPOCH') else None,
-                      'caution':'Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée.'},
+                      'caution':'Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence.'},
         'totals':{'authorities':len(entities),'organismes':by_kind['ORG'],'services':by_kind['SER'],
                   'catalog_included':sum(x['presentation']['visible'] for x in entities),
                   'catalog_excluded':sum(not x['presentation']['visible'] for x in entities),
