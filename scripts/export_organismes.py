@@ -19,8 +19,10 @@ from xml.etree import ElementTree as ET
 # Compatible avec l'exécution CLI et l'import du module depuis les tests.
 if __package__:
     from .sector_inheritance import apply_sector_inheritance
+    from .level_inheritance import apply_level_inheritance
 else:
     from sector_inheritance import apply_sector_inheritance
+    from level_inheritance import apply_level_inheritance
 
 MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'
 REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
@@ -234,7 +236,7 @@ def build(source: Path):
                 'classification':{'type':value(r,'type_organisme' if kind=='ORG' else 'type_service'),
                                   'bsr':value(r,'categorie_bsr'),
                                   'sector':value(r,'secteur_institutionnel'),
-                                  'level':value(r,'echelon_territorial') if kind=='ORG' else None},
+                                  'level':value(r,'echelon_territorial') if kind=='ORG' else value(r,'echelon_institutionnel')},
                 'activity':{'active':active,'start':normdate(value(r,'date_debut')),'end':normdate(value(r,'date_fin')),
                             'catalog':catalog},
                 'identifiers':{'ror':clean_url(value(r,'identifiant_ror')) if kind=='ORG' else None,
@@ -253,6 +255,10 @@ def build(source: Path):
             entities.append(rec)
     if len({x['id'] for x in entities})!=len(entities):raise ValueError('IDs ORG/SER dupliqués')
     sector_audit = apply_sector_inheritance(entities, relations)
+    # L'échelon résolu est institutionnel, non un territoire de compétence.
+    level_audit = apply_level_inheritance(entities, relations,
+        as_of=dt.datetime.fromtimestamp(int(os.environ['SOURCE_DATE_EPOCH']), dt.timezone.utc).date()
+        if os.environ.get('SOURCE_DATE_EPOCH') else dt.date.today())
     # No unverified relation automatically converted into an established institutional fact.
     by_kind=Counter(x['kind'] for x in entities)
     public={'schema_version':'0.3.0','dataset':'adlfi-referentiels/organismes',
@@ -263,7 +269,9 @@ def build(source: Path):
                   'catalog_included':sum(x['presentation']['visible'] for x in entities),
                   'catalog_excluded':sum(not x['presentation']['visible'] for x in entities),
                   'service_sector_resolution':sector_audit['counts'],
-                  'service_sector_unresolved_ids':sector_audit['unresolved_service_ids']},
+                  'service_sector_unresolved_ids':sector_audit['unresolved_service_ids'],
+                  'service_level_resolution':level_audit['counts'],
+                  'service_level_unresolved_ids':level_audit['unresolved_service_ids']},
         'authorities':entities, 'relations':relations,'locations':locations}
     return public
 
