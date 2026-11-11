@@ -29,8 +29,8 @@ class EPCI42PublicationTests(unittest.TestCase):
             self.assertEqual(record['kind'],'ORG')
             self.assertEqual(record['classification']['type'],'epci',ident)
             self.assertEqual(record['classification']['level'],'intercommunal',ident)
-        self.assertEqual(self.data['totals']['organismes'],654)
-        self.assertEqual(self.data['totals']['services'],166)
+        self.assertEqual(self.data['totals']['organismes'],655)
+        self.assertEqual(self.data['totals']['services'],174)
 
     def test_metropole_is_a_form_not_an_echelon(self):
         self.assertEqual(len(LEVELS_CHANGED),5)
@@ -68,7 +68,7 @@ class EPCI42PublicationTests(unittest.TestCase):
         self.assertEqual(self.byid['ORG-0162']['classification']['type'],'epci')
         self.assertEqual(self.byid['ORG-0162']['names']['legal_status_history'],[])
         self.assertEqual(self.byid['ORG-0659']['classification']['type'],'syndicat_mixte')
-        self.assertEqual(self.byid['ORG-0659']['classification']['level'],'intercommunal')
+        self.assertIsNone(self.byid['ORG-0659']['classification']['level'])
         self.assertEqual(self.byid['ORG-0675']['classification']['level'],None)
         self.assertEqual(self.byid['ORG-0093']['usage']['source_occurrences_linked'],181)
         self.assertEqual(self.byid['ORG-0675']['usage']['source_occurrences_linked'],0)
