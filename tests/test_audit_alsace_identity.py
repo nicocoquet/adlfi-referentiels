@@ -52,6 +52,27 @@ class AlsaceIdentityAuditTests(unittest.TestCase):
             [a['occurrences'] for a in data['affiliations'] if a['context_required']], [124])
         self.assertEqual(data['existing_relation_to_review']['status'], 'a_verifier')
 
+    def test_fully_reconciled_xml_unlocks_affiliation_context(self):
+        report = {
+            'status':'reconciliation_complete',
+            'total':181,
+            'actual':{'Pair':57,'Archéologie Alsace':124},
+            'sources':[{'sha256':'2015'},{'sha256':'2016'},{'sha256':'2017'}],
+        }
+        dossier = build_dossier(sheets(), corpus_report=report)
+        self.assertTrue(dossier['xml_corpus_reconciled'])
+        self.assertFalse(any(x['context_required'] for x in dossier['affiliations']))
+        self.assertEqual(dossier['affiliations'][0]['current_authority'],'ORG-0093')
+        self.assertIn('48 opérations 2016', dossier['affiliations'][1]['proposed_handling'])
+        self.assertFalse(any('124 occurrences' in x for x in dossier['blocked']))
+        self.assertEqual(dossier['xml_corpus_sha256'], ['2015','2016','2017'])
+
+    def test_incomplete_xml_reconciliation_refuses_clearance(self):
+        report = {'status':'reconciliation_complete', 'total':133,
+                  'actual':{'Pair':57,'Archéologie Alsace':76},'sources':[]}
+        with self.assertRaisesRegex(ValueError, 'Corpus XML non réconcilié'):
+            build_dossier(sheets(), corpus_report=report)
+
     def test_counterpart_mismatch_is_error(self):
         data = sheets()
         data['Correspondances_affiliations'][0]['organisme_id'] = 'ORG-0042'
