@@ -151,10 +151,12 @@ def build(source: Path):
         for r in sh[sheet]:
             k=value(r,ident)
             if k not in names:continue
-            history[k].append({'label':value(r,'denomination'),
+            history[k].append({'id':value(r,'historique_id') or value(r,'historique_service_id'),
+                'label':value(r,'denomination'),
                 'type':value(r,'type_denomination') or value(r,'type_forme'),
                 'start':normdate(value(r,'date_debut')),'end':normdate(value(r,'date_fin')),
                 'validation':value(r,'statut_validation'),
+                'source':value(r,'source_documentaire'),
                 'acronym':value(r,'acronyme_historique')})
     legal_history=defaultdict(list)
     for r in sh['Statuts_historiques']:
