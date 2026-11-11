@@ -25,14 +25,14 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['catalog_excluded'],
                          sum(not x['presentation']['visible'] for x in self.authorities.values()))
 
-    def test_published_sector_resolution_1_42(self):
+    def test_published_sector_resolution_1_43(self):
         # 164 SER héritent leur secteur, deux historiques portent une attribution directe documentée.
         self.assertEqual(
             self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-42_20261111_EPCI_syndicats_lot02.xlsx')
+            'AdlFI_referentiel_1-43_20261111_historique_EPCI_lot03.xlsx')
         self.assertEqual(
             self.d['provenance']['source_sha256'],
-            '4003217420d73ae03ec05f96385f9e7efa0f52b99191cdbd7402f9500169869c')
+            '4062516f4f5bf66b4c160d980c7199cbca8edb91dd10d50ab2ffb1dc06d10108')
         services = [a for a in self.authorities.values() if a['kind'] == 'SER']
         self.assertEqual(len(services), 166)
         inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
