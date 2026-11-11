@@ -40,7 +40,9 @@ class HistoriqueFormesTests(unittest.TestCase):
         self.assertIn("item.type==='designation_historique_organe'",js)
         self.assertIn("item.type==='variante_denomination'",js)
         self.assertIn('Désignations historiques d’organes',js)
-        self.assertIn('Variantes de dénomination en usage',js)
+        self.assertIn('Variantes de dénomination</h3>',js)
+        self.assertNotIn('<h3>Variantes de dénomination en usage</h3>',js)
+        self.assertIn('jusqu’au',js)
         self.assertIn('et non un changement d’identité juridique',js)
         self.assertIn("VALID_STATES.has(item.validation||'')",js)
 
