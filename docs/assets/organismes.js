@@ -377,9 +377,26 @@
     const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&['valide','validee','validée'].includes(x.validation||''));
     const byType=Object.groupBy?Object.groupBy(verified,x=>x.type||'relation'):verified.reduce((a,x)=>{(a[x.type||'relation'] ||= []).push(x);return a},{});
     const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${(type==='tutelle'?[...items].sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))):items).map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'actuel ou inconnu')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
-    const historical=r.names.history.filter(x=>x.label && ['valide','validee','validée'].includes(x.validation||''));
-    const others=r.names.history.filter(x=>x.label && !['valide','validee','validée'].includes(x.validation||''));
-    const nameHist=historical.length?`<ul class="subtle-list">${historical.map(x=>`<li>${esc(x.label)}${x.start||x.end?` <small>(${esc(x.start||'?')}–${esc(x.end||'?')})</small>`:''}</li>`).join('')}</ul>`:'';
+    const historicalForms={denominations:[],organes:[],variantes:[],nonValidees:[]};
+    for (const item of r.names.history||[]) {
+      if (!item.label) continue;
+      if (!VALID_STATES.has(item.validation||'')) {
+        historicalForms.nonValidees.push(item);
+      } else if (item.type==='designation_historique_organe') {
+        historicalForms.organes.push(item);
+      } else if (item.type==='variante_denomination') {
+        historicalForms.variantes.push(item);
+      } else {
+        historicalForms.denominations.push(item);
+      }
+    }
+    const historicalList=items=>items.length
+      ? `<ul class="subtle-list">${items.map(x=>`<li>${esc(x.label)}${x.start||x.end?` <small>(${esc(x.start||'?')}–${esc(x.end||'?')})</small>`:''}</li>`).join('')}</ul>`
+      : '';
+    const nameHist=historicalList(historicalForms.denominations);
+    const organeHist=historicalList(historicalForms.organes);
+    const varianteHist=historicalList(historicalForms.variantes);
+    const others=historicalForms.nonValidees;
     const legalStates=(r.names.legal_status_history||[]);
     const legalHtml=legalStates.length?`<ul class="subtle-list">${legalStates.map(x=>{
       const period=(x.start||'?')+'–'+(x.end||'présent');
@@ -397,7 +414,9 @@
     <section class="detail-block"><h3>Période d'existence</h3><dl class="detail-dl">${row('Statut',esc(flagLabel(r.activity.active)))}${row('Début',esc(r.activity.start||'Non documenté'))}${row('Fin',esc(r.activity.end||'Non documentée'))}</dl></section>
     <section class="detail-block"><h3>Localisation déclarée</h3><dl class="detail-dl">${row('Pays institutionnel',esc(country(r.geography.institutional_country_iso2)))}${row('Ville(s) d’implantation',esc(r.geography.cities_label||'Non renseignée(s)'))}</dl><p class="detail-desc" style="margin-top:9px">Les villes ne constituent pas une géolocalisation vérifiée. Les établissements multi-sites ne sont pas ramenés à un point unique.</p></section>
     <section class="detail-block"><h3>Identifiants et site web</h3><dl class="detail-dl">${row('ROR',r.identifiers.ror?link(r.identifiers.ror,r.identifiers.ror)||esc(r.identifiers.ror):'Non renseigné')}${row('RNSR',rnsr||'Non renseigné')}${row('Unité de recherche',esc(r.identifiers.lab||'Non renseigné'))}${row('IdRef',esc(r.identifiers.idref||'Non renseigné'))}${row('Wikidata',esc(r.identifiers.wikidata||'Non renseigné'))}${row('Site officiel',r.website?link(r.website,'Consulter le site officiel'):'Non renseigné')}</dl></section>
-    <section class="detail-block"><h3>Dénominations historiques validées</h3>${nameHist||'<p class="detail-desc">Aucune dénomination historique validée dans le tableau dédié.</p>'}${others.length?`<p class="detail-desc" style="margin-top:8px">${others.length} autre(s) forme(s) historique(s) restent documentées avec un statut de validation distinct, sans être présentées ici comme établies.</p>`:''}</section>
+    <section class="detail-block"><h3>Anciennes dénominations et formes historiques</h3>${nameHist||'<p class="detail-desc">Aucune ancienne dénomination validée dans le tableau dédié.</p>'}${others.length?`<p class="detail-desc" style="margin-top:8px">${others.length} autre(s) forme(s) restent documentées avec un statut de validation distinct, sans être présentées ici comme établies.</p>`:''}</section>
+    ${organeHist?`<section class="detail-block"><h3>Désignations historiques d’organes</h3><p class="detail-desc">Ces appellations concernent un organe de l’autorité (par exemple son assemblée délibérante), et non un changement d’identité juridique de l’autorité elle-même.</p>${organeHist}</section>`:''}
+    ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination en usage</h3>${varianteHist}</section>`:''}
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
     <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section><section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
     ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
