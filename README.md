@@ -108,6 +108,28 @@ Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des 
 Dans le maître 1.40 : **819 autorités** (653 ORG et 166 SER), **614 fiches visibles** ; sur les 166 SER, **164 sont publics** et **2 privés**. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
+## Héritage de l'échelon institutionnel des services (en prépublication)
+
+L'exporteur résout `classification.level` pour les SER à partir d'un champ explicite
+facultatif `Services.echelon_institutionnel` (si présent) ou de relations validées
+`rattachement_service`, directes et chaînées, applicables au jour de l'export.
+Les relations terminées, futures, non validées et de succession sont exclues.
+En cas de parents contradictoires ou sans échelon renseigné, la valeur reste
+indéterminée : aucune inférence à partir du nom de la direction ou de sa ville.
+
+`classification.level_origin` garde `method`, les ORG sources et les relations
+utilisées ; `quality.level_unresolved` signale les SER non résolus.
+Le champ décrit un **échelon institutionnel**, jamais le territoire de compétence.
+La facette, la fiche et le CSV utilisent la même valeur calculée.
+
+**Point éditorial ouvert :** l'ORG nationale Inrap (`ORG-0008`) a
+`echelon_territorial` vide dans le maître 1.46. Les huit directions Inrap
+restent donc sans échelon hérité tant qu'une source explicite et une convention
+de schéma cohérente n'auront pas été validées. Le champ historique
+`echelon_territorial` doit être distingué de l'éventuel futur
+`echelon_institutionnel` plus général. Aucun maître XLSX n'est modifié par
+l'exporteur et aucun rattachement d'affiliation XML n'est créé.
+
 ## Développement futur
 
 - Identifier les lieux avec le COG millésimé et GeoNames selon la provenance.
