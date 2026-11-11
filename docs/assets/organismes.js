@@ -391,7 +391,14 @@
       }
     }
     const historicalList=items=>items.length
-      ? `<ul class="subtle-list">${items.map(x=>`<li>${esc(x.label)}${x.start||x.end?` <small>(${esc(x.start||'?')}–${esc(x.end||'?')})</small>`:''}</li>`).join('')}</ul>`
+      ? `<ul class="subtle-list">${items.map(x=>{
+          const period=x.start&&x.end
+            ? `<small>(${esc(evolutionDate(x.start))} – ${esc(evolutionDate(x.end))})</small>`
+            : x.end ? `<small>(jusqu’au ${esc(evolutionDate(x.end))})</small>`
+            : x.start ? `<small>(à partir du ${esc(evolutionDate(x.start))})</small>` : '';
+          const source=x.source&&safeUrl(x.source)?` · ${link(x.source,'source')||''}`:'';
+          return `<li>${esc(x.label)}${period?` ${period}`:''}${source}</li>`;
+        }).join('')}</ul>`
       : '';
     const nameHist=historicalList(historicalForms.denominations);
     const organeHist=historicalForms.organes.length
@@ -418,7 +425,7 @@
     <section class="detail-block"><h3>Identifiants et site web</h3><dl class="detail-dl">${row('ROR',r.identifiers.ror?link(r.identifiers.ror,r.identifiers.ror)||esc(r.identifiers.ror):'Non renseigné')}${row('RNSR',rnsr||'Non renseigné')}${row('Unité de recherche',esc(r.identifiers.lab||'Non renseigné'))}${row('IdRef',esc(r.identifiers.idref||'Non renseigné'))}${row('Wikidata',esc(r.identifiers.wikidata||'Non renseigné'))}${row('Site officiel',r.website?link(r.website,'Consulter le site officiel'):'Non renseigné')}</dl></section>
     <section class="detail-block"><h3>Anciennes dénominations et formes historiques</h3>${nameHist||'<p class="detail-desc">Aucune ancienne dénomination validée dans le tableau dédié.</p>'}${others.length?`<p class="detail-desc" style="margin-top:8px">${others.length} autre(s) forme(s) restent documentées avec un statut de validation distinct, sans être présentées ici comme établies.</p>`:''}</section>
     ${organeHist?`<section class="detail-block"><h3>Désignations historiques d’organes</h3><p class="detail-desc">Ces appellations concernent un organe de l’autorité (par exemple son assemblée délibérante), et non un changement d’identité juridique de l’autorité elle-même.</p>${organeHist}</section>`:''}
-    ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination en usage</h3>${varianteHist}</section>`:''}
+    ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination</h3>${varianteHist}</section>`:''}
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
     <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section><section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
     ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
