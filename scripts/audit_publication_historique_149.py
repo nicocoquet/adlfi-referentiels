@@ -17,8 +17,21 @@ SOURCE_FILE='AdlFI_referentiel_1-49_20261111_Historique_consolide.xlsx'
 SOURCE_SHA='41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642'
 
 def audit(baseline:dict,candidate:dict,repo_root:Path)->dict:
-    for key in ('schema_version','dataset','totals','relations','locations'):
+    for key in ('schema_version','dataset','totals','locations'):
         assert baseline[key]==candidate[key],f'Changement inattendu : {key}'
+    # Les relations ont des identifiants pérennes : leur ordre dans le JSON
+    # n'a aucune signification institutionnelle. Le JSON 1.47 place notamment
+    # REL-0306 après RSE-0220 ; l'exporteur 1.49 réunit les REL avant les RSE.
+    # Vérifier les mêmes identifiants ET les mêmes valeurs, sans doublons.
+    def relations_by_id(relations):
+        indexed = {rel['id']: rel for rel in relations}
+        assert len(indexed) == len(relations), 'Identifiants de relations dupliqués'
+        return indexed
+    original_relations = relations_by_id(baseline['relations'])
+    candidate_relations = relations_by_id(candidate['relations'])
+    assert original_relations.keys() == candidate_relations.keys(), 'Relations ajoutées ou supprimées'
+    for relation_id, original in original_relations.items():
+        assert candidate_relations[relation_id] == original, f'Relation modifiée : {relation_id}'
     assert len(candidate['authorities'])==829
     assert candidate['totals']['organismes']==655
     assert candidate['totals']['services']==174
