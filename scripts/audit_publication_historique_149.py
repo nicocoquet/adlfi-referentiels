@@ -49,6 +49,15 @@ def audit(baseline:dict,candidate:dict,repo_root:Path)->dict:
         new_history=updated['names'].pop('history')
         old_media=original['presentation'].pop('media')
         new_media=updated['presentation'].pop('media')
+        # Anomalie de publication antérieure au maître 1.49 :
+        # ORG-0662 porte déjà l'acronyme ADERA dans le maître privé 1.47.
+        # Le JSON public 1.47 l'avait omis. Ne tolérer QUE ce correctif.
+        if ident=='ORG-0662':
+            assert original['names']['acronym'] is None, (
+                'ORG-0662 : le JSON public ne présente plus l’omission attendue')
+            assert updated['names']['acronym']=='ADERA', (
+                'ORG-0662 : acronyme du maître différent de ADERA')
+            original['names']['acronym']='ADERA'
         assert original==updated,f'Une donnée hors historique/média a changé : {ident}'
         assert len(new_history)>=len(old_history),f'Historique raccourci : {ident}'
         for i,(old_form,new_form) in enumerate(zip(old_history,new_history)):
@@ -77,7 +86,8 @@ def audit(baseline:dict,candidate:dict,repo_root:Path)->dict:
     assert sum(len(r['names']['history']) for r in candidate['authorities'] if r['kind']=='SER')==72
     return {'authorities':len(new),'new_history':len(additions),'orgs_touched':len({i for i,_ in additions}),
             'older_history_enriched_with_source_or_id':len(updated_old),
-            'canonical_logo_upgrades':changed_media}
+            'canonical_logo_upgrades':changed_media,
+            'correction_acronyme_publication_anterieure':['ORG-0662: null → ADERA']}
 
 def main():
     if len(sys.argv)!=3:raise SystemExit('Usage : audit_publication_historique_149.py baseline.json candidat.json')
