@@ -85,7 +85,48 @@
           ]
         },
         "classification": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "national",
+                "regional",
+                "departemental",
+                "intercommunal",
+                "communal",
+                "metropolitain",
+                "cantonal",
+                "provincial",
+                null
+              ]
+            },
+            "level_origin": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "territorial_competence": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "national",
+                "interregional",
+                "regional",
+                "departemental",
+                "intercommunal",
+                "communal",
+                "local",
+                null
+              ]
+            }
+          }
         },
         "activity": {
           "type": "object"
