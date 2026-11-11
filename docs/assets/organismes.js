@@ -394,7 +394,9 @@
       ? `<ul class="subtle-list">${items.map(x=>`<li>${esc(x.label)}${x.start||x.end?` <small>(${esc(x.start||'?')}–${esc(x.end||'?')})</small>`:''}</li>`).join('')}</ul>`
       : '';
     const nameHist=historicalList(historicalForms.denominations);
-    const organeHist=historicalList(historicalForms.organes);
+    const organeHist=historicalForms.organes.length
+      ? `<ul class="subtle-list">${historicalForms.organes.map(x=>`<li>${esc(x.label)}${x.end?` <small>(jusqu’au ${esc(evolutionDate(x.end))} ; début non documenté)</small>`:''}${x.source && safeUrl(x.source)?` · ${link(x.source,'source')||''}`:''}</li>`).join('')}</ul>`
+      : '';
     const varianteHist=historicalList(historicalForms.variantes);
     const others=historicalForms.nonValidees;
     const legalStates=(r.names.legal_status_history||[]);
