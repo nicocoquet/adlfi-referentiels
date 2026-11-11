@@ -132,6 +132,18 @@ uniquement dans `Services.echelon_institutionnel`. Le champ facultatif
 Dans le maître 1.46, ces colonnes nouvelles n'existent pas encore : leur
 absence est acceptée sans modification des valeurs sources.
 
+Le vocabulaire de `perimetre_competence` est contrôlé : `national`,
+`interregional`, `regional`, `departemental`, `intercommunal`, `communal`,
+`local` (ou vide si indéterminé). Ce champ décrit l'étendue de la compétence,
+**pas la liste des territoires couverts** : les ressorts géographiques et leurs
+versions historiques doivent être modélisés séparément. L'exporteur rejette
+une valeur hors vocabulaire.
+
+Une ORG possédant un échelon explicite conserve désormais une trace
+`classification.level_origin`, comme les SER héritant de leur rattachement.
+La facette affiche un échelon dès lors qu'il est documenté ; elle ne masque
+plus les catégories d'ORG initialement exclues par type.
+
 **Point éditorial ouvert :** l'ORG nationale Inrap (`ORG-0008`) a
 `echelon_territorial` vide dans le maître 1.46. Les huit directions Inrap
 restent donc sans échelon hérité tant qu'une source explicite et une convention
