@@ -90,11 +90,13 @@ def build_dossier(sheets: dict, source_sha256: str | None = None, corpus_report:
             'occurrences': expected_count,
             'current_authority': OLD,
             'proposed_handling': (
-                'conserver sur ORG-0093 (corpus documenté, années d’opération 2014–2015)' if corpus_verified else
-                'conserver sur l’autorité historique (libellé ancien ; contrôler les emplois tardifs)'
+                ('conserver sur ORG-0093 : opérations 2014–2015 vérifiées dans les XML'
+                 if corpus_verified else
+                 'conserver sur l’autorité historique (libellé ancien ; contrôler les emplois tardifs)')
                 if sid == SOURCE_PAIR else
-                'conserver sur ORG-0093 : 48 occurrences d’opérations 2016, 76 de 2017, toutes antérieures au syndicat de 2020' if corpus_verified else
-                'ne pas répartir sans examen des notices XML, de leurs dates et du contexte'
+                ('conserver sur ORG-0093 : 48 opérations 2016 et 76 opérations 2017 documentées'
+                 if corpus_verified else
+                 'ne pas répartir sans examen des notices XML, de leurs dates et du contexte')
             ),
             'validation': 'documente_par_xml' if corpus_verified else 'a_revoir_pour_identite',
             'context_required': sid == SOURCE_ALSACE and not corpus_verified,
