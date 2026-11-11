@@ -65,7 +65,7 @@ def audit_xml_documents(paths, expected=None):
                 if head is not None:
                     place = [' '.join(''.join(t.itertext()).split()) for t in
                              head.findall(f'./{TEI}index/{TEI}term[@type="orig"]')]
-                    title = ' '.join((head.text or '') + ''.join(c.tail or '' for c in head)).strip()
+                    title = ((head.text or '') + ''.join(c.tail or '' for c in head)).strip()
                 records.append({
                     'fichier_xml': name,
                     'sha256': sha,
