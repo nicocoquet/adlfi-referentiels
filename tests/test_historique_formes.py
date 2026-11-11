@@ -23,7 +23,7 @@ class HistoriqueFormesTests(unittest.TestCase):
              'denomination':'Nom encore utilisé',
              'type_denomination':'variante_denomination',
              'statut_validation':'valide'}]
-        with patch.object(export_organismes,'parse_workbook',return_value=sh), \\
+        with patch.object(export_organismes,'parse_workbook',return_value=sh), \
              patch.object(export_organismes,'media_for',
                           return_value={'image':None,'logo':None}):
             d=export_organismes.build(Path(__file__))
