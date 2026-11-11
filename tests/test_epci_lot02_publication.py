@@ -77,9 +77,8 @@ class EPCI42PublicationTests(unittest.TestCase):
         source=JS.read_text(encoding='utf-8')
         self.assertIn("key:'level',label:'Échelon institutionnel'",source)
         self.assertIn("'collectivite_territoriale','epci','musee','etablissement_public'",source)
-        self.assertIn("INSTITUTIONAL_LEVEL_TYPES.has(r.classification.type)",source)
         self.assertNotIn("r.classification.type==='collectivite_territoriale' && r.classification.level",source)
-        # No SER level inference without dated institutional attachment.
+        # Une valeur explicite ou héritée peut maintenant alimenter la facette pour un SER.
         self.assertIn("if(k==='level')return r.classification.level ? [r.classification.level] : [];",source)
 
 
