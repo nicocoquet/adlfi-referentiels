@@ -237,6 +237,7 @@ def build(source: Path):
                                   'bsr':value(r,'categorie_bsr'),
                                   'sector':value(r,'secteur_institutionnel'),
                                   'level':(value(r,'echelon_institutionnel') or value(r,'echelon_territorial')) if kind=='ORG' else value(r,'echelon_institutionnel'),
+                                   'level_origin':({'method':'explicit','field':'Organismes.echelon_institutionnel' if value(r,'echelon_institutionnel') else 'Organismes.echelon_territorial'} if kind=='ORG' and (value(r,'echelon_institutionnel') or value(r,'echelon_territorial')) else None),
                                    'territorial_competence':value(r,'perimetre_competence')},
                 'activity':{'active':active,'start':normdate(value(r,'date_debut')),'end':normdate(value(r,'date_fin')),
                             'catalog':catalog},
@@ -253,6 +254,8 @@ def build(source: Path):
                 'quality':{'activity_unknown':active is None,'end_missing':active is False and not normdate(value(r,'date_fin')),
                            'city_unrecorded':not bool(city),'country_unrecorded':not bool(country),
                            'no_website':not bool(site)}}
+            if rec['classification']['territorial_competence'] not in (None, 'national', 'interregional', 'regional', 'departemental', 'intercommunal', 'communal', 'local'):
+                raise ValueError(f"Périmètre de compétence inconnu pour {ident}: {rec['classification']['territorial_competence']}")
             entities.append(rec)
     if len({x['id'] for x in entities})!=len(entities):raise ValueError('IDs ORG/SER dupliqués')
     sector_audit = apply_sector_inheritance(entities, relations)
