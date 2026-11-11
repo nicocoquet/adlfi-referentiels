@@ -23,7 +23,7 @@
     {key:'activity',label:'Activité',open:true},
     {key:'bsr',label:'Catégorie',open:true},
     {key:'sector',label:'Secteur',open:false},
-    {key:'level',label:'Périmètre',open:false},
+    {key:'level',label:'Échelon institutionnel',open:false},
     {key:'country',label:'Pays',open:false},
     {key:'quality',label:'Complétude documentaire',open:false}
   ];
@@ -207,6 +207,14 @@
     </article>`;
   }
 
+  // Les niveaux institutionnels sont documentés pour certaines ORG seulement.
+  // Ne pas inférer ici l'échelon des SER, des associations, des entreprises ni des
+  // syndicats mixtes dont la composition territoriale reste à instruire.
+  const INSTITUTIONAL_LEVEL_TYPES=new Set([
+    'collectivite_territoriale','epci','musee','etablissement_public',
+    'etablissement_public_administratif','agence_federale'
+  ]);
+
   const valueFor=(r,k)=>{
     if(k==='kind')return [r.kind];
     if(k==='activity')return [r.activity.active===true?'oui':r.activity.active===false?'non':'unknown'];
@@ -214,8 +222,7 @@
     if(k==='sector')return [r.classification.sector||'—'];
     if(k==='country')return [r.geography.institutional_country_iso2||'—'];
     if(k==='type')return [r.classification.type||'—'];
-    if(k==='level')return r.kind==='ORG' && r.classification.type==='collectivite_territoriale' && r.classification.level
-      ? [r.classification.level] : [];
+    if(k==='level')return r.classification.level ? [r.classification.level] : [];
     if(k==='quality'){
       const q=r.quality,a=[];
       if(q.activity_unknown)a.push('Activité à préciser');
@@ -233,7 +240,8 @@
   const levelFacetLabels={
     national:'National',regional:'Régional',departemental:'Départemental',
     communal:'Communal',intercommunal:'Intercommunal',
-    metropole:'Métropole',metropolitain:'Métropolitain'
+    metropole:'Métropole (forme)',metropolitain:'Métropolitain (statut particulier)',
+    cantonal:'Cantonal',provincial:'Provincial'
   };
   const valLabel=(k,v)=>{
     if(v==='—')return 'Non renseigné';
@@ -346,7 +354,7 @@
     const kind=r.kind;
     let rnsr=r.identifiers.rnsr?link('https://rnsr.adc.education.fr/structure/'+encodeURIComponent(r.identifiers.rnsr),r.identifiers.rnsr):null;
     let content=`<div class="detail-head"><span class="kind ${kind==='SER'?'ser':''}">${kind}</span> <span class="ident">${esc(id)}</span><h2>${esc(r.names.preferred)}</h2><p class="detail-desc">${esc(natural(r.classification.type))} · ${esc(flagLabel(r.activity.active))}</p></div><div class="detail-body">
-    <section class="detail-block"><h3>Identité et classification</h3><dl class="detail-dl">${row('Sigle',esc(sigle))}${row('Autres acronymes',extras?esc(extras):null)}${row('Catégorie BSR',esc(r.classification.bsr||'Non renseignée'))}${row('Secteur',esc(natural(r.classification.sector)))}${row('Type détaillé',esc(natural(r.classification.type)))}</dl></section>
+    <section class="detail-block"><h3>Identité et classification</h3><dl class="detail-dl">${row('Sigle',esc(sigle))}${row('Autres acronymes',extras?esc(extras):null)}${row('Catégorie BSR',esc(r.classification.bsr||'Non renseignée'))}${row('Secteur',esc(natural(r.classification.sector)))}${row('Échelon institutionnel',esc(natural(r.classification.level)))}${row('Type détaillé',esc(natural(r.classification.type)))}</dl></section>
     <section class="detail-block"><h3>Période d'existence</h3><dl class="detail-dl">${row('Statut',esc(flagLabel(r.activity.active)))}${row('Début',esc(r.activity.start||'Non documenté'))}${row('Fin',esc(r.activity.end||'Non documentée'))}</dl></section>
     <section class="detail-block"><h3>Localisation déclarée</h3><dl class="detail-dl">${row('Pays institutionnel',esc(country(r.geography.institutional_country_iso2)))}${row('Ville(s) d’implantation',esc(r.geography.cities_label||'Non renseignée(s)'))}</dl><p class="detail-desc" style="margin-top:9px">Les villes ne constituent pas une géolocalisation vérifiée. Les établissements multi-sites ne sont pas ramenés à un point unique.</p></section>
     <section class="detail-block"><h3>Identifiants et site web</h3><dl class="detail-dl">${row('ROR',r.identifiers.ror?link(r.identifiers.ror,r.identifiers.ror)||esc(r.identifiers.ror):'Non renseigné')}${row('RNSR',rnsr||'Non renseigné')}${row('Unité de recherche',esc(r.identifiers.lab||'Non renseigné'))}${row('IdRef',esc(r.identifiers.idref||'Non renseigné'))}${row('Wikidata',esc(r.identifiers.wikidata||'Non renseigné'))}${row('Site officiel',r.website?link(r.website,'Consulter le site officiel'):'Non renseigné')}</dl></section>
@@ -362,8 +370,8 @@
   }
   function downloadCSV(){
     const list=sortEntries(baseRecords().filter(matches));
-    const cols=['Identifiant','Nature','Nom retenu','Acronyme','Catégorie BSR','Type','Secteur','Actif','Pays institutionnel','Ville(s)','ROR','RNSR','Site officiel'];
-    const dataRows=list.map(x=>[x.id,x.kind,x.names.preferred,x.names.acronym,x.classification.bsr,x.classification.type,x.classification.sector,flagLabel(x.activity.active),x.geography.institutional_country_iso2,x.geography.cities_label,x.identifiers.ror,x.identifiers.rnsr,x.website]);
+    const cols=['Identifiant','Nature','Nom retenu','Acronyme','Catégorie BSR','Type','Secteur','Échelon institutionnel','Actif','Pays institutionnel','Ville(s)','ROR','RNSR','Site officiel'];
+    const dataRows=list.map(x=>[x.id,x.kind,x.names.preferred,x.names.acronym,x.classification.bsr,x.classification.type,x.classification.sector,x.classification.level,flagLabel(x.activity.active),x.geography.institutional_country_iso2,x.geography.cities_label,x.identifiers.ror,x.identifiers.rnsr,x.website]);
     const cell=v=>'"'+String(v??'').replaceAll('"','""')+'"';
     const csv='\ufeff'+[cols,...dataRows].map(row=>row.map(cell).join(';')).join('\r\n');
     let url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='adlfi-referentiels-organismes-selection.csv';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
