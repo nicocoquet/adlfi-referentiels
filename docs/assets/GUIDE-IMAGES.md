@@ -1,72 +1,80 @@
-# Préparation des médias des autorités AdlFI
+# Logos des autorités AdlFI — convention 320 × 320
 
-## Principe : une bibliothèque unique pour les organismes et leurs tutelles
+## Principe
 
-Chaque organisme (ou service) possède une identité stable `ORG-XXXX` (ou `SER-XXXX`). Ses médias sont conservés **une seule fois**, dans :
+**Tous les visuels des autorités sont des logos, jamais des photographies.**
+
+Une autorité possède un fichier JPEG carré, identifié par son ID stable :
 
 ```text
 docs/assets/organismes/
-  ORG-0001-logo.svg
-  ORG-0001-illustration.webp
-  ORG-XXXX-logo.png
-  SER-XXXX-logo.svg
+  ORG-0004.jpg
+  ORG-0023.jpg
+  SER-0001.jpg
 ```
 
-Ces noms illustrent la convention : seuls les fichiers réellement documentés et autorisés sont déposés. **Il n’existe plus de dossier de médias distinct pour les tutelles.**
+- Format **JPEG .jpg**, image de **320 × 320 pixels**, espace colorimétrique **sRGB**, fond blanc opaque.
+- Qualité d'export conseillée : **85–90** ; pas de rééchantillonnage automatique par le site.
+- **Conserver les proportions du logo d'origine** : placer le dessin dans une toile blanche carrée, avec des marges internes adaptées. Ne pas étirer, recadrer ou modifier le dessin officiel.
+- Les logos allongés, les inscriptions très petites et les marques comportant des traits fins peuvent souffrir de la conversion JPEG. Conserver le fichier source (SVG ou PNG) en local et contrôler le JPEG produit. Si la lisibilité est insuffisante, conserver l'ancien logo SVG/PNG en attendant une solution de présentation.
+- L'autorisation de reproduction et les éventuels crédits demeurent à vérifier.
+- Un identifiant désigne **un seul fichier principal** ; pas de copie dans les dossiers des laboratoires ou des tutelles.
 
-La différence entre un **logo** et une **illustration** concerne le type de fichier, non le rôle de l’organisme dans une fiche :
+## Mise à jour directe avec VS Code
 
-- `ORG-XXXX-logo.svg` est affiché **comme visuel principal** de l’autorité lorsque celle-ci n’a pas d’illustration propre.
-- Le **même fichier de logo**, sans copie, peut être affiché dans le bandeau de tutelles de tous les laboratoires ayant une relation de tutelle validée avec cet organisme.
-- `ORG-XXXX-illustration.webp` (photo ou illustration) peut être utilisé comme visuel principal de l’autorité. **Il ne remplace pas son logo dans un bandeau institutionnel**.
-- Si les deux existent, l’illustration est privilégiée dans la carte de l’organisme, et le logo demeure utilisé dans les bandeaux de tutelles.
-- Si seule une illustration existe pour une tutelle, son nom est affiché sans photo dans le bandeau : pas de confusion entre image documentaire et identité officielle.
-
-Le format JSON public conserve deux champs complémentaires (`presentation.media.image` pour l’illustration, `presentation.media.logo` pour le logo), mais **chaque chemin est une référence au fichier unique de l’autorité** : il n’y a aucune copie dans une arborescence propre au laboratoire qui l’utilise.
-
-## Formats et dimensions
-
-| Type | Recommandation | Dimensions source | Rendu dans la carte |
-| --- | --- | --- | --- |
-| Illustration / photographie | WebP ou JPEG, recadrage carré lorsque pertinent | **800 × 800 px** | Environ 144 × 144 CSS px, `object-fit: cover` |
-| Logo officiel vectoriel | **SVG**, tracés autonomes, `viewBox` | Sans dimensions matricielles imposées | `object-fit: contain`, sans rognage |
-| Logo officiel matriciel | PNG avec fond transparent (sRGB) | Pour un logo horizontal, viser **640 × 240 px** environ, en conservant son ratio | Jusqu’à **160 × 58 CSS px** dans le bandeau ; `object-fit: contain` |
-
-Les dimensions sont indicatives. Un affichage `retina` requiert idéalement une source d’au moins deux fois la taille CSS. Pour les logos, ne pas imposer un ratio ou un recadrage qui déformerait la charte officielle. Les paramètres ppp/dpi sont sans incidence sur la netteté web à dimensions en pixels égales.
-
-**Poids souhaitables** : photographie WebP d’environ 100–200 Ko ; SVG optimisé aussi léger que possible ; PNG transparent de préférence inférieur à 200 Ko. Privilégier la lisibilité à un plafond arbitraire.
-
-## Contraintes techniques
-
-- Le nom suit exactement le motif `ORG-0001-logo.svg`, `ORG-0001-illustration.webp`, etc. (mêmes règles pour `SER`).
-- Extensions reconnues : `.jpg`, `.jpeg`, `.png`, `.webp`, `.svg`.
-- Une seule extension est autorisée **par identifiant et par type** : deux `ORG-0001-logo.*` provoquent une erreur à l’export.
-- On peut posséder **un logo et une illustration** pour un même identifiant, mais ce sont deux médias différents, pas deux exemplaires du même visuel.
-- Le logo d’une tutelle doit être enregistré sous **son propre identifiant**, et non celui de chaque laboratoire où il apparaît.
-- Aucun média n’est inféré, téléchargé ou généré automatiquement par l’exporteur.
-- Vérifier les conditions de réutilisation et de crédit de chaque visuel, même lorsqu’il est publié sur le site institutionnel.
-- Pour les SVG : aucun script, contenu actif, référence réseau externe ou police embarquée ; vérifier le rendu sur fond clair.
-
-## Mise à jour locale
-
-Depuis la racine du dépôt, après avoir ajouté les médias à `docs/assets/organismes/` :
+Depuis la racine du dépôt, placer le logo déjà préparé dans `docs/assets/organismes/ORG-XXXX.jpg`
+(ou `SER-XXXX.jpg`). Puis :
 
 ```bash
-python3 scripts/export_organismes.py /chemin/vers/AdlFI_referentiel_1-10_20261106.xlsx
+git add docs/assets/organismes/ORG-XXXX.jpg
+git commit -m "Ajouter le logo ORG-XXXX"
+git push origin main
+```
+
+**Il n'est plus nécessaire de régénérer `docs/data/organismes.json`** pour ajouter
+ou remplacer un JPEG : la page recherche directement un fichier `ID.jpg`.
+Si une image n'existe pas, la page essaie l'ancien chemin enregistré dans le JSON.
+Si aucun fichier n'existe, elle affiche un pictogramme de substitution.
+Les relations de tutelle, titres et métadonnées continuent de provenir du JSON.
+
+Les logos apparaissent comme visuel principal, comme identité de rattachement
+et dans le bandeau des tutelles. Le CSS utilise `object-fit: contain` :
+les marges internes prévues dans le JPEG évitent le rognage.
+
+Lors de la modification d'un logo existant, un rechargement complet du navigateur
+peut être nécessaire pour contourner son cache.
+
+## Transition depuis la bibliothèque existante
+
+La bibliothèque contient des fichiers historiques
+`ORG-XXXX-logo.svg`, `ORG-XXXX-logo.webp`, `ORG-XXXX-illustration.webp`, etc.
+
+- **Ne pas les supprimer lors de ce changement.** Ils servent de repli tant que
+  le nouveau JPEG correspondant n'a pas été déposé.
+- Un logo `ORG-XXXX.jpg` devient prioritaire dès son arrivée sur GitHub Pages.
+- Après validation de la migration de tous les logos, les anciens fichiers devenus
+  inutiles pourront être inventoriés et supprimés dans une PR distincte.
+- Lors des prochains exports XLSX→JSON, l'exporteur identifie également le
+  `ID.jpg` présent ; les anciens champs `presentation.media.logo/image`
+  restent lisibles pour les jeux de données plus anciens.
+
+Les images ne sont **jamais incorporées** au classeur XLSX.
+Les coordonnées historiques des autorités, leurs noms et leurs relations ne sont
+pas déduits des fichiers JPEG.
+
+## Contrôles
+
+```bash
 python3 -m unittest discover -s tests -v
 node --check docs/assets/organismes.js
 python3 -m http.server 8000 --directory docs
 ```
 
-Ouvrir `http://localhost:8000/organismes/`. **La régénération du JSON est nécessaire** pour que de nouveaux fichiers soient reconnus.
+Visiter `http://localhost:8000/organismes/` et vérifier au minimum :
+1. Une autorité avec uniquement un nouveau JPEG carré.
+2. Une autorité encore dotée seulement d'un ancien `-logo.svg` ou `-logo.webp`.
+3. Une autorité sans aucun visuel (pictogramme de remplacement).
+4. Un laboratoire disposant de plusieurs tutelles, certaines avec et d'autres sans logos.
+5. Une fiche présentant une succession d'autorités (miniatures des deux entités).
 
-## Scénarios de recette
-
-1. Centre Camille-Jullian, illustration propre et deux tutelles dotées de logos officiels.
-2. Organisme possédant seulement un logo : le même fichier doit être exploitable comme visuel principal et comme logo de tutelle.
-3. Tutelle sans logo officiel : seule la dénomination apparaît, sans photo de remplacement.
-4. Laboratoire à quatre tutelles : contrôler la densité et le comportement sur mobile.
-5. Relation de tutelle non validée ou terminée : aucun logo présenté comme celui d’une tutelle actuelle.
-6. Organisme avec logo **et** illustration : image principale et logo institutionnel doivent rester correctement distingués.
-
-La refonte porte à ce stade sur les cartes des ORG de type `laboratoire`, sans modifier les autres catégories.
+Les tests de publication des données institutionnelles sont indépendants des médias.
