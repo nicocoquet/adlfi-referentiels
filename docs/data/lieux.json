@@ -469,27 +469,6 @@
       ]
     },
     {
-      "ark_pactols": "26678/pcrtSeD2WMEIYA",
-      "libelle_pactols": "Dévoluy",
-      "type_entite": "commune",
-      "correspondances": [
-        {
-          "referentiel": "COG",
-          "code_insee": "05139",
-          "libelle_cog": "Dévoluy",
-          "millesime_cog": 2026,
-          "departement": "05",
-          "region": "93",
-          "relation_editoriale": "correspondance_communale_validee",
-          "validation": {
-            "statut": "VALIDE_EDITEUR_2026_10_18",
-            "date": "2026-10-18",
-            "source": "Validation éditoriale en conversation + INSEE COG 2026"
-          }
-        }
-      ]
-    },
-    {
       "ark_pactols": "26678/pcrtVDyMZYcQOT",
       "libelle_pactols": "Digne-les-Bains",
       "type_entite": "commune",
@@ -574,6 +553,27 @@
       ]
     },
     {
+      "ark_pactols": "26678/pcrtSeD2WMEIYA",
+      "libelle_pactols": "Dévoluy",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05139",
+          "libelle_cog": "Dévoluy",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
       "ark_pactols": "26678/pcrtqRSsArYSvg",
       "libelle_pactols": "Embrun",
       "type_entite": "commune",
@@ -605,27 +605,6 @@
           "libelle_cog": "Entraigues-sur-la-Sorgue",
           "millesime_cog": 2026,
           "departement": "84",
-          "region": "93",
-          "relation_editoriale": "correspondance_communale_validee",
-          "validation": {
-            "statut": "VALIDE_EDITEUR_2026_10_18",
-            "date": "2026-10-18",
-            "source": "Validation éditoriale en conversation + INSEE COG 2026"
-          }
-        }
-      ]
-    },
-    {
-      "ark_pactols": "26678/pcrt0n6LM8FOju",
-      "libelle_pactols": "Évenos",
-      "type_entite": "commune",
-      "correspondances": [
-        {
-          "referentiel": "COG",
-          "code_insee": "83053",
-          "libelle_cog": "Évenos",
-          "millesime_cog": 2026,
-          "departement": "83",
           "region": "93",
           "relation_editoriale": "correspondance_communale_validee",
           "validation": {
@@ -868,27 +847,6 @@
       ]
     },
     {
-      "ark_pactols": "26678/pcrtFWwelHXly2",
-      "libelle_pactols": "La Bâtie-Montsaléon",
-      "type_entite": "commune",
-      "correspondances": [
-        {
-          "referentiel": "COG",
-          "code_insee": "05016",
-          "libelle_cog": "La Bâtie-Montsaléon",
-          "millesime_cog": 2026,
-          "departement": "05",
-          "region": "93",
-          "relation_editoriale": "correspondance_communale_validee",
-          "validation": {
-            "statut": "VALIDE_EDITEUR_2026_10_18",
-            "date": "2026-10-18",
-            "source": "Validation éditoriale en conversation + INSEE COG 2026"
-          }
-        }
-      ]
-    },
-    {
       "ark_pactols": "26678/pcrtVWd4qEv6l2",
       "libelle_pactols": "La Brigue",
       "type_entite": "commune",
@@ -920,6 +878,27 @@
           "libelle_cog": "La Brillanne",
           "millesime_cog": 2026,
           "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtFWwelHXly2",
+      "libelle_pactols": "La Bâtie-Montsaléon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05016",
+          "libelle_cog": "La Bâtie-Montsaléon",
+          "millesime_cog": 2026,
+          "departement": "05",
           "region": "93",
           "relation_editoriale": "correspondance_communale_validee",
           "validation": {
@@ -1267,48 +1246,6 @@
       ]
     },
     {
-      "ark_pactols": "26678/pcrt8nuE0LWfDN",
-      "libelle_pactols": "Méailles",
-      "type_entite": "commune",
-      "correspondances": [
-        {
-          "referentiel": "COG",
-          "code_insee": "04115",
-          "libelle_cog": "Méailles",
-          "millesime_cog": 2026,
-          "departement": "04",
-          "region": "93",
-          "relation_editoriale": "correspondance_communale_validee",
-          "validation": {
-            "statut": "VALIDE_EDITEUR_2026_10_18",
-            "date": "2026-10-18",
-            "source": "Validation éditoriale en conversation + INSEE COG 2026"
-          }
-        }
-      ]
-    },
-    {
-      "ark_pactols": "26678/pcrtavlAY6Lrt0",
-      "libelle_pactols": "Méthamis",
-      "type_entite": "commune",
-      "correspondances": [
-        {
-          "referentiel": "COG",
-          "code_insee": "84075",
-          "libelle_cog": "Méthamis",
-          "millesime_cog": 2026,
-          "departement": "84",
-          "region": "93",
-          "relation_editoriale": "correspondance_communale_validee",
-          "validation": {
-            "statut": "VALIDE_EDITEUR_2026_10_18",
-            "date": "2026-10-18",
-            "source": "Validation éditoriale en conversation + INSEE COG 2026"
-          }
-        }
-      ]
-    },
-    {
       "ark_pactols": "26678/pcrtnssnKihEzv",
       "libelle_pactols": "Monieux",
       "type_entite": "commune",
@@ -1414,16 +1351,37 @@
       ]
     },
     {
-      "ark_pactols": "26678/pcrt935maKZfi3",
-      "libelle_pactols": "Ollières (Var)",
+      "ark_pactols": "26678/pcrt8nuE0LWfDN",
+      "libelle_pactols": "Méailles",
       "type_entite": "commune",
       "correspondances": [
         {
           "referentiel": "COG",
-          "code_insee": "83089",
-          "libelle_cog": "Ollières",
+          "code_insee": "04115",
+          "libelle_cog": "Méailles",
           "millesime_cog": 2026,
-          "departement": "83",
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtavlAY6Lrt0",
+      "libelle_pactols": "Méthamis",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84075",
+          "libelle_cog": "Méthamis",
+          "millesime_cog": 2026,
+          "departement": "84",
           "region": "93",
           "relation_editoriale": "correspondance_communale_validee",
           "validation": {
@@ -1443,6 +1401,27 @@
           "referentiel": "COG",
           "code_insee": "83090",
           "libelle_cog": "Ollioules",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt935maKZfi3",
+      "libelle_pactols": "Ollières (Var)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83089",
+          "libelle_cog": "Ollières",
           "millesime_cog": 2026,
           "departement": "83",
           "region": "93",
@@ -2180,6 +2159,27 @@
           "libelle_cog": "Ventabren",
           "millesime_cog": 2026,
           "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt0n6LM8FOju",
+      "libelle_pactols": "Évenos",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83053",
+          "libelle_cog": "Évenos",
+          "millesime_cog": 2026,
+          "departement": "83",
           "region": "93",
           "relation_editoriale": "correspondance_communale_validee",
           "validation": {
