@@ -57,6 +57,24 @@ Les données sources ont été lues dans le dépôt privé
 | Table éditoriale | `experimentation/donnees/autorite_pactols_insee.csv` | `8d039fe574413df89524b39540ba962ce89ca0a0` |
 | Géométries | `cartographie/geometries/communes-1000m.geojson` | `0525607f277ec4c915a3e3273e716a5b1f1108d5` |
 
+### Origine cartographique et licence
+
+Le script de l'atlas `cartographie/telecharger_geometries.py` déclare la
+source **Contours administratifs 2026** de data.gouv.fr :
+
+- Fiche producteur : https://www.data.gouv.fr/datasets/contours-administratifs
+- Jeu diffusé sous licence **Open Database License (ODbL)**.
+- Origine indiquée par le producteur : IGN Admin Express, avec OpenStreetMap
+  et des sources territoriales complémentaires selon les zones.
+- Attribution retenue dans le GeoJSON : « Contours administratifs —
+  data.gouv.fr / IGN et contributeurs OpenStreetMap ».
+
+Ces données sont limitées ici à 103 communes PACA et à la géométrie fournie
+par la copie source épinglée dans le dépôt atlas. Le **niveau de généralisation
+exact de ce sous-ensemble** reste à attester indépendamment des noms des
+fichiers ; les deux fichiers géographiques 100m et 1000m présents dans la
+branche atlas portent le même contenu Git.
+
 Les fichiers éditoriaux non filtrés **ne sont pas copiés** dans le dépôt public.
 Leurs empreintes sont consignées afin de pouvoir reproduire l'export sans
 dépendre de l'état ultérieur des branches. Le référentiel historique COG
@@ -106,8 +124,9 @@ ne figurent pas dans la table éditoriale de cette version : elles devront
 ## Conditions préalables à la mise en ligne
 
 1. Relire les fiches et les 103 correspondances générées.
-2. Vérifier l'attribution et les conditions de réutilisation de la source
-   géométrique avant une publication durable.
+2. Faire apparaître l'attribution ODbL sur la carte et dans les mentions
+   du site ; vérifier les détails de généralisation avant toute annonce
+   d'échelle cartographique.
 3. Définir la page cartographique et son comportement en cas de lieux
    sans géométrie, de codes historiques et de relations non bijectives.
 4. Fusionner une PR validée seulement après tests et recette visuelle.
