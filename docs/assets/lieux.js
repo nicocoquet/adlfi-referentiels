@@ -269,7 +269,7 @@
         geo.type !== 'FeatureCollection' || geo.features?.length !== 103) {
       throw new Error('Structure ou effectif du pilote PACA incohérent.');
     }
-    const arks = new Set(), codes = new Set();
+    const arks = new Set(), codes = new Set(), parCode = new Map();
     for (const entry of data.autorites) {
       const rel = entry.correspondances?.[0];
       if (!/^26678\/[A-Za-z0-9]+$/.test(entry.ark_pactols) ||
@@ -281,12 +281,13 @@
       }
       arks.add(entry.ark_pactols);
       codes.add(rel.code_insee);
+      parCode.set(rel.code_insee, entry.ark_pactols);
     }
     const geocodes = new Set();
     for (const feature of geo.features) {
       const code = feature.properties?.code;
       if (!codes.has(code) || geocodes.has(code) ||
-          !arks.has(feature.properties?.ark_pactols) ||
+          feature.properties?.ark_pactols !== parCode.get(code) ||
           !feature.geometry?.coordinates?.length) {
         throw new Error('Géométrie non alignée sur les autorités validées.');
       }
@@ -295,7 +296,7 @@
   }
 
   async function loadJSON(url) {
-    const response = await fetch(url, { cache: 'no-store' });
+    const response = await fetch(url);
     if (!response.ok) throw new Error('Chargement impossible : ' + url + ' (HTTP ' + response.status + ')');
     return response.json();
   }
