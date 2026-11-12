@@ -26,7 +26,40 @@ automatique de libellés.
 
 **La présence des fichiers sur une branche de travail ne signifie pas
 publication en ligne** : seule la branche principale alimente GitHub Pages.
-La page `docs/lieux/index.html` et le manifeste ne sont pas modifiés dans ce lot.
+La PR du pilote est conservée en brouillon jusqu'à la recette visuelle.
+
+## Interface de consultation (sur la branche de recette)
+
+- `docs/lieux/index.html` : grande carte Leaflet, recherche avec autocomplétion,
+  fiche latérale de l'autorité Pactols et correspondance COG.
+- `docs/assets/lieux-search.js` : recherche client, indépendante du réseau,
+  sur les libellés Pactols, les noms COG, les codes INSEE et les ARK.
+  Comparaison insensible à la casse, aux accents et à la ponctuation.
+- `docs/assets/lieux.js` : lecture des deux jeux statiques, validation de leur
+  alignement par code et ARK, sélection et mise en évidence des contours.
+  Une URL de type `/lieux/#ark=26678%2Fpcrt...` désigne une fiche consultable.
+- `docs/assets/lieux.css` : adaptation graphique au site, présentation
+  sur ordinateur et mobile.
+- `tests/test_lieux_search.js` et `tests/test_lieux_ui.py` : recherche,
+  exclusions, liaison des 103 géométries et contrat d'interface.
+- `docs/data/manifest.json` : module déclaré en « prototype » sur la
+  branche ; la carte d'accueil Lieux devient un lien.
+
+### Fond de carte et dépendances
+
+Leaflet est chargé en version **1.9.4**, via un CDN HTTPS et une empreinte
+SRI vérifiable. Les tuiles de fond sont demandées à
+`https://tile.openstreetmap.org/{z}/{x}/{y}.png` uniquement pour la
+fenêtre cartographique affichée, avec attribution OpenStreetMap visible
+et sans préchargement ni collecte de données utilisateur.
+
+Les fiches et la recherche fonctionnent sans requête à Pactols ou à l'Insee.
+Si Leaflet est indisponible, les fiches restent consultables par recherche.
+Les contours (source ODbL) ont une attribution visible et explicite.
+
+La recherche ne couvre pour l'instant **ni les variantes SKOS altLabel
+non exportées ni les autorités historiques non validées**.
+Les contours du pilote ne représentent pas les limites anciennes.
 
 ## Corpus et exclusions
 
@@ -123,10 +156,12 @@ ne figurent pas dans la table éditoriale de cette version : elles devront
 
 ## Conditions préalables à la mise en ligne
 
-1. Relire les fiches et les 103 correspondances générées.
-2. Faire apparaître l'attribution ODbL sur la carte et dans les mentions
-   du site ; vérifier les détails de généralisation avant toute annonce
-   d'échelle cartographique.
-3. Définir la page cartographique et son comportement en cas de lieux
-   sans géométrie, de codes historiques et de relations non bijectives.
-4. Fusionner une PR validée seulement après tests et recette visuelle.
+1. Contrôler localement la recherche au clavier et les liens ARK, puis
+   sélectionner plusieurs communes sur la carte et sur petit écran.
+2. Vérifier l'affichage de l'attribution ODbL sur le fond de carte, ainsi
+   que les mentions du site ; ne pas déduire une échelle de généralisation
+   du nom du fichier GeoJSON.
+3. Maintenir l'exclusion des correspondances encore non validées.
+4. Fusionner la PR seulement après succès de la CI et recette visuelle.
+5. Reporter à un lot ultérieur les autorités sans géométrie, les relations
+   historiques et les correspondances non bijectives.
