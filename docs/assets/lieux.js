@@ -145,6 +145,14 @@
     field(identity.dl, 'Type de lieu', 'Commune');
     body.append(identity.section);
 
+    if (Array.isArray(record.variantes_pactols) && record.variantes_pactols.length) {
+      const labels = group('Autres libellés Pactols');
+      for (const variante of record.variantes_pactols) {
+        field(labels.dl, 'Variante (' + variante.langue + ')', variante.libelle);
+      }
+      body.append(labels.section);
+    }
+
     const insee = group('Référence administrative');
     field(insee.dl, 'Nom COG', relation.libelle_cog);
     field(insee.dl, 'Code INSEE', relation.code_insee);
