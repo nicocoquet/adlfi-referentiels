@@ -206,6 +206,10 @@ def construire(csv_bytes, geo_bytes, *, verification_sources=True,
             "perimetre": "PACA",
             "millesime_cog": 2026,
             "source": _source_provenance(SOURCE_GEO, SOURCE_GEO_BLOB),
+            "source_cartographique": "Contours administratifs 2026 (data.gouv.fr)",
+            "url_source_cartographique": "https://www.data.gouv.fr/datasets/contours-administratifs",
+            "licence_source": "ODbL-1.0",
+            "attribution_source": "Contours administratifs — data.gouv.fr / IGN et contributeurs OpenStreetMap",
             "avertissement": (
                 "Les contours sont ceux du fichier cartographique source ; "
                 "ils ne représentent pas les limites historiques des communes."
