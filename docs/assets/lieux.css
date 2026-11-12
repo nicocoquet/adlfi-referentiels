@@ -1,0 +1,75 @@
+/* Module Lieux — pilote PACA : recherche, carte et fiche documentaire. */
+.lieux-content{padding-bottom:18px}
+.lieux-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;position:relative;z-index:1200;margin:0 0 17px}
+.lieux-search-box{position:relative;flex:1 1 480px;max-width:790px;min-width:220px}
+.lieux-search-field{display:flex;gap:12px;align-items:center;padding:0 15px;border:1px solid #cbdadc;border-radius:9px;background:#fff;box-shadow:var(--shadow);color:#64808a;transition:border-color .16s,box-shadow .16s}
+.lieux-search-field:focus-within{border-color:#4d9198;box-shadow:0 0 0 3px #a9dadb52}
+.lieux-search-field svg{flex:none}
+.lieux-search-field input{height:48px;min-width:0;flex:1;border:0;background:transparent;outline:0!important;color:#233f4a;font-size:13.5px}
+.lieux-search-field input::placeholder{color:#889aa0;opacity:1}
+.lieux-suggestions[hidden]{display:none}
+.lieux-suggestions{position:absolute;top:calc(100% + 5px);right:0;left:0;z-index:1300;background:#fff;border:1px solid #cbdadc;border-radius:9px;box-shadow:0 14px 30px #112d3c24;list-style:none;padding:5px;margin:0;max-height:345px;overflow-y:auto}
+.lieux-suggestions li{padding:10px 12px;cursor:pointer;border-radius:6px;display:flex;align-items:flex-start;gap:12px;justify-content:space-between;font-size:13px}
+.lieux-suggestions li + li{border-top:1px solid #f0f3f3}
+.lieux-suggestions li:hover,.lieux-suggestions li.is-active{background:#edf5f5}
+.lieux-suggestions strong{font-weight:650;color:#204758;line-height:1.35;display:block}
+.lieux-suggestions small{font-size:11px;color:#738a94;line-height:1.45;display:block;margin-top:3px}
+.lieux-suggestions .lieux-suggestion-code{color:#6c8590;font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lieux-suggestions .lieux-no-match{color:#637d88;cursor:default;line-height:1.5}
+.lieux-reset{height:46px;border:1px solid #d0dddf;border-radius:8px;padding:0 15px;background:#fff;color:#386a72;font-weight:650;font-size:12px;white-space:nowrap}
+.lieux-reset:hover{background:#eaf3f3}
+.lieux-counter{margin-left:auto;white-space:nowrap;font-size:11.5px;color:#637b85;font-variant-numeric:tabular-nums}
+.lieux-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(275px,340px);gap:17px;align-items:stretch}
+.lieux-map-section{min-width:0;background:#fff;border-radius:11px;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.lieux-map{height:clamp(480px,63vh,740px);width:100%;min-height:480px;background:#e9eef0;z-index:0}
+.lieux-map-status{background:#fff;color:#536f7a;font-size:11px;margin:0;padding:8px 14px;border-top:1px solid #edf1f2}
+.lieux-map-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 18px;border-top:1px solid #e5eae9;background:#fff;padding:9px 14px;color:#607984;font-size:10.5px;line-height:1.5}
+.lieux-map-foot a{font-weight:600}
+.lieux-key{display:inline-block;vertical-align:middle;height:10px;width:18px;background:#5e9ea237;border:1.5px solid #477d82;margin-right:7px;border-radius:2px}
+.lieux-detail{min-width:0;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.lieux-detail-head{padding:16px 18px;border-bottom:1px solid #e6ecee;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:#f8fafa}
+.lieux-detail-label{color:#607c87;letter-spacing:.075em;text-transform:uppercase;font-size:10.5px;font-weight:760}
+.lieux-scope{background:#ebf3f2;border:1px solid #d7e6e4;color:#34707a;border-radius:15px;padding:4px 9px;font-size:10px;font-weight:680}
+#lieux-detail-body{padding:20px;flex:1}
+.lieux-empty{color:#79909a;text-align:center;max-width:235px;margin:42px auto}
+.lieux-empty svg{color:#90b2b9}
+.lieux-empty h2{font:600 21px/1.3 Georgia,serif;color:#204b5c;margin:15px 0 8px}
+.lieux-empty p{line-height:1.75;font-size:12.5px;margin:0}
+.lieux-fiche h2{font:600 23px/1.2 Georgia,"Iowan Old Style",serif;color:#133e51;letter-spacing:-.012em;margin:4px 0 8px;overflow-wrap:anywhere}
+.lieux-fiche__type{font-size:11px;color:#6b8690;font-weight:650;letter-spacing:.03em}
+.lieux-fiche__status{display:inline-block;background:#e8f4ef;border:1px solid #cde2d8;color:#38745f;padding:5px 9px;border-radius:5px;font-size:11px;font-weight:670;margin:9px 0 14px}
+.lieux-fiche__group{border-top:1px solid #e7eeef;padding-top:16px;margin-top:16px}
+.lieux-fiche__group h3{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;font-weight:770;color:#5a747e;margin:0 0 11px}
+.lieux-fiche__dl{display:grid;grid-template-columns:105px minmax(0,1fr);gap:8px 9px;margin:0}
+.lieux-fiche__dl dt{font-size:11.5px;color:#7a8f98;line-height:1.5}
+.lieux-fiche__dl dd{font-size:12px;line-height:1.5;margin:0;color:#263f4c;overflow-wrap:anywhere}
+.lieux-fiche__dl dd a{font-weight:650;word-break:break-all}
+.lieux-fiche__source{font-size:11.5px;line-height:1.65;color:#6e818a;margin:11px 0 0}
+.lieux-fiche__back{background:transparent;border:0;padding:0;color:var(--teal);font-size:11.5px;font-weight:700;margin-top:18px}
+.lieux-fiche__back:hover{text-decoration:underline}
+.lieux-note{color:#748891;font-size:11.5px;line-height:1.65;margin:12px 0 22px;max-width:1100px}
+.lieux-map .leaflet-control-attribution{font-size:9.5px;background:#fffffff2}
+.lieux-map .leaflet-control-attribution a{color:#326879}
+.lieux-map .leaflet-interactive:focus-visible{outline:2px solid #1d717d}
+@media(max-width:1050px){
+  .lieux-layout{grid-template-columns:minmax(0,1fr) 295px}
+  .lieux-map{height:575px}
+  .lieux-search-box{max-width:none}
+  .lieux-counter{width:100%;margin-left:0}
+}
+@media(max-width:790px){
+  .lieux-layout{grid-template-columns:1fr}
+  .lieux-map{height:460px;min-height:360px}
+  .lieux-detail{min-height:220px}
+  .lieux-empty{margin:14px auto 10px}
+  .lieux-toolbar{gap:9px}
+  .lieux-search-box{flex-basis:100%}
+}
+@media(max-width:480px){
+  .lieux-map{height:390px;min-height:340px}
+  .lieux-search-field input{font-size:12px}
+  .lieux-reset{height:38px}
+  .lieux-counter{width:auto;flex:1;text-align:right}
+  #lieux-detail-body{padding:17px}
+  .lieux-fiche__dl{grid-template-columns:95px minmax(0,1fr)}
+}
