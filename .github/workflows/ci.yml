@@ -22,7 +22,12 @@ jobs:
       - name: Tester le schéma et l'export des médias
         run: python3 -m unittest discover -s tests -v
       - name: Contrôler la syntaxe JavaScript
-        run: node --check docs/assets/organismes.js
+        run: |
+          node --check docs/assets/organismes.js
+          node --check docs/assets/lieux-search.js
+          node --check docs/assets/lieux.js
+      - name: Vérifier la recherche et les sélections géographiques
+        run: node tests/test_lieux_search.js
       - name: Vérifier les classements de tutelles
         run: node tests/test_tutelles_order.js
       - name: Vérifier les successions et liens entre autorités

@@ -1,0 +1,2194 @@
+{
+  "schema_version": "0.1.0",
+  "module": "lieux",
+  "perimetre": "PACA",
+  "statut_publication": "pilote_valide",
+  "provenance": {
+    "autorites": {
+      "depot": "nicocoquet/atlas-documentaire",
+      "commit": "bc0455c7d1dbf65f579e9b25a01eb7928a8054d5",
+      "chemin": "experimentation/donnees/autorite_pactols_insee.csv",
+      "git_blob_sha": "8d039fe574413df89524b39540ba962ce89ca0a0"
+    },
+    "geometries": {
+      "depot": "nicocoquet/atlas-documentaire",
+      "commit": "bc0455c7d1dbf65f579e9b25a01eb7928a8054d5",
+      "chemin": "cartographie/geometries/communes-1000m.geojson",
+      "git_blob_sha": "0525607f277ec4c915a3e3273e716a5b1f1108d5"
+    },
+    "millesime_cog": 2026,
+    "validation_editoriale": "2026-10-18"
+  },
+  "totaux": {
+    "autorites_pactols": 103,
+    "communes_cog": 103,
+    "geometries": 103,
+    "lignes_source": 218,
+    "lignes_non_validees_exclues": 115
+  },
+  "autorites": [
+    {
+      "ark_pactols": "26678/pcrtD12duBekzn",
+      "libelle_pactols": "Aiglun (Alpes-Maritimes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06001",
+          "libelle_cog": "Aiglun",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtjubeAEzerr",
+      "libelle_pactols": "Aiguines",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83002",
+          "libelle_cog": "Aiguines",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtbE3vzlaX0O",
+      "libelle_pactols": "Aix-en-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13001",
+          "libelle_cog": "Aix-en-Provence",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtaN2ugWtO7i",
+      "libelle_pactols": "Allauch",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13002",
+          "libelle_cog": "Allauch",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt3pvNQUYc80",
+      "libelle_pactols": "Allemagne-en-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04004",
+          "libelle_cog": "Allemagne-en-Provence",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt63hcQfWGpY",
+      "libelle_pactols": "Antibes",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06004",
+          "libelle_cog": "Antibes",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtliYsR97seb",
+      "libelle_pactols": "Arles",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13004",
+          "libelle_cog": "Arles",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtEyohSHV6QV",
+      "libelle_pactols": "Aspremont (Hautes-Alpes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05008",
+          "libelle_cog": "Aspremont",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtyn1DKFPBR7",
+      "libelle_pactols": "Aubagne",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13005",
+          "libelle_cog": "Aubagne",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtMPptrPy60f",
+      "libelle_pactols": "Auriol",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13007",
+          "libelle_cog": "Auriol",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtQs4BJHvwvB",
+      "libelle_pactols": "Avignon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84007",
+          "libelle_cog": "Avignon",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtjh9cavbqmj",
+      "libelle_pactols": "Belcodène",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13013",
+          "libelle_cog": "Belcodène",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt112K2j0K5A",
+      "libelle_pactols": "Bollène",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84019",
+          "libelle_cog": "Bollène",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtOmRpFNshKr",
+      "libelle_pactols": "Breil-sur-Roya",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06023",
+          "libelle_cog": "Breil-sur-Roya",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt9UTTpk1ddT",
+      "libelle_pactols": "Brignoles",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83023",
+          "libelle_cog": "Brignoles",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtu7tnmpG8wm",
+      "libelle_pactols": "Cagnes-sur-Mer",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06027",
+          "libelle_cog": "Cagnes-sur-Mer",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt6NwAjeGWrS",
+      "libelle_pactols": "Castellane",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04039",
+          "libelle_cog": "Castellane",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt7SOJqZIuKk",
+      "libelle_pactols": "Cavaillon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84035",
+          "libelle_cog": "Cavaillon",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtLqT2MlZmMJ",
+      "libelle_pactols": "Comps-sur-Artuby",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83044",
+          "libelle_cog": "Comps-sur-Artuby",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtTuoQDv72jF",
+      "libelle_pactols": "Corbières-en-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04063",
+          "libelle_cog": "Corbières-en-Provence",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt6LgMSwvuv0",
+      "libelle_pactols": "Coudoux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13118",
+          "libelle_cog": "Coudoux",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtVDyMZYcQOT",
+      "libelle_pactols": "Digne-les-Bains",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04070",
+          "libelle_cog": "Digne-les-Bains",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtqXQdSfMEaj",
+      "libelle_pactols": "Draguignan",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83050",
+          "libelle_cog": "Draguignan",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt04w9FadYt3",
+      "libelle_pactols": "Draix",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04072",
+          "libelle_cog": "Draix",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtzLY3k0KuOO",
+      "libelle_pactols": "Drap",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06054",
+          "libelle_cog": "Drap",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtSeD2WMEIYA",
+      "libelle_pactols": "Dévoluy",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05139",
+          "libelle_cog": "Dévoluy",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtqRSsArYSvg",
+      "libelle_pactols": "Embrun",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05046",
+          "libelle_cog": "Embrun",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtVLDFnBLxEl",
+      "libelle_pactols": "Entraigues-sur-la-Sorgue",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84043",
+          "libelle_cog": "Entraigues-sur-la-Sorgue",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtWtB8ll4BRS",
+      "libelle_pactols": "Eyguières",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13035",
+          "libelle_cog": "Eyguières",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtAs1gmlWk3e",
+      "libelle_pactols": "Forcalqueiret",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83059",
+          "libelle_cog": "Forcalqueiret",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtnSq340T1TW",
+      "libelle_pactols": "Forcalquier",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04088",
+          "libelle_cog": "Forcalquier",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtK7siD8rXTM",
+      "libelle_pactols": "Fos-sur-Mer",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13039",
+          "libelle_cog": "Fos-sur-Mer",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtf7kqWDJiK5",
+      "libelle_pactols": "Fréjus",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83061",
+          "libelle_cog": "Fréjus",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtc0mvOyf7SS",
+      "libelle_pactols": "Gap",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05061",
+          "libelle_cog": "Gap",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt90anSinlO2",
+      "libelle_pactols": "Gigondas",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84049",
+          "libelle_cog": "Gigondas",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt4DtQq4Fz65",
+      "libelle_pactols": "Gourdon (Alpes-Maritimes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06068",
+          "libelle_cog": "Gourdon",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtaveQOswPTT",
+      "libelle_pactols": "Grasse",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06069",
+          "libelle_cog": "Grasse",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtxrk8Zfr25L",
+      "libelle_pactols": "Gréoux-les-Bains",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04094",
+          "libelle_cog": "Gréoux-les-Bains",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt81snOA5qz7",
+      "libelle_pactols": "Istres",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13047",
+          "libelle_cog": "Istres",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtVWd4qEv6l2",
+      "libelle_pactols": "La Brigue",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06162",
+          "libelle_cog": "La Brigue",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtKRz1I0qXAj",
+      "libelle_pactols": "La Brillanne",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04034",
+          "libelle_cog": "La Brillanne",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtFWwelHXly2",
+      "libelle_pactols": "La Bâtie-Montsaléon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05016",
+          "libelle_cog": "La Bâtie-Montsaléon",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt3SgckbFhPZ",
+      "libelle_pactols": "La Palud-sur-Verdon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04144",
+          "libelle_cog": "La Palud-sur-Verdon",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtIBiyStjdmE",
+      "libelle_pactols": "La Trinité (Alpes-Maritimes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06149",
+          "libelle_cog": "La Trinité",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtNsHeZyR3A5",
+      "libelle_pactols": "Laragne-Montéglin",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05070",
+          "libelle_cog": "Laragne-Montéglin",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtKfvv6696rT",
+      "libelle_pactols": "Le Beausset",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83016",
+          "libelle_cog": "Le Beausset",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt34WzPsXyzX",
+      "libelle_pactols": "Le Castellet (Var)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83035",
+          "libelle_cog": "Le Castellet",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtnZGhUY9A0A",
+      "libelle_pactols": "Le Fugeret",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04090",
+          "libelle_cog": "Le Fugeret",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrthNsyzlF5bA",
+      "libelle_pactols": "Le Muy",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83086",
+          "libelle_cog": "Le Muy",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt9rvvW8Owmx",
+      "libelle_pactols": "Le Noyer (Hautes-Alpes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05095",
+          "libelle_cog": "Le Noyer",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtVI8FuafJOQ",
+      "libelle_pactols": "Le Thor",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84132",
+          "libelle_cog": "Le Thor",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt1jeGHU0bYv",
+      "libelle_pactols": "Les Mées (Alpes-de-Haute-Provence)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04116",
+          "libelle_cog": "Les Mées",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtLjA85w5xrQ",
+      "libelle_pactols": "Levens (Alpes-Maritimes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06075",
+          "libelle_cog": "Levens",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtBJH6Y4UUHV",
+      "libelle_pactols": "Limans",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04104",
+          "libelle_cog": "Limans",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtHtDzH0oM8t",
+      "libelle_pactols": "Lorgues",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83072",
+          "libelle_cog": "Lorgues",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtlup50T8TOo",
+      "libelle_pactols": "Mane (Alpes-de-Haute-Provence)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04111",
+          "libelle_cog": "Mane",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtyp7udwikMa",
+      "libelle_pactols": "Manosque",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04112",
+          "libelle_cog": "Manosque",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtubOMSASQ1e",
+      "libelle_pactols": "Maussane-les-Alpilles",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13058",
+          "libelle_cog": "Maussane-les-Alpilles",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtnssnKihEzv",
+      "libelle_pactols": "Monieux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84079",
+          "libelle_cog": "Monieux",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtIQ1tsbdZQy",
+      "libelle_pactols": "Montlaux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04130",
+          "libelle_cog": "Montlaux",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtgMgV9Rhqn6",
+      "libelle_pactols": "Montmeyan",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83084",
+          "libelle_cog": "Montmeyan",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtaY7gqYzHc3",
+      "libelle_pactols": "Mouriès",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13065",
+          "libelle_cog": "Mouriès",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtDIOdjDZ591",
+      "libelle_pactols": "Moustiers-Sainte-Marie",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04135",
+          "libelle_cog": "Moustiers-Sainte-Marie",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt8nuE0LWfDN",
+      "libelle_pactols": "Méailles",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04115",
+          "libelle_cog": "Méailles",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtavlAY6Lrt0",
+      "libelle_pactols": "Méthamis",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84075",
+          "libelle_cog": "Méthamis",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt1HywsVy1mi",
+      "libelle_pactols": "Ollioules",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83090",
+          "libelle_cog": "Ollioules",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt935maKZfi3",
+      "libelle_pactols": "Ollières (Var)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83089",
+          "libelle_cog": "Ollières",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtT6pyqXyD0l",
+      "libelle_pactols": "Orange",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84087",
+          "libelle_cog": "Orange",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrticayz3SAqZ",
+      "libelle_pactols": "Peyrolles-en-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13074",
+          "libelle_cog": "Peyrolles-en-Provence",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtFZaTLVEWcF",
+      "libelle_pactols": "Peyruis",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04149",
+          "libelle_cog": "Peyruis",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtccsTDIyASs",
+      "libelle_pactols": "Pierrevert",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04152",
+          "libelle_cog": "Pierrevert",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtpmr8FUAYFZ",
+      "libelle_pactols": "Piolenc",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84091",
+          "libelle_cog": "Piolenc",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtgwaQpOPAZX",
+      "libelle_pactols": "Pourcieux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83096",
+          "libelle_cog": "Pourcieux",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtWQQ94q3j4n",
+      "libelle_pactols": "Riez",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04166",
+          "libelle_cog": "Riez",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtuVpD7K1lzu",
+      "libelle_pactols": "Rognes",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13082",
+          "libelle_cog": "Rognes",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtnkrBrM2TQw",
+      "libelle_pactols": "Saignon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84105",
+          "libelle_cog": "Saignon",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt0aTQhgFP8S",
+      "libelle_pactols": "Saint-Cyr-sur-Mer",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83112",
+          "libelle_cog": "Saint-Cyr-sur-Mer",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtgyMnv1radG",
+      "libelle_pactols": "Saint-Geniez",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04179",
+          "libelle_cog": "Saint-Geniez",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtL1tPHUmmgv",
+      "libelle_pactols": "Saint-Jeannet (Alpes-Maritimes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06122",
+          "libelle_cog": "Saint-Jeannet",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtCpHeG4H9uK",
+      "libelle_pactols": "Saint-Jurs",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04184",
+          "libelle_cog": "Saint-Jurs",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtJOhaU6ZvO0",
+      "libelle_pactols": "Saint-Martin-de-Brômes",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04189",
+          "libelle_cog": "Saint-Martin-de-Brômes",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtn4S3jPf7pG",
+      "libelle_pactols": "Saint-Martin-de-la-Brasque",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84113",
+          "libelle_cog": "Saint-Martin-de-la-Brasque",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtd6BilxFy3G",
+      "libelle_pactols": "Saint-Martin-les-Eaux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04190",
+          "libelle_cog": "Saint-Martin-les-Eaux",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtPcj8yz5cdM",
+      "libelle_pactols": "Saint-Maurice-en-Valgodemard",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05152",
+          "libelle_cog": "Saint-Maurice-en-Valgodemard",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtRVSsUB4LHT",
+      "libelle_pactols": "Saint-Maximin-la-Sainte-Baume",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83116",
+          "libelle_cog": "Saint-Maximin-la-Sainte-Baume",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtahFV71YNZh",
+      "libelle_pactols": "Saint-Rémy-de-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13100",
+          "libelle_cog": "Saint-Rémy-de-Provence",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtql5UJS3p5U",
+      "libelle_pactols": "Saint-Tropez",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83119",
+          "libelle_cog": "Saint-Tropez",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtcld7ihOBBw",
+      "libelle_pactols": "Salernes (Var)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83121",
+          "libelle_cog": "Salernes",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtmweinBqLFY",
+      "libelle_pactols": "Salon-de-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13103",
+          "libelle_cog": "Salon-de-Provence",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtHOiqmv6Eqi",
+      "libelle_pactols": "Sanary-sur-Mer",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83123",
+          "libelle_cog": "Sanary-sur-Mer",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtg78ho1aFjY",
+      "libelle_pactols": "Serres (Hautes-Alpes)",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05166",
+          "libelle_cog": "Serres",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt5iyapsZGYg",
+      "libelle_pactols": "Signes",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83127",
+          "libelle_cog": "Signes",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrttpxnuloGrg",
+      "libelle_pactols": "Sigonce",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "04206",
+          "libelle_cog": "Sigonce",
+          "millesime_cog": 2026,
+          "departement": "04",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtWBlmq6Pffb",
+      "libelle_pactols": "Solliès-Toucas",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83131",
+          "libelle_cog": "Solliès-Toucas",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtDE2ZcSBXcb",
+      "libelle_pactols": "Sorgues",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84129",
+          "libelle_cog": "Sorgues",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtaqNtT7o2Sc",
+      "libelle_pactols": "Tende",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06163",
+          "libelle_cog": "Tende",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtbjA0ZStKDH",
+      "libelle_pactols": "Toulon",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83137",
+          "libelle_cog": "Toulon",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrta7xcYMuWFF",
+      "libelle_pactols": "Trans-en-Provence",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83141",
+          "libelle_cog": "Trans-en-Provence",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtjJFLIftzIK",
+      "libelle_pactols": "Trescléoux",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "05172",
+          "libelle_cog": "Trescléoux",
+          "millesime_cog": 2026,
+          "departement": "05",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtFJTJDDUT97",
+      "libelle_pactols": "Vaison-la-Romaine",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "84137",
+          "libelle_cog": "Vaison-la-Romaine",
+          "millesime_cog": 2026,
+          "departement": "84",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtnN5cy7FuyM",
+      "libelle_pactols": "Valdeblore",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "06153",
+          "libelle_cog": "Valdeblore",
+          "millesime_cog": 2026,
+          "departement": "06",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrtFHQ3WkwYIE",
+      "libelle_pactols": "Ventabren",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "13114",
+          "libelle_cog": "Ventabren",
+          "millesime_cog": 2026,
+          "departement": "13",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    },
+    {
+      "ark_pactols": "26678/pcrt0n6LM8FOju",
+      "libelle_pactols": "Évenos",
+      "type_entite": "commune",
+      "correspondances": [
+        {
+          "referentiel": "COG",
+          "code_insee": "83053",
+          "libelle_cog": "Évenos",
+          "millesime_cog": 2026,
+          "departement": "83",
+          "region": "93",
+          "relation_editoriale": "correspondance_communale_validee",
+          "validation": {
+            "statut": "VALIDE_EDITEUR_2026_10_18",
+            "date": "2026-10-18",
+            "source": "Validation éditoriale en conversation + INSEE COG 2026"
+          }
+        }
+      ]
+    }
+  ]
+}

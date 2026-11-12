@@ -3,8 +3,12 @@
   "schema_version": "0.1.0",
   "modules": {
     "lieux": {
-      "status": "preparation",
-      "data": null
+      "status": "prototype",
+      "data": "data/lieux.json",
+      "data_schema": "0.1.0",
+      "geometries": "data/lieux-communes.geojson",
+      "perimetre": "PACA",
+      "autorites_validees": 103
     },
     "personnes": {
       "status": "preparation",
