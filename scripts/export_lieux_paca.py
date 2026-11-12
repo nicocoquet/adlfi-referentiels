@@ -218,7 +218,9 @@ def construire(csv_bytes, geo_bytes, *, verification_sources=True,
     return lieux, geom
 
 
-def serialiser(data):
+def serialiser(data, *, compact=False):
+    if compact:
+        return json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n"
     return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
 
 
@@ -235,7 +237,7 @@ def main():
     lieux, geom = construire(args.autorites.read_bytes(), args.geometries.read_bytes())
     output.mkdir(parents=True, exist_ok=True)
     (output / "lieux.json").write_text(serialiser(lieux), encoding="utf-8")
-    (output / "lieux-communes.geojson").write_text(serialiser(geom), encoding="utf-8")
+    (output / "lieux-communes.geojson").write_text(serialiser(geom, compact=True), encoding="utf-8")
     print(f"EXPORT LIEUX PACA OK : {len(lieux['autorites'])} autorités, "
           f"{len(geom['features'])} géométries, "
           f"{lieux['totaux']['lignes_non_validees_exclues']} lignes exclues")
