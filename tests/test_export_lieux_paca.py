@@ -81,10 +81,17 @@ class PublicationLieuxPACA(unittest.TestCase):
         self.assertEqual(self.lieux["provenance"]["autorites"]["git_blob_sha"], SOURCE_CSV_BLOB)
         self.assertEqual(self.lieux["provenance"]["geometries"]["git_blob_sha"], SOURCE_GEO_BLOB)
         self.assertEqual(self.geo["metadata"]["source"]["git_blob_sha"], SOURCE_GEO_BLOB)
+        self.assertEqual(self.geo["metadata"]["licence_source"], "ODbL-1.0")
+        self.assertEqual(self.geo["metadata"]["url_source_cartographique"],
+                         "https://www.data.gouv.fr/datasets/contours-administratifs")
 
     def test_exactement_103_autorites_validees_sans_doublon(self):
         self.assertEqual(len(self.lieux["autorites"]), 103)
         self.assertEqual(len(self.arks), 103)
+        self.assertEqual(
+            self.lieux["autorites"],
+            sorted(self.lieux["autorites"],
+                   key=lambda x: (x["libelle_pactols"].casefold(), x["ark_pactols"])))
         self.assertEqual(len(self.codes), 103)
         self.assertEqual(self.lieux["totaux"], {
             "autorites_pactols": 103, "communes_cog": 103,
