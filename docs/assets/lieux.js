@@ -147,8 +147,17 @@
 
     if (Array.isArray(record.variantes_pactols) && record.variantes_pactols.length) {
       const labels = group('Autres libellés Pactols');
+      // Une forme identique peut être attestée dans plusieurs langues SKOS :
+      // la fiche ne doit pas la répéter six fois.
+      const formes = new Map();
       for (const variante of record.variantes_pactols) {
-        field(labels.dl, 'Variante (' + variante.langue + ')', variante.libelle);
+        if (!formes.has(variante.libelle)) formes.set(variante.libelle, new Set());
+        formes.get(variante.libelle).add(variante.langue);
+      }
+      const entrees = [...formes.entries()].sort((a, b) =>
+        a[0].localeCompare(b[0], 'fr', { sensitivity: 'base' }));
+      for (const [libelle, langues] of entrees) {
+        field(labels.dl, 'Variante (' + [...langues].sort().join(', ') + ')', libelle);
       }
       body.append(labels.section);
     }
