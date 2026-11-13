@@ -119,6 +119,16 @@ class ProductionTests(unittest.TestCase):
         self.assertEqual(typer([{'libelles':['Europe physique','Alpes']}]),
                          'geographie_physique_hors_cog_communal')
 
+    def test_objets_hors_champ_non_confondus_avec_sans_candidature(self):
+        # Arks C (géographie physique) et nouveau profil hors champ doivent
+        # être distingués des communes sans correspondance lexicale.
+        construire(self.a,self.o,self.l,self.out,self.h)
+        self.assertEqual(self.donnees()[2]['statut_raccordement'],
+                         'hors_champ_communal_a_qualifier')
+        from construire_referentiel_lieux_national import typer
+        self.assertEqual(typer([{'libelles':['Monde antique','Gaule']}]),
+                         'autre_hors_champ_cog_communal')
+
 
 if __name__ == '__main__':
     unittest.main()
