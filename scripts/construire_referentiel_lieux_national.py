@@ -223,7 +223,9 @@ def construire(autorites_csv: Path, occurrences_csv: Path, alignements_csv: Path
         codes = sorted({x['code_insee_historique'] for x in proposals_for_ark})
         if ark in validated:
             status = 'validation_editoriale_paca_2026'
-        elif typ.endswith('_hors_cog_communal'):
+        elif typ in ('hydrographie_hors_cog_communal',
+                     'geographie_physique_hors_cog_communal',
+                     'autre_hors_champ_cog_communal'):
             status = 'hors_champ_communal_a_qualifier'
         elif not cog_historique:
             status = 'historique_cog_non_fourni'
