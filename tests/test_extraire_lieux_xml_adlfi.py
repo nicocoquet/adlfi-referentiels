@@ -129,6 +129,45 @@ class ExtractionLieuxTests(unittest.TestCase):
             aix = next(x for x in rows if x["ark_pactols"] == "26678/pcrtAix")
             self.assertEqual(int(aix["nombre_notices_distinctes"]), 2)
 
+    def test_auxiliaire_indexlist_identifie_sans_etre_parse(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            racine = Path(tmp) / "corpus"
+            racine.mkdir()
+            (racine / "AdlFI_2024.xml").write_text(XML, encoding="utf-8")
+            (racine / "AdlFI_2024_indexList.xml").write_text(
+                '<TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body>'
+                '<div subtype="notice"><head>Index technique</head></div>'
+                '</body></text></TEI>', encoding="utf-8")
+            invent = inventaire(racine)
+            aux = next(r for r in invent if r["decision"] == "auxiliaire")
+            self.assertEqual(aux["raison"], "auxiliaire_indexlist_pactols")
+            pilote_path = Path(tmp) / "pilote.json"
+            pilote_path.write_text(json.dumps(pilote()), encoding="utf-8")
+            sortie = Path(tmp) / "sortie"
+            preflight = execution(racine, sortie, pilote=pilote_path, inventaire_seul=True)
+            self.assertEqual((preflight["inclus"], preflight["auxiliaires"],
+                              preflight["analysables"]), (2, 1, 1))
+            rapport = execution(racine, sortie, pilote=pilote_path)
+            self.assertEqual(rapport["effectifs"]["notices"], 3)
+            self.assertEqual(rapport["effectifs"]["fichiers_auxiliaires_indexlist_exclus_du_parsing"], 1)
+            self.assertEqual(rapport["effectifs"]["fichiers_exclus_par_filtre_nom"], 0)
+            self.assertEqual(rapport["anomalies_par_type"]["aucun_index_pactols_lieux"], 1)
+
+    def test_ancetre_sans_ark_conserve_la_position(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fichier = Path(tmp) / "AdlFI_2024.xml"
+            fichier.write_text(XML.replace(
+                '<index source="26678/pcrtFrance">',
+                '<index>', 1), encoding="utf-8")
+            _, notices, occurrences, anomalies = extraire_fichier(fichier, fichier.name)
+            arks = json.loads(occurrences[0]["chaine_ark"])
+            labels = json.loads(occurrences[0]["chaine_libelles_fr"])
+            self.assertEqual(arks, ["26678/pcrtEurope", None, "26678/pcrtAix"])
+            self.assertEqual(labels, ["Europe", "France", "Aix-en-Provence"])
+            self.assertEqual(len(arks), len(labels))
+            self.assertEqual(occurrences[0]["qualite"], "hierarchie_partielle")
+            self.assertTrue(any(e["type"] == "ark_ancetre_invalide" for e in anomalies))
+
     def test_refus_ecriture_dans_le_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             racine = Path(tmp)
