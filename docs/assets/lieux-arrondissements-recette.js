@@ -70,11 +70,19 @@
     return r.json();
   }
   async function main() {
-    const [data,geo]=await Promise.all([
+    const [data,geo,communes]=await Promise.all([
       getJSON('../data/lieux-arrondissements.json'),
       getJSON('../data/lieux-arrondissements.geojson'),
+      getJSON('../data/lieux-communes-plm-reconstituees.geojson'),
     ]);
     verifier(data,geo);
+    if (communes.type !== 'FeatureCollection' ||
+        communes.metadata?.nature !== 'geometrie_derivee' ||
+        communes.features?.length !== 3 ||
+        new Set(communes.features.map(f => f.properties?.code_commune)).size !== 3 ||
+        communes.features.some(f => !['75056','69123','13055'].includes(f.properties?.code_commune))) {
+      throw new Error('Limites communales reconstituées incohérentes');
+    }
     for (const a of data.autorites) {
       const option=node('option'); option.value=a.libelle; option.label=a.code_insee; refs.options.append(option);
     }
@@ -86,6 +94,16 @@
       maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">contributeurs OpenStreetMap</a>',
     }).addTo(map);
     map.attributionControl.addAttribution('<a href="https://www.data.gouv.fr/datasets/contours-administratifs">Contours data.gouv.fr</a> · ODbL');
+    // Tracer les limites externes dans un panneau supérieur, sans interaction :
+    // elles sont DÉRIVÉES des arrondissements, pas une preuve externe.
+    map.createPane('arm-communal-borders');
+    map.getPane('arm-communal-borders').style.zIndex = 450;
+    map.getPane('arm-communal-borders').style.pointerEvents = 'none';
+    const parentBorders = L.geoJSON(communes, {
+      pane: 'arm-communal-borders',
+      interactive: false,
+      style: { color: '#142b43', weight: 2.8, opacity: .98, fill: false },
+    });
     outline=L.geoJSON(geo,{
       style:regionStyle,
       onEachFeature(feature,layer) {
@@ -97,6 +115,7 @@
         layer.on('click',()=>show(code));
       },
     }).addTo(map);
+    parentBorders.addTo(map);
     map.fitBounds(outline.getBounds(),{padding:[25,25]});
     const hash=new URLSearchParams(window.location.hash.slice(1)).get('arm');
     if (byCode.has(hash)) show(hash);
