@@ -85,3 +85,37 @@ Le premier corpus national réel n'a **pas encore été exécuté** : sa localis
 ```bash
 python3 -m unittest discover -s tests -p 'test_extraire_lieux_xml_adlfi.py' -v
 ```
+
+## Résultats du premier audit national — 13 novembre 2026
+
+Première extraction du dossier local, **non publiée** (copie du ZIP conservée hors dépôt public) :
+
+| Mesure | Résultat |
+| --- | ---: |
+| XML recensés | 1 511 |
+| XML répondant aux filtres de nom AdlFI / hors Edito | 701 |
+| Fichiers auxiliaires `*_indexList.xml` | **19** |
+| Fichiers à parser comme notices | **682** |
+| Éléments `div[notice]` comptés par le premier extracteur | 23 242 |
+| Éléments artificiels attribuables aux indexList | **688** |
+| Notices hors indexList (avant dédoublonnage) | **22 554** |
+| Occurrences terminales Pactols | **30 772** |
+| Autorités ARK distinctes | **9 928** |
+| ARK du pilote PACA présents | **103 / 103** |
+| Notices sans index géographique hors indexList | **285** |
+| Notices sans année d'opération hors indexList | **102** |
+
+**Correctifs de l'extracteur :**
+
+- Les 19 `*_indexList.xml` conservent leur statut de fichiers répondant au **filtre de nom** demandé, mais sont marqués `decision=auxiliaire` et ne sont plus parsés comme notices. L'inventaire ne les confond pas avec les 810 exclusions du filtre de nom.
+- Si un niveau de la chaîne hiérarchique Pactols possède un `source` vide/invalide, `chaine_ark` conserve sa position sous la forme `null`. Les ARK ne sont plus artificiellement décalés par rapport aux libellés français. Le diagnostic `ark_ancetre_invalide` reste signalé.
+
+**Anomalies éditoriales non résolues :**
+
+- **152 groupes candidats** de notices en doublon entre des fichiers différents, sur titre, sous-titre, année et ensemble d'ARK identiques : 130 Reims (original/`enriched`), 14 ARA 2016, 3 ARA 2025, 2 ARA 2024 et 3 autres. Ce n'est **pas** une décision de fusion ou de suppression.
+- Les **285** notices sans index géographique comprennent 196 notices du sous-corpus Reims et 29 notices dans `AdlFI_PACA_2021_83.xml` : le balisage source nécessite une instruction spécifique.
+- Parmi les **102** notices sans année extraite, 79 relèvent des fichiers ARA 2025. Exemple à contrôler dans le XML source : `Mozac – Ancien Carmel de Mozac`, année brute `20232` (2023 ne doit pas être corrigé implicitement).
+- **9** libellés français normalisés pointent vers deux ARK distincts ; **14** autorités ont plusieurs libellés français attestés dans les XML. Aucune variante d'identité n'est validée automatiquement.
+- **40** occurrences présentent une source ARK ancêtre manquante ou invalide ; l'extraction corrigée conserve ces lacunes explicitement.
+
+**Portée :** les valeurs hors pilote signifient « non instruit », et non « sans correspondance COG ». L'inventaire d'un répertoire sDrive n'établit pas à lui seul l'exhaustivité de toutes les notices AdlFI publiées. Le total de 22 554 notices n'est ni dédoublonné ni comparable directement à un décompte OAI-PMH sans audit des identifiants éditoriaux.
