@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Arrondissements municipaux — Recette Lieux AdlFI</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+  <style>
+    .arm-wrap { margin: 2rem auto 4rem; max-width: 1500px; padding: 0 2rem; }
+    .arm-wrap h1 { font-size: clamp(1.7rem, 3vw, 2.55rem); margin: .25rem 0; }
+    .arm-context { max-width: 75ch; line-height: 1.55; color: #4b5a69; }
+    .arm-controls { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin: 1.5rem 0 1rem; }
+    .arm-controls label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .3rem; }
+    .arm-controls input, .arm-controls select, .arm-controls button { min-height: 2.7rem; border: 1px solid #a4adb5; border-radius: 7px; font: inherit; padding: .45rem .7rem; background: white; color: #15283e; }
+    .arm-controls input { width: min(100%, 390px); }
+    .arm-controls button { cursor: pointer; background: #15283e; color: white; border-color: #15283e; }
+    .arm-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(270px, 1fr); gap: 1rem; }
+    #arm-map { height: 68vh; min-height: 450px; border: 1px solid #d7dfe7; border-radius: 12px; background: #eef2f7; }
+    #arm-detail { border: 1px solid #d7dfe7; border-radius: 12px; padding: 1.2rem; background: white; align-self: start; }
+    #arm-detail h2 { margin: .15rem 0 1rem; font-size: 1.45rem; }
+    #arm-detail dl { display: grid; grid-template-columns: 43% 1fr; row-gap: .6rem; margin: .5rem 0; font-size: .93rem; }
+    #arm-detail dt { color: #5b6776; }
+    #arm-detail dd { margin: 0; overflow-wrap: anywhere; }
+    #arm-status { font-size: .9rem; color: #43576a; margin: .5rem 0 1rem; }
+    .arm-warning { color: #6d5b43; border-left: 3px solid #caa66f; padding-left: .8rem; }
+    @media (max-width: 850px) { .arm-layout { grid-template-columns: 1fr; } #arm-map { height: 55vh; min-height: 350px; } .arm-wrap { padding: 0 1rem; } }
+  </style>
+</head>
+<body>
+<header><div class="site-top">
+  <a class="brand" href="../"><span><span class="brand-main">Référentiels AdlFI</span><span class="brand-sub">Vocabulaires contrôlés pour l’archéologie</span></span></a>
+</div></header>
+<main class="arm-wrap">
+  <a href="./">← Module Lieux</a>
+  <p>RECETTE — DONNÉES NON PUBLIÉES DANS LE RÉFÉRENTIEL PRINCIPAL</p>
+  <h1>Arrondissements municipaux</h1>
+  <p class="arm-context">45 entités administratives du COG 2026 : Paris (20), Lyon (9) et Marseille (16).
+    Les contours viennent des données administratives de 2026. Les références Pactols sont celles des <em>communes parentes</em>, pas des ARK d’arrondissements.</p>
+  <form class="arm-controls" id="arm-form">
+    <div><label for="arm-search">Nom ou code INSEE</label>
+      <input id="arm-search" type="search" list="arm-suggestions" autocomplete="off" placeholder="Lyon (2e), 69382…">
+      <datalist id="arm-suggestions"></datalist></div>
+    <div><label for="arm-ville">Ville</label><select id="arm-ville">
+      <option value="">Paris, Lyon et Marseille</option><option value="Paris">Paris</option>
+      <option value="Lyon">Lyon</option><option value="Marseille">Marseille</option>
+    </select></div>
+    <button type="submit">Afficher</button>
+    <button type="button" id="arm-reset">Vue générale</button>
+  </form>
+  <p role="status" id="arm-status" aria-live="polite">Chargement des données…</p>
+  <div class="arm-layout">
+    <section aria-label="Carte des arrondissements municipaux"><div id="arm-map" role="region" aria-label="Carte des 45 arrondissements municipaux"></div>
+      <p class="arm-context">Contours administratifs 2026, généralisation 100 m. © <a href="https://www.data.gouv.fr/datasets/contours-administratifs">data.gouv.fr / IGN et contributeurs OpenStreetMap</a> — ODbL.</p>
+    </section>
+    <aside id="arm-detail" aria-label="Fiche de l'arrondissement sélectionné"><p>Sélectionnez un contour ou recherchez un arrondissement.</p></aside>
+  </div>
+  <p class="arm-warning">Les années d’opération AdlFI ne définissent pas les périodes de validité des limites administratives. Trois mentions à trait d’union restent à instruire ; aucune relation géographique n’est déduite automatiquement de ces trois cas.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+<script src="../assets/lieux-arrondissements-recette.js" defer></script>
+</body>
+</html>
