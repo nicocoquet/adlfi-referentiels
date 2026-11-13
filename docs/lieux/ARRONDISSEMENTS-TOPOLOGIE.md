@@ -33,6 +33,21 @@ Les surfaces résultantes de l'union sont ~105,438 km² (Paris), ~47,832 km²
 (Lyon) et ~237,633 km² (Marseille), selon cette **géométrie généralisée**.
 Ce ne sont pas des superficies administratives officiellement certifiées.
 
+### Point de vigilance : superficie de Marseille
+
+L'union des 16 arrondissements de la source **généralisée à 100 m** donne
+**237,633 km²** (EPSG:2154). La Métropole Aix–Marseille–Provence indique
+**240,6 km²** pour la superficie de la commune de Marseille :
+https://ampmetropole.fr/metropole/le-territoire/les-communes/marseille/
+
+L'écart indicatif, **environ 2,97 km² (1,23 %)**, ne démontre pas à lui seul
+l'existence d'un trou, d'une mauvaise limite ou d'un arrondissement manquant :
+les conventions de calcul, les îles et la simplification du trait de côte
+peuvent affecter la comparaison. **Ne pas marquer l'enveloppe marseillaise
+« vérifiée contre le contour communal » tant qu'un GeoJSON communal de référence
+compatible n'a pas été analysé par différence symétrique**. Contrôler de
+préférence aussi la géométrie à généralisation de 5 m ou l'IGN source.
+
 ## Fichiers produits
 
 - `docs/data/lieux-communes-plm-reconstituees.geojson` : trois contours
