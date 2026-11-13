@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.1.0",
+  "statut": "audit_topologique_non_validation_de_l_enveloppe_officielle",
+  "millesime": 2026,
+  "precision": "100m",
+  "metrique": "Lambert-93 (EPSG:2154), longueurs en m, surfaces en m2",
+  "source": "ARM2026_TRANSFERT_CONTOURS.md",
+  "reference_independante": null,
+  "communes": {
+    "Paris": {
+      "code_commune": "75056",
+      "nombre_arrondissements": 20,
+      "geometrie_union_valide": true,
+      "chevauchements_surface_significatifs": 0,
+      "trous_internes": 0,
+      "composantes_spatiales": 1,
+      "surface_reconstituee_km2": 105.437561,
+      "longueur_bordure_exterieure_km": 53.410138,
+      "frontieres_internes_partagees_km": 67.246963,
+      "ecart_additivite_bordures_m": -0.0,
+      "composantes_km2": [
+        105.437561
+      ],
+      "reference_communale_independante": {
+        "statut": "non_fournie"
+      }
+    },
+    "Lyon": {
+      "code_commune": "69123",
+      "nombre_arrondissements": 9,
+      "geometrie_union_valide": true,
+      "chevauchements_surface_significatifs": 0,
+      "trous_internes": 0,
+      "composantes_spatiales": 1,
+      "surface_reconstituee_km2": 47.832143,
+      "longueur_bordure_exterieure_km": 45.515477,
+      "frontieres_internes_partagees_km": 29.895911,
+      "ecart_additivite_bordures_m": 0.0,
+      "composantes_km2": [
+        47.832143
+      ],
+      "reference_communale_independante": {
+        "statut": "non_fournie"
+      }
+    },
+    "Marseille": {
+      "code_commune": "13055",
+      "nombre_arrondissements": 16,
+      "geometrie_union_valide": true,
+      "chevauchements_surface_significatifs": 0,
+      "trous_internes": 0,
+      "composantes_spatiales": 7,
+      "surface_reconstituee_km2": 237.632955,
+      "longueur_bordure_exterieure_km": 143.144187,
+      "frontieres_internes_partagees_km": 97.853934,
+      "ecart_additivite_bordures_m": 0.0,
+      "composantes_km2": [
+        234.238437,
+        1.676698,
+        0.939996,
+        0.284263,
+        0.238864,
+        0.14852,
+        0.106176
+      ],
+      "reference_communale_independante": {
+        "statut": "non_fournie"
+      }
+    }
+  }
+}

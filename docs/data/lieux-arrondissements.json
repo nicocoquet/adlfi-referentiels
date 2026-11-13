@@ -1,0 +1,941 @@
+{
+  "schema_version": "0.1.0",
+  "module": "lieux",
+  "type_entite": "arrondissement_municipal",
+  "perimetre": "Paris–Lyon–Marseille",
+  "statut_publication": "recette_non_publiee",
+  "millesime_cog": 2026,
+  "provenance": {
+    "cog": {
+      "organisme": "Insee",
+      "url": "https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv",
+      "sha256_source": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3"
+    },
+    "geometries": {
+      "producteur": "Contours administratifs / data.gouv.fr",
+      "url": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz",
+      "sha256_source": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+      "generalisation": "100m",
+      "licence": "ODbL-1.0"
+    },
+    "attestations": {
+      "mode": "titre_de_notice_adlfi",
+      "sha256_notices": "b46a856a53c2556102f61ee0e1761a9e52f1267be92efaf3c0d1284c49feb1b7",
+      "sha256_occurrences": "b2e7332515c051e0c63e1fb29c840fa338aa85040fb2358a7df64d735b2942cd",
+      "note": "Présence d’au moins une attestation, pas un effectif de notices ni une preuve de validité administrative historique."
+    }
+  },
+  "totaux": {
+    "autorites": 45,
+    "attestees_adlfi": 32,
+    "non_attestees": 13,
+    "geometries": 45
+  },
+  "regles": {
+    "ark": "L’ARK Pactols est celui de la commune parente. Aucun ARK d’arrondissement inventé.",
+    "date": "Les contours sont ceux du millésime 2026 et ne sont pas des géométries historiques.",
+    "indexation": "L’arrondissement est déduit de la mention normalisée du titre, pas d’un index Pactols propre."
+  },
+  "autorites": [
+    {
+      "code_insee": "75101",
+      "libelle": "Paris (1er)",
+      "libelle_cog": "Paris 1er Arrondissement",
+      "typecom": "ARM",
+      "numero": 1,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75102",
+      "libelle": "Paris (2e)",
+      "libelle_cog": "Paris 2e Arrondissement",
+      "typecom": "ARM",
+      "numero": 2,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75103",
+      "libelle": "Paris (3e)",
+      "libelle_cog": "Paris 3e Arrondissement",
+      "typecom": "ARM",
+      "numero": 3,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75104",
+      "libelle": "Paris (4e)",
+      "libelle_cog": "Paris 4e Arrondissement",
+      "typecom": "ARM",
+      "numero": 4,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75105",
+      "libelle": "Paris (5e)",
+      "libelle_cog": "Paris 5e Arrondissement",
+      "typecom": "ARM",
+      "numero": 5,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75106",
+      "libelle": "Paris (6e)",
+      "libelle_cog": "Paris 6e Arrondissement",
+      "typecom": "ARM",
+      "numero": 6,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75107",
+      "libelle": "Paris (7e)",
+      "libelle_cog": "Paris 7e Arrondissement",
+      "typecom": "ARM",
+      "numero": 7,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75108",
+      "libelle": "Paris (8e)",
+      "libelle_cog": "Paris 8e Arrondissement",
+      "typecom": "ARM",
+      "numero": 8,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75109",
+      "libelle": "Paris (9e)",
+      "libelle_cog": "Paris 9e Arrondissement",
+      "typecom": "ARM",
+      "numero": 9,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75110",
+      "libelle": "Paris (10e)",
+      "libelle_cog": "Paris 10e Arrondissement",
+      "typecom": "ARM",
+      "numero": 10,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75111",
+      "libelle": "Paris (11e)",
+      "libelle_cog": "Paris 11e Arrondissement",
+      "typecom": "ARM",
+      "numero": 11,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75112",
+      "libelle": "Paris (12e)",
+      "libelle_cog": "Paris 12e Arrondissement",
+      "typecom": "ARM",
+      "numero": 12,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75113",
+      "libelle": "Paris (13e)",
+      "libelle_cog": "Paris 13e Arrondissement",
+      "typecom": "ARM",
+      "numero": 13,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75114",
+      "libelle": "Paris (14e)",
+      "libelle_cog": "Paris 14e Arrondissement",
+      "typecom": "ARM",
+      "numero": 14,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75115",
+      "libelle": "Paris (15e)",
+      "libelle_cog": "Paris 15e Arrondissement",
+      "typecom": "ARM",
+      "numero": 15,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75116",
+      "libelle": "Paris (16e)",
+      "libelle_cog": "Paris 16e Arrondissement",
+      "typecom": "ARM",
+      "numero": 16,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75117",
+      "libelle": "Paris (17e)",
+      "libelle_cog": "Paris 17e Arrondissement",
+      "typecom": "ARM",
+      "numero": 17,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75118",
+      "libelle": "Paris (18e)",
+      "libelle_cog": "Paris 18e Arrondissement",
+      "typecom": "ARM",
+      "numero": 18,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75119",
+      "libelle": "Paris (19e)",
+      "libelle_cog": "Paris 19e Arrondissement",
+      "typecom": "ARM",
+      "numero": 19,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "75120",
+      "libelle": "Paris (20e)",
+      "libelle_cog": "Paris 20e Arrondissement",
+      "typecom": "ARM",
+      "numero": 20,
+      "commune_parente": {
+        "nom": "Paris",
+        "code_insee": "75056",
+        "ark_pactols": "26678/pcrtKWS6It1qMw"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69381",
+      "libelle": "Lyon (1er)",
+      "libelle_cog": "Lyon 1er Arrondissement",
+      "typecom": "ARM",
+      "numero": 1,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69382",
+      "libelle": "Lyon (2e)",
+      "libelle_cog": "Lyon 2e Arrondissement",
+      "typecom": "ARM",
+      "numero": 2,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69383",
+      "libelle": "Lyon (3e)",
+      "libelle_cog": "Lyon 3e Arrondissement",
+      "typecom": "ARM",
+      "numero": 3,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69384",
+      "libelle": "Lyon (4e)",
+      "libelle_cog": "Lyon 4e Arrondissement",
+      "typecom": "ARM",
+      "numero": 4,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69385",
+      "libelle": "Lyon (5e)",
+      "libelle_cog": "Lyon 5e Arrondissement",
+      "typecom": "ARM",
+      "numero": 5,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69386",
+      "libelle": "Lyon (6e)",
+      "libelle_cog": "Lyon 6e Arrondissement",
+      "typecom": "ARM",
+      "numero": 6,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69387",
+      "libelle": "Lyon (7e)",
+      "libelle_cog": "Lyon 7e Arrondissement",
+      "typecom": "ARM",
+      "numero": 7,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69388",
+      "libelle": "Lyon (8e)",
+      "libelle_cog": "Lyon 8e Arrondissement",
+      "typecom": "ARM",
+      "numero": 8,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "69389",
+      "libelle": "Lyon (9e)",
+      "libelle_cog": "Lyon 9e Arrondissement",
+      "typecom": "ARM",
+      "numero": 9,
+      "commune_parente": {
+        "nom": "Lyon",
+        "code_insee": "69123",
+        "ark_pactols": "26678/pcrtykDpsdYKiV"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13201",
+      "libelle": "Marseille (1er)",
+      "libelle_cog": "Marseille 1er Arrondissement",
+      "typecom": "ARM",
+      "numero": 1,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13202",
+      "libelle": "Marseille (2e)",
+      "libelle_cog": "Marseille 2e Arrondissement",
+      "typecom": "ARM",
+      "numero": 2,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13203",
+      "libelle": "Marseille (3e)",
+      "libelle_cog": "Marseille 3e Arrondissement",
+      "typecom": "ARM",
+      "numero": 3,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13204",
+      "libelle": "Marseille (4e)",
+      "libelle_cog": "Marseille 4e Arrondissement",
+      "typecom": "ARM",
+      "numero": 4,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13205",
+      "libelle": "Marseille (5e)",
+      "libelle_cog": "Marseille 5e Arrondissement",
+      "typecom": "ARM",
+      "numero": 5,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13206",
+      "libelle": "Marseille (6e)",
+      "libelle_cog": "Marseille 6e Arrondissement",
+      "typecom": "ARM",
+      "numero": 6,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13207",
+      "libelle": "Marseille (7e)",
+      "libelle_cog": "Marseille 7e Arrondissement",
+      "typecom": "ARM",
+      "numero": 7,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13208",
+      "libelle": "Marseille (8e)",
+      "libelle_cog": "Marseille 8e Arrondissement",
+      "typecom": "ARM",
+      "numero": 8,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13209",
+      "libelle": "Marseille (9e)",
+      "libelle_cog": "Marseille 9e Arrondissement",
+      "typecom": "ARM",
+      "numero": 9,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13210",
+      "libelle": "Marseille (10e)",
+      "libelle_cog": "Marseille 10e Arrondissement",
+      "typecom": "ARM",
+      "numero": 10,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13211",
+      "libelle": "Marseille (11e)",
+      "libelle_cog": "Marseille 11e Arrondissement",
+      "typecom": "ARM",
+      "numero": 11,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13212",
+      "libelle": "Marseille (12e)",
+      "libelle_cog": "Marseille 12e Arrondissement",
+      "typecom": "ARM",
+      "numero": 12,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13213",
+      "libelle": "Marseille (13e)",
+      "libelle_cog": "Marseille 13e Arrondissement",
+      "typecom": "ARM",
+      "numero": 13,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13214",
+      "libelle": "Marseille (14e)",
+      "libelle_cog": "Marseille 14e Arrondissement",
+      "typecom": "ARM",
+      "numero": 14,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13215",
+      "libelle": "Marseille (15e)",
+      "libelle_cog": "Marseille 15e Arrondissement",
+      "typecom": "ARM",
+      "numero": 15,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": true,
+        "statut": "forme_documentaire_observee"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    },
+    {
+      "code_insee": "13216",
+      "libelle": "Marseille (16e)",
+      "libelle_cog": "Marseille 16e Arrondissement",
+      "typecom": "ARM",
+      "numero": 16,
+      "commune_parente": {
+        "nom": "Marseille",
+        "code_insee": "13055",
+        "ark_pactols": "26678/pcrtkSBSb8k4Ad"
+      },
+      "attestation_adlfi": {
+        "observe_dans_titre": false,
+        "statut": "aucune_observation_extraite"
+      },
+      "identification": {
+        "statut": "verifie_cog_2026",
+        "millesime": 2026
+      }
+    }
+  ]
+}
