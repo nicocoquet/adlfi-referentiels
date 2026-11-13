@@ -145,6 +145,23 @@
     field(identity.dl, 'Type de lieu', 'Commune');
     body.append(identity.section);
 
+    if (Array.isArray(record.variantes_pactols) && record.variantes_pactols.length) {
+      const labels = group('Autres libellés Pactols');
+      // Une forme identique peut être attestée dans plusieurs langues SKOS :
+      // la fiche ne doit pas la répéter six fois.
+      const formes = new Map();
+      for (const variante of record.variantes_pactols) {
+        if (!formes.has(variante.libelle)) formes.set(variante.libelle, new Set());
+        formes.get(variante.libelle).add(variante.langue);
+      }
+      const entrees = [...formes.entries()].sort((a, b) =>
+        a[0].localeCompare(b[0], 'fr', { sensitivity: 'base' }));
+      for (const [libelle, langues] of entrees) {
+        field(labels.dl, 'Variante (' + [...langues].sort().join(', ') + ')', libelle);
+      }
+      body.append(labels.section);
+    }
+
     const insee = group('Référence administrative');
     field(insee.dl, 'Nom COG', relation.libelle_cog);
     field(insee.dl, 'Code INSEE', relation.code_insee);
