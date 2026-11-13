@@ -77,10 +77,17 @@ def inventaire(racine: Path) -> list[dict]:
         if p.suffix.lower() != ".xml":
             continue
         inclure, motif = retenir_fichier(p)
+        # Les *_indexList.xml satisfont les filtres éditoriaux de nom, mais
+        # sont des artefacts techniques Pactols : leurs div[notice] ne sont
+        # pas des notices de publication. Ne pas les parser comme telles.
+        auxiliaire = inclure and p.name.casefold().endswith("_indexlist.xml")
+        if auxiliaire:
+            motif = "auxiliaire_indexlist_pactols"
         lignes.append({
             "path": p, "fichier_relatif": p.relative_to(racine).as_posix(),
             "taille_octets": p.stat().st_size if not p.is_symlink() else "",
-            "decision": "inclu" if inclure else "exclu", "raison": motif,
+            "decision": "auxiliaire" if auxiliaire else ("inclu" if inclure else "exclu"),
+            "raison": motif,
             "sha256": "", "notices": "", "erreur": "",
         })
     return lignes
@@ -231,7 +238,9 @@ def extraire_notice(notice: ET.Element, relatif: str, numero: int):
                 "ark_terminal": arks[-1],
                 "libelle_terminal_fr": libelle_fr(final),
                 "libelle_original_index": original,
-                "chaine_ark": json.dumps([a for a in arks if a is not None], ensure_ascii=False),
+                # Garder les lacunes sous forme JSON null : les ARK et
+                # libellés de chaque niveau doivent rester alignés.
+                "chaine_ark": json.dumps(arks, ensure_ascii=False),
                 "chaine_libelles_fr": json.dumps([libelle_fr(e) for e in chemin], ensure_ascii=False),
                 "profondeur": len(chemin),
                 "zone_tei": element_zone(index, parents),
@@ -385,20 +394,24 @@ def execution(racine: Path, output_dir: Path, *, pilote: Path, inventaire_seul=F
     if output_dir == depot / "docs" or depot / "docs" in output_dir.parents:
         raise ValueError("Publication directe dans docs interdite")
     fichiers = inventaire(racine)
-    retenus = [row for row in fichiers if row["decision"] == "inclu"]
-    if not retenus:
-        raise ValueError("Aucun fichier XML AdlFI retenu après application des filtres")
+    retenus_par_nom = [r for r in fichiers if r["decision"] in ("inclu", "auxiliaire")]
+    auxiliaires = [r for r in fichiers if r["decision"] == "auxiliaire"]
+    analysables = [r for r in fichiers if r["decision"] == "inclu"]
+    if not analysables:
+        raise ValueError("Aucun fichier XML AdlFI analysable après exclusion des auxiliaires")
     output_dir.mkdir(parents=True, exist_ok=True)
     if inventaire_seul:
         ecrire_csv(output_dir / "inventaire_xml.csv", INV_CSV_FIELDS, fichiers)
-        print(f"INVENTAIRE : {len(retenus)} XML retenus sur {len(fichiers)} XML. ")
+        print(f"INVENTAIRE : {len(retenus_par_nom)} XML selon le nom sur {len(fichiers)} ; "
+              f"{len(auxiliaires)} auxiliaires indexList ; {len(analysables)} XML à parser.")
         print(f"SORTIE : {output_dir / 'inventaire_xml.csv'}")
-        return {"inclus": len(retenus), "examines": len(fichiers)}
+        return {"inclus": len(retenus_par_nom), "auxiliaires": len(auxiliaires),
+                "analysables": len(analysables), "examines": len(fichiers)}
 
     alignements = alignements_valides(pilote)
     notices, occurrences, anomalies = [], [], []
     sha_seen = {}
-    for i, fichier in enumerate(retenus, 1):
+    for i, fichier in enumerate(analysables, 1):
         try:
             sha, n, o, err = extraire_fichier(fichier["path"], fichier["fichier_relatif"])
             fichier["sha256"] = sha
@@ -417,7 +430,7 @@ def execution(racine: Path, output_dir: Path, *, pilote: Path, inventaire_seul=F
             notices.extend(n)
             occurrences.extend(o)
             anomalies.extend(err)
-            print(f"[{i}/{len(retenus)}] {fichier['fichier_relatif']} : "
+            print(f"[{i}/{len(analysables)}] {fichier['fichier_relatif']} : "
                   f"{len(n)} notices, {len(o)} index terminaux", flush=True)
         except (ET.ParseError, OSError, UnicodeError, ValueError) as erreur:
             fichier["decision"] = "erreur"
@@ -440,8 +453,11 @@ def execution(racine: Path, output_dir: Path, *, pilote: Path, inventaire_seul=F
                    "extension": ".xml", "parcours": "recursif"},
         "effectifs": {
             "fichiers_xml_examines": len(fichiers),
-            "fichiers_retenus_par_nom": len(retenus),
-            "fichiers_exclus": len(fichiers) - len(retenus),
+            "fichiers_retenus_par_nom": len(retenus_par_nom),
+            "fichiers_auxiliaires_indexlist_exclus_du_parsing": len(auxiliaires),
+            "fichiers_analysables": len(analysables),
+            "fichiers_exclus_par_filtre_nom": len(fichiers) - len(retenus_par_nom),
+            "fichiers_exclus": len(fichiers) - len(retenus_par_nom),
             "fichiers_xml_en_erreur": sum(f["decision"] == "erreur" for f in fichiers),
             "fichiers_doublons_exacts_exclus_des_statistiques": sum(
                 f["decision"] == "doublon" for f in fichiers),
@@ -458,6 +474,7 @@ def execution(racine: Path, output_dir: Path, *, pilote: Path, inventaire_seul=F
         "anomalies_par_type": err_by_type,
         "anomalies": anomalies,
         "note": ("Les années relevées ne développent pas automatiquement les intervalles. "
+                 "Les indexList sont inventoriés comme auxiliaires, pas comme notices. "
                  "Les identifiants Pactols hiérarchiques ne sont pas multipliés en occurrences. "
                  "Le statut hors_pilote n'est pas un refus de correspondance COG."),
     }
