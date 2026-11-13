@@ -1,0 +1,104 @@
+[
+  {
+    "ark": "26678/pcrtYQrGrlUtyP",
+    "libelle": "Agen",
+    "code_cog_candidat": "47001",
+    "titre_corps": "Itivin, Les routes des vins : amphores, itinéraires et marchands dans le centre-ouest de la Gaule (iie s. av. J.-C. – iie s. apr. J.-C.)",
+    "notice_id": "AdlFI_Nouvelle-Aquitaine/AdlFI_Nouvelle-Aquitaine_2020/XML/AdlFI_NA_2020_Interdep-PCR.xml::notice-000022",
+    "autres_departements_index": {
+      "Département de la Dordogne": 1,
+      "Département de la Vienne": 3,
+      "Département de Maine-et-Loire": 1,
+      "Département des Deux-Sèvres": 1
+    },
+    "zone_tei": "p",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrtHSt4S6U0IG",
+    "libelle": "Angers",
+    "code_cog_candidat": "49007",
+    "titre_corps": "La céramique médiévale et moderne de la Loire moyenne",
+    "notice_id": "AdlFI_Centre_Val-de-Loire/AdlFI_Centre_1998/XML/AdlFI_Centre_1998.xml::notice-000133",
+    "autres_departements_index": {
+      "Département du Loiret": 1,
+      "Département du Loir-et-Cher": 1,
+      "Département d'Indre-et-Loire": 1,
+      "Département de la Vienne": 1
+    },
+    "zone_tei": "autre",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrt5YI2zQtodM",
+    "libelle": "Bethon",
+    "code_cog_candidat": "51056",
+    "titre_corps": "Autoroute A28",
+    "notice_id": "AdlFI_Pays-de-la-Loire/AdlFI_PdL_1996/XML/AdlFI_PdL_1996.xml::notice-000047",
+    "autres_departements_index": {
+      "Département de la Sarthe": 14
+    },
+    "zone_tei": "p",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrtavZRJRD9Uf",
+    "libelle": "Usson",
+    "code_cog_candidat": "63439",
+    "titre_corps": "Habitats agglomérés en pays ségusiave : les formes du fait urbain dans la cité ségusiave du ier s. au iiie s. apr. J.‑C.",
+    "notice_id": "AdlFI_Auvergne_Rhone-Alpes/AdlFI_Rhone_Alpes/AdlFI_Rhone_Alpes_2015/XML/AdlFI_Rhone_Alpes_2015.xml::notice-000184",
+    "autres_departements_index": {
+      "Département de la Loire": 4
+    },
+    "zone_tei": "p",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrtKWS6It1qMw",
+    "libelle": "Paris",
+    "code_cog_candidat": "75056",
+    "titre_corps": "Paléolithique final et Mésolithique dans le Bassin parisien et ses marges : habitats, sociétés et environnements",
+    "notice_id": "AdlFI_Centre_Val-de-Loire/AdlFI_Centre_2013/XML/AdlFI_Centre_2013.xml::notice-000056",
+    "autres_departements_index": {
+      "Département de Seine-et-Marne": 5,
+      "Département de l'Essonne": 2,
+      "Département de Seine-Saint-Denis": 2,
+      "Département du Loiret": 1
+    },
+    "zone_tei": "p",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrtKWS6It1qMw",
+    "libelle": "Paris",
+    "code_cog_candidat": "75056",
+    "titre_corps": "Époque romaine tardive : organisation et occupation du territoire",
+    "notice_id": "AdlFI_Ile-de-France/AdlFI_Ile-de-France_1995/XML/AdlFI_IdF_1995_PCR.xml::notice-000002",
+    "autres_departements_index": {
+      "Département de Seine-et-Marne": 15,
+      "Département de l'Essonne": 5,
+      "Département du Val-d’Oise": 8,
+      "Département des Yvelines": 4,
+      "Département de Seine-Saint-Denis": 2,
+      "Département du Val-de-Marne": 1
+    },
+    "zone_tei": "autre",
+    "statut": "controle_contextuel_sans_invalidation"
+  },
+  {
+    "ark": "26678/pcrttMIHapwXmV",
+    "libelle": "Marsangy",
+    "code_cog_candidat": "89245",
+    "titre_corps": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien",
+    "notice_id": "AdlFI_Ile-de-France/AdlFI_Ile-de-France_1996/XML/AdlFI_Ile-de-France_1996_Interdep-PCR.xml::notice-000005",
+    "autres_departements_index": {
+      "Département des Hauts-de-Seine": 1,
+      "Département d'Indre-et-Loire": 1,
+      "Département de la Vienne": 1,
+      "Département de la Loire": 1,
+      "Département du Loiret": 1
+    },
+    "zone_tei": "p",
+    "statut": "controle_contextuel_sans_invalidation"
+  }
+]
