@@ -14,7 +14,7 @@ Le fichier de recette `inventaire-bourgogne-franche-comte.csv` (SHA-256 `efba75a
 
 La sélection géographique est fondée sur la **hiérarchie Pactols** comportant Bourgogne, Franche-Comté ou Bourgogne-Franche-Comté. Un fichier éditorial appartenant à une autre région peut donc contenir une occurrence géographique BFC ; réciproquement, les lieux indexés dans un BSR de Bourgogne ne sont pas tous des lieux géographiques bourguignons.
 
-## 2. Alerte de couverture documentaire : forte asymétrie
+## 2. Couverture XML : asymétrie liée à l’avancement éditorial
 
 Dans les seules 1 885 occurrences reconnues comme BFC par la hiérarchie Pactols, les provenances éditoriales sont :
 
@@ -40,7 +40,7 @@ Les fichiers de l'ancien ensemble Franche-Comté couvrent des éditions datées 
 | Sans département (trois autorités régionales ou historiques) | 3 |
 | **Total** | **736** |
 
-**Interprétation :** l'extraction XML v2 n'est **pas représentative de l'ensemble de la Bourgogne**. Les quatre départements de l'ancienne Bourgogne rassemblent 46 ARK (13 + 3 + 28 + 2), contre 687 dans les quatre départements de l'ancienne Franche-Comté ; trois autres ARK sont régionaux. Il faut vérifier la complétude des BSR et des dossiers XML bourguignons avant de prétendre à un référentiel régional complet. Cette disproportion ne justifie ni déplacement d'ARK d'autres corpus ni création d'autorités géographiques artificielles.
+**Interprétation rectifiée après précision du responsable éditorial (14 novembre 2026) :** la faible représentation de l'ancienne Bourgogne résulte **de l'avancement encore limité du travail de mise au format XML des notices d'opérations**. Il n'existe à ce stade **aucune preuve d'une anomalie de l'extracteur ni d'un déficit de fichiers XML pourtant disponibles et oubliés**. Les quatre départements de l'ancienne Bourgogne rassemblent 46 ARK (13 + 3 + 28 + 2), contre 687 dans les quatre départements de l'ancienne Franche-Comté ; trois autres ARK sont régionaux. Cette asymétrie est un **état de couverture documentaire du corpus AdlFI actuellement converti**, et non une propriété du territoire ou du thésaurus Pactols. Les résultats historiques portant sur les 736 ARK restent valables pour ce périmètre attesté, sans prétention à l'exhaustivité régionale. Aucun ARK ne doit être déplacé ou ajouté artificiellement pour rééquilibrer les chiffres.
 
 ## 3. Contrôle Pactols–COG 2026
 
@@ -108,7 +108,7 @@ Le rapport JSON et le graphe provisoire restent **des données de recette**, non
 
 ## 6. Arbitrages proposés pour la suite
 
-1. **Complétude Bourgogne** : établir l'inventaire des millésimes BSR bourguignons effectivement disponibles et déterminer pourquoi l'extraction XML v2 n'en retient que deux fichiers 2009.
+1. **Avancement éditorial Bourgogne** : poursuivre progressivement la mise au format XML des notices d'opérations lorsqu'elles seront traitées, puis relancer l'extraction nationale et l'audit régional ; ne pas ouvrir d'audit d'anomalie de l'extracteur sans indice supplémentaire.
 2. **Instruction historique BFC** : examiner d'abord les 25 anciens codes, les 10 entités `COMA`, les deux collisions d'ARK et les deux passages interdépartementaux, avant les 670 contrôles ordinaires.
 3. **Structure des référentiels** : conserver les ARK documentaires et les états administratifs Insee comme identités de nature différente, avec type, intervalle, événement, preuve, puis géométrie millésimée distincte.
 4. **Publication** : soumettre les rapprochements à la validation éditoriale avant toute modification de `docs/data/lieux*` ou de la carte publique.
