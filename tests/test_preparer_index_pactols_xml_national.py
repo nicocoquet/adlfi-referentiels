@@ -44,8 +44,10 @@ class IndexPactolsXML(unittest.TestCase):
                     {"Ancien nom","Ancienne forme"})
    self.assertEqual(by["26678/pcrtABC"]["correspondance_cog_validee_2026"]["code_insee"],"04072")
    self.assertIsNone(by["26678/crtXYZ"]["geometrie_historique"])
- def test_code_insee_non_valide_interdit(self):
-  # Les comportements de refus sont validés aussi par le test précédent :
-  # seule une entrée déjà au statut 'valide_pilote_paca_2026' doit porter un code.
+   a.write_text(a.read_text().replace("valide_pilote_paca_2026",
+                                      "hors_pilote_non_instruit"),encoding="utf8")
+   with self.assertRaises(ValueError):
+    produire(a,o,p/"refus",controler_empreintes=False)
+ def test_ligature_francaise(self):
   self.assertEqual(normaliser("l'Œuvre"),"l oeuvre")
 if __name__=="__main__":unittest.main()
