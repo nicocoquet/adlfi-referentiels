@@ -97,6 +97,7 @@ en ne téléchargeant que le fichier RDF concerné :
 
 ```bash
 git lfs version
+mkdir -p "$HOME/Desktop/AdlFI-sources-Pactols-20260722"
 GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 --filter=blob:none --sparse \
   https://github.com/frantiq/PACTOLS.git \
   "$HOME/Desktop/AdlFI-sources-Pactols-20260722/PACTOLS"
