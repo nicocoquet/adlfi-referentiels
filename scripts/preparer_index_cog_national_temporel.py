@@ -59,11 +59,14 @@ def construire(historique,courant,mouvements,sortie):
                "observations_COMA_COMD_2026":[],"observations_COM_ARM_2026":[],
                "mouvements":[]})
  percode=collections.defaultdict(list);lex=collections.defaultdict(set)
+ zero_duration=[]
  for r in hist:
   if r["TYPECOM"] not in ("COM","ARM"):raise ValueError("Historique TYPECOM non prévu")
   code=r["COM"];date0=r["DATE_DEBUT"];date1=r["DATE_FIN"] or None
-  if not (len(date0)==10 and (date1 is None or (len(date1)==10 and date0<date1))):
+  if not (len(date0)==10 and (date1 is None or (len(date1)==10 and date0<=date1))):
    raise ValueError("Dates COG incohérentes : "+code)
+  if date1==date0:
+   zero_duration.append({"code_insee":code,"libelle":r["LIBELLE"],"date":date0})
   period={"code_insee":code,"typecom":r["TYPECOM"],"libelle":r["LIBELLE"],
           "debut_inclus":date0,"fin_exclue":date1}
   shards[segment(code)]["periodes_"+r["TYPECOM"]].append(period)
@@ -148,6 +151,7 @@ def construire(historique,courant,mouvements,sortie):
    "index_toponymes":{"fichier":"index-toponymes-cog.json",
                        "sha256":sha(idx),"entrees":len(names)},
    "segments":metas,
+   "periodes_sans_duree":sorted(zero_duration,key=lambda x:x["code_insee"]),
    "statistiques":{"codes_historiques_COM":39117,
      "periodes_COM":42288,"periodes_ARM":45,
      "communes_COM_2026":34875,"communes_deleguees_2026":2105,
@@ -156,6 +160,7 @@ def construire(historique,courant,mouvements,sortie):
    "provenance_sha256":{n:sha(path.read_bytes()) for n,path in paths.items()},
    "garanties":["Périodes COM et ARM seulement pour l'historique depuis 1943.",
      "Statuts COMD/COMA uniquement observés au millésime 2026.",
+     "Les deux lignes COG de durée nulle sont conservées mais jamais actives au curseur.",
      "Événements et changements de périmètre distincts des changements de libellé.",
      "Le préfixe de code ne constitue pas un département de localisation historique.",
      "Aucun ARK attribué à partir du code ni des libellés.",
