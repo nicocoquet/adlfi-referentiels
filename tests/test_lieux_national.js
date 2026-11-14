@@ -80,6 +80,10 @@ const s04=segment('04072',[{code_insee:'04072',libelle:'Draix',
   debut_inclus:'1943-01-01',fin_exclue:null}]);
 assert.equal(m.fiche(draix,s04,2026).correspondance_administrative.code_insee,'04072');
 assert.equal(m.fiche(draix,s04,2026).statut_relation,'correspondance_COG_editeur_PACA_validee');
+assert.equal(m.fiche(draix,s04,2026).portee_validation,'millesime_COG_2026_uniquement');
+assert.equal(m.fiche(draix,s04,2026).consultation_COG_historique_meme_code,null);
+assert.equal(m.fiche(draix,s04,2017).correspondance_administrative,null);
+assert.equal(m.fiche(draix,s04,2017).consultation_COG_historique_meme_code.etat.libelle,'Draix');
 // Aucun mécanisme de rapprochement lexical ne doit inventer ce lien.
 assert.equal(m.fiche(m.chercher(index,'04072')[0],s04,2026).ark_pactols,null);
 assert.throws(()=>m.creerIndex({...d.pactols,autorites:[
