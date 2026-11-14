@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'scripts/auditer_lieux_pays_loire_cog.py'
+      - 'scripts/reconstituer_lieux_pays_loire_806.py'
+      - 'tests/test_reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_auditer_lieux_pays_loire_cog.py'
       - '.github/workflows/audit-lieux-pays-loire-cog2026.yml'
       - 'docs/lieux/recette/lot-01-pays-de-la-loire.csv'
@@ -19,7 +21,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Tests synthétiques
-        run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_reconstituer_lieux_pays_loire_806.py' -v
       - name: Télécharger et contrôler les fichiers officiels Insee 2026
         shell: bash
         run: |
