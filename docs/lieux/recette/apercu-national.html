@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Lieux — aperçu national temporel (recette)</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lieux.css">
+  <link rel="stylesheet" href="../../assets/lieux-national-preview.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="anonymous">
+</head>
+<body>
+<header>
+  <div class="site-top">
+    <a class="brand" href="../../">
+      <span><span class="brand-main">Référentiels AdlFI</span>
+      <span class="brand-sub">Vocabulaires contrôlés pour l’archéologie</span></span>
+    </a>
+    <a class="header-adlfi-link" href="https://journals.openedition.org/adlfi/"
+      target="_blank" rel="noopener noreferrer" aria-label="Consulter AdlFI">
+      <img class="header-adlfi-logo" src="../../assets/logo-adlfi.png"
+           width="600" height="281" alt="AdlFI — Archéologie de la France – Informations">
+    </a>
+  </div>
+</header>
+
+<div class="page-intro page-intro--with-art page-intro--compact-art">
+  <a class="back-home" href="../../">← Accueil</a>
+  <h1>Lieux</h1>
+  <div class="page-intro__art" aria-hidden="true">
+    <img src="../../assets/cartouches/lieux.webp" alt="" width="681" height="648" decoding="async">
+  </div>
+</div>
+
+<main class="page-content lieux-content">
+  <p class="lieux-preview-warning"><strong>Aperçu de recette — non publié.</strong>
+    Deux référentiels sont consultables sans rapprochement automatique :
+    concepts Pactols attestés dans les XML AdlFI et états administratifs Insee.
+    Les relations historiques candidates ne sont pas considérées comme validées.</p>
+  <section class="lieux-toolbar" aria-label="Recherche commune Pactols et COG">
+    <div class="lieux-search-box" id="nat-search-box">
+      <label class="visually-hidden" for="nat-query">Rechercher un lieu, un code Insee ou un ARK Pactols</label>
+      <div class="lieux-search-field">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"
+             stroke="currentColor" stroke-width="1.8" fill="none"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path></svg>
+        <input id="nat-query" type="search" autocomplete="off" spellcheck="false"
+          placeholder="Rechercher un nom ancien ou actuel, un code Insee, un ARK…"
+          role="combobox" aria-autocomplete="list" aria-expanded="false"
+          aria-controls="nat-suggestions" aria-haspopup="listbox">
+      </div>
+      <ul id="nat-suggestions" class="lieux-suggestions" role="listbox"
+          aria-label="Suggestions géographiques" hidden></ul>
+    </div>
+    <button type="button" class="lieux-reset" id="nat-reset">Vue générale</button>
+    <span id="nat-count" class="lieux-counter" aria-live="polite">Chargement des index nationaux…</span>
+  </section>
+
+  <section class="nat-time" aria-label="Consultation à une date">
+    <div class="nat-time-head">
+      <label for="nat-year"><strong>Géographie administrative au 1er janvier</strong></label>
+      <output id="nat-year-value" for="nat-year">2026</output>
+    </div>
+    <input id="nat-year" type="range" min="1943" max="2026" value="2026" step="1">
+    <div class="nat-time-bounds"><span>1943</span><span>2026</span></div>
+    <p>Le curseur change les états administratifs datés, <em>pas</em> l'index des anciens noms.
+       Une absence d'état « commune » ne signifie pas la disparition d'un lieu.</p>
+  </section>
+
+  <div class="lieux-layout">
+    <section class="lieux-map-section" aria-label="Carte des contours documentés">
+      <div id="nat-map" class="lieux-map" role="region"
+           aria-label="Fond cartographique actuel et contours PACA millésimés 2026"></div>
+      <p id="nat-map-status" class="lieux-map-status" role="status">
+        Le fond OpenStreetMap est contemporain ; les contours historiques ne sont pas disponibles.
+      </p>
+      <div class="lieux-map-foot">
+        <span>Contours : exclusivement les 103 communes PACA validées, au millésime 2026</span>
+        <span>Aucun contour actuel rétroprojeté dans le passé</span>
+      </div>
+    </section>
+    <aside class="lieux-detail" aria-label="Fiche historique du lieu sélectionné">
+      <div class="lieux-detail-head">
+        <span class="lieux-detail-label">Explorateur documentaire et administratif</span>
+        <span class="lieux-scope">Recette · COG 2026</span>
+      </div>
+      <div id="nat-detail" aria-live="polite" class="nat-detail">
+        <div class="lieux-empty">
+          <h2>Rechercher un lieu</h2>
+          <p>Les résultats distinguent une autorité Pactols d'un code Insee.
+            Leurs identifiants ne sont reliés que lorsque la correspondance a été validée.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <p class="lieux-note">Sources : extraction XML AdlFI (13 novembre 2026) ;
+    thésaurus Pactols (ARK documentaires) ; COG Insee 2026, historique depuis 1943.
+    Les années d'opération archéologique ne datent ni les noms administratifs ni leurs limites.
+    La consultation de ce prototype requiert un serveur HTTP local pour charger ses JSON.</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="anonymous" defer></script>
+<script src="../../assets/lieux-national.js" defer></script>
+<script src="../../assets/lieux-national-preview.js" defer></script>
+</body>
+</html>
