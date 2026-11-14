@@ -1,0 +1,72 @@
+name: Lieux — Corse, contrôle Pactols/Insee 2026 (recette)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-corse-cog2026.yml'
+      - 'docs/lieux/recette/inventaire-corse.csv'
+      - 'docs/lieux/recette/lot-01-corse.csv'
+      - 'scripts/auditer_lieux_corse_cog.py'
+      - 'tests/test_auditer_lieux_corse_cog.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-corse-cog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests de non-régression sur COG synthétique
+        run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_corse_cog.py' -v
+      - name: Télécharger les trois fichiers officiels Insee 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/insee-cog-2026
+          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
+            curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+              "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" \
+              -o "/tmp/insee-cog-2026/$f"
+            test "$(wc -c < "/tmp/insee-cog-2026/$f")" -gt 20000
+          done
+          sha256sum /tmp/insee-cog-2026/*.csv
+      - name: Auditer les 200 autorités corses (aucune validation publiée)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_lieux_corse_cog.py \
+            --inventaire docs/lieux/recette/inventaire-corse.csv \
+            --lot docs/lieux/recette/lot-01-corse.csv \
+            --communes /tmp/insee-cog-2026/v_commune_2026.csv \
+            --historique /tmp/insee-cog-2026/v_commune_depuis_1943.csv \
+            --mouvements /tmp/insee-cog-2026/v_mvt_commune_2026.csv \
+            --sortie /tmp/lieux-corse-cog-recette
+          python3 -m json.tool /tmp/lieux-corse-cog-recette/rapport-corse-cog-2026.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/lieux-corse-cog-recette/rapport-corse-cog-2026.json').read_text())
+          assert r['autorites']==200 and r['premier_lot']==25
+          assert r['candidatures_skos_code_commune']==194 and r['autres_autorites']==6
+          assert r['nouvelles_validations_pactols_cog']==0
+          with Path('/tmp/lieux-corse-cog-recette/SYNTHESE.md').open('w') as f:
+            f.write('# Lieux / Corse — audit de recette Insee 2026\n\n')
+            f.write(f"- ARK : **{r['autorites']}**, propositions communales : **194**, autres lieux : **6**.\n")
+            for key,v in r['repartition'].items():f.write(f'- `{key}` : {v}\n')
+            f.write('\nAucun alignement éditorial validé ; géométries historiques non établies.\n')
+          PY
+          cat /tmp/lieux-corse-cog-recette/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver les tableaux de Corse sans publier
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-lieux-corse-cog-2026
+          path: /tmp/lieux-corse-cog-recette/
+          if-no-files-found: warn
+          retention-days: 30

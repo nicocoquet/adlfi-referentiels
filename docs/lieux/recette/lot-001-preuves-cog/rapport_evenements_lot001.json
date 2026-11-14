@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "audit_evenements_non_validant",
+  "autorites_lot": 100,
+  "lignes_evenements_source": 13734,
+  "transitions_codes_candidats": 8,
+  "transitions_avec_evenement_direct_exact": 8,
+  "transitions_sans_evenement_direct_exact": 0,
+  "evenements_cog_releves_pour_deux_dossiers_speciaux": 15,
+  "repartition_MOD_transitions": {
+    "41": 8
+  },
+  "sources": {
+    "lot_editorial_prioritaire_001.csv": "57a60d513eb91f2ea0f6a03c9e838047a3ecac3fb8b59f8125f8248391fc1f46",
+    "v_mvt_commune_2026.csv": "8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1"
+  },
+  "avertissement": "Les événements attestent des mutations administratives, jamais une équivalence Pactols ou géométrique historique."
+}

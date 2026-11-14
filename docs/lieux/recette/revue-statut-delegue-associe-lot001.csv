@@ -1,0 +1,8 @@
+﻿dossier;typecom;code;libelle;statut_au_millesime_2026;comparent_2026;date_premiere_entree_attestee;date_derniere_sortie_attestee;nombre_lignes_evenements;geometrie_historique_validee;statut_lien_pactols_cog
+Aigondigné;COMD;79004;Aigonnay;present_au_cog_2026;79185;2019-01-01;;1;False;non_valide
+Aigondigné;COMD;79185;Mougon;present_au_cog_2026;79185;2017-01-01;;1;False;non_valide
+Aigondigné;COMD;79240;Sainte-Blandine;present_au_cog_2026;79185;2019-01-01;;1;False;non_valide
+Aigondigné;COMD;79327;Thorigné;present_au_cog_2026;79185;2017-01-01;;1;False;non_valide
+Allaines-Mervilliers;COMA;28244;Mervilliers;absent_2026_sortie_attestee;;1972-12-28;2019-01-01;2;False;non_valide
+Allaines-Mervilliers;COMD;28002;Allaines-Mervilliers;present_au_cog_2026;28199;2019-01-01;;1;False;non_valide
+Allaines-Mervilliers;COMD;28199;Janville;present_au_cog_2026;28199;2019-01-01;;1;False;non_valide

@@ -1,0 +1,95 @@
+name: Lieux — recherche des 8 cibles BFC dans Pactols-Lieux complet (20260722)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-bfc-pactols-th17.yml'
+      - 'scripts/rechercher_8_cibles_bfc_pactols_th17.py'
+      - 'scripts/rapprocher_relations_bfc_pactols_integral.py'
+      - 'tests/test_rapprocher_relations_bfc_pactols_integral.py'
+      - 'docs/lieux/recette/relations-bfc-14-sans-cible-initiale.csv'
+      - 'tests/test_rechercher_8_cibles_bfc_pactols_th17.py'
+      - 'docs/lieux/recette/cibles-a-rechercher-pactols-bfc-8.csv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recherche-pactols:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler les huit destinations et les méthodes SKOS
+        run: |
+          python3 -m unittest discover -s tests -p 'test_rechercher_8_cibles_bfc_pactols_th17.py' -v
+          python3 -m unittest discover -s tests -p 'test_rapprocher_relations_bfc_pactols_integral.py' -v
+      - name: Télécharger depuis Frantiq le thésaurus Pactols-Lieux intégral figé
+        shell: bash
+        run: |
+          set -euo pipefail
+          git lfs version
+          GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/frantiq/PACTOLS.git /tmp/pactols-frantiq
+          git -C /tmp/pactols-frantiq lfs install --local
+          GIT_LFS_SKIP_SMUDGE=1 git -C /tmp/pactols-frantiq sparse-checkout set \
+            pactols-latest-version/pactols_lieux_all
+          git -C /tmp/pactols-frantiq lfs pull \
+            --include='pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' \
+            --exclude=''
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  /tmp/pactols-frantiq/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum -c -
+      - name: Qualifier les huit communes réceptrices dans les 50 000 concepts Pactols
+        run: |
+          python3 scripts/rechercher_8_cibles_bfc_pactols_th17.py \
+            --rdf /tmp/pactols-frantiq/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --cibles docs/lieux/recette/cibles-a-rechercher-pactols-bfc-8.csv \
+            --sortie /tmp/pactols-bfc-8
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('/tmp/pactols-bfc-8/rapport-recherche-pactols-bfc.json').read_text())
+          assert report['cibles_communes_distinctes']==8
+          assert report['dossiers_source']==14
+          assert report['concepts_rdf_parcourus'] >= 30000
+          assert report['nouveaux_alignements_adlfi']==0
+          assert report['geometries_attribuees']==0
+          with Path('/tmp/pactols-bfc-8/SYNTHESE.md').open('w') as f:
+              f.write('# Recherche des 8 communes réceptrices dans Pactols-Lieux th17 du 22 juillet 2026\n\n')
+              f.write(f"Concepts inspectés : {report['concepts_rdf_parcourus']}\n\n")
+              f.write(f"Cibles avec un candidat : {report['cibles_avec_un_candidat']}/8\n\n")
+              f.write(f"Cibles avec lien Insee : {report['cibles_avec_lien_code_insee']}/8\n\n")
+              f.write('Aucune validation ARK/COG ni géométrie historique produite.\n')
+          PY
+          cat /tmp/pactols-bfc-8/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Rapprocher les 14 dossiers des concepts retrouvés et contrôler la reproductibilité
+        run: |
+          set -euo pipefail
+          for sortie in /tmp/pactols-bfc-8/rapprochement-14 /tmp/pactols-bfc-8/controle-repetition; do
+            python3 scripts/rapprocher_relations_bfc_pactols_integral.py \
+              --dossiers docs/lieux/recette/relations-bfc-14-sans-cible-initiale.csv \
+              --candidats /tmp/pactols-bfc-8/candidats-pactols-th17-bfc.csv \
+              --sortie "$sortie"
+          done
+          diff -qr /tmp/pactols-bfc-8/rapprochement-14 /tmp/pactols-bfc-8/controle-repetition
+          rm -rf /tmp/pactols-bfc-8/controle-repetition
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pactols-bfc-8/rapprochement-14/rapport-rapprochement-bfc-th17.json').read_text())
+          assert (r['dossiers_documentaires'],r['dossiers_avec_concept_cible_lexical'],r['dossiers_sans_concept_cible'])==(14,13,1)
+          assert r['communes_avec_concept_cible']==7
+          assert r['nouveaux_liens_valides']==r['geometries_historiques']==0
+          with Path('/tmp/pactols-bfc-8/SYNTHESE.md').open('a') as f:
+              f.write('\n## Rapprochement des 14 dossiers historiques\n')
+              f.write('13 candidats ARK cibles documentés, 1 dossier Verdun-Ciel ouvert. Zéro validation automatique.\n')
+          PY
+          cat /tmp/pactols-bfc-8/rapprochement-14/rapport-rapprochement-bfc-th17.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver seulement les résultats de recherche et leurs preuves
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit-bfc-8-cibles-pactols-th17-20260722
+          path: /tmp/pactols-bfc-8/
+          retention-days: 90
+          if-no-files-found: warn

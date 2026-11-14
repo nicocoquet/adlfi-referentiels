@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "audit_documentaire_non_validant",
+  "univers": "lot001_89_autorites_ordinaires",
+  "autorites": 89,
+  "alignements_cog_valides_nouveaux": 0,
+  "toutes_actives_cog_2026": true,
+  "plusieurs_departements_dans_pactols": 0,
+  "hierarchies_divergentes_apres_retrait_racine_facultative": 0,
+  "racine_facultative_entites_actuelles_sans_divergence": 17,
+  "absence_nom_dans_tous_les_titres": 22,
+  "autorites_avec_notices_transdepartementales": 6,
+  "cas_observations_transdepartementales": 7,
+  "groupes": {
+    "B_a_relire_contexte": 3,
+    "C_transversal_mais_atteste": 3,
+    "D_pret_pour_examen_editorial": 83
+  },
+  "indicateurs": {
+    "nom_absent_des_titres": 22,
+    "notice_transdepartementale": 6
+  },
+  "sources": {
+    "AdlFI_Lieux_lot001_prearbitrages_20261114.csv": "f03a0181625ff0edd78cce8f5ad4509218f0b9b97bc80c63d4e8fafc6717f751",
+    "occurrences_lieux.csv": "b2e7332515c051e0c63e1fb29c840fa338aa85040fb2358a7df64d735b2942cd",
+    "notices.csv": "b46a856a53c2556102f61ee0e1761a9e52f1267be92efaf3c0d1284c49feb1b7"
+  },
+  "limites": [
+    "Le nombre de notices atteste la provenance et non la valeur d’une autorité.",
+    "Une absence du libellé dans les titres ne constitue pas une anomalie : l’index peut porter sur le corps.",
+    "Une notice inter-départementale peut être parfaitement correcte, même avec un département Pactols minoritaire.",
+    "Les codes COG et les géométries historiques restent non validés à ce stade."
+  ]
+}

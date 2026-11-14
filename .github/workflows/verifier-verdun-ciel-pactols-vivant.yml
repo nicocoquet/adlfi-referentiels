@@ -1,0 +1,45 @@
+name: Lieux — Vérification Pactols vivant, Verdun-Ciel (recette)
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/verifier-verdun-ciel-pactols-vivant.yml'
+      - 'scripts/verifier_verdun_ciel_pactols_vivant.py'
+permissions:
+  contents: read
+jobs:
+  consultation-publique:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier quatre recherches publiques Pactols th17
+        run: |
+          python3 scripts/verifier_verdun_ciel_pactols_vivant.py --sortie /tmp/verdun-ciel/controle-pactols-vivant.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/verdun-ciel/controle-pactols-vivant.json')
+          r=json.loads(p.read_text())
+          assert len(r['controles'])==4
+          assert r['absence_pactols_confirmee'] is False
+          assert r['nouvel_ark_valide'] is None
+          with Path('/tmp/verdun-ciel/SYNTHESE.md').open('w') as f:
+              f.write('# Contrôle Pactols vivant — Verdun-Ciel\n\n')
+              f.write('Statut : '+r['statut']+'\n\n')
+              for c in r['controles']:
+                  f.write(f"- Recherche {c['requete']} ({c['format']}): HTTP {c.get('http_status')}, JSON={c.get('json_parseable')}, ARK observés={len(c.get('arks_reperes_dans_reponse',[]))}\n")
+              f.write('\nAucun ARK validé, aucune absence démontrée par une recherche négative.\n')
+          PY
+          cat /tmp/verdun-ciel/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver la réponse API et les limites
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verdun-ciel-pactols-vivant-recette
+          path: /tmp/verdun-ciel/
+          retention-days: 30
+          if-no-files-found: warn

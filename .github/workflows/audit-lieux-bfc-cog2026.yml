@@ -1,0 +1,217 @@
+name: Lieux — Bourgogne-Franche-Comté, audit COG 2026 (736 ARK, recette)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-bfc-cog2026.yml'
+      - 'scripts/auditer_lieux_bfc_cog.py'
+      - 'scripts/instruire_exceptions_bfc_cog.py'
+      - 'scripts/qualifier_relations_ark_bfc.py'
+      - 'scripts/instruire_p2_bfc_cog.py'
+      - 'scripts/instruire_p3_bfc_cog.py'
+      - 'tests/test_instruire_p3_bfc_cog.py'
+      - 'docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv'
+      - 'docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md'
+      - 'tests/test_instruire_p2_bfc_cog.py'
+      - 'docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv'
+      - 'docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv'
+      - 'tests/test_qualifier_relations_ark_bfc.py'
+      - 'tests/test_instruire_exceptions_bfc_cog.py'
+      - 'docs/lieux/recette/codes-historiques-absents-bfc-25.csv'
+      - 'docs/lieux/recette/codes-partages-ark-bfc-2.csv'
+      - 'tests/test_auditer_lieux_bfc_cog.py'
+      - 'docs/lieux/recette/inventaire-bourgogne-franche-comte.csv'
+      - 'docs/lieux/recette/lot-01-bourgogne-franche-comte.csv'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit-bfc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler les 736 ARK et l'identité du lot pilote
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_exceptions_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_qualifier_relations_ark_bfc.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_p2_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_p3_bfc_cog.py' -v
+      - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/cog
+          ok=1
+          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
+            if ! curl -fsSL --retry 1 --connect-timeout 20 --max-time 120 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"; then
+              ok=0
+              break
+            fi
+          done
+          if [[ "$ok" != "1" ]]; then
+            echo 'Serveur Insee inaccessible : reprise de la copie officielle contrôlée, issue du workflow Pays de la Loire du 14 novembre 2026.'
+            gh api -H 'Accept: application/vnd.github+json' \
+              'repos/nicocoquet/adlfi-referentiels/actions/artifacts/14120141338/zip' \
+              > /tmp/cog/cog-insee-2026-archive.zip
+            unzip -oq /tmp/cog/cog-insee-2026-archive.zip -d /tmp/cog
+            echo 'Attention : cette archive de secours est temporaire (expiration le 16 novembre 2026) ; la vérification SHA-256 reste impérative.'
+          fi
+          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
+          echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
+          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
+      - name: Auditer les 736 autorités et générer le graphe de recette
+        run: |
+          python3 scripts/auditer_lieux_bfc_cog.py \
+            --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/bfc-736
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/rapport-cog-bfc-736.json').read_text(encoding='utf8'))
+          assert (r['ark'],r['ark_avec_code'],r['ark_sans_code'])==(736,727,9)
+          assert (r['codes_distincts'],r['codes_partages_par_ark'])==(725,2)
+          assert (r['periodes_code_libelle_uniques'],r['lignes_mouvements_uniques'],r['etats_observes'])==(807,393,975)
+          assert r['validations_nouvelles']==r['geometries_historiques']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('w') as f:
+              f.write('# Bourgogne-Franche-Comté — audit non validant des 736 ARK\n\n')
+              f.write('**Avertissement de couverture :** les deux fichiers de Bourgogne datent de 2009, contre 21 fichiers Franche-Comté (1992–2011).\n\n')
+              for k,v in r['categories_ark'].items():f.write(f'- {k}: {v}\n')
+              f.write('\nAucune validation éditoriale nouvelle ni géométrie historique.\n')
+          PY
+          cat /tmp/bfc-736/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Instruire 25 codes historiques et quatre dossiers spécifiques
+        run: |
+          python3 scripts/instruire_exceptions_bfc_cog.py \
+            --codes25 docs/lieux/recette/codes-historiques-absents-bfc-25.csv \
+            --doubles docs/lieux/recette/codes-partages-ark-bfc-2.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/bfc-736/instruction-exceptions
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/instruction-exceptions/rapport-instruction-bfc.json').read_text())
+          assert (r['nombre_codes_historiques'],r['lignes_evenements_officiels'],
+                  r['codes_partages_ark_documentes'],r['communes_associees_interdepartementales'])==(25,42,2,2)
+          assert r['nouveaux_alignements_valides']==0 and r['geometries_historiques_attribuees']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\\n## 25 anciens codes et quatre dossiers particuliers\\n')
+              for k,v in r['repartition_profils'].items():f.write(f'- {k}: {v}\\n')
+              f.write('42 lignes de mouvements avant/après préservées ; aucune validation nouvelle.\\n')
+          PY
+          cat /tmp/bfc-736/instruction-exceptions/rapport-instruction-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Qualifier les relations candidates entre autorités sans fusion d'ARK
+        run: |
+          set -euo pipefail
+          for dest in /tmp/bfc-736/relations-candidates /tmp/bfc-736/relations-controle; do
+            python3 scripts/qualifier_relations_ark_bfc.py \
+              --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+              --anciens /tmp/bfc-736/instruction-exceptions/instruction-25-codes-historiques.csv \
+              --preuves /tmp/bfc-736/instruction-exceptions/preuves-mouvements-25.csv \
+              --partages /tmp/bfc-736/instruction-exceptions/deux-codes-partages-ark.csv \
+              --associes /tmp/bfc-736/instruction-exceptions/antorpe-frettes.csv \
+              --sortie "$dest"
+          done
+          diff -qr /tmp/bfc-736/relations-candidates /tmp/bfc-736/relations-controle
+          rm -rf /tmp/bfc-736/relations-controle
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/relations-candidates/rapport-relations-bfc.json').read_text())
+          assert (r['candidatures_administratives_total'],
+                  r['relations_entre_ark_candidates_non_validees'],
+                  r['candidatures_sans_ark_cible_univoque'])==(29,15,14)
+          assert (r['anciens_avec_libelle_cible_univoque'],r['anciens_avec_code_seul'],
+                  r['anciens_sans_ark_cible_dans_corpus'])==(11,9,5)
+          assert r['nouvelles_validations_adlfi']==0
+          assert r['geometries_historiques_attribuees']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\\n## Candidatures de relations historiques entre ARK\\n')
+              f.write('29 relations administratives étudiées ; 15 ARK cibles lexicaux candidats, 14 à instruire.\\n')
+              f.write('Aucune relation ARK–ARK publiée ou validée.\\n')
+          PY
+          cat /tmp/bfc-736/relations-candidates/rapport-relations-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Préinstruire cinq P2 BFC avec six événements administratifs
+        run: |
+          set -euo pipefail
+          for dest in /tmp/bfc-736/preinstruction-p2 /tmp/bfc-736/controle-p2; do
+            python3 scripts/instruire_p2_bfc_cog.py \
+              --candidatures docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
+              --contexte-39177 docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv \
+              --communes /tmp/cog/v_commune_2026.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$dest"
+          done
+          diff -qr /tmp/bfc-736/preinstruction-p2 /tmp/bfc-736/controle-p2
+          rm -rf /tmp/bfc-736/controle-p2
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/preinstruction-p2/rapport-p2-bfc.json').read_text(encoding='utf8'))
+          assert (r['candidatures_P2'],r['evenements_administratifs_distincts'],
+                  r['mouvements_officiels_avant_apres'])==(5,6,19)
+          assert r['creation_communes_nouvelles']==3 and r['fusions_associations']==2
+          assert r['evenement_ulterieur_suppression_COMD']==1
+          assert r['validations_editoriales']==r['nouvelles_equivalences_skos']==0
+          assert r['geometries_historiques']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\n## Préinstruction des cinq dossiers P2\n')
+              f.write('3 créations de communes nouvelles, 2 fusions-associations ; 6 événements au total avec la suppression des communes déléguées en 2020.\n')
+              f.write('19 lignes COG avant/après. Zéro décision éditoriale enregistrée.\n')
+          PY
+          cat /tmp/bfc-736/preinstruction-p2/rapport-p2-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Préinstruire les 20 P3 et vérifier 16 événements initiaux + 6 ultérieurs
+        run: |
+          set -euo pipefail
+          for target in /tmp/bfc-736/preinstruction-p3 /tmp/bfc-736/controle-p3; do
+            python3 scripts/instruire_p3_bfc_cog.py \
+              --candidatures docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+              --communes /tmp/cog/v_commune_2026.csv \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/bfc-736/preinstruction-p3 /tmp/bfc-736/controle-p3
+          rm -rf /tmp/bfc-736/controle-p3
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/preinstruction-p3/rapport-p3.json').read_text())
+          assert (r['dossiers_P3'],r['evenements_initiaux_distincts'],
+                  r['evenements_ulterieurs_distincts'],r['evenements_tous'])==(20,16,6,22)
+          assert (r['lignes_initiales_COG'],r['lignes_ulterieures_COG'],
+                  r['lignes_COG_uniques'])==(51,14,65)
+          assert r['evenements_initiaux_deja_P2']==2
+          assert r['validations_nouvelles']==r['equivalences_Skos_nouvelles']==0
+          assert r['geometries_historiques']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\n## Préinstruction des 20 dossiers P3\n')
+              f.write('16 événements initiaux (2 déjà en P2), 6 événements ultérieurs, 65 lignes COG distinctes.\n')
+              f.write('Aucune relation historique ou géométrie validée.\n')
+          PY
+          cat /tmp/bfc-736/preinstruction-p3/rapport-p3.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Joindre sources et méthode au lot P3 reproductible
+        run: |
+          cp docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv /tmp/bfc-736/preinstruction-p3/
+          cp scripts/instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
+          cp tests/test_instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
+          cp docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md /tmp/bfc-736/preinstruction-p3/
+      - name: Archiver la recette seulement
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-lieux-bfc-736-cog2026
+          path: /tmp/bfc-736/
+          retention-days: 90
+          if-no-files-found: warn

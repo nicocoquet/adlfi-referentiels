@@ -1,0 +1,101 @@
+name: Lieux — audit de raccordement géométrique 2026 (recette)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-geometries-lieux-cog2026.yml'
+      - 'scripts/auditer_raccordements_geometriques_2026.py'
+      - 'tests/test_auditer_raccordements_geometriques_2026.py'
+      - 'scripts/assembler_recette_lieux_133.py'
+      - 'scripts/auditer_topologie_lieux_133.py'
+      - 'tests/test_auditer_topologie_lieux_133.py'
+      - 'scripts/construire_episodes_cog_lot001.py'
+      - 'tests/test_episodes_cog_lot001.py'
+      - 'docs/lieux/recette/lot-001-preuves-cog/*.csv'
+      - 'tests/test_assembler_recette_lieux_133.py'
+      - 'docs/data/lieux.json'
+      - 'docs/lieux/recette/sous-lot-*-cog2026-controle.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier-geometries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer dépendances topologiques Shapely / PROJ
+        run: python3 -m pip install 'shapely>=2,<3' 'pyproj>=3,<4'
+      - name: Tester les cinq invariants topologiques (synthétique)
+        run: python3 -m unittest discover -s tests -p 'test_auditer_topologie_lieux_133.py' -v
+      - name: Tester le graphe COG historique sur les 23 preuves archivées
+        run: python3 -m unittest discover -s tests -p 'test_episodes_cog_lot001.py' -v
+      - name: Tester le contrat anti-publication et anti-anachronisme
+        run: python3 -m unittest discover -s tests -p 'test_auditer_raccordements_geometriques_2026.py' -v
+      - name: Tester l'assemblage homogène 103 + 30
+        run: python3 -m unittest discover -s tests -p 'test_assembler_recette_lieux_133.py' -v
+      - name: Télécharger le contour communal officiel de 2026 (100 m)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o /tmp/communes-100m-2026.geojson.gz
+          test "$(wc -c < /tmp/communes-100m-2026.geojson.gz)" -gt 1000000
+      - name: Auditer 30 contours en recette, sans valider les ARK
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_raccordements_geometriques_2026.py \
+            --sous-lot docs/lieux/recette/sous-lot-01-cog2026-controle.csv \
+            --sous-lot docs/lieux/recette/sous-lot-02-cog2026-controle.csv \
+            --sous-lot docs/lieux/recette/sous-lot-03-cog2026-controle.csv \
+            --geometries /tmp/communes-100m-2026.geojson.gz \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-raccordement-geometries-2026.json
+      - name: Réconcilier 103 validations PACA et 30 propositions sur la même source 100 m
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/assembler_recette_lieux_133.py \
+            --pilote docs/data/lieux.json \
+            --candidatures /tmp/rapport-geometries-lieux/raccordements-candidats-cog2026.json \
+            --geometries /tmp/communes-100m-2026.geojson.gz \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-carte-lieux-recette-133.json
+      - name: Vérifier la topologie des 133 communes et leurs voisins nationaux
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_topologie_lieux_133.py \
+            --carte /tmp/rapport-geometries-lieux/carte-lieux-recette-133-communes-2026-100m.geojson \
+            --source-communes /tmp/communes-100m-2026.geojson.gz \
+            --pilote-1000m docs/data/lieux-communes.geojson \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-topologie-133.json
+          python3 -c "import json; r=json.load(open('/tmp/rapport-geometries-lieux/rapport-topologie-133.json')); assert r['nombre_contours_pilote_equivalents_topologiquement']==103, 'Divergence entre pilote PACA et source 100m'; assert r['ecart_maximal_pilote_m2']==0.0, 'Ecart de surface PACA'; assert r['nombre_geometries_invalides']==0, 'Geometrie invalide'; assert r['nombre_contours_non_identiques_source']==0, 'Source modifiee'"
+      - name: Construire les épisodes COG vérifiés (8 MOD 41 et 3 MOD 32)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/construire_episodes_cog_lot001.py \
+            --transitions docs/lieux/recette/lot-001-preuves-cog/transitions_code_a_verifier.csv \
+            --particuliers docs/lieux/recette/lot-001-preuves-cog/evenements_communaux_particuliers.csv \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-episodes-cog-lot001.json
+          python3 -c "import json; a=json.load(open('/tmp/rapport-geometries-lieux/graphe-episodes-cog-lot001.json')); b=json.load(open('docs/lieux/recette/graphe-episodes-cog-lot001.json')); assert a==b, 'Graphe COG figé différent des preuves archivées'; print('Graphe COG conforme aux archives')"
+      - name: Archiver les contours et la preuve de provenance sans publier
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-candidats-geometries-2026-100m
+          path: /tmp/rapport-geometries-lieux/
+          if-no-files-found: warn
+          retention-days: 30

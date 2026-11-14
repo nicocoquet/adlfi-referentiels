@@ -1,0 +1,16 @@
+dossier;ark_pactols;DATE_EFF;MOD;sens_evenement;TYPECOM_AV;COM_AV;LIBELLE_AV;TYPECOM_AP;COM_AP;LIBELLE_AP;statut_validation_pactols
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COM;28002;Allaines-Mervilliers;COMD;28002;Allaines-Mervilliers;non_valide
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COM;28002;Allaines-Mervilliers;COM;28199;Janville-en-Beauce;non_valide
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COM;28199;Janville;COMD;28199;Janville;non_valide
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COM;28199;Janville;COM;28199;Janville-en-Beauce;non_valide
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COMA;28244;Mervilliers;COM;28199;Janville-en-Beauce;non_valide
+Allaines-Mervilliers;26678/pcrtwrbovhYGLl;2019-01-01;32;Création de commune nouvelle;COM;28311;Le Puiset;COM;28199;Janville-en-Beauce;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2019-01-01;32;Création de commune nouvelle;COM;79004;Aigonnay;COMD;79004;Aigonnay;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2019-01-01;32;Création de commune nouvelle;COM;79004;Aigonnay;COM;79185;Aigondigné;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2019-01-01;32;Création de commune nouvelle;COM;79185;Mougon-Thorigné;COM;79185;Aigondigné;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2019-01-01;32;Création de commune nouvelle;COM;79240;Sainte-Blandine;COM;79185;Aigondigné;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2019-01-01;32;Création de commune nouvelle;COM;79240;Sainte-Blandine;COMD;79240;Sainte-Blandine;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2017-01-01;32;Création de commune nouvelle;COM;79185;Mougon;COM;79185;Mougon-Thorigné;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2017-01-01;32;Création de commune nouvelle;COM;79185;Mougon;COMD;79185;Mougon;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2017-01-01;32;Création de commune nouvelle;COM;79327;Thorigné;COM;79185;Mougon-Thorigné;non_valide
+Aigondigné;26678/pcrtfw73wt5vbcj28pg6g6pd;2017-01-01;32;Création de commune nouvelle;COM;79327;Thorigné;COMD;79327;Thorigné;non_valide

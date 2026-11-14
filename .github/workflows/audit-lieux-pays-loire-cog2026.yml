@@ -1,0 +1,183 @@
+name: Lieux — Pays de la Loire, audit COG 2026 (806 ARK, recette)
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_lieux_pays_loire_cog.py'
+      - 'scripts/auditer_codes_partages_pdl_cog.py'
+      - 'scripts/auditer_98_lieux_imbriques_pdl_cog.py'
+      - 'scripts/auditer_parentages_pdl_120.py'
+      - 'scripts/qualifier_comparent_22_pdl.py'
+      - 'scripts/construire_graphe_mouvements_pdl_120.py'
+      - 'scripts/construire_graphe_cog_pdl_806.py'
+      - 'tests/test_construire_graphe_mouvements_pdl_120.py'
+      - 'tests/test_qualifier_comparent_22_pdl.py'
+      - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
+      - 'docs/lieux/recette/inventaire-pays-de-la-loire.csv'
+      - 'tests/test_auditer_parentages_pdl_120.py'
+      - 'scripts/reconstituer_lieux_pays_loire_806.py'
+      - 'tests/test_reconstituer_lieux_pays_loire_806.py'
+      - 'tests/test_auditer_lieux_pays_loire_cog.py'
+      - '.github/workflows/audit-lieux-pays-loire-cog2026.yml'
+      - 'docs/lieux/recette/lot-01-pays-de-la-loire.csv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests synthétiques
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_reconstituer_lieux_pays_loire_806.py' -v
+          python3 -m unittest discover -s tests -p 'test_auditer_parentages_pdl_120.py' -v
+          python3 -m unittest discover -s tests -p 'test_qualifier_comparent_22_pdl.py' -v
+          python3 -m unittest discover -s tests -p 'test_construire_graphe_mouvements_pdl_120.py' -v
+      - name: Télécharger et contrôler les fichiers officiels Insee 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/cog
+          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
+            curl -fL --retry 3 --connect-timeout 20 --max-time 240 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"
+          done
+          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
+          echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
+          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
+      - name: Archiver temporairement les sources COG officielles vérifiées
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog-insee-2026-sources-controlees
+          path: |
+            /tmp/cog/v_commune_2026.csv
+            /tmp/cog/v_commune_depuis_1943.csv
+            /tmp/cog/v_mvt_commune_2026.csv
+          retention-days: 2
+          if-no-files-found: error
+      - name: Audit des 25 ARK (et non 806)
+        run: |
+          python3 scripts/auditer_lieux_pays_loire_cog.py --inventaire docs/lieux/recette/lot-01-pays-de-la-loire.csv --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette --attendu 25
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/rapport.json').read_text())
+          assert r['ark']==25 and r['validations_nouvelles']==0 and r['geometries_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','w') as f:
+              f.write('# Pays de la Loire — lot pilote (25 ARK)\n\n')
+              for k,v in r['repartition'].items():f.write(f'- {k}: {v}\n')
+              f.write('\nAucune validation ou géométrie publiée.\n')
+          PY
+          cat /tmp/pdl-recette/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler les 22 codes partagés sur les mouvements officiels
+        run: |
+          python3 scripts/auditer_codes_partages_pdl_cog.py --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette/codes-partages-22
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/codes-partages-22/rapport-codes-partages-22.json').read_text())
+          assert r['codes']==22 and r['nouvelles_validations']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\\n## Codes partagés : 22\\n')
+              f.write(f"États code-libellé : {r['lignes_periodes']}; lignes de mouvements rattachées : {r['lignes_evenements_par_code']}.\\n")
+          PY
+          cat /tmp/pdl-recette/codes-partages-22/rapport-codes-partages-22.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler les 98 codes restants des lieux imbriqués
+        run: |
+          python3 scripts/auditer_98_lieux_imbriques_pdl_cog.py --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette/imbriques-98
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/imbriques-98/rapport-codes-98.json').read_text())
+          assert r['codes_audites']==98 and r['validations_nouvelles']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write(f"\\n## Lieux imbriqués : 98 codes distincts\\nPériodes : {r['lignes_periodes']}; mouvements par code : {r['lignes_mouvements_par_code']}.\\n")
+          PY
+          cat /tmp/pdl-recette/imbriques-98/rapport-codes-98.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler COMPARENT des 22 codes partagés sur COG 2026
+        run: |
+          python3 scripts/qualifier_comparent_22_pdl.py --couples docs/lieux/recette/parentages-pdl-22-a-controler.csv --communes /tmp/cog/v_commune_2026.csv --sortie /tmp/pdl-recette/comparent-22
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/comparent-22/rapport-comparent-22.json').read_text())
+          assert r['codes_insee']==22 and r['alignements_valides']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\n## COMPARENT des 22 codes partagés\n')
+              for cat,count in r['categories'].items():
+                  f.write(f'- {cat}: {count}\n')
+          PY
+          cat /tmp/pdl-recette/comparent-22/rapport-comparent-22.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Construire le graphe provisoire des mouvements des 120 codes
+        run: |
+          python3 scripts/construire_graphe_mouvements_pdl_120.py \
+            --evenements22 /tmp/pdl-recette/codes-partages-22/evenements-codes-partages-22.csv \
+            --evenements98 /tmp/pdl-recette/imbriques-98/evenements-codes-98.csv \
+            --periodes22 /tmp/pdl-recette/codes-partages-22/periodes-codes-partages-22.csv \
+            --periodes98 /tmp/pdl-recette/imbriques-98/periodes-codes-98.csv \
+            --sortie /tmp/pdl-recette/graphe-120
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/graphe-120/rapport-graphe-120.json').read_text())
+          assert r['lignes_mouvement_distinctes']==396
+          assert r['periodes_code_libelle']==167
+          assert r['nouveaux_alignements_adlfi']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write(f"\\n## Graphe COG provisoire des 120 codes\\n{r['lignes_mouvement_distinctes']} transitions documentaires distinctes; {r['groupes_connexes_candidats']} groupes candidats.\\n")
+          PY
+          cat /tmp/pdl-recette/graphe-120/rapport-graphe-120.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler et auditer les 806 autorités nationales par hiérarchie
+        run: |
+          echo 'ea06d1bddbf53ec49410aa122b9f3e80842f0f770b9f364c3677a0a7c35e91db  docs/lieux/recette/inventaire-pays-de-la-loire.csv' | sha256sum --check
+          python3 scripts/auditer_lieux_pays_loire_cog.py \
+            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/pdl-recette/806-autorites --attendu 806
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/806-autorites/rapport.json').read_text())
+          assert r['ark']==806, r
+          assert sum(r['repartition'].values())==806
+          assert r['assertions_code_skos']==797
+          assert r['validations_nouvelles']==r['geometries_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\\n## 806 autorités : audit intégral\\n')
+              for k,v in r['repartition'].items(): f.write(f'- {k}: {v}\\n')
+          PY
+          cat /tmp/pdl-recette/806-autorites/rapport.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Construire le graphe national non validant des 806 autorités
+        run: |
+          python3 scripts/construire_graphe_cog_pdl_806.py \
+            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/pdl-recette/graphe-806
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/graphe-806/rapport-graphe-806.json').read_text())
+          assert (r['ark'],r['codes_insee_distincts'],r['periodes_code_libelle_uniques'],
+              r['lignes_mouvements_distinctes'],r['etats_observes_distincts'])==(806,775,898,709,1295)
+          assert r['lignes_mouvements_rattachees_aux_ark']==1010
+          assert r['nouvelles_validations']==r['geometries_historiques_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\\n## Graphe historique 806 ARK\\n')
+              f.write('775 codes, 898 périodes, 709 mouvements et 1295 états observés. Aucune validation nouvelle.\\n')
+          PY
+          cat /tmp/pdl-recette/graphe-806/rapport-graphe-806.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver la recette uniquement
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-lieux-pays-de-la-loire-806-cog2026
+          path: /tmp/pdl-recette/
+          if-no-files-found: warn

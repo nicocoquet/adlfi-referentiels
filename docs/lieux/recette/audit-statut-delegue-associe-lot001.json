@@ -1,0 +1,274 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "recette_non_validante",
+  "observations": [
+    {
+      "id_etat": "ETAT-0429e2014fde1148",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79004",
+      "libelle": "Aigonnay",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "79185",
+      "date_premiere_entree_attestee": "2019-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 1853,
+          "date_effet": "2019-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "79004",
+            "libelle": "Aigonnay"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "79004",
+            "libelle": "Aigonnay"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-a82f2a091c1114a2",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79185",
+      "libelle": "Mougon",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "79185",
+      "date_premiere_entree_attestee": "2017-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 3497,
+          "date_effet": "2017-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "79185",
+            "libelle": "Mougon"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "79185",
+            "libelle": "Mougon"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-76f4f59427b9afa1",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79240",
+      "libelle": "Sainte-Blandine",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "79185",
+      "date_premiere_entree_attestee": "2019-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 1924,
+          "date_effet": "2019-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "79240",
+            "libelle": "Sainte-Blandine"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "79240",
+            "libelle": "Sainte-Blandine"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-a37f64aeb8930a71",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79327",
+      "libelle": "Thorigné",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "79185",
+      "date_premiere_entree_attestee": "2017-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 3501,
+          "date_effet": "2017-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "79327",
+            "libelle": "Thorigné"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "79327",
+            "libelle": "Thorigné"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-1bffa2584c800194",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMA",
+      "code": "28244",
+      "libelle": "Mervilliers",
+      "statut_au_millesime_2026": "absent_2026_sortie_attestee",
+      "comparent_2026": null,
+      "date_premiere_entree_attestee": "1972-12-28",
+      "date_derniere_sortie_attestee": "2019-01-01",
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 2,
+      "evenements_traces": [
+        {
+          "ligne_source": 1251,
+          "date_effet": "2019-01-01",
+          "mod": "32",
+          "sens": "avant",
+          "avant": {
+            "typecom": "COMA",
+            "code": "28244",
+            "libelle": "Mervilliers"
+          },
+          "apres": {
+            "typecom": "COM",
+            "code": "28199",
+            "libelle": "Janville-en-Beauce"
+          }
+        },
+        {
+          "ligne_source": 10326,
+          "date_effet": "1972-12-28",
+          "mod": "33",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "28244",
+            "libelle": "Mervilliers"
+          },
+          "apres": {
+            "typecom": "COMA",
+            "code": "28244",
+            "libelle": "Mervilliers"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-0c50b034878ae871",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMD",
+      "code": "28002",
+      "libelle": "Allaines-Mervilliers",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "28199",
+      "date_premiere_entree_attestee": "2019-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 1235,
+          "date_effet": "2019-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "28002",
+            "libelle": "Allaines-Mervilliers"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "28002",
+            "libelle": "Allaines-Mervilliers"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    },
+    {
+      "id_etat": "ETAT-e8625084eb973af5",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMD",
+      "code": "28199",
+      "libelle": "Janville",
+      "statut_au_millesime_2026": "present_au_cog_2026",
+      "comparent_2026": "28199",
+      "date_premiere_entree_attestee": "2019-01-01",
+      "date_derniere_sortie_attestee": null,
+      "dates_mouvements_internes": [],
+      "nombre_lignes_evenements": 1,
+      "evenements_traces": [
+        {
+          "ligne_source": 1245,
+          "date_effet": "2019-01-01",
+          "mod": "32",
+          "sens": "apres",
+          "avant": {
+            "typecom": "COM",
+            "code": "28199",
+            "libelle": "Janville"
+          },
+          "apres": {
+            "typecom": "COMD",
+            "code": "28199",
+            "libelle": "Janville"
+          }
+        }
+      ],
+      "date_debut_complete_certifiee": false,
+      "date_fin_complete_certifiee": false,
+      "geometrie_historique_validee": false,
+      "statut_lien_pactols_cog": "non_valide",
+      "limite": "La présence au COG 2026 ne prouve pas la stabilité de l’emprise passée ; dates déduites uniquement des événements directement attestés."
+    }
+  ]
+}

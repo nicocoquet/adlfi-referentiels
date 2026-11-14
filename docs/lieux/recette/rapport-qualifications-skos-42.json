@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "statut": "recette_non_validante",
+  "nombre_exceptions": 42,
+  "repartition": {
+    "abreviation_documentaire_physique": 26,
+    "concept_skos_deprecie": 1,
+    "distinction_historique_ou_typologique": 6,
+    "variante_skos_attestee": 9
+  },
+  "alertes_altlabel_numerique": [
+    {
+      "ark": "26678/pcrtlhwJPMkYwg",
+      "libelle": "Bazeilles",
+      "valeur": "08140"
+    }
+  ],
+  "source_audit_sha256": "502db0f84188beca666d521417ad6775fb5f670c5b9a295250a9024fd4ede407",
+  "source_pactols_rdf_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+  "limites": "Comparaison lexicale SKOS, sans validation d’identité administrative ni géométrie historique."
+}

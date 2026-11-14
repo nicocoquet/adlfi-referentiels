@@ -1,0 +1,108 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "recette_non_validante",
+  "source_sha256": {
+    "autorites_xml": "878aa70f32d43313ea5bd36bbb30bbd6b57b4872ba2f68a5117ac6c35b6380b6",
+    "occurrences_xml": "b2e7332515c051e0c63e1fb29c840fa338aa85040fb2358a7df64d735b2942cd",
+    "audit_skos_20260722": "502db0f84188beca666d521417ad6775fb5f670c5b9a295250a9024fd4ede407"
+  },
+  "regions": {
+    "Corse": {
+      "code_region_2026": "94",
+      "ark_distincts": 200,
+      "occurrences_xml": 1006,
+      "notices_xml_distinctes": 757,
+      "fichiers_xml_distincts": 33,
+      "avec_lien_commune_insee_code_lisible": 194,
+      "sans_lien_commune_insee_code_lisible": 6,
+      "departs_par_hierarchie": {
+        "2A": 81,
+        "2B": 118,
+        "non_departemental": 1
+      },
+      "statuts_instruction": {
+        "C0_code_INSEE_deja_asserté_a_controler": 192,
+        "H5_Afa_changement_code_1976_confirme_MOD41": 1,
+        "H5_Aghione_changement_code_1976_confirme_MOD41": 1,
+        "T1_entite_supracommunale": 3,
+        "T3_region_naturelle_Balagne": 1,
+        "T3_region_naturelle_Cap_Corse": 1,
+        "T3_site_archeologique_Filitosa": 1
+      },
+      "occurrences_dans_fichiers_editoriaux_region": 1036,
+      "autorites_hors_hierarchie_region_mais_dans_source_editoriale": 4,
+      "occurrences_hors_hierarchie_region_mais_dans_source_editoriale": 71,
+      "lot_01_ark": 25
+    },
+    "Pays de la Loire": {
+      "code_region_2026": "52",
+      "ark_distincts": 806,
+      "occurrences_xml": 3007,
+      "notices_xml_distinctes": 2108,
+      "fichiers_xml_distincts": 55,
+      "avec_lien_commune_insee_code_lisible": 797,
+      "sans_lien_commune_insee_code_lisible": 9,
+      "departs_par_hierarchie": {
+        "44": 153,
+        "49": 194,
+        "53": 101,
+        "72": 190,
+        "85": 167,
+        "non_departemental": 1
+      },
+      "statuts_instruction": {
+        "C0_code_INSEE_deja_asserté_a_controler": 676,
+        "H1_episode_historique_interdepartemental": 1,
+        "H3_insee_uri_non_numerique_ou_autre_type": 2,
+        "H4_absence_lien_commune_INSEE": 1,
+        "T1_entite_supracommunale": 6,
+        "T2_lieu_imbrique_ou_ancien": 119,
+        "X2_Bethon_Sarthe_ark_distinct_a_confronter_notice_A28": 1
+      },
+      "occurrences_dans_fichiers_editoriaux_region": 2984,
+      "autorites_hors_hierarchie_region_mais_dans_source_editoriale": 31,
+      "occurrences_hors_hierarchie_region_mais_dans_source_editoriale": 40,
+      "lot_01_ark": 25
+    },
+    "Bourgogne-Franche-Comté": {
+      "code_region_2026": "27",
+      "ark_distincts": 736,
+      "occurrences_xml": 1885,
+      "notices_xml_distinctes": 1034,
+      "fichiers_xml_distincts": 44,
+      "avec_lien_commune_insee_code_lisible": 727,
+      "sans_lien_commune_insee_code_lisible": 9,
+      "departs_par_hierarchie": {
+        "21": 13,
+        "25": 231,
+        "39": 250,
+        "58": 3,
+        "70": 177,
+        "71": 28,
+        "89": 2,
+        "90": 29,
+        "non_departemental": 3
+      },
+      "statuts_instruction": {
+        "C0_code_INSEE_deja_asserté_a_controler": 677,
+        "H1_episode_historique_interdepartemental": 2,
+        "T1_entite_supracommunale": 9,
+        "T2_lieu_imbrique_ou_ancien": 47,
+        "X1_Brain_21_suspect_dans_notice_A28_Pays_de_Retz": 1
+      },
+      "occurrences_dans_fichiers_editoriaux_region": 1860,
+      "autorites_hors_hierarchie_region_mais_dans_source_editoriale": 23,
+      "occurrences_hors_hierarchie_region_mais_dans_source_editoriale": 28,
+      "lot_01_ark": 25
+    }
+  },
+  "regle": "Sélection par hiérarchie Pactols, pas par région du fichier XML ; exactMatch = assertion Frantiq, pas validation AdlFI.",
+  "synthese": {
+    "ark_regionaux_distincts": 1742,
+    "occurrences_region_hierarchie": 5898,
+    "ark_avec_lien_commune_insee_code_lisible": 1718,
+    "ark_code_hors_departement": 3,
+    "points_instruction_prioritaires": 197,
+    "contextes_ark_edition_region_hors_hierarchie": 58
+  }
+}

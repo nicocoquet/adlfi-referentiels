@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "recette_non_publiee",
+  "nombre_autorites": 9928,
+  "nombre_alignees_paca_2026": 103,
+  "nombre_autorites_a_plusieurs_hierarchies_ark_et_libelles": 2034,
+  "nombre_autorites_a_plusieurs_chemins_ark": 2018,
+  "nombre_lignes_candidatures_historiques": 0,
+  "nombre_annees_invalides_ark": 0,
+  "annees_invalides": [],
+  "repartition_profils": {
+    "autre_geographie_francaise_a_qualifier": 176,
+    "autre_hors_champ_cog_communal": 30,
+    "geographie_physique_hors_cog_communal": 14,
+    "hydrographie_hors_cog_communal": 25,
+    "sous_commune_ou_lieu_imbrique_a_qualifier": 595,
+    "sous_departement_candidat_communal": 9088
+  },
+  "repartition_statuts": {
+    "historique_cog_non_fourni": 9786,
+    "hors_champ_communal_a_qualifier": 39,
+    "validation_editoriale_paca_2026": 103
+  },
+  "sources": {
+    "alignements_pilote": {
+      "fichier": "alignements_lieux.csv",
+      "sha256": "a892961b8effcc6503701766623458f5845ce705887d310ab35d63f7c27c174e"
+    },
+    "autorites_xml": {
+      "fichier": "autorites_lieux.csv",
+      "sha256": "878aa70f32d43313ea5bd36bbb30bbd6b57b4872ba2f68a5117ac6c35b6380b6"
+    },
+    "occurrences_xml": {
+      "fichier": "occurrences_lieux.csv",
+      "sha256": "b2e7332515c051e0c63e1fb29c840fa338aa85040fb2358a7df64d735b2942cd"
+    }
+  },
+  "note_historicite": "Le fichier COG depuis 1943 fournit les périodes code–libellé ; les mouvements et la succession géométrique restent à instruire séparément."
+}

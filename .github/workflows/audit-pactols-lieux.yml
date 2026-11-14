@@ -1,0 +1,83 @@
+name: Audit Pactols Lieux (recette nationale)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-pactols-lieux.yml'
+      - 'scripts/auditer_export_pactols_lieux.py'
+      - 'tests/test_auditer_export_pactols_lieux.py'
+      - 'scripts/qualifier_exceptions_skos_lieux.py'
+      - 'tests/test_qualifier_exceptions_skos_lieux.py'
+      - 'docs/lieux/recette/autorites-minimales-9928.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pactols-national:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Récupérer le dépôt AdlFI
+        uses: actions/checkout@v4
+
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Tester le lecteur SKOS avant consultation
+        run: python3 -m unittest discover -s tests -p 'test_auditer_export_pactols_lieux.py' -v
+
+      - name: Tester la qualification des exceptions SKOS
+        run: python3 -m unittest discover -s tests -p 'test_qualifier_exceptions_skos_lieux.py' -v
+
+      - name: Récupérer uniquement l'export officiel Pactols Lieux
+        shell: bash
+        run: |
+          set -euo pipefail
+          git lfs version
+          GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/frantiq/PACTOLS.git /tmp/pactols
+          cd /tmp/pactols
+          git sparse-checkout set pactols-latest-version/pactols_lieux_all
+          git lfs install --local
+          git lfs pull \
+            --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --exclude=""
+
+      - name: Contrôler l'empreinte du RDF officiel
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  /tmp/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' \
+            | sha256sum --check
+
+      - name: Auditer 9 928 ARK sans modifier les données publiées
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_export_pactols_lieux.py \
+            --autorites docs/lieux/recette/autorites-minimales-9928.json \
+            --pactols-rdf /tmp/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --sortie /tmp/rapport-pactols
+          python3 -m json.tool /tmp/rapport-pactols/rapport_concepts_pactols.json
+
+      - name: Qualifier les 42 exceptions à partir du vrai RDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/qualifier_exceptions_skos_lieux.py \
+            --controle-skos /tmp/rapport-pactols/controle_concepts_pactols.csv \
+            --sortie /tmp/rapport-pactols
+          python3 -m json.tool /tmp/rapport-pactols/rapport-qualifications-skos-42.json
+
+      - name: Archiver la comparaison SKOS en recette
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-pactols-lieux-national-20260722
+          path: /tmp/rapport-pactols/
+          if-no-files-found: warn
+          retention-days: 30

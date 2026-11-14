@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "statut": "audit_non_validant",
+  "nombre_lignes_mouvements": 23,
+  "operations_distinctes": 11,
+  "operations_mod": {
+    "32": 3,
+    "41": 8
+  },
+  "etats_admin_distincts_dans_le_lot": 33,
+  "liens_pactols_nouveaux_valides": 0,
+  "geometries_historiques_validees": 0,
+  "source_sha256": {
+    "transitions_code_a_verifier.csv": "684cc11b4370ee8c2c5557d742505955fb7a3bce94ef6c919ce936eced531cae",
+    "evenements_communaux_particuliers.csv": "896a739e9e224ab532196ce6daefb2d803d2f41a9ddffff2f22fdfa9d3816f18"
+  },
+  "avertissement": "Etat administratif partiel: vérification nécessaire contre la totalité du COG depuis 1943 avant datation complète."
+}
