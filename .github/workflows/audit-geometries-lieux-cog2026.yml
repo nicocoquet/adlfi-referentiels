@@ -6,6 +6,9 @@ on:
       - '.github/workflows/audit-geometries-lieux-cog2026.yml'
       - 'scripts/auditer_raccordements_geometriques_2026.py'
       - 'tests/test_auditer_raccordements_geometriques_2026.py'
+      - 'scripts/assembler_recette_lieux_133.py'
+      - 'tests/test_assembler_recette_lieux_133.py'
+      - 'docs/data/lieux.json'
       - 'docs/lieux/recette/sous-lot-*-cog2026-controle.csv'
   workflow_dispatch:
 
@@ -25,6 +28,8 @@ jobs:
           python-version: '3.12'
       - name: Tester le contrat anti-publication et anti-anachronisme
         run: python3 -m unittest discover -s tests -p 'test_auditer_raccordements_geometriques_2026.py' -v
+      - name: Tester l'assemblage homogène 103 + 30
+        run: python3 -m unittest discover -s tests -p 'test_assembler_recette_lieux_133.py' -v
       - name: Télécharger le contour communal officiel de 2026 (100 m)
         shell: bash
         run: |
@@ -44,6 +49,16 @@ jobs:
             --geometries /tmp/communes-100m-2026.geojson.gz \
             --sortie /tmp/rapport-geometries-lieux
           python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-raccordement-geometries-2026.json
+      - name: Réconcilier 103 validations PACA et 30 propositions sur la même source 100 m
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/assembler_recette_lieux_133.py \
+            --pilote docs/data/lieux.json \
+            --candidatures /tmp/rapport-geometries-lieux/raccordements-candidats-cog2026.json \
+            --geometries /tmp/communes-100m-2026.geojson.gz \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-carte-lieux-recette-133.json
       - name: Archiver les contours et la preuve de provenance sans publier
         if: always()
         uses: actions/upload-artifact@v4
