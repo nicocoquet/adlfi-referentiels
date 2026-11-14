@@ -31,7 +31,7 @@ def read(path,required):
    raise ValueError("Colonnes sources manquantes: "+str(path))
   return list(reader)
 def normaliser(s):
- t=unicodedata.normalize("NFKD",s or "")
+ t=unicodedata.normalize("NFKD",(s or "").replace("œ","oe").replace("Œ","Oe"))
  return " ".join(re.sub("[^a-z0-9]+"," ", "".join(
   c for c in t if unicodedata.category(c)!="Mn").casefold()).split())
 def serialiser(x):
