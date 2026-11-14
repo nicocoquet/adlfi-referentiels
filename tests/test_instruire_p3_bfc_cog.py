@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from instruire_p3_bfc_cog import (
-    AFTER,AFTER_SOURCE,EXISTING_P2,group_later,read,stable_id
+    AFTER,AFTER_SOURCE,EXISTING_P2,MOV,group_later,read,stable_id
 )
 
 class P3BFC(unittest.TestCase):
