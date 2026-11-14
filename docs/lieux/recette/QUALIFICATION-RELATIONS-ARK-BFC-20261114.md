@@ -98,6 +98,14 @@ Les relations candidates sont définies par une **égalité lexicale normalisée
 
 **Résultat : 0 nouvel alignement AdlFI validé, 0 géométrie historique créée, 0 modification des données GitHub Pages.**
 
+## Mise à jour : vérification dans le Pactols-Lieux intégral du 22 juillet 2026
+
+La recherche exhaustive dans **50 691 concepts**, validée par SHA-256 et GitHub Actions, a identifié **sept communes réceptrices distinctes possédant un ARK au libellé concordant**. Cela permet de proposer **13 nouvelles cibles ARK** pour les **14 réceptions précédemment laissées sans ARK univoque** ; les **trois** dossiers de Saint-Hymetière-sur-Valouse demandent notamment un contrôle supplémentaire, le concept retrouvé ne déclarant pas l'URI Insee numérique.
+
+**Verdun-Ciel (`71566`)** reste ouvert dans le snapshot 2026-07-22 : le code est déclaré sur le concept historique Verdun-sur-le-Doubs, pas sur un concept de ce nouveau nom. Ne pas conclure à une absence dans le thésaurus vivant sans vérification ultérieure.
+
+Le rapport complet, ses ARK, ses signaux lexical/INSEE et sa provenance sont dans `RECHERCHE-INTEGRALE-PACTOLS-8-CIBLES-BFC-20261114.md`. **Aucun de ces 13 candidats n'est éditorialement validé.**
+
 ## Étape éditoriale conseillée
 
 La priorité est de vérifier, dans le thésaurus Pactols complet, les **neuf récepteurs à code partagé mais libellé discordant** et les **trois communes nouvelles distinctes absentes de notre corpus terminal** (La Chailleuse, Val Suran, Verdun-Ciel). Ce travail doit précéder toute validation de relations historiques dans le module Lieux.
