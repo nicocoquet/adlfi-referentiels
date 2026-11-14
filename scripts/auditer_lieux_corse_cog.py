@@ -55,7 +55,7 @@ def norm(s):
 def statut_nom(nom,official):
     if norm(nom)==norm(official):return 'identique_normalise'
     # Strictement une indication de désambiguïsation (aucun renommage tacite).
-    for dep in ('Haute-Corse','Corse-du-Sud','France')
+    for dep in ('Haute-Corse','Corse-du-Sud','France'):
         if nom.endswith(' ('+dep+')') and norm(nom[:-(len(dep)+3)])==norm(official):
             return 'qualificatif_geographique_documentaire'
     return 'divergence_nom_a_instruire'
