@@ -45,6 +45,14 @@ Outre les sept cibles nominales, l'export contient plusieurs concepts historique
 
 Un algorithme qui prendrait le **premier ARK associé au code** créerait des relations historiques incorrectes. Le rapprochement exige une correspondance de libellé en plus du contexte COG. Une concordance de nom ne représente toutefois **qu'une candidature**, jamais une validation.
 
+### Vérification complémentaire des parents SKOS
+
+Les six concepts correspondant aux communes nouvelles jurassiennes (La Chailleuse, Saint-Hymetière-sur-Valouse, Hauteroche (Jura), Valzin en Petite Montagne, Val Suran et Thoirette-Coisia) ont comme `skos:broader` direct **`26678/pcrtX910KjTURm`**, soit le concept **Département du Jura**. Ce rattachement est cohérent avec leurs codes `39`.
+
+Pour **Hauteroche**, le thésaurus comporte aussi le concept **Hauteroche (Côte-d'Or)** (`26678/pcrtayvw3natsF`), dont le parent est **`26678/pcrtGQwa5EVqVh`**, Département de la Côte-d'Or, et l'assertion Insee porte `21314`. La combinaison **`prefLabel` qualifié + `exactMatch` du code `39177` + parent Jura** permet donc de distinguer les deux concepts sans recours à une ressemblance nominale arbitraire.
+
+Cette concordance hiérarchique renforce la candidature documentaire ; elle ne remplace pas la validation des relations historiques AdlFI.
+
 ## Rapprochement des 14 dossiers
 
 | Niveau de preuve documentaire | Dossiers | Décision automatisée |
