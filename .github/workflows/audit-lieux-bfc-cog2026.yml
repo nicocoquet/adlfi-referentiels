@@ -6,6 +6,10 @@ on:
       - 'scripts/auditer_lieux_bfc_cog.py'
       - 'scripts/instruire_exceptions_bfc_cog.py'
       - 'scripts/qualifier_relations_ark_bfc.py'
+      - 'scripts/instruire_p2_bfc_cog.py'
+      - 'tests/test_instruire_p2_bfc_cog.py'
+      - 'docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv'
+      - 'docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv'
       - 'tests/test_qualifier_relations_ark_bfc.py'
       - 'tests/test_instruire_exceptions_bfc_cog.py'
       - 'docs/lieux/recette/codes-historiques-absents-bfc-25.csv'
@@ -31,6 +35,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_instruire_exceptions_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_qualifier_relations_ark_bfc.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_p2_bfc_cog.py' -v
       - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
         env:
@@ -132,6 +137,35 @@ jobs:
               f.write('Aucune relation ARK–ARK publiée ou validée.\\n')
           PY
           cat /tmp/bfc-736/relations-candidates/rapport-relations-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Préinstruire cinq P2 BFC avec six événements administratifs
+        run: |
+          set -euo pipefail
+          for dest in /tmp/bfc-736/preinstruction-p2 /tmp/bfc-736/controle-p2; do
+            python3 scripts/instruire_p2_bfc_cog.py \
+              --candidatures docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
+              --contexte-39177 docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv \
+              --communes /tmp/cog/v_commune_2026.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$dest"
+          done
+          diff -qr /tmp/bfc-736/preinstruction-p2 /tmp/bfc-736/controle-p2
+          rm -rf /tmp/bfc-736/controle-p2
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/preinstruction-p2/rapport-p2-bfc.json').read_text(encoding='utf8'))
+          assert (r['candidatures_P2'],r['evenements_administratifs_distincts'],
+                  r['mouvements_officiels_avant_apres'])==(5,6,19)
+          assert r['creation_communes_nouvelles']==3 and r['fusions_associations']==2
+          assert r['evenement_ulterieur_suppression_COMD']==1
+          assert r['validations_editoriales']==r['nouvelles_equivalences_skos']==0
+          assert r['geometries_historiques']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\n## Préinstruction des cinq dossiers P2\n')
+              f.write('3 créations de communes nouvelles, 2 fusions-associations ; 6 événements au total avec la suppression des communes déléguées en 2020.\n')
+              f.write('19 lignes COG avant/après. Zéro décision éditoriale enregistrée.\n')
+          PY
+          cat /tmp/bfc-736/preinstruction-p2/rapport-p2-bfc.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette seulement
         if: always()
         uses: actions/upload-artifact@v4
