@@ -1,0 +1,65 @@
+name: Lieux — Bourgogne-Franche-Comté, audit COG 2026 (736 ARK, recette)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-bfc-cog2026.yml'
+      - 'scripts/auditer_lieux_bfc_cog.py'
+      - 'tests/test_auditer_lieux_bfc_cog.py'
+      - 'docs/lieux/recette/inventaire-bourgogne-franche-comte.csv'
+      - 'docs/lieux/recette/lot-01-bourgogne-franche-comte.csv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-bfc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler les 736 ARK et l'identité du lot pilote
+        run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
+      - name: Télécharger et vérifier les trois sources Insee 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/cog
+          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
+            curl -fL --retry 3 --connect-timeout 20 --max-time 240 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"
+          done
+          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
+          echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
+          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
+      - name: Auditer les 736 autorités et générer le graphe de recette
+        run: |
+          python3 scripts/auditer_lieux_bfc_cog.py \
+            --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/bfc-736
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/rapport-cog-bfc-736.json').read_text(encoding='utf8'))
+          assert (r['ark'],r['ark_avec_code'],r['ark_sans_code'])==(736,727,9)
+          assert (r['codes_distincts'],r['codes_partages_par_ark'])==(725,2)
+          assert (r['periodes_code_libelle_uniques'],r['lignes_mouvements_uniques'],r['etats_observes'])==(807,393,975)
+          assert r['validations_nouvelles']==r['geometries_historiques']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('w') as f:
+              f.write('# Bourgogne-Franche-Comté — audit non validant des 736 ARK\n\n')
+              f.write('**Avertissement de couverture :** les deux fichiers de Bourgogne datent de 2009, contre 21 fichiers Franche-Comté (1992–2011).\n\n')
+              for k,v in r['categories_ark'].items():f.write(f'- {k}: {v}\n')
+              f.write('\nAucune validation éditoriale nouvelle ni géométrie historique.\n')
+          PY
+          cat /tmp/bfc-736/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver la recette seulement
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-lieux-bfc-736-cog2026
+          path: /tmp/bfc-736/
+          retention-days: 90
+          if-no-files-found: warn
