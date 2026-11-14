@@ -76,7 +76,8 @@ class AuditCorse(unittest.TestCase):
         r=self.audit()
         self.assertEqual(r['repartition']['conflit_territorial_cog_2026'],1)
     def test_distinguer_qualification_pactols(self):
-        self.assertEqual(statut_nom('Saint-Florent (Haute-Corse)','Saint-Florent'),'qualificatif_departement_documentaire')
+        self.assertEqual(statut_nom('Saint-Florent (Haute-Corse)','Saint-Florent'),'qualificatif_geographique_documentaire')
+        self.assertEqual(statut_nom('Asco (France)','Asco'),'qualificatif_geographique_documentaire')
         self.assertEqual(statut_nom('Saint-Florent','Saint-Florent'),'identique_normalise')
         self.assertEqual(statut_nom('Saint-Florent','Saint-Etienne'),'divergence_nom_a_instruire')
     def test_hors_cog_pas_geometry(self):
