@@ -74,10 +74,21 @@ source `4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778`** :
 les deux chantiers utilisent le même produit cartographique **2026 / 100 m**,
 et non deux fonds de provenance indéterminée.
 
-Le **pilote Lieux actuellement exposé** est toujours généré avec le
-`communes-1000m.geojson` historique de l'atlas. Ses données ne sont
-**pas remplacées** par le présent audit. Une future migration homogène à
-100 m devra être validée et testée comme évolution cartographique séparée.
+Le **pilote Lieux actuellement exposé** est toujours généré à partir
+du fichier amont de l'atlas nommé `communes-1000m.geojson`. Toutefois,
+l'audit topologique complémentaire du 14 novembre 2026 démontre que
+**les 103 polygones déjà exposés sont topologiquement identiques**
+à ceux de la source nationale 2026 à 100 m : **103/103 équivalents,
+différence symétrique maximale = 0 m², distance de Hausdorff maximale = 0 m**
+(après reprojection Lambert-93). Voir
+[`INSTRUCTION-TOPOLOGIE-133-ET-EPISODES-20261114.md`](INSTRUCTION-TOPOLOGIE-133-ET-EPISODES-20261114.md).
+
+**Conséquence : aucune migration de ces 103 géométries n'est requise
+pour le raccordement au fonds 2026 à 100 m.** Le nom de fichier
+`1000m` n'est pas une preuve de la généralisation effectivement
+présente ; les étapes de production dans l'atlas restent à éclaircir
+pour documenter correctement la provenance. Les données publiques
+du pilote ne sont pas modifiées.
 
 **Important :** l'identité de source et de généralisation favorise une
 cartographie sans rupture de résolution ; elle **ne constitue pas à elle
@@ -105,9 +116,11 @@ et contrôlée avant intégration publique.
   concept déprécié ; confronter aux épisodes COG et statuts COM/COMD.
 - Révision des autres sous-lots éditoriaux, puis décision explicite
   sur les couples Pactols–COG (sans déduction de `skos:exactMatch`).
-- Si la carte doit intégrer de nouvelles communes : migration du
-  jeu cartographique **dans son ensemble** à la source 100 m avant
-  affichage public, sans toucher aux validations existantes.
+- Si la carte doit intégrer de nouvelles communes : conserver le
+  même jeu source 2026 à 100 m et les propriétés de provenance.
+  Les **103 géométries existantes sont déjà identiques** ; ajouter les
+  nouveaux contours après validation, sans migration géométrique inutile
+  ni modification des validations existantes.
 
 **Publication :** 0 nouveau couple validé dans ce chantier.
 `docs/data/lieux.json`, `docs/data/lieux-communes.geojson`,
