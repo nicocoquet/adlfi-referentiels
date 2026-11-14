@@ -58,8 +58,12 @@ def lire_historique(path: Path) -> tuple[dict, dict]:
                 raise ValueError(f'Entrée Insee invalide ligne {number}: {typ}/{code}/{label}')
             begin = date_iso((raw['DATE_DEBUT'] or '').strip())
             end = date_iso((raw['DATE_FIN'] or '').strip(), nullable=True)
-            if end and end <= begin:
+            if end and end < begin:
                 raise ValueError(f'Intervalle Insee inversé ligne {number}: {begin}..{end}')
+            if end and end == begin:
+                # La source Insee 2026 contient des couples à durée nulle.
+                # Ils restent traçables, mais ne décrivent aucune journée de validité.
+                count['intervalles_de_duree_nulle'] += 1
             fingerprint = (typ, code, label, begin, end)
             if fingerprint in seen:
                 count['lignes_identiques_repetées'] += 1
@@ -77,6 +81,8 @@ def lire_historique(path: Path) -> tuple[dict, dict]:
 
 def couvre(rec:dict, entree:list[str], sortie:list[str]) -> bool:
     debut, fin = rec['date_debut'], rec['date_fin_exclusive']
+    if fin and fin == debut:
+        return False  # Intervalle [d, d[ vide, conservé en provenance uniquement.
     # Le nouvel état est effectif à la date de l'événement ; la date
     # de sortie marque le début de l'état suivant (borne exclusive).
     for dt in entree:
