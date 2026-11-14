@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from scripts.auditer_lieux_paca_historique import (
-    charger_valides,charger_candidats,mouvement_id,HISTORIC_SOURCE_COMMIT
+    charger_valides,charger_candidats,mouvement_id,regroupement_evenement,HISTORIC_SOURCE_COMMIT
 )
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -48,5 +48,17 @@ class ParitePaca(unittest.TestCase):
                        "COM_AV":"13055","COM_AP":"13055"})
         self.assertEqual(mouvement_id(source),mouvement_id(dict(reversed(list(source.items())))))
         self.assertNotEqual(mouvement_id(source),mouvement_id(dict(source,MOD="31")))
+    def test_seize_arrondissements_marssille_un_groupe(self):
+        groupes=set()
+        for n in range(1,17):
+            evt={"MOD":"20","date_effet":"1946-10-18",
+                 "typecom_avant":"COM","code_avant":"13055",
+                 "typecom_apres":"ARM","code_apres":f"132{n:02d}"}
+            groupes.add(regroupement_evenement(evt)[0])
+        self.assertEqual(groupes,{"PACA-COG-1946-10-18-20-13055"})
+        evt.update({"MOD":"32","date_effet":"2018-01-01",
+                    "typecom_apres":"COM","code_apres":"13055"})
+        self.assertEqual(regroupement_evenement(evt)[0],"PACA-COG-2018-01-01-32-13055")
+
 if __name__=="__main__":
     unittest.main()
