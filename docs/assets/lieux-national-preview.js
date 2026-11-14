@@ -112,14 +112,23 @@
       row(id,'Notices distinctes',info.notices);
       if(info.annees_operation_xml.length)
         row(id,'Années d’opération',info.annees_operation_xml.join(', '));
-      if(info.correspondance_administrative) {
-        const d=section(article,'Correspondance administrative validée');
+      if(info.lien_COG_valide) {
+        const d=section(article,'Correspondance administrative validée en 2026');
         row(d,'Code Insee',info.lien_COG_valide.code_insee);
-        row(d,'Nom au 1er janvier '+year.value,
-          info.correspondance_administrative.etat?.libelle ||
-            'Aucun état COM/ARM attesté à cette date');
-        row(d,'Nature du lien','Validation éditoriale du pilote PACA');
-        row(d,'Millésime de validation',info.lien_COG_valide.millesime);
+        row(d,'Nom COG 2026',info.lien_COG_valide.libelle_cog);
+        row(d,'Millésime du lien',info.lien_COG_valide.millesime);
+        if(info.correspondance_administrative) {
+          row(d,'État au 1er janvier 2026',
+              info.correspondance_administrative.etat?.libelle ||
+              'Aucun état COM/ARM attesté au COG 2026');
+        } else if(info.consultation_COG_historique_meme_code) {
+          row(d,'État du même code au 1er janvier '+year.value,
+              info.consultation_COG_historique_meme_code.etat?.libelle ||
+              'État administratif non documenté');
+          article.append(zone('Le lien ARK–COG a été validé au millésime 2026 uniquement. '
+            +'L’état antérieur du même code est consultable à titre documentaire, '
+            +'sans équivalence Pactols–COG historique établie.','nat-state-warning'));
+        }
       } else {
         article.append(zone('Aucun code Insee n’est attribué par ressemblance de nom. '
           +'Les années d’opération archéologique ne datent pas l’identité administrative.'));
