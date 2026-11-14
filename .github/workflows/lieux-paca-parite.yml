@@ -1,0 +1,73 @@
+name: Lieux — parité PACA historique (recette)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lieux-paca-parite.yml'
+      - 'recette/lieux/paca/**'
+      - 'scripts/auditer_lieux_paca_historique.py'
+      - 'tests/test_auditer_lieux_paca_historique.py'
+      - 'tests/test_isolement_recette_lieux.py'
+      - 'docs/data/lieux.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auditer-paca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester la séparation éditoriale et l'absence de fuite Pages
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_lieux_paca_historique.py' -v
+          python3 -m unittest discover -s tests -p 'test_isolement_recette_lieux.py' -v
+      - name: Acquérir les trois sources officielles du COG 2026
+        run: python3 scripts/recuperer_cog_2026.py --sortie /tmp/cog
+      - name: Auditer les 110 dossiers PACA deux fois
+        run: |
+          set -euo pipefail
+          for target in /tmp/paca-parite /tmp/paca-parite-controle; do
+            python3 scripts/auditer_lieux_paca_historique.py \
+              --pilote docs/data/lieux.json \
+              --candidats recette/lieux/paca/paca-sept-candidatures-20261114.csv \
+              --courant /tmp/cog/v_commune_2026.csv \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/paca-parite /tmp/paca-parite-controle
+          rm -rf /tmp/paca-parite-controle
+      - name: Vérifier le statut des 103 publiés et des sept candidats
+        run: |
+          python3 - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('/tmp/paca-parite')
+          with (root/'PACA-110-REVUE-HISTORIQUE.csv').open(encoding='utf-8-sig',newline='') as f:
+              rows=list(csv.DictReader(f,delimiter=';'))
+          r=json.loads((root/'PACA-RAPPORT-AUDIT.json').read_text())
+          assert len(rows)==110
+          assert r['alignements_2026_deja_valides_conserves']==103
+          assert r['candidatures_2026_non_validees']==7
+          assert r['nouvelles_validations']==r['geometries_historiques']==0
+          assert r['completude_regionale']=='non_etablie_liste_originale_nationale_non_exhaustive'
+          assert sum(x['validation_millesime_2026']=='non_valide' for x in rows)==7
+          assert all(not x['decision_historique'] and not x['date_validation'] for x in rows)
+          assert len({x['ark_pactols'] for x in rows})==110
+          assert len({x['code_insee'] for x in rows})==110
+          assert all(x['portee_alignement']=='millesime_2026_uniquement' for x in rows)
+          assert all(x['geometrie_historique_attribuee']=='non' for x in rows)
+          assert all(x['departement_cog_2026'] in ('04','05','06','13','83','84') for x in rows)
+          print('PACA : 110 dossiers COG contrôlés, 103 validations 2026 conservées, sept dossiers ouverts.')
+          PY
+          cat /tmp/paca-parite/PACA-RAPPORT-AUDIT.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Conserver uniquement des résultats non publiés
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-parite-110-cog2026-recette
+          path: /tmp/paca-parite/
+          retention-days: 30
+          if-no-files-found: error
