@@ -50,6 +50,17 @@ jobs:
               rows=list(csv.DictReader(f,delimiter=';'))
           r=json.loads((root/'PACA-RAPPORT-AUDIT.json').read_text())
           assert len(rows)==110
+          assert r['periodes_COM_liees']==123
+          assert r['mouvements_COG_uniques_lies']==65
+          assert r['groupes_evenements_COG_uniques_lies']==29
+          assert r['autorites_avec_plusieurs_formes_COM']==11
+          assert r['autorites_avec_mouvement_fusion']==9
+          assert r['candidatures_avec_mouvements']==2
+          with (root/'PACA-EVENEMENTS-COG.csv').open(encoding='utf-8-sig',newline='') as f:
+              groupes=list(csv.DictReader(f,delimiter=';'))
+          assert len(groupes)==29
+          marseille=[e for e in groupes if e['id_evenement']=='PACA-COG-1946-10-18-20-13055']
+          assert len(marseille)==1 and int(marseille[0]['nombre_lignes_COG'])==16
           assert r['alignements_2026_deja_valides_conserves']==103
           assert r['candidatures_2026_non_validees']==7
           assert r['nouvelles_validations']==r['geometries_historiques']==0
