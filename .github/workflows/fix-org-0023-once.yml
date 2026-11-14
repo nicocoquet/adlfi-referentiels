@@ -1,0 +1,50 @@
+name: Réparer une référence de média existant (exécution unique)
+on:
+  push:
+    branches:
+      - fix/organismes-0023-media-ref-20261114
+    paths:
+      - .github/workflows/fix-org-0023-once.yml
+permissions:
+  contents: write
+jobs:
+  correct-one-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Contrôler et corriger une référence de média dans le JSON publié
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          source = Path("docs/data/organismes.json")
+          existing = Path("docs/assets/organismes/ORG-0023.jpg")
+          missing = Path("docs/assets/organismes/ORG-0023-logo.svg")
+          assert existing.is_file(), "Le JPEG canonique doit préexister"
+          assert not missing.exists(), "Ne pas écraser un SVG qui existe"
+          old = "assets/organismes/ORG-0023-logo.svg"
+          new = "assets/organismes/ORG-0023.jpg"
+          original = source.read_text(encoding="utf-8")
+          assert original.count(old) == 1, "Une seule référence obsolète attendue"
+          obj = json.loads(original)
+          records = [r for r in obj["authorities"] if r["id"] == "ORG-0023"]
+          assert len(records) == 1, "ORG-0023 non unique"
+          assert records[0]["presentation"]["media"]["logo"] == old
+          revised = original.replace(old, new)
+          changed = json.loads(revised)
+          assert next(r for r in changed["authorities"] if r["id"]=="ORG-0023")["presentation"]["media"]["logo"] == new
+          source.write_text(revised,encoding="utf-8")
+          print("Référence unique corrigée vers le JPEG canonique existant ; aucune autre donnée modifiée")
+          PY
+      - name: Exécuter le contrôle des médias avant commit
+        run: python3 -m unittest discover -s tests -p test_export.py -v
+      - name: Enregistrer la correction sur la seule branche de travail
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- docs/data/organismes.json
+          git diff --cached --check
+          git diff --cached --numstat
+          git commit -m "fix(organismes): pointer ORG-0023 vers le JPEG canonique existant"
+          git push origin HEAD:fix/organismes-0023-media-ref-20261114
