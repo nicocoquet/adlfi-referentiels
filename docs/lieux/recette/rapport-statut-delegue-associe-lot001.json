@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "recette_non_validante",
+  "nombre_etats": 7,
+  "repartition": {
+    "absent_2026_sortie_attestee": 1,
+    "present_au_cog_2026": 6
+  },
+  "source": {
+    "graphe": {
+      "nom": "graphe-episodes-cog-lot001-dates.json",
+      "sha256": "d9b75f026e87e3c1b7e5d3a4fd1d548a7122f2c4e67aada1b29bc2fd7cb8b38d"
+    },
+    "communes_2026": {
+      "nom": "v_commune_2026.csv",
+      "sha256": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3"
+    },
+    "evenements_2026": {
+      "nom": "v_mvt_commune_2026.csv",
+      "sha256": "8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1"
+    }
+  },
+  "nombre_lignes_fichier_mouvements": 13734,
+  "nombre_lignes_communes_2026": 37496,
+  "liens_pactols_cog_nouveaux_valides": 0,
+  "geometries_historiques_validees": 0,
+  "note": "Sept états COMD/COMA ; recherche des mouvements directs et présence au millésime 2026, sans certification de toute la période historique."
+}
