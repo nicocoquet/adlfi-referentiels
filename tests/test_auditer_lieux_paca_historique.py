@@ -43,7 +43,7 @@ class ParitePaca(unittest.TestCase):
         source={key:"" for key in (
             "MOD","DATE_EFF","TYPECOM_AV","COM_AV","TNCC_AV","NCC_AV",
             "NCCENR_AV","LIBELLE_AV","TYPECOM_AP","COM_AP","TNCC_AP",
-            "NCCENR_AP","LIBELLE_AP")}
+            "NCC_AP","NCCENR_AP","LIBELLE_AP")}
         source.update({"MOD":"32","DATE_EFF":"2018-01-01",
                        "COM_AV":"13055","COM_AP":"13055"})
         self.assertEqual(mouvement_id(source),mouvement_id(dict(reversed(list(source.items())))))
