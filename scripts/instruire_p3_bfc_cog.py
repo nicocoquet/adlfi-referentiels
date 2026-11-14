@@ -51,6 +51,20 @@ def movement_id(row):
  return "cog:"+hashlib.sha256(json.dumps({k:row[k] for k in MOV},
         sort_keys=True,ensure_ascii=False,separators=(",",":")).encode()).hexdigest()[:24]
 
+def group_later(key,moves):
+ date,mod,dest=key
+ nature,count=AFTER[key]
+ group=[r for r in moves if (r["DATE_EFF"],r["MOD"],r["COM_AP"])==key]
+ if len(group)!=count:raise ValueError("Événement ultérieur incomplet: "+str(key))
+ if mod in ("34","35") and not all(r["TYPECOM_AP"]=="COM" and
+      r["TYPECOM_AV"] in (("COMA" if mod=="34" else "COMD"),"COM")
+      for r in group):
+  raise ValueError("Statut COG 34/35 invalide")
+ if mod=="32" and not any(r["LIBELLE_AV"]=="Vaire-Arcier" and
+     r["LIBELLE_AP"]=="Vaire" and r["COM_AV"]==dest for r in group):
+  raise ValueError("Épisode Vaire-Arcier -> Vaire non prouvé")
+ return sorted(group,key=movement_id),nature
+
 def csvwrite(path,rows,fields):
  with Path(path).open("w",encoding="utf-8-sig",newline="") as f:
   w=csv.DictWriter(f,fieldnames=fields,delimiter=";",extrasaction="ignore")
@@ -96,16 +110,7 @@ def generer(candidatures,communes,historique,mouvements,sortie):
    group=main+supplements
    nature=TYPES[mod]
   else:
-   nature,count=AFTER[key]
-   group=[r for r in mv if (r["DATE_EFF"],r["MOD"],r["COM_AP"])==key]
-   if len(group)!=count:raise ValueError("Événement ultérieur incomplet: "+str(key))
-   if mod in ("34","35") and not all(r["TYPECOM_AP"]=="COM" and
-        r["TYPECOM_AV"] in (("COMA" if mod=="34" else "COMD"),"COM")
-        for r in group):
-    raise ValueError("Statut COG 34/35 invalide")
-   if mod=="32" and not any(r["LIBELLE_AV"]=="Vaire-Arcier" and
-       r["LIBELLE_AP"]=="Vaire" and r["COM_AV"]==dest for r in group):
-    raise ValueError("Épisode Vaire-Arcier -> Vaire non prouvé")
+   group,nature=group_later(key,mv)
    main=group;supplements=[]
   eid=stable_id(key)
   if len({movement_id(r) for r in group})!=len(group):
