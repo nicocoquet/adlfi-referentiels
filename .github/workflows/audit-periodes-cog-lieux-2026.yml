@@ -1,0 +1,63 @@
+name: Lieux — périodes COG historiques (recette)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-periodes-cog-lieux-2026.yml'
+      - 'scripts/enrichir_periodes_cog_lot001.py'
+      - 'tests/test_enrichir_periodes_cog_lot001.py'
+      - 'docs/lieux/recette/graphe-episodes-cog-lot001.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dater-couples-cog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier la sémantique des épisodes et des dates
+        run: python3 -m unittest discover -s tests -p 'test_enrichir_periodes_cog_lot001.py' -v
+      - name: Télécharger les couples code-libellé officiels de 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_depuis_1943.csv' \
+            -o /tmp/v_commune_depuis_1943_2026.csv
+          test "$(wc -c < /tmp/v_commune_depuis_1943_2026.csv)" -gt 1000000
+          sha256sum /tmp/v_commune_depuis_1943_2026.csv
+      - name: Dater les couples historiques sans attribuer de contour ancien
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/enrichir_periodes_cog_lot001.py \
+            --graphe docs/lieux/recette/graphe-episodes-cog-lot001.json \
+            --historique /tmp/v_commune_depuis_1943_2026.csv \
+            --sortie /tmp/lieux-cog-periodes
+          python3 -m json.tool /tmp/lieux-cog-periodes/rapport-periodes-cog-lot001.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/lieux-cog-periodes/rapport-periodes-cog-lot001.json')
+          j=json.loads(p.read_text(encoding='utf-8'))
+          assert (j['nombre_etats_du_graphe'],j['operations'],j['arcs_evenements'])==(33,11,23)
+          assert j['nouveaux_alignements_pactols_cog_valides']==0
+          assert j['geometries_historiques_validees']==0
+          assert sum(j['repartition_statuts'].values())==33
+          PY
+      - name: Archiver graphe daté et revue d'ambiguïtés en recette
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-episodes-cog-historique-2026-lot001
+          path: /tmp/lieux-cog-periodes/
+          if-no-files-found: warn
+          retention-days: 30
