@@ -42,6 +42,33 @@ for (const nom of ['Nice', 'Marseille', 'Hyères']) {
   assert.deepEqual(chercher(index, nom), []);
 }
 
+// Contrat prospectif : les variantes SKOS contrôlées sont interrogeables,
+// sans ajouter de variante fictive au fichier de publication.
+const aix = data.autorites.find(x => x.correspondances[0].code_insee === '13001');
+const copieAix = JSON.parse(JSON.stringify(aix));
+const uriAix = 'https://ark.frantiq.fr/ark:/' + copieAix.ark_pactols;
+copieAix.variantes_pactols = [{
+  libelle: 'Nom de test uniquement',
+  langue: 'fr',
+  type: 'skos:altLabel',
+  uri_source: uriAix,
+}];
+const indexTest = creerIndex([copieAix]);
+assert.equal(chercher(indexTest, 'nom de test')[0].code, '13001');
+assert.equal(chercher(indexTest, 'Nom de test uniquement')[0].label, 'Aix-en-Provence');
+assert.equal(chercher(index, 'Nom de test uniquement').length, 0);
+for (const varianteIncorrecte of [
+  { ...copieAix.variantes_pactols[0], uri_source: 'https://example.org/sans-source' },
+  { ...copieAix.variantes_pactols[0], type: 'skos:prefLabel' },
+  { ...copieAix.variantes_pactols[0], libelle: ' ' },
+  { ...copieAix.variantes_pactols[0], langue: '' },
+]) {
+  const cas = { ...copieAix, variantes_pactols: [varianteIncorrecte] };
+  assert.throws(() => creerIndex([cas]), /Variante Pactols/);
+}
+assert.throws(() => creerIndex([{ ...copieAix, variantes_pactols: 'invalide' }]),
+  /Variantes Pactols invalides/);
+
 assert.deepEqual(chercher(index, ''), []);
 assert.deepEqual(chercher(index, '___'), []);
 assert.equal(chercher(index, 'a', 3).length, 3);

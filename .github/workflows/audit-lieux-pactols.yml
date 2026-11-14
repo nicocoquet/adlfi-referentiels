@@ -1,0 +1,51 @@
+name: Audit ponctuel des variantes Pactols Lieux (source épinglée)
+on:
+  push:
+    branches:
+      - feat/lieux-variantes-skos-20261112
+    paths:
+      - .github/workflows/audit-lieux-pactols.yml
+      - scripts/audit_variantes_pactols.py
+      - tests/test_audit_variantes_pactols.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Récupérer le référentiel AdlFI
+        uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - name: Récupérer l'export officiel Pactols Lieux depuis Git LFS
+        uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Vérifier le contrat d'extraction sur corpus synthétique
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_audit_variantes_pactols.py' -v
+      - name: Auditer les 103 ARK et générer la revue non publiée
+        working-directory: referentiels
+        run: |
+          python3 scripts/audit_variantes_pactols.py \
+            --source-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --lieux-json docs/data/lieux.json \
+            --output-dir "$RUNNER_TEMP/pactols-lieux-audit"
+      - name: Conserver les résultats de revue hors du site
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-pactols-lieux-20260722
+          path: ${{ runner.temp }}/pactols-lieux-audit/
+          retention-days: 30
+          if-no-files-found: error

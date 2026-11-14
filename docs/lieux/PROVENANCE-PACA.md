@@ -12,7 +12,7 @@ Ce lot contient uniquement les correspondances éditoriales PACA validées le
 **18 octobre 2026**. Aucune commune n'est résolue par homonymie ou concordance
 automatique de libellés.
 
-## Livrables en recette
+## Livrables du pilote publié
 
 - `docs/data/lieux.json` : **103 autorités Pactols** et **103 correspondances
   COG validées**, avec statut éditorial, date, source et millésime 2026.
@@ -24,11 +24,11 @@ automatique de libellés.
 - `tests/test_export_lieux_paca.py` : invariants métier, contrôles de provenance
   et tests négatifs.
 
-**La présence des fichiers sur une branche de travail ne signifie pas
-publication en ligne** : seule la branche principale alimente GitHub Pages.
-La PR du pilote est conservée en brouillon jusqu'à la recette visuelle.
+Le pilote a été validé en local et fusionné dans `main` le 12 novembre 2026
+(PR n°19, commit `25f83e80d6cf6b7d0d86e79b27cb006499dff014`).
+L'état du déploiement GitHub Pages doit être contrôlé séparément.
 
-## Interface de consultation (sur la branche de recette)
+## Interface de consultation
 
 - `docs/lieux/index.html` : grande carte Leaflet, recherche avec autocomplétion,
   fiche latérale de l'autorité Pactols et correspondance COG.
@@ -42,8 +42,8 @@ La PR du pilote est conservée en brouillon jusqu'à la recette visuelle.
   sur ordinateur et mobile.
 - `tests/test_lieux_search.js` et `tests/test_lieux_ui.py` : recherche,
   exclusions, liaison des 103 géométries et contrat d'interface.
-- `docs/data/manifest.json` : module déclaré en « prototype » sur la
-  branche ; la carte d'accueil Lieux devient un lien.
+- `docs/data/manifest.json` : module déclaré en « prototype » publié ;
+  la carte d'accueil Lieux est activée.
 
 ### Fond de carte et dépendances
 
@@ -165,3 +165,30 @@ ne figurent pas dans la table éditoriale de cette version : elles devront
 4. Fusionner la PR seulement après succès de la CI et recette visuelle.
 5. Reporter à un lot ultérieur les autorités sans géométrie, les relations
    historiques et les correspondances non bijectives.
+
+## Préparation des variantes lexicales (lot suivant)
+
+La recherche peut désormais interpréter un champ facultatif `variantes_pactols[]`
+dans une autorité, sans modifier les 103 fiches présentes. Chaque variante
+attendue est de la forme :
+
+```json
+{
+  "libelle": "Exemple fictif non publié",
+  "langue": "fr",
+  "type": "skos:altLabel",
+  "uri_source": "https://ark.frantiq.fr/ark:/26678/IDENTIFIANT_CONCEPT"
+}
+```
+
+Le `uri_source` doit désigner **le même ARK que la fiche**. Le navigateur
+rejette une variante incomplète ou mal qualifiée. Cette vérification
+structurelle **ne prouve pas** la présence de l'alias dans Pactols :
+seul un export officiel SKOS horodaté, vérifié et tracé par l'exporteur
+pourra alimenter le champ des données publiées.
+
+Dans cette version, **aucune variante n'a encore été importée**. Les tests
+emploient exclusivement des exemples synthétiques non publiés. Les
+`skos:prefLabel` restent distincts des `skos:altLabel` ;
+les noms COG sont conservés dans `correspondances[]`, non dans
+`variantes_pactols[]`. Aucune équivalence SKOS avec le COG n'est inférée.
