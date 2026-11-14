@@ -13,29 +13,46 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Contrôler et corriger une référence de média dans le JSON publié
+      - name: Raccorder tous les médias publiés au contrat exact de l'exporteur
         run: |
           python3 - <<'PY'
           import json
+          import sys
+          from collections import Counter
           from pathlib import Path
-          source = Path("docs/data/organismes.json")
-          existing = Path("docs/assets/organismes/ORG-0023.jpg")
-          missing = Path("docs/assets/organismes/ORG-0023-logo.svg")
-          assert existing.is_file(), "Le JPEG canonique doit préexister"
-          assert not missing.exists(), "Ne pas écraser un SVG qui existe"
-          old = "assets/organismes/ORG-0023-logo.svg"
-          new = "assets/organismes/ORG-0023.jpg"
-          original = source.read_text(encoding="utf-8")
-          assert original.count(old) == 1, "Une seule référence obsolète attendue"
-          obj = json.loads(original)
-          records = [r for r in obj["authorities"] if r["id"] == "ORG-0023"]
-          assert len(records) == 1, "ORG-0023 non unique"
-          assert records[0]["presentation"]["media"]["logo"] == old
-          revised = original.replace(old, new)
-          changed = json.loads(revised)
-          assert next(r for r in changed["authorities"] if r["id"]=="ORG-0023")["presentation"]["media"]["logo"] == new
-          source.write_text(revised,encoding="utf-8")
-          print("Référence unique corrigée vers le JPEG canonique existant ; aucune autre donnée modifiée")
+          sys.path.insert(0,'scripts')
+          import export_organismes
+          source=Path('docs/data/organismes.json')
+          original=source.read_text(encoding='utf-8')
+          data=json.loads(original)
+          provenance=data['provenance']['source_filename']
+          print('Provenance maître publiée :',provenance)
+          assert provenance.startswith('AdlFI_referentiel_1-49_'), 'Instantané hors 1.49 : arbitrage nécessaire'
+          assert original==json.dumps(data,ensure_ascii=False,indent=2), 'Format du JSON inattendu'
+          modifications=[]
+          for record in data['authorities']:
+              ident=record['id']
+              media=record['presentation']['media']
+              expected=export_organismes.media_for(ident)
+              for role in ('logo','image'):
+                  if media[role]!=expected[role]:
+                      modifications.append((ident,role,media[role],expected[role]))
+                      media[role]=expected[role]
+          assert 1<=len(modifications)<=350, 'Cardinalité de corrections inattendue'
+          for ident,role,old,new in modifications:
+              print(f'{ident} / {role}: {old} -> {new}')
+          for record in data['authorities']:
+              for role in ('logo','image'):
+                  ref=record['presentation']['media'][role]
+                  assert ref is None or (Path('docs')/ref).is_file(), (record['id'],role,ref)
+          source.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
+          counts=Counter(role for _,role,_,_ in modifications)
+          print('Total des références rectifiées :',len(modifications),dict(counts))
+          with open('corrections-medias.txt','w',encoding='utf-8') as out:
+              out.write('Source maître : '+provenance+'\n')
+              out.write('Les références sont réconciliées avec media_for() de l’exporteur.\n')
+              out.write('\n'.join(f'{ident};{role};{old};{new}' for ident,role,old,new in modifications))
+              out.write('\n')
           PY
       - name: Exécuter le contrôle des médias avant commit
         run: python3 -m unittest discover -s tests -p test_export.py -v
