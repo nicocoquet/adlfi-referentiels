@@ -1,0 +1,6 @@
+﻿id_candidature;ark_source;libelle_source;code_source;ark_cible;libelle_cible;code_cible;date_evenement;MOD;type_relation_candidate;niveau_preuve;decision_editoriale;justification_editoriale;verificateur;date_validation;statut_recette
+candidate:b4b663cd4579a0313a34;26678/pcrtHVMF65Ey3z;Marchaux;25368;26678/pcrtPEJhK71UsV;Marchaux-Chaudefontaine;25368;2018-01-01;32;participe_creation_commune_nouvelle;2_ark_et_code_insee_reutilise;;;;;candidat_non_valide
+candidate:1d32a3f521a249ec3719;26678/pcrtSYhbegbvSU;Sancey-le-Grand;25529;26678/pcrtqvgozFu6dO;Sancey;25529;2016-01-01;32;participe_creation_commune_nouvelle;2_ark_et_code_insee_reutilise;;;;;candidat_non_valide
+candidate:ce7f1f62d15377591f33;26678/pcrtdIcMrh2mh8;Antorpe;39012;26678/pcrtw7D5DZnli2;Saint-Vit;25527;1974-06-01;33;rattachement_commune_associee;COMA_COMPARENT_2026_et_mouvement_1974;;;;;candidat_non_valide
+candidate:ce02dcf8b84e34b1d4a6;26678/pcrtANt29rHaDo;Frettes;52210;26678/pcrtNslpgoFloZ;Champlitte;70122;1974-07-01;33;rattachement_commune_associee;COMA_COMPARENT_2026_et_mouvement_1974;;;;;candidat_non_valide
+candidate:07401e4a2764a618e4a5;26678/pcrtSkDaYjLST1;Mirebel;39332;26678/pcrtdDWDTOLZXu;Hauteroche (Jura);39177;2016-01-01;32;participe_creation_commune_nouvelle;prefLabel_qualifie_exactMatch_39177_parent_Jura;;;;;candidat_non_valide
