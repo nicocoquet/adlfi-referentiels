@@ -71,7 +71,7 @@ jobs:
             'https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv' \
             -o /tmp/v_commune_2026.csv
           test "$(wc -c < /tmp/v_commune_2026.csv)" -gt 1000000
-          sha256sum /tmp/v_commune_2026.csv
+          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/v_commune_2026.csv' | sha256sum --check
       - name: Vérifier le devenir des sept COMD/COMA jusqu'en 2026
         shell: bash
         run: |
