@@ -2,6 +2,8 @@
 
 **Statut : recette non validante.** Aucun alignement Pactols–COG ni contour géographique n'est modifié.
 
+**Complément du 14 novembre 2026 :** les deux cas de branche alternative ont été instruits dans [l'instruction contextuelle](INSTRUCTION-CONTEXTES-ET-BRANCHES-20261114.md). Le **lac d'Annecy** demeure une même autorité hydrographique sous deux chaînes ; **Poitou-Charentes** reflète plausiblement l'évolution du statut régional après le 1er janvier 2016. Aucune hiérarchie originale n'est supprimée, aucun rapprochement au COG communal n'est créé.
+
 ## Résultats
 
 | Indicateur | Autorités ARK |
