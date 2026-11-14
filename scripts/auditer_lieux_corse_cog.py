@@ -55,9 +55,9 @@ def norm(s):
 def statut_nom(nom,official):
     if norm(nom)==norm(official):return 'identique_normalise'
     # Strictement une indication de désambiguïsation (aucun renommage tacite).
-    for dep in ('Haute-Corse','Corse-du-Sud'):
+    for dep in ('Haute-Corse','Corse-du-Sud','France')
         if nom.endswith(' ('+dep+')') and norm(nom[:-(len(dep)+3)])==norm(official):
-            return 'qualificatif_departement_documentaire'
+            return 'qualificatif_geographique_documentaire'
     return 'divergence_nom_a_instruire'
 
 def iso(s):
@@ -160,7 +160,7 @@ def produire(inventaire:Path,lot:Path,communes:Path,historique:Path,mouvements:P
         commentary='État non validant ; COG 2026 contemporain. '
         if predecessors:commentary+='Code(s) antérieur(s) liés par MOD=41 ; vérifier les périodes et autres événements. '
         if not code:commentary+='Type d’autorité hors commune ou à instruire ; ne pas attribuer de contour communal. '
-        if match=='qualificatif_departement_documentaire':commentary+='Qualificatif départemental documenté, absent du nom officiel. '
+        if match=='qualificatif_geographique_documentaire':commentary+='Qualificatif documentaire de désambiguïsation, absent du nom officiel. '
         output.append({
             'ark_pactols':ark,'libelle_xml':r['libelle_xml'],'pref_fr_pactols':r['pref_fr_pactols'],
             'code_insee_assertion_pactols':code,'departement_pactols':dept,
