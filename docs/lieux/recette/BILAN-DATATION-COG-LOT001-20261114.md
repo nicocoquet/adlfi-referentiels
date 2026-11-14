@@ -70,3 +70,39 @@ Ces absences ne démontrent pas la disparition d’une commune déléguée ou as
 ## Étape complémentaire
 
 Le script `scripts/auditer_statuts_delegues_associes.py` examine la **présence en 2026** et les **événements de naissance/sortie** des sept `COMD` et `COMA` à partir des fichiers `v_commune_2026.csv` et `v_mvt_commune_2026.csv`. La relation `COMPARENT` n’est attribuée qu’à un état effectivement présent dans le millésime 2026.
+
+## Contrôle complémentaire des sept COMD/COMA — résultats réels
+
+Le fichier des événements **`v_mvt_commune_2026.csv`** (13 734 lignes, SHA-256
+`8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1`)
+et les communes existantes **`v_commune_2026.csv`** (37 496 lignes, SHA-256
+`7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3`)
+ont été confrontés aux sept états du graphe.
+
+Contrôle GitHub Actions réussi : https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43595605080
+
+| Type | Code | Entité | Première entrée attestée | Dernière sortie attestée | Au COG 2026 | COMPARENT 2026 |
+| --- | --- | --- | --- | --- | --- | --- |
+| COMD | `79004` | Aigonnay | 2019-01-01 | — | oui | `79185` |
+| COMD | `79185` | Mougon | 2017-01-01 | — | oui | `79185` |
+| COMD | `79240` | Sainte-Blandine | 2019-01-01 | — | oui | `79185` |
+| COMD | `79327` | Thorigné | 2017-01-01 | — | oui | `79185` |
+| COMD | `28002` | Allaines-Mervilliers | 2019-01-01 | — | oui | `28199` |
+| COMD | `28199` | Janville | 2019-01-01 | — | oui | `28199` |
+| COMA | `28244` | Mervilliers | 1972-12-28 | 2019-01-01 | non | — |
+
+Les états `COMD` présents au COG 2026 sont donc **six sur six** ;
+l'ancienne commune associée **Mervilliers** a une disparition de statut
+attestée le 1er janvier 2019. **Ces dates sont des événements officiels,
+pas des géométries historiques ; la présence au millésime 2026 ne constitue
+pas une démonstration de stabilité territoriale.**
+
+Pièces de recette conservées :
+- `docs/lieux/recette/rapport-statut-delegue-associe-lot001.json` ;
+- `docs/lieux/recette/revue-statut-delegue-associe-lot001.csv` ;
+- `docs/lieux/recette/audit-statut-delegue-associe-lot001.json`.
+
+**Bilan global du lot 001 :** 26 états `COM` datés par les couples
+officiels ; 6 `COMD` présentes en 2026, avec dates d'entrée
+attestées ; 1 `COMA` disparue en 2019 ; **zéro nouvel alignement
+Pactols–COG validé** et **zéro géométrie historique attribuée**.
