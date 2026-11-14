@@ -10,6 +10,7 @@ on:
       - 'scripts/instruire_p3_bfc_cog.py'
       - 'scripts/consolider_evenements_bfc_p1_p2_p3.py'
       - 'scripts/valider_graphe_historique_bfc.py'
+      - 'docs/lieux/recette/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md'
       - 'tests/test_consolider_evenements_bfc_p1_p2_p3.py'
       - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
       - 'docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv'
@@ -284,6 +285,7 @@ jobs:
         run: |
           mkdir -p /tmp/bfc-736/transversal/code /tmp/bfc-736/transversal/sources
           cp scripts/consolider_evenements_bfc_p1_p2_p3.py scripts/valider_graphe_historique_bfc.py tests/test_consolider_evenements_bfc_p1_p2_p3.py /tmp/bfc-736/transversal/code/
+          cp docs/lieux/recette/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md /tmp/bfc-736/transversal/
           cp docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
              docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
              docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
