@@ -1,0 +1,54 @@
+name: Lieux — audit de raccordement géométrique 2026 (recette)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-geometries-lieux-cog2026.yml'
+      - 'scripts/auditer_raccordements_geometriques_2026.py'
+      - 'tests/test_auditer_raccordements_geometriques_2026.py'
+      - 'docs/lieux/recette/sous-lot-*-cog2026-controle.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier-geometries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester le contrat anti-publication et anti-anachronisme
+        run: python3 -m unittest discover -s tests -p 'test_auditer_raccordements_geometriques_2026.py' -v
+      - name: Télécharger le contour communal officiel de 2026 (100 m)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o /tmp/communes-100m-2026.geojson.gz
+          test "$(wc -c < /tmp/communes-100m-2026.geojson.gz)" -gt 1000000
+      - name: Auditer 30 contours en recette, sans valider les ARK
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_raccordements_geometriques_2026.py \
+            --sous-lot docs/lieux/recette/sous-lot-01-cog2026-controle.csv \
+            --sous-lot docs/lieux/recette/sous-lot-02-cog2026-controle.csv \
+            --sous-lot docs/lieux/recette/sous-lot-03-cog2026-controle.csv \
+            --geometries /tmp/communes-100m-2026.geojson.gz \
+            --sortie /tmp/rapport-geometries-lieux
+          python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-raccordement-geometries-2026.json
+      - name: Archiver les contours et la preuve de provenance sans publier
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-candidats-geometries-2026-100m
+          path: /tmp/rapport-geometries-lieux/
+          if-no-files-found: warn
+          retention-days: 30
