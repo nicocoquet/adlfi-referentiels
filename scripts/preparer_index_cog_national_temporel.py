@@ -100,7 +100,10 @@ def construire(historique,courant,mouvements,sortie):
      "date_observation":"2026-01-01"})
    lex[code].add(r["LIBELLE"])
  moves_global=set()
+ sans_avant=0;sans_apres=0
  for r in moves:
+  if not r["COM_AV"]:sans_avant+=1
+  if not r["COM_AP"]:sans_apres+=1
   # SHA sur toutes les colonnes officielles pour dédoublonnage inter-segments.
   full={k:r[k] for k in MV}
   ident="mvt:"+sha(serialiser(full))[:24]
@@ -110,9 +113,13 @@ def construire(historique,courant,mouvements,sortie):
          "typecom_avant":r["TYPECOM_AV"],"code_avant":r["COM_AV"],
          "libelle_avant":r["LIBELLE_AV"],"typecom_apres":r["TYPECOM_AP"],
          "code_apres":r["COM_AP"],"libelle_apres":r["LIBELLE_AP"]}
-  for group in {segment(r["COM_AV"]),segment(r["COM_AP"])}:
+  # MOD 20/30 : l'Insee peut déclarer une création sans code AV
+  # ou une disparition administrative sans code AP. Ne rien inventer.
+  codes=[r[k] for k in ("COM_AV","COM_AP") if r[k]]
+  if not codes:raise ValueError("Mouvement sans code avant ET après")
+  for group in {segment(code) for code in codes}:
    shards[group]["mouvements"].append(entry)
- if len(shards)!=98 or len(moves_global)!=13734:
+ if len(shards)!=98 or len(moves_global)!=13734 or (sans_avant,sans_apres)!=(127,2):
   raise ValueError("Segmentation nationale COG incohérente")
  out=Path(sortie)
  if any((out/name).resolve() in {p.resolve() for p in paths.values()}
@@ -152,6 +159,8 @@ def construire(historique,courant,mouvements,sortie):
                        "sha256":sha(idx),"entrees":len(names)},
    "segments":metas,
    "periodes_sans_duree":sorted(zero_duration,key=lambda x:x["code_insee"]),
+   "mouvements_sans_commune_avant":sans_avant,
+   "mouvements_sans_commune_apres":sans_apres,
    "statistiques":{"codes_historiques_COM":39117,
      "periodes_COM":42288,"periodes_ARM":45,
      "communes_COM_2026":34875,"communes_deleguees_2026":2105,
@@ -161,6 +170,7 @@ def construire(historique,courant,mouvements,sortie):
    "garanties":["Périodes COM et ARM seulement pour l'historique depuis 1943.",
      "Statuts COMD/COMA uniquement observés au millésime 2026.",
      "Les deux lignes COG de durée nulle sont conservées mais jamais actives au curseur.",
+     "MOD 20/30 peut produire des mouvements sans commune avant ou après ; conserver le côté vide officiel.",
      "Événements et changements de périmètre distincts des changements de libellé.",
      "Le préfixe de code ne constitue pas un département de localisation historique.",
      "Aucun ARK attribué à partir du code ni des libellés.",
