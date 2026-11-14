@@ -8,6 +8,11 @@ on:
       - 'scripts/qualifier_relations_ark_bfc.py'
       - 'scripts/instruire_p2_bfc_cog.py'
       - 'scripts/instruire_p3_bfc_cog.py'
+      - 'scripts/consolider_evenements_bfc_p1_p2_p3.py'
+      - 'tests/test_consolider_evenements_bfc_p1_p2_p3.py'
+      - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
+      - 'docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv'
+      - 'docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv'
       - 'tests/test_instruire_p3_bfc_cog.py'
       - 'docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv'
       - 'docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md'
@@ -41,6 +46,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_qualifier_relations_ark_bfc.py' -v
           python3 -m unittest discover -s tests -p 'test_instruire_p2_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_instruire_p3_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_consolider_evenements_bfc_p1_p2_p3.py' -v
       - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
         env:
@@ -207,6 +213,50 @@ jobs:
           cp scripts/instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
           cp tests/test_instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
           cp docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md /tmp/bfc-736/preinstruction-p3/
+      - name: Consolider les 29 relations P1/P2/P3 en graphe COG unique
+        run: |
+          set -euo pipefail
+          for target in /tmp/bfc-736/transversal /tmp/bfc-736/transversal-controle; do
+            python3 scripts/consolider_evenements_bfc_p1_p2_p3.py \
+              --p1 docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
+              --p1-events docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
+              --p1-transitions docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
+              --p2 docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
+              --p3 docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+              --communes /tmp/cog/v_commune_2026.csv \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/bfc-736/transversal /tmp/bfc-736/transversal-controle
+          rm -rf /tmp/bfc-736/transversal-controle
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/bfc-736/transversal')
+          r=json.loads((p/'rapport-transversal-bfc.json').read_text())
+          assert (r['candidatures'],r['ark_cibles_candidats'],
+                  r['groupes_evenements_uniques'],r['transitions_insee_distinctes']) == (29,28,28,86)
+          assert (r['evenements_initiaux'],r['evenements_ulterieurs'],
+                  r['references_evenements_anterieures']) == (21,7,30)
+          assert r['validations_editoriales_nouvelles']==r['nouveaux_exactMatch_skos']==0
+          assert r['geometries_historiques_attribuees']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\n## Graphe historique transversal P1/P2/P3\n')
+              f.write('29 relations documentaires, 28 événements uniques (21 initiaux et 7 ultérieurs), 86 lignes COG.\n')
+              f.write('Tous les identifiants anciens conservés en table de correspondance ; aucune validation éditoriale.\n')
+          PY
+          cat /tmp/bfc-736/transversal/rapport-transversal-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Joindre le code et les entrées du graphe transversal à l'artefact
+        run: |
+          mkdir -p /tmp/bfc-736/transversal/code /tmp/bfc-736/transversal/sources
+          cp scripts/consolider_evenements_bfc_p1_p2_p3.py tests/test_consolider_evenements_bfc_p1_p2_p3.py /tmp/bfc-736/transversal/code/
+          cp docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
+             docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
+             docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
+             docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
+             docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+             /tmp/bfc-736/transversal/sources/
       - name: Archiver la recette seulement
         if: always()
         uses: actions/upload-artifact@v4
