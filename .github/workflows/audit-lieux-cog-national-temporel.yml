@@ -1,0 +1,85 @@
+name: Lieux — COG temporel national (recette, non publié)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-cog-national-temporel.yml'
+      - 'scripts/recuperer_cog_2026.py'
+      - 'scripts/preparer_index_cog_national_temporel.py'
+      - 'tests/test_preparer_index_cog_national_temporel.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sources-et-segments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les bornes temporelles et préfixes de codes
+        run: python3 -m unittest discover -s tests -p 'test_preparer_index_cog_national_temporel.py' -v
+      - name: Récupérer les sources officielles avec contrôle SHA-256
+        run: python3 scripts/recuperer_cog_2026.py --sortie /tmp/cog
+      - name: Produire deux fois les segments temporels nationaux
+        run: |
+          set -euo pipefail
+          for target in /tmp/national-2026 /tmp/national-verification; do
+            python3 scripts/preparer_index_cog_national_temporel.py \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --courant /tmp/cog/v_commune_2026.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/national-2026 /tmp/national-verification
+          rm -rf /tmp/national-verification
+      - name: Vérifier le manifeste et des changements historiques tests
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          r=Path('/tmp/national-2026')
+          m=json.loads((r/'manifest-cog-national.json').read_text())
+          assert m['statistiques']=={
+            'codes_historiques_COM':39117,'periodes_COM':42288,
+            'periodes_ARM':45,'communes_COM_2026':34875,
+            'communes_deleguees_2026':2105,'communes_associees_2026':471,
+            'arrondissements_municipaux_2026':45,'mouvements_COG_uniques':13734,
+            'segments':98}
+          assert len(m['segments'])==98
+          for seg in m['segments']:
+            raw=(r/seg['fichier']).read_bytes()
+            assert hashlib.sha256(raw).hexdigest()==seg['sha256']
+          idx=m['index_toponymes']
+          data=(r/idx['fichier']).read_bytes()
+          assert hashlib.sha256(data).hexdigest()==idx['sha256']
+          for prefix,code,earlier,later,cut in [
+            ('25','25368','Marchaux','Marchaux-Chaudefontaine','2018-01-01'),
+            ('39','39137','Chemilla','Saint-Hymetière-sur-Valouse','2019-01-01'),
+            ('71','71566','Verdun-sur-le-Doubs','Verdun-Ciel','2025-01-01'),
+            ('25','25575','Vaire-Arcier','Vaire','2016-06-01')
+          ]:
+            j=json.loads((r/'segments'/('cog-'+prefix+'.json')).read_text())
+            xs=[x for x in j['periodes_COM'] if x['code_insee']==code]
+            assert any(x['libelle']==earlier and x['fin_exclue']==cut for x in xs)
+            assert any(x['libelle']==later and x['debut_inclus']==cut for x in xs)
+          # Aucun raccourci Antorpe(39)→Saint-Vit(25) : preuve du mouvement
+          j39=json.loads((r/'segments'/'cog-39.json').read_text())
+          j25=json.loads((r/'segments'/'cog-25.json').read_text())
+          assert any(x['code_avant']=='39012' and x['code_apres']=='25527' and
+                     x['date_effet']=='1974-06-01' for x in j39['mouvements'])
+          assert any(x['code_avant']=='39012' and x['code_apres']=='25527' and
+                     x['date_effet']=='1974-06-01' for x in j25['mouvements'])
+          assert not any('26678/' in x for x in (r/'manifest-cog-national.json',
+                        r/'index-toponymes-cog.json'))
+          print('National : 98 segments, 42 288 périodes COM, 13 734 mouvements distincts, tests temporels OK')
+          PY
+          cat /tmp/national-2026/manifest-cog-national.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver la couche nationale hors des données publiques
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-cog-national-temporel-2026-recette
+          path: /tmp/national-2026/
+          retention-days: 90
+          if-no-files-found: error
