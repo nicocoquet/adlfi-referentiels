@@ -7,6 +7,8 @@ on:
       - 'scripts/auditer_98_lieux_imbriques_pdl_cog.py'
       - 'scripts/auditer_parentages_pdl_120.py'
       - 'scripts/qualifier_comparent_22_pdl.py'
+      - 'scripts/construire_graphe_mouvements_pdl_120.py'
+      - 'tests/test_construire_graphe_mouvements_pdl_120.py'
       - 'tests/test_qualifier_comparent_22_pdl.py'
       - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
       - 'tests/test_auditer_parentages_pdl_120.py'
@@ -33,6 +35,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_reconstituer_lieux_pays_loire_806.py' -v
           python3 -m unittest discover -s tests -p 'test_auditer_parentages_pdl_120.py' -v
           python3 -m unittest discover -s tests -p 'test_qualifier_comparent_22_pdl.py' -v
+          python3 -m unittest discover -s tests -p 'test_construire_graphe_mouvements_pdl_120.py' -v
       - name: Télécharger et contrôler les fichiers officiels Insee 2026
         shell: bash
         run: |
@@ -97,6 +100,25 @@ jobs:
                   f.write(f'- {cat}: {count}\n')
           PY
           cat /tmp/pdl-recette/comparent-22/rapport-comparent-22.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Construire le graphe provisoire des mouvements des 120 codes
+        run: |
+          python3 scripts/construire_graphe_mouvements_pdl_120.py \
+            --evenements22 /tmp/pdl-recette/codes-partages-22/evenements-codes-partages-22.csv \
+            --evenements98 /tmp/pdl-recette/imbriques-98/evenements-codes-98.csv \
+            --periodes22 /tmp/pdl-recette/codes-partages-22/periodes-codes-partages-22.csv \
+            --periodes98 /tmp/pdl-recette/imbriques-98/periodes-codes-98.csv \
+            --sortie /tmp/pdl-recette/graphe-120
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/graphe-120/rapport-graphe-120.json').read_text())
+          assert r['lignes_mouvement_distinctes']==396
+          assert r['periodes_code_libelle']==167
+          assert r['nouveaux_alignements_adlfi']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write(f"\\n## Graphe COG provisoire des 120 codes\\n{r['lignes_mouvement_distinctes']} transitions documentaires distinctes; {r['groupes_connexes_candidats']} groupes candidats.\\n")
+          PY
+          cat /tmp/pdl-recette/graphe-120/rapport-graphe-120.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette uniquement
         if: always()
         uses: actions/upload-artifact@v4
