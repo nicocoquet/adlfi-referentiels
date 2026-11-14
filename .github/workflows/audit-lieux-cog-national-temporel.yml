@@ -99,6 +99,9 @@ jobs:
           cp docs/lieux/recette/apercu-national.html /tmp/national-2026/apercu-source/
           cp docs/assets/lieux-national.js              docs/assets/lieux-national-preview.js              docs/assets/lieux-national-preview.css              docs/assets/site.css docs/assets/lieux.css              /tmp/national-2026/apercu-source/assets/
           cp docs/data/lieux-communes.geojson /tmp/national-2026/apercu-source/
+          mkdir -p /tmp/national-2026/apercu-source/cartouches
+          cp docs/assets/logo-adlfi.png /tmp/national-2026/apercu-source/
+          cp docs/assets/cartouches/lieux.webp /tmp/national-2026/apercu-source/cartouches/
           cp tests/test_lieux_national.js /tmp/national-2026/apercu-source/
       - name: Archiver la couche nationale hors des données publiques
         uses: actions/upload-artifact@v4
