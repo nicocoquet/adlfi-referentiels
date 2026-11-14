@@ -1,0 +1,75 @@
+name: Lieux — validation COG temporel national
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lieux-cog-temporel-national.yml'
+      - 'scripts/recuperer_cog_2026.py'
+      - 'scripts/preparer_index_cog_national_temporel.py'
+      - 'tests/test_preparer_index_cog_national_temporel.py'
+      - 'recette/lieux/COG-NATIONAL-README.md'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/lieux-cog-temporel-national.yml'
+      - 'scripts/recuperer_cog_2026.py'
+      - 'scripts/preparer_index_cog_national_temporel.py'
+      - 'tests/test_preparer_index_cog_national_temporel.py'
+permissions:
+  contents: read
+jobs:
+  verifier-cog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests unitaires du contrat temporel
+        run: python3 -m unittest discover -s tests -p 'test_preparer_index_cog_national_temporel.py' -v
+      - name: Récupération officielle SHA-256 contrôlée
+        run: python3 scripts/recuperer_cog_2026.py --sortie /tmp/cog
+      - name: Génération déterministe nationale en double
+        run: |
+          set -euo pipefail
+          for target in /tmp/lieux-cog-national /tmp/lieux-cog-controle; do
+            python3 scripts/preparer_index_cog_national_temporel.py \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --courant /tmp/cog/v_commune_2026.csv \
+              --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/lieux-cog-national /tmp/lieux-cog-controle
+      - name: Vérification des invariants nationaux
+        run: |
+          python3 - <<'PY'
+          import json
+          import hashlib
+          from pathlib import Path
+          root=Path('/tmp/lieux-cog-national')
+          manifest=json.loads((root/'manifest-cog-national.json').read_text())
+          s=manifest['statistiques']
+          assert s['codes_historiques_COM']==39117
+          assert s['periodes_COM']==42288
+          assert s['mouvements_COG_uniques']==13734
+          assert s['segments']==len(manifest['segments'])==98
+          assert (s['communes_COM_2026'],s['communes_deleguees_2026'],
+                  s['communes_associees_2026'],s['arrondissements_municipaux_2026']) == (34875,2105,471,45)
+          assert [(e['code_insee'],e['date']) for e in manifest['periodes_sans_duree']]==[
+              ('44225','2018-01-01'),('50649','2018-01-01')]
+          assert (manifest['mouvements_sans_commune_avant'],
+                  manifest['mouvements_sans_commune_apres'])==(127,2)
+          for entry in manifest['segments']:
+              blob=(root/entry['fichier']).read_bytes()
+              assert hashlib.sha256(blob).hexdigest()==entry['sha256']
+              assert b'26678/' not in blob
+          assert b'26678/' not in (root/'index-toponymes-cog.json').read_bytes()
+          print("COG national 2026 : invariants, empreintes, déterminisme, sans ARK ni contours historiques : OK")
+          PY
+      - name: Archiver la recette seulement (hors GitHub Pages)
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-cog-national-temporel-recette-2026
+          path: /tmp/lieux-cog-national/
+          retention-days: 30
+          if-no-files-found: error
