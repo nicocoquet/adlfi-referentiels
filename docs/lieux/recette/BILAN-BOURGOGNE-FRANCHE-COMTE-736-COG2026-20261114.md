@@ -92,6 +92,12 @@ Ne pas « corriger » le préfixe de leurs codes par celui du département du pa
 
 **Brain** (`21100`, Côte-d'Or) demeure une commune COG parfaitement réelle. Son indexation dans une notice *Pays de Retz / Autoroute A28* du corpus Pays de la Loire 2008 paraît suspecte au vu du contexte et pourrait impliquer **Brains** (`44024`), mais **aucune correction TEI ne peut être validée sans lecture de la notice**. L'alerte est distincte du dossier Béthon/Bethon.
 
+### Instruction historique complémentaire vérifiée
+
+Les **25 codes historiques** ont désormais été répartis en cinq profils à partir des **42 lignes de mouvements avant/après** : quatre fusions simples, douze rattachements par création/modification de commune nouvelle, sept suppressions ultérieures de statut délégué, une fusion-association transformée en fusion simple et un changement de nom suivi d'une commune nouvelle. Les deux codes partagés (`25368` et `25529`) et les communes associées **Antorpe** (`39012`) et **Frettes** (`52210`) ont fait l'objet de contrôles spécifiques.
+
+Voir `INSTRUCTION-HISTORIQUE-EXCEPTIONS-BFC-20261114.md`, `scripts/instruire_exceptions_bfc_cog.py` et l'[exécution GitHub Actions réussie n°43628518269](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43628518269). Toutes les lignes restent des preuves administratives **non validantes** pour l'alignement des ARK.
+
 ## 5. Scripts, artefacts et publication
 
 La branche contient :
