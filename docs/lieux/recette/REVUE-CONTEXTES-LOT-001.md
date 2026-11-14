@@ -2,6 +2,8 @@
 
 **Statut : travail en recette, aucune correspondance Pactols–COG nouvelle validée.**
 
+**Complément d'instruction du 14 novembre 2026 :** les trois cas prioritaires ont été réexaminés avec sources Insee et archéologiques. **Bethon/Béthon** présente une forte suspicion d'erreur d'indexation, **Usson/Usson-en-Forez** demeure ambigu, et **Marsangy** est explicitement mentionné dans la notice publiée (faux signalement d'anomalie). Voir [l'instruction détaillée](INSTRUCTION-CONTEXTES-ET-BRANCHES-20261114.md) et [les observations structurées](dossiers-contextes-001-20261114.json). Les codes candidats demeurent **non validés**.
+
 ## Contrat de vérification
 
 Ce contrôle relit les **occurrences géographiques indexées dans toute la notice TEI**, leurs chemins Pactols et les titres des notices issus de l’extraction nationale v2. Il ne vérifie pas le contenu intégral du paragraphe de chaque notice et ne remplace ni l’autorité Pactols, ni les mouvements du COG, ni la validation éditoriale.
