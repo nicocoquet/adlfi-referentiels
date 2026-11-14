@@ -156,8 +156,12 @@
         notices:a.notice_distinctes,
         annees_operation_xml:a.annees_operation_xml,
         statut_relation:val ? 'correspondance_COG_editeur_PACA_validee' : 'aucune_correspondance_validee',
-        correspondance_administrative:val ? projectionCOG(segment,val.code_insee,annee) : null,
+        correspondance_administrative:val && annee===2026 ?
+          projectionCOG(segment,val.code_insee,annee) : null,
+        consultation_COG_historique_meme_code:val && annee!==2026 ?
+          projectionCOG(segment,val.code_insee,annee) : null,
         lien_COG_valide:val,
+        portee_validation:val ? 'millesime_COG_2026_uniquement' : null,
         geometrie_historique:null,
       };
     }
