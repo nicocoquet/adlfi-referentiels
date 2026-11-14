@@ -1,0 +1,54 @@
+name: Lieux — Pays de la Loire, audit COG 2026 (lot pilote non validant)
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_lieux_pays_loire_cog.py'
+      - 'tests/test_auditer_lieux_pays_loire_cog.py'
+      - '.github/workflows/audit-lieux-pays-loire-cog2026.yml'
+      - 'docs/lieux/recette/lot-01-pays-de-la-loire.csv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests synthétiques
+        run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
+      - name: Télécharger et contrôler les fichiers officiels Insee 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/cog
+          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
+            curl -fL --retry 3 --connect-timeout 20 --max-time 240 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"
+          done
+          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
+          echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
+          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
+      - name: Audit des 25 ARK (et non 806)
+        run: |
+          python3 scripts/auditer_lieux_pays_loire_cog.py --inventaire docs/lieux/recette/lot-01-pays-de-la-loire.csv --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette --attendu 25
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/rapport.json').read_text())
+          assert r['ark']==25 and r['validations_nouvelles']==0 and r['geometries_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','w') as f:
+              f.write('# Pays de la Loire — lot pilote (25 ARK)\n\n')
+              for k,v in r['repartition'].items():f.write(f'- {k}: {v}\n')
+              f.write('\nAucune validation ou géométrie publiée.\n')
+          PY
+          cat /tmp/pdl-recette/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Archiver la recette uniquement
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-lieux-pays-de-la-loire-lot25
+          path: /tmp/pdl-recette/
+          if-no-files-found: warn
