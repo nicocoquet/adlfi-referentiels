@@ -4,6 +4,10 @@ on:
     paths:
       - '.github/workflows/audit-lieux-bfc-cog2026.yml'
       - 'scripts/auditer_lieux_bfc_cog.py'
+      - 'scripts/instruire_exceptions_bfc_cog.py'
+      - 'tests/test_instruire_exceptions_bfc_cog.py'
+      - 'docs/lieux/recette/codes-historiques-absents-bfc-25.csv'
+      - 'docs/lieux/recette/codes-partages-ark-bfc-2.csv'
       - 'tests/test_auditer_lieux_bfc_cog.py'
       - 'docs/lieux/recette/inventaire-bourgogne-franche-comte.csv'
       - 'docs/lieux/recette/lot-01-bourgogne-franche-comte.csv'
@@ -21,7 +25,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Contrôler les 736 ARK et l'identité du lot pilote
-        run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_exceptions_bfc_cog.py' -v
       - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
         env:
@@ -70,6 +76,28 @@ jobs:
               f.write('\nAucune validation éditoriale nouvelle ni géométrie historique.\n')
           PY
           cat /tmp/bfc-736/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Instruire 25 codes historiques et quatre dossiers spécifiques
+        run: |
+          python3 scripts/instruire_exceptions_bfc_cog.py \
+            --codes25 docs/lieux/recette/codes-historiques-absents-bfc-25.csv \
+            --doubles docs/lieux/recette/codes-partages-ark-bfc-2.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/bfc-736/instruction-exceptions
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/instruction-exceptions/rapport-instruction-bfc.json').read_text())
+          assert (r['nombre_codes_historiques'],r['lignes_evenements_officiels'],
+                  r['codes_partages_ark_documentes'],r['communes_associees_interdepartementales'])==(25,42,2,2)
+          assert r['nouveaux_alignements_valides']==0 and r['geometries_historiques_attribuees']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\\n## 25 anciens codes et quatre dossiers particuliers\\n')
+              for k,v in r['repartition_profils'].items():f.write(f'- {k}: {v}\\n')
+              f.write('42 lignes de mouvements avant/après préservées ; aucune validation nouvelle.\\n')
+          PY
+          cat /tmp/bfc-736/instruction-exceptions/rapport-instruction-bfc.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette seulement
         if: always()
         uses: actions/upload-artifact@v4
