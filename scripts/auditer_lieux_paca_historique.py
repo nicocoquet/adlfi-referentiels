@@ -109,6 +109,26 @@ def mouvement_id(r):
                    ensure_ascii=False,sort_keys=True,separators=(",",":"))
     return "mvt:"+hashlib.sha256((raw+"\n").encode()).hexdigest()[:24]
 
+def regroupement_evenement(mouvement):
+    """Un groupe de lignes COG, pas nécessairement un acte juridique unique.
+
+    Pour une création d'arrondissements municipaux (MOD20), grouper les
+    lignes de Marseille sous la commune d'origine, sans créer seize
+    changements successifs d'identité communale.
+    """
+    m=mouvement
+    if m["MOD"]=="20" and m["typecom_avant"]=="COM" and m["typecom_apres"]=="ARM":
+        porteur=m["code_avant"]
+        type_pivot="commune_source_arrondissements"
+    else:
+        porteur=m["code_apres"] or m["code_avant"]
+        type_pivot="code_receveur"
+    if not porteur:
+        raise ValueError("Mouvement sans commune de référence")
+    return (f"PACA-COG-{m['date_effet']}-{m['MOD']}-{porteur}",
+            porteur,type_pivot)
+
+
 def construire(pilote,candidats,courant,historique,mouvements,sortie,
                controle_sources=True):
     paths={"courant":Path(courant),"historique":Path(historique),
@@ -148,6 +168,17 @@ def construire(pilote,candidats,courant,historique,mouvements,sortie,
         unique[mid]=event
         for c in affected:
             mouv[c].append(mid)
+    groupes=collections.defaultdict(list)
+    groupe_info={}
+    groupes_par_code=collections.defaultdict(set)
+    for event in unique.values():
+        eid,pivot,typ=regroupement_evenement(event)
+        groupes[eid].append(event["id"])
+        if eid in groupe_info and groupe_info[eid]!=(event["date_effet"],event["MOD"],pivot,typ):
+            raise ValueError("Groupe COG administratif incohérent")
+        groupe_info[eid]=(event["date_effet"],event["MOD"],pivot,typ)
+    for code,ids in mouv.items():
+        groupes_par_code[code]={regroupement_evenement(unique[mid])[0] for mid in ids}
     out=[]
     for r in records:
         code=r["code_cog_propose"]
@@ -169,6 +200,8 @@ def construire(pilote,candidats,courant,historique,mouvements,sortie,
              "nombre_periodes_com":len(states),
              "formes_com_historiques":" | ".join(labels),
              "nombre_mouvements_lies":len(set(mouv[code])),
+             "nombre_groupes_evenements_lies":len(groupes_par_code[code]),
+             "ids_groupes_evenements":" | ".join(sorted(groupes_par_code[code])),
              "modalites_cog":" | ".join(mod),
              "presence_changement_nom_ou_identite": "oui" if len(labels)>1 else "non",
              "presence_mouvement_fusion":"oui" if set(mod)&{"31","32","33","34","35"} else "non",
@@ -193,6 +226,7 @@ def construire(pilote,candidats,courant,historique,mouvements,sortie,
       "codes_communes_actuelles_concernes":len(codes),
       "periodes_COM_liees":sum(len(per[code]) for code in codes),
       "mouvements_COG_uniques_lies":len(unique),
+      "groupes_evenements_COG_uniques_lies":len(groupes),
       "autorites_avec_plusieurs_formes_COM":sum(r["presence_changement_nom_ou_identite"]=="oui" for r in out),
       "autorites_avec_mouvement_fusion":sum(r["presence_mouvement_fusion"]=="oui" for r in out),
       "candidatures_avec_mouvements":sum(r["validation_millesime_2026"]=="non_valide" and r["nombre_mouvements_lies"]>0 for r in out),
@@ -214,6 +248,16 @@ def construire(pilote,candidats,courant,historique,mouvements,sortie,
     ecrire_csv(target/"PACA-110-REVUE-HISTORIQUE.csv",out,headers)
     movements_out=sorted(unique.values(),key=lambda r:(r["date_effet"],r["id"]))
     ecrire_csv(target/"PACA-MOUVEMENTS-COG.csv",movements_out,list(movements_out[0]) if movements_out else ["id"])
+    grouped=[]
+    for ident,ids in sorted(groupes.items()):
+        d,mod,pivot,pivot_type=groupe_info[ident]
+        grouped.append({"id_evenement":ident,"date_effet":d,"MOD":mod,
+                        "code_regroupement":pivot,"mode_regroupement":pivot_type,
+                        "nombre_lignes_COG":len(ids),
+                        "ids_mouvements":" | ".join(sorted(ids)),
+                        "statut":"observation_COG_non_validation_Pactols"})
+    grouped.sort(key=lambda x:(x["date_effet"],x["MOD"],x["code_regroupement"]))
+    ecrire_csv(target/"PACA-EVENEMENTS-COG.csv",grouped,list(grouped[0]))
     (target/"PACA-RAPPORT-AUDIT.json").write_text(
         json.dumps(summary,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     return summary
