@@ -50,7 +50,10 @@
   function entreeCOG(r) {
     return {
       id: 'cog:' + r.code_insee,
-      type: 'cog', label: r.libelles_attestes.at(-1) || r.code_insee,
+      type: 'cog', label: r.libelles_attestes.length === 1 ?
+        r.libelles_attestes[0] :
+        r.libelles_attestes.slice(0, 2).join(' / ') +
+          (r.libelles_attestes.length > 2 ? ' …' : ''),
       code: r.code_insee, ark: null, lienValide: null,
       noms: r.libelles_attestes,
       champs: [r.code_insee, ...r.libelles_attestes].map(normaliser),
