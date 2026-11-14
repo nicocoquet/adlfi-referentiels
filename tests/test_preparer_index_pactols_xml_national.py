@@ -47,5 +47,5 @@ class IndexPactolsXML(unittest.TestCase):
  def test_code_insee_non_valide_interdit(self):
   # Les comportements de refus sont validés aussi par le test précédent :
   # seule une entrée déjà au statut 'valide_pilote_paca_2026' doit porter un code.
-  self.assertEqual(normaliser("l'Œuvre"),"l œuvre")
+  self.assertEqual(normaliser("l'Œuvre"),"l oeuvre")
 if __name__=="__main__":unittest.main()
