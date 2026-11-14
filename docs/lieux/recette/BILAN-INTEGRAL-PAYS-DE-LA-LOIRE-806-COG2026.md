@@ -2,7 +2,7 @@
 
 **14 novembre 2026 — PR n°24 — recette technique et scientifique non validante.**
 
-L'inventaire national Pactols–XML a été rapproché des trois fichiers Insee officiels du COG 2026. Tous les fichiers sources sont vérifiés par empreinte SHA-256 ; le même audit complet a réussi dans le [workflow GitHub Actions n°43611387949](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43611387949). Les sorties sont dans l'artefact `audit-lieux-pays-de-la-loire-lot25` (nom historique conservé ; il contient **aussi** le traitement intégral).
+L'inventaire national Pactols–XML a été rapproché des trois fichiers Insee officiels du COG 2026. Tous les fichiers sources sont vérifiés par empreinte SHA-256 ; le même audit complet a réussi dans le [workflow GitHub Actions n°43611387949](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43611387949). Les sorties sont dans l'artefact `audit-lieux-pays-de-la-loire-806-cog2026`.
 
 ## Périmètre et qualification
 
