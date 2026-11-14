@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.2.0",
+  "etat": "recette_non_validante",
+  "nombre_etats_du_graphe": 33,
+  "operations": 11,
+  "arcs_evenements": 23,
+  "repartition_statuts": {
+    "aucun_couple_code_libelle_trouve": 7,
+    "couple_code_libelle_unique_compatible": 26
+  },
+  "lignes_historique_insee": {
+    "lignes_uniques": 42333,
+    "type_COM": 42288,
+    "type_ARM": 45,
+    "intervalles_de_duree_nulle": 2
+  },
+  "source_sha256": {
+    "source_couples_insee": {
+      "url": "https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_depuis_1943.csv",
+      "page_documentation": "https://www.insee.fr/fr/information/8740222",
+      "sha256": "08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee",
+      "fichier": "v_commune_depuis_1943_2026.csv",
+      "millesime": 2026,
+      "semantique_periode": "[DATE_DEBUT, DATE_FIN[ ; DATE_FIN vide = encore actif au 01-01-2026, non une validité future assurée"
+    },
+    "graphe_initial": {
+      "nom": "graphe-episodes-cog-lot001.json",
+      "sha256": "be9298cdccedc1311a31bfbd62126ddca8a6d9456b5d59f49c77e91ad3c5e886"
+    },
+    "limite": "Couples COM/ARM et autres TYPECOM effectivement fournis ; pas de preuve automatique des géométries ni des états territoriaux."
+  },
+  "nouveaux_alignements_pactols_cog_valides": 0,
+  "geometries_historiques_validees": 0,
+  "avertissement": "Les périodes datent les couples code–libellé, pas nécessairement les contours territoriaux ; ne pas déduire une période COMD/COMA par silence de la source."
+}
