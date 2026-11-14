@@ -78,3 +78,14 @@ La préinstruction documentaire est désormais achevée pour **neuf dossiers pri
 6. Ne renseigner les colonnes de décision qu'après examen éditorial explicite ; conserver auteur, date, source et justification de chaque arbitrage.
 
 **PR n°24 maintenue en brouillon. Zéro relation éditoriale approuvée et zéro géométrie historique attribuée.**
+
+
+## Mise à jour du 14 novembre : préinstruction des 29 dossiers terminée
+
+- **P1, 4/4** : deux événements distincts (Saint-Hymetière-sur-Valouse et Verdun-Ciel) documentés. Les questions d'alignement Frantiq/INSEE restent ouvertes.
+- **P2, 5/5** : trois créations de communes nouvelles, deux fusions-associations, et une suppression ultérieure de statut COMD documentées par six événements et dix-neuf lignes COG.
+- **P3, 20/20** : quatre fusions simples, quinze participations à des créations/extensions de communes nouvelles et une fusion-association. Ces 20 relations renvoient à **16 événements initiaux**, dont **deux sont strictement les mêmes que ceux déjà instruits en P2**, ainsi qu'à **six événements ultérieurs**, soit 65 lignes COG conservées.
+
+Voir **PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md**, le script reproductible **scripts/instruire_p3_bfc_cog.py** et son test. [Exécution spécialisée réussie n°43640064064](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43640064064).
+
+**Important : préinstruction documentaire terminée ne signifie pas validation des relations.** Les 29 décisions, justifications, signatures et dates éditoriales restent ouvertes ; aucun nouvel alignement SKOS ou contour historique n'est publié.
