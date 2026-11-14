@@ -8,6 +8,7 @@ on:
       - 'scripts/auditer_parentages_pdl_120.py'
       - 'scripts/qualifier_comparent_22_pdl.py'
       - 'scripts/construire_graphe_mouvements_pdl_120.py'
+      - 'scripts/construire_graphe_cog_pdl_806.py'
       - 'tests/test_construire_graphe_mouvements_pdl_120.py'
       - 'tests/test_qualifier_comparent_22_pdl.py'
       - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
@@ -152,6 +153,27 @@ jobs:
               for k,v in r['repartition'].items(): f.write(f'- {k}: {v}\\n')
           PY
           cat /tmp/pdl-recette/806-autorites/rapport.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Construire le graphe national non validant des 806 autorités
+        run: |
+          python3 scripts/construire_graphe_cog_pdl_806.py \
+            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/pdl-recette/graphe-806
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/graphe-806/rapport-graphe-806.json').read_text())
+          assert (r['ark'],r['codes_insee_distincts'],r['periodes_code_libelle_uniques'],
+              r['lignes_mouvements_distinctes'],r['etats_observes_distincts'])==(806,775,898,709,1295)
+          assert r['lignes_mouvements_rattachees_aux_ark']==1010
+          assert r['nouvelles_validations']==r['geometries_historiques_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\\n## Graphe historique 806 ARK\\n')
+              f.write('775 codes, 898 périodes, 709 mouvements et 1295 états observés. Aucune validation nouvelle.\\n')
+          PY
+          cat /tmp/pdl-recette/graphe-806/rapport-graphe-806.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette uniquement
         if: always()
         uses: actions/upload-artifact@v4
