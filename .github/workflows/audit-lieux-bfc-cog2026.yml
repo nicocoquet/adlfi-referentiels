@@ -9,6 +9,7 @@ on:
       - 'scripts/instruire_p2_bfc_cog.py'
       - 'scripts/instruire_p3_bfc_cog.py'
       - 'scripts/consolider_evenements_bfc_p1_p2_p3.py'
+      - 'scripts/valider_graphe_historique_bfc.py'
       - 'tests/test_consolider_evenements_bfc_p1_p2_p3.py'
       - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
       - 'docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv'
@@ -247,10 +248,42 @@ jobs:
               f.write('Tous les identifiants anciens conservés en table de correspondance ; aucune validation éditoriale.\n')
           PY
           cat /tmp/bfc-736/transversal/rapport-transversal-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Valider les références entre ARK, événements, mouvements et états
+        run: |
+          python3 scripts/valider_graphe_historique_bfc.py \
+            --graphe /tmp/bfc-736/transversal/graphe-transversal-bfc.json
+          python3 - <<'PY'
+          import copy
+          import json
+          import sys
+          import tempfile
+          from pathlib import Path
+          sys.path.insert(0,'scripts')
+          from valider_graphe_historique_bfc import controler
+          original=json.loads(Path('/tmp/bfc-736/transversal/graphe-transversal-bfc.json').read_text())
+          for sabotage in ('decision','mouvement','etat'):
+              corrupted=copy.deepcopy(original)
+              if sabotage=='decision':
+                  corrupted['relations_candidates'][0]['decision_editoriale']='valide'
+              elif sabotage=='mouvement':
+                  corrupted['relations_candidates'][0]['preuve_mouvement_id']='mvt:introuvable'
+              else:
+                  corrupted['mouvements'][0]['etat_avant_id']='etat:introuvable'
+              with tempfile.TemporaryDirectory() as d:
+                  file=Path(d)/'corruption.json'
+                  file.write_text(json.dumps(corrupted))
+                  try:
+                      controler(file)
+                  except ValueError:
+                      pass
+                  else:
+                      raise AssertionError('Altération non détectée : '+sabotage)
+          print('Contrôles négatifs : décision, preuve et état altérés correctement rejetés.')
+          PY
       - name: Joindre le code et les entrées du graphe transversal à l'artefact
         run: |
           mkdir -p /tmp/bfc-736/transversal/code /tmp/bfc-736/transversal/sources
-          cp scripts/consolider_evenements_bfc_p1_p2_p3.py tests/test_consolider_evenements_bfc_p1_p2_p3.py /tmp/bfc-736/transversal/code/
+          cp scripts/consolider_evenements_bfc_p1_p2_p3.py scripts/valider_graphe_historique_bfc.py tests/test_consolider_evenements_bfc_p1_p2_p3.py /tmp/bfc-736/transversal/code/
           cp docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
              docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
              docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
