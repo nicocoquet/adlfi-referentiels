@@ -1,4 +1,4 @@
-name: Lieux — Pays de la Loire, audit COG 2026 (lot pilote non validant)
+name: Lieux — Pays de la Loire, audit COG 2026 (806 ARK, recette)
 on:
   pull_request:
     paths:
@@ -178,6 +178,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: audit-lieux-pays-de-la-loire-lot25
+          name: audit-lieux-pays-de-la-loire-806-cog2026
           path: /tmp/pdl-recette/
           if-no-files-found: warn
