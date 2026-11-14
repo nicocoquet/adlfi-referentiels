@@ -6,6 +6,9 @@ on:
       - '.github/workflows/audit-periodes-cog-lieux-2026.yml'
       - 'scripts/enrichir_periodes_cog_lot001.py'
       - 'tests/test_enrichir_periodes_cog_lot001.py'
+      - 'scripts/auditer_statuts_delegues_associes.py'
+      - 'tests/test_auditer_statuts_delegues_associes.py'
+      - 'docs/lieux/recette/graphe-episodes-cog-lot001-dates.json'
       - 'docs/lieux/recette/graphe-episodes-cog-lot001.json'
   workflow_dispatch:
 
@@ -54,11 +57,48 @@ jobs:
           assert j['geometries_historiques_validees']==0
           assert sum(j['repartition_statuts'].values())==33
           PY
+      - name: Vérifier l'audit des communes déléguées et associées
+        run: python3 -m unittest discover -s tests -p 'test_auditer_statuts_delegues_associes.py' -v
+      - name: Télécharger les mouvements historiques et communes existantes 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_mvt_commune_2026.csv' \
+            -o /tmp/v_mvt_commune_2026.csv
+          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/v_mvt_commune_2026.csv' | sha256sum --check
+          curl -fL --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv' \
+            -o /tmp/v_commune_2026.csv
+          test "$(wc -c < /tmp/v_commune_2026.csv)" -gt 1000000
+          sha256sum /tmp/v_commune_2026.csv
+      - name: Vérifier le devenir des sept COMD/COMA jusqu'en 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_statuts_delegues_associes.py \
+            --graphe docs/lieux/recette/graphe-episodes-cog-lot001-dates.json \
+            --communes-2026 /tmp/v_commune_2026.csv \
+            --evenements-2026 /tmp/v_mvt_commune_2026.csv \
+            --sha256-evenements-attendu 8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1 \
+            --sortie /tmp/lieux-cog-statut
+          python3 -m json.tool /tmp/lieux-cog-statut/rapport-statut-delegue-associe-lot001.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('/tmp/lieux-cog-statut/rapport-statut-delegue-associe-lot001.json').read_text())
+          assert j['nombre_etats']==7
+          assert sum(j['repartition'].values())==7
+          assert j['liens_pactols_cog_nouveaux_valides']==0
+          assert j['geometries_historiques_validees']==0
+          PY
       - name: Archiver graphe daté et revue d'ambiguïtés en recette
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lieux-episodes-cog-historique-2026-lot001
-          path: /tmp/lieux-cog-periodes/
+          path: |
+            /tmp/lieux-cog-periodes/
+            /tmp/lieux-cog-statut/
           if-no-files-found: warn
           retention-days: 30
