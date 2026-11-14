@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   audit-bfc:
     runs-on: ubuntu-latest
@@ -21,14 +22,28 @@ jobs:
           python-version: '3.12'
       - name: Contrôler les 736 ARK et l'identité du lot pilote
         run: python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
-      - name: Télécharger et vérifier les trois sources Insee 2026
+      - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p /tmp/cog
+          ok=1
           for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
-            curl -fL --retry 3 --connect-timeout 20 --max-time 240 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"
+            if ! curl -fsSL --retry 1 --connect-timeout 20 --max-time 120 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"; then
+              ok=0
+              break
+            fi
           done
+          if [[ "$ok" != "1" ]]; then
+            echo 'Serveur Insee inaccessible : reprise de la copie officielle contrôlée, issue du workflow Pays de la Loire du 14 novembre 2026.'
+            gh api -H 'Accept: application/vnd.github+json' \
+              'repos/nicocoquet/adlfi-referentiels/actions/artifacts/14120141338/zip' \
+              > /tmp/cog/cog-insee-2026-archive.zip
+            unzip -oq /tmp/cog/cog-insee-2026-archive.zip -d /tmp/cog
+            echo 'Attention : cette archive de secours est temporaire (expiration le 16 novembre 2026) ; la vérification SHA-256 reste impérative.'
+          fi
           echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
           echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
           echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
