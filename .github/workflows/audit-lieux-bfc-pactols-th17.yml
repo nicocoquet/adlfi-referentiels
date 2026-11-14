@@ -29,10 +29,10 @@ jobs:
             https://github.com/frantiq/PACTOLS.git /tmp/pactols-frantiq
           git -C /tmp/pactols-frantiq lfs install --local
           GIT_LFS_SKIP_SMUDGE=1 git -C /tmp/pactols-frantiq sparse-checkout set \
-            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+            pactols-latest-version/pactols_lieux_all
           git -C /tmp/pactols-frantiq lfs pull \
             --include='pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' \
-            --exclude='*'
+            --exclude=''
           echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  /tmp/pactols-frantiq/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum -c -
       - name: Qualifier les huit communes réceptrices dans les 50 000 concepts Pactols
         run: |
