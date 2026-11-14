@@ -92,15 +92,29 @@
     const q = normaliser(text);
     if (q.length < 2 || !Number.isInteger(limite) || limite < 1) return [];
     const tokens = q.split(' ');
-    const results = [];
+    // Classement borné : une requête courante comme « saint » peut renvoyer
+    // des milliers de résultats. Ne trier que les meilleures suggestions.
+    const compare=(a,b)=>a.score-b.score ||
+      a.e.label.localeCompare(b.e.label,'fr',{sensitivity:'base'}) ||
+      a.e.type.localeCompare(b.e.type) || a.e.id.localeCompare(b.e.id);
+    const results=[];
     for (const e of index) {
       const score=scorer(e,q,tokens);
-      if (score !== null) results.push({e,score});
+      if (score===null) continue;
+      const entry={e,score};
+      if (results.length===limite && compare(entry,results[results.length-1])>=0)
+        continue;
+      let low=0,high=results.length;
+      while(low<high) {
+        const mid=(low+high)>>>1;
+        if(compare(entry,results[mid])<0) high=mid;
+        else low=mid+1;
+      }
+      if(low>=limite) continue;
+      results.splice(low,0,entry);
+      if(results.length>limite) results.pop();
     }
-    results.sort((a,b) => a.score-b.score ||
-      a.e.label.localeCompare(b.e.label,'fr',{sensitivity:'base'}) ||
-      a.e.type.localeCompare(b.e.type) || a.e.id.localeCompare(b.e.id));
-    return results.slice(0,limite).map(x=>x.e);
+    return results.map(x=>x.e);
   }
   function prefixe(code) {
     if (typeof code !== 'string' || !/^[0-9A-Z]{5}$/.test(code)) {
