@@ -5,8 +5,8 @@ Exécution locale en recette ; aucune écriture vers docs/data ni vers les fichi
 """
 import argparse,csv,hashlib,json,tempfile
 from pathlib import Path
-from scripts.preparer_lots_lieux_regions import prepare,COLS
-from scripts.auditer_lieux_pays_loire_cog import produire
+from preparer_lots_lieux_regions import prepare
+from auditer_lieux_pays_loire_cog import produire
 
 EXPECTED={
  'autorites':'878aa70f32d43313ea5bd36bbb30bbd6b57b4872ba2f68a5117ac6c35b6380b6',
