@@ -98,14 +98,14 @@ de notices). Les fichiers de recette sont :
 
 Le **total de 75 lignes est un programme de vérification, pas 75 alignements validés**.
 
-## 4. Couverture XML : alerte Bourgogne
+## 4. Couverture XML : état d'avancement Bourgogne
 
 Dans le répertoire BFC du corpus v2, seuls **deux fichiers Bourgogne 2009**
 sont retenus (9 et 4 notices), tandis qu'une série importante de BSR
 Franche-Comté couvre les années 1992–2011. Les 736 ARK de BFC ne
 constituent donc **pas** un échantillon équilibré de toute la région.
 Le faible effectif de Côte-d'Or, Nièvre, Saône-et-Loire et Yonne
-appelle un **audit de complétude des sources** avant toute conclusion sur
+s'explique, selon le responsable éditorial, par le **nombre encore limité de notices d'opérations de l'ancienne Bourgogne déjà mises au format XML**. Ce constat n'établit pas une défaillance de l'extraction et n'appelle pas, à lui seul, un audit de fichiers prétendument manquants. Toute conclusion sur
 la couverture géographique du référentiel. Les notices de synthèse,
 les XML du Drassm et les lieux attestés dans d'autres régions ne doivent
 pas être artificiellement déplacés pour corriger cette disproportion.
