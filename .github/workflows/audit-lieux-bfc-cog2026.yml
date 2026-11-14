@@ -10,6 +10,7 @@ on:
       - 'scripts/instruire_p3_bfc_cog.py'
       - 'tests/test_instruire_p3_bfc_cog.py'
       - 'docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv'
+      - 'docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md'
       - 'tests/test_instruire_p2_bfc_cog.py'
       - 'docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv'
       - 'docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv'
@@ -200,6 +201,12 @@ jobs:
               f.write('Aucune relation historique ou géométrie validée.\n')
           PY
           cat /tmp/bfc-736/preinstruction-p3/rapport-p3.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Joindre sources et méthode au lot P3 reproductible
+        run: |
+          cp docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv /tmp/bfc-736/preinstruction-p3/
+          cp scripts/instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
+          cp tests/test_instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
+          cp docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md /tmp/bfc-736/preinstruction-p3/
       - name: Archiver la recette seulement
         if: always()
         uses: actions/upload-artifact@v4
