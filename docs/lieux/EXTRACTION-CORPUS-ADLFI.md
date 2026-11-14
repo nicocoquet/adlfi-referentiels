@@ -78,7 +78,7 @@ Les CSV sont en UTF-8 avec BOM et séparateur `;` pour faciliter l'ouverture ave
 5. **Géométries** : rattacher uniquement les codes officiellement contrôlés aux contours de leur millésime ; aucune géométrie actuelle ne constitue une limite historique.
 6. **Publication** : produire un export séparé et validé avant de toucher aux JSON du site.
 
-Le premier corpus national réel n'a **pas encore été exécuté** : sa localisation se trouve sur l'ordinateur de l'éditeur, inaccessible depuis cette exécution distante. Les tests du script utilisent un corpus TEI synthétique inspiré des structures réellement examinées dans les fichiers Grand Est et Alsace.
+Le corpus réel a fait l'objet d'une **première extraction locale le 13 novembre 2026** (résultats et réserves ci-dessous). Les fichiers sources restent sur l'ordinateur de l'éditeur : **la CI ne possède pas ces XML** et exécute des tests sur corpus TEI synthétique. La validation du script et les statistiques locales doivent donc être distinguées d'une recette nationale rejouable directement dans GitHub Actions.
 
 ## Tests
 
