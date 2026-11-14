@@ -58,6 +58,16 @@ Les artefacts antérieurs et le code de recherche initial sont versionnés ou ar
 - `RECHERCHE-INTEGRALE-PACTOLS-8-CIBLES-BFC-20261114.md` (13 nouvelles propositions, sept cibles nominales dans le thésaurus complet) ;
 - [CI de recherche intégrale](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43632056202) et [CI de vérification de l'API vivante](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43632808104).
 
+## État d'avancement : préinstruction P1 et P2
+
+La préinstruction documentaire est désormais achevée pour **neuf dossiers prioritaires**, au sens de l'établissement des mouvements administratifs et de leurs candidats Pactols ; **aucune décision éditoriale n'a été prise**.
+
+- **P1, quatre dossiers** : Cézia, Lavans-sur-Valouse, Saint-Hymetière → Saint-Hymetière-sur-Valouse, et Ciel → Verdun-Ciel ; **deux événements administratifs**. Les problèmes d'alignement temporel `39137` et d'ARK non identifié pour Verdun-Ciel restent ouverts. Voir `INSTRUCTION-P1-BFC-4-DOSSIERS-20261114.md`.
+- **P2, cinq dossiers** : Marchaux, Sancey-le-Grand, Mirebel, Antorpe, Frettes ; **six événements administratifs et dix-neuf lignes COG**. Trois créations de communes nouvelles (MOD32), deux fusions-associations (MOD33), puis suppression du statut de trois communes déléguées de Hauteroche en 2020 (MOD35). Voir `PREINSTRUCTION-P2-BFC-5-DOSSIERS-20261114.md`.
+- **P3, vingt dossiers** : restent à relire sur leur portée conceptuelle et temporelle après les deux lots prioritaires.
+
+**Les statuts de décision dans le tableau initial des 29 dossiers demeurent inchangés** : tous les candidats sont non validés. La préinstruction ne vaut pas approbation ni alignement `skos:exactMatch`.
+
 ## Arbitrages éditoriaux à conduire
 
 1. Vérifier si l'objet documentaire de chaque ARK décrit une **ancienne commune, une commune nouvelle, une commune déléguée, un lieu habité ou un toponyme indépendant**.
