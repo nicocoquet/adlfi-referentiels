@@ -11,6 +11,7 @@ on:
       - 'tests/test_construire_graphe_mouvements_pdl_120.py'
       - 'tests/test_qualifier_comparent_22_pdl.py'
       - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
+      - 'docs/lieux/recette/inventaire-pays-de-la-loire.csv'
       - 'tests/test_auditer_parentages_pdl_120.py'
       - 'scripts/reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_reconstituer_lieux_pays_loire_806.py'
@@ -129,6 +130,28 @@ jobs:
               f.write(f"\\n## Graphe COG provisoire des 120 codes\\n{r['lignes_mouvement_distinctes']} transitions documentaires distinctes; {r['groupes_connexes_candidats']} groupes candidats.\\n")
           PY
           cat /tmp/pdl-recette/graphe-120/rapport-graphe-120.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler et auditer les 806 autorités nationales par hiérarchie
+        run: |
+          echo 'ea06d1bddbf53ec49410aa122b9f3e80842f0f770b9f364c3677a0a7c35e91db  docs/lieux/recette/inventaire-pays-de-la-loire.csv' | sha256sum --check
+          python3 scripts/auditer_lieux_pays_loire_cog.py \
+            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --communes /tmp/cog/v_commune_2026.csv \
+            --historique /tmp/cog/v_commune_depuis_1943.csv \
+            --mouvements /tmp/cog/v_mvt_commune_2026.csv \
+            --sortie /tmp/pdl-recette/806-autorites --attendu 806
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/806-autorites/rapport.json').read_text())
+          assert r['ark']==806, r
+          assert sum(r['repartition'].values())==806
+          assert r['assertions_code_skos']==797
+          assert r['validations_nouvelles']==r['geometries_attribuees']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\\n## 806 autorités : audit intégral\\n')
+              for k,v in r['repartition'].items(): f.write(f'- {k}: {v}\\n')
+          PY
+          cat /tmp/pdl-recette/806-autorites/rapport.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette uniquement
         if: always()
         uses: actions/upload-artifact@v4
