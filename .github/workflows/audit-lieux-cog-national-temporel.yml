@@ -71,7 +71,7 @@ jobs:
                      x['date_effet']=='1974-06-01' for x in j39['mouvements'])
           assert any(x['code_avant']=='39012' and x['code_apres']=='25527' and
                      x['date_effet']=='1974-06-01' for x in j25['mouvements'])
-          assert not any('26678/' in x for x in (r/'manifest-cog-national.json',
+          assert not any('26678/' in p.read_text() for p in (r/'manifest-cog-national.json',
                         r/'index-toponymes-cog.json'))
           print('National : 98 segments, 42 288 périodes COM, 13 734 mouvements distincts, tests temporels OK')
           PY
