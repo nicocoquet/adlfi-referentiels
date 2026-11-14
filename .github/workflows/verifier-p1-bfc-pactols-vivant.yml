@@ -1,0 +1,43 @@
+name: Lieux — P1 BFC, contrôles ciblés Pactols vivant
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/verifier-p1-bfc-pactols-vivant.yml'
+      - 'scripts/verifier_p1_bfc_pactols_vivant.py'
+permissions:
+  contents: read
+jobs:
+  consultation-p1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consulter les concepts Pactols concernés
+        run: |
+          python3 scripts/verifier_p1_bfc_pactols_vivant.py --sortie /tmp/bfc-p1/controle-pactols-vivant-p1.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-p1/controle-pactols-vivant-p1.json').read_text())
+          assert len(r['requêtes'])==5
+          assert len(r['ark_cibles'])==3
+          assert r['validation_nouvelle']==0
+          assert r['absence_globale_deduite'] is False
+          with Path('/tmp/bfc-p1/SYNTHESE.md').open('w') as f:
+              f.write('# Consultation Pactols vivant — dossiers P1 BFC\n')
+              for k,v in r['ark_cibles'].items():
+                  f.write(f"\n- \`{k}\`: {v['libelle_attendu']} ; observé en recherche = {v['observe_recherche_api']}\n")
+              f.write('\nAucune validation ni absence globale déduite des réponses API.\n')
+          PY
+          cat /tmp/bfc-p1/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bfc-p1-pactols-vivant
+          path: /tmp/bfc-p1/
+          retention-days: 60
+          if-no-files-found: warn
