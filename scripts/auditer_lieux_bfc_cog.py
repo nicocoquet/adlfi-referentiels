@@ -143,7 +143,7 @@ def produire(inventaire,communes,historique,mouvements,sortie):
       'lignes_mouvements_par_ark':sum(len(m['ark_concernes']) for m in mm),
       'sha256_sources':{k:sha(v) for k,v in paths.items()},
       'validations_nouvelles':0,'geometries_historiques':0,
-      'limites':'Couverture XML Bourgogne insuffisante ; le code Insee est une assertion Frantiq, non une validation. États et périodes n attestent pas les contours.'}
+      'limites':'Corpus XML bourguignon encore limité par l'avancement de la mise au format XML des notices (information éditoriale du 14 novembre 2026) ; code Insee = assertion Frantiq non validée ; états et périodes non assimilables à des contours.'}
     output=Path(sortie)
     names=['candidatures-bfc-736.csv','codes-bfc-725.csv','graphe-cog-bfc-736.json','rapport-cog-bfc-736.json']
     if any((output/n).resolve() in {x.resolve() for x in paths.values()} for n in names):
