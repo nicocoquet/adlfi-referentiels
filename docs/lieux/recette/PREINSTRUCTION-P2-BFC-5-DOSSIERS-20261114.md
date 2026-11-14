@@ -41,7 +41,7 @@ Références Insee :
 
 **2020-03-15, `MOD=35` :** trois lignes enregistrent la suppression du **statut COMD** pour ces trois anciennes communes. Elles ne décrivent ni une disparition des lieux ni une nouvelle fusion.
 
-Le code `39177` est porté par **trois concepts d'intérêt documentaire** dans l'examen des résultats Pactols :
+Trois concepts sont à distinguer pour le nom Hauteroche et le code historique `39177` ; **seuls deux portent effectivement ce code** :
 - **Hauteroche (Jura)**, ARK `26678/pcrtdDWDTOLZXu` : `skos:exactMatch` `39177`, `skos:broader` `26678/pcrtX910KjTURm` (Jura) ;
 - **Crançot**, ARK `26678/pcrtycqXknDXqF` : ancien nom/ancienne commune, `skos:exactMatch` `39177`, `skos:broader` vers le concept Hauteroche (Jura) ;
 - **Hauteroche (Côte-d'Or)**, ARK `26678/pcrtayvw3natsF` : **autre commune**, `skos:exactMatch` **`21314`**, `skos:broader` `26678/pcrtGQwa5EVqVh` (Côte-d'Or).
