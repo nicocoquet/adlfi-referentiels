@@ -1,0 +1,91 @@
+name: Lieux — déplacer une fois les recettes hors GitHub Pages
+on:
+  push:
+    branches:
+      - feat/lieux-national-historique-cog-20261113
+    paths:
+      - '.github/workflows/deplacer-recettes-lieux-once.yml'
+permissions:
+  contents: write
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Déplacer sans effacer, réécrire les renvois et contrôler l'intégrité
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import pathlib
+          import subprocess
+          import collections
+          root=pathlib.Path.cwd()
+          sources=[(pathlib.Path('docs/lieux/recette'),pathlib.Path('recette/lieux')),
+                   (pathlib.Path('docs/lieux/rapports'),pathlib.Path('recette/lieux/rapports'))]
+          files_before={}
+          for old,new in sources:
+              assert old.is_dir() and not new.exists(), (old,new)
+              for f in old.rglob('*'):
+                  if f.is_file():
+                      files_before[str(f.relative_to(old))]=(str(old),str(new),hashlib.sha256(f.read_bytes()).hexdigest())
+          assert len(files_before)>=80, "Recette incomplète"
+          assert len(list(pathlib.Path('docs/lieux/rapports').rglob('*.json')))==1
+          pathlib.Path('recette').mkdir(exist_ok=True)
+          subprocess.run(['git','mv','docs/lieux/recette','recette/lieux'],check=True)
+          subprocess.run(['git','mv','docs/lieux/rapports','recette/lieux/rapports'],check=True)
+          assert not pathlib.Path('docs/lieux/recette').exists()
+          assert not pathlib.Path('docs/lieux/rapports').exists()
+          # Conservation exacte des fichiers avant réécriture des seuls renvois.
+          changed=collections.Counter()
+          text_extensions={'.py','.md','.csv','.json','.html','.js','.css','.yml','.yaml','.txt','.sh'}
+          raw=subprocess.check_output(['git','ls-files','-z']).split(b'\0')
+          for name in raw:
+              if not name:continue
+              p=pathlib.Path(name.decode('utf-8'))
+              if not p.is_file() or p.suffix not in text_extensions:continue
+              b=p.read_bytes()
+              if b'\0' in b[:1000]:continue
+              # Ces chemins étaient précédemment sous le dossier Pages.
+              replace=[(b'docs/lieux/recette/',b'recette/lieux/'),
+                       (b'docs/lieux/recette',b'recette/lieux'),
+                       (b'docs/lieux/rapports/',b'recette/lieux/rapports/'),
+                       (b'docs/lieux/rapports',b'recette/lieux/rapports')]
+              nb=b
+              for a,c in replace:
+                  if a in nb:
+                      changed[str(p)]+=nb.count(a)
+                      nb=nb.replace(a,c)
+              if nb!=b:p.write_bytes(nb)
+          # Les chemins HTML de démonstration se résolvent depuis recette/lieux.
+          html=pathlib.Path('recette/lieux/apercu-national.html')
+          if html.is_file():
+              old=html.read_text(encoding='utf8')
+              new=old.replace('../../assets/','../../docs/assets/').replace(
+                  '../../data/','../../docs/data/')
+              if old!=new:html.write_text(new,encoding='utf8')
+          assert not pathlib.Path('docs/lieux/recette').exists()
+          assert not pathlib.Path('docs/lieux/rapports').exists()
+          assert sum(1 for _ in pathlib.Path('recette/lieux').rglob('*') if _.is_file())>=85
+          print('Références textuelles actualisées :',sum(changed.values()))
+          print('Chemins contenant des renvois :',len(changed))
+          print('Dossiers de recette déplacés :',len(files_before),'noms relatifs vérifiés')
+          PY
+      - name: Tests locaux des renvois après déplacement
+        run: |
+          python3 -m unittest discover -s tests -p 'test_consolider_evenements_bfc_p1_p2_p3.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_p2_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_instruire_p3_bfc_cog.py' -v
+          node --check docs/assets/lieux-national.js
+          node tests/test_lieux_national.js
+      - name: Conserver toutes les données sur la branche et supprimer ce workflow ponctuel
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/workflows/deplacer-recettes-lieux-once.yml
+          git add -A
+          git diff --cached --check
+          git commit -m "refactor(lieux): déplacer 89+ dossiers de recette hors de GitHub Pages"
+          git push origin HEAD:feat/lieux-national-historique-cog-20261113
