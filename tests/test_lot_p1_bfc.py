@@ -3,7 +3,7 @@ import csv
 import unittest
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parents[1]/"docs"/"lieux"/"recette"
+ROOT=Path(__file__).resolve().parents[1] / "recette" / "lieux"
 def read(name):
     with (ROOT/name).open(encoding="utf-8-sig",newline="") as f:
         return list(csv.DictReader(f,delimiter=";"))

@@ -33,7 +33,7 @@ class InstructionExceptionsBFC(unittest.TestCase):
         self.assertNotIn("validation", result[0])
 
     def test_sources_de_recette_immuables(self):
-        base = Path(__file__).resolve().parents[1] / "docs" / "lieux" / "recette"
+        base = Path(__file__).resolve().parents[1]  / "recette" / "lieux"
         self.assertEqual(
             sha(base / "codes-historiques-absents-bfc-25.csv"), SHA["codes25"]
         )
