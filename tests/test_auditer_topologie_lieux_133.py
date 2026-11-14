@@ -5,9 +5,17 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from importlib.util import find_spec
 
+# Les calculs géométriques sont exécutés dans le workflow spécialisé,
+# qui installe Shapely et pyproj. Le workflow général ne les installe pas :
+# il doit découvrir les tests sans échouer à l'import.
+GIS_AVAILABLE = bool(find_spec('shapely') and find_spec('pyproj'))
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from auditer_topologie_lieux_133 import mesurer, geometries
+if GIS_AVAILABLE:
+    from auditer_topologie_lieux_133 import mesurer, geometries
+else:
+    mesurer = geometries = None
 
 
 def polygon(x):
@@ -18,6 +26,7 @@ def feature(n):
              'statut_lien_pactols_cog':'valide_pilote_paca_2026' if n<=103 else 'candidat_non_valide'},
              'geometry':polygon(2+(n-1)*.001)}
 
+@unittest.skipUnless(GIS_AVAILABLE, 'Tests GIS exécutés dans le workflow spécialisé avec Shapely et pyproj')
 class TestTopology(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.d=Path(self.tmp.name)
