@@ -6,6 +6,8 @@ on:
       - 'scripts/recuperer_cog_2026.py'
       - 'scripts/preparer_index_cog_national_temporel.py'
       - 'tests/test_preparer_index_cog_national_temporel.py'
+      - 'scripts/preparer_index_pactols_xml_national.py'
+      - 'tests/test_preparer_index_pactols_xml_national.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,6 +22,8 @@ jobs:
           python-version: '3.12'
       - name: Tester les bornes temporelles et préfixes de codes
         run: python3 -m unittest discover -s tests -p 'test_preparer_index_cog_national_temporel.py' -v
+      - name: Tester l'index des 9 928 ARK sans source XML privée en CI
+        run: python3 -m unittest discover -s tests -p 'test_preparer_index_pactols_xml_national.py' -v
       - name: Récupérer les sources officielles avec contrôle SHA-256
         run: python3 scripts/recuperer_cog_2026.py --sortie /tmp/cog
       - name: Produire deux fois les segments temporels nationaux
