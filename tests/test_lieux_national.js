@@ -88,4 +88,15 @@ assert.equal(m.fiche(draix,s04,2017).consultation_COG_historique_meme_code.etat.
 assert.equal(m.fiche(m.chercher(index,'04072')[0],s04,2026).ark_pactols,null);
 assert.throws(()=>m.creerIndex({...d.pactols,autorites:[
   {...d.pactols.autorites[0],statut:'validation_existante_paca'}]},d.cog));
+// Contrôle des dix meilleurs résultats même avec beaucoup de noms communs.
+const many=Array.from({length:1200},(_,i)=>({
+  id:'cog:'+String(i).padStart(5,'0'),type:'cog',
+  label:'Saint-Exemple-'+String(i).padStart(4,'0'),
+  code:String(i).padStart(5,'0'),ark:null,
+  noms:['Saint-Exemple-'+String(i).padStart(4,'0')],
+  champs:[m.normaliser('Saint-Exemple-'+String(i).padStart(4,'0'))]
+}));
+const first10=m.chercher(many,'saint',10);
+assert.equal(first10.length,10);
+assert.deepEqual(first10,m.chercher(many,'saint',1200).slice(0,10));
 console.log('Contrat Lieux national : recherche, fiches et curseur annuel OK.');
