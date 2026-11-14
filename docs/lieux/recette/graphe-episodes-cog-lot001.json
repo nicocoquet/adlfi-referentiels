@@ -1,0 +1,795 @@
+{
+  "schema_version": "0.1.0",
+  "statut": "recette_non_validante",
+  "perimetre": "lot_001_10_dossiers_historiques",
+  "sources": [
+    {
+      "fichier": "transitions_code_a_verifier.csv",
+      "sha256": "a8eca61d7ddc7e2b0d62025d56fd3e03346292e21a5b6180a21493588a286939"
+    },
+    {
+      "fichier": "evenements_communaux_particuliers.csv",
+      "sha256": "9e52e5ca9e4e4895b36ef4a17842f1fe8b47f075c425832ed4b4c0df2028263d"
+    }
+  ],
+  "identifiants_etats": "identifiants locaux issus du dossier + TYPECOM + COM + libelle ; PAS des identifiants publics COG",
+  "note": "Episodes incomplets: uniquement états et transitions présents dans les 23 preuves; pas de datation exhaustive ni de géométrie historique.",
+  "operations": [
+    {
+      "id": "OP-551cd4455b1c8ac6",
+      "dossier": "Abbéville-la-Rivière",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtjtHmRcuVFO",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-2b8e26b37c430bda",
+      "dossier": "Afa",
+      "date_effet": "1976-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtgs2LLPYow2",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-26c937ea2772edc9",
+      "dossier": "Aghione",
+      "date_effet": "1976-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtGx0ke7aJM6",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-c5950591f9f7723e",
+      "dossier": "Aigondigné",
+      "date_effet": "2017-01-01",
+      "mod": "32",
+      "nombre_lignes_mouvement": 4,
+      "ark_pactols_documentaire": "26678/pcrtfw73wt5vbcj28pg6g6pd",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-612302aae4b86758",
+      "dossier": "Aigondigné",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "nombre_lignes_mouvement": 5,
+      "ark_pactols_documentaire": "26678/pcrtfw73wt5vbcj28pg6g6pd",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-5e4ce6876dc056c0",
+      "dossier": "Alfortville",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtTr682PPh7b",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-56e7bd3d5e88a247",
+      "dossier": "Allaines-Mervilliers",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "nombre_lignes_mouvement": 6,
+      "ark_pactols_documentaire": "26678/pcrtwrbovhYGLl",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-b0739651d0d2f27a",
+      "dossier": "Antony",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtLVhssZPxil",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-897474d9a75d59c8",
+      "dossier": "Argenteuil",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrt66HzrNZZ4l",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-6df3c8096024ea47",
+      "dossier": "Aulnay-sous-Bois",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtPmgdjRPDeg",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    },
+    {
+      "id": "OP-e3f76a485c3e0551",
+      "dossier": "Colombier-Saugnieu",
+      "date_effet": "1971-04-01",
+      "mod": "41",
+      "nombre_lignes_mouvement": 1,
+      "ark_pactols_documentaire": "26678/pcrtKhAshygTwg",
+      "statut_lien_pactols_cog": "non_valide",
+      "statut_validation_evenement": "confirme_par_preuves_COG"
+    }
+  ],
+  "etats_administratifs": [
+    {
+      "id": "ETAT-0429e2014fde1148",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79004",
+      "libelle": "Aigonnay",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-0c50b034878ae871",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMD",
+      "code": "28002",
+      "libelle": "Allaines-Mervilliers",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-0cf61215b4f4b490",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79185",
+      "libelle": "Aigondigné",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-11268bf8f796a66d",
+      "dossier": "Aulnay-sous-Bois",
+      "typecom": "COM",
+      "code": "78032",
+      "libelle": "Aulnay-sous-Bois",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-13798b081a5e19c8",
+      "dossier": "Afa",
+      "typecom": "COM",
+      "code": "2A001",
+      "libelle": "Afa",
+      "entrees_aux_dates_evenements": [
+        "1976-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-145d4aa24b6fde72",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COM",
+      "code": "28199",
+      "libelle": "Janville",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-14fc29c333646079",
+      "dossier": "Aghione",
+      "typecom": "COM",
+      "code": "20002",
+      "libelle": "Aghione",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1976-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-1bffa2584c800194",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMA",
+      "code": "28244",
+      "libelle": "Mervilliers",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-25bac9d9ada68c28",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79185",
+      "libelle": "Mougon-Thorigné",
+      "entrees_aux_dates_evenements": [
+        "2017-01-01"
+      ],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-28a9fb59e6d80d7c",
+      "dossier": "Antony",
+      "typecom": "COM",
+      "code": "75002",
+      "libelle": "Antony",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-3f7832120ef3f2fd",
+      "dossier": "Afa",
+      "typecom": "COM",
+      "code": "20001",
+      "libelle": "Afa",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1976-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-42fb93793e573fd4",
+      "dossier": "Argenteuil",
+      "typecom": "COM",
+      "code": "78018",
+      "libelle": "Argenteuil",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-517e49549defffa4",
+      "dossier": "Colombier-Saugnieu",
+      "typecom": "COM",
+      "code": "38119",
+      "libelle": "Colombier-Saugnieu",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1971-04-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-528013c6d043e1f1",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79004",
+      "libelle": "Aigonnay",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-5e70b4ffa0c2090d",
+      "dossier": "Antony",
+      "typecom": "COM",
+      "code": "92002",
+      "libelle": "Antony",
+      "entrees_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-70b772055ac545b6",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COM",
+      "code": "28311",
+      "libelle": "Le Puiset",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-76f4f59427b9afa1",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79240",
+      "libelle": "Sainte-Blandine",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-7e1003ff17068ea0",
+      "dossier": "Alfortville",
+      "typecom": "COM",
+      "code": "94002",
+      "libelle": "Alfortville",
+      "entrees_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-822562c8af8fd50c",
+      "dossier": "Abbéville-la-Rivière",
+      "typecom": "COM",
+      "code": "91001",
+      "libelle": "Abbéville-la-Rivière",
+      "entrees_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-8880b2ddd8d09dec",
+      "dossier": "Abbéville-la-Rivière",
+      "typecom": "COM",
+      "code": "78001",
+      "libelle": "Abbéville-la-Rivière",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-9ad2222e78f9e836",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79240",
+      "libelle": "Sainte-Blandine",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-9bedceadff8a635c",
+      "dossier": "Colombier-Saugnieu",
+      "typecom": "COM",
+      "code": "69299",
+      "libelle": "Colombier-Saugnieu",
+      "entrees_aux_dates_evenements": [
+        "1971-04-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-9cf7f2005be31cfb",
+      "dossier": "Alfortville",
+      "typecom": "COM",
+      "code": "75001",
+      "libelle": "Alfortville",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-a37f64aeb8930a71",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79327",
+      "libelle": "Thorigné",
+      "entrees_aux_dates_evenements": [
+        "2017-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-a82f2a091c1114a2",
+      "dossier": "Aigondigné",
+      "typecom": "COMD",
+      "code": "79185",
+      "libelle": "Mougon",
+      "entrees_aux_dates_evenements": [
+        "2017-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-ab7df57373868c64",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79327",
+      "libelle": "Thorigné",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2017-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-cd83b1fc0617c7cb",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COM",
+      "code": "28002",
+      "libelle": "Allaines-Mervilliers",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-ce038f9579ba57eb",
+      "dossier": "Aigondigné",
+      "typecom": "COM",
+      "code": "79185",
+      "libelle": "Mougon",
+      "entrees_aux_dates_evenements": [],
+      "sorties_aux_dates_evenements": [
+        "2017-01-01"
+      ],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-d0d5c6a549b8e7d7",
+      "dossier": "Argenteuil",
+      "typecom": "COM",
+      "code": "95018",
+      "libelle": "Argenteuil",
+      "entrees_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-d4dfddbda2e56f96",
+      "dossier": "Aulnay-sous-Bois",
+      "typecom": "COM",
+      "code": "93005",
+      "libelle": "Aulnay-sous-Bois",
+      "entrees_aux_dates_evenements": [
+        "1968-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-e8625084eb973af5",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COMD",
+      "code": "28199",
+      "libelle": "Janville",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-f74ca73c71fd66f9",
+      "dossier": "Aghione",
+      "typecom": "COM",
+      "code": "2B002",
+      "libelle": "Aghione",
+      "entrees_aux_dates_evenements": [
+        "1976-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    },
+    {
+      "id": "ETAT-f8e406a9a2a9f3ba",
+      "dossier": "Allaines-Mervilliers",
+      "typecom": "COM",
+      "code": "28199",
+      "libelle": "Janville-en-Beauce",
+      "entrees_aux_dates_evenements": [
+        "2019-01-01"
+      ],
+      "sorties_aux_dates_evenements": [],
+      "periode_validite_officielle_complete": false,
+      "geometrie_historique_validee": false
+    }
+  ],
+  "arcs_evenements": [
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-1bffa2584c800194",
+      "etat_apres_id": "ETAT-f8e406a9a2a9f3ba",
+      "id": "ARC-170e672a408f271c"
+    },
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-70b772055ac545b6",
+      "etat_apres_id": "ETAT-f8e406a9a2a9f3ba",
+      "id": "ARC-1cc277408214f337"
+    },
+    {
+      "operation_id": "OP-c5950591f9f7723e",
+      "date_effet": "2017-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-ce038f9579ba57eb",
+      "etat_apres_id": "ETAT-25bac9d9ada68c28",
+      "id": "ARC-27815055b6faf155"
+    },
+    {
+      "operation_id": "OP-5e4ce6876dc056c0",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "dossier": "Alfortville",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-9cf7f2005be31cfb",
+      "etat_apres_id": "ETAT-7e1003ff17068ea0",
+      "id": "ARC-34af8086aa99045c"
+    },
+    {
+      "operation_id": "OP-c5950591f9f7723e",
+      "date_effet": "2017-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-ab7df57373868c64",
+      "etat_apres_id": "ETAT-a37f64aeb8930a71",
+      "id": "ARC-425818c739297cc2"
+    },
+    {
+      "operation_id": "OP-612302aae4b86758",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-528013c6d043e1f1",
+      "etat_apres_id": "ETAT-0cf61215b4f4b490",
+      "id": "ARC-527c5e2bc477934c"
+    },
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-cd83b1fc0617c7cb",
+      "etat_apres_id": "ETAT-0c50b034878ae871",
+      "id": "ARC-5a746ab497e3d521"
+    },
+    {
+      "operation_id": "OP-26c937ea2772edc9",
+      "date_effet": "1976-01-01",
+      "mod": "41",
+      "dossier": "Aghione",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-14fc29c333646079",
+      "etat_apres_id": "ETAT-f74ca73c71fd66f9",
+      "id": "ARC-644cfdafe769ba30"
+    },
+    {
+      "operation_id": "OP-b0739651d0d2f27a",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "dossier": "Antony",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-28a9fb59e6d80d7c",
+      "etat_apres_id": "ETAT-5e70b4ffa0c2090d",
+      "id": "ARC-6908ef1e81562ac0"
+    },
+    {
+      "operation_id": "OP-551cd4455b1c8ac6",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "dossier": "Abbéville-la-Rivière",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-8880b2ddd8d09dec",
+      "etat_apres_id": "ETAT-822562c8af8fd50c",
+      "id": "ARC-6bed19f4e4faaca8"
+    },
+    {
+      "operation_id": "OP-e3f76a485c3e0551",
+      "date_effet": "1971-04-01",
+      "mod": "41",
+      "dossier": "Colombier-Saugnieu",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-517e49549defffa4",
+      "etat_apres_id": "ETAT-9bedceadff8a635c",
+      "id": "ARC-866c3d32d5aa9a78"
+    },
+    {
+      "operation_id": "OP-612302aae4b86758",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-9ad2222e78f9e836",
+      "etat_apres_id": "ETAT-0cf61215b4f4b490",
+      "id": "ARC-8812ded82168438d"
+    },
+    {
+      "operation_id": "OP-612302aae4b86758",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-9ad2222e78f9e836",
+      "etat_apres_id": "ETAT-76f4f59427b9afa1",
+      "id": "ARC-8b508399cfaca90f"
+    },
+    {
+      "operation_id": "OP-c5950591f9f7723e",
+      "date_effet": "2017-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-ce038f9579ba57eb",
+      "etat_apres_id": "ETAT-a82f2a091c1114a2",
+      "id": "ARC-8be24eb7bfdb841c"
+    },
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-145d4aa24b6fde72",
+      "etat_apres_id": "ETAT-f8e406a9a2a9f3ba",
+      "id": "ARC-8d0278f5aea408a7"
+    },
+    {
+      "operation_id": "OP-612302aae4b86758",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-25bac9d9ada68c28",
+      "etat_apres_id": "ETAT-0cf61215b4f4b490",
+      "id": "ARC-9d4543b588ac112f"
+    },
+    {
+      "operation_id": "OP-612302aae4b86758",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-528013c6d043e1f1",
+      "etat_apres_id": "ETAT-0429e2014fde1148",
+      "id": "ARC-9d56a7457a68461b"
+    },
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-145d4aa24b6fde72",
+      "etat_apres_id": "ETAT-e8625084eb973af5",
+      "id": "ARC-a7010d6b93c856b9"
+    },
+    {
+      "operation_id": "OP-6df3c8096024ea47",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "dossier": "Aulnay-sous-Bois",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-11268bf8f796a66d",
+      "etat_apres_id": "ETAT-d4dfddbda2e56f96",
+      "id": "ARC-afc225314bfd3138"
+    },
+    {
+      "operation_id": "OP-56e7bd3d5e88a247",
+      "date_effet": "2019-01-01",
+      "mod": "32",
+      "dossier": "Allaines-Mervilliers",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-cd83b1fc0617c7cb",
+      "etat_apres_id": "ETAT-f8e406a9a2a9f3ba",
+      "id": "ARC-b7805e13856a8a09"
+    },
+    {
+      "operation_id": "OP-2b8e26b37c430bda",
+      "date_effet": "1976-01-01",
+      "mod": "41",
+      "dossier": "Afa",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-3f7832120ef3f2fd",
+      "etat_apres_id": "ETAT-13798b081a5e19c8",
+      "id": "ARC-be51b5abad554bac"
+    },
+    {
+      "operation_id": "OP-c5950591f9f7723e",
+      "date_effet": "2017-01-01",
+      "mod": "32",
+      "dossier": "Aigondigné",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-ab7df57373868c64",
+      "etat_apres_id": "ETAT-25bac9d9ada68c28",
+      "id": "ARC-e6b50f05f38142d2"
+    },
+    {
+      "operation_id": "OP-897474d9a75d59c8",
+      "date_effet": "1968-01-01",
+      "mod": "41",
+      "dossier": "Argenteuil",
+      "statut": "preuve_mouvement_COG",
+      "etat_avant_id": "ETAT-42fb93793e573fd4",
+      "etat_apres_id": "ETAT-d0d5c6a549b8e7d7",
+      "id": "ARC-eb64e645e304722d"
+    }
+  ]
+}
+
