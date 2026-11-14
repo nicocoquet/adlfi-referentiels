@@ -103,6 +103,19 @@ class PeriodesCOG(unittest.TestCase):
         self.assertEqual(state['statut_qualification_temporelle'],'plusieurs_periodes_compatibles_a_instruire')
         self.assertIsNone(state['periode_code_libelle_cog'])
 
+    def test_intervalle_nul_insee_conserve_mais_non_attribuable(self):
+        # Le véritable fichier Insee 2026 contient des lignes DATE_DEBUT=DATE_FIN.
+        # Un intervalle vide est une preuve de source, pas une durée de vie.
+        self.rows.append(dict(TYPECOM='COM',COM='2A001',LIBELLE='Afa',
+                              DATE_DEBUT='1976-01-01',DATE_FIN='1976-01-01'))
+        self.write_hist()
+        out=self.report()
+        self.assertEqual(out['lignes_historique_insee']['intervalles_de_duree_nulle'],1)
+        records=json.loads((self.out/'graphe-episodes-cog-lot001-dates.json').read_text())['etats_administratifs']
+        rec=next(x for x in records if x['code']=='2A001' and x['libelle']=='Afa')
+        self.assertEqual(rec['statut_qualification_temporelle'],'couple_code_libelle_unique_compatible')
+        self.assertEqual(rec['periode_code_libelle_cog']['date_debut'],'1976-01-01')
+
     def test_sha_incorrect_est_refuse(self):
         with self.assertRaisesRegex(ValueError,'SHA-256'):
             enrichir(self.graph,self.hist,self.out,'0'*64)
