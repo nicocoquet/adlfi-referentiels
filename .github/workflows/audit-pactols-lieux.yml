@@ -6,6 +6,8 @@ on:
       - '.github/workflows/audit-pactols-lieux.yml'
       - 'scripts/auditer_export_pactols_lieux.py'
       - 'tests/test_auditer_export_pactols_lieux.py'
+      - 'scripts/qualifier_exceptions_skos_lieux.py'
+      - 'tests/test_qualifier_exceptions_skos_lieux.py'
       - 'docs/lieux/recette/autorites-minimales-9928.json'
   workflow_dispatch:
 
@@ -27,6 +29,9 @@ jobs:
 
       - name: Tester le lecteur SKOS avant consultation
         run: python3 -m unittest discover -s tests -p 'test_auditer_export_pactols_lieux.py' -v
+
+      - name: Tester la qualification des exceptions SKOS
+        run: python3 -m unittest discover -s tests -p 'test_qualifier_exceptions_skos_lieux.py' -v
 
       - name: Récupérer uniquement l'export officiel Pactols Lieux
         shell: bash
@@ -58,6 +63,15 @@ jobs:
             --pactols-rdf /tmp/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
             --sortie /tmp/rapport-pactols
           python3 -m json.tool /tmp/rapport-pactols/rapport_concepts_pactols.json
+
+      - name: Qualifier les 42 exceptions à partir du vrai RDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/qualifier_exceptions_skos_lieux.py \
+            --controle-skos /tmp/rapport-pactols/controle_concepts_pactols.csv \
+            --sortie /tmp/rapport-pactols
+          python3 -m json.tool /tmp/rapport-pactols/rapport-qualifications-skos-42.json
 
       - name: Archiver la comparaison SKOS en recette
         if: always()
