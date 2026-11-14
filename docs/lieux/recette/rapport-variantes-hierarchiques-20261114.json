@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "audit_des_hierarchies_documentaires_non_validant",
+  "racine_optionnelle_pactols": "26678/pcrtd5d8pstxspv6dbhp7d8g",
+  "normalisation": "La racine supplémentaire est ignorée uniquement dans la comparaison. Aucun ARK ni chemin d’origine n’est effacé.",
+  "ancetre_sans_libelle_xml_a_reconstituer": 25,
+  "ark_aux_chemins_ark_multiples_bruts": 2018,
+  "ark_aux_hierarchies_multiples_brutes": 2034,
+  "ark_multihierarchies_resolus_par_racine_facultative": 1994,
+  "ark_variations_residuelles": 40,
+  "branches_hierarchiques_differentes_a_instruire": 1,
+  "hierarchies_hydrographiques_alternatives": 1,
+  "total_ark": 9928,
+  "variantes_de_libelles_sans_changement_ark": 13,
+  "source": {
+    "fichier": "occurrences_lieux.csv",
+    "sha256": "b2e7332515c051e0c63e1fb29c840fa338aa85040fb2358a7df64d735b2942cd"
+  },
+  "prudence": "Les variantes de libellé peuvent refléter des renommages réels ; les chaînes contenant des ancêtres vides ne sont pas des alignements certains."
+}
