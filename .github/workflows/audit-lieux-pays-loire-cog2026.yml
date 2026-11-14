@@ -4,6 +4,7 @@ on:
     paths:
       - 'scripts/auditer_lieux_pays_loire_cog.py'
       - 'scripts/auditer_codes_partages_pdl_cog.py'
+      - 'scripts/auditer_98_lieux_imbriques_pdl_cog.py'
       - 'scripts/reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_auditer_lieux_pays_loire_cog.py'
@@ -63,6 +64,18 @@ jobs:
               f.write(f"États code-libellé : {r['lignes_periodes']}; lignes de mouvements rattachées : {r['lignes_evenements_par_code']}.\\n")
           PY
           cat /tmp/pdl-recette/codes-partages-22/rapport-codes-partages-22.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler les 98 codes restants des lieux imbriqués
+        run: |
+          python3 scripts/auditer_98_lieux_imbriques_pdl_cog.py --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette/imbriques-98
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/imbriques-98/rapport-codes-98.json').read_text())
+          assert r['codes_audites']==98 and r['validations_nouvelles']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write(f"\\n## Lieux imbriqués : 98 codes distincts\\nPériodes : {r['lignes_periodes']}; mouvements par code : {r['lignes_mouvements_par_code']}.\\n")
+          PY
+          cat /tmp/pdl-recette/imbriques-98/rapport-codes-98.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette uniquement
         if: always()
         uses: actions/upload-artifact@v4
