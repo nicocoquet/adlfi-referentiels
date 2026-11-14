@@ -1,0 +1,121 @@
+{
+  "schema_version": "0.1.0",
+  "etat": "recette_non_validante",
+  "perimetre": "dossiers contextuels 001 et branches historiques",
+  "date_revue": "2026-11-14",
+  "sources_xml": {
+    "occurrences": "extraction nationale v2 / occurrences_lieux.csv",
+    "notices": "extraction nationale v2 / notices.csv",
+    "source_xml_complet_verifie": false
+  },
+  "dossiers": [
+    {
+      "type": "notice_indexation_suspecte",
+      "ark": "26678/pcrt5YI2zQtodM",
+      "nom_pactols": "Bethon",
+      "code_cog_actuel_candidat": "51056",
+      "departement_pactols": "51",
+      "attestations_terminales": 1,
+      "notice": "AdlFI_Pays-de-la-Loire/AdlFI_PdL_1996/XML/AdlFI_PdL_1996.xml::notice-000001",
+      "titre": "Autoroute A28",
+      "annee": 1996,
+      "occurrences_notice": 15,
+      "autres_occurrences_departement_sarthe": 14,
+      "alternative_a_verifier": {
+        "nom": "Béthon",
+        "code": "72036",
+        "departement": "72"
+      },
+      "statut": "suspicion_forte_erreur_indexation",
+      "statut_alignement_pactols_cog": "non_valide",
+      "action": "verifier XML original; ne pas rediriger l'ARK de Bethon 51 vers Béthon 72",
+      "sources": [
+        "https://www.insee.fr/fr/metadonnees/geographie/commune/51056-bethon",
+        "https://www.insee.fr/fr/metadonnees/geographie/commune/72036-bethon",
+        "https://www.sarthe.gouv.fr/contenu/telechargement/15618/99564/file/rapport_commissaire_enqueteur_partie_1.pdf"
+      ]
+    },
+    {
+      "type": "notice_indexation_ambiguë",
+      "ark": "26678/pcrtavZRJRD9Uf",
+      "nom_pactols": "Usson",
+      "code_cog_actuel_candidat": "63439",
+      "departement_pactols": "63",
+      "attestations_terminales": 1,
+      "notice": "AdlFI_Auvergne_Rhone-Alpes/AdlFI_Rhone_Alpes/AdlFI_Rhone_Alpes_2015/XML/AdlFI_Rhone_Alpes_2015.xml::notice-000001",
+      "titre": "Habitats agglomérés en pays ségusiave : les formes du fait urbain dans la cité ségusiave du ier s. au iiie s. apr. J.‑C.",
+      "annee": 2015,
+      "occurrences_notice": 5,
+      "autres_occurrences": [
+        "La Pacaudière",
+        "Roanne",
+        "Feurs",
+        "Moingt"
+      ],
+      "alternative_a_verifier": {
+        "nom": "Usson-en-Forez",
+        "code": "42318",
+        "departement": "42"
+      },
+      "statut": "suspicion_a_instruire",
+      "statut_alignement_pactols_cog": "non_valide",
+      "action": "verifier passage XML et article; identifier éventuellement le concept distinct Usson-en-Forez",
+      "sources": [
+        "https://www.insee.fr/fr/statistiques/1405599?geo=COM-63439",
+        "https://www.insee.fr/fr/statistiques/1405599?geo=COM-42318",
+        "https://www.arar.mom.fr/presentation/annuaire-du-personnel/le-nezet-celestin-monique"
+      ]
+    },
+    {
+      "type": "notice_contexte_transversal_coherent",
+      "ark": "26678/pcrttMIHapwXmV",
+      "nom_pactols": "Marsangy",
+      "code_cog_actuel_candidat": "89245",
+      "departement_pactols": "89",
+      "attestations_terminales": 1,
+      "notice": "AdlFI_Ile-de-France/AdlFI_Ile-de-France_1996/XML/AdlFI_Ile-de-France_1996_Interdep-PCR.xml::notice-000001",
+      "titre": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien",
+      "annee": 1996,
+      "occurrences_notice": 6,
+      "statut": "coherence_documentaire_corroboree",
+      "statut_alignement_pactols_cog": "non_valide",
+      "action": "retirer de la priorité de correction XML; contrôler le concept Pactols avant validation de la correspondance",
+      "sources": [
+        "https://www.insee.fr/fr/metadonnees/geographie/commune/89245-marsangy",
+        "https://journals.openedition.org/adlfi/216489",
+        "https://www.persee.fr/doc/bspf_0249-7638_1993_num_90_5_10456"
+      ]
+    },
+    {
+      "type": "hiérarchie_hydrographique",
+      "ark": "26678/pcrtTJFe71EA69",
+      "nom_pactols": "lac d'Annecy",
+      "attestations_terminales": 12,
+      "hierarchies_attestees": 2,
+      "variation": "11 occurrences sous Europe hydrographie > Annecy L; 1 sous espaces géographiques aquatiques > Europe hydrographique > lac d'Annecy",
+      "statut": "variation_structure_hydrographique_sans_conflit_identite",
+      "statut_alignement_pactols_cog": "hors_champ_cog_communal",
+      "action": "conserver les deux chaînes; référentiel hydrographique distinct des communes"
+    },
+    {
+      "type": "region_historique",
+      "ark": "26678/pcrtvyPdfBr78V",
+      "nom_pactols": "Poitou-Charentes",
+      "attestations_terminales": 2,
+      "hierarchies_attestees": 2,
+      "variation": "France métropolitaine (notice 1998) / entités du passé récent (notice 2021)",
+      "statut": "variation_temporelle_coherente_avec_reforme_2016",
+      "statut_alignement_pactols_cog": "hors_champ_cog_communal",
+      "action": "conserver l'ARK unique et les deux attestations, modéliser validité administrative régionale sans l'assimiler à une commune",
+      "sources": [
+        "https://www.nouvelle-aquitaine.gouv.fr/prefecture-de-region",
+        "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000033161467"
+      ]
+    }
+  ],
+  "regles": [
+    "Ne jamais corriger les XML automatiquement.",
+    "Ne pas confondre concordance de nom, validation Pactols-COG et géométrie.",
+    "Les absences de titre ne sont pas des erreurs d'indexation en soi."
+  ]
+}
