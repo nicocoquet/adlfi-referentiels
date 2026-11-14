@@ -39,6 +39,7 @@ class P3BFC(unittest.TestCase):
                   "COM_AV":"25587","TYPECOM_AV":"COMD","COM_AP":"25078",
                   "TYPECOM_AP":"COM","LIBELLE_AV":"Vauchamps",
                   "LIBELLE_AP":"Bouclans"}]
+        records=[{**{f:"" for f in MOV},**r} for r in records]
         out,kind=group_later(key,records)
         self.assertEqual(len(out),1)
         self.assertEqual(kind,"suppression_statut_COMD")
@@ -54,6 +55,7 @@ class P3BFC(unittest.TestCase):
                  TYPECOM_AV="COM",TYPECOM_AP="COM",
                  LIBELLE_AV="Vaire-le-Petit",LIBELLE_AP="Vaire"),
         ]
+        rows=[{**{f:"" for f in MOV},**r} for r in rows]
         self.assertEqual(len(group_later(key,rows)[0]),2)
         with self.assertRaises(ValueError):
             group_later(key,[dict(r,LIBELLE_AV="Vaire") for r in rows])
