@@ -80,6 +80,7 @@ jobs:
             --pilote-1000m docs/data/lieux-communes.geojson \
             --sortie /tmp/rapport-geometries-lieux
           python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-topologie-133.json
+          python3 -c "import json; r=json.load(open('/tmp/rapport-geometries-lieux/rapport-topologie-133.json')); assert r['nombre_contours_pilote_equivalents_topologiquement']==103, 'Divergence entre pilote PACA et source 100m'; assert r['ecart_maximal_pilote_m2']==0.0, 'Ecart de surface PACA'; assert r['nombre_geometries_invalides']==0, 'Geometrie invalide'; assert r['nombre_contours_non_identiques_source']==0, 'Source modifiee'"
       - name: Construire les épisodes COG vérifiés (8 MOD 41 et 3 MOD 32)
         shell: bash
         run: |
