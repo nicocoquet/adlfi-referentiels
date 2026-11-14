@@ -10,6 +10,10 @@ on:
       - 'scripts/instruire_p3_bfc_cog.py'
       - 'scripts/consolider_evenements_bfc_p1_p2_p3.py'
       - 'scripts/valider_graphe_historique_bfc.py'
+      - 'scripts/preparer_lieux_temporel_bfc.py'
+      - 'tests/test_preparer_lieux_temporel_bfc.py'
+      - 'docs/assets/lieux-temps.js'
+      - 'tests/test_lieux_temps.js'
       - 'docs/lieux/recette/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md'
       - 'tests/test_consolider_evenements_bfc_p1_p2_p3.py'
       - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
@@ -49,6 +53,8 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_instruire_p2_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_instruire_p3_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_consolider_evenements_bfc_p1_p2_p3.py' -v
+          python3 -m unittest discover -s tests -p 'test_preparer_lieux_temporel_bfc.py' -v
+          node tests/test_lieux_temps.js
       - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
         env:
@@ -281,6 +287,73 @@ jobs:
                       raise AssertionError('Altération non détectée : '+sabotage)
           print('Contrôles négatifs : décision, preuve et état altérés correctement rejetés.')
           PY
+      - name: Préparer les états COG interrogables au premier janvier
+        run: |
+          set -euo pipefail
+          for target in /tmp/bfc-736/temporal-v1 /tmp/bfc-736/temporal-controle; do
+            python3 scripts/preparer_lieux_temporel_bfc.py \
+              --graphe /tmp/bfc-736/transversal/graphe-transversal-bfc.json \
+              --historique /tmp/cog/v_commune_depuis_1943.csv \
+              --courant /tmp/cog/v_commune_2026.csv \
+              --sortie "$target"
+          done
+          diff -qr /tmp/bfc-736/temporal-v1 /tmp/bfc-736/temporal-controle
+          rm -rf /tmp/bfc-736/temporal-controle
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/bfc-736/temporal-v1')
+          report=json.loads((root/'rapport-temporel-bfc.json').read_text())
+          assert (report['codes_cog_couverts'],report['periodes_COM'],
+                  report['statuts_complementaires_observes_uniquement_en_2026'],
+                  report['evenements_COG'])==(53,69,3,28)
+          assert report['nouvelles_validations']==report['geometries_historiques']==0
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+      - name: Tester le curseur unique sur les transitions réelles
+        run: |
+          node - <<'JS'
+          const assert = require('node:assert/strict');
+          const fs = require('node:fs');
+          const model=JSON.parse(fs.readFileSync('/tmp/bfc-736/temporal-v1/lieux-temporel-bfc-recette.json'));
+          const temporal=require('./docs/assets/lieux-temps.js');
+          function label(year,code) {
+            const s=temporal.auPremierJanvier(model,year);
+            return s.etats_COM.find(x=>x.code_insee===code)?.libelle || null;
+          }
+          assert.equal(label(2017,'25368'),'Marchaux');
+          assert.equal(label(2018,'25368'),'Marchaux-Chaudefontaine');
+          assert.equal(label(2017,'25137'),'Chaudefontaine');
+          assert.equal(label(2018,'25137'),null);
+          assert.equal(label(2018,'39137'),'Chemilla');
+          assert.equal(label(2019,'39137'),'Saint-Hymetière-sur-Valouse');
+          assert.equal(label(2024,'71566'),'Verdun-sur-le-Doubs');
+          assert.equal(label(2025,'71566'),'Verdun-Ciel');
+          assert.equal(label(2016,'25575'),'Vaire-Arcier');
+          assert.equal(label(2017,'25575'),'Vaire');
+          assert.equal(label(1974,'39012'),'Antorpe');
+          assert.equal(label(1975,'39012'),null); // pas de série historique COMA
+          assert.equal(temporal.auPremierJanvier(model,2026).entites_complementaires.length,3);
+          assert.equal(temporal.auPremierJanvier(model,1975).entites_complementaires.length,0);
+          const index=temporal.creerIndexNoms(model);
+          assert.equal(temporal.chercherNoms(index,'Chemilla')[0].code_insee,'39137');
+          assert.equal(temporal.chercherNoms(index,'Marchaux')[0].code_insee,'25368');
+          assert.equal(temporal.auPremierJanvier(model,2020).evenements_deja_survenus.some(
+            ev=>ev.date_effet==='2020-03-15'),false);
+          assert.deepEqual(model.geometries_historiques,[]);
+          assert.deepEqual(model.validations_editoriales,[]);
+          assert(!JSON.stringify(model).includes('26678/'),
+              'Le rendu COG ne doit pas exposer de relation Pactols candidate');
+          console.log('Projection temporelle réelle 1943–2026 : OK');
+          JS
+      - name: Ajouter le modèle temporel et ses contrôles à l'artefact
+        run: |
+          mkdir -p /tmp/bfc-736/temporal-v1/code
+          cp scripts/preparer_lieux_temporel_bfc.py \
+             docs/assets/lieux-temps.js \
+             tests/test_preparer_lieux_temporel_bfc.py \
+             tests/test_lieux_temps.js \
+             /tmp/bfc-736/temporal-v1/code/
       - name: Joindre le code et les entrées du graphe transversal à l'artefact
         run: |
           mkdir -p /tmp/bfc-736/transversal/code /tmp/bfc-736/transversal/sources
