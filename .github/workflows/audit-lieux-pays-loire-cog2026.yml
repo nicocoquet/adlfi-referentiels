@@ -6,6 +6,9 @@ on:
       - 'scripts/auditer_codes_partages_pdl_cog.py'
       - 'scripts/auditer_98_lieux_imbriques_pdl_cog.py'
       - 'scripts/auditer_parentages_pdl_120.py'
+      - 'scripts/qualifier_comparent_22_pdl.py'
+      - 'tests/test_qualifier_comparent_22_pdl.py'
+      - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
       - 'tests/test_auditer_parentages_pdl_120.py'
       - 'scripts/reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_reconstituer_lieux_pays_loire_806.py'
@@ -29,6 +32,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_reconstituer_lieux_pays_loire_806.py' -v
           python3 -m unittest discover -s tests -p 'test_auditer_parentages_pdl_120.py' -v
+          python3 -m unittest discover -s tests -p 'test_qualifier_comparent_22_pdl.py' -v
       - name: Télécharger et contrôler les fichiers officiels Insee 2026
         shell: bash
         run: |
@@ -79,6 +83,20 @@ jobs:
               f.write(f"\\n## Lieux imbriqués : 98 codes distincts\\nPériodes : {r['lignes_periodes']}; mouvements par code : {r['lignes_mouvements_par_code']}.\\n")
           PY
           cat /tmp/pdl-recette/imbriques-98/rapport-codes-98.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Contrôler COMPARENT des 22 codes partagés sur COG 2026
+        run: |
+          python3 scripts/qualifier_comparent_22_pdl.py --couples docs/lieux/recette/parentages-pdl-22-a-controler.csv --communes /tmp/cog/v_commune_2026.csv --sortie /tmp/pdl-recette/comparent-22
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/pdl-recette/comparent-22/rapport-comparent-22.json').read_text())
+          assert r['codes_insee']==22 and r['alignements_valides']==0
+          with open('/tmp/pdl-recette/SYNTHESE.md','a') as f:
+              f.write('\n## COMPARENT des 22 codes partagés\n')
+              for cat,count in r['categories'].items():
+                  f.write(f'- {cat}: {count}\n')
+          PY
+          cat /tmp/pdl-recette/comparent-22/rapport-comparent-22.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette uniquement
         if: always()
         uses: actions/upload-artifact@v4
