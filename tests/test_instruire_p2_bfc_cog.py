@@ -8,7 +8,7 @@ from instruire_p2_bfc_cog import EVENTS, SOURCE_TARGETS, selection_mouvements, v
 
 REPO=Path(__file__).resolve().parents[1]
 def load(name):
-    with (REPO/"docs/lieux/recette"/name).open(encoding="utf-8-sig",newline="") as f:
+    with (REPO/"recette/lieux"/name).open(encoding="utf-8-sig",newline="") as f:
         return list(csv.DictReader(f,delimiter=";"))
 
 class InstructionP2BFC(unittest.TestCase):

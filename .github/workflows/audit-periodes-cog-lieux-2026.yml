@@ -8,8 +8,8 @@ on:
       - 'tests/test_enrichir_periodes_cog_lot001.py'
       - 'scripts/auditer_statuts_delegues_associes.py'
       - 'tests/test_auditer_statuts_delegues_associes.py'
-      - 'docs/lieux/recette/graphe-episodes-cog-lot001-dates.json'
-      - 'docs/lieux/recette/graphe-episodes-cog-lot001.json'
+      - 'recette/lieux/graphe-episodes-cog-lot001-dates.json'
+      - 'recette/lieux/graphe-episodes-cog-lot001.json'
   workflow_dispatch:
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/enrichir_periodes_cog_lot001.py \
-            --graphe docs/lieux/recette/graphe-episodes-cog-lot001.json \
+            --graphe recette/lieux/graphe-episodes-cog-lot001.json \
             --historique /tmp/v_commune_depuis_1943_2026.csv \
             --sha256-attendu 08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee \
             --sortie /tmp/lieux-cog-periodes
@@ -77,7 +77,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/auditer_statuts_delegues_associes.py \
-            --graphe docs/lieux/recette/graphe-episodes-cog-lot001-dates.json \
+            --graphe recette/lieux/graphe-episodes-cog-lot001-dates.json \
             --communes-2026 /tmp/v_commune_2026.csv \
             --evenements-2026 /tmp/v_mvt_commune_2026.csv \
             --sha256-evenements-attendu 8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1 \

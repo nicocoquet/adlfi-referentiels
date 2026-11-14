@@ -69,7 +69,7 @@ le fichier.
 
 ## 4. Modèle des épisodes historiques COG (preuve administrative)
 
-Les fichiers `transitions_code_a_verifier.csv` et `evenements_communaux_particuliers.csv` archivés dans `docs/lieux/recette/lot-001-preuves-cog/` donnent :
+Les fichiers `transitions_code_a_verifier.csv` et `evenements_communaux_particuliers.csv` archivés dans `recette/lieux/lot-001-preuves-cog/` donnent :
 
 - **8** changements de code dus au changement de département (`MOD=41`) : chacun attesté par une ligne COG directe ;
 - **15** lignes de mouvements sous `MOD=32`, réparties en **3 opérations** de création de communes nouvelles ;
@@ -86,8 +86,8 @@ Les identifiants `ETAT-` et `OP-` sont des **identifiants techniques locaux**, n
 Dans Aigondigné, `79185` apparaît sous **Mougon**, **Mougon-Thorigné**, **Aigondigné**, comme autant d'états `COM` distincts ; une commune déléguée `COMD` est encore un autre objet de statut. Il n'y a ni réduction de l'histoire à un code stable, ni création d'un nouvel ARK Pactols.
 
 Pièces en recette :
-- `docs/lieux/recette/graphe-episodes-cog-lot001.json` (graph partiel, statut non validant) ;
-- `docs/lieux/recette/rapport-episodes-cog-lot001.json` (effectifs, origines) ;
+- `recette/lieux/graphe-episodes-cog-lot001.json` (graph partiel, statut non validant) ;
+- `recette/lieux/rapport-episodes-cog-lot001.json` (effectifs, origines) ;
 - `scripts/construire_episodes_cog_lot001.py` et `tests/test_episodes_cog_lot001.py` ;
 - fichier source Insee des mouvements 2026 : https://www.insee.fr/fr/information/8740222.
 

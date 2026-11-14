@@ -8,7 +8,7 @@ on:
       - 'tests/test_auditer_export_pactols_lieux.py'
       - 'scripts/qualifier_exceptions_skos_lieux.py'
       - 'tests/test_qualifier_exceptions_skos_lieux.py'
-      - 'docs/lieux/recette/autorites-minimales-9928.json'
+      - 'recette/lieux/autorites-minimales-9928.json'
   workflow_dispatch:
 
 permissions:
@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/auditer_export_pactols_lieux.py \
-            --autorites docs/lieux/recette/autorites-minimales-9928.json \
+            --autorites recette/lieux/autorites-minimales-9928.json \
             --pactols-rdf /tmp/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
             --sortie /tmp/rapport-pactols
           python3 -m json.tool /tmp/rapport-pactols/rapport_concepts_pactols.json

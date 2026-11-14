@@ -5,7 +5,7 @@
 ## Sources et périmètre
 
 Les trois sorties de l'auditeur `scripts/auditer_evenements_cog_lot.py` sont archivées
-dans `docs/lieux/recette/lot-001-preuves-cog/`. Elles portent sur le lot de
+dans `recette/lieux/lot-001-preuves-cog/`. Elles portent sur le lot de
 100 autorités Pactols, et ont été transmises après interrogation du fichier
 officiel Insee `v_mvt_commune_2026.csv` (13 734 lignes dans cette source).
 

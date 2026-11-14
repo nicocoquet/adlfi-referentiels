@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from construire_episodes_cog_lot001 import construire
-DATA=ROOT/'docs/lieux/recette/lot-001-preuves-cog'
+DATA=ROOT/'recette/lieux/lot-001-preuves-cog'
 
 class EpisodesCOG(unittest.TestCase):
     def setUp(self):

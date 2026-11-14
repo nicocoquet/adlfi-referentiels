@@ -20,9 +20,9 @@ du concept Bazeilles — à vérifier auprès de Frantiq ; aucune transformation
 automatique en code INSEE.
 
 **Pièces :**
-- `docs/lieux/recette/qualifications-skos-exceptions-42.csv`
-- `docs/lieux/recette/rapport-qualifications-skos-42.json`
-- `docs/lieux/recette/QUALIFICATION-42-SKOS-ET-GEOMETRIES-2026.md`
+- `recette/lieux/qualifications-skos-exceptions-42.csv`
+- `recette/lieux/rapport-qualifications-skos-42.json`
+- `recette/lieux/QUALIFICATION-42-SKOS-ET-GEOMETRIES-2026.md`
 
 Le workflow Pactols Lieux a été enrichi pour produire ces mêmes résultats
 depuis **l'export RDF complet réellement téléchargé** :

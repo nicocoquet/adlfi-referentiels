@@ -11,14 +11,14 @@ on:
       - 'scripts/construire_graphe_cog_pdl_806.py'
       - 'tests/test_construire_graphe_mouvements_pdl_120.py'
       - 'tests/test_qualifier_comparent_22_pdl.py'
-      - 'docs/lieux/recette/parentages-pdl-22-a-controler.csv'
-      - 'docs/lieux/recette/inventaire-pays-de-la-loire.csv'
+      - 'recette/lieux/parentages-pdl-22-a-controler.csv'
+      - 'recette/lieux/inventaire-pays-de-la-loire.csv'
       - 'tests/test_auditer_parentages_pdl_120.py'
       - 'scripts/reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_auditer_lieux_pays_loire_cog.py'
       - '.github/workflows/audit-lieux-pays-loire-cog2026.yml'
-      - 'docs/lieux/recette/lot-01-pays-de-la-loire.csv'
+      - 'recette/lieux/lot-01-pays-de-la-loire.csv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
           if-no-files-found: error
       - name: Audit des 25 ARK (et non 806)
         run: |
-          python3 scripts/auditer_lieux_pays_loire_cog.py --inventaire docs/lieux/recette/lot-01-pays-de-la-loire.csv --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette --attendu 25
+          python3 scripts/auditer_lieux_pays_loire_cog.py --inventaire recette/lieux/lot-01-pays-de-la-loire.csv --communes /tmp/cog/v_commune_2026.csv --historique /tmp/cog/v_commune_depuis_1943.csv --mouvements /tmp/cog/v_mvt_commune_2026.csv --sortie /tmp/pdl-recette --attendu 25
           python3 - <<'PY'
           import json
           from pathlib import Path
@@ -100,7 +100,7 @@ jobs:
           cat /tmp/pdl-recette/imbriques-98/rapport-codes-98.json >> "$GITHUB_STEP_SUMMARY"
       - name: Contrôler COMPARENT des 22 codes partagés sur COG 2026
         run: |
-          python3 scripts/qualifier_comparent_22_pdl.py --couples docs/lieux/recette/parentages-pdl-22-a-controler.csv --communes /tmp/cog/v_commune_2026.csv --sortie /tmp/pdl-recette/comparent-22
+          python3 scripts/qualifier_comparent_22_pdl.py --couples recette/lieux/parentages-pdl-22-a-controler.csv --communes /tmp/cog/v_commune_2026.csv --sortie /tmp/pdl-recette/comparent-22
           python3 - <<'PY'
           import json
           from pathlib import Path
@@ -133,9 +133,9 @@ jobs:
           cat /tmp/pdl-recette/graphe-120/rapport-graphe-120.json >> "$GITHUB_STEP_SUMMARY"
       - name: Contrôler et auditer les 806 autorités nationales par hiérarchie
         run: |
-          echo 'ea06d1bddbf53ec49410aa122b9f3e80842f0f770b9f364c3677a0a7c35e91db  docs/lieux/recette/inventaire-pays-de-la-loire.csv' | sha256sum --check
+          echo 'ea06d1bddbf53ec49410aa122b9f3e80842f0f770b9f364c3677a0a7c35e91db  recette/lieux/inventaire-pays-de-la-loire.csv' | sha256sum --check
           python3 scripts/auditer_lieux_pays_loire_cog.py \
-            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --inventaire recette/lieux/inventaire-pays-de-la-loire.csv \
             --communes /tmp/cog/v_commune_2026.csv \
             --historique /tmp/cog/v_commune_depuis_1943.csv \
             --mouvements /tmp/cog/v_mvt_commune_2026.csv \
@@ -156,7 +156,7 @@ jobs:
       - name: Construire le graphe national non validant des 806 autorités
         run: |
           python3 scripts/construire_graphe_cog_pdl_806.py \
-            --inventaire docs/lieux/recette/inventaire-pays-de-la-loire.csv \
+            --inventaire recette/lieux/inventaire-pays-de-la-loire.csv \
             --communes /tmp/cog/v_commune_2026.csv \
             --historique /tmp/cog/v_commune_depuis_1943.csv \
             --mouvements /tmp/cog/v_mvt_commune_2026.csv \

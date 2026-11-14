@@ -6,8 +6,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PREUVES = ROOT / "docs/lieux/recette/lot-001-preuves-cog"
-LOT = ROOT / "docs/lieux/recette/lot-001-prearbitrages.csv"
+PREUVES = ROOT / "recette/lieux/lot-001-preuves-cog"
+LOT = ROOT / "recette/lieux/lot-001-prearbitrages.csv"
 
 
 def csv_lignes(path):

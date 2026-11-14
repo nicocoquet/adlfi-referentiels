@@ -12,7 +12,7 @@ from instruire_p3_bfc_cog import (
 
 class P3BFC(unittest.TestCase):
     def test_lot_vingt_dossiers_sans_decision(self):
-        p=ROOT/"docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv"
+        p=ROOT/"recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv"
         rows=read(p,("niveau_priorite","id_candidature","code_source",
                      "ark_cible_candidat","decision_editoriale","date_validation"),";")
         self.assertEqual(len(rows),20)

@@ -11,7 +11,7 @@ from enrichir_periodes_cog_lot001 import enrichir,lire_historique
 
 # Véritable graphe produit par les 23 mouvements transmis dans le lot 001 ;
 # les couples Insee sont synthétiques dans ces tests, jamais publiés.
-GRAPH=ROOT/'docs/lieux/recette/graphe-episodes-cog-lot001.json'
+GRAPH=ROOT/'recette/lieux/graphe-episodes-cog-lot001.json'
 
 class PeriodesCOG(unittest.TestCase):
     def setUp(self):

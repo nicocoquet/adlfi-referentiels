@@ -11,10 +11,10 @@ on:
       - 'tests/test_auditer_topologie_lieux_133.py'
       - 'scripts/construire_episodes_cog_lot001.py'
       - 'tests/test_episodes_cog_lot001.py'
-      - 'docs/lieux/recette/lot-001-preuves-cog/*.csv'
+      - 'recette/lieux/lot-001-preuves-cog/*.csv'
       - 'tests/test_assembler_recette_lieux_133.py'
       - 'docs/data/lieux.json'
-      - 'docs/lieux/recette/sous-lot-*-cog2026-controle.csv'
+      - 'recette/lieux/sous-lot-*-cog2026-controle.csv'
   workflow_dispatch:
 
 permissions:
@@ -54,9 +54,9 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/auditer_raccordements_geometriques_2026.py \
-            --sous-lot docs/lieux/recette/sous-lot-01-cog2026-controle.csv \
-            --sous-lot docs/lieux/recette/sous-lot-02-cog2026-controle.csv \
-            --sous-lot docs/lieux/recette/sous-lot-03-cog2026-controle.csv \
+            --sous-lot recette/lieux/sous-lot-01-cog2026-controle.csv \
+            --sous-lot recette/lieux/sous-lot-02-cog2026-controle.csv \
+            --sous-lot recette/lieux/sous-lot-03-cog2026-controle.csv \
             --geometries /tmp/communes-100m-2026.geojson.gz \
             --sortie /tmp/rapport-geometries-lieux
           python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-raccordement-geometries-2026.json
@@ -86,11 +86,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/construire_episodes_cog_lot001.py \
-            --transitions docs/lieux/recette/lot-001-preuves-cog/transitions_code_a_verifier.csv \
-            --particuliers docs/lieux/recette/lot-001-preuves-cog/evenements_communaux_particuliers.csv \
+            --transitions recette/lieux/lot-001-preuves-cog/transitions_code_a_verifier.csv \
+            --particuliers recette/lieux/lot-001-preuves-cog/evenements_communaux_particuliers.csv \
             --sortie /tmp/rapport-geometries-lieux
           python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-episodes-cog-lot001.json
-          python3 -c "import json; a=json.load(open('/tmp/rapport-geometries-lieux/graphe-episodes-cog-lot001.json')); b=json.load(open('docs/lieux/recette/graphe-episodes-cog-lot001.json')); assert a==b, 'Graphe COG figé différent des preuves archivées'; print('Graphe COG conforme aux archives')"
+          python3 -c "import json; a=json.load(open('/tmp/rapport-geometries-lieux/graphe-episodes-cog-lot001.json')); b=json.load(open('recette/lieux/graphe-episodes-cog-lot001.json')); assert a==b, 'Graphe COG figé différent des preuves archivées'; print('Graphe COG conforme aux archives')"
       - name: Archiver les contours et la preuve de provenance sans publier
         if: always()
         uses: actions/upload-artifact@v4

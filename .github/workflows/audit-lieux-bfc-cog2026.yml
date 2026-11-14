@@ -15,24 +15,24 @@ on:
       - 'tests/test_preparer_lieux_temporel_bfc.py'
       - 'docs/assets/lieux-temps.js'
       - 'tests/test_lieux_temps.js'
-      - 'docs/lieux/recette/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md'
+      - 'recette/lieux/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md'
       - 'tests/test_consolider_evenements_bfc_p1_p2_p3.py'
-      - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
-      - 'docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv'
-      - 'docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv'
+      - 'recette/lieux/LOT-P1-BFC-4-CANDIDATURES.csv'
+      - 'recette/lieux/LOT-P1-BFC-2-EVENEMENTS.csv'
+      - 'recette/lieux/LOT-P1-BFC-6-TRANSITIONS-COG.csv'
       - 'tests/test_instruire_p3_bfc_cog.py'
-      - 'docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv'
-      - 'docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md'
+      - 'recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv'
+      - 'recette/lieux/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md'
       - 'tests/test_instruire_p2_bfc_cog.py'
-      - 'docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv'
-      - 'docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv'
+      - 'recette/lieux/LOT-P2-BFC-5-CANDIDATURES.csv'
+      - 'recette/lieux/LOT-P2-BFC-CONTEXTE-ARK-39177.csv'
       - 'tests/test_qualifier_relations_ark_bfc.py'
       - 'tests/test_instruire_exceptions_bfc_cog.py'
-      - 'docs/lieux/recette/codes-historiques-absents-bfc-25.csv'
-      - 'docs/lieux/recette/codes-partages-ark-bfc-2.csv'
+      - 'recette/lieux/codes-historiques-absents-bfc-25.csv'
+      - 'recette/lieux/codes-partages-ark-bfc-2.csv'
       - 'tests/test_auditer_lieux_bfc_cog.py'
-      - 'docs/lieux/recette/inventaire-bourgogne-franche-comte.csv'
-      - 'docs/lieux/recette/lot-01-bourgogne-franche-comte.csv'
+      - 'recette/lieux/inventaire-bourgogne-franche-comte.csv'
+      - 'recette/lieux/lot-01-bourgogne-franche-comte.csv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
       - name: Auditer les 736 autorités et générer le graphe de recette
         run: |
           python3 scripts/auditer_lieux_bfc_cog.py \
-            --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+            --inventaire recette/lieux/inventaire-bourgogne-franche-comte.csv \
             --communes /tmp/cog/v_commune_2026.csv \
             --historique /tmp/cog/v_commune_depuis_1943.csv \
             --mouvements /tmp/cog/v_mvt_commune_2026.csv \
@@ -84,8 +84,8 @@ jobs:
       - name: Instruire 25 codes historiques et quatre dossiers spécifiques
         run: |
           python3 scripts/instruire_exceptions_bfc_cog.py \
-            --codes25 docs/lieux/recette/codes-historiques-absents-bfc-25.csv \
-            --doubles docs/lieux/recette/codes-partages-ark-bfc-2.csv \
+            --codes25 recette/lieux/codes-historiques-absents-bfc-25.csv \
+            --doubles recette/lieux/codes-partages-ark-bfc-2.csv \
             --communes /tmp/cog/v_commune_2026.csv \
             --historique /tmp/cog/v_commune_depuis_1943.csv \
             --mouvements /tmp/cog/v_mvt_commune_2026.csv \
@@ -108,7 +108,7 @@ jobs:
           set -euo pipefail
           for dest in /tmp/bfc-736/relations-candidates /tmp/bfc-736/relations-controle; do
             python3 scripts/qualifier_relations_ark_bfc.py \
-              --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+              --inventaire recette/lieux/inventaire-bourgogne-franche-comte.csv \
               --anciens /tmp/bfc-736/instruction-exceptions/instruction-25-codes-historiques.csv \
               --preuves /tmp/bfc-736/instruction-exceptions/preuves-mouvements-25.csv \
               --partages /tmp/bfc-736/instruction-exceptions/deux-codes-partages-ark.csv \
@@ -139,8 +139,8 @@ jobs:
           set -euo pipefail
           for dest in /tmp/bfc-736/preinstruction-p2 /tmp/bfc-736/controle-p2; do
             python3 scripts/instruire_p2_bfc_cog.py \
-              --candidatures docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
-              --contexte-39177 docs/lieux/recette/LOT-P2-BFC-CONTEXTE-ARK-39177.csv \
+              --candidatures recette/lieux/LOT-P2-BFC-5-CANDIDATURES.csv \
+              --contexte-39177 recette/lieux/LOT-P2-BFC-CONTEXTE-ARK-39177.csv \
               --communes /tmp/cog/v_commune_2026.csv \
               --mouvements /tmp/cog/v_mvt_commune_2026.csv \
               --sortie "$dest"
@@ -168,7 +168,7 @@ jobs:
           set -euo pipefail
           for target in /tmp/bfc-736/preinstruction-p3 /tmp/bfc-736/controle-p3; do
             python3 scripts/instruire_p3_bfc_cog.py \
-              --candidatures docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+              --candidatures recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv \
               --communes /tmp/cog/v_commune_2026.csv \
               --historique /tmp/cog/v_commune_depuis_1943.csv \
               --mouvements /tmp/cog/v_mvt_commune_2026.csv \
@@ -195,20 +195,20 @@ jobs:
           cat /tmp/bfc-736/preinstruction-p3/rapport-p3.json >> "$GITHUB_STEP_SUMMARY"
       - name: Joindre sources et méthode au lot P3 reproductible
         run: |
-          cp docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv /tmp/bfc-736/preinstruction-p3/
+          cp recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv /tmp/bfc-736/preinstruction-p3/
           cp scripts/instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
           cp tests/test_instruire_p3_bfc_cog.py /tmp/bfc-736/preinstruction-p3/
-          cp docs/lieux/recette/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md /tmp/bfc-736/preinstruction-p3/
+          cp recette/lieux/PREINSTRUCTION-P3-BFC-20-DOSSIERS-20261114.md /tmp/bfc-736/preinstruction-p3/
       - name: Consolider les 29 relations P1/P2/P3 en graphe COG unique
         run: |
           set -euo pipefail
           for target in /tmp/bfc-736/transversal /tmp/bfc-736/transversal-controle; do
             python3 scripts/consolider_evenements_bfc_p1_p2_p3.py \
-              --p1 docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
-              --p1-events docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
-              --p1-transitions docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
-              --p2 docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
-              --p3 docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+              --p1 recette/lieux/LOT-P1-BFC-4-CANDIDATURES.csv \
+              --p1-events recette/lieux/LOT-P1-BFC-2-EVENEMENTS.csv \
+              --p1-transitions recette/lieux/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
+              --p2 recette/lieux/LOT-P2-BFC-5-CANDIDATURES.csv \
+              --p3 recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv \
               --communes /tmp/cog/v_commune_2026.csv \
               --historique /tmp/cog/v_commune_depuis_1943.csv \
               --mouvements /tmp/cog/v_mvt_commune_2026.csv \
@@ -336,12 +336,12 @@ jobs:
         run: |
           mkdir -p /tmp/bfc-736/transversal/code /tmp/bfc-736/transversal/sources
           cp scripts/consolider_evenements_bfc_p1_p2_p3.py scripts/valider_graphe_historique_bfc.py tests/test_consolider_evenements_bfc_p1_p2_p3.py /tmp/bfc-736/transversal/code/
-          cp docs/lieux/recette/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md /tmp/bfc-736/transversal/
-          cp docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv \
-             docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv \
-             docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
-             docs/lieux/recette/LOT-P2-BFC-5-CANDIDATURES.csv \
-             docs/lieux/recette/LOT-P3-BFC-20-CANDIDATURES.csv \
+          cp recette/lieux/MODELE-HISTORIQUE-TRANSVERSAL-BFC-20261114.md /tmp/bfc-736/transversal/
+          cp recette/lieux/LOT-P1-BFC-4-CANDIDATURES.csv \
+             recette/lieux/LOT-P1-BFC-2-EVENEMENTS.csv \
+             recette/lieux/LOT-P1-BFC-6-TRANSITIONS-COG.csv \
+             recette/lieux/LOT-P2-BFC-5-CANDIDATURES.csv \
+             recette/lieux/LOT-P3-BFC-20-CANDIDATURES.csv \
              /tmp/bfc-736/transversal/sources/
       - name: Archiver la recette seulement
         if: always()

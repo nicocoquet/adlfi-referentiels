@@ -39,8 +39,8 @@ Le référentiel officiel est le COG au 1er janvier 2026 : https://www.insee.fr/
 
 ## Sources internes
 
-- `docs/lieux/recette/PRIORITES-REGIONALES-20261114.md`
-- `docs/lieux/recette/rapport-priorites-regionales.json`
-- `docs/lieux/recette/lot-01-pays-de-la-loire.csv`
-- `docs/lieux/recette/ANOMALIE-BRAIN-PAYS-DE-RETZ-2008.md`
-- `docs/lieux/recette/BILAN-CORSE-200-COMMUNES-20261114.md`
+- `recette/lieux/PRIORITES-REGIONALES-20261114.md`
+- `recette/lieux/rapport-priorites-regionales.json`
+- `recette/lieux/lot-01-pays-de-la-loire.csv`
+- `recette/lieux/ANOMALIE-BRAIN-PAYS-DE-RETZ-2008.md`
+- `recette/lieux/BILAN-CORSE-200-COMMUNES-20261114.md`

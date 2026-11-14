@@ -5,7 +5,7 @@
 ## Sources et exécution vérifiées
 
 - **Extraction XML AdlFI nationale v2** : 9 928 ARK terminaux distincts et leurs libellés documentaires.
-- **Instantané minimal du corpus** : `docs/lieux/recette/autorites-minimales-9928.json`, dérivé de
+- **Instantané minimal du corpus** : `recette/lieux/autorites-minimales-9928.json`, dérivé de
   `AdlFI-audit-lieux-v2/autorites_lieux.csv` (SHA-256 de ce CSV :
   `878aa70f32d43313ea5bd36bbb30bbd6b57b4872ba2f68a5117ac6c35b6380b6`).
 - **Source SKOS officielle CNRS-Frantiq** : `Pactols_Lieux_th17_20260722.rdf`,

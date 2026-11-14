@@ -4,8 +4,8 @@
 
 ## Sources utilisées
 
-- `docs/lieux/recette/REVUE-CONTEXTES-LOT-001.md` (lot national 001, 83 dossiers ordinaires).
-- `docs/lieux/recette/lot-001-prearbitrages.csv` : source des ARK, codes candidats, intervalles et attestations.
+- `recette/lieux/REVUE-CONTEXTES-LOT-001.md` (lot national 001, 83 dossiers ordinaires).
+- `recette/lieux/lot-001-prearbitrages.csv` : source des ARK, codes candidats, intervalles et attestations.
 - Fiches communales **Insee / Code officiel géographique au 1er janvier 2026**, vérifiées individuellement par code et libellé.
 - Extraction nationale AdlFI v2 (`notices.csv` et `occurrences_lieux.csv`) : titres, index géographiques, contexte des notices.
 

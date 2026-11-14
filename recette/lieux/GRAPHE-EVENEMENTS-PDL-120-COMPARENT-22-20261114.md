@@ -7,7 +7,7 @@
 [Workflow officiel GitHub Actions : audit du 14 novembre 2026](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43609855164) — **succès**. Les sources sont les trois fichiers Insee COG 2026 dont les empreintes sont contrôlées dans le workflow ; les éléments Pactols sont ceux de l'extraction XML AdlFI nationale v2 et de l'export Frantiq du 22 juillet 2026.
 
 Les scripts ajoutés à la branche sont :
-- `scripts/qualifier_comparent_22_pdl.py`, basé sur `docs/lieux/recette/parentages-pdl-22-a-controler.csv` ;
+- `scripts/qualifier_comparent_22_pdl.py`, basé sur `recette/lieux/parentages-pdl-22-a-controler.csv` ;
 - `scripts/construire_graphe_mouvements_pdl_120.py`, basé sur les quatre CSV de périodes/mouvements déjà vérifiés pour les lots de 22 et 98 codes ;
 - les tests `tests/test_qualifier_comparent_22_pdl.py` et `tests/test_construire_graphe_mouvements_pdl_120.py`.
 

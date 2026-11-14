@@ -102,7 +102,7 @@ Voir `INSTRUCTION-HISTORIQUE-EXCEPTIONS-BFC-20261114.md`, `scripts/instruire_exc
 
 La branche contient :
 
-- `docs/lieux/recette/inventaire-bourgogne-franche-comte.csv` ;
+- `recette/lieux/inventaire-bourgogne-franche-comte.csv` ;
 - `scripts/auditer_lieux_bfc_cog.py` ;
 - `tests/test_auditer_lieux_bfc_cog.py` ;
 - `.github/workflows/audit-lieux-bfc-cog2026.yml` ;

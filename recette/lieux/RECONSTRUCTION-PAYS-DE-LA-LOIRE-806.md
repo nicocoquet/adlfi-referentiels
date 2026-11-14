@@ -20,7 +20,7 @@ python3 scripts/reconstituer_lieux_pays_loire_806.py \
   --autorites "$HOME/Desktop/AdlFI-audit-lieux-v2/autorites_lieux.csv" \
   --occurrences "$HOME/Desktop/AdlFI-audit-lieux-v2/occurrences_lieux.csv" \
   --skos-csv "/CHEMIN/controle_concepts_pactols.csv" \
-  --pilote "docs/lieux/recette/lot-01-pays-de-la-loire.csv" \
+  --pilote "recette/lieux/lot-01-pays-de-la-loire.csv" \
   --communes "$HOME/Desktop/AdlFI-sources-COG-2026/v_commune_2026.csv" \
   --historique "$HOME/Desktop/AdlFI-sources-COG-2026/v_commune_depuis_1943.csv" \
   --mouvements "$HOME/Desktop/AdlFI-sources-COG-2026/v_mvt_commune_2026.csv" \

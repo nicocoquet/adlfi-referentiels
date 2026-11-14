@@ -6,9 +6,9 @@ on:
       - 'scripts/rechercher_8_cibles_bfc_pactols_th17.py'
       - 'scripts/rapprocher_relations_bfc_pactols_integral.py'
       - 'tests/test_rapprocher_relations_bfc_pactols_integral.py'
-      - 'docs/lieux/recette/relations-bfc-14-sans-cible-initiale.csv'
+      - 'recette/lieux/relations-bfc-14-sans-cible-initiale.csv'
       - 'tests/test_rechercher_8_cibles_bfc_pactols_th17.py'
-      - 'docs/lieux/recette/cibles-a-rechercher-pactols-bfc-8.csv'
+      - 'recette/lieux/cibles-a-rechercher-pactols-bfc-8.csv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -43,7 +43,7 @@ jobs:
         run: |
           python3 scripts/rechercher_8_cibles_bfc_pactols_th17.py \
             --rdf /tmp/pactols-frantiq/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
-            --cibles docs/lieux/recette/cibles-a-rechercher-pactols-bfc-8.csv \
+            --cibles recette/lieux/cibles-a-rechercher-pactols-bfc-8.csv \
             --sortie /tmp/pactols-bfc-8
           python3 - <<'PY'
           import json
@@ -67,7 +67,7 @@ jobs:
           set -euo pipefail
           for sortie in /tmp/pactols-bfc-8/rapprochement-14 /tmp/pactols-bfc-8/controle-repetition; do
             python3 scripts/rapprocher_relations_bfc_pactols_integral.py \
-              --dossiers docs/lieux/recette/relations-bfc-14-sans-cible-initiale.csv \
+              --dossiers recette/lieux/relations-bfc-14-sans-cible-initiale.csv \
               --candidats /tmp/pactols-bfc-8/candidats-pactols-th17-bfc.csv \
               --sortie "$sortie"
           done

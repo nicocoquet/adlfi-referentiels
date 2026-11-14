@@ -13,7 +13,7 @@ from consolider_evenements_bfc_p1_p2_p3 import (
 
 class TransversalBFC(unittest.TestCase):
     def test_p1_p2_p3_recette_29_sans_decisions(self):
-        base=ROOT/"docs/lieux/recette"
+        base=ROOT/"recette/lieux"
         p1=read(base/"LOT-P1-BFC-4-CANDIDATURES.csv",
             ("id_candidature","date_effet","decision_editoriale","ark_cible_propose"))
         p2=read(base/"LOT-P2-BFC-5-CANDIDATURES.csv",

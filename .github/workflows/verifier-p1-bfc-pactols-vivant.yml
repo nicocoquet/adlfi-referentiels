@@ -6,9 +6,9 @@ on:
       - '.github/workflows/verifier-p1-bfc-pactols-vivant.yml'
       - 'scripts/verifier_p1_bfc_pactols_vivant.py'
       - 'tests/test_lot_p1_bfc.py'
-      - 'docs/lieux/recette/LOT-P1-BFC-4-CANDIDATURES.csv'
-      - 'docs/lieux/recette/LOT-P1-BFC-2-EVENEMENTS.csv'
-      - 'docs/lieux/recette/LOT-P1-BFC-6-TRANSITIONS-COG.csv'
+      - 'recette/lieux/LOT-P1-BFC-4-CANDIDATURES.csv'
+      - 'recette/lieux/LOT-P1-BFC-2-EVENEMENTS.csv'
+      - 'recette/lieux/LOT-P1-BFC-6-TRANSITIONS-COG.csv'
 permissions:
   contents: read
 jobs:

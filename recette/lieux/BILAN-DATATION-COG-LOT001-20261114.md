@@ -5,7 +5,7 @@
 ## Sources et contrôle reproductible
 
 - Source Insee : [`v_commune_depuis_1943.csv`](https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_depuis_1943.csv), millésime COG 2026, SHA-256 `08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee`.
-- Référence : `docs/lieux/recette/graphe-episodes-cog-lot001.json` (33 états, 11 opérations, 23 arcs).
+- Référence : `recette/lieux/graphe-episodes-cog-lot001.json` (33 états, 11 opérations, 23 arcs).
 - Auditeur : `scripts/enrichir_periodes_cog_lot001.py` ; [exécution GitHub Actions réussie](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43594701849).
 - Sorties archivées : `graphe-episodes-cog-lot001-dates.json`, `revue-periodes-cog-lot001.csv`, `rapport-periodes-cog-lot001.json`.
 
@@ -98,9 +98,9 @@ pas des géométries historiques ; la présence au millésime 2026 ne constitue
 pas une démonstration de stabilité territoriale.**
 
 Pièces de recette conservées :
-- `docs/lieux/recette/rapport-statut-delegue-associe-lot001.json` ;
-- `docs/lieux/recette/revue-statut-delegue-associe-lot001.csv` ;
-- `docs/lieux/recette/audit-statut-delegue-associe-lot001.json`.
+- `recette/lieux/rapport-statut-delegue-associe-lot001.json` ;
+- `recette/lieux/revue-statut-delegue-associe-lot001.csv` ;
+- `recette/lieux/audit-statut-delegue-associe-lot001.json`.
 
 **Bilan global du lot 001 :** 26 états `COM` datés par les couples
 officiels ; 6 `COMD` présentes en 2026, avec dates d'entrée

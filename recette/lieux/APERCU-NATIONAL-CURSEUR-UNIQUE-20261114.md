@@ -4,7 +4,7 @@
 
 ## Ce qui fonctionne
 
-Un premier aperçu autonome est disponible sous `docs/lieux/recette/apercu-national.html`, avec les deux jeux de données exportés dans un paquet ZIP séparé :
+Un premier aperçu autonome est disponible sous `recette/lieux/apercu-national.html`, avec les deux jeux de données exportés dans un paquet ZIP séparé :
 
 - **9 928 autorités Pactols attestées dans les XML AdlFI** : recherche par ARK, libellé et formes XML, nombre de mentions et de notices ;
 - **39 162 identifiants administratifs Insee** : recherche par code et anciens noms depuis 1943 ;
@@ -44,7 +44,7 @@ Décompresser `AdlFI_Lieux_apercu_national_fonctionnel_20261114.zip`, ouvrir un 
 python3 -m http.server 8000
 ```
 
-Ouvrir : **http://localhost:8000/docs/lieux/recette/apercu-national.html**.
+Ouvrir : **http://localhost:8000/recette/lieux/apercu-national.html**.
 
 Des exemples utiles : rechercher **Marchaux**, puis passer de **2017 à 2018** ; rechercher **Hauteroche** et examiner les deux résultats Insee ; rechercher **Verdun-Ciel** (2024 puis 2025) ; rechercher **Antorpe** (1974, 1975, 2026) ; rechercher **Draix**, sélectionner l'autorité Pactols et déplacer le curseur avant 2026.
 

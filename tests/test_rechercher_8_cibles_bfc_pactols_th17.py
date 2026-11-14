@@ -12,7 +12,7 @@ from rechercher_8_cibles_bfc_pactols_th17 import (
 
 class RecherchePactolsComplet(unittest.TestCase):
     def test_huit_cibles_et_quatorze_dossiers(self):
-        file = (Path(__file__).resolve().parents[1] / "docs/lieux/recette" /
+        file = (Path(__file__).resolve().parents[1] / "recette/lieux" /
                 "cibles-a-rechercher-pactols-bfc-8.csv")
         rows = lire_cibles(file)
         self.assertEqual(len(rows), 8)

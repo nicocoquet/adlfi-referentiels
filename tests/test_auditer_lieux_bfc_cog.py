@@ -24,7 +24,7 @@ class BourgogneFrancheComte(unittest.TestCase):
         self.assertNotEqual(a,b)
         self.assertEqual(a,identite({'libelle':'Marchaux','typecom':'COM','code':'25368'},'etat:'))
     def test_inventaire_pilote_regional(self):
-        root=Path(__file__).resolve().parents[1]/'docs/lieux/recette'
+        root=Path(__file__).resolve().parents[1]/'recette/lieux'
         full=root/'inventaire-bourgogne-franche-comte.csv'
         self.assertEqual(sha(full),SHAS['inventaire'])
         def read(path):

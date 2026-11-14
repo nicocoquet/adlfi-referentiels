@@ -14,7 +14,7 @@ Sources officielles : [COG 2026](https://www.insee.fr/fr/information/8740222), [
 
 ## Entrées
 
-- `docs/lieux/recette/graphe-episodes-cog-lot001.json` : **33 états**, **11 opérations**, **23 arcs** fondés sur les fichiers officiels de mouvements du lot 001, déjà vérifiés.
+- `recette/lieux/graphe-episodes-cog-lot001.json` : **33 états**, **11 opérations**, **23 arcs** fondés sur les fichiers officiels de mouvements du lot 001, déjà vérifiés.
 - `v_commune_depuis_1943.csv` : table historique Insee 2026, téléchargée sans transformation, empreinte SHA-256 inscrite dans le rapport.
 
 Le script `scripts/enrichir_periodes_cog_lot001.py` rattache à chaque état une ligne du couple historique seulement si la clé `TYPECOM`, `COM`, `LIBELLE` et les **dates d'entrée et de sortie connues** la rendent compatible. Les libellés sont normalisés pour la comparaison, mais la forme Insee originale est conservée. Si plusieurs périodes restent compatibles, aucune n'est choisie arbitrairement.

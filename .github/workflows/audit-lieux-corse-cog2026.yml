@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - '.github/workflows/audit-lieux-corse-cog2026.yml'
-      - 'docs/lieux/recette/inventaire-corse.csv'
-      - 'docs/lieux/recette/lot-01-corse.csv'
+      - 'recette/lieux/inventaire-corse.csv'
+      - 'recette/lieux/lot-01-corse.csv'
       - 'scripts/auditer_lieux_corse_cog.py'
       - 'tests/test_auditer_lieux_corse_cog.py'
   workflow_dispatch:
@@ -41,8 +41,8 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/auditer_lieux_corse_cog.py \
-            --inventaire docs/lieux/recette/inventaire-corse.csv \
-            --lot docs/lieux/recette/lot-01-corse.csv \
+            --inventaire recette/lieux/inventaire-corse.csv \
+            --lot recette/lieux/lot-01-corse.csv \
             --communes /tmp/insee-cog-2026/v_commune_2026.csv \
             --historique /tmp/insee-cog-2026/v_commune_depuis_1943.csv \
             --mouvements /tmp/insee-cog-2026/v_mvt_commune_2026.csv \

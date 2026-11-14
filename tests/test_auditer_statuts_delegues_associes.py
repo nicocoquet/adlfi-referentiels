@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from auditer_statuts_delegues_associes import analyser
 
-GRAPH=ROOT/'docs/lieux/recette/graphe-episodes-cog-lot001-dates.json'
+GRAPH=ROOT/'recette/lieux/graphe-episodes-cog-lot001-dates.json'
 
 class DeleguesAssocies(unittest.TestCase):
     def setUp(self):

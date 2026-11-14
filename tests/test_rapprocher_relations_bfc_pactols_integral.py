@@ -34,7 +34,7 @@ class LiensPactolsBFC(unittest.TestCase):
         self.assertIsNone(chosen)
         self.assertEqual(kind,"plusieurs_concepts_lexicaux_ambigus")
     def test_provenance_quatorze_dossiers(self):
-        p=Path(__file__).resolve().parents[1]/"docs/lieux/recette/relations-bfc-14-sans-cible-initiale.csv"
+        p=Path(__file__).resolve().parents[1]/"recette/lieux/relations-bfc-14-sans-cible-initiale.csv"
         rows=lire(p,("ark_source","code_cible_insee","preuve_cog"))
         self.assertEqual(len(rows),14)
         self.assertEqual(len({r["ark_source"] for r in rows}),14)
