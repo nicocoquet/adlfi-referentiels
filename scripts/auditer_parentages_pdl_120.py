@@ -24,6 +24,13 @@ MODALITES = {
     '70': 'commune_associee_vers_deleguee', '71': 'retablissement_commune_deleguee',
 }
 ATYPIQUES = {'49357','53024','72301','72363','85052','85080','85091'}
+SHA_ATTENDUS = {
+    'contextes':'02178faefb0f3987568121a934a6ee31ce9cf6f1ee1fe11d1a17f6aa2edbc8ee',
+    'skos':'502db0f84188beca666d521417ad6775fb5f670c5b9a295250a9024fd4ede407',
+    'synthese98':'8c91dd6a4890ca223a9a32217a5c654fc112e292d748d7be44868a711f97fbbe',
+    'evenements98':'502d2c750f5830db8f13e72d4feeccb61f5204dd0b546761b24477b05def5791',
+    'periodes98':'2b21df59cb6211ed022efa3da7f38a33c9cc791f87b911d945655f97465592c7',
+}
 EXPECTED = {'accord_code_parent_2026':67,'parent_hors_corpus_terminal':21,
             'ecart_code_parent_historique':3,'sans_compa_2026':7,'code_partage_ark_22':22}
 
@@ -63,6 +70,9 @@ def produire(contextes, skos, synthese98, evenements98, periodes98, sortie,
              controle_120=True):
     inp={'contextes':Path(contextes),'skos':Path(skos),'synthese98':Path(synthese98),
          'evenements98':Path(evenements98),'periodes98':Path(periodes98)}
+    for role,path in inp.items():
+        if sha(path)!=SHA_ATTENDUS[role]:
+            raise ValueError('Source nationale modifiée ou non conforme : '+role)
     ctx=lire(contextes,['ark_pactols','libelle_pactols','code_skos_pactols',
         'parent_ark_hierarchie','parent_libelle_hierarchie'])
     sk={r['ark_pactols']:r for r in lire(skos,['ark_pactols','liens_exact_match_pactols'])}
