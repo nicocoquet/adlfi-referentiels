@@ -90,6 +90,7 @@ jobs:
             --particuliers docs/lieux/recette/lot-001-preuves-cog/evenements_communaux_particuliers.csv \
             --sortie /tmp/rapport-geometries-lieux
           python3 -m json.tool /tmp/rapport-geometries-lieux/rapport-episodes-cog-lot001.json
+          python3 -c "import json; a=json.load(open('/tmp/rapport-geometries-lieux/graphe-episodes-cog-lot001.json')); b=json.load(open('docs/lieux/recette/graphe-episodes-cog-lot001.json')); assert a==b, 'Graphe COG figé différent des preuves archivées'; print('Graphe COG conforme aux archives')"
       - name: Archiver les contours et la preuve de provenance sans publier
         if: always()
         uses: actions/upload-artifact@v4
