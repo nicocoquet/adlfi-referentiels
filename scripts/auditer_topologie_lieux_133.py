@@ -125,9 +125,18 @@ def mesurer(carte_133, source, ancien, sortie, sha_attendu=SHA_2026):
             if prev.is_valid and geom.is_valid:
                 delta=geom.symmetric_difference(prev).area
                 r=delta/geom.area if geom.area else None
+                hausdorff=geom.hausdorff_distance(prev)
+                equivalence=geom.equals(prev)
                 record['ecart_1000m_100m_km2']=round(delta/1e6,5)
                 record['ecart_relatif_surface_geometrie_100m_pct']=round(r*100,3)
-                shifts.append({'code':code,'nom':props.get('nom',''),'difference_symetrique_km2':round(delta/1e6,5),'pct_surface_100m':round(r*100,3)})
+                record['distance_hausdorff_1000m_100m_m']=round(hausdorff,6)
+                record['equivalence_topologique_1000m_100m']=equivalence
+                shifts.append({'code':code,'nom':props.get('nom',''),
+                    'difference_symetrique_km2':round(delta/1e6,5),
+                    'difference_symetrique_m2_precise':round(delta,6),
+                    'distance_hausdorff_m':round(hausdorff,6),
+                    'equivalence_topologique':equivalence,
+                    'pct_surface_100m':round(r*100,3)})
             else:
                 record['comparaison_1000m_non_mesurable']='geometrie_invalide'
         rows.append(record)
@@ -146,6 +155,10 @@ def mesurer(carte_133, source, ancien, sortie, sha_attendu=SHA_2026):
             'nombre_chevauchements_voisins_superieurs_100m2':len(significant),
             'nombre_paires_contigues_dans_133':len(adjacencies),
             'nombre_contours_pilote_comparables':len(shifts),
+            'nombre_contours_pilote_equivalents_topologiquement':sum(s['equivalence_topologique'] for s in shifts),
+            'nombre_ecarts_pilote_superieurs_1m2':sum(s['difference_symetrique_m2_precise']>1 for s in shifts),
+            'ecart_maximal_pilote_m2':max([s['difference_symetrique_m2_precise'] for s in shifts],default=None),
+            'distance_hausdorff_maximale_pilote_m':max([s['distance_hausdorff_m'] for s in shifts],default=None),
             'ecarts_1000m_100m_plus_importants':sorted(shifts,key=lambda x:-x['difference_symetrique_km2'])[:15],
             'reserves':['Les voisins sont recherchés dans la source 2026 entière, non seulement dans les 133 contours.',
                         'Les chevauchements de simplification doivent être qualifiés ; pas de correction automatique.',
