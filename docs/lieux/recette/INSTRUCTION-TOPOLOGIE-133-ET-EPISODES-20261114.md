@@ -41,13 +41,31 @@ Pour chaque contour, le rapport technique conserve le code, l'intitulé, la vali
 - une continuité de frontières sur une représentation généralisée ne certifie pas une limite juridique à l'échelle cadastrale ;
 - aucune géométrie contemporaine n'est attribuée à une ancienne commune.
 
-## 3. Résultat inattendu à étudier : les géométries des 103 communes PACA
+## 3. Résultat confirmé : identité géométrique des 103 communes PACA
 
-La différence symétrique projetée entre les 103 géométries actuellement exploitées par le module Lieux et leurs correspondantes du jeu 2026 à 100 m a été calculée. Les **103 valeurs sont nulles à la précision d'arrondi de 0,00001 km² (10 m²)**, et les pourcentages d'écart sont nuls à trois décimales.
+La différence symétrique **non arrondie**, l'équivalence topologique
+Shapely et la distance de Hausdorff ont été calculées entre chaque
+contour PACA de `docs/data/lieux-communes.geojson` et le contour 2026
+de même code dans la source nationale.
 
-Le fichier amont de l'atlas s'appelle pourtant `communes-1000m.geojson`. **Le nom de fichier ne permet donc pas, à lui seul, de déduire la précision effective des géométries qu'il contient.** Une vérification supplémentaire de l'égalité topologique exacte et de la distance de Hausdorff est ajoutée au script pour statuer sur leur identité à la précision des coordonnées.
+**Résultat : 103/103 équivalents topologiquement, différence symétrique
+maximale 0 m², distance de Hausdorff maximale 0 m.**
 
-**Décision :** ne pas engager une « migration 1000 m → 100 m » sans avoir vérifié la provenance de la transformation atlas et le contenu géométrique réel. Conserver le référentiel publié et son historique.
+Ce contrôle plus précis a réussi dans GitHub Actions :
+https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43592879414
+
+**Conséquence pour l'intégration :** les 103 contours actuels du
+pilote sont déjà compatibles avec la source nationale 2026 à 100 m.
+Aucun remplacement de leurs géométries n'est nécessaire.
+
+**Point documentaire restant :** le fichier amont de l'atlas s'appelle
+`communes-1000m.geojson`. Sa dénomination semble contradictoire
+avec les propriétés de ses 103 géométries exploitées, qui coïncident
+avec le jeu 100 m. Ce constat **ne prouve pas** quelle opération
+cartographique a réellement été appliquée lors de la fabrication de
+ce fichier ; il faut conserver l'empreinte et le chemin de provenance
+et éclaircir la chaîne de génération plutôt que renommer arbitrairement
+le fichier.
 
 ## 4. Modèle des épisodes historiques COG (preuve administrative)
 
