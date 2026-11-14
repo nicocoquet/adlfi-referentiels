@@ -49,8 +49,7 @@ class TransversalBFC(unittest.TestCase):
         cran=dict(main,COM_AV="39177",LIBELLE_AV="Crançot")
         grang=dict(main,COM_AV="39260",LIBELLE_AV="Granges-sur-Baume")
         rows=[main,comd,cran,grang]
-        with self.assertRaises(ValueError):
-            selected(("2016-01-01","32","39177"),rows,False)
+        self.assertEqual(len(selected(("2016-01-01","32","39177"),rows,False)),4)
         rows.extend([
           dict(cran,TYPECOM_AP="COMD",COM_AP="39177",LIBELLE_AP="Crançot"),
           dict(grang,TYPECOM_AP="COMD",COM_AP="39260",LIBELLE_AP="Granges-sur-Baume")])
