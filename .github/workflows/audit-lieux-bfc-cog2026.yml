@@ -5,6 +5,8 @@ on:
       - '.github/workflows/audit-lieux-bfc-cog2026.yml'
       - 'scripts/auditer_lieux_bfc_cog.py'
       - 'scripts/instruire_exceptions_bfc_cog.py'
+      - 'scripts/qualifier_relations_ark_bfc.py'
+      - 'tests/test_qualifier_relations_ark_bfc.py'
       - 'tests/test_instruire_exceptions_bfc_cog.py'
       - 'docs/lieux/recette/codes-historiques-absents-bfc-25.csv'
       - 'docs/lieux/recette/codes-partages-ark-bfc-2.csv'
@@ -28,6 +30,7 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p 'test_auditer_lieux_bfc_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_instruire_exceptions_bfc_cog.py' -v
+          python3 -m unittest discover -s tests -p 'test_qualifier_relations_ark_bfc.py' -v
       - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
         shell: bash
         env:
@@ -98,6 +101,37 @@ jobs:
               f.write('42 lignes de mouvements avant/après préservées ; aucune validation nouvelle.\\n')
           PY
           cat /tmp/bfc-736/instruction-exceptions/rapport-instruction-bfc.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Qualifier les relations candidates entre autorités sans fusion d'ARK
+        run: |
+          set -euo pipefail
+          for dest in /tmp/bfc-736/relations-candidates /tmp/bfc-736/relations-controle; do
+            python3 scripts/qualifier_relations_ark_bfc.py \
+              --inventaire docs/lieux/recette/inventaire-bourgogne-franche-comte.csv \
+              --anciens /tmp/bfc-736/instruction-exceptions/instruction-25-codes-historiques.csv \
+              --preuves /tmp/bfc-736/instruction-exceptions/preuves-mouvements-25.csv \
+              --partages /tmp/bfc-736/instruction-exceptions/deux-codes-partages-ark.csv \
+              --associes /tmp/bfc-736/instruction-exceptions/antorpe-frettes.csv \
+              --sortie "$dest"
+          done
+          diff -qr /tmp/bfc-736/relations-candidates /tmp/bfc-736/relations-controle
+          rm -rf /tmp/bfc-736/relations-controle
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bfc-736/relations-candidates/rapport-relations-bfc.json').read_text())
+          assert (r['candidatures_administratives_total'],
+                  r['relations_entre_ark_candidates_non_validees'],
+                  r['candidatures_sans_ark_cible_univoque'])==(29,15,14)
+          assert (r['anciens_avec_libelle_cible_univoque'],r['anciens_avec_code_seul'],
+                  r['anciens_sans_ark_cible_dans_corpus'])==(11,9,5)
+          assert r['nouvelles_validations_adlfi']==0
+          assert r['geometries_historiques_attribuees']==0
+          with Path('/tmp/bfc-736/SYNTHESE.md').open('a') as f:
+              f.write('\\n## Candidatures de relations historiques entre ARK\\n')
+              f.write('29 relations administratives étudiées ; 15 ARK cibles lexicaux candidats, 14 à instruire.\\n')
+              f.write('Aucune relation ARK–ARK publiée ou validée.\\n')
+          PY
+          cat /tmp/bfc-736/relations-candidates/rapport-relations-bfc.json >> "$GITHUB_STEP_SUMMARY"
       - name: Archiver la recette seulement
         if: always()
         uses: actions/upload-artifact@v4
