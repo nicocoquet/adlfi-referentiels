@@ -48,6 +48,7 @@ jobs:
             'arrondissements_municipaux_2026':45,'mouvements_COG_uniques':13734,
             'segments':98}
           assert len(m['segments'])==98
+          assert [(p['code_insee'],p['date']) for p in m['periodes_sans_duree']] == [('44225','2018-01-01'),('50649','2018-01-01')]
           for seg in m['segments']:
             raw=(r/seg['fichier']).read_bytes()
             assert hashlib.sha256(raw).hexdigest()==seg['sha256']
