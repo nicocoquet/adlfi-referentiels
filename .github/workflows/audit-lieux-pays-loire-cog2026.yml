@@ -5,6 +5,8 @@ on:
       - 'scripts/auditer_lieux_pays_loire_cog.py'
       - 'scripts/auditer_codes_partages_pdl_cog.py'
       - 'scripts/auditer_98_lieux_imbriques_pdl_cog.py'
+      - 'scripts/auditer_parentages_pdl_120.py'
+      - 'tests/test_auditer_parentages_pdl_120.py'
       - 'scripts/reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_reconstituer_lieux_pays_loire_806.py'
       - 'tests/test_auditer_lieux_pays_loire_cog.py'
@@ -26,6 +28,7 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p 'test_auditer_lieux_pays_loire_cog.py' -v
           python3 -m unittest discover -s tests -p 'test_reconstituer_lieux_pays_loire_806.py' -v
+          python3 -m unittest discover -s tests -p 'test_auditer_parentages_pdl_120.py' -v
       - name: Télécharger et contrôler les fichiers officiels Insee 2026
         shell: bash
         run: |
