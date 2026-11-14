@@ -8,6 +8,11 @@ on:
       - 'tests/test_preparer_index_cog_national_temporel.py'
       - 'scripts/preparer_index_pactols_xml_national.py'
       - 'tests/test_preparer_index_pactols_xml_national.py'
+      - 'docs/assets/lieux-national.js'
+      - 'docs/assets/lieux-national-preview.js'
+      - 'docs/assets/lieux-national-preview.css'
+      - 'docs/lieux/recette/apercu-national.html'
+      - 'tests/test_lieux_national.js'
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +27,11 @@ jobs:
           python-version: '3.12'
       - name: Tester les bornes temporelles et préfixes de codes
         run: python3 -m unittest discover -s tests -p 'test_preparer_index_cog_national_temporel.py' -v
+      - name: Tester recherche nationale et scripts de l'aperçu
+        run: |
+          node tests/test_lieux_national.js
+          node --check docs/assets/lieux-national-preview.js
+          node --check docs/assets/lieux-national.js
       - name: Tester l'index des 9 928 ARK sans source XML privée en CI
         run: python3 -m unittest discover -s tests -p 'test_preparer_index_pactols_xml_national.py' -v
       - name: Récupérer les sources officielles avec contrôle SHA-256
@@ -83,6 +93,13 @@ jobs:
           print('National : 98 segments, 42 288 périodes COM, 13 734 mouvements distincts, tests temporels OK')
           PY
           cat /tmp/national-2026/manifest-cog-national.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Joindre la page de démonstration et le pilote géométrique PACA à l'artefact
+        run: |
+          mkdir -p /tmp/national-2026/apercu-source/assets
+          cp docs/lieux/recette/apercu-national.html /tmp/national-2026/apercu-source/
+          cp docs/assets/lieux-national.js              docs/assets/lieux-national-preview.js              docs/assets/lieux-national-preview.css              docs/assets/site.css docs/assets/lieux.css              /tmp/national-2026/apercu-source/assets/
+          cp docs/data/lieux-communes.geojson /tmp/national-2026/apercu-source/
+          cp tests/test_lieux_national.js /tmp/national-2026/apercu-source/
       - name: Archiver la couche nationale hors des données publiques
         uses: actions/upload-artifact@v4
         with:
