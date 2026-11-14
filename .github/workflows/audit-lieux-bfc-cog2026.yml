@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/audit-lieux-bfc-cog2026.yml'
       - 'scripts/auditer_lieux_bfc_cog.py'
+      - 'scripts/recuperer_cog_2026.py'
       - 'scripts/instruire_exceptions_bfc_cog.py'
       - 'scripts/qualifier_relations_ark_bfc.py'
       - 'scripts/instruire_p2_bfc_cog.py'
@@ -55,31 +56,8 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_consolider_evenements_bfc_p1_p2_p3.py' -v
           python3 -m unittest discover -s tests -p 'test_preparer_lieux_temporel_bfc.py' -v
           node tests/test_lieux_temps.js
-      - name: Récupérer les sources COG 2026 officielles et vérifier les SHA-256
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/cog
-          ok=1
-          for f in v_commune_2026.csv v_commune_depuis_1943.csv v_mvt_commune_2026.csv; do
-            if ! curl -fsSL --retry 1 --connect-timeout 20 --max-time 120 "https://www.insee.fr/fr/statistiques/fichier/8740222/$f" -o "/tmp/cog/$f"; then
-              ok=0
-              break
-            fi
-          done
-          if [[ "$ok" != "1" ]]; then
-            echo 'Serveur Insee inaccessible : reprise de la copie officielle contrôlée, issue du workflow Pays de la Loire du 14 novembre 2026.'
-            gh api -H 'Accept: application/vnd.github+json' \
-              'repos/nicocoquet/adlfi-referentiels/actions/artifacts/14120141338/zip' \
-              > /tmp/cog/cog-insee-2026-archive.zip
-            unzip -oq /tmp/cog/cog-insee-2026-archive.zip -d /tmp/cog
-            echo 'Attention : cette archive de secours est temporaire (expiration le 16 novembre 2026) ; la vérification SHA-256 reste impérative.'
-          fi
-          echo '7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3  /tmp/cog/v_commune_2026.csv' | sha256sum -c -
-          echo '08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee  /tmp/cog/v_commune_depuis_1943.csv' | sha256sum -c -
-          echo '8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1  /tmp/cog/v_mvt_commune_2026.csv' | sha256sum -c -
+      - name: Récupérer les sources COG officielles (archive ou miroir public) et contrôler leurs SHA-256
+        run: python3 scripts/recuperer_cog_2026.py --sortie /tmp/cog
       - name: Auditer les 736 autorités et générer le graphe de recette
         run: |
           python3 scripts/auditer_lieux_bfc_cog.py \
