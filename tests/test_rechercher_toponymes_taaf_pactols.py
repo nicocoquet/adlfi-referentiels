@@ -20,6 +20,7 @@ XML='''<?xml version="1.0" encoding="utf-8"?>
  </skos:Concept>
  <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtTESTCRO">
    <skos:altLabel xml:lang="fr">Crozet</skos:altLabel>
+   <skos:exactMatch rdf:resource="http://id.insee.fr/geo/commune/01135"/>
  </skos:Concept>
  <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtTESTOTHER">
    <skos:prefLabel xml:lang="fr">Ciel</skos:prefLabel>
@@ -43,6 +44,12 @@ class RechercheTAAFTests(unittest.TestCase):
   self.assertEqual(item["label_pactols"],"Kerguelen")
   self.assertEqual(item["statut"],"indice_lexical_non_validant")
   self.assertEqual(item["avis_editorial"],"A_INSTRUIRE")
+  self.assertEqual(item["qualification_contextuelle"],"concept_lie_hierarchiquement_aux_TAAF")
+  self.assertEqual(item["piste_prioritaire"],"oui")
+  faux=[r for r in results if r["cible_cog"]=="COMER:DIS:98413"]
+  self.assertEqual(len(faux),1)
+  self.assertEqual(faux[0]["qualification_contextuelle"],"homonyme_de_commune_exterieure")
+  self.assertEqual(faux[0]["piste_prioritaire"],"non")
   self.assertIn("pcrtTESTTAAF",item["relations_broader_litterales"])
   self.assertEqual(len([r for r in results if r["cible_cog"]=="COMER:TERRITOIRE:984"]),1)
   self.assertEqual(len([r for r in results if r["cible_cog"]=="COMER:DIS:98413"]),1)
