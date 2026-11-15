@@ -57,7 +57,7 @@ def sonder(timeout:int=35):
                     result["titres"] = titles[:80]
                     result["liens_contenant_GEOFLA_2015"]=[
                         href for href in names if "GEOFLA" in href.upper() and "2015" in href][:40]
-                    result["liens_2015"]=[href for href in names if "2015" in href][:40]]
+                    result["liens_2015"]=[href for href in names if "2015" in href][:40]
                     result["exploitable"]=True
                 except ET.ParseError:
                     result["erreur"]="Contenu distant non interprétable comme Atom/XML"
