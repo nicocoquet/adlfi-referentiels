@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'scripts/reperer_geofla_2016_paquets.py'
+      - 'scripts/comparer_geofla_2015_2016_bfc.py'
+      - 'tests/test_comparer_geofla_2015_2016_bfc.py'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
   workflow_dispatch:
 permissions:
@@ -41,6 +43,99 @@ jobs:
                          "sha256_original":None,"statut":"LIEN_OFFICIEL_TROUVE_ARCHIVE_NON_TELECHARGEE"})
           (root/"candidats-2016-liens-officiels.json").write_text(json.dumps(rows,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
           print(json.dumps(rows,ensure_ascii=False,indent=2))
+          PY
+      - name: Installer les outils de lecture 7z et SIG
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'py7zr==1.0.0' 'geopandas==1.1.2' 'shapely==2.1.2' \
+            'pyproj==3.7.2' 'pyogrio>=0.12,<0.14'
+      - name: Télécharger l'archive 2016 UNIQUEMENT depuis la fiche IGN vérifiée
+        run: |
+          python3 - <<'PY'
+          import os,json,urllib.request,hashlib
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          candidates=json.loads((root/"candidats-2016-liens-officiels.json").read_text())
+          expected="GEOFLA_2-2_DEPARTEMENT_SHP_LAMB93_FXX_2016-06-28"
+          if len(candidates)!=1 or candidates[0]["code"]!=expected:
+              raise ValueError("Pas de source IGN 2016 unique et identifiée")
+          entry=candidates[0]
+          url=entry["url_download"]
+          if not url.startswith("https://data.geopf.fr/telechargement/download/GEOFLA/") or not url.endswith(expected+".7z"):
+              raise ValueError("URL de téléchargement non conforme à la fiche")
+          path=root/"GEOFLA_departement_2016_original.7z"
+          h=hashlib.sha256();n=0
+          req=urllib.request.Request(url,headers={"User-Agent":"AdlFI-Lieux-GEOFLA-2016-qualification/1.0"})
+          with urllib.request.urlopen(req,timeout=120) as r:
+              with path.open("wb") as o:
+                  while True:
+                      buf=r.read(1<<20)
+                      if not buf:break
+                      n+=len(buf)
+                      if n>150_000_000:raise ValueError("Taille inattendue")
+                      h.update(buf);o.write(buf)
+          if n<100_000:raise ValueError("Archive téléchargée trop petite")
+          entry["sha256_telechargement"]=h.hexdigest()
+          entry["octets_telechargement"]=n
+          entry["date_edition_IGN"]="2016-06-28"
+          (root/"fiche-archive-2016-verifiee.json").write_text(json.dumps(entry,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print(json.dumps(entry,ensure_ascii=False,indent=2))
+          PY
+      - name: Télécharger l'édition originale 2015 avec empreinte locale contrôlée
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://data.geopf.fr/telechargement/download/GEOFLA/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z' \
+            -o "$RUNNER_TEMP/geofla-2016/GEOFLA_departement_2015_original.7z"
+          printf '%s  %s\n' \
+            '7831ad942f3c0646d7b9ebf9ba480dcf746d6f69d46834b38e36fa6681c1060e' \
+            "$RUNNER_TEMP/geofla-2016/GEOFLA_departement_2015_original.7z" | sha256sum --check -
+      - name: Extraire les couches DEPARTEMENT des deux éditions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,json,py7zr
+          root=Path(os.environ['RUNNER_TEMP'])/'geofla-2016'
+          out={}
+          for year in ('2015','2016'):
+              f=root/f'GEOFLA_departement_{year}_original.7z'
+              with py7zr.SevenZipFile(f,'r') as archive:
+                  names=archive.getnames()
+                  layers=[x for x in names if Path(x).name.lower()=='departement.shp']
+                  if len(layers)!=1:raise ValueError(f'Edition {year}: couche DEPARTEMENT.shp absente/dupliquée, {names[:20]}')
+                  archive.extractall(path=root/f'extrait-{year}')
+              matches=[x for x in (root/f'extrait-{year}').rglob('*.shp') if x.name.lower()=='departement.shp']
+              if len(matches)!=1:raise ValueError(f'Edition {year}: shapefile introuvable')
+              out[year]={'shapefile':str(matches[0]),'membres':len(names)}
+          (root/'shapefiles-geofla.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - name: Tester les contraintes et comparer les huit départements des deux éditions
+        run: |
+          python3 -m unittest discover -s tests -p 'test_comparer_geofla_2015_2016_bfc.py' -v
+          python3 - <<'PY'
+          import subprocess,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          paths=json.loads((root/"shapefiles-geofla.json").read_text())
+          source=json.loads((root/"fiche-archive-2016-verifiee.json").read_text())
+          base=[
+            "python3","scripts/comparer_geofla_2015_2016_bfc.py",
+            "--shp2015",paths["2015"]["shapefile"],
+            "--shp2016",paths["2016"]["shapefile"],
+            "--archive2015",str(root/"GEOFLA_departement_2015_original.7z"),
+            "--archive2016",str(root/"GEOFLA_departement_2016_original.7z"),
+            "--url2016",source["url_download"]
+          ]
+          for name in ("recette","reproduction"):
+              subprocess.run(base+["--sortie",str(root/name)],check=True)
+          subprocess.run(["diff","-qr",str(root/"recette"),str(root/"reproduction")],check=True)
+          report=json.loads((root/"recette/rapport-comparaison-GEOFLA-2015-2016.json").read_text())
+          assert report["nombre_departements_metropole_par_annee"]==96
+          assert len(report["comparaison_par_departement"])==8
+          assert report["groupe_2016"]["27"]==["21","25","39","58","70","71","89","90"]
+          assert report["nombre_de_nouveaux_alignements_pactols"]==0
+          assert report["nombre_de_contours_inferes_des_geometries_2026"]==0
+          print("QUALIFICATION IGN 2015/2016 OK",json.dumps(report["comparaison_totale"]))
           PY
       - uses: actions/upload-artifact@v4
         with:
