@@ -34,6 +34,64 @@ jobs:
           (path/"liste-archive-geofla-2015.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
+      - name: Télécharger et vérifier l'archive GEOFLA originale et son MD5
+        run: |
+          python3 -m pip install 'py7zr==1.0.0'
+          python3 - <<'PY'
+          import os,re,json,hashlib,urllib.request
+          from pathlib import Path
+          import py7zr
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          manifest=json.loads((root/"liste-archive-geofla-2015.json").read_text())
+          links=manifest["liens"]
+          def url(suffix):
+              found=[r["href"] for r in links
+                  if r.get("href","").endswith(suffix)
+                  and r.get("href","").startswith("https://data.geopf.fr/telechargement/download/GEOFLA/")]
+              if len(found)!=1:raise ValueError("Lien officiel ambigu "+suffix)
+              return found[0]
+          src=url(".7z");md5url=url(".md5")
+          def transfer(url,path,maxbytes):
+              h=hashlib.sha256()
+              with urllib.request.urlopen(urllib.request.Request(
+                  url,headers={"User-Agent":"AdlFI-Lieux-IGN-archives/1.0"}),timeout=180) as r:
+                  with path.open("wb") as f:
+                      n=0
+                      while True:
+                          part=r.read(1<<20)
+                          if not part:break
+                          n+=len(part)
+                          if n>maxbytes:raise ValueError("Dépassement volume maximum")
+                          h.update(part);f.write(part)
+              return {"octets":n,"sha256":h.hexdigest()}
+          original=root/"GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04.7z"
+          meta=transfer(src,original,350_000_000)
+          checksum=root/"original.md5"
+          transfer(md5url,checksum,10000)
+          md5text=checksum.read_text(errors="replace")
+          match=re.search(r"[a-fA-F0-9]{32}",md5text)
+          if not match:raise ValueError("Empreinte MD5 IGN illisible")
+          md5att=match.group(0).lower()
+          md5act=hashlib.md5(original.read_bytes()).hexdigest()
+          if md5att!=md5act:raise ValueError("Contrôle MD5 IGN en échec")
+          with py7zr.SevenZipFile(original,"r") as z:
+              names=z.getnames()
+          departements=[n for n in names if n.lower().endswith("departement.shp")]
+          if len(departements)!=1:raise ValueError("Shapefile départemental absent ou dupliqué : "+repr(departements))
+          inv={
+              "source_primaire":src,"source_md5":md5url,
+              "sha256_archive":meta["sha256"],"octets_archive":meta["octets"],
+              "md5_IGN_verifie":md5att,"nombre_entrees":len(names),
+              "fichiers_departements":sorted(n for n in names if "DEPARTEMENT" in n.upper())[:50],
+              "shapefile_departements":departements[0],
+              "niveau_regional_autonome":any(n.lower().endswith("region.shp") for n in names),
+              "statut":"ARCHIVE_ORIGINALE_IGN_CONTROLEE_NON_GEOMETRIE_REGIONALE_VALIDEE",
+          }
+          (root/"inventaire-verifie-archive-ign.json").write_text(
+              json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
+          print(json.dumps(inv,ensure_ascii=False,indent=2))
+          PY
+          rm -f "$RUNNER_TEMP/geofla-original/GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04.7z"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
