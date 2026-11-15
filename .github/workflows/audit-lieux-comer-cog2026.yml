@@ -6,6 +6,7 @@ on:
       - 'tests/test_auditer_cog_comer_2026.py'
       - '.github/workflows/audit-lieux-comer-cog2026.yml'
       - 'recette/lieux/NOTE-AUDIT-DROM-COG2026-20261115.md'
+      - 'recette/lieux/INSTRUCTION-COMER-TAAF-COG2026-20261115.md'
   workflow_dispatch:
 
 permissions:
@@ -62,12 +63,24 @@ jobs:
           print("Zonages actuels :",r["natures_zonages_actuels"])
           print("TAAF :",r["taaf_2026"])
           assert r["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert r["volumes"]=={
+            "collectivites_2026":9,"collectivites_historiques":61,
+            "zonages_2026":95,"zonages_historiques":830}
+          assert r["natures_zonages_actuels"]=={
+            "COM":85,"DIS":5,"CIR":3,"CPT":1,"CDM":1}
+          empreintes={
+            "collectivites_2026":"d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+            "collectivites_historiques":"6814a3ddedfa186557f5f7a10ff0f4c521f72fd388bdd430318d3d0d59b426bd",
+            "zonages_2026":"9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
+            "zonages_historiques":"d2e2d3b376540d5c5e624e1cdf3d6a1959f6f24d6763268eec67883fe82ce748",
+          }
+          assert {k:v["sha256"] for k,v in r["sources"].items()}==empreintes
           assert r["taaf_tous_districts"] and len(r["taaf_2026"])==5
+          assert {x["code"] for x in r["taaf_2026"]}=={
+              "98411","98412","98413","98414","98415"}
           assert {x["nature"] for x in r["taaf_2026"]}=={"DIS"}
           assert r["nombre_ark_pactols_attribues"]==0
           assert r["nombre_geometries_historiques_attribuees"]==0
-          for kind in ("COM","DIS","CIR","CPT","CDM"):
-              assert kind in {"COM","DIS","CIR","CPT","CDM"}
           PY
       - name: Conserver uniquement un artefact de recette, hors docs/
         uses: actions/upload-artifact@v4
