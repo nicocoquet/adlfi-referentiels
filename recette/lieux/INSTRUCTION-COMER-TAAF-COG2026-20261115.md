@@ -93,3 +93,19 @@ Code : `scripts/auditer_cog_comer_2026.py`, tests synthétiques dans `tests/test
 L'exécution CI a conservé un artefact `adlfi-lieux-comer-cog2026-instruction` comprenant les quatre tables de contrôle, la répartition actuelle, les cinq districts TAAF, les alertes lexicales et le rapport avec empreintes. Deux générations intégrales ont été comparées octet par octet.
 
 **Statut : 0 nouvel alignement Pactols–COG validé, 0 géométrie ancienne attribuée, 0 changement dans `docs/`. PR #30 maintenue en brouillon.**
+
+
+## 7. Premier criblage des libellés du corpus XML AdlFI
+
+En contrôle complémentaire, les **19 libellés de référence** des neuf entrées COMER, des cinq districts TAAF et des cinq DROM ont été confrontés par égalité normalisée (accents et séparateurs ignorés) aux **9 928 ARK terminaux attestés dans les XML AdlFI** du 13 novembre 2026, conservés dans la PR #24 : `recette/lieux/autorites-minimales-9928.json` (source initiale `autorites_lieux.csv`, empreinte `878aa70f32d43313ea5bd36bbb30bbd6b57b4872ba2f68a5117ac6c35b6380b6`).
+
+Deux correspondances de **libellé documentaire exact** seulement :
+
+| Libellé COG 2026 | ARK du corpus XML |
+|---|---|
+| Saint-Pierre-et-Miquelon | `26678/pcrtJTMXr1ruLl` |
+| Terres australes et antarctiques françaises | `26678/pcrtqYLoVxtxFl` |
+
+Les dix-sept autres libellés n'ont pas d'égalité de forme dans **cet index limité aux XML AdlFI**. Cela ne démontre ni l'absence du lieu dans Pactols, ni l'absence de variantes, ni même l'absence d'un ARK documentaire non cité dans les XML : le thesaurus intégral `th17` comptait **50 691 concepts** au 22 juillet 2026 dans la recette nationale de la PR #24.
+
+**Les deux égalités de libellé ne sont pas des alignements Pactols–COG validés** ; aucun code Insee ou zonage COMER n'est transféré aux ARK. La prochaine étape sera une interrogation des concepts dans le RDF intégral et, si nécessaire, le thésaurus vivant, avec désambiguïsation territoriale et temporelle.
