@@ -1,0 +1,115 @@
+name: Lieux — Pactols intégral et cibles ultramarines COG
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_outremer_integral.py'
+      - 'tests/test_auditer_pactols_outremer_integral.py'
+      - '.github/workflows/audit-lieux-pactols-outremer-integral.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-pactols-outremer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Récupérer les scripts de la PR
+        uses: actions/checkout@v4
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester la logique d'indexation et les interdictions d'inférence
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_pactols_outremer_integral.py' -v
+      - name: Obtenir les sources communales DROM du COG 2026
+        run: |
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog_2026"
+      - name: Obtenir le COG 2026 spécifique COMER depuis l'Insee
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            -o "$RUNNER_TEMP/cog-ensemble.zip"
+          python3 - <<'PY'
+          import os,hashlib,zipfile
+          from pathlib import Path
+          target=Path(os.environ["RUNNER_TEMP"])
+          checks={
+            "v_comer_2026.csv":"d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+            "v_commune_comer_2026.csv":"9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8"
+          }
+          with zipfile.ZipFile(target/"cog-ensemble.zip") as z:
+            for name,expected in checks.items():
+              candidates=[x for x in z.infolist() if Path(x.filename).name==name]
+              if len(candidates)!=1:raise ValueError("Entrée Insee absente ou dupliquée : "+name)
+              b=z.read(candidates[0])
+              if hashlib.sha256(b).hexdigest()!=expected:raise ValueError("COG non conforme : "+name)
+              (target/name).write_bytes(b)
+          PY
+      - name: Obtenir le RDF complet Frantiq via Git LFS (snapshot du 22 juillet 2026)
+        run: |
+          git lfs version
+          GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/frantiq/PACTOLS.git "$RUNNER_TEMP/pactols"
+          GIT_LFS_SKIP_SMUDGE=1 git -C "$RUNNER_TEMP/pactols" sparse-checkout set \
+            pactols-latest-version/pactols_lieux_all
+          git -C "$RUNNER_TEMP/pactols" lfs pull \
+            --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --exclude="*"
+          rdf="$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf"
+          printf '%s  %s\n' \
+            "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7" \
+            "$rdf" | sha256sum --check -
+          test "$(wc -c < "$rdf")" -eq 93418191
+      - name: Récupérer l'index des 9 928 ARK XML AdlFI au commit figé
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 90 \
+            'https://raw.githubusercontent.com/nicocoquet/adlfi-referentiels/2f3947324df2f2135bc06bc7a5fac0a1ead2b2dc/recette/lieux/autorites-minimales-9928.json' \
+            -o "$RUNNER_TEMP/autorites_9928.json"
+          printf '%s  %s\n' \
+            "b2d72e19fc31f018f81c249e6eb45ba366dab28b9ff165ca4e95a1d617596f27" \
+            "$RUNNER_TEMP/autorites_9928.json" | sha256sum --check -
+      - name: Croiser les 233 entités typées avec tout le RDF
+        run: |
+          python3 scripts/auditer_pactols_outremer_integral.py \
+            --rdf "$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --communes "$RUNNER_TEMP/cog_2026/v_commune_2026.csv" \
+            --comer "$RUNNER_TEMP/v_comer_2026.csv" \
+            --zonages "$RUNNER_TEMP/v_commune_comer_2026.csv" \
+            --xml "$RUNNER_TEMP/autorites_9928.json" \
+            --sortie "$RUNNER_TEMP/audit1"
+          python3 scripts/auditer_pactols_outremer_integral.py \
+            --rdf "$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --communes "$RUNNER_TEMP/cog_2026/v_commune_2026.csv" \
+            --comer "$RUNNER_TEMP/v_comer_2026.csv" \
+            --zonages "$RUNNER_TEMP/v_commune_comer_2026.csv" \
+            --xml "$RUNNER_TEMP/autorites_9928.json" \
+            --sortie "$RUNNER_TEMP/audit2"
+          diff -qr "$RUNNER_TEMP/audit1" "$RUNNER_TEMP/audit2"
+      - name: Vérifier les verrous éditoriaux et le périmètre
+        run: |
+          python3 - <<'PY'
+          import json,os,csv
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"audit1"
+          r=json.loads((root/"rapport_pactols_outremer_integral.json").read_text(encoding="utf-8"))
+          print(json.dumps(r,ensure_ascii=False,indent=2))
+          assert r["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert r["cibles_cog"]==233
+          assert r["cibles_drom"]==129 and r["cibles_comer"]==104
+          assert r["concepts_pactols_parcourus"]>30000
+          assert r["nouveaux_alignements_valides"]==0
+          assert r["geometries_historiques_attribuees"]==0
+          with (root/"candidats_Pactols_integral.csv").open(encoding="utf-8-sig") as f:
+            rows=list(csv.DictReader(f,delimiter=";"))
+          assert len(rows)==r["candidatures"]
+          assert all(row["decision_editoriale"]=="NON_VALIDE_A_INSTRUIRE" for row in rows)
+          PY
+      - name: Archiver uniquement les contrôles sans publier les candidats
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-pactols-integral-outremer-233-cibles
+          path: ${{ runner.temp }}/audit1/
+          retention-days: 30
