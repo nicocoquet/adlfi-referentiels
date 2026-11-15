@@ -1,0 +1,83 @@
+name: Lieux — aperçu chronologique des quatre régions (recette)
+on:
+  pull_request:
+    paths:
+      - 'docs/lieux/chronologie/**'
+      - 'docs/assets/lieux-chronologie*'
+      - 'scripts/preparer_lieux_chronologie_4regions.py'
+      - 'tests/*chronologie_4regions*'
+      - '.github/workflows/lieux-chronologie-4regions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recette:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Récupérer les sources de la branche
+        uses: actions/checkout@v4
+        with:
+      - name: Préparer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tester la modélisation sans réseau
+        run: |
+          python3 -m unittest discover -s tests -p 'test_preparer_lieux_chronologie_4regions.py' -v
+          node --check docs/assets/lieux-chronologie-core.js
+          node --check docs/assets/lieux-chronologie.js
+          node tests/test_lieux_chronologie_4regions.js
+      - name: Récupérer le COG 2026 avec contrôle SHA-256
+        run: |
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Récupérer les contours officiels 2026 à 100 m
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o "$RUNNER_TEMP/communes-100m.geojson.gz"
+          test -s "$RUNNER_TEMP/communes-100m.geojson.gz"
+          sha256sum "$RUNNER_TEMP/communes-100m.geojson.gz"
+      - name: Construire les quatre lots publics de recette
+        run: |
+          python3 scripts/preparer_lieux_chronologie_4regions.py \
+            --communes "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+            --historique "$RUNNER_TEMP/cog2026/v_commune_depuis_1943.csv" \
+            --mouvements "$RUNNER_TEMP/cog2026/v_mvt_commune_2026.csv" \
+            --contours "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --paca docs/data/lieux.json \
+            --sortie docs/data/lieux-chronologie
+      - name: Contrôler les vrais épisodes et les garanties de non-anachronisme
+        run: |
+          python3 tests/controle_lieux_chronologie_4regions.py docs/data/lieux-chronologie
+      - name: Vérifier que les exports publics versionnés sont reproductibles
+        run: |
+          git diff --exit-code -- docs/data/lieux-chronologie/
+          test -z "$(git ls-files --others --exclude-standard docs/data/lieux-chronologie/)"
+      - name: Constituer un site de recette autonome (hors Pages)
+        run: |
+          mkdir -p "$RUNNER_TEMP/site/docs/assets/cartouches" \
+                   "$RUNNER_TEMP/site/docs/lieux/chronologie" \
+                   "$RUNNER_TEMP/site/docs/data"
+          cp docs/assets/site.css docs/assets/lieux.css \
+             docs/assets/lieux-chronologie.css \
+             docs/assets/lieux-chronologie.js \
+             docs/assets/lieux-chronologie-core.js \
+             docs/assets/logo-adlfi.png "$RUNNER_TEMP/site/docs/assets/"
+          cp docs/assets/cartouches/lieux.webp "$RUNNER_TEMP/site/docs/assets/cartouches/"
+          cp docs/lieux/chronologie/index.html "$RUNNER_TEMP/site/docs/lieux/chronologie/"
+          cp -r docs/data/lieux-chronologie "$RUNNER_TEMP/site/docs/data/"
+          echo "Depuis site/docs : python3 -m http.server 8000" > "$RUNNER_TEMP/site/README.txt"
+          echo "Puis ouvrir http://localhost:8000/lieux/chronologie/" >> "$RUNNER_TEMP/site/README.txt"
+      - name: Archiver le site de recette sans publier les candidats Pactols
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-quatre-regions-chronologie-recette
+          path: ${{ runner.temp }}/site/
+          retention-days: 14
