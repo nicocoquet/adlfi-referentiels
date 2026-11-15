@@ -4,6 +4,8 @@ on:
     paths:
       - 'scripts/auditer_pactols_outremer_integral.py'
       - 'tests/test_auditer_pactols_outremer_integral.py'
+      - 'scripts/qualifier_candidats_pactols_outremer.py'
+      - 'tests/test_qualifier_candidats_pactols_outremer.py'
       - '.github/workflows/audit-lieux-pactols-outremer-integral.yml'
   workflow_dispatch:
 
@@ -24,6 +26,7 @@ jobs:
       - name: Tester la logique d'indexation et les interdictions d'inférence
         run: |
           python3 -m unittest discover -s tests -p 'test_auditer_pactols_outremer_integral.py' -v
+          python3 -m unittest discover -s tests -p 'test_qualifier_candidats_pactols_outremer.py' -v
       - name: Obtenir les sources communales DROM du COG 2026
         run: |
           python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog_2026"
@@ -91,6 +94,18 @@ jobs:
             --xml "$RUNNER_TEMP/autorites_9928.json" \
             --sortie "$RUNNER_TEMP/audit2"
           diff -qr "$RUNNER_TEMP/audit1" "$RUNNER_TEMP/audit2"
+      - name: Distinguer les concordances pertinentes des homonymies externes
+        run: |
+          python3 scripts/qualifier_candidats_pactols_outremer.py \
+            --candidats "$RUNNER_TEMP/audit1/candidats_Pactols_integral.csv" \
+            --cibles "$RUNNER_TEMP/audit1/cibles_COG_ultramarin_233.csv" \
+            --sortie "$RUNNER_TEMP/qualif1"
+          python3 scripts/qualifier_candidats_pactols_outremer.py \
+            --candidats "$RUNNER_TEMP/audit2/candidats_Pactols_integral.csv" \
+            --cibles "$RUNNER_TEMP/audit2/cibles_COG_ultramarin_233.csv" \
+            --sortie "$RUNNER_TEMP/qualif2"
+          diff -qr "$RUNNER_TEMP/qualif1" "$RUNNER_TEMP/qualif2"
+          cp "$RUNNER_TEMP/qualif1/"* "$RUNNER_TEMP/audit1/"
       - name: Vérifier les verrous éditoriaux et le périmètre
         run: |
           python3 - <<'PY'
@@ -109,6 +124,11 @@ jobs:
             rows=list(csv.DictReader(f,delimiter=";"))
           assert len(rows)==r["candidatures"]
           assert all(row["decision_editoriale"]=="NON_VALIDE_A_INSTRUIRE" for row in rows)
+          quali=json.loads((root/"rapport_qualification_pactols_outremer.json").read_text())
+          assert quali["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert quali["cibles"]==233 and quali["associations_brutes"]==r["candidatures"]
+          assert quali["associations_qualificatif_incompatible"]>=100
+          assert quali["nouveaux_alignements_valides"]==0
           PY
       - name: Archiver uniquement les contrôles sans publier les candidats
         uses: actions/upload-artifact@v4
