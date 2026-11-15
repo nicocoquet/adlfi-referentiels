@@ -28,7 +28,7 @@ def verifier(geo,year):
         p=geo["provenance"]
         if p.get("edition_package")!="2015-03-04" or "reconstitution_par_union" not in p.get("statut",""):
             raise ValueError("GEOFLA 2015 doit être une union déclarée de départements")
-        if any(f["properties"].get("nature_geometrique")!=IGN_NATURE for f in bycode.values()):
+        if any(f["properties"].get("nature")!="contour_regional_reconstruit_par_union_de_departements_historiques" for f in bycode.values()):
             raise ValueError("Les deux régions doivent provenir de la même méthode IGN")
     else:
         if "opendatasoft" not in geo["provenance"].get("jeu","").casefold():
