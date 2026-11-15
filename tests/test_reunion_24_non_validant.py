@@ -34,7 +34,8 @@ class Reunion24Tests(unittest.TestCase):
                 self.assertEqual(r["justification_editoriale"], "")
             self.assertTrue(r["ark_Pactols_candidat"].startswith("26678/pcrt"))
             self.assertIn(r["avis_preinstruction"], (
-                "FAVORABLE_2026_SOUS_CONFIRMATION", "INSTRUCTION_COMPLEMENTAIRE"
+                "FAVORABLE_2026_SOUS_CONFIRMATION", "INSTRUCTION_COMPLEMENTAIRE",
+                "ARK_CONFIRME_EDITEUR_LIEN_A_VALIDER"
             ))
 
     def test_trois_dossiers_distincts(self):
