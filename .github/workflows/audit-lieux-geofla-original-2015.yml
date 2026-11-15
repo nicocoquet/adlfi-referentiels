@@ -98,7 +98,7 @@ jobs:
               json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
           print(json.dumps(inv,ensure_ascii=False,indent=2))
           PY
-          rm -f "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
+          # Conserver le paquet original vérifié pour une comparaison géométrique indépendante.
       - uses: actions/upload-artifact@v4
         if: always()
         with:
