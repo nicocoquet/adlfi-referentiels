@@ -69,3 +69,21 @@ Il n'existe dans ce lot **aucune nouvelle correspondance Pactols–COG validée,
 ### Prochaine instruction
 
 Chercher les éventuels concepts de groupe et les variantes des **neuf cibles sans signal**, à commencer par les cinq districts TAAF, puis contrôler individuellement les cinq cas à plusieurs candidats. Les relations approuvées seulement pourront entrer ultérieurement dans un JSON de production mondial.
+
+
+## 6. Complément TAAF : formes courtes, Kerguelen et homonymie Crozet
+
+**Contrôle complémentaire du 15 novembre 2026**, réalisé à la suite d'une vérification directe par l'équipe éditoriale dans Pactols. Les résultats du § 3 (« neuf cibles sans signal direct ») correspondent aux **critères stricts du premier audit**, et ne constituent donc pas une déclaration d'absence de concept Pactols.
+
+Une recherche indépendante sur le snapshot **th17 du 22 juillet 2026**, avec les noms courts des archipels, révèle :
+
+| Objet COG 2026 | Concept Pactols observé | Qualification |
+|---|---|---|
+| TAAF, collectivité `984` | `26678/pcrtqYLoVxtxFl` — Terres Australes et Antarctiques Françaises | Concept parent, `skos:exactMatch` Pactols préexistant vers `/geo/collectiviteDOutreMer/984` |
+| District Kerguelen `98412` | `26678/pcrtiLVIezAOXD` — **Kerguelen** | `prefLabel` Kerguelen ; `altLabel` « archipel Kerguelen », « îles Kerguelen » ; `skos:broader` pointant vers `26678/pcrtqYLoVxtxFl` ; pas de lien Insee propre dans le RDF examiné |
+| District Crozet `98413` | `26678/pcrtVqxm5OhMKU` — **Crozet** | **Faux positif territorial démontré** : le concept pointe vers `http://id.insee.fr/geo/commune/01135`, la commune de Crozet dans l'Ain. Il est exclu des pistes prioritaires pour le district TAAF |
+| Districts `98411`, `98414`, `98415` | Aucun résultat aux formes retenues | Recherche élargie toujours nécessaire ; absence de signal ≠ absence de lieu dans Pactols |
+
+**Conséquence éditoriale :** une piste géographique sérieuse existe pour Kerguelen grâce au libellé et à sa hiérarchie Pactols. Son équivalence au **district administratif** `98412` reste néanmoins à vérifier : la relation `skos:broader` vers TAAF exprime une hiérarchie **de concepts documentaires**, pas une assertion COG de statut administratif ou de limites spatiales. Pour Crozet, l'homonyme de l'Ain ne doit jamais être utilisé.
+
+Le script `scripts/rechercher_toponymes_taaf_pactols.py` produit le tableau des libellés exploratoires et des preuves (préférés/alternatifs, `skos:broader`, URI externes). Le classement « homonyme extérieur » est conservé, mais sa piste n'est pas prioritaire. **Aucune relation Pactols–COG supplémentaire n'est validée ni publiée.**
