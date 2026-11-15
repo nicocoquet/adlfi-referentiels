@@ -116,7 +116,7 @@ def construire(communes: Path, historique: Path, mouvements: Path,
         # Le préfixe est un critère documentaire d'indexation et NON
         # une preuve de rattachement territorial historique à la région.
         codes_periodes = {row["COM"] for row in hist
-                          if row["COM"].startswith(prefix)}
+                          if row["TYPECOM"] == "COM" and row["COM"].startswith(prefix)}
         code_2026 = {r["COM"] for r in courant if r["REG"] == reg["reg"]
                      and r["TYPECOM"] == "COM"}
         codes = codes_periodes | code_2026
@@ -124,13 +124,13 @@ def construire(communes: Path, historique: Path, mouvements: Path,
             {"code_insee": r["COM"], "typecom": r["TYPECOM"],
              "libelle": r["LIBELLE"], "debut_inclus": r["DATE_DEBUT"],
              "fin_exclue": r["DATE_FIN"] or None}
-            for r in hist if r["COM"] in codes
+            for r in hist if r["TYPECOM"] == "COM" and r["COM"] in codes
         ), key=lambda r: (r["code_insee"], r["debut_inclus"], r["libelle"]))
         observations = sorted((
             {"code_insee": r["COM"], "typecom": r["TYPECOM"],
              "libelle": r["LIBELLE"], "comparent_2026": r["COMPARENT"] or None,
              "date_observation": "2026-01-01"}
-            for r in courant if r["REG"] == reg["reg"]
+            for r in courant if r["COMPARENT"] in code_2026
             and r["TYPECOM"] in ("COMA", "COMD")
         ), key=lambda r: (r["code_insee"], r["typecom"]))
         evenements = []
