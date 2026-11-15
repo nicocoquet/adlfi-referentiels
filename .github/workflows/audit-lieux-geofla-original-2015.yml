@@ -21,7 +21,7 @@ jobs:
           python3 - <<'PY'
           import urllib.request,urllib.parse,xml.etree.ElementTree as ET,json,os
           from pathlib import Path
-          name="GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04"
+          name="GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04"
           uri="https://data.geopf.fr/telechargement/resource/GEOFLA/"+name
           with urllib.request.urlopen(urllib.request.Request(
             uri,headers={"User-Agent":"AdlFI-referentiel-territorial-2015/1.0"}),timeout=60) as r:
@@ -69,7 +69,7 @@ jobs:
                           if n>maxbytes:raise ValueError("Dépassement volume maximum")
                           h.update(part);f.write(part)
               return {"octets":n,"sha256":h.hexdigest()}
-          original=root/"GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04.7z"
+          original=root/"GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
           meta=transfer(src,original,350_000_000)
           checksum=root/"original.md5"
           transfer(md5url,checksum,10000)
@@ -98,7 +98,7 @@ jobs:
               json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
           print(json.dumps(inv,ensure_ascii=False,indent=2))
           PY
-          rm -f "$RUNNER_TEMP/geofla-original/GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04.7z"
+          rm -f "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
