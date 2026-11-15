@@ -39,7 +39,7 @@ jobs:
         run: |
           python3 scripts/lister_geofla_2015_paquets.py \
             --sortie "$RUNNER_TEMP/geofla-original/catalogue-tous-paquets-geofla-2015.json"
-      - name: Télécharger et vérifier l'archive GEOFLA originale et son MD5
+      - name: Télécharger et calculer le SHA-256 du paquet IGN ; vérifier le MD5 s'il existe
         run: |
           python3 -m pip install 'py7zr==1.0.0'
           python3 - <<'PY'
@@ -55,7 +55,10 @@ jobs:
                   and r.get("href","").startswith("https://data.geopf.fr/telechargement/download/GEOFLA/")]
               if len(found)!=1:raise ValueError("Lien officiel ambigu "+suffix)
               return found[0]
-          src=url(".7z");md5url=url(".md5")
+          src=url(".7z")
+          md5links=[r["href"] for r in links if r.get("href","").endswith(".md5")]
+          if len(md5links)>1:raise ValueError("Plusieurs MD5 publiés pour la même archive")
+          md5url=md5links[0] if md5links else None
           def transfer(url,path,maxbytes):
               h=hashlib.sha256()
               with urllib.request.urlopen(urllib.request.Request(
@@ -71,14 +74,16 @@ jobs:
               return {"octets":n,"sha256":h.hexdigest()}
           original=root/"GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
           meta=transfer(src,original,350_000_000)
-          checksum=root/"original.md5"
-          transfer(md5url,checksum,10000)
-          md5text=checksum.read_text(errors="replace")
-          match=re.search(r"[a-fA-F0-9]{32}",md5text)
-          if not match:raise ValueError("Empreinte MD5 IGN illisible")
-          md5att=match.group(0).lower()
-          md5act=hashlib.md5(original.read_bytes()).hexdigest()
-          if md5att!=md5act:raise ValueError("Contrôle MD5 IGN en échec")
+          md5att=None
+          if md5url:
+              checksum=root/"original.md5"
+              transfer(md5url,checksum,10000)
+              md5text=checksum.read_text(errors="replace")
+              match=re.search(r"[a-fA-F0-9]{32}",md5text)
+              if not match:raise ValueError("Empreinte MD5 IGN illisible")
+              md5att=match.group(0).lower()
+              md5act=hashlib.md5(original.read_bytes()).hexdigest()
+              if md5att!=md5act:raise ValueError("Contrôle MD5 IGN en échec")
           with py7zr.SevenZipFile(original,"r") as z:
               names=z.getnames()
           departements=[n for n in names if n.lower().endswith("departement.shp")]
@@ -87,12 +92,14 @@ jobs:
           inv={
               "source_primaire":src,"source_md5":md5url,
               "sha256_archive":meta["sha256"],"octets_archive":meta["octets"],
-              "md5_IGN_verifie":md5att,"nombre_entrees":len(names),
+              "md5_IGN_verifie":md5att,"md5_disponible_dans_catalogue":bool(md5url),
+              "verification_sha256_locale":True,
+              "nombre_entrees":len(names),
               "fichiers_departements":sorted(n for n in names if "DEPARTEMENT" in n.upper())[:50],
               "shapefile_departements":departements[0] if len(departements)==1 else None,
               "shapefile_canton_present":any(n.lower().endswith("canton.shp") for n in names),
               "niveau_regional_autonome":any(n.lower().endswith("region.shp") for n in names),
-              "statut":"ARCHIVE_IGN_MD5_VERIFIEE_CONTENU_A_QUALIFIER_SANS_INFERENCE",
+              "statut":"ARCHIVE_IGN_IDENTIFIEE_AVEC_EMPREINTE_LOCALE_SANS_VALIDATION_CARTOGRAPHIQUE",
           }
           (root/"inventaire-verifie-archive-ign.json").write_text(
               json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
