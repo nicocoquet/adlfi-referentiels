@@ -59,8 +59,7 @@ jobs:
             --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
             --exclude=""
           git -C "$RUNNER_TEMP/pactols" lfs checkout \
-            --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
-            --exclude=""
+            "pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf"
           git -C "$RUNNER_TEMP/pactols" lfs ls-files | grep Pactols_Lieux_th17_20260722.rdf
           rdf="$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf"
           printf '%s  %s\n' \
