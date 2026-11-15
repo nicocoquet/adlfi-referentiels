@@ -2,6 +2,16 @@
 
 **15 novembre 2026 · PR #30 · recette documentaire, non validante.**
 
+## Arbitrage complémentaire du 15 novembre 2026 — Le Port (`97407`)
+
+L'éditeur confirme explicitement que le concept Pactols à utiliser pour **Le Port (La Réunion)** est **`26678/pcrtIKvRT9vwUl`**. Il s'agit du candidat principal déjà présent dans la recette : `skos:prefLabel` « Le Port (La Réunion) », URI INSEE déjà déclarée `http://id.insee.fr/geo/commune/97407`.
+
+Cette confirmation lève l'incertitude sur le **choix de l'ARK** face au concept générique « Port » (`26678/pcrtaVzq2EWV3x`) et à l'homonyme « Le Port (Ariège) » (`26678/pcrtuZMn9LuwGy`). Ces deux concepts ne doivent pas être retenus pour la commune réunionnaise.
+
+**Décision enregistrée** : `ARK_CONFIRME_CORRESPONDANCE_A_VALIDER`. La confirmation littérale de l'ARK ne remplace pas l'approbation explicite de la relation Pactols–COG par l'éditeur ; elle n'autorise pas de rétroprojection historique. Les **23 autres décisions restent `A_INSTRUIRE`**.
+
+La section ci-dessous décrit l'état de la **préinstruction initiale** ; consulter le CSV pour l'état actualisé des décisions.
+
 ## Résultats du rapprochement
 
 La tranche `recette/lieux/LOT-REUNION-24-COMMUNES-20261115.csv` rassemble **24 codes communaux actuels (97401 à 97424), 24 ARK Pactols distincts** et une URI `http://id.insee.fr/geo/commune/CODE` préexistante dans Pactols pour chacun. Les 24 candidats ont été vérifiés directement dans `candidats_Pactols_integral.csv` (export du RDF Frantiq `Pactols_Lieux_th17_20260722.rdf`) : les ARK porteurs du code sont uniques pour chaque commune, et aucun des 24 concepts n'y est marqué `owl:deprecated`.
