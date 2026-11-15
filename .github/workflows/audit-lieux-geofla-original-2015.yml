@@ -1,0 +1,42 @@
+name: Lieux — archive primaire GEOFLA métropole du 4 mars 2015
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-geofla-original-2015.yml'
+      - 'scripts/qualifier_source_geofla_originale_bfc.py'
+      - 'tests/test_qualifier_source_geofla_originale_bfc.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  geofla-originale-2015:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Découvrir le fichier d'archive exact sur le site de téléchargement IGN
+        run: |
+          mkdir -p "$RUNNER_TEMP/geofla-original"
+          python3 - <<'PY'
+          import urllib.request,urllib.parse,xml.etree.ElementTree as ET,json,os
+          from pathlib import Path
+          name="GeoFLA_2-0__SHP_LAMB93_FXX_2015-03-04"
+          uri="https://data.geopf.fr/telechargement/resource/GEOFLA/"+name
+          with urllib.request.urlopen(urllib.request.Request(
+            uri,headers={"User-Agent":"AdlFI-referentiel-territorial-2015/1.0"}),timeout=60) as r:
+              data=r.read(1000000)
+          root=ET.fromstring(data)
+          links=[{"href":el.attrib.get("href"),"rel":el.attrib.get("rel"),"type":el.attrib.get("type")}
+                 for el in root.iter() if el.tag.endswith("link")]
+          titles=[el.text for el in root.iter() if el.tag.endswith("title")]
+          out={"source":uri,"archive_attendue":name,"titres":titles,"liens":links}
+          path=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          (path/"liste-archive-geofla-2015.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adlfi-geofla-2015-source-primaire-inventaire
+          path: ${{ runner.temp }}/geofla-original/
+          retention-days: 30
