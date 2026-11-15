@@ -1,0 +1,29 @@
+name: Lieux — provenance des archives GEOFLA historiques
+on:
+  pull_request:
+    paths:
+      - 'scripts/sonder_geofla_archives.py'
+      - '.github/workflows/audit-lieux-geofla-historique.yml'
+      - 'recette/lieux/QUALIFICATION-GEOFLA-BFC-2015.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler la syntaxe de l'audit de provenance
+        run: python3 -m py_compile scripts/sonder_geofla_archives.py
+      - name: Reconnaître les sources IGN sans supposer une archive téléchargée
+        run: |
+          python3 scripts/sonder_geofla_archives.py --sortie "$RUNNER_TEMP/geofla/sondage_provenance.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-bfc-sondage-sources-ign-geofla
+          path: ${{ runner.temp }}/geofla/
+          retention-days: 30
