@@ -1,0 +1,78 @@
+name: Lieux — contrôler GEOFLA IGN 2015 contre les contours ODS BFC
+on:
+  pull_request:
+    paths:
+      - 'scripts/comparer_geofla_ign_ods_bfc_2015.py'
+      - '.github/workflows/audit-lieux-geofla-ign-ods-bfc.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  comparaison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer les bibliothèques de géométrie et de lecture 7z
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'geopandas==1.1.1' 'shapely==2.1.2' 'pyproj==3.7.2' 'py7zr==1.0.0'
+      - name: Télécharger et contrôler octet par octet l'archive IGN GEOFLA 2015
+        run: |
+          mkdir -p "$RUNNER_TEMP/bfc-ign"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 150 \
+            'https://data.geopf.fr/telechargement/download/GEOFLA/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z' \
+            -o "$RUNNER_TEMP/bfc-ign/geofla-2015.7z"
+          printf '%s  %s\n' \
+            7831ad942f3c0646d7b9ebf9ba480dcf746d6f69d46834b38e36fa6681c1060e \
+            "$RUNNER_TEMP/bfc-ign/geofla-2015.7z" | sha256sum --check -
+      - name: Extraire le shapefile départemental de l'édition 2015
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,py7zr
+          root=Path(os.environ['RUNNER_TEMP'])/'bfc-ign'
+          with py7zr.SevenZipFile(root/'geofla-2015.7z','r') as z:
+            z.extractall(path=root/'extract')
+          files=list((root/'extract').rglob('departement.shp'))
+          if len(files)!=1:
+            raise ValueError('Shapefile département GEOFLA absent ou dupliqué : '+str(files))
+          (root/'shapefile-path.txt').write_text(str(files[0]),encoding='utf-8')
+          print('GEOFLA édition 2015 :',files[0])
+          PY
+      - name: Récupérer les deux géométries ODS 2015 avec contrôle des codes COG
+        run: |
+          python3 scripts/preparer_pilote_regions_bfc.py \
+            --sortie "$RUNNER_TEMP/bfc-ign/ods"
+      - name: Comparaison spatiale entre IGN original et ODS dérivé
+        run: |
+          python3 scripts/comparer_geofla_ign_ods_bfc_2015.py \
+            --archive "$RUNNER_TEMP/bfc-ign/geofla-2015.7z" \
+            --shp "$(cat "$RUNNER_TEMP/bfc-ign/shapefile-path.txt")" \
+            --ods "$RUNNER_TEMP/bfc-ign/ods/regions-2015-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/bfc-ign/recette"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'bfc-ign/recette'
+          d=json.loads((root/'rapport-comparaison-IGN-ODS-2015.json').read_text())
+          assert d['departements_metropole']==96
+          assert d['departements_retenus']==8
+          assert {r['code_region'] for r in d['comparaisons']}=={'26','43'}
+          assert all(97<r['taux_recouvrement_iou_pct']<99 for r in d['comparaisons'])
+          assert d['geometries_retroprojetees_depuis_2026']==0
+          assert d['alignements_Pactols_crees']==0
+          print('Comparaison IGN/ODS : 2 régions sourcées, 0 rétroprojection')
+          PY
+      - name: Conserver les preuves séparées, sans publication de Pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-bfc-ign-geofla-2015-qualification-ods
+          path: |
+            ${{ runner.temp }}/bfc-ign/recette/
+            ${{ runner.temp }}/bfc-ign/geofla-2015.7z
+            ${{ runner.temp }}/bfc-ign/ods/rapport-geometries-bfc.json
+          retention-days: 30
