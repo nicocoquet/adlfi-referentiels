@@ -146,7 +146,10 @@ jobs:
           assert taaf["statut"]=="RECETTE_EXPLORATOIRE_NON_VALIDANTE"
           assert taaf["nouveaux_alignements_valides"]==0
           assert taaf["nb_concepts_examines"]==r["concepts_pactols_parcourus"]
-          print("Résultat recherche Kerguelen :",taaf["ark_candidats_par_cible"]["COMER:DIS:98412"])
+          assert taaf["ark_pistes_prioritaires_apres_contexte"]["COMER:DIS:98412"]==["26678/pcrtiLVIezAOXD"]
+          assert taaf["ark_pistes_prioritaires_apres_contexte"]["COMER:DIS:98413"]==[]
+          assert taaf["nb_homonymes_communaux_exterieurs"]>=1
+          print("Résultat recherche Kerguelen :",taaf["ark_pistes_prioritaires_apres_contexte"]["COMER:DIS:98412"])
           PY
       - name: Archiver uniquement les contrôles sans publier les candidats
         uses: actions/upload-artifact@v4
