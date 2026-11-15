@@ -79,7 +79,12 @@ def analyser(records,sha,total):
     for (year,code),name in CONTROLES.items():
         selected=[r for r in records if str(r.get("year"))==year and val_reg(r,code)]
         if len(selected)!=1:
-            raise ValueError("Il faut 1 entrée géométrique "+year+" "+code+" ; trouvé "+str(len(selected)))
+            raise ValueError("Il faut 1 entrée géométrique "+year+" "+code+" ; trouvé "+str(len(selected))+
+                " ; détails="+json.dumps([
+                    {k:v for k,v in r.items() if k in ("year","reg_code","reg_name","reg_type","reg_status","reg_iso3","reg_current_code")}
+                    | {"geo_sha256":hashlib.sha256(json.dumps(r.get("geo_shape"),sort_keys=True).encode()).hexdigest()}
+                    for r in selected
+                ],ensure_ascii=False))
         row=selected[0]
         labels=row.get("reg_name")
         if not isinstance(labels,list) or len(labels)!=1 or labels[0]!=name:
