@@ -198,7 +198,7 @@ def construire(communes: Path, historique: Path, mouvements: Path,
             "contours_2026": len(geometries), "contours_manquants": manquants,
             "validations_pactols_existantes": len(alignements)}
     manifest = {
-        "schema": SCHEMA, "statut": "recette_pour_revision_avant_pages",
+        "schema": SCHEMA, "statut": "publication_pilote_quatre_regions",
         "regions": resultat,
         "sources": {**{k: sha(v) for k, v in paths.items()},
                     "contours_2026": sha(Path(contours)),
