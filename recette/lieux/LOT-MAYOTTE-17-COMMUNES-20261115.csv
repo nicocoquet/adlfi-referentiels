@@ -1,18 +1,18 @@
 code_insee;libelle_COG_2026;ark_candidat_Pactols;URI_INSEE_existante_dans_Pactols;avis_preinstruction;alerte_identifiant;date_debut_COMER_incluse;date_fin_COMER_exclue;date_debut_DROM_incluse;decision_editoriale;justification_editoriale
-97601;Acoua;26678/pcrtZfYYjyoUIE;http://id.insee.fr/geo/commune/97601;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97602;Bandraboua;26678/pcrtb0Re0pZ9bJ;http://id.insee.fr/geo/commune/97602;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97603;Bandrele;26678/pcrtqyZ7WuFbZv;http://id.insee.fr/geo/commune/97603;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97604;Bouéni;26678/pcrt2oPCh6RRbR;http://id.insee.fr/geo/commune/97604;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97605;Chiconi;26678/pcrtS4NLXPLbqt;http://id.insee.fr/geo/commune/97605;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97606;Chirongui;26678/pcrtEOoOXC7PWc;http://id.insee.fr/geo/commune/97606;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97607;Dembeni;26678/crtZcuFSJVYZU;http://id.insee.fr/geo/commune/97607;FAVORABLE_SOUS_RESERVE_CONTROLE_ARK;FORME_SOURCE_crt_NON_pcrt_A_VERIFIER;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97608;Dzaoudzi;26678/pcrt0unheMJMfS;http://id.insee.fr/geo/commune/97608;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97609;Kani-Kéli;26678/pcrtNJEbqzygop;http://id.insee.fr/geo/commune/97609;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97610;Koungou;26678/pcrtA2BIaVY11i;http://id.insee.fr/geo/commune/97610;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97611;Mamoudzou;26678/pcrtk86yO93QWy;http://id.insee.fr/geo/commune/97611;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97612;Mtsamboro;26678/pcrtZ5wx0w3dba;http://id.insee.fr/geo/commune/97612;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97613;M'Tsangamouji;26678/pcrtmRe7KokhkP;http://id.insee.fr/geo/commune/97613;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97614;Ouangani;26678/pcrthaGd7RSFFc;http://id.insee.fr/geo/commune/97614;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97615;Pamandzi;26678/pcrt4FkD6N0SKw;http://id.insee.fr/geo/commune/97615;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97616;Sada;26678/pcrtzoOuEJyVqP;http://id.insee.fr/geo/commune/97616;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
-97617;Tsingoni;26678/pcrtGqUPY8dkhb;http://id.insee.fr/geo/commune/97617;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;A_INSTRUIRE;
+97601;Acoua;26678/pcrtZfYYjyoUIE;http://id.insee.fr/geo/commune/97601;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97602;Bandraboua;26678/pcrtb0Re0pZ9bJ;http://id.insee.fr/geo/commune/97602;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97603;Bandrele;26678/pcrtqyZ7WuFbZv;http://id.insee.fr/geo/commune/97603;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97604;Bouéni;26678/pcrt2oPCh6RRbR;http://id.insee.fr/geo/commune/97604;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97605;Chiconi;26678/pcrtS4NLXPLbqt;http://id.insee.fr/geo/commune/97605;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97606;Chirongui;26678/pcrtEOoOXC7PWc;http://id.insee.fr/geo/commune/97606;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97607;Dembeni;26678/crtZcuFSJVYZU;http://id.insee.fr/geo/commune/97607;FAVORABLE_2026_ARK_CONFIRME;FORME_SOURCE_crt_CONFIRMEE_EDITEUR_2026-11-15;2007-02-23;2011-03-31;2011-03-31;ARK_CONFIRME_CORRESPONDANCE_A_VALIDER;ARK 26678/crtZcuFSJVYZU confirme explicitement par l'editeur le 2026-11-15; pas de reecriture pcrt; lien communal 2026 non confirme expressement.
+97608;Dzaoudzi;26678/pcrt0unheMJMfS;http://id.insee.fr/geo/commune/97608;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97609;Kani-Kéli;26678/pcrtNJEbqzygop;http://id.insee.fr/geo/commune/97609;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97610;Koungou;26678/pcrtA2BIaVY11i;http://id.insee.fr/geo/commune/97610;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97611;Mamoudzou;26678/pcrtk86yO93QWy;http://id.insee.fr/geo/commune/97611;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97612;Mtsamboro;26678/pcrtZ5wx0w3dba;http://id.insee.fr/geo/commune/97612;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97613;M'Tsangamouji;26678/pcrtmRe7KokhkP;http://id.insee.fr/geo/commune/97613;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97614;Ouangani;26678/pcrthaGd7RSFFc;http://id.insee.fr/geo/commune/97614;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97615;Pamandzi;26678/pcrt4FkD6N0SKw;http://id.insee.fr/geo/commune/97615;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97616;Sada;26678/pcrtzoOuEJyVqP;http://id.insee.fr/geo/commune/97616;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
+97617;Tsingoni;26678/pcrtGqUPY8dkhb;http://id.insee.fr/geo/commune/97617;FAVORABLE_2026;;2007-02-23;2011-03-31;2011-03-31;VALIDE_2026;Validation editoriale du lot standard confirmee le 2026-11-15; equivalence limitee au COG 2026 sans retroprojection historique.
