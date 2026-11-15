@@ -15,7 +15,7 @@ def actif(d,code,date):
 def verifier(root):
     root=Path(root)
     manifest=lire(root/"manifest.json")
-    assert manifest["statut"]=="recette_pour_revision_avant_pages"
+    assert manifest["statut"]=="publication_pilote_quatre_regions"
     for reg in ("bfc","pdl","corse","paca"):
         d=lire(root/("cog-"+reg+".json"))
         g=lire(root/("contours-2026-"+reg+".geojson"))
