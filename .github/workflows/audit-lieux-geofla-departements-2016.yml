@@ -6,6 +6,8 @@ on:
       - 'scripts/comparer_geofla_2015_2016_bfc.py'
       - 'tests/test_comparer_geofla_2015_2016_bfc.py'
       - 'scripts/construire_vue_bfc_ign_2015_2016.py'
+      - 'scripts/controle_national_geofla_cog_2015_2016.py'
+      - 'tests/test_controle_national_geofla_cog_2015_2016.py'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
   workflow_dispatch:
 permissions:
@@ -140,6 +142,41 @@ jobs:
           assert report["nombre_de_contours_inferes_des_geometries_2026"]==0
           print("QUALIFICATION IGN 2015/2016 OK",json.dumps(report["comparaison_totale"]))
           PY
+      - name: Télécharger les COG officiels 2015 et 2016 pour validation nationale
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2560698/depts2015-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/depts2015-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2114819/depts2016-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/depts2016-txt.zip"
+      - name: Qualifier la couverture nationale IGN–COG 2015 et 2016
+        run: |
+          python3 -m unittest discover -s tests -p 'test_controle_national_geofla_cog_2015_2016.py' -v
+          python3 - <<'PY'
+          import subprocess,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          p=json.loads((root/"shapefiles-geofla.json").read_text())
+          base=["python3","scripts/controle_national_geofla_cog_2015_2016.py",
+                "--shp2015",p["2015"]["shapefile"],
+                "--shp2016",p["2016"]["shapefile"],
+                "--dep2015",str(root/"depts2015-txt.zip"),
+                "--dep2016",str(root/"depts2016-txt.zip")]
+          for sub in ("recette","reproduction"):
+              subprocess.run(base+["--sortie",str(root/sub)],check=True)
+          d=json.loads((root/"recette/rapport-national-geofla-cog-2015-2016.json").read_text())
+          assert (d["departements_metropole_2015"],d["departements_metropole_2016"])==(96,96)
+          assert (d["regions_metropole_2015"],d["regions_metropole_2016"])==(22,13)
+          assert d["departements_dont_code_regional_change"]==65
+          assert d["fusions"]==7 and d["anciennes_regions_fusionnees"]==16
+          assert d["nouveaux_alignements_Pactols"]==0
+          print("Rattachements GEOFLA/COG : 96 sur 96 pour 2015 et 2016")
+          PY
+          cmp "$RUNNER_TEMP/geofla-2016/recette/rattachements-IGN-COG-2015-2016.csv" \
+              "$RUNNER_TEMP/geofla-2016/reproduction/rattachements-IGN-COG-2015-2016.csv"
+          cmp "$RUNNER_TEMP/geofla-2016/recette/rapport-national-geofla-cog-2015-2016.json" \
+              "$RUNNER_TEMP/geofla-2016/reproduction/rapport-national-geofla-cog-2015-2016.json"
       - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
         run: |
           python3 scripts/construire_vue_bfc_ign_2015_2016.py \
