@@ -13,9 +13,9 @@ XML='''<?xml version="1.0" encoding="utf-8"?>
  xmlns:skos="http://www.w3.org/2004/02/skos/core#">
  <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtTESTKER">
    <skos:prefLabel xml:lang="fr">Kerguelen</skos:prefLabel>
-   <skos:broader rdf:resource="https://ark.frantiq.fr/ark:/26678/pcrtTESTTAAF"/>
+   <skos:broader rdf:resource="https://ark.frantiq.fr/ark:/26678/pcrtqYLoVxtxFl"/>
  </skos:Concept>
- <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtTESTTAAF">
+ <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtqYLoVxtxFl">
    <skos:prefLabel xml:lang="fr">Terres australes et antarctiques françaises</skos:prefLabel>
  </skos:Concept>
  <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtTESTCRO">
@@ -50,7 +50,7 @@ class RechercheTAAFTests(unittest.TestCase):
   self.assertEqual(len(faux),1)
   self.assertEqual(faux[0]["qualification_contextuelle"],"homonyme_de_commune_exterieure")
   self.assertEqual(faux[0]["piste_prioritaire"],"non")
-  self.assertIn("pcrtTESTTAAF",item["relations_broader_litterales"])
+  self.assertIn("pcrtqYLoVxtxFl",item["relations_broader_litterales"])
   self.assertEqual(len([r for r in results if r["cible_cog"]=="COMER:TERRITOIRE:984"]),1)
   self.assertEqual(len([r for r in results if r["cible_cog"]=="COMER:DIS:98413"]),1)
   self.assertFalse(any("Ciel" in r["label_pactols"] for r in results))
