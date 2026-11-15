@@ -9,6 +9,9 @@ on:
       - '.github/workflows/lieux-chronologie-4regions.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   recette:
     runs-on: ubuntu-latest
@@ -16,6 +19,9 @@ jobs:
     steps:
       - name: Récupérer les sources de la branche
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          persist-credentials: true
       - name: Préparer Python
         uses: actions/setup-python@v5
         with:
@@ -52,6 +58,16 @@ jobs:
       - name: Contrôler les vrais épisodes et les garanties de non-anachronisme
         run: |
           python3 tests/controle_lieux_chronologie_4regions.py docs/data/lieux-chronologie
+      - name: Enregistrer les exports COG vérifiés dans la branche de publication
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/lieux-chronologie/
+          if ! git diff --cached --quiet; then
+            git commit -m "Lieux : versionner les quatre jeux COG 2026 contrôlés"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
       - name: Constituer un site de recette autonome (hors Pages)
         run: |
           mkdir -p "$RUNNER_TEMP/site/docs/assets/cartouches" \
