@@ -8,6 +8,10 @@ on:
       - 'scripts/preparer_pilote_regions_bfc.py'
       - 'scripts/construire_vue_bfc_2015_2016.py'
       - 'tests/test_preparer_pilote_regions_bfc.py'
+      - 'scripts/comparer_contours_bfc_2015_2016.py'
+      - 'tests/test_comparer_contours_bfc_2015_2016.py'
+      - 'scripts/sonder_geofla_2015_ign.py'
+      - 'recette/lieux/QUALIFICATION-GEOFLA-BFC-2015-2016.md'
   workflow_dispatch:
 permissions:
   contents: read
@@ -69,6 +73,40 @@ jobs:
           cmp "$RUNNER_TEMP/bfc-geo-sondage/recette/AdlFI_BFC_regions_2015_2016.html" \
               "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction.html"
           rm "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction.html"
+      - name: Installer les bibliothèques pour la comparaison géométrique métrique
+        run: |
+          python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Comparer les polygones millésimés sans en inférer une mutation administrative
+        run: |
+          python3 -m unittest discover -s tests -p 'test_comparer_contours_bfc_2015_2016.py' -v
+          python3 scripts/comparer_contours_bfc_2015_2016.py \
+            --contours2015 "$RUNNER_TEMP/bfc-geo-sondage/recette/regions-2015-bfc.geojson" \
+            --contours2016 "$RUNNER_TEMP/bfc-geo-sondage/recette/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette/rapport-comparaison-geometrique.json"
+          python3 scripts/comparer_contours_bfc_2015_2016.py \
+            --contours2015 "$RUNNER_TEMP/bfc-geo-sondage/recette/regions-2015-bfc.geojson" \
+            --contours2016 "$RUNNER_TEMP/bfc-geo-sondage/recette/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction-comparaison.json"
+          cmp "$RUNNER_TEMP/bfc-geo-sondage/recette/rapport-comparaison-geometrique.json" \
+              "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction-comparaison.json"
+          rm "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction-comparaison.json"
+      - name: Rechercher la disponibilité des archives GEOFLA 2015 dans le catalogue primaire IGN
+        run: |
+          python3 scripts/sonder_geofla_2015_ign.py \
+            --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette/sondage-geofla-2015-IGN.json"
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"bfc-geo-sondage/recette"
+          g=json.loads((p/"sondage-geofla-2015-IGN.json").read_text(encoding="utf8"))
+          assert g["archive_originale_2015_validee"] is False
+          assert g["geometries_inferrees"] == 0
+          m=json.loads((p/"rapport-comparaison-geometrique.json").read_text(encoding="utf8"))
+          assert m["changement_reel_de_surface"]=="NON_INFERABLE"
+          assert m["taux_recouvrement_iou_pourcent"]>99.0
+          assert m["nouveaux_alignements_pactols"]==0
+          print("Comparaison géométrique et recherche de la source primaire archivées.")
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
