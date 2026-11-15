@@ -75,6 +75,8 @@ jobs:
                       if n>150_000_000:raise ValueError("Taille inattendue")
                       h.update(buf);o.write(buf)
           if n<100_000:raise ValueError("Archive téléchargée trop petite")
+          if h.hexdigest()!="8e1538791c12b7679ef0ffb638a0fc53f8e9dede359c170af6e15576826ea91a":
+              raise ValueError("Le téléchargement 2016 a changé : vérifier l'archive source et le nouvel SHA-256")
           entry["sha256_telechargement"]=h.hexdigest()
           entry["octets_telechargement"]=n
           entry["date_edition_IGN"]="2016-06-28"
@@ -103,7 +105,7 @@ jobs:
                   layers=[x for x in names if Path(x).name.lower()=='departement.shp']
                   if len(layers)!=1:raise ValueError(f'Edition {year}: couche DEPARTEMENT.shp absente/dupliquée, {names[:20]}')
                   archive.extractall(path=root/f'extrait-{year}')
-              matches=[x for x in (root/f'extrait-{year}').rglob('*.shp') if x.name.lower()=='departement.shp']
+              matches=[x for x in (root/f'extrait-{year}').rglob('*') if x.is_file() and x.name.lower()=='departement.shp']
               if len(matches)!=1:raise ValueError(f'Edition {year}: shapefile introuvable')
               out[year]={'shapefile':str(matches[0]),'membres':len(names)}
           (root/'shapefiles-geofla.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
