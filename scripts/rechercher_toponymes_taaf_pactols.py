@@ -43,7 +43,7 @@ COLONNES = (
     "cible_cog","terme_de_recherche","label_pactols","type_label",
     "ark_pactols","uri_concept","labels_pref_fr","labels_alt_fr",
     "labels_hidden_fr","relations_broader_litterales","exact_match_litteraux",
-    "deprecie","statut","avis_editorial",
+    "deprecie","statut","qualification_contextuelle","piste_prioritaire","avis_editorial",
 )
 
 def rechercher(rdf: Path, min_concepts: int = 30000):
@@ -87,6 +87,20 @@ def rechercher(rdf: Path, min_concepts: int = 30000):
                                     "exact_match_litteraux":json.dumps(concept["exact"],ensure_ascii=False),
                                     "deprecie":"oui" if concept["deprecie"] else "non",
                                     "statut":"indice_lexical_non_validant",
+                                    "qualification_contextuelle":(
+                                        "concept_lie_hierarchiquement_aux_TAAF"
+                                        if ("https://ark.frantiq.fr/ark:/26678/pcrtqYLoVxtxFl" in broader)
+                                        else "homonyme_de_commune_exterieure"
+                                        if (target.startswith("COMER:DIS:") and any(
+                                            "/geo/commune/" in u for u in concept["exact"]))
+                                        else "forme_a_desambiguiser"
+                                    ),
+                                    "piste_prioritaire":(
+                                        "non" if (target.startswith("COMER:DIS:")
+                                            and "https://ark.frantiq.fr/ark:/26678/pcrtqYLoVxtxFl" not in broader
+                                            and any("/geo/commune/" in u for u in concept["exact"]))
+                                        else "oui"
+                                    ),
                                     "avis_editorial":"A_INSTRUIRE",
                                 }
             elem.clear()
@@ -116,6 +130,10 @@ def produire(rdf:Path,sortie:Path,controle_sha=True):
     counts=collections.Counter(x["cible_cog"] for x in items)
     unique={target:sorted(set(x["ark_pactols"] for x in items if x["cible_cog"]==target))
             for target in RECHERCHES}
+    eligible={target:sorted(set(
+        x["ark_pactols"] for x in items if x["cible_cog"]==target and
+        x["piste_prioritaire"]=="oui"
+    )) for target in RECHERCHES}
     report={
         "schema":"adlfi.lieux.pactols.taaf.noms_de_recherche.v1",
         "statut":"RECETTE_EXPLORATOIRE_NON_VALIDANTE",
@@ -124,6 +142,11 @@ def produire(rdf:Path,sortie:Path,controle_sha=True):
         "nb_concepts_examines":nb,"nb_lignes_indice":len(items),
         "nb_ark_par_cible":{k:len(v) for k,v in unique.items()},
         "ark_candidats_par_cible":unique,
+        "ark_pistes_prioritaires_apres_contexte":eligible,
+        "nb_homonymes_communaux_exterieurs":len(set(
+            x["ark_pactols"] for x in items
+            if x["qualification_contextuelle"]=="homonyme_de_commune_exterieure"
+        )),
         "methode":"Recherche d'égalité normalisée avec formes de recherche exploratoires, sans inférence COG",
         "nouveaux_alignements_valides":0,
     }
