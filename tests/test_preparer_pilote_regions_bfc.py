@@ -35,7 +35,7 @@ class RegionsBFCTests(unittest.TestCase):
             analyser(self.rows,"sha",3)
     def test_interdit_écriture_dans_pages(self):
         with tempfile.TemporaryDirectory() as d:
-            with self.assertRaisesRegex(ValueError,"docs"):
+            with self.assertRaisesRegex(ValueError,"Publication Pages interdite"):
                 publier({}, {}, Path(d)/"docs"/"lieux")
     def test_coordinates_valides(self):
         self.assertEqual(ctrl_geom(geom()),23)
