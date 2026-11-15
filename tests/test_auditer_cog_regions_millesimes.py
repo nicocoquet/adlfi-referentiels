@@ -9,7 +9,7 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
-from auditer_cog_regions_millesimes import FUSIONS_2016,FILES,csv_lire,ecrire
+from auditer_cog_regions_millesimes import FUSIONS_2016,FILES,NOMS_DEFINITIFS_2016,NOM_CENTRE_2015,csv_lire,ecrire
 
 
 class Reg2015Reg2016Tests(unittest.TestCase):
@@ -21,6 +21,13 @@ class Reg2015Reg2016Tests(unittest.TestCase):
         anciens=[r for rs in FUSIONS_2016.values() for r in rs]
         self.assertEqual(len(anciens),16)
         self.assertEqual(len(set(anciens)),16)
+
+    def test_cinq_changements_de_noms_dates_par_les_textes(self):
+        self.assertEqual(set(NOMS_DEFINITIFS_2016),{"32","44","75","76"})
+        self.assertTrue(all(d=="2016-09-30" and ref.startswith("https://www.legifrance.gouv.fr/")
+                            for d,ref in NOMS_DEFINITIFS_2016.values()))
+        self.assertEqual(NOM_CENTRE_2015[:4],
+                         ("24","2015-01-17","Centre","Centre-Val de Loire"))
 
     def test_anciens_exports_latin1_et_tabs_sans_perdre_codes(self):
         with tempfile.TemporaryDirectory() as d:
