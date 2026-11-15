@@ -1,0 +1,49 @@
+name: Lieux — reconnaître les éditions IGN GEOFLA DEPARTEMENT 2016
+on:
+  pull_request:
+    paths:
+      - 'scripts/reperer_geofla_2016_paquets.py'
+      - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  identification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Valider la syntaxe sans accès à des données géographiques
+        run: python3 -m py_compile scripts/reperer_geofla_2016_paquets.py
+      - name: Rechercher toutes les archives IGN départementales métropolitaines 2016
+        run: |
+          python3 scripts/reperer_geofla_2016_paquets.py \
+            --sortie "$RUNNER_TEMP/geofla-2016/inventaire-paquets-2016.json"
+      - name: Lire la fiche Atom de chaque candidat et lister son fichier 7z officiel
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          inventory=json.loads((root/"inventaire-paquets-2016.json").read_text(encoding="utf8"))
+          rows=[]
+          for item in inventory["paquets_metropolitains_departements_2016"]:
+            req=urllib.request.Request(item["fiche"],headers={"User-Agent":"AdlFI-Lieux-IGN-2016-recette/1.0"})
+            with urllib.request.urlopen(req,timeout=60) as response:
+              doc=ET.fromstring(response.read(1_000_000))
+            links=[l.attrib.get("href","") for l in doc.iter() if l.tag.endswith("link")]
+            files=[url for url in links if url.startswith("https://data.geopf.fr/telechargement/download/GEOFLA/") and url.endswith(".7z")]
+            if len(files)!=1:raise ValueError("Lien officiel 7z absent ou ambigu pour "+item["code"])
+            rows.append({**item,"url_download":files[0],
+                         "sha256_original":None,"statut":"LIEN_OFFICIEL_TROUVE_ARCHIVE_NON_TELECHARGEE"})
+          (root/"candidats-2016-liens-officiels.json").write_text(json.dumps(rows,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print(json.dumps(rows,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-catalogue-geofla-departements-2016
+          path: ${{ runner.temp }}/geofla-2016/
+          retention-days: 30
