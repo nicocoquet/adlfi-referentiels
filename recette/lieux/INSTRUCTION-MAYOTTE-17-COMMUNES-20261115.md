@@ -2,9 +2,20 @@
 
 **15 novembre 2026 — PR #30 — préconisations non validantes.**
 
+## Mise à jour de décision — 15 novembre 2026 (postérieure à la préinstruction)
+
+L'utilisateur a répondu **« Ok »** à la proposition de validation des 16 correspondances sans anomalie pour le **millésime COG 2026**, puis a expressément **confirmé l'ARK de Dembeni : `26678/crtZcuFSJVYZU`**.
+
+- **16 correspondances approuvées au millésime COG 2026** : lignes `VALIDE_2026` du CSV. Cette approbation n'autorise pas une équivalence historique rétrospective.
+- **Dembeni (97607) : forme littérale de l'ARK confirmée**, avec son préfixe `crt` sans `p` ; la réserve relative à la *forme* est levée. L'éditeur n'a pas affirmé séparément, dans cette intervention, la validation du **lien communal** pour Dembeni : la ligne reste `ARK_CONFIRME_CORRESPONDANCE_A_VALIDER`.
+- **Total des relations Mayotte validées dans la recette : 16 ; une en attente.** La résolution HTTP en temps réel de l'ARK ne résulte pas de cette confirmation et demeure distincte.
+- **Rien n'est encore publié dans `docs/`** : les approbations sont consignées dans le registre de recette en vue d'un export public contrôlé.
+
+La section « Propositions de validation » ci-dessous décrit **l'état antérieur** à cette décision et doit être lue comme historique de l'instruction ; les statuts courants sont ceux du CSV de recette.
+
 ## Sources et preuve commune par commune
 
-La tranche `recette/lieux/LOT-MAYOTTE-17-COMMUNES-20261115.csv` contient les **17** couples code INSEE / ARK Pactols, avec champs de décision laissés à `A_INSTRUIRE`. Les sources rapprochées sont :
+La tranche `recette/lieux/LOT-MAYOTTE-17-COMMUNES-20261115.csv` contient les **17** couples code INSEE / ARK Pactols, avec champs de décision mis à jour selon les arbitrages du 15 novembre (16 `VALIDE_2026`, un `ARK_CONFIRME_CORRESPONDANCE_A_VALIDER`). Les sources rapprochées sont :
 
 1. `v_commune_2026.csv` — communes officielles, Insee COG 2026 ; SHA-256 `7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3`.
 2. `v_commune_depuis_1943.csv` — périodes communales DROM ; SHA-256 `08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee`.
@@ -47,6 +58,6 @@ La portée des correspondances proposées est `correspondance_communale_validee`
 
 ## État du chantier
 
-Les 17 lignes détaillées sont versionnées **sous `recette/` uniquement**. L'archive de travail comporte un XLSX à quatre feuilles, les 17 candidats, 34 épisodes administratifs et les empreintes des fichiers sources. **Aucun élément de `docs/` n'est modifié, aucune validation individuelle n'est prononcée par cet audit.**
+Les 17 lignes détaillées sont versionnées **sous `recette/` uniquement**. L'archive de travail comporte un XLSX à quatre feuilles, les 17 candidats, 34 épisodes administratifs et les empreintes des fichiers sources. **Aucun élément de `docs/` n'est modifié. L'audit seul ne validait rien ; la décision éditoriale ultérieure est enregistrée en tête de note et dans le CSV.**
 
 Prochaine opération : arbitrage éditorial des 16 couples standards, vérification de l'ARK Dembeni, puis export public **après validation** seulement.
