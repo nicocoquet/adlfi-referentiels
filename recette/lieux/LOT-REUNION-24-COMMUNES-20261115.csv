@@ -5,7 +5,7 @@ code_INSEE_2026;libelle_COG_2026;ark_Pactols_candidat;prefLabel_fr_Pactols;uri_I
 97404;L'Étang-Salé;26678/pcrtHQ2yd3bJwA;L'Étang-Salé;http://id.insee.fr/geo/commune/97404;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
 97405;Petite-Île;26678/pcrtX1TFf4bhet;Petite-Île;http://id.insee.fr/geo/commune/97405;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
 97406;La Plaine-des-Palmistes;26678/pcrtcfkTcDfVwV;La Plaine-des-Palmistes;http://id.insee.fr/geo/commune/97406;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
-97407;Le Port;26678/pcrtIKvRT9vwUl;Le Port (La Réunion);http://id.insee.fr/geo/commune/97407;1946-03-21;HOMONYMIE_LE_PORT;INSTRUCTION_COMPLEMENTAIRE;A_INSTRUIRE;
+97407;Le Port;26678/pcrtIKvRT9vwUl;Le Port (La Réunion);http://id.insee.fr/geo/commune/97407;1946-03-21;HOMONYMIE_LE_PORT;ARK_CONFIRME_EDITEUR_LIEN_A_VALIDER;ARK_CONFIRME_CORRESPONDANCE_A_VALIDER;Le 2026-11-15, confirmation explicite par l'editeur de l'ARK 26678/pcrtIKvRT9vwUl pour Le Port (La Reunion); exclure Port generique et Le Port Ariege; lien communal Pactols-COG a approuver distinctement.
 97408;La Possession;26678/pcrtjZ6OCuJNbD;La Possession;http://id.insee.fr/geo/commune/97408;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
 97409;Saint-André;26678/pcrtvqBxC2wRyW;Saint-André (La Réunion);http://id.insee.fr/geo/commune/97409;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
 97410;Saint-Benoît;26678/pcrtmquJUEJTdN;Saint-Benoît (La Réunion);http://id.insee.fr/geo/commune/97410;1946-03-21;STANDARD_2026;FAVORABLE_2026_SOUS_CONFIRMATION;A_INSTRUIRE;
