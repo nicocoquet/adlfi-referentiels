@@ -31,7 +31,7 @@ def verifier(geo,year):
         if any(f["properties"].get("nature_geometrique")!=IGN_NATURE for f in bycode.values()):
             raise ValueError("Les deux régions doivent provenir de la même méthode IGN")
     else:
-        if "Opendatasoft" not in geo["provenance"].get("jeu",""):
+        if "opendatasoft" not in geo["provenance"].get("jeu","").casefold():
             raise ValueError("La géométrie 2016 doit annoncer sa provenance ODS")
     return geo
 
