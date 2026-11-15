@@ -1,0 +1,49 @@
+{
+  "garanties": [
+    "Aucun code historique n'est une localisation historique inférée.",
+    "Aucune relation Pactols nouvelle validée.",
+    "Seules les 103 validations PACA préexistantes sont reprises.",
+    "Tous les contours sont de 2026.",
+    "Le statut COMA/COMD n'est connu ici qu'en 2026.",
+    "Les lignes COG ne sont pas des actes administratifs dédoublonnés."
+  ],
+  "regions": {
+    "bfc": {
+      "contours_2026": 3685,
+      "contours_manquants": [],
+      "mouvements": 1296,
+      "periodes": 4347,
+      "validations_pactols_existantes": 0
+    },
+    "corse": {
+      "contours_2026": 360,
+      "contours_manquants": [],
+      "mouvements": 376,
+      "periodes": 733,
+      "validations_pactols_existantes": 0
+    },
+    "paca": {
+      "contours_2026": 946,
+      "contours_manquants": [],
+      "mouvements": 323,
+      "periodes": 1116,
+      "validations_pactols_existantes": 103
+    },
+    "pdl": {
+      "contours_2026": 1228,
+      "contours_manquants": [],
+      "mouvements": 1093,
+      "periodes": 1767,
+      "validations_pactols_existantes": 0
+    }
+  },
+  "schema": "adlfi.lieux.chronologie.4regions.public-recette.v1",
+  "sources": {
+    "communes": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+    "contours_2026": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+    "historique": "08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee",
+    "mouvements": "8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1",
+    "pilote_paca": "5ab7e31627a0ca983b26c2d6f1dd114e7004c34c9c7710c8012969c60ee96739"
+  },
+  "statut": "recette_pour_revision_avant_pages"
+}
