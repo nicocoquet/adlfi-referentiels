@@ -16,6 +16,7 @@ def verifier(root):
     root=Path(root)
     manifest=lire(root/"manifest.json")
     assert manifest["statut"]=="publication_pilote_quatre_regions"
+    assert manifest["sources"]["contours_2026"]=="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
     for reg in ("bfc","pdl","corse","paca"):
         d=lire(root/("cog-"+reg+".json"))
         g=lire(root/("contours-2026-"+reg+".geojson"))
