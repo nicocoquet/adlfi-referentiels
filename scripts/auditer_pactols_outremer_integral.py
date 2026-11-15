@@ -120,7 +120,7 @@ def apercu_concept(el):
         "exact":sorted(set(exact)),"deprecie":deprecated,
     }
 
-def scanner_rdf(path,cibles,xml_arks=None):
+def scanner_rdf(path,cibles,xml_arks=None,min_concepts=30000):
     # Index inverse des libellés, pour éviter 233 comparaisons/concept.
     by_label=collections.defaultdict(set)
     by_code=collections.defaultdict(set)
@@ -190,7 +190,7 @@ def scanner_rdf(path,cibles,xml_arks=None):
             elem.clear()
             if root is not None:root.clear()
         depth-=1
-    if nconcept<30000:
+    if nconcept<min_concepts:
         raise ValueError("RDF intégral non reconnu : "+str(nconcept)+" concepts")
     return nconcept,found
 
