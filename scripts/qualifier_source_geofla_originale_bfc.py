@@ -9,11 +9,6 @@ pas un contour régional émis directement par l'IGN ni une rétroprojection de 
 from __future__ import annotations
 import argparse,csv,hashlib,json
 from pathlib import Path
-import geopandas as gpd
-from shapely.geometry import shape,mapping
-from shapely.ops import unary_union
-from pyproj import Transformer
-from shapely.ops import transform
 
 DEP={
     "26":("Bourgogne",{"21","58","71","89"}),
@@ -25,6 +20,10 @@ URL_ODS="https://public.opendatasoft.com/explore/dataset/georef-france-region-mi
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def analyser(source_shp,source_ods, source_archive=None):
+    import geopandas as gpd
+    from shapely.geometry import shape,mapping
+    from shapely.ops import unary_union,transform
+    from pyproj import Transformer
     shp=Path(source_shp)
     if source_archive is not None and digest(source_archive)!=SHA_ARCHIVE:
         raise ValueError("Archive GEOFLA originale non reconnue : SHA-256 différent")
@@ -57,7 +56,7 @@ def analyser(source_shp,source_ods, source_archive=None):
         rows.append({
             "code_region":reg,"region":name,
             "codes_departements":",".join(sorted(deps)),
-            "surface_GE0FLA_origine_2015_km2":round(ign.area/1e6,4),
+            "surface_GEOFLA_origine_2015_km2":round(ign.area/1e6,4),
             "surface_ODS_2015_km2":round(ods.area/1e6,4),
             "difference_symetrique_km2":round(diff.area/1e6,4),
             "recouvrement_iou_pct":round(100*intersection.area/combined.area,6),
