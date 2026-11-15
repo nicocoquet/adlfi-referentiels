@@ -1,5 +1,6 @@
 """Tests de l'écart entre représentations, sans conclusion historique."""
 import json
+import importlib.util
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,6 +18,8 @@ def fc(year,features):
         "annee":year,"absence_de_retroprojection":True,
     },"features":features}
 
+@unittest.skipUnless(importlib.util.find_spec("shapely") and importlib.util.find_spec("pyproj"),
+                     "Tests géospatiaux exécutés dans la CI spécialisée avec shapely et pyproj")
 class ComparaisonBFC(unittest.TestCase):
     def setUp(self):
         d=tempfile.TemporaryDirectory();self.addCleanup(d.cleanup)
