@@ -34,6 +34,17 @@ FUSIONS_2016 = {
     "76": ("73", "91"),                  # Midi-Pyrénées + Languedoc-Roussillon
     "84": ("82", "83"),                  # Rhône-Alpes + Auvergne
 }
+# Les noms officiels ultérieurs sont datés par les décrets du 28/09/2016
+# (JORF du 29/09 ; entrée en vigueur au 30/09/2016).
+NOMS_DEFINITIFS_2016 = {
+    "32": ("2016-09-30", "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000033161447"),  # 2016-1265
+    "44": ("2016-09-30", "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000033161418"),  # 2016-1262
+    "75": ("2016-09-30", "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000033161467"),  # 2016-1267
+    "76": ("2016-09-30", "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000033161437"),  # 2016-1264
+}
+# Art. 2 V loi 2015-29 : publication au JORF 2015-01-17.
+NOM_CENTRE_2015 = ("24", "2015-01-17", "Centre", "Centre-Val de Loire",
+                   "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000030110734")
 INSEE_2015 = "https://www.insee.fr/fr/information/2560698"
 INSEE_2016 = "https://www.insee.fr/fr/information/2114819"
 INSEE_2026 = "https://www.insee.fr/fr/information/8740222"
@@ -48,6 +59,7 @@ OUTPUTS = {
     "dep": "appartenances_departement_region_millesimes.csv",
     "ren": "changements_libelles_regions_2016_2026.csv",
     "report": "rapport_region_2015_2016_2026.json",
+    "evt": "evenements_noms_regionaux_dates.csv",
 }
 
 def sha256(path: Path) -> str:
@@ -169,13 +181,35 @@ def analyser(sources: dict[str, Path], strict: bool = True) -> dict:
     names_changed = [
         {"code_reg":code, "libelle_COG2016":regs[2016][code]["NCCENR"],
          "libelle_COG2026":regs[2026][code]["NCCENR"],
-         "date_effet_changement":"A_INSTRUIRE",
-         "preuve":"comparaison_COG_2016_2026_non_date_exacte"}
+         "date_effet_changement":NOMS_DEFINITIFS_2016[code][0],
+         "preuve":NOMS_DEFINITIFS_2016[code][1]}
         for code in sorted(regs[2026])
         if regs[2016][code]["NCCENR"] != regs[2026][code]["NCCENR"]
     ]
     if strict and set(r["code_reg"] for r in names_changed) != {"32","44","75","76"}:
         raise ValueError("Les quatre changements de libellé de 2016 à 2026 diffèrent")
+    if regs[2015]["24"]["NCCENR"] != NOM_CENTRE_2015[2] or regs[2016]["24"]["NCCENR"] != NOM_CENTRE_2015[3]:
+        raise ValueError("La dénomination Centre / Centre-Val de Loire ne concorde pas avec la loi")
+    evenements_noms=[
+        {
+            "code_reg":NOM_CENTRE_2015[0],
+            "date_effet":NOM_CENTRE_2015[1],
+            "libelle_avant":NOM_CENTRE_2015[2],
+            "libelle_apres":NOM_CENTRE_2015[3],
+            "nature":"renommage_sans_fusion",
+            "source_juridique":NOM_CENTRE_2015[4],
+        },
+    ]+[
+        {
+            "code_reg":row["code_reg"],
+            "date_effet":row["date_effet_changement"],
+            "libelle_avant":row["libelle_COG2016"],
+            "libelle_apres":row["libelle_COG2026"],
+            "nature":"nom_definitif_de_region_fusionnee",
+            "source_juridique":row["preuve"],
+        }
+        for row in names_changed
+    ]
     status = {
         "schema":"adlfi.lieux.regions_cog.audit_millesimes.v1",
         "statut":"RECETTE_NON_VALIDANTE_HORS_PAGES",
@@ -187,12 +221,14 @@ def analyser(sources: dict[str, Path], strict: bool = True) -> dict:
         "departements_reg_2015_differente_2016":departements_modifies,
         "departements_reg_2016_differente_2026":0,
         "libelles_2016_2026_differents":names_changed,
+        "evenements_denomination_juridiquement_dates":evenements_noms,
         "sources_sha256":hashes,
         "alignements_pactols_crees":0,
         "geometries_historiques_creees":0,
         "avertissements":[
             "Un COG annuel atteste la situation au 1er janvier, pas toute une période.",
-            "Les libellés provisoires de 2016 ne sont pas les noms officiels de 2026.",
+            "Au 1er janvier 2016 les quatre nouveaux noms sont provisoires : noms définitifs au 30 septembre 2016.",
+            "Le 1er janvier 2015 et le 17 janvier 2015 ne sont pas la même situation nominale pour la région Centre.",
             "Un code inchangé ne prouve pas la stabilité juridique ni géométrique.",
             "Les COMER ne sont pas des régions et n'entrent pas dans la liste régionale.",
             "Une nouvelle région issue d'une fusion a plusieurs prédécesseurs explicites.",
@@ -200,16 +236,18 @@ def analyser(sources: dict[str, Path], strict: bool = True) -> dict:
         ],
     }
     return {"regions":snapshots,"successions":successions,
-            "appartenances":appart,"renommages":names_changed,"rapport":status}
+            "appartenances":appart,"renommages":names_changed,
+            "evenements_noms":evenements_noms,"rapport":status}
 
 def ecrire(result:dict, out:Path):
     out=Path(out)
     if "docs" in out.resolve().parts:
         raise ValueError("Sortie de recette impossible dans docs/")
     out.mkdir(parents=True,exist_ok=True)
-    for key in ("snap","fus","dep","ren"):
+    for key in ("snap","fus","dep","ren","evt"):
         field={"snap":"regions","fus":"successions",
-               "dep":"appartenances","ren":"renommages"}[key]
+               "dep":"appartenances","ren":"renommages",
+               "evt":"evenements_noms"}[key]
         rows=result[field]
         with (out/OUTPUTS[key]).open("w",encoding="utf-8-sig",newline="") as f:
             cols=list(rows[0]) if rows else (
