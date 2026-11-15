@@ -1,0 +1,54 @@
+name: Lieux — reconnaissance de géométries régionales millésimées (2015–2016)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-bfc-geometries.yml'
+      - 'recette/lieux/ADR-HIERARCHIE-REGIONS-ZOOM-20261115.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reconnaissance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Interroger le référentiel Opendatasoft millésimé sans produire de contours inférés
+        run: |
+          python3 - <<'PY'
+          import json,hashlib,urllib.parse,urllib.request,os
+          from pathlib import Path
+          out=Path(os.environ["RUNNER_TEMP"])/"bfc-geo-sondage"
+          out.mkdir()
+          base="https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-france-region-millesime"
+          urls={
+            "schema":base,
+            "sample":base+"/records?limit=5",
+            "annee_2015":base+"/records?"+urllib.parse.urlencode({"where":"year='2015'","limit":5}),
+            "annee_2016":base+"/records?"+urllib.parse.urlencode({"where":"year='2016'","limit":5}),
+          }
+          results={}
+          for key,url in urls.items():
+            req=urllib.request.Request(url,headers={"User-Agent":"AdlFI-referentiels-audit/1.0","Accept":"application/json"})
+            try:
+              with urllib.request.urlopen(req, timeout=65) as resp:
+                blob=resp.read(3_000_000)
+                status=resp.status
+              parsed=json.loads(blob)
+              results[key]={"http":status,"octets":len(blob),"sha256":hashlib.sha256(blob).hexdigest(),
+                "top_fields":list(parsed)[:30],"total_count":parsed.get("total_count"),
+                "sample":parsed.get("results",[])[:2]}
+              (out/(key+".json")).write_bytes(blob)
+            except Exception as exc:
+              results[key]={"error":str(exc)}
+            print(key, json.dumps(results[key],ensure_ascii=False)[:9000])
+          (out/"rapport.json").write_text(json.dumps(results,ensure_ascii=False,indent=2,sort_keys=True)+"\n")
+          if "error" in results["sample"]:
+            raise ValueError("Accès au référentiel ODS manquant")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adlfi-lieux-bfc-sondage-geometries-millesimees
+          path: ${{ runner.temp }}/bfc-geo-sondage/
+          retention-days: 30
