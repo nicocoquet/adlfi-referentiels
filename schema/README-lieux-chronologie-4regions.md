@@ -1,8 +1,8 @@
-# Lieux AdlFI — aperçu chronologique de quatre régions (PR de recette)
+# Lieux AdlFI — chronologie de quatre régions (publication pilote)
 
 ## Objet
 
-Préparer un **site de recette autonome**, non diffusé dans le GitHub Pages de production, avec :
+Publier une première carte chronologique pour quatre régions, en maintenant un artefact autonome de recette avec :
 - sélecteur PACA / Corse / Pays de la Loire / Bourgogne-Franche-Comté ;
 - recherche des noms historiques et des codes COG, indépendante de l'année ;
 - un seul curseur **1943–2026**, chaque valeur représentant **le 1er janvier** ;
@@ -46,12 +46,29 @@ Exemples de vérification : Marchaux 2017/2018 ; Chemilla/Saint-Hymetière-sur-V
 
 ## État de publication
 
-**Ne pas fusionner cette PR de recette avant que les quatre paires de données aient été examinées et intégrées dans une PR de publication distincte.** Sinon, la page chronologie de docs/ ferait référence à des fichiers qui ne sont pas encore dans le dépôt.
+La publication pilote est accessible depuis la page **Lieux** du site GitHub Pages :
+`/lieux/chronologie/`. Elle est destinée à rester une version intermédiaire,
+avant l'extension aux départements et collectivités d'outre-mer et
+la refonte mondiale de la navigation cartographique.
 
-La PR #24, et ses tables de candidatures, reste séparée. La PR #28 concerne le schéma relationnel de recette et n'est pas nécessaire à l'affichage des faits administratifs officiels.
+Les huit jeux de données `docs/data/lieux-chronologie/cog-*.json` et
+`docs/data/lieux-chronologie/contours-2026-*.geojson` ont été générés
+sur les sources officielles contrôlées, testés dans la CI puis versionnés.
+Le manifeste les accompagne avec les empreintes des fichiers sources.
 
-Avant déploiement Pages :
-1. examiner les bilans, empreintes et cardinalités des quatre régions ;
-2. vérifier visuellement le rendu Leaflet, la recherche, le curseur et le statut des contours ;
-3. décider si les fichiers générés et contrôlés sont aptes à une publication autonome ;
-4. créer une PR finale modifiant le module Lieux existant avec des **données publiques approuvées**, sans fusionner en bloc les recettes.
+La CI doit échouer si une régénération de ces fichiers produit un écart
+par rapport aux fichiers versionnés dans le dépôt.
+
+La publication n'inclut **aucune nouvelle correspondance Pactols–COG**
+individuelle ; les 103 correspondances PACA préexistantes restent les
+seules validations documentaires exposées.
+
+La PR #24 (instruction scientifique) et la PR #28 (modèle relationnel)
+demeurent indépendantes et ne sont pas fusionnées en bloc.
+
+### Perspectives ultramarines
+
+Une phase ultérieure ajoutera les cinq DROM, avec des cartes régionales
+à chargement différé, puis les collectivités et territoires relevant
+des tableaux spécialisés du COG (notamment les districts des TAAF).
+L'historisation documentaire et l'homologation Pactols restent séparées.
