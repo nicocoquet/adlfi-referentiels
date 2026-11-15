@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Lieux — Chronologie régionale (recette) · Référentiels AdlFI</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lieux.css">
+  <link rel="stylesheet" href="../../assets/lieux-chronologie.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+</head>
+<body>
+<header><div class="site-top">
+  <a class="brand" href="../../"><span><span class="brand-main">Référentiels AdlFI</span>
+    <span class="brand-sub">Vocabulaires contrôlés pour l’archéologie</span></span></a>
+  <a class="header-adlfi-link" href="https://journals.openedition.org/adlfi/"
+     target="_blank" rel="noopener noreferrer" aria-label="Consulter la revue AdlFI">
+    <img class="header-adlfi-logo" src="../../assets/logo-adlfi.png"
+         width="600" height="281" alt="AdlFI — Archéologie de la France – Informations"></a>
+</div></header>
+<div class="page-intro page-intro--with-art page-intro--compact-art">
+  <a class="back-home" href="../">← Lieux</a>
+  <h1>Chronologie des communes</h1>
+  <div class="page-intro__art" aria-hidden="true">
+    <img src="../../assets/cartouches/lieux.webp" width="681" height="648" alt="">
+  </div>
+</div>
+<main class="page-content lieux-content">
+  <p class="chrono-recette">Aperçu de recette — géographie administrative de l’Insee, 1943–2026.
+    Seules les correspondances Pactols–COG du pilote PACA sont actuellement validées par AdlFI.
+    Les autres régions sont consultables comme <strong>données administratives officielles indépendantes de Pactols</strong>.</p>
+  <div class="chrono-controls">
+    <div class="chrono-control">
+      <label for="chrono-region">Région étudiée</label>
+      <select id="chrono-region">
+        <option value="paca">Provence-Alpes-Côte d’Azur</option>
+        <option value="corse">Corse</option>
+        <option value="pdl">Pays de la Loire</option>
+        <option value="bfc">Bourgogne-Franche-Comté</option>
+      </select>
+    </div>
+    <div class="chrono-control chrono-control--query">
+      <label for="chrono-query">Rechercher un code, un nom ancien ou un ARK validé</label>
+      <input id="chrono-query" type="search" autocomplete="off"
+             placeholder="Ex. Marchaux, Chemilla, 49069…">
+      <ul id="chrono-results" class="chrono-results" hidden aria-label="Résultats de recherche"></ul>
+    </div>
+  </div>
+  <section class="chrono-time" aria-label="Navigation chronologique">
+    <div class="chrono-time-heading">
+      <label for="chrono-year">Situation administrative au 1er janvier</label>
+      <output id="chrono-year-label" for="chrono-year">2026</output>
+    </div>
+    <input id="chrono-year" type="range" min="1943" max="2026" step="1" value="2026">
+    <div class="chrono-year-bounds"><span>1943</span><span>2026</span></div>
+    <div class="chrono-time-actions">
+      <button id="chrono-prev" type="button">← Année précédente</button>
+      <button id="chrono-next" type="button">Année suivante →</button>
+      <button id="chrono-now" type="button">Revenir à 2026</button>
+      <label class="chrono-reference"><input type="checkbox" id="chrono-reference">
+        Afficher les limites 2026 comme repère actuel</label>
+    </div>
+  </section>
+  <div class="lieux-layout">
+    <section class="lieux-map-section">
+      <div id="chrono-map" class="lieux-map" role="region"
+           aria-label="Carte des limites communales 2026 et consultation administrative datée"></div>
+      <p id="chrono-map-status" class="lieux-map-status" role="status">
+        Les contours administratifs dessinés sont toujours millésimés 2026.
+      </p>
+      <div class="lieux-map-foot">
+        <span>Contours : source data.gouv.fr 2026, généralisation 100 m (ODbL)</span>
+        <span>Le curseur ne restitue pas les limites anciennes</span>
+      </div>
+    </section>
+    <aside class="lieux-detail" aria-label="Fiche administrative">
+      <div class="lieux-detail-head">
+        <span class="lieux-detail-label">Code officiel géographique / Pactols</span>
+        <span class="lieux-scope" id="chrono-scope">COG 2026</span>
+      </div>
+      <div id="chrono-detail" aria-live="polite">
+        <div class="lieux-empty"><h2>Sélectionner une commune</h2>
+          <p>Cliquez sur un contour de 2026, ou recherchez un nom ancien.
+            Les identités documentaires Pactols sont affichées séparément des états Insee.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <p id="chrono-count" class="chrono-summary" aria-live="polite">Chargement des données de la région…</p>
+  <p class="lieux-note">Les codes historiques sont regroupés par préfixe départemental et code
+    de région 2026 : ce regroupement ne reconstitue pas le rattachement régional à chaque
+    date. Les périodes COG décrivent les noms et statuts, pas les contours. Les communes
+    associées et déléguées ne sont observées ici qu’au millésime 2026.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="anonymous" defer></script>
+<script src="../../assets/lieux-chronologie-core.js" defer></script>
+<script src="../../assets/lieux-chronologie.js" defer></script>
+</body>
+</html>
