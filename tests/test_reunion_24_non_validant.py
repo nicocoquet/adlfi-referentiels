@@ -24,8 +24,14 @@ class Reunion24Tests(unittest.TestCase):
             code = r["code_INSEE_2026"]
             self.assertEqual(r["uri_INSEE_declaree_dans_Pactols"],
                              "http://id.insee.fr/geo/commune/" + code)
-            self.assertEqual(r["decision_editoriale"], "A_INSTRUIRE")
-            self.assertEqual(r["justification_editoriale"], "")
+            if code == "97407":
+                self.assertEqual(r["decision_editoriale"],
+                                 "ARK_CONFIRME_CORRESPONDANCE_A_VALIDER")
+                self.assertIn("26678/pcrtIKvRT9vwUl",
+                              r["justification_editoriale"])
+            else:
+                self.assertEqual(r["decision_editoriale"], "A_INSTRUIRE")
+                self.assertEqual(r["justification_editoriale"], "")
             self.assertTrue(r["ark_Pactols_candidat"].startswith("26678/pcrt"))
             self.assertIn(r["avis_preinstruction"], (
                 "FAVORABLE_2026_SOUS_CONFIRMATION", "INSTRUCTION_COMPLEMENTAIRE"
@@ -48,7 +54,10 @@ class Reunion24Tests(unittest.TestCase):
                          "26678/pcrtIKvRT9vwUl")
         self.assertEqual(self.by_code["97407"]["prefLabel_fr_Pactols"],
                          "Le Port (La Réunion)")
-        self.assertEqual(self.by_code["97407"]["decision_editoriale"], "A_INSTRUIRE")
+        self.assertEqual(self.by_code["97407"]["decision_editoriale"],
+                         "ARK_CONFIRME_CORRESPONDANCE_A_VALIDER")
+        self.assertEqual(self.by_code["97407"]["avis_preinstruction"],
+                         "ARK_CONFIRME_EDITEUR_LIEN_A_VALIDER")
 
 
 if __name__ == "__main__":
