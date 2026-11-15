@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/audit-lieux-geofla-original-2015.yml'
       - 'scripts/qualifier_source_geofla_originale_bfc.py'
+      - 'scripts/construire_vue_bfc_ign_2015_ods_2016.py'
       - 'tests/test_qualifier_source_geofla_originale_bfc.py'
       - 'scripts/lister_geofla_2015_paquets.py'
   workflow_dispatch:
@@ -155,6 +156,21 @@ jobs:
           assert all(95.0<x["recouvrement_iou_pct"]<100 for x in r["comparaisons"])
           print("GEOFLA source primaire 2015 et deux régions dérivées contrôlés.")
           PY
+      - name: Construire le pilote cartographique mixte aux sources explicitement distinctes
+        run: |
+          python3 scripts/construire_vue_bfc_ign_2015_ods_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --ign2015 "$RUNNER_TEMP/geofla-original/recette/bfc-regions-reconstituees-departements-IGN-2015.geojson" \
+            --ods2016 "$RUNNER_TEMP/geofla-original/ods/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette/AdlFI_BFC_IGN_2015_ODS_2016.html"
+          python3 scripts/construire_vue_bfc_ign_2015_ods_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --ign2015 "$RUNNER_TEMP/geofla-original/recette/bfc-regions-reconstituees-departements-IGN-2015.geojson" \
+            --ods2016 "$RUNNER_TEMP/geofla-original/ods/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
+          cmp "$RUNNER_TEMP/geofla-original/recette/AdlFI_BFC_IGN_2015_ODS_2016.html" \
+              "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
+          rm "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
