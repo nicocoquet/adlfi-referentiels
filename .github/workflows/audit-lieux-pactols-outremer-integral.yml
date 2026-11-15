@@ -6,6 +6,8 @@ on:
       - 'tests/test_auditer_pactols_outremer_integral.py'
       - 'scripts/qualifier_candidats_pactols_outremer.py'
       - 'tests/test_qualifier_candidats_pactols_outremer.py'
+      - 'scripts/rechercher_toponymes_taaf_pactols.py'
+      - 'tests/test_rechercher_toponymes_taaf_pactols.py'
       - '.github/workflows/audit-lieux-pactols-outremer-integral.yml'
   workflow_dispatch:
 
@@ -27,6 +29,7 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p 'test_auditer_pactols_outremer_integral.py' -v
           python3 -m unittest discover -s tests -p 'test_qualifier_candidats_pactols_outremer.py' -v
+          python3 -m unittest discover -s tests -p 'test_rechercher_toponymes_taaf_pactols.py' -v
       - name: Obtenir les sources communales DROM du COG 2026
         run: |
           python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog_2026"
@@ -106,6 +109,16 @@ jobs:
             --sortie "$RUNNER_TEMP/qualif2"
           diff -qr "$RUNNER_TEMP/qualif1" "$RUNNER_TEMP/qualif2"
           cp "$RUNNER_TEMP/qualif1/"* "$RUNNER_TEMP/audit1/"
+      - name: Rechercher sans alignement les formes courtes des districts TAAF
+        run: |
+          python3 scripts/rechercher_toponymes_taaf_pactols.py \
+            --rdf "$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --sortie "$RUNNER_TEMP/taaf1"
+          python3 scripts/rechercher_toponymes_taaf_pactols.py \
+            --rdf "$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --sortie "$RUNNER_TEMP/taaf2"
+          diff -qr "$RUNNER_TEMP/taaf1" "$RUNNER_TEMP/taaf2"
+          cp "$RUNNER_TEMP/taaf1/"* "$RUNNER_TEMP/audit1/"
       - name: Vérifier les verrous éditoriaux et le périmètre
         run: |
           python3 - <<'PY'
@@ -129,6 +142,11 @@ jobs:
           assert quali["cibles"]==233 and quali["associations_brutes"]==r["candidatures"]
           assert quali["associations_qualificatif_incompatible"]>=100
           assert quali["nouveaux_alignements_valides"]==0
+          taaf=json.loads((root/"rapport_recherche_toponymes_taaf_pactols.json").read_text())
+          assert taaf["statut"]=="RECETTE_EXPLORATOIRE_NON_VALIDANTE"
+          assert taaf["nouveaux_alignements_valides"]==0
+          assert taaf["nb_concepts_examines"]==r["concepts_pactols_parcourus"]
+          print("Résultat recherche Kerguelen :",taaf["ark_candidats_par_cible"]["COMER:DIS:98412"])
           PY
       - name: Archiver uniquement les contrôles sans publier les candidats
         uses: actions/upload-artifact@v4
