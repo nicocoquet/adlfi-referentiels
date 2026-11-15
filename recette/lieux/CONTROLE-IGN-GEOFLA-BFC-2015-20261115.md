@@ -53,3 +53,20 @@ Pour comparaison entre les deux représentations **ODS 2015 et ODS 2016**, l'uni
 La PR 31 contient `scripts/qualifier_source_geofla_originale_bfc.py`, des tests de validité de source, et un workflow de recette téléchargeant, contrôlant et comparant les fichiers. L'archive d'entrée et les cartes de sortie sont conservées **hors `docs/`**. Aucune attribution automatique d'ARK Pactols et aucune géométrie historique construite à partir de contours 2026.
 
 **Prochain jalon** : confronter le polygone BFC 2016 à la couche GEOFLA DÉPARTEMENT millésimée 2016, puis généraliser le principe aux sept fusions régionales avant d'ajouter le sélecteur « Échelon territorial ».
+
+
+## Intégration dans le pilote autonome : sources cartographiques distinctes
+
+Le rendu local du **15 novembre 2026** a été construit en substituant aux deux polygones dérivés ODS 2015 les **unions géométriques des huit départements de l'archive primaire GEOFLA 2015**, tout en conservant **le polygone ODS 2016** inchangé. Les fichiers de sortie et la comparaison se trouvent dans le paquet de recette `AdlFI_BFC_comparaison_IGN_2015_ODS_2016.zip` (avec l'archive IGN d'origine, SHA-256 vérifié). La structure du nouveau HTML contient trois objets géométriques, chacun avec sa provenance et son millésime explicites.
+
+Le générateur versionné `scripts/construire_vue_bfc_ign_2015_ods_2016.py` vérifie que :
+
+- l'état 2015 contient **exactement** `26` et `43`, issus d'**unions déclarées de départements GEOFLA** édités le 4 mars 2015 ;
+- l'état 2016 contient **exactement** `27`, provenant du jeu Opendatasoft millésimé 2016 ;
+- les fiches et légendes distinguent explicitement les deux **origines des données** ;
+- toute tentative d'utiliser le répertoire de publication `docs/` est refusée ;
+- **aucun** nouveau lien Pactols ou contour issu de 2026 n'est inféré.
+
+Le workflow `.github/workflows/audit-lieux-geofla-original-2015.yml` a été complété pour générer deux fois le HTML et comparer les fichiers octet par octet, après les contrôles SIG déjà présents. **Ne pas considérer la reproductibilité de ce dernier ajout comme confirmée avant la fin de son exécution CI.**
+
+**Limite persistante :** la version 2016 repose encore sur un contour ODS simplifié ; sa confrontation au paquet **IGN GEOFLA DÉPARTEMENT 2016** est le prochain contrôle indépendant. L'édition du 4 mars 2015 ne doit pas être présentée sans réserve comme une photographie juridique prise le 1er janvier 2015.
