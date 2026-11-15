@@ -123,7 +123,7 @@ jobs:
           PY
       - name: Installer dépendances SIG pour contre-expertise des polygones
         run: |
-          python3 -m pip install 'geopandas==1.1.2' 'shapely==2.1.2' 'pyproj==3.7.2' 'pyogrio==0.11.1'
+          python3 -m pip install 'geopandas==1.1.2' 'shapely==2.1.2' 'pyproj==3.7.2' 'pyogrio>=0.12,<0.14'
       - name: Contrôler les huit départements BFC et comparer à Opendatasoft 2015
         run: |
           python3 -m unittest discover -s tests -p 'test_qualifier_source_geofla_originale_bfc.py' -v
