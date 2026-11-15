@@ -28,7 +28,7 @@ def telecharger(timeout=60):
     records=[]
     offset=0; total=None; h=hashlib.sha256()
     while total is None or offset<total:
-        url=API+"?"+urllib.parse.urlencode({"limit":100,"offset":offset})
+        url=API+"?"+urllib.parse.urlencode({"limit":100,"offset":offset,"order_by":"year ASC, reg_code ASC"})
         req=urllib.request.Request(url,headers={
             "Accept":"application/json",
             "User-Agent":"AdlFI-Lieux-COG-historique-recherche/1.0",
