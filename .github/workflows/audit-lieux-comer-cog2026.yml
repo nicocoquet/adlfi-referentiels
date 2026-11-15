@@ -1,0 +1,77 @@
+name: Lieux — audit des collectivités et zonages COMER au COG 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_cog_comer_2026.py'
+      - 'tests/test_auditer_cog_comer_2026.py'
+      - '.github/workflows/audit-lieux-comer-cog2026.yml'
+      - 'recette/lieux/NOTE-AUDIT-DROM-COG2026-20261115.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests synthétiques
+        run: python3 -m unittest discover -s tests -p 'test_auditer_cog_comer_2026.py' -v
+      - name: Acquérir l'archive officielle Insee COG 2026
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import hashlib,os,zipfile
+          from pathlib import Path
+          f=Path(os.environ["RUNNER_TEMP"])/"cog_ensemble_2026_csv.zip"
+          names={"v_comer_2026.csv","v_tom_depuis_1943.csv",
+                 "v_commune_comer_2026.csv","v_commune_outremer_depuis_1943.csv"}
+          out=f.parent/"comer_sources";out.mkdir()
+          with zipfile.ZipFile(f) as zipf:
+              for name in sorted(names):
+                  matches=[entry for entry in zipf.infolist()
+                           if Path(entry.filename).name == name]
+                  if len(matches)!=1:raise ValueError("Fichier absent ou double : "+name)
+                  raw=zipf.read(matches[0])
+                  if not raw or len(raw)>5_000_000:raise ValueError("Source suspecte : "+name)
+                  (out/name).write_bytes(raw)
+                  print(name,len(raw),hashlib.sha256(raw).hexdigest())
+          PY
+      - name: Générer deux fois le rapport sans extrapolation
+        run: |
+          python3 scripts/auditer_cog_comer_2026.py \
+            --sources "$RUNNER_TEMP/comer_sources" --sortie "$RUNNER_TEMP/recette1"
+          python3 scripts/auditer_cog_comer_2026.py \
+            --sources "$RUNNER_TEMP/comer_sources" --sortie "$RUNNER_TEMP/recette2"
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Contrôles spécifiques TAAF, géographie et publication
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"recette1"
+          r=json.loads((root/"rapport_comer_2026.json").read_text())
+          print("Sources et volumes :",r["volumes"])
+          print("Zonages actuels :",r["natures_zonages_actuels"])
+          print("TAAF :",r["taaf_2026"])
+          assert r["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert r["taaf_tous_districts"] and len(r["taaf_2026"])==5
+          assert {x["nature"] for x in r["taaf_2026"]}=={"DIS"}
+          assert r["nombre_ark_pactols_attribues"]==0
+          assert r["nombre_geometries_historiques_attribuees"]==0
+          for kind in ("COM","DIS","CIR","CPT","CDM"):
+              assert kind in {"COM","DIS","CIR","CPT","CDM"}
+          PY
+      - name: Conserver uniquement un artefact de recette, hors docs/
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-comer-cog2026-instruction
+          path: ${{ runner.temp }}/recette1/
+          retention-days: 30
