@@ -5,6 +5,7 @@ on:
       - '.github/workflows/audit-lieux-geofla-original-2015.yml'
       - 'scripts/qualifier_source_geofla_originale_bfc.py'
       - 'tests/test_qualifier_source_geofla_originale_bfc.py'
+      - 'scripts/lister_geofla_2015_paquets.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,6 +35,10 @@ jobs:
           (path/"liste-archive-geofla-2015.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
+      - name: Recenser les paquets départementaux 2015 dans toutes les pages Atom IGN
+        run: |
+          python3 scripts/lister_geofla_2015_paquets.py \
+            --sortie "$RUNNER_TEMP/geofla-original/catalogue-tous-paquets-geofla-2015.json"
       - name: Télécharger et vérifier l'archive GEOFLA originale et son MD5
         run: |
           python3 -m pip install 'py7zr==1.0.0'
@@ -77,15 +82,17 @@ jobs:
           with py7zr.SevenZipFile(original,"r") as z:
               names=z.getnames()
           departements=[n for n in names if n.lower().endswith("departement.shp")]
-          if len(departements)!=1:raise ValueError("Shapefile départemental absent ou dupliqué : "+repr(departements))
+          # Ce paquet dit "GeoFLA" ne garantit pas une couche DEPARTEMENT.
+          # Enregistrer ce constat sans inventer un fichier absent.
           inv={
               "source_primaire":src,"source_md5":md5url,
               "sha256_archive":meta["sha256"],"octets_archive":meta["octets"],
               "md5_IGN_verifie":md5att,"nombre_entrees":len(names),
               "fichiers_departements":sorted(n for n in names if "DEPARTEMENT" in n.upper())[:50],
-              "shapefile_departements":departements[0],
+              "shapefile_departements":departements[0] if len(departements)==1 else None,
+              "shapefile_canton_present":any(n.lower().endswith("canton.shp") for n in names),
               "niveau_regional_autonome":any(n.lower().endswith("region.shp") for n in names),
-              "statut":"ARCHIVE_ORIGINALE_IGN_CONTROLEE_NON_GEOMETRIE_REGIONALE_VALIDEE",
+              "statut":"ARCHIVE_IGN_MD5_VERIFIEE_CONTENU_A_QUALIFIER_SANS_INFERENCE",
           }
           (root/"inventaire-verifie-archive-ign.json").write_text(
               json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
