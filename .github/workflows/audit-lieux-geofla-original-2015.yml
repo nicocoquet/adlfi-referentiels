@@ -106,6 +106,55 @@ jobs:
           print(json.dumps(inv,ensure_ascii=False,indent=2))
           PY
           # Conserver le paquet original vérifié pour une comparaison géométrique indépendante.
+      - name: Extraire le thème DÉPARTEMENT de l'archive originale IGN (pas LIMITE_DEPARTEMENT)
+        run: |
+          python3 - <<'PY'
+          import os,py7zr
+          from pathlib import Path
+          base=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          arc=base/"GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
+          with py7zr.SevenZipFile(arc,mode="r") as z:
+              z.extractall(path=base/"extrait")
+          shp=[p for p in (base/"extrait").rglob("*") if p.is_file() and p.name.upper()=="DEPARTEMENT.SHP"]
+          if len(shp)!=1:raise ValueError("Le thème DEPARTEMENT.shp d'origine doit être unique")
+          (base/"chemin-shapefile.txt").write_text(str(shp[0]),encoding="utf8")
+          print("Shapefile IGN :",shp[0])
+          PY
+      - name: Installer dépendances SIG pour contre-expertise des polygones
+        run: |
+          python3 -m pip install 'geopandas==1.1.2' 'shapely==2.1.2' 'pyproj==3.7.2' 'pyogrio==0.11.1'
+      - name: Contrôler les huit départements BFC et comparer à Opendatasoft 2015
+        run: |
+          python3 -m unittest discover -s tests -p 'test_qualifier_source_geofla_originale_bfc.py' -v
+          python3 scripts/preparer_pilote_regions_bfc.py \
+            --sortie "$RUNNER_TEMP/geofla-original/ods"
+          SHP="$(cat "$RUNNER_TEMP/geofla-original/chemin-shapefile.txt")"
+          python3 scripts/qualifier_source_geofla_originale_bfc.py \
+            --shp "$SHP" \
+            --ods2015 "$RUNNER_TEMP/geofla-original/ods/regions-2015-bfc.geojson" \
+            --archive "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette"
+          python3 scripts/qualifier_source_geofla_originale_bfc.py \
+            --shp "$SHP" \
+            --ods2015 "$RUNNER_TEMP/geofla-original/ods/regions-2015-bfc.geojson" \
+            --archive "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z" \
+            --sortie "$RUNNER_TEMP/geofla-original/reproduction"
+          diff -qr "$RUNNER_TEMP/geofla-original/recette" "$RUNNER_TEMP/geofla-original/reproduction"
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          base=Path(os.environ["RUNNER_TEMP"])/"geofla-original/recette"
+          r=json.loads((base/"rapport-comparaison-GEOFLA-ODS-2015.json").read_text())
+          assert r["departements_metropole_officiels"]==96
+          assert r["departements_BFC_controles"]==8
+          assert r["nombre_contours_regionaux_directement_produits_par_ign"]==0
+          assert r["nombre_contours_regionaux_derived_de_departements_2015"]==2
+          assert r["geometries_retroprojetees_depuis_2026"]==0
+          assert r["alignements_Pactols_crees"]==0
+          assert len(r["comparaisons"])==2
+          assert all(95.0<x["recouvrement_iou_pct"]<100 for x in r["comparaisons"])
+          print("GEOFLA source primaire 2015 et deux régions dérivées contrôlés.")
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
