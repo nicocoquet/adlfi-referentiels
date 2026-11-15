@@ -77,6 +77,46 @@ jobs:
               json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
           print(json.dumps(report,ensure_ascii=False,indent=2))
           PY
+      - name: Tests de parsing et de qualification temporelle
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_cog_regions_millesimes.py' -v
+      - name: Auditer les régions et rattachements départementaux à trois millésimes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_cog_regions_millesimes.py \
+            --reg2015 "$RUNNER_TEMP/regions-cog/reg2015-txt.zip" \
+            --reg2016 "$RUNNER_TEMP/regions-cog/reg2016-txt.zip" \
+            --reg2026 "$RUNNER_TEMP/regions-cog/v_region_2026.csv" \
+            --dep2015 "$RUNNER_TEMP/regions-cog/depts2015-txt.zip" \
+            --dep2016 "$RUNNER_TEMP/regions-cog/depts2016-txt.zip" \
+            --dep2026 "$RUNNER_TEMP/regions-cog/v_departement_2026.csv" \
+            --sortie "$RUNNER_TEMP/regions-cog/recette"
+          python3 scripts/auditer_cog_regions_millesimes.py \
+            --reg2015 "$RUNNER_TEMP/regions-cog/reg2015-txt.zip" \
+            --reg2016 "$RUNNER_TEMP/regions-cog/reg2016-txt.zip" \
+            --reg2026 "$RUNNER_TEMP/regions-cog/v_region_2026.csv" \
+            --dep2015 "$RUNNER_TEMP/regions-cog/depts2015-txt.zip" \
+            --dep2016 "$RUNNER_TEMP/regions-cog/depts2016-txt.zip" \
+            --dep2026 "$RUNNER_TEMP/regions-cog/v_departement_2026.csv" \
+            --sortie "$RUNNER_TEMP/regions-cog/reproduction"
+          diff -qr "$RUNNER_TEMP/regions-cog/recette" "$RUNNER_TEMP/regions-cog/reproduction"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"regions-cog/recette/rapport_region_2015_2016_2026.json"
+          d=json.loads(p.read_text(encoding="utf8"))
+          assert [d["annees"][str(y)]["regions"] for y in (2015,2016,2026)]==[27,18,18]
+          assert all(d["annees"][str(y)]["departements"]==101 for y in (2015,2016,2026))
+          assert d["fusions_regionales_2016"]==7
+          assert d["anciennes_regions_fusionnees"]==16
+          assert d["regions_ancien_millesime_reliees"]==27
+          assert d["departements_reg_2015_differente_2016"]==65
+          assert d["departements_reg_2016_differente_2026"]==0
+          assert d["alignements_pactols_crees"]==0 and d["geometries_historiques_creees"]==0
+          assert {x["code_reg"] for x in d["libelles_2016_2026_differents"]}=={"32","44","75","76"}
+          print("COG régional audité et reproduit à l'octet")
+          PY
       - name: Déposer les originaux de recette sans publier sur Pages
         uses: actions/upload-artifact@v4
         with:
