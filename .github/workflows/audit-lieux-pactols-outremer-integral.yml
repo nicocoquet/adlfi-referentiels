@@ -55,9 +55,13 @@ jobs:
             https://github.com/frantiq/PACTOLS.git "$RUNNER_TEMP/pactols"
           GIT_LFS_SKIP_SMUDGE=1 git -C "$RUNNER_TEMP/pactols" sparse-checkout set \
             pactols-latest-version/pactols_lieux_all
-          git -C "$RUNNER_TEMP/pactols" lfs pull \
+          git -C "$RUNNER_TEMP/pactols" lfs fetch origin \
             --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
-            --exclude="*"
+            --exclude=""
+          git -C "$RUNNER_TEMP/pactols" lfs checkout \
+            --include="pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" \
+            --exclude=""
+          git -C "$RUNNER_TEMP/pactols" lfs ls-files | grep Pactols_Lieux_th17_20260722.rdf
           rdf="$RUNNER_TEMP/pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf"
           printf '%s  %s\n' \
             "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7" \
