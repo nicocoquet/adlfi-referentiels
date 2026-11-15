@@ -12,14 +12,12 @@ import hashlib
 import json
 from pathlib import Path
 
-from pyproj import Transformer
-from shapely.geometry import shape
-from shapely.ops import transform, unary_union
 
 EXPECTED={"2015":{"26","43"},"2016":{"27"}}
 PROJECTION="EPSG:2154"
 
 def geom_load(path:Path,year:str):
+    from shapely.geometry import shape
     document=json.loads(Path(path).read_text(encoding="utf-8"))
     if document.get("type")!="FeatureCollection":
         raise ValueError("GeoJSON FeatureCollection attendu")
@@ -45,6 +43,8 @@ def geom_load(path:Path,year:str):
     return geoms
 
 def comparer(p2015:Path,p2016:Path):
+    from pyproj import Transformer
+    from shapely.ops import transform, unary_union
     tr=Transformer.from_crs("EPSG:4326",PROJECTION,always_xy=True).transform
     anciennes=unary_union([transform(tr,g) for g in geom_load(p2015,"2015")])
     nouvelle=unary_union([transform(tr,g) for g in geom_load(p2016,"2016")])
