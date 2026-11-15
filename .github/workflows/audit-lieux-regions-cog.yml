@@ -32,12 +32,21 @@ jobs:
           curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
             'https://www.insee.fr/fr/statistiques/fichier/8740222/v_region_2026.csv' \
             -o "$RUNNER_TEMP/regions-cog/v_region_2026.csv"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2560698/depts2015-txt.zip' \
+            -o "$RUNNER_TEMP/regions-cog/depts2015-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2114819/depts2016-txt.zip' \
+            -o "$RUNNER_TEMP/regions-cog/depts2016-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_departement_2026.csv' \
+            -o "$RUNNER_TEMP/regions-cog/v_departement_2026.csv"
           python3 - <<'PY'
           import os,zipfile,hashlib,json
           from pathlib import Path
           root=Path(os.environ['RUNNER_TEMP'])/'regions-cog'
           report={}
-          for name in ('reg2015-txt.zip','reg2016-txt.zip','v_region_2026.csv'):
+          for name in ('reg2015-txt.zip','reg2016-txt.zip','v_region_2026.csv','depts2015-txt.zip','depts2016-txt.zip','v_departement_2026.csv'):
               path=root/name
               data=path.read_bytes()
               if not data:raise ValueError('Source vide : '+name)
