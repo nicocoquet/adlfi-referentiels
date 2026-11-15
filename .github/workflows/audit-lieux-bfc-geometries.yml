@@ -4,6 +4,10 @@ on:
     paths:
       - '.github/workflows/audit-lieux-bfc-geometries.yml'
       - 'recette/lieux/ADR-HIERARCHIE-REGIONS-ZOOM-20261115.md'
+      - 'recette/lieux/pilote-bfc-modele.html'
+      - 'scripts/preparer_pilote_regions_bfc.py'
+      - 'scripts/construire_vue_bfc_2015_2016.py'
+      - 'tests/test_preparer_pilote_regions_bfc.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -46,6 +50,25 @@ jobs:
           if "error" in results["sample"]:
             raise ValueError("Accès au référentiel ODS manquant")
           PY
+      - name: Contrôler les conditions de datation et le refus de géométrie inférée
+        run: |
+          python3 -m unittest discover -s tests -p 'test_preparer_pilote_regions_bfc.py' -v
+      - name: Extraire trois contours 2015 / 2016 exactement identifiés au COG
+        run: |
+          python3 scripts/preparer_pilote_regions_bfc.py --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette"
+      - name: Créer la carte autonome consultable sans serveur
+        run: |
+          python3 scripts/construire_vue_bfc_2015_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --dossier "$RUNNER_TEMP/bfc-geo-sondage/recette" \
+            --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette/AdlFI_BFC_regions_2015_2016.html"
+          python3 scripts/construire_vue_bfc_2015_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --dossier "$RUNNER_TEMP/bfc-geo-sondage/recette" \
+            --sortie "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction.html"
+          cmp "$RUNNER_TEMP/bfc-geo-sondage/recette/AdlFI_BFC_regions_2015_2016.html" \
+              "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction.html"
+          rm "$RUNNER_TEMP/bfc-geo-sondage/recette/reproduction.html"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
