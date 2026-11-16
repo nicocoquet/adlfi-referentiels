@@ -23,12 +23,14 @@ try:
     from shapely import make_valid
     from shapely.geometry import shape
     from shapely.ops import transform
+    from shapely.validation import explain_validity
     GEOMETRIES_DISPONIBLES = True
 except ImportError:
     Transformer = None
     make_valid = None
     shape = None
     transform = None
+    explain_validity = None
     GEOMETRIES_DISPONIBLES = False
 
 TARGETS = {
@@ -149,10 +151,14 @@ def stats_comparaison(source_geometry: dict, national_geometry: dict) -> dict:
     b = transform(transformer.transform, national_copy)
     return {
         "validite_source": source_ok, "validite_nationale": national_ok,
+        "motif_source": "Valid Geometry" if source_ok else explain_validity(source),
+        "motif_national": "Valid Geometry" if national_ok else explain_validity(national),
         "source_type": source.geom_type, "national_type": national.geom_type,
         "source_bounds_wgs84": list(source.bounds),
         "national_bounds_wgs84": list(national.bounds),
         "diagnostic_sur_copie_uniquement": True,
+        "reparation_diagnostic_source": not source_ok,
+        "reparation_diagnostic_nationale": not national_ok,
         "source_surface_km2": round(a.area / 1e6, 6),
         "national_surface_km2": round(b.area / 1e6, 6),
         "ecart_surface_km2": round(abs(a.area - b.area) / 1e6, 6),
