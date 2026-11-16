@@ -4,7 +4,7 @@
 
 ## Décision d'interface
 
-Le sélecteur public « Échelon territorial » est limité à **Région / Département / Commune** (PR #41). Cette simplification ne supprime aucune entité administrative des données.
+Le sélecteur public « Échelon territorial » est limité à **Région / Département / Commune** (PR #41, fusionnée le 16 novembre 2026). Cette simplification ne supprime aucune entité administrative des données.
 
 Les collectivités et subdivisions ultramarines restent indexées sous leurs types d'origine ; la présence d'un objet COG dans le fichier géographique « communes » ne permet pas à elle seule de lui attribuer le statut de commune de droit commun.
 
@@ -69,7 +69,18 @@ CI : .github/workflows/audit-lieux-contours-outremer-2026.yml.
 - v_commune_comer_2026.csv : 9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8
 - v_comer_2026.csv : d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed
 
-Une étape de diagnostic **make_valid sur copie uniquement**, sans substitution à la géométrie source, est ajoutée aux scripts pour documenter les motifs d'invalidité et l'écart de surface indicatif. Les résultats de cette extension doivent être contrôlés dans la CI correspondante avant toute décision de réparation éditoriale.
+## Diagnostic ciblé des deux multipolygones invalides
+
+[Exécution spécialisée n°43895384451](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43895384451), réussie sur l'extension du diagnostic.
+
+| Code | Motif Shapely dans la source | Type après make_valid sur copie | Écart de surface planaire |
+|---|---|---|---:|
+| 98745 — Tahaa | Self-intersection[-151.447423287671 -16.5649232876712] | MultiPolygon | 0,001741883 % |
+| 98805 — Dumbéa | Self-intersection[166.4384 -22.1726] | MultiPolygon | 0,0 % à la précision affichée |
+
+L'écart est un **ratio de surfaces planaires en coordonnées géographiques**, non une mesure géodésique. Un écart faible ne suffit pas à approuver un contour ou son appartenance territoriale. Aucune sortie réparée n'a été introduite dans les fichiers géographiques publiés.
+
+Une vérification explicite de la validité des multipolygones issus de make_valid est désormais testée ; cette opération reste **strictement diagnostique et non publiable**.
 
 ## Étapes avant publication cartographique
 
