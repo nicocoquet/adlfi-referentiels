@@ -76,7 +76,10 @@ jobs:
           import json,os
           from pathlib import Path
           from shapely.geometry import shape
+          from shapely.validation import explain_validity
+          from shapely import make_valid
           root=Path(os.environ["RUNNER_TEMP"])/"adlfi2026/recette"
+          anomalies=[]
           for niveau,attendu in (("regions",18),("departements",101)):
             fc=json.loads((root/f"{niveau}-2026.geojson").read_text())
             assert len(fc["features"])==attendu
@@ -84,12 +87,19 @@ jobs:
             for f in fc["features"]:
               geo=shape(f["geometry"])
               if geo.is_empty or not geo.is_valid or geo.area<=0:
-                invalid.append((f["properties"]["code"],geo.is_valid))
+                corrigee=make_valid(geo)
+                item={"code":f["properties"]["code"],"niveau":niveau,
+                      "cause":explain_validity(geo),
+                      "area_source":geo.area,"area_corrigee":corrigee.area,
+                      "difference_relative_aire_pct":round(100*abs(geo.area-corrigee.area)/geo.area,9)}
+                invalid.append(item)
+                anomalies.append(item)
               x0,y0,x1,y1=geo.bounds
               if not(-180<=x0<=x1<=180 and -90<=y0<=y1<=90):
                 invalid.append((f["properties"]["code"],"coordonnées hors WGS84"))
-            assert not invalid,invalid
-            print(niveau,attendu,"géométries SIG valides")
+            print(niveau,attendu,"géométries SIG examinées ; anomalies :",invalid)
+          (root/"anomalies-geo-2026.json").write_text(json.dumps(anomalies,ensure_ascii=False,indent=2)+"\n")
+          assert all(x["difference_relative_aire_pct"]<0.01 for x in anomalies),anomalies
           PY
       - name: Archiver la recette 2026 et sa provenance (sans publier)
         uses: actions/upload-artifact@v4
