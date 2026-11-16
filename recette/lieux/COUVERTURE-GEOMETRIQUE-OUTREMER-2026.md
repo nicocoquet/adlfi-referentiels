@@ -104,6 +104,23 @@ Référence IGN : https://geoservices.ign.fr/sites/default/files/2025-01/DC_BDTO
 
 **Recette comparative ajoutée :** scripts/comparer_sources_geometrie_outremer.py, tests/test_comparer_sources_geometrie_outremer.py et .github/workflows/lieux-comparer-sources-outremer.yml. L'outil capture les deux sources ArcGIS **une fois**, fige leurs réponses et compare chacune au contour national du 4 mai 2026, puis répète la comparaison de manière reproductible. Les mesures de surface, intersection et différence symétrique sont calculées dans EPSG:6933 (projection équivalente). Les réparations Shapely, lorsqu'elles sont nécessaires, restent des **copies de diagnostic**. Aucun alignement Pactols ou contour approuvé n'est généré.
 
+### Première comparaison effective — CI n°43898929958
+
+[Exécution GitHub Actions](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43898929958) **réussie** : source nationale vérifiée par SHA-256, données territoriales acquises, tests, double comparaison identique et artefact temporaire.
+
+| Code COG | Géométrie territoriale | Géométrie nationale | Surface territoriale EPSG:6933 | Surface nationale EPSG:6933 | Différence symétrique | Recouvrement du polygone territorial |
+|---|---|---|---:|---:|---:|---:|
+| 98745 — Tahaa | **Invalide** | **Invalide** | 90,207751 km² | 89,980115 km² | 3,132074 km² | 98,137793 % |
+| 98805 — Dumbéa | **Valide** | **Invalide** | 251,408562 km² | 251,219692 km² | 3,097760 km² | 99,346357 % |
+
+Pour permettre la différence symétrique sur des géométries initialement invalides, les deux comparaisons utilisent **make_valid seulement en mémoire, sur des copies de diagnostic**. Les résultats n'attestent pas la continuité légale des limites ; les écarts reflètent aussi des différences de généralisation et des dates de production.
+
+**Identifiants et provenance fournis par les services :**
+- Te Fenua, Tahaa : com_nom=TAHAA, com_id=45, ObjectId=35 ; date_maj_donnee=« Date non connue », source=« Source inconnue ». Le code interne 45 n'est **pas** un code INSEE complet et la confirmation du référent reste ouverte. SHA-256 du retour GeoJSON : 3f13ad59acbffaee4e87f1ca57ec5eec0f96604b2dc0032704363fc70884b4e4.
+- DITTT, Dumbéa : nom=DUMBEA, code_com=98805, objectid=10 ; code COG concordant dans la couche territoriale. SHA-256 du retour GeoJSON : b3b5d264d97aa71647182ea0d199e6c010bd62b9444bf96c09a9ee4559e12cb6.
+
+**Arbitrage technique provisoire :** Dumbéa dispose d'une géométrie externe valide à évaluer pour une éventuelle adoption ; Tahaa reste non résolue puisqu'une seconde source est elle-même invalide. Aucune substitution automatique. Contrôler impérativement les deux écarts spatiaux et les emprises avant une décision de publication.
+
 **Attention aux millésimes :** la comparaison croise plusieurs éditions ; elle ne démontre pas que les sources territoriales décrivent précisément le 1er janvier 2026. Les résultats métriques doivent être interprétés à cette lumière, et la présence d'un contour n'implique pas une modification autorisée de la carte publique.
 
 ## Étapes avant publication cartographique
