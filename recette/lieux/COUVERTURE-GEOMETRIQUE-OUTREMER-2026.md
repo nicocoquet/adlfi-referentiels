@@ -41,7 +41,35 @@ CI : .github/workflows/audit-lieux-contours-outremer-2026.yml.
 3. Générer deux fois, de manière strictement identique, controle_233_cibles.csv et rapport_couverture_2026.json dans un dossier temporaire.
 4. Conserver un artefact **de recette** dans GitHub Actions pendant 30 jours ; aucune image vectorielle source et aucun CSV candidat ne sont ajoutés sous docs/.
 
-**Résultats de couverture effective et SHA-256 de l'archive géographique : non encore établis au moment de la rédaction.** Ne pas reprendre les nombres théoriques de candidats pour affirmer qu'ils sont tous dessinables.
+## Résultats constatés — CI réussie du 16 novembre 2026
+
+[Audit spécialisé n°43894284872](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43894284872) : tests synthétiques, acquisition des sources, contrôle des 233 cibles, double génération identique et artefact de recette réussis.
+
+| Nature COG | Entités | Présentes et topologiquement valides | Invalides | Absentes | Non évaluées comme territoire |
+|---|---:|---:|---:|---:|---:|
+| DROM:COM | 129 | 129 | 0 | 0 | 0 |
+| COMER:COM | 85 | 83 | **2** | 0 | 0 |
+| COMER:DIS (TAAF) | 5 | 5 | 0 | 0 | 0 |
+| COMER:CIR (Wallis-et-Futuna) | 3 | 3 | 0 | 0 | 0 |
+| COMER:CPT (Clipperton) | 1 | 1 | 0 | 0 | 0 |
+| COMER:CDM (Île des Faisans) | 1 | 0 | 0 | **1** | 0 |
+| COMER:TERRITOIRE | 9 | 0 | 0 | 0 | **9** |
+| **Total** | **233** | **221** | **2** | **1** | **9** |
+
+**Cas à instruire individuellement :**
+
+- **Tahaa**, code COMER:COM:98745 (Polynésie française) : MultiPolygon présent, mais topologiquement invalide dans la source 2026.
+- **Dumbéa**, code COMER:COM:98805 (Nouvelle-Calédonie) : MultiPolygon présent, mais topologiquement invalide dans la source 2026.
+- **Île des Faisans**, code COMER:CDM:98101 : pas de Feature correspondante dans le GeoJSON de communes. L'absence n'est pas une preuve d'inexistence de géométrie dans une autre source.
+
+**Empreintes SHA-256 contrôlées :**
+
+- communes-100m.geojson.gz : 4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778
+- v_commune_2026.csv : 7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3
+- v_commune_comer_2026.csv : 9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8
+- v_comer_2026.csv : d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed
+
+Une étape de diagnostic **make_valid sur copie uniquement**, sans substitution à la géométrie source, est ajoutée aux scripts pour documenter les motifs d'invalidité et l'écart de surface indicatif. Les résultats de cette extension doivent être contrôlés dans la CI correspondante avant toute décision de réparation éditoriale.
 
 ## Étapes avant publication cartographique
 
