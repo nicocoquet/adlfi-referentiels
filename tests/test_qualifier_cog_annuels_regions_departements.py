@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
@@ -44,11 +45,15 @@ class CogAnnuel(unittest.TestCase):
             archive(p,'v_region_2024.csv',['REG','NCCENR','LIBELLE'],
                     [{'REG':'11','NCCENR':'Île-de-France','LIBELLE':'Île-de-France'},
                      {'REG':'11','NCCENR':'Île-de-France','LIBELLE':'Île-de-France'}])
-            with self.assertRaisesRegex(ValueError,'dupliqué'):
-                q.lire_cog(p,2024,'regions')
+            with patch.dict(q.ARCHIVES_SHA256, {}, clear=True):
+                with self.assertRaisesRegex(ValueError,'dupliqué'):
+                    q.lire_cog(p,2024,'regions')
             archive(p,'v_region_2024.csv',['REG','NCCENR','LIBELLE'],
                     [{'REG':'11','NCCENR':'Île-de-France','LIBELLE':'Île-de-France'}])
-            with self.assertRaisesRegex(ValueError,'Cardinalité'):
+            with patch.dict(q.ARCHIVES_SHA256, {}, clear=True):
+                with self.assertRaisesRegex(ValueError,'Cardinalité'):
+                    q.lire_cog(p,2024,'regions')
+            with self.assertRaisesRegex(ValueError,'Empreinte'):
                 q.lire_cog(p,2024,'regions')
 
     def test_parseur_2018_tabulation_latin1(self):
@@ -57,8 +62,9 @@ class CogAnnuel(unittest.TestCase):
             archive(p,'reg2018.txt',['REGION','NCCENR'],
                     [{'REGION':'53','NCCENR':'Bretagne'}],
                     enc='latin-1',delimiter='\t')
-            with self.assertRaisesRegex(ValueError,'Cardinalité'):
-                q.lire_cog(p,2018,'regions')
+            with patch.dict(q.ARCHIVES_SHA256, {}, clear=True):
+                with self.assertRaisesRegex(ValueError,'Cardinalité'):
+                    q.lire_cog(p,2018,'regions')
 
     def test_refus_ecriture_docs(self):
         with self.assertRaisesRegex(ValueError,'publique interdite'):
