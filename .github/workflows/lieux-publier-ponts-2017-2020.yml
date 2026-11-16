@@ -83,6 +83,9 @@ jobs:
               assert rep["divergences_noms"]==[]
               reports[str(year)]=rep
               (dst/f"rapport-{year}.json").write_bytes((folder/f"rapport-{year}.json").read_bytes())
+          assert {(r["niveau"],r["code"]) for r in reports["2017"]["reparations"]} == {
+              ("region","06"),("departement","976")}
+          assert reports["2020"]["reparations"] == []
           assert len(entries)==238
           assert len({(e['year'],e['level'],e['code']) for e in entries})==238
           index={
