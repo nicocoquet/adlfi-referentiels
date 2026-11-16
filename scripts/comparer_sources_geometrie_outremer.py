@@ -134,6 +134,61 @@ def lire_national(path: Path) -> dict:
     return fc
 
 
+def _polygones(geom):
+    """Parcourir aussi les GeometryCollections issues de différences exactes."""
+    if geom.is_empty:
+        return
+    if geom.geom_type == "Polygon":
+        yield geom
+    elif geom.geom_type in ("MultiPolygon", "GeometryCollection"):
+        for part in geom.geoms:
+            yield from _polygones(part)
+
+
+def localiser_ecarts(a, b) -> dict:
+    """Décomposer les écarts en composantes surfaciques, sans exporter les polygones.
+
+    a et b sont des copies géométriques valides en EPSG:6933.
+    Les coordonnées des points témoins proviennent de l'inverse EPSG:6933.
+    """
+    inverse = Transformer.from_crs("EPSG:6933", "EPSG:4326", always_xy=True)
+    zones = []
+    for sens, geom in (("source_seule", a.difference(b)),
+                       ("national_seul", b.difference(a))):
+        for piece in _polygones(geom):
+            if piece.area <= 1:  # <1 m² : ne pas multiplier les microsurfaces
+                continue
+            point = piece.representative_point()
+            lon, lat = inverse.transform(point.x, point.y)
+            zones.append({
+                "sens": sens, "surface_km2": round(piece.area / 1e6, 9),
+                "point_temoin_lon": round(lon, 6),
+                "point_temoin_lat": round(lat, 6),
+            })
+    zones.sort(key=lambda x: (-x["surface_km2"], x["sens"],
+                              x["point_temoin_lon"], x["point_temoin_lat"]))
+    source_seule = a.difference(b).area / 1e6
+    national_seul = b.difference(a).area / 1e6
+    union = a.union(b).area / 1e6
+    return {
+        "source_hors_national_km2": round(source_seule, 6),
+        "national_hors_source_km2": round(national_seul, 6),
+        "nombre_zones_superieures_1m2": len(zones),
+        "dix_principales_zones": zones[:10],
+        "part_dix_principales_zones_pct": (
+            round(sum(z["surface_km2"] for z in zones[:10]) /
+                  (source_seule + national_seul) * 100, 6)
+            if source_seule + national_seul > 0 else 0.0
+        ),
+        "indice_jaccard_pct": (
+            round(a.intersection(b).area / (union * 1e6) * 100, 6)
+            if union > 0 else None
+        ),
+        "methode": "Différences surfaciques EPSG:6933, polygones sur copies "
+                   "valides seulement ; points témoins, ni frontières ni géométrie publiées.",
+    }
+
+
 def stats_comparaison(source_geometry: dict, national_geometry: dict) -> dict:
     if not GEOMETRIES_DISPONIBLES:
         raise RuntimeError("Les dépendances Shapely et pyproj sont nécessaires à la comparaison")
@@ -163,6 +218,7 @@ def stats_comparaison(source_geometry: dict, national_geometry: dict) -> dict:
         "national_surface_km2": round(b.area / 1e6, 6),
         "ecart_surface_km2": round(abs(a.area - b.area) / 1e6, 6),
         "difference_symetrique_km2": round(a.symmetric_difference(b).area / 1e6, 6),
+        "localisation_ecarts": localiser_ecarts(a, b),
         "recouvrement_pct_surface_source": round(
             a.intersection(b).area / a.area * 100, 6
         ) if a.area else None,
