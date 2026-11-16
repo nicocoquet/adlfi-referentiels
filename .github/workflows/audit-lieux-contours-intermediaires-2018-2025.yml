@@ -1,0 +1,74 @@
+name: Lieux — auditer les archives territoriales intermédiaires 2018–2025
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_contours_region_departement_2018_2025.py'
+      - 'tests/test_auditer_contours_region_departement_2018_2025.py'
+      - '.github/workflows/audit-lieux-contours-intermediaires-2018-2025.yml'
+      - 'docs/data/lieux-historique/*2026.geojson'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sources-et-comparaison:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer le calcul SIG de validation (sans géométrie publiée)
+        run: python3 -m pip install --disable-pip-version-check 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Contrôler les tests du dispositif
+        run: python3 -m unittest discover -s tests -p 'test_auditer_contours_region_departement_2018_2025.py' -v
+      - name: Acquérir les archives territoriales individuelles
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/archives"
+          for year in 2018 2019 2021 2022 2023 2024 2025; do
+            for level in regions departements; do
+              name="$level-$year.geojson.gz"
+              curl --fail --location --show-error --silent --retry 3 \
+                --connect-timeout 20 --max-time 120 \
+                "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/$year/geojson/$level-100m.geojson.gz" \
+                -o "$RUNNER_TEMP/archives/$name"
+              test -s "$RUNNER_TEMP/archives/$name"
+              gzip -t "$RUNNER_TEMP/archives/$name"
+              sha256sum "$RUNNER_TEMP/archives/$name"
+            done
+          done
+      - name: Auditer puis reproduire les séries sans publication sur Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_contours_region_departement_2018_2025.py \
+            --sources "$RUNNER_TEMP/archives" \
+            --reference-2026 docs/data/lieux-historique \
+            --sortie "$RUNNER_TEMP/rapport-1.json"
+          python3 scripts/auditer_contours_region_departement_2018_2025.py \
+            --sources "$RUNNER_TEMP/archives" \
+            --reference-2026 docs/data/lieux-historique \
+            --sortie "$RUNNER_TEMP/rapport-2.json"
+          cmp "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          obj=json.loads((root/'rapport-1.json').read_text())
+          assert obj['nouvelles_correspondances_pactols']==0
+          assert obj['etats_administratifs_historiques_publies']==0
+          assert obj['annees_sans_archive_dans_ce_depot']==[2017,2020]
+          print("Archives annuelles SIG qualifiées, rapport reproductible ; aucune publication")
+          PY
+      - name: Conserver le rapport de recette et les originaux contrôlés
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-contours-2018-2025-audit-source
+          path: |
+            ${{ runner.temp }}/archives/
+            ${{ runner.temp }}/rapport-1.json
+          retention-days: 21
+          if-no-files-found: ignore
