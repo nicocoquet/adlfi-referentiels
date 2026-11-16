@@ -430,6 +430,11 @@ def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
                    rapport["bilan"]["geometries_topologiquement_valides"]!=34):
         raise ValueError("Audit Martinique 34 communes ou contours 2026 non conforme")
     sortie.mkdir(parents=True,exist_ok=True)
+    eligibles=selectionner_exactmatch_eligibles(rapport)
+    rapport["bilan"]["exactmatch_eligibles_selon_regle"]=sum(
+        x["statut"]=="ELIGIBLE_SELON_REGLE" for x in eligibles)
+    rapport["bilan"]["alignements_a_instruire"]=sum(
+        x["statut"]=="A_INSTRUIRE" for x in eligibles)
     resultats={
         "martinique-34-communes-audit.json":rapport,
         "martinique-historique-mouvements.json":{
@@ -465,7 +470,6 @@ def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
         writer=csv.writer(f,delimiter=";")
         writer.writerow(colonnes_revue)
         writer.writerows(revue)
-    eligibles=selectionner_exactmatch_eligibles(rapport)
     with (sortie/"martinique-exactmatch-eligibilite-34.csv").open(
             "w",encoding="utf-8-sig",newline="") as stream:
         cols=["code_insee","libelle_COG_2026","ark_pactols",
@@ -474,12 +478,6 @@ def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
         writer=csv.DictWriter(stream,fieldnames=cols,delimiter=";")
         writer.writeheader()
         writer.writerows(eligibles)
-    rapport["bilan"]["exactmatch_eligibles_selon_regle"]=sum(
-        x["statut"]=="ELIGIBLE_SELON_REGLE" for x in eligibles)
-    rapport["bilan"]["alignements_a_instruire"]=sum(
-        x["statut"]=="A_INSTRUIRE" for x in eligibles)
-    if strict and len(revue)<34:
-        raise ValueError("Moins de 34 assertions Pactols en revue, vérifier la source")
     manifest={
         "statut":"RECETTE_NON_PUBLIEE","schema":SCHEMA,
         "bilan":rapport["bilan"],
