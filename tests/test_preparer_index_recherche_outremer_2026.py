@@ -144,16 +144,18 @@ class IndexOutremerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "decisions.csv"
             path.write_text(
-                "code_insee;decision_editoriale;justification_editoriale\\n"
-                "97601;VALIDE_2026;Validé; portée 2026 uniquement\\n".replace("\\\\n", "\\n"),
+                "code_insee;decision_editoriale;justification_editoriale\n"
+                "97601;VALIDE_2026;Validé; portée 2026 uniquement\n",
                 encoding="utf-8"
             )
             rows = lire_registre_editorial(path, {"code_insee", "decision_editoriale"})
             self.assertEqual(rows[0]["justification_editoriale"],
                              "Validé; portée 2026 uniquement")
-            path.write_text("code_insee;decision_editoriale;justification_editoriale\\n"
-                            "97601;VALIDE_2026\\n".replace("\\\\n", "\\n"),
-                            encoding="utf-8")
+            path.write_text(
+                "code_insee;decision_editoriale;justification_editoriale\n"
+                "97601;VALIDE_2026\n",
+                encoding="utf-8"
+            )
             with self.assertRaisesRegex(ValueError, "tronqué"):
                 lire_registre_editorial(path, {"code_insee", "decision_editoriale"})
 
