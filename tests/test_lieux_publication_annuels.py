@@ -2,6 +2,7 @@
 from __future__ import annotations
 import json
 import unittest
+import importlib.util
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -69,6 +70,21 @@ class PublicationAnnuelle(unittest.TestCase):
         for year in (2017,2020):
             self.assertFalse((DOCS/f"regions-{year}.geojson").exists())
             self.assertFalse((DOCS/f"departements-{year}.geojson").exists())
+
+    @unittest.skipUnless(importlib.util.find_spec("shapely"),
+                         "Shapely disponible dans la recette géographique")
+    @unittest.skipUnless((DOCS/"index-annuels.json").exists(),
+                         "Couches de recette non encore versées")
+    def test_toutes_les_geometries_publiees_sont_valides(self):
+        from shapely.geometry import shape
+        for year in ANNEES:
+            for niveau in ("regions","departements"):
+                fc=json.loads((DOCS/f"{niveau}-{year}.geojson").read_text(encoding="utf8"))
+                for f in fc["features"]:
+                    with self.subTest(annee=year,niveau=niveau,code=f["properties"]["code"]):
+                        geo=shape(f["geometry"])
+                        self.assertTrue(geo.is_valid)
+                        self.assertFalse(geo.is_empty)
 
     def test_generation_ne_peut_ecrire_dans_docs(self):
         try:
