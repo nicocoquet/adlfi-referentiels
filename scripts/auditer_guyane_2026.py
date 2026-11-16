@@ -308,6 +308,40 @@ def generer(communes: dict, percode: dict, hist: list, events: list,
     }
 
 
+def revue_26_candidats(report: dict, percode: dict) -> list[list[str]]:
+    """Mettre en revue les assertions de source, sans les valider."""
+    result=[]
+    for item in report["communes"]:
+        code,name=item["code_COG_2026"],item["libelle_COG_2026"]
+        for row in item["pactols_uri_insee_source"]:
+            pref=[p["libelle"] for p in row["libelles_fr"]
+                  if p["propriete"]=="prefLabel"]
+            pref_fr=" | ".join(pref)
+            result.append([
+                code,name,"COMMUNE_COG_2026",row["ark"],pref_fr,
+                row["predicat"],row["uri_insee"],
+                "oui" if pref and normaliser(pref[0])==normaliser(name) else "non",
+                "oui" if row["concept_deprecie"] else "non",
+                "A_INSTRUIRE","SOURCE_PACTOLS_EXACTMATCH_NON_VALIDE_ADLFI",
+            ])
+    for row in report["bilan"]["source_Pactols_stats"]["liens_insee_non_courants"]:
+        code=row["code_insee_cite"]
+        periods=percode.get(code,[])
+        if not periods:
+            raise ValueError("Concept Pactols lié à un code 973 sans historique COG : "+code)
+        period=sorted(periods,key=lambda x:x["debut_inclus"])[-1]
+        pref=[p["libelle"] for p in row["libelles_fr"] if p["propriete"]=="prefLabel"]
+        pref_fr=" | ".join(pref)
+        result.append([
+            code,period["libelle"],"CODE_COG_HISTORIQUE_NON_COURANT",
+            row["ark"],pref_fr,row["predicat"],row["uri_insee"],
+            "oui" if pref and normaliser(pref[0])==normaliser(period["libelle"]) else "non",
+            "oui" if row["concept_deprecie"] else "non",
+            "A_INSTRUIRE_HISTORIQUE","NE_PAS_LIER_A_UNE_COMMUNE_2026_SANS_PREUVE",
+        ])
+    return sorted(result,key=lambda r:(r[0],r[3]))
+
+
 def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
             public_index: Path,sortie: Path,strict: bool=True) -> dict:
     for path in (pactols_rdf,geojson,public_index):
@@ -360,6 +394,23 @@ def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
                len(e["pactols_uri_insee_source"]),len(e["pactols_concordances_lexicales"]),
                e["statut_alignement_Pactols"],e["geometrie_2026"]["statut"],
                e["geometrie_2026"]["surface_approximative_km2_egal_aire"]))
+    revue=revue_26_candidats(rapport,parcode)
+    colonnes_revue=[
+        "code_insee_source","libelle_COG","statut_code_COG","ark_pactols_source",
+        "prefLabel_fr_pactols","predicat_source","uri_insee_source",
+        "concordance_prefLabel_COG","concept_deprecie","decision_editoriale",
+        "justification",
+    ]
+    with (sortie/"guyane-pactols-candidats-26.csv").open(
+        "w",encoding="utf-8-sig",newline="") as f:
+        writer=csv.writer(f,delimiter=";")
+        writer.writerow(colonnes_revue)
+        writer.writerows(revue)
+    if strict and (len(revue)!=26
+        or sum(row[2]=="COMMUNE_COG_2026" for row in revue)!=22
+        or sum(row[2]=="CODE_COG_HISTORIQUE_NON_COURANT" for row in revue)!=4
+        or any(row[5]!="exactMatch" or row[8]!="non" for row in revue)):
+        raise ValueError("Revue de 26 assertions Pactols / INSEE inattendue")
     manifest={
         "statut":"RECETTE_NON_PUBLIEE","schema":SCHEMA,
         "bilan":rapport["bilan"],
@@ -370,7 +421,8 @@ def produire(cog_dir: Path,pactols_rdf: Path,geojson: Path,
         "sorties_sha256":{name:sha256(sortie/name) for name in [
             "guyane-22-communes-audit.json",
             "guyane-historique-mouvements.json",
-            "guyane-revue-22-communes.csv"]},
+            "guyane-revue-22-communes.csv",
+            "guyane-pactols-candidats-26.csv"]},
         "nouveaux_alignements_Pactols":0,"geometries_publiees":0,
     }
     (sortie/"manifest-guyane.json").write_text(
