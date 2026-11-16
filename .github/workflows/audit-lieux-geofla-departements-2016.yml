@@ -8,6 +8,9 @@ on:
       - 'scripts/construire_vue_bfc_ign_2015_2016.py'
       - 'scripts/controle_national_geofla_cog_2015_2016.py'
       - 'tests/test_controle_national_geofla_cog_2015_2016.py'
+      - 'scripts/construire_regions_metropole_geofla_2015_2016.py'
+      - 'tests/test_construire_regions_metropole_geofla_2015_2016.py'
+      - 'recette/lieux/CONTROLE-NATIONAL-REGIONS-METROPOLE-IGN-2015-2016.md'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
   workflow_dispatch:
 permissions:
@@ -177,6 +180,55 @@ jobs:
               "$RUNNER_TEMP/geofla-2016/reproduction/rattachements-IGN-COG-2015-2016.csv"
           cmp "$RUNNER_TEMP/geofla-2016/recette/rapport-national-geofla-cog-2015-2016.json" \
               "$RUNNER_TEMP/geofla-2016/reproduction/rapport-national-geofla-cog-2015-2016.json"
+      - name: Générer les 35 géométries régionales métropolitaines et auditer 13 successions
+        run: |
+          python3 -m py_compile scripts/construire_regions_metropole_geofla_2015_2016.py
+          python3 -m unittest discover -s tests -p 'test_construire_regions_metropole_geofla_2015_2016.py' -v
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2560698/reg2015-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/reg2015-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2114819/reg2016-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/reg2016-txt.zip"
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          fichiers = json.loads((root / "shapefiles-geofla.json").read_text())
+          args = [
+              "python3", "scripts/construire_regions_metropole_geofla_2015_2016.py",
+              "--shp2015", fichiers["2015"]["shapefile"],
+              "--shp2016", fichiers["2016"]["shapefile"],
+              "--archive2015", str(root / "GEOFLA_departement_2015_original.7z"),
+              "--archive2016", str(root / "GEOFLA_departement_2016_original.7z"),
+              "--dep2015", str(root / "depts2015-txt.zip"),
+              "--dep2016", str(root / "depts2016-txt.zip"),
+              "--reg2015", str(root / "reg2015-txt.zip"),
+              "--reg2016", str(root / "reg2016-txt.zip"),
+          ]
+          for folder in ("recette", "reproduction"):
+              subprocess.run(args + ["--sortie", str(root / folder)], check=True)
+          noms = (
+              "regions-metropole-2015-IGN-geofla.geojson",
+              "regions-metropole-2016-IGN-geofla.geojson",
+              "comparaisons-regions-metropole-IGN-2015-2016.csv",
+              "rapport-regions-metropole-IGN-2015-2016.json",
+          )
+          for nom in noms:
+              assert (root / "recette" / nom).read_bytes() == (root / "reproduction" / nom).read_bytes(), nom
+          rapport = json.loads((root / "recette" / noms[-1]).read_text(encoding="utf8"))
+          assert rapport["regions_par_millesime"] == {"2015": 22, "2016": 13}
+          assert rapport["nombre_geometries_regionales_derivees"] == 35
+          assert rapport["fusions_regionales_controlees"] == 7
+          assert rapport["regions_maintenues_controlees"] == 6
+          assert rapport["departements_changeant_de_code_region"] == 65
+          assert rapport["alignements_Pactols_crees"] == 0
+          assert rapport["publication_docs"] is False
+          for year, expected in (("2015", 22), ("2016", 13)):
+              features = json.loads((root / "recette" / f"regions-metropole-{year}-IGN-geofla.geojson").read_text())["features"]
+              assert len(features) == expected
+          print("RECETTE 35 régions (22 + 13), 7 fusions, 6 continuités, reproductibilité OK")
+          PY
       - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
         run: |
           python3 scripts/construire_vue_bfc_ign_2015_2016.py \
