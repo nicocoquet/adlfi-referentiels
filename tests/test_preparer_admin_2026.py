@@ -57,6 +57,16 @@ class Publication2026(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'hors COG'):
             mod.geo_par_codes({'features':list(gd.values())},d,'departement')
 
+    def test_territoires_comer_ne_sont_pas_des_regions(self):
+        r,d,gr,gd=echantillon()
+        polygone=gr['01']['geometry']
+        for code in mod.HORS_ECHELON:
+            gr[code]={'properties':{'code':code},'geometry':polygone}
+        retenus,ecart=mod.geo_par_codes({'features':list(gr.values())},r,'region')
+        self.assertEqual(set(retenus),set(r))
+        self.assertEqual(ecart,sorted(mod.HORS_ECHELON))
+        self.assertNotIn('984',retenus)
+
     def test_refus_sortie_pages(self):
         with self.assertRaisesRegex(ValueError,'docs'):
             mod.produire('x','y','z','q','docs/data/lieux-historique')
