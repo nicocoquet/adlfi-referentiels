@@ -109,6 +109,15 @@ jobs:
               assert row["prefLabel_fr_pactols"]==ref["prefLabel_fr_pactols"]
               assert row["portee_COG"]=="2026-01-01"
               assert row["statut_validation"]=="VALIDE_ADLFI_2026"
+              # Un seul identifiant communal INSEE pour le même concept Pactols.
+              audit_ark=[e for e in report["communes"]
+                         if e["code_COG_2026"]==row["code_insee"]]
+              assert len(audit_ark)==1
+              li=audit_ark[0]["pactols_uri_insee_source"]
+              assert len(li)==1
+              assert li[0]["codes_communes_INSEE_exactMatch"]==[row["code_insee"]]
+              assert li[0]["concept_remplace"] is False
+              assert li[0]["concept_deprecie"] is False
           from hashlib import sha256
           raw=(root/"guyane-pactols-candidats-26.csv").read_bytes()
           assert sha256(raw).hexdigest()=="b9d7d7c84f1b5d5f39dee30a16cb2cbc18d10c1b13bd07964eea5fb5ba7f98dc"
