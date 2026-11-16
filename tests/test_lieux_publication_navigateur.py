@@ -131,12 +131,19 @@ def main():
             timeout=30000)
         assert "Repère cartographique" not in page.locator("#map-status").text_content()
 
-        # 2020 reste explicitement un repère de 2019, jamais un contour 2020.
+        # En 2020, les limites proviennent de l'IGN ADMIN EXPRESS COG
+        # du 20 novembre 2020, croisées avec le COG au 1er janvier.
         set_year(2020)
         page.wait_for_function(
-            "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2019 (et NON 2020)')",
+            "() => document.querySelector('#map-status')?.textContent.includes('IGN ADMIN EXPRESS COG, édition 2020-11-20')",
             timeout=30000)
-        inspecter_contours(page,100,"lieux-region-repere-2020")
+        inspecter_contours(page,100,"lieux-regions-2020")
+        assert "Repère cartographique" not in page.locator("#map-status").text_content()
+        page.locator("#search").fill("Bretagne")
+        page.locator("#results button").filter(has_text="Région · COG 2020 · 53").first.click()
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('2020-11-20')",
+            timeout=30000)
         set_year(2025)
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2025')",
@@ -154,9 +161,20 @@ def main():
         inspecter_contours(page,100,"lieux-departements-2019")
         set_year(2017)
         page.wait_for_function(
-            "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2017)')",
+            "() => document.querySelector('#map-status')?.textContent.includes('IGN ADMIN EXPRESS COG, édition 2017-06-19')",
             timeout=30000)
-        inspecter_contours(page,100,"lieux-departement-repere-2017")
+        inspecter_contours(page,100,"lieux-departements-2017")
+        assert "Repère cartographique" not in page.locator("#map-status").text_content()
+        page.locator("#search").fill("Côtes-d'Armor")
+        page.locator("#results button").filter(has_text="Département · COG 2017 · 22").first.click()
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('2017-06-19')",
+            timeout=30000)
+        page.locator("#level").select_option("region")
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('18 contours régionaux')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-regions-2017")
         page.locator("#level").select_option("region")
         set_year(2016)
         page.wait_for_function(
