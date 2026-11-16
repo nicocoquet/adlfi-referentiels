@@ -45,7 +45,8 @@
   const confirmed=Object.keys(data.ark_confirmes_non_valides).sort();
   const mayotte=valid.filter(code=>/^976(?:0[1-9]|1[0-7])$/.test(code)&&code!=='97607');
   const guyane=valid.filter(code=>/^973(?:0[1-9]|1[0-4]|5[2-3]|5[6-8]|6[0-2])$/.test(code));
-  if(valid.length!==38||mayotte.length!==16||guyane.length!==22||
+  const martinique=valid.filter(code=>/^972(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code));
+  if(valid.length!==72||mayotte.length!==16||guyane.length!==22||martinique.length!==34||
      confirmed.join(',')!=='97407,97607'||
      data.ark_confirmes_non_valides['97607']!=='26678/crtZcuFSJVYZU'||
      data.ark_confirmes_non_valides['97407']!=='26678/pcrtIKvRT9vwUl'||
