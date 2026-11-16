@@ -117,7 +117,7 @@ def split_sigles(raw):
 
 # Une seule bibliothèque par autorité : réutilisation d'un logo en visuel
 # principal de l'ORG et dans le bandeau des tutelles, sans copie du fichier.
-# Les deux variantes éventuelles (logo / illustration) ont des rôles distincts.
+# Un identifiant stable correspond exclusivement au fichier ID.jpg, sans autre rôle média.
 SITE_ROOT = Path(__file__).resolve().parents[1] / 'docs'
 
 def media_for(ident: str):
