@@ -47,7 +47,8 @@ except ImportError:
 class GeomTests(unittest.TestCase):
     def test_geom_isolee_ne_valide_jamais_le_code_cog(self):
         fc = {"type": "FeatureCollection", "features": [{
-            "type": "Feature", "properties": {"cleabs": "fake-test"},
+            "type": "Feature", "properties": {"cleabs": "fake-test",
+                                              "unites_administratives_souveraines": "France/Espagne"},
             "geometry": {"type": "MultiPolygon", "coordinates": [
                 [[[-1.8, 43.35], [-1.79, 43.35], [-1.79, 43.36],
                   [-1.8, 43.36], [-1.8, 43.35]]]
@@ -57,7 +58,13 @@ class GeomTests(unittest.TestCase):
         self.assertEqual(x["nombre_features"], 1)
         self.assertTrue(x["features"][0]["valide_topologiquement"])
         self.assertTrue(x["features"][0]["emprise_region_bidassoa"])
+        self.assertTrue(x["preuve_ign_concordante"])
+        self.assertEqual(x["qualification"], "CANDIDAT_DOCUMENTAIRE_COG_98101_FORTEMENT_ETAYE")
         self.assertFalse(x["identite_COG_98101_etablie"])
+        fc["features"][0]["properties"]["unites_administratives_souveraines"] = "France"
+        mauvais = analyser_geojson(fc)
+        self.assertFalse(mauvais["preuve_ign_concordante"])
+        self.assertEqual(mauvais["qualification"], "A_INSTRUIRE")
         self.assertEqual(x["geometries_publiees"], 0)
 
 
