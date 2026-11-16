@@ -7,6 +7,7 @@
   <title>Lieux — Référentiels AdlFI</title>
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="../assets/lieux.css">
+  <link rel="stylesheet" href="../assets/lieux-multiechelon.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin="anonymous">
@@ -34,72 +35,21 @@
   </div>
 </div>
 
-<main class="page-content lieux-content" id="contenu">
-  <p class="lieux-note" style="margin:0 0 16px">
-    <strong>Nouveau :</strong> <a href="./chronologie/">explorer la carte chronologique de quatre régions (1943–2026)</a> :
-    Bourgogne-Franche-Comté, Pays de la Loire, Corse et PACA.
-    Le pilote PACA ci-dessous conserve ses 103 correspondances Pactols–COG validées.
-  </p>
-
-  <section class="lieux-toolbar" aria-label="Recherche géographique">
-    <div class="lieux-search-box" id="lieux-search-box">
-      <label for="lieux-query" class="visually-hidden">Rechercher un lieu Pactols, un nom communal ou un identifiant</label>
-      <div class="lieux-search-field">
-        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"
-             stroke="currentColor" stroke-width="1.8" fill="none">
-          <circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path>
-        </svg>
-        <input id="lieux-query" type="search" autocomplete="off" spellcheck="false"
-               placeholder="Rechercher un lieu, un code INSEE, un ARK Pactols…"
-               role="combobox" aria-autocomplete="list" aria-expanded="false"
-               aria-haspopup="listbox" aria-controls="lieux-suggestions">
-      </div>
-      <ul id="lieux-suggestions" class="lieux-suggestions" role="listbox"
-          aria-label="Suggestions de lieux" hidden></ul>
-    </div>
-    <button class="lieux-reset" id="lieux-reset" type="button">Vue générale</button>
-    <span class="lieux-counter" id="lieux-counter" aria-live="polite">Chargement du référentiel…</span>
-  </section>
-
-  <div class="lieux-layout">
-    <section class="lieux-map-section" aria-label="Carte des communes documentées">
-      <div id="lieux-map" class="lieux-map"
-           role="region" aria-label="Carte interactive des 103 communes validées de PACA"></div>
-      <p id="lieux-map-status" class="lieux-map-status" role="status">
-        Chargement de la carte et des contours…
-      </p>
-      <div class="lieux-map-foot">
-        <span><span class="lieux-key" aria-hidden="true"></span>Communes avec correspondance Pactols–COG validée</span>
-        <span>Contours administratifs 2026 · <a href="https://www.data.gouv.fr/datasets/contours-administratifs"
-          target="_blank" rel="noopener noreferrer">Source et licence ODbL</a></span>
-      </div>
-    </section>
-
-    <aside class="lieux-detail" aria-label="Fiche du lieu sélectionné">
-      <div class="lieux-detail-head">
-        <span class="lieux-detail-label">Référentiel géographique</span>
-        <span class="lieux-scope">PACA · COG 2026</span>
-      </div>
-      <div id="lieux-detail-body" aria-live="polite">
-        <div class="lieux-empty">
-          <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="1.35">
-            <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
-            <circle cx="12" cy="10" r="2.5"></circle>
-          </svg>
-          <h2>Sélectionner un lieu</h2>
-          <p>Recherchez une autorité Pactols ou cliquez sur une commune de la carte
-             pour consulter son identifiant INSEE et sa correspondance validée.</p>
-        </div>
-      </div>
-    </aside>
-  </div>
-  <p class="lieux-note">
-    Pilote PACA — 103 correspondances éditoriales validées le 18 octobre 2026.
-    Les contours représentent les communes du jeu cartographique 2026, non leurs
-    limites historiques. Les correspondances encore à instruire sont exclues de cette version.
-  </p>
+<main class="page-content lieux-content lieux-multiechelon" id="contenu">
+<p class="notice-intro">Explorer une seule carte du référentiel Lieux : les états administratifs du COG et les correspondances Pactols validées sont distingués des contours cartographiques. Les limites historiques actuellement qualifiées concernent les régions et départements métropolitains en 2015 et 2016 ; la chronologie communale conserve ses états 1943–2026.</p>
+<section class="controls" aria-label="Navigation du référentiel">
+<div class="control"><label for="zoom">Zoom sur</label><select id="zoom"><option value="metropole">France métropolitaine</option><option value="bfc">Bourgogne–Franche-Comté</option><option value="pdl">Pays de la Loire</option><option value="corse">Corse</option><option value="paca">Provence-Alpes-Côte d’Azur</option><option value="antilles">Antilles et Guyane</option><option value="indien">Océan Indien</option><option value="pacifique">Pacifique</option><option value="atlantique">Atlantique Nord</option><option value="taaf">TAAF</option></select><span class="hint">Cadrage géographique uniquement ; le fond OSM reste visible partout.</span></div>
+<div class="control"><label for="level">Échelon territorial</label><select id="level"><option value="region">Région</option><option value="departement">Département</option><option value="commune">Commune</option><option value="arrondissement">Arrondissement municipal — à instruire</option><option value="territoire">Collectivité ou territoire — à instruire</option></select><span class="hint">Les communes historiques sont consultables même sans contours anciens.</span></div>
+<div class="control"><label for="year">Situation administrative au 1er janvier</label><select id="year"></select><span class="hint">COG historique 1943–2026 pour les communes étudiées ; IGN 2015/2016 pour régions et départements.</span></div>
+<div class="control"><label for="search">Rechercher un nom, un code INSEE ou un ARK Pactols</label><div class="search-wrap"><input type="search" id="search" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" placeholder="Ex. Charny, Bourgogne, 49069, 26678/…" autocomplete="off" aria-controls="results"><ul id="results" class="results" role="listbox" hidden aria-label="Résultats de recherche"></ul></div><span class="hint">Recherche transversale dans les quatre corpus communaux et les états régionaux/départementaux.</span></div>
+</section>
+<div class="layout">
+<section class="map-card" aria-label="Carte interactive du référentiel"><div class="map-head"><div><strong id="map-title">Régions · 2016</strong><small id="map-subtitle">Fond actuel OpenStreetMap · limites IGN datées</small></div><button type="button" id="reset">Recentrer la carte</button></div><div id="map" class="map" role="region" aria-label="Carte Leaflet et OpenStreetMap"></div><label class="reference"><input type="checkbox" id="reference"> Afficher les contours communaux 2026 comme <strong>repère actuel</strong> (jamais comme limites historiques)</label><p id="map-status" class="map-status" role="status"></p><div class="map-foot">Fond : © contributeurs OpenStreetMap, géographie contemporaine. Couches historiques : GEOFLA IGN 2015 et 2016, états COG Insee. Couche communale 2026 : contours déjà publiés dans le référentiel. Généralisation IGN d’affichage : 100 m.</div></section>
+<aside id="detail" class="detail" aria-live="polite" aria-label="Fiche du référentiel"><span class="kicker">Fiche territoriale ou communale</span><h2>Sélectionnez un territoire</h2><p>Cliquez sur une limite visible ou recherchez un nom historique. Les fiches distinguent l’état administratif, les identités Pactols validées et le millésime des contours.</p></aside>
+</div>
+<section class="secondary"><strong>Précisions historiques et éditoriales.</strong> Les situations administratives au 1er janvier 2015 et 2016 ne doivent pas être confondues avec les éditions IGN GEOFLA du 4 mars 2015 et du 28 juin 2016. Les données COG communales publiées couvrent les codes étudiés en PACA, Corse, Pays de la Loire et Bourgogne-Franche-Comté, mais ne comportent pas de contours historiques. Le pilote PACA conserve ses 103 correspondances Pactols–COG validées et la provenance de ses contours administratifs 2026 : <a href="https://www.data.gouv.fr/datasets/contours-administratifs" target="_blank" rel="noopener noreferrer">source et licence ODbL</a>. Les limites communales 2026 n'apparaissent comme repères actuels qu'à la demande lorsque la date est antérieure à 2026. Aucune équivalence Pactols ancienne n’est inférée d’une correspondance validée au millésime 2026. Les sélecteurs de cadrage ultramarin montrent le fond OSM ; les couches territoriales historiques correspondantes ne sont pas encore qualifiées.</section>
 </main>
+
 
 <footer class="site-footer">
   <div class="project-partners" role="group" aria-label="Partenaires du projet">
@@ -120,10 +70,9 @@
     </a>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+<script src="../assets/lieux-chronologie-core.js" defer></script>
 <script src="../assets/lieux-search.js" defer></script>
-<script src="../assets/lieux.js" defer></script>
+<script src="../assets/lieux-multiechelon.js" defer></script>
 </body>
 </html>

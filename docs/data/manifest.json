@@ -8,7 +8,26 @@
       "data_schema": "0.1.0",
       "geometries": "data/lieux-communes.geojson",
       "perimetre": "PACA",
-      "autorites_validees": 103
+      "autorites_validees": 103,
+      "carte": "lieux/",
+      "chronologie": "1943–2026 (états communaux, 4 régions pilotes)",
+      "geometries_historiques": {
+        "source": "IGN GEOFLA DEPARTEMENT 2015-03-04 et 2016-06-28 + INSEE COG correspondant",
+        "zone": "France métropolitaine",
+        "millésimes": [
+          2015,
+          2016
+        ],
+        "niveaux": [
+          "region",
+          "departement"
+        ],
+        "index": "data/lieux-historique/index.json",
+        "dossier": "data/lieux-historique",
+        "nature": "surcouches d'affichage 100 m, coordonnées arrondies à 5 décimales, sans nouvel ARK Pactols"
+      },
+      "referentiel_communautes": "data/lieux-chronologie/",
+      "etat": "navigateur multi-echelon avec geographies historiques partiellement qualifiees"
     },
     "personnes": {
       "status": "preparation",

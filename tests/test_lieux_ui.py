@@ -33,17 +33,17 @@ class LieuxUITests(unittest.TestCase):
 
     def test_controls_are_unique_and_accessible(self):
         for element_id in (
-            "lieux-query", "lieux-suggestions", "lieux-reset",
-            "lieux-counter", "lieux-map", "lieux-map-status", "lieux-detail-body",
+            "zoom", "level", "year", "search", "results",
+            "reset", "map", "map-status", "detail", "reference",
         ):
             self.assertIn(element_id, self.page.ids)
-        query = self.page.ids["lieux-query"][1]
+        query = self.page.ids["search"][1]
         self.assertEqual(query["role"], "combobox")
-        self.assertEqual(query["aria-controls"], "lieux-suggestions")
+        self.assertEqual(query["aria-controls"], "results")
         self.assertEqual(query["aria-autocomplete"], "list")
-        self.assertEqual(self.page.ids["lieux-suggestions"][1]["role"], "listbox")
-        self.assertEqual(self.page.ids["lieux-map-status"][1]["role"], "status")
-        self.assertEqual(self.page.ids["lieux-map"][1]["role"], "region")
+        self.assertEqual(self.page.ids["results"][1]["role"], "listbox")
+        self.assertEqual(self.page.ids["map-status"][1]["role"], "status")
+        self.assertEqual(self.page.ids["map"][1]["role"], "region")
 
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
@@ -52,15 +52,20 @@ class LieuxUITests(unittest.TestCase):
             scripts,
             [
                 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
+                "../assets/lieux-chronologie-core.js",
                 "../assets/lieux-search.js",
-                "../assets/lieux.js",
+                "../assets/lieux-multiechelon.js",
             ],
         )
-        for path in ("docs/assets/lieux-search.js", "docs/assets/lieux.js",
-                     "docs/assets/lieux.css"):
+        for path in (
+            "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-multiechelon.css",
+            "docs/assets/lieux.css",
+        ):
             self.assertTrue((ROOT / path).is_file(), path)
         for stylesheet in (
             "../assets/site.css", "../assets/lieux.css",
+            "../assets/lieux-multiechelon.css",
             "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css",
         ):
             self.assertTrue(
@@ -81,12 +86,13 @@ class LieuxUITests(unittest.TestCase):
 
     def test_limitations_and_attribution_visible(self):
         for excerpt in (
-            "103 correspondances éditoriales validées",
-            "non leurs", "limites historiques",
+            "103 correspondances", "contours", "limites historiques",
             "https://www.data.gouv.fr/datasets/contours-administratifs",
-            "licence ODbL",
+            "OpenStreetMap", "Zoom sur", "Échelon territorial",
+            "Situation administrative au 1er janvier",
         ):
             self.assertIn(excerpt, self.html)
+
 
 
 if __name__ == "__main__":
