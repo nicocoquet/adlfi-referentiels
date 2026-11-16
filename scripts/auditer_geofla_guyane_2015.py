@@ -17,6 +17,7 @@ from pathlib import Path
 
 SCHEMA="adlfi.lieux.guyane.geofla2015.audit-source.v1"
 ARCHIVE_NAME="GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+SOURCE_TIERS_SHA="3aac9e8b979118b25df48e9ef21fc1029d735cc3c99a025cd1f5688560f41298"
 SHA_NATIONAL="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 
 
@@ -83,6 +84,8 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     from pyproj import CRS,Transformer
     if rar.name!=ARCHIVE_NAME:
         raise ValueError("Nom d'archive non conforme au produit attendu")
+    if sha256(rar)!=SOURCE_TIERS_SHA:
+        raise ValueError("La copie GEOFLA tierce ne correspond plus à l'empreinte de recette")
     if sha256(national)!=SHA_NATIONAL:
         raise ValueError("Le millésime national 2026 n'est pas celui de la recette")
     if "docs" in sortie.resolve().parts or sortie.resolve().is_relative_to(dossier.resolve()):
