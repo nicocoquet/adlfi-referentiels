@@ -19,7 +19,6 @@ jobs:
     steps:
       - name: Récupérer les sources de la branche
         uses: actions/checkout@v4
-        with:
       - name: Préparer Python
         uses: actions/setup-python@v5
         with:
