@@ -1,0 +1,126 @@
+name: Lieux — index de recherche ultramarin 2026 (212 communes et 21 entités typées)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/preparer_index_recherche_outremer_2026.py'
+      - 'tests/test_preparer_index_recherche_outremer_2026.py'
+      - 'recette/lieux/INDEX-RECHERCHE-OUTREMER-2026.md'
+      - 'recette/lieux/LOT-MAYOTTE-17-COMMUNES-20261115.csv'
+      - 'recette/lieux/LOT-REUNION-24-COMMUNES-20261115.csv'
+      - '.github/workflows/lieux-index-recherche-outremer-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  index-212-21:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendance topologique pour le diagnostic source
+        run: python3 -m pip install 'shapely==2.1.2'
+      - name: Tester la séparation identité, géométrie, histoire et Pactols
+        run: python3 -m unittest discover -s tests -p 'test_preparer_index_recherche_outremer_2026.py' -v
+      - name: Acquérir uniquement les sources officielles datées de 2026
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_2026.zip"
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          python3 - <<'PY'
+          import hashlib, os, zipfile
+          from pathlib import Path
+          tmp=Path(os.environ["RUNNER_TEMP"])
+          required={
+            "v_commune_2026.csv",
+            "v_departement_2026.csv",
+            "v_commune_comer_2026.csv",
+            "v_comer_2026.csv",
+            "v_commune_depuis_1943.csv",
+            "v_commune_outremer_depuis_1943.csv",
+          }
+          dst=tmp/"cog";dst.mkdir()
+          with zipfile.ZipFile(tmp/"cog_2026.zip") as z:
+              for name in sorted(required):
+                  members=[x for x in z.infolist() if Path(x.filename).name==name]
+                  if len(members)!=1:raise ValueError("Archive COG incomplète : "+name)
+                  raw=z.read(members[0])
+                  if not raw or len(raw)>10_000_000:raise ValueError("Fichier COG suspect : "+name)
+                  (dst/name).write_bytes(raw)
+          from sys import path
+          path.insert(0,"scripts")
+          from preparer_index_recherche_outremer_2026 import SHA
+          for filename,expected in SHA.items():
+              observed=hashlib.sha256((dst/filename).read_bytes()).hexdigest()
+              if observed!=expected:raise ValueError(filename+" empreinte non conforme")
+              print(filename,observed)
+          g=tmp/"communes-100m.geojson.gz"
+          assert hashlib.sha256(g.read_bytes()).hexdigest()=="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
+          PY
+      - name: Reconstituer le diagnostic 233 cibles sans jamais diffuser les polygones
+        run: |
+          python3 scripts/auditer_contours_outremer_2026.py \
+            --sources "$RUNNER_TEMP/cog" \
+            --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/audit233"
+      - name: Indexer deux fois avec les décisions éditoriales réellement approuvées
+        run: |
+          python3 scripts/preparer_index_recherche_outremer_2026.py \
+            --cog "$RUNNER_TEMP/cog" \
+            --audit "$RUNNER_TEMP/audit233" \
+            --decisions recette/lieux \
+            --sortie "$RUNNER_TEMP/index1"
+          python3 scripts/preparer_index_recherche_outremer_2026.py \
+            --cog "$RUNNER_TEMP/cog" \
+            --audit "$RUNNER_TEMP/audit233" \
+            --decisions recette/lieux \
+            --sortie "$RUNNER_TEMP/index2"
+          diff -qr "$RUNNER_TEMP/index1" "$RUNNER_TEMP/index2"
+      - name: Contrôle de non-régression des 16 décisions et des 21 entités distinctes
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"index1"
+          index=json.loads((p/"index-communes-outremer-2026.json").read_text())
+          outside=json.loads((p/"index-autres-entites-ultramarines-2026.json").read_text())
+          manifest=json.loads((p/"manifest-index-outremer-2026.json").read_text())
+          bycode={e["code_insee"]:e for e in index["entrees"]}
+          assert len(bycode)==212
+          assert len(outside["entrees"])==21
+          assert manifest["statistiques"]["communes_contours_topologiquement_valides"]==210
+          assert manifest["statistiques"]["communes_contours_invalides"]==["98745","98805"]
+          assert manifest["statistiques"]["correspondances_Pactols_COG_validees_2026"]==16
+          assert manifest["statistiques"]["ark_identifiants_confirmes_lien_a_valider"]==["97407","97607"]
+          assert bycode["97607"]["pactols"]["ark_valide"] is None
+          assert bycode["97407"]["pactols"]["ark_valide"] is None
+          assert bycode["97607"]["pactols"]["ark_identifiant_confirme"]=="26678/crtZcuFSJVYZU"
+          assert bycode["97407"]["pactols"]["ark_identifiant_confirme"]=="26678/pcrtIKvRT9vwUl"
+          assert not any(e["nature_COG"]!="COM" for e in index["entrees"])
+          assert all(e["niveau_recherche"] is None for e in outside["entrees"])
+          assert "COMER:CDM:98101" in {e["id"] for e in outside["entrees"]}
+          assert "COMER:COM:97701" in {e["id"] for e in outside["entrees"]}
+          assert "COMER:COM:97801" in {e["id"] for e in outside["entrees"]}
+          assert all(e["geom_2026"]["geometrie"] is None and
+                     not e["geom_2026"]["contour_adopte_pour_publication"]
+                     for e in index["entrees"])
+          assert all(e["historique_validite_retroactive"]=="NON_VALIDEE"
+                     for e in index["entrees"])
+          assert manifest["nouvelles_correspondances_inferrees"]==0
+          assert manifest["geometries_publiees"]==0
+          print("BILAN INDEX",json.dumps(manifest["statistiques"],ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver uniquement l'index et son manifeste de recette
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-index-recherche-outremer-2026-recette
+          path: ${{ runner.temp }}/index1/
+          retention-days: 30
