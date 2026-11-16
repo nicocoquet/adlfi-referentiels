@@ -149,6 +149,7 @@ class QualifGeom(unittest.TestCase):
         self.assertEqual(check["statut"], "PRESENTE_INVALIDE")
         self.assertIn("Self-intersection", check["motif_topologique"])
         self.assertEqual(check["type_reparation_theorique"], "MultiPolygon")
+        self.assertEqual(check["reparation_theorique_valide"], "oui")
 
 
 if __name__ == "__main__":
