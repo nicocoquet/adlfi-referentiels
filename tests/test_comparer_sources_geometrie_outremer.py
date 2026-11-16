@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from comparer_sources_geometrie_outremer import comparer, normalized, stats_comparaison
+from comparer_sources_geometrie_outremer import (GEOMETRIES_DISPONIBLES, comparer, normalized, stats_comparaison)
 
 def polygon(x=0.0):
     return {"type":"Polygon","coordinates":[[
@@ -30,6 +30,13 @@ def fixture():
         }
     return national,sources
 
+class Normalisations(unittest.TestCase):
+    def test_identites_toponymiques(self):
+        self.assertEqual(normalized("Taha'a"), normalized("TAHAA"))
+        self.assertEqual(normalized("Dumbéa"), normalized("DUMBEA"))
+
+
+@unittest.skipUnless(GEOMETRIES_DISPONIBLES, "Shapely et pyproj requis pour l'audit géométrique")
 class Comparaisons(unittest.TestCase):
     def test_normalisation_ne_cree_pas_de_faux_code(self):
         self.assertEqual(normalized("Taha'a"),normalized("Tahaa"))
