@@ -530,7 +530,9 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      p.textContent='Aucune correspondance Pactols individuellement approuvée pour cette fiche COG 2026.';
      target.append(p);
    }
-   if(year()!==2026){
+   if(entry.kind==='cog2026'&&entry.code.startsWith('973')){
+     afficherChronologieGuyane(target,entry.code);
+   }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
      target.append(p);
