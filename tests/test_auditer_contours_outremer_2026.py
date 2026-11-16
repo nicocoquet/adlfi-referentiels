@@ -141,6 +141,14 @@ class QualifGeom(unittest.TestCase):
         ]
         result = qualifier(c, {"97607": [scene]})
         self.assertEqual(result["alerte_antimeridien"], "A_CONTROLER")
+        invalide = carre("97607")
+        invalide["geometry"]["coordinates"] = [
+            [[1, 1], [2, 2], [1, 2], [2, 1], [1, 1]]
+        ]
+        check = qualifier(c, {"97607": [invalide]})
+        self.assertEqual(check["statut"], "PRESENTE_INVALIDE")
+        self.assertIn("Self-intersection", check["motif_topologique"])
+        self.assertEqual(check["type_reparation_theorique"], "MultiPolygon")
 
 
 if __name__ == "__main__":
