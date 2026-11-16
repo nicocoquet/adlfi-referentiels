@@ -16,7 +16,10 @@ import zipfile
 from collections import Counter
 from pathlib import Path
 
-import shapefile
+try:
+    import shapefile
+except ImportError:
+    shapefile = None  # L'index documentaire reste importable hors CI géométrique.
 
 
 def normaliser(value):
@@ -25,6 +28,8 @@ def normaliser(value):
 
 
 def analyser(path: Path) -> dict:
+    if shapefile is None:
+        raise RuntimeError("pyshp est requis pour contrôler les shapefiles")
     if not zipfile.is_zipfile(path):
         raise ValueError("Archive ZIP attendue")
     if path.stat().st_size > 40_000_000:
