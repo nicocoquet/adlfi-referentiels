@@ -159,6 +159,14 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(lieu["geometries"], "data/lieux-communes.geojson")
         self.assertEqual(lieu["data_schema"], "0.1.0")
         self.assertEqual(lieu["autorites_validees"], 103)
+        outremer = lieu["recherche_cog_outremer_2026"]
+        self.assertEqual(outremer["communes"], 212)
+        self.assertEqual(outremer["autres_entites"], 21)
+        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 16)
+        self.assertEqual(outremer["ark_confirmes_lien_non_valide"], 2)
+        self.assertEqual(outremer["geometries_publiees"], 0)
+        self.assertEqual(outremer["identites_historiques_retroprojetees"], 0)
+
         self.assertIn('href="lieux/"', self.home)
         self.assertNotIn('<p class="eyebrow">À venir</p><h2>Lieux</h2>', self.home)
 
