@@ -2,7 +2,7 @@
 
 **Analyse du 16 novembre 2026 · PR 44 · Source : COG 2026 et export Pactols Lieux du 22 juillet 2026 · Statut non validé éditorialement.**
 
-La [CI spécialisée (exécution n°43922791098)](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43922791098) a exécuté le traitement deux fois, sur les sources SHA-256 épinglées, avec résultats octet à octet identiques.
+La [CI spécialisée (exécution n°43923775488)](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43923775488) a exécuté le traitement deux fois, sur les sources SHA-256 épinglées, avec résultats octet à octet identiques. [Artefact de recette : cinq fichiers, dont la table de prévalidation des 26 concepts](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43923775488/artifacts/14255162269).
 
 ## Bilan effectivement constaté
 
