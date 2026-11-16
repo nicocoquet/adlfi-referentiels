@@ -310,6 +310,11 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    if(x.level==='departement')ligne(dl,'Région de rattachement',`${p.nom_region_parent} (${p.code_region_parent})`);
    if(x.level==='region')ligne(dl,'Composition',`${p.departements.length} départements`);
    target.append(dl);
+   if(x.year===2026&&((x.level==='region'&&p.code==='06')||(x.level==='departement'&&p.code==='976'))){
+     const spec=document.createElement('p');spec.className='warning';
+     spec.textContent='Mayotte : le COG 2026 conserve les identifiants géographiques de région 06 et de département 976 ; la collectivité à statut particulier Département-Région de Mayotte porte l’identifiant distinct 976R, non représenté ici comme autorité régionale.';
+     target.append(spec);
+   }
    const note=document.createElement('p');note.className='source';note.textContent='Géométrie : '+p.source_geometrie+'. Couche simplifiée pour l’affichage ; aucun ARK Pactols n’est attribué automatiquement.';target.append(note);
    const source=document.createElement('p'),a=document.createElement('a');a.href=geo.source_COG[String(x.year)];a.textContent=`Source officielle : Insee COG ${x.year}`;a.target='_blank';a.rel='noopener noreferrer';source.append(a);target.append(source);
    if(p.niveau==='departement'&&(p.code==='44'||p.code==='49')){const warn=document.createElement('p');warn.className='warning';warn.textContent='Le transfert du Fresne-sur-Loire (44 → 49) prend effet juridiquement le 31 décembre 2015 ; cette date est distincte de la création de la commune nouvelle le 1er janvier 2016.';target.append(warn)}
