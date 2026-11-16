@@ -95,6 +95,7 @@ def main():
           timeout=30000
         )
         assert "06" in page.locator("#detail").text_content()
+        assert "976R" in page.locator("#detail").text_content()
         page.locator("#level").select_option("departement")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('101 contours départementaux')",
