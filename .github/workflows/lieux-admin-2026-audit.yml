@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   qualifier-2026:
@@ -93,32 +93,17 @@ jobs:
             assert not invalid,invalid
             print(niveau,attendu,"géométries SIG valides après deux réparations ponctuelles")
           PY
+      - name: Refuser toute dérive des GeoJSON et index publiés
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in regions-2026.geojson departements-2026.geojson index-2026.json rapport-2026.json; do
+            cmp "$RUNNER_TEMP/adlfi2026/recette/$name" "docs/data/lieux-historique/$name"
+          done
+          echo "COG / contours 2026 : quatre livrables publiés reproductibles à l'octet"
       - name: Archiver la recette 2026 et sa provenance (sans publier)
         uses: actions/upload-artifact@v4
         with:
           name: adlfi-lieux-admin-2026-contours-recette
           path: ${{ runner.temp }}/adlfi2026/recette/
           retention-days: 30
-      - name: Intégrer les quatre exports qualifiés sur la branche de recette (jamais main)
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/lieux-regions-departements-2026-20261116'
-        env:
-          SOURCE_BRANCH: ${{ github.head_ref }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch origin "$SOURCE_BRANCH"
-          git checkout "$SOURCE_BRANCH"
-          mkdir -p docs/data/lieux-historique
-          for name in regions-2026.geojson departements-2026.geojson index-2026.json rapport-2026.json; do
-            cp "$RUNNER_TEMP/adlfi2026/recette/$name" "docs/data/lieux-historique/$name"
-          done
-          git add docs/data/lieux-historique/{regions-2026.geojson,departements-2026.geojson,index-2026.json,rapport-2026.json}
-          if git diff --cached --quiet; then
-            echo "Exports 2026 inchangés"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Lieux: versionner les 18 régions et 101 départements 2026 qualifiés"
-          git push origin "HEAD:$SOURCE_BRANCH"
-
