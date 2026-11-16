@@ -133,6 +133,21 @@ Outils ajoutés : scripts/inventorier_source_polynesie_2022.py, tests/test_inven
 
 **En attente de confirmation de la CI d'inventaire et, le cas échéant, d'un audit topologique de la géométrie alternative.** L'archive complète ne sera pas intégrée au dépôt ni au site.
 
+## Résultat — Union diagnostique de Tahaa depuis les huit communes associées
+
+La [CI spécialisée n°43901467790](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43901467790) est réussie : le ZIP officiel de 2022 et le GeoJSON 2026 sont contrôlés par empreintes ; deux reconstructions donnent exactement le même rapport. Aucun GeoJSON reconstruit n'est exporté.
+
+- Archive 2022 : SHA-256 29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b.
+- Couche unique : loc_commune_associee.shp, **179 entités** ; **8 subdivisions de Tahaa**, toutes déclarant explicitement code_com_i=98745 et codes locaux 451–458. Projection native RGPF, transformée vers WGS84 avant le calcul.
+- **Les huit géométries individuelles sont topologiquement valides sans réparation**, de même que leur union MultiPolygon. Aucune identité historique, aucun emboîtement administratif autre que le code cité par la source n'est inféré.
+- Surface de l'union (EPSG:6933) : **91,080497 km²** ; surface de la géométrie nationale 2026 après make_valid sur copie : **89,980115 km²**.
+- Différence de surface totale : **1,100382 km²**. Différence symétrique : **2,630999 km²**. Recouvrement du contour de l'union : **97,951603 %**.
+- Les contours proviennent de dates distinctes (archive 2022 / édition nationale 4 mai 2026). Les différences peuvent refléter les versions de littoral, les îlots représentés, des limites de subdivisions et la généralisation. Elles ne démontrent pas une erreur de délimitation juridique.
+
+**Conséquence :** une géométrie techniquement valide peut être construite à partir des huit subdivisions et de leur rattachement explicite à 98745. Elle est une **reconstruction documentaire contrôlable**, et non un contour communal 2026 officiellement homologué. Son éventuelle utilisation comme source alternative exige comparaison visuelle et validation de l'exhaustivité territoriale, de la licence et de la date.
+
+L'interface publique doit continuer à ne proposer que Région / Département / Commune. Les huit communes associées sont des subdivisions documentaires et ne constituent pas un quatrième échelon proposé au sélecteur.
+
 ## Étapes avant publication cartographique
 
 - Examiner les géométries absentes, invalides ou traversant potentiellement l'antiméridien ; identifier des sources alternatives, notamment pour TAAF, Wallis-et-Futuna, Clipperton et Île des Faisans.
