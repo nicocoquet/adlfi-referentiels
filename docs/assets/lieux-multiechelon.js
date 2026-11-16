@@ -347,19 +347,57 @@ async function render(){
 }
 function hideResults(){$('results').hidden=true;$('search').setAttribute('aria-expanded','false')}
 function search(){
- const q=core.normaliser($('search').value);const ul=$('results');ul.replaceChildren();
+ const q=core.normaliser($('search').value),ul=$('results');
+ ul.replaceChildren();
  if(q.length<2){hideResults();return}
- const hits=state.indexes.filter(x=>{const parts=q.split(' ');return parts.every(t=>x.champs.some(ch=>ch.includes(t)))}).slice(0,22);
- for(const h of hits){const li=document.createElement('li'),btn=document.createElement('button');btn.type='button';
- const heading=document.createElement('strong');heading.textContent=h.label;
- const sub=document.createElement('small');sub.textContent=h.kind==='admin'?`${label[h.level]} · COG ${h.year} · ${h.code}`:
-   `${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
- btn.append(heading,sub);btn.addEventListener('click',()=>{
-   if(h.kind==='admin'){ $('level').value=h.level;$('year').value=String(h.year);state.selected={kind:'admin',level:h.level,year:h.year,code:h.code}; }
-   else{$('level').value='commune';state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),ark:h.kind==='pactols'?h.ark:null};}
-   hideResults();render().then(focusSelection);
- });li.append(btn);ul.append(li)}
- if(!hits.length){const li=document.createElement('li');li.textContent='Aucun résultat dans les données étudiées.';li.style.padding='12px';ul.append(li)}
+ const terms=q.split(' ');
+ const score=h=>{
+   const n=core.normaliser(h.label||''),c=core.normaliser(h.code||'');
+   if(h.kind==='admin'&&h.year===year()&&n===q)return 0;
+   if(n===q||c===q||core.normaliser(h.ark||h.arkValide||'')===q)return 1;
+   if(n.startsWith(q))return 2;
+   if(c.startsWith(q))return 3;
+   return 4;
+ };
+ const hits=state.indexes.filter(h=>terms.every(t=>h.champs.some(ch=>ch.includes(t))))
+   .sort((a,b)=>score(a)-score(b)||
+     a.label.localeCompare(b.label,'fr',{sensitivity:'base'})||
+     String(a.id||a.code).localeCompare(String(b.id||b.code))).slice(0,22);
+ for(const h of hits){
+   const li=document.createElement('li'),btn=document.createElement('button');
+   btn.type='button';
+   const heading=document.createElement('strong');heading.textContent=h.label;
+   const sub=document.createElement('small');
+   if(h.kind==='admin')sub.textContent=`${label[h.level]} · COG ${h.year} · ${h.code}`;
+   else if(h.kind==='cog2026')
+     sub.textContent=`Commune · COG 2026 · ${h.parent} · ${h.code}`+
+       (h.arkValide?' · Pactols validé pour 2026':'');
+   else if(h.kind==='autre_cog2026')
+     sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
+   else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
+   btn.append(heading,sub);
+   btn.addEventListener('click',()=>{
+     if(h.kind==='admin'){
+       $('level').value=h.level;
+       $('year').value=String(h.year);
+       state.selected={kind:'admin',level:h.level,year:h.year,code:h.code};
+     }else if(h.kind==='cog2026'||h.kind==='autre_cog2026'){
+       if(h.kind==='cog2026')$('level').value='commune';
+       state.selected={kind:h.kind,id:h.id,code:h.code};
+     }else{
+       $('level').value='commune';
+       state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
+         ark:h.kind==='pactols'?h.ark:null};
+     }
+     hideResults();render().then(focusSelection);
+   });
+   li.append(btn);ul.append(li);
+ }
+ if(!hits.length){
+   const li=document.createElement('li');
+   li.textContent='Aucun résultat dans les données étudiées.';
+   li.style.padding='12px';ul.append(li);
+ }
  ul.hidden=false;$('search').setAttribute('aria-expanded','true');
 }
 function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','commune'].includes(x.kind))return;
