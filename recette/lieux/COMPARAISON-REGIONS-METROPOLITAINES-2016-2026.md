@@ -45,4 +45,15 @@ La Bretagne (code 53) est la zone la plus divergente de cette comparaison à 100
 
 Sources : https://www.data.gouv.fr/datasets/contours-administratifs ; https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/ ; https://www.insee.fr/fr/information/8740222 .
 
+## Contrôle complémentaire du lot 2018
+
+Les archives 2018 publiées à 100 m ont été acquises : `regions-2018.geojson.gz` (SHA-256 `24aab871b958675ed5aff9162229ea5abfcd55c1d15f13ee43a916b7558d37ca`) et `departements-2018.geojson.gz` (SHA-256 `cfbc29aa611707116bd364f070cc990591f929a8d25e8633ccef92f46f001667`).
+
+- Les **18 régions et 101 départements** sont présents et sans code dupliqué, sans géométrie vide ou invalide lors du contrôle initial.
+- Les **101 rattachements régionaux déclarés** dans les archives départementales 2018 sont identiques à ceux du COG 2026 de référence.
+- Les 13 géométries régionales métropolitaines 2018 comparées à l'édition 2026 présentent des IoU compris entre **99,34668 % et 99,95665 %** ; elles ne sont pas identiques.
+- L'audit des autres millésimes doit être terminé séparément ; ce premier lot ne vaut pas qualification collective des 14 archives attendues.
+
+**2017 et 2020 :** absents du répertoire d'archives Etalab consulté, mais l'IGN décrit une offre **ADMIN EXPRESS historique depuis 2017**. Cette piste institutionnelle doit être instruite avant de conclure à l'indisponibilité définitive des contours (voir https://www.data.gouv.fr/pages/donnees-geographiques).
+
 **Statut : note de recette, pas d'ajout de fichiers `docs/`.**
