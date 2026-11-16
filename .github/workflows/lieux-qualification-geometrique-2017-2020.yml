@@ -1,0 +1,93 @@
+name: Lieux — qualifier les contours IGN historiques 2017 et 2020
+on:
+  push:
+    branches: [feat/lieux-completer-2017-2020-20261116]
+    paths:
+      - 'scripts/qualifier_geometries_ign_2017_2020.py'
+      - 'scripts/auditer_cog_2017_2020.py'
+      - '.github/workflows/lieux-qualification-geometrique-2017-2020.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  qualifier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 36
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - annee: 2017
+            paquet: ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19
+          - annee: 2020
+            paquet: ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer les bibliothèques SIG et la lecture 7z
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'py7zr==1.0.0' 'pyshp==2.3.1' 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Reprendre les COG 2017/2020 officiels déjà audités
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download 43884765551 --repo "$GITHUB_REPOSITORY" \
+            --name adlfi-lieux-inventaire-ign-cog-2017-2020 \
+            --dir "$RUNNER_TEMP/reference"
+          test -f "$RUNNER_TEMP/reference/cog/reg2017-txt.zip"
+          test -f "$RUNNER_TEMP/reference/cog/cog_ensemble_2020_csv.zip"
+      - name: Acquérir l'édition IGN authentifiée par son SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source"
+          paquet='${{ matrix.paquet }}'
+          curl -fL --retry 8 --retry-all-errors --retry-delay 4 --connect-timeout 30 \
+            --max-time 1200 \
+            "https://data.geopf.fr/telechargement/download/ADMIN-EXPRESS-COG/$paquet/$paquet.7z" \
+            -o "$RUNNER_TEMP/source/$paquet.7z"
+          test -s "$RUNNER_TEMP/source/$paquet.7z"
+          sha256sum "$RUNNER_TEMP/source/$paquet.7z"
+      - name: Extraire, qualifier et reproduire les couches
+        shell: bash
+        run: |
+          set -euo pipefail
+          paquet='${{ matrix.paquet }}'
+          python3 scripts/qualifier_geometries_ign_2017_2020.py \
+            --annee ${{ matrix.annee }} \
+            --archive "$RUNNER_TEMP/source/$paquet.7z" \
+            --sources-cog "$RUNNER_TEMP/reference/cog" \
+            --sortie "$RUNNER_TEMP/recette-1"
+          python3 scripts/qualifier_geometries_ign_2017_2020.py \
+            --annee ${{ matrix.annee }} \
+            --archive "$RUNNER_TEMP/source/$paquet.7z" \
+            --sources-cog "$RUNNER_TEMP/reference/cog" \
+            --sortie "$RUNNER_TEMP/recette-2"
+          diff -qr "$RUNNER_TEMP/recette-1" "$RUNNER_TEMP/recette-2"
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          from shapely.geometry import shape
+          root=Path(os.environ['RUNNER_TEMP'])/'recette-1'
+          for path in sorted(root.glob('*.geojson')):
+            x=json.loads(path.read_text())
+            bad=[f['properties']['code'] for f in x['features']
+                 if not shape(f['geometry']).is_valid]
+            if bad:raise ValueError("Géométries invalides : "+str((path.name,bad)))
+            print(path.name,len(x['features']),'invalides',len(bad))
+          PY
+      - name: Conserver la recette vectorielle, jamais les paquets IGN
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-geom-qualification-${{ matrix.annee }}
+          path: |
+            ${{ runner.temp }}/recette-1/
+          if-no-files-found: ignore
+          retention-days: 30
