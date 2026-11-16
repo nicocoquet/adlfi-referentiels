@@ -16,7 +16,10 @@ import hashlib
 import json
 from pathlib import Path
 
-from shapely.geometry import shape
+try:
+    from shapely.geometry import shape
+except ImportError:  # Le test de structure reste importable sans Shapely.
+    shape = None
 
 DROM = frozenset(("971", "972", "973", "974", "976"))
 NATURES = ("COM", "DIS", "CIR", "CPT", "CDM")
@@ -130,6 +133,8 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
         return sortie
     if not geoms:
         return sortie
+    if shape is None:
+        raise RuntimeError("Shapely requis pour qualifier les géométries")
     try:
         g = shape(geoms[0]["geometry"])
         sortie["type_geometrie"] = g.geom_type
@@ -144,7 +149,7 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
             ok = False
             sortie["valide_topologie"] = "non"
         sortie["statut"] = "PRESENTE_VALIDE_A_QUALIFIER" if ok else "PRESENTE_INVALIDE"
-    except (ValueError, TypeError, KeyError, AttributeError):
+    except (ValueError, TypeError, KeyError, AttributeError, IndexError):
         sortie["statut"] = "PRESENTE_INVALIDE"
         sortie["valide_topologie"] = "non"
     return sortie
