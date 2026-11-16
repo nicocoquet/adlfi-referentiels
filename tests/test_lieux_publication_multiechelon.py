@@ -44,6 +44,51 @@ class PublicationLieuxMultiechelon(unittest.TestCase):
         for year in (2015, 2016):
             self.assertTrue(set(parents[year]).issubset(parents[(year, "regions")]))
 
+    def test_couches_2026_regions_departements_drom_et_provenance(self):
+        sources = {
+            'regions': (18, '52ec7200994624753908c9cc1f7dd88d090abddb348c7e757d1eb60190f3bc74'),
+            'departements': (101, 'c330276ba97a2c273c7b0508db9e47f3025d90b1734faf454fd089b87d9e96ea'),
+        }
+        for niveau,(nombre,sha) in sources.items():
+            fc = json.loads((DATA / f'{niveau}-2026.geojson').read_text(encoding='utf8'))
+            self.assertEqual(fc['type'],'FeatureCollection')
+            self.assertEqual(len(fc['features']),nombre)
+            meta = fc['provenance']
+            self.assertEqual(meta['schema'],'adlfi.lieux.contours.administratifs_2026.v1')
+            self.assertEqual(meta['cog_au_premier_janvier'],'2026')
+            self.assertEqual(meta['edition_contours'],'2026-05-04')
+            self.assertEqual(meta['source_archives_sha256'][f'{niveau}-100m.geojson.gz'],sha)
+            self.assertFalse(meta['pactols_valide'])
+            codes = {f['properties']['code'] for f in fc['features']}
+            self.assertEqual(len(codes),nombre)
+            for f in fc['features']:
+                p = f['properties']
+                self.assertEqual(p['annee'],2026)
+                self.assertFalse(p['pactols_valide'])
+                self.assertNotIn('ark_pactols',p)
+                self.assertIn(f['geometry']['type'],('Polygon','MultiPolygon'))
+            self.assertTrue(set(['971','972','973','974','976']).isdisjoint(codes) if niveau=='regions'
+                            else set(['971','972','973','974','976']).issubset(codes))
+            self.assertTrue(set(['975','977','978','984','986','987','988','989']).isdisjoint(codes))
+        region = json.loads((DATA / 'regions-2026.geojson').read_text())
+        dep = json.loads((DATA / 'departements-2026.geojson').read_text())
+        reg06 = next(f for f in region['features'] if f['properties']['code']=='06')
+        dep976 = next(f for f in dep['features'] if f['properties']['code']=='976')
+        self.assertEqual(reg06['properties']['departements'],['976'])
+        self.assertEqual(dep976['properties']['code_region_parent'],'06')
+        report = json.loads((DATA / 'rapport-2026.json').read_text())
+        self.assertEqual(report['nombre_reparations'],2)
+        self.assertEqual({(e['niveau'],e['code']) for e in report['reparations_geometriques']},
+                         {('region','53'),('departement','22')})
+        for e in report['reparations_geometriques']:
+            self.assertLess(e['difference_relative_aire_pct'],0.00001)
+        self.assertEqual(report['alignements_Pactols_crees'],0)
+        index = json.loads((DATA / 'index-2026.json').read_text())
+        self.assertEqual(index['schema'],'adlfi.lieux.admin.index_2026.v1')
+        self.assertEqual(len(index['entries']),119)
+        self.assertEqual(len({(e['level'],e['code']) for e in index['entries']}),119)
+        self.assertEqual(index['nouvelles_correspondances_pactols'],0)
+
     def test_index_distingue_les_dates_et_echelons(self):
         index = json.loads((DATA / "index.json").read_text(encoding="utf8"))
         self.assertEqual(index["schema"], "adlfi.lieux.admin.index.v1")
