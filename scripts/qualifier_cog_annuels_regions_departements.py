@@ -30,8 +30,17 @@ SOURCE_PAGES = {
     2024: "https://www.insee.fr/fr/information/7766585",
     2025: "https://www.insee.fr/fr/information/8377162",
 }
-# Les empreintes sont fixées seulement après contrôle des ZIP Insee authentiques.
-ARCHIVES_SHA256 = {}
+# Empreintes des huit ZIP officiels Insee figées après téléchargement et audit.
+ARCHIVES_SHA256 = {
+    "regions-2018-txt.zip": "f7a57d73fff536cbd1309eb5746627c2b65f6c005077fb56e3c3768c178a11bf",
+    "departements-2018-txt.zip": "513a1fdcf90b0088febb55ed3060a3d86dd26b3764b6ccc090188ef0fa29071e",
+    "cog_ensemble_2019_csv.zip": "b2ad58004d9498b035303fd4d68c5038d3d71798b58ed613495aab6bd6a9df90",
+    "cog_ensemble_2021_csv.zip": "641510f894aab61417175bcd45c6c1a2b9761d2fe8950ff06568bb1fe09c24a3",
+    "cog_ensemble_2022_csv.zip": "ba8ce90735cd2e1632db954544732a07c81bff99b18f62dfa0331c62fb667612",
+    "cog_ensemble_2023_csv.zip": "ee23de694716c5d38a93c151be335790da6e8590fdff495dfafce5440da55fbd",
+    "cog_ensemble_2024_csv.zip": "9842beab5eeb292febd4ad0dc46a3dd05b929794a42357447426511739e9abff",
+    "cog_ensemble_2025_csv.zip": "89329a7fc6669e215f90d557b123a7eb83cb926cdb769946b1a9a8bf19bc12d9",
+}
 
 def empreinte(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
