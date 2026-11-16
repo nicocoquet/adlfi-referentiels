@@ -283,6 +283,18 @@ def construire(data: dict, diagnostic: list[dict], decisions: dict,
                      if x["pactols"]["relation_2026"] == "VALIDE_2026")
     confirmes = sorted(x["code_insee"] for x in communes
                        if x["pactols"]["ark_identifiant_confirme"])
+    observations = [h for x in communes for h in x["historique_COG_observations"]]
+    par_famille = collections.Counter(h["source_famille"] for h in observations)
+    mayotte_comer = [
+        (x["code_insee"], h)
+        for x in communes if x["code_insee"].startswith("976")
+        for h in x["historique_COG_observations"]
+        if h["source_famille"] == "COG_COMER"
+    ]
+    if strict and (len(mayotte_comer) != 17
+                   or {code for code, _ in mayotte_comer}
+                      != {f"976{i:02d}" for i in range(1,18)}):
+        raise ValueError("Transition Mayotte 2007/2011 incomplète")
     if strict:
         attendus = {**{("DROM", k): v for k,v in DROM.items()},
                     **{("COMER", k): v for k,v in PARENTS_COMER.items()}}
@@ -305,8 +317,9 @@ def construire(data: dict, diagnostic: list[dict], decisions: dict,
             "repartition_par_territoire": {
                 f"{k[0]}:{k[1]}": v for k,v in sorted(counts.items())
             },
-            "observations_historiques_COG_liees_par_code": sum(
-                len(x["historique_COG_observations"]) for x in communes),
+            "observations_historiques_COG_liees_par_code": len(observations),
+            "observations_historiques_par_famille_source": dict(sorted(par_famille.items())),
+            "observations_Mayotte_COMER_anterieures_transition_2011": len(mayotte_comer),
         },
         "garanties": [
             "Pactols ARK seulement si VALIDE_2026 dans la décision éditoriale.",
