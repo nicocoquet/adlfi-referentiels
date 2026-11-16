@@ -1,0 +1,101 @@
+name: Lieux — Guyane 22 communes COG, historique et candidats Pactols
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_guyane_2026.py'
+      - 'tests/test_auditer_guyane_2026.py'
+      - 'recette/lieux/GUYANE-LOT-01-2026.md'
+      - '.github/workflows/lieux-guyane-audit-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  instruction-guyane:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Code AdlFI
+        uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - name: Source Pactols Lieux RDF officielle épinglée (Git LFS)
+        uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bibliothèques de contrôle des contours
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Tests synthétiques, sans réseau
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_guyane_2026.py' -v
+      - name: Acquisition du COG Insee 2026 figé
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Acquisition contrôlée des géométries communales 2026
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Instruire 22 communes, toutes périodes COG 973 et Pactols
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for target in "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"; do
+            python3 scripts/auditer_guyane_2026.py \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --public-index docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$target"
+          done
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Contrôler la séparation de la preuve et de la validation
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"recette1"
+          report=json.loads((root/"guyane-22-communes-audit.json").read_text())
+          manifest=json.loads((root/"manifest-guyane.json").read_text())
+          b=report["bilan"]
+          assert b["communes_COG_2026"]==22
+          assert b["geometries_topologiquement_valides"]==22
+          assert b["correspondances_Pactols_validees_par_cet_audit"]==0
+          assert b["contours_adoptes_par_cet_audit"]==0
+          assert b["relations_de_succession_creees"]==0
+          assert manifest["nouveaux_alignements_Pactols"]==0
+          assert manifest["geometries_publiees"]==0
+          assert {r["code_COG_2026"] for r in report["communes"]}=={
+              "97301","97302","97303","97304","97305","97306","97307",
+              "97308","97309","97310","97311","97312","97313","97314",
+              "97352","97353","97356","97357","97358","97360","97361","97362"}
+          assert all(r["statut_alignement_Pactols"]=="A_INSTRUIRE" for r in report["communes"])
+          assert all(not r["geometrie_2026"]["contour_adopte"] for r in report["communes"])
+          print("BILAN GUYANE",json.dumps(b,ensure_ascii=False,sort_keys=True,indent=2))
+          for x in report["communes"]:
+              print("FICHE",x["code_COG_2026"],x["libelle_COG_2026"],
+                    "episodes",len(x["historique_meme_code"]),
+                    "mouvements",len(x["evenements_avec_code_2026"]),
+                    "URI Pactols",len(x["pactols_uri_insee_source"]),
+                    "labels Pactols",len(x["pactols_concordances_lexicales"]))
+          PY
+      - name: Archiver les rapports Guyane sans publier les géométries
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-guyane-22-audit-cog-pactols-2026
+          path: ${{ runner.temp }}/recette1/
+          retention-days: 30
+          if-no-files-found: error
