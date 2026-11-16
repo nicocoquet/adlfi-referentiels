@@ -6,6 +6,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const source = fs.readFileSync(path.join(__dirname, '../docs/assets/organismes.js'),'utf8');
+assert.doesNotMatch(source, /data-legacy-src|legacyAttempted|legacySrc/,
+  'Le navigateur ne doit plus utiliser les anciens chemins de logos');
 assert.match(source, /\}\)\(\);\s*$/);
 const instrumented = source.replace(/\}\)\(\);\s*$/, `
   globalThis.__test = {
@@ -25,7 +27,7 @@ const api = context.__test;
 
 const authority = (id, label, logo=true) => ({
   id, names:{preferred:label},
-  presentation:{media:{logo:logo ? `assets/organismes/${id}-logo.svg` : null}}
+  presentation:{media:{image:null,logo:logo ? `assets/organismes/${id}.jpg` : null}}
 });
 const ministry = authority('ORG-0023','Ministère de la Culture');
 const cnrs = authority('ORG-0004','Centre national de la recherche scientifique');

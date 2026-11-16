@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Synchronise uniquement les références aux JPEG canoniques nouvellement ajoutés.
+"""Synchroniser uniquement les logos JPEG des autorités dans le JSON publié.
 
-Une publication statique ne suffit pas : les fiches Organismes lisent les
-références de médias depuis docs/data/organismes.json. Ce script actualise
-exclusivement les champs presentation.media des autorités déjà présentes.
+Contrat unique : docs/assets/organismes/ID.jpg (ID = ORG-XXXX ou SER-XXXX).
+Les fichiers absents ne créent aucune référence : pictogramme côté interface.
+Le script n'altère ni le classeur, ni les champs institutionnels, ni les ARK.
 
 Usage :
-    python3 scripts/synchroniser_logos_publies.py --check
-    python3 scripts/synchroniser_logos_publies.py --write
-
-Aucun XLSX, rattachement, libellé ou statut institutionnel n'est modifié.
+  python3 scripts/synchroniser_logos_publies.py --check
+  python3 scripts/synchroniser_logos_publies.py --write
 """
+from __future__ import annotations
+
 import argparse
 import json
 import re
@@ -33,26 +33,26 @@ def synchroniser():
     par_identifiant = {a["id"]: a for a in autorites}
     if len(par_identifiant) != len(autorites):
         raise ValueError("Identifiant d'autorité dupliqué")
+
+    logos = set()
+    for fichier in sorted(FOLDER.iterdir()):
+        if fichier.name == "README.md":
+            continue
+        if not fichier.is_file() or not PATTERN.fullmatch(fichier.name):
+            raise ValueError("Nom de média interdit ; seul ID.jpg est admis : " + fichier.name)
+        identifiant = fichier.stem
+        if identifiant not in par_identifiant:
+            raise ValueError("JPEG sans autorité : " + fichier.name)
+        logos.add(identifiant)
+
     changements = []
-    for image in sorted(FOLDER.iterdir()):
-        if not image.is_file() or not PATTERN.fullmatch(image.name):
-            continue
-        identifiant = image.stem
-        fiche = par_identifiant.get(identifiant)
-        if fiche is None:
-            raise ValueError("JPEG canonique sans autorité : " + image.name)
+    for identifiant, fiche in sorted(par_identifiant.items()):
         media = fiche["presentation"]["media"]
-        attendu = "assets/organismes/" + image.name
-        if media["logo"] == attendu:
-            continue
-        if media["logo"] is not None or media["image"] is not None:
-            raise ValueError(
-                "Référence média déjà renseignée, arbitrage requis : "
-                + identifiant + " : " + str(media)
-            )
-        media["logo"] = attendu
-        changements.append(identifiant)
-    # Le schéma de sérialisation reste identique à celui du fichier historique.
+        attendu = "assets/organismes/" + identifiant + ".jpg" if identifiant in logos else None
+        if media.get("logo") != attendu or media.get("image") is not None:
+            media["logo"] = attendu
+            media["image"] = None
+            changements.append(identifiant)
     produit = json.dumps(jeu, ensure_ascii=False, indent=2)
     if original.endswith("\n"):
         produit += "\n"
@@ -61,18 +61,17 @@ def synchroniser():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    groupe = parser.add_mutually_exclusive_group(required=True)
-    groupe.add_argument("--check", action="store_true")
-    groupe.add_argument("--write", action="store_true")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--check", action="store_true")
+    group.add_argument("--write", action="store_true")
     args = parser.parse_args()
-    original, nouveau, changements = synchroniser()
+    original, produit, changements = synchroniser()
     if args.check and changements:
-        parser.exit(1, "Références JPEG non synchronisées : "
-                    + ", ".join(changements) + "\n")
-    if args.write and original != nouveau:
-        JSON.write_text(nouveau, encoding="utf-8")
-    print("JPEG canoniques à actualiser : " + str(len(changements)))
-    print("IDs : " + (", ".join(changements) if changements else "aucun"))
+        parser.exit(1, "Médias non synchronisés : " + ", ".join(changements) + "\n")
+    if args.write and original != produit:
+        JSON.write_text(produit, encoding="utf-8")
+    print("Autorités à synchroniser : " + str(len(changements)))
+    print("Identifiants : " + (", ".join(changements) if changements else "aucun"))
 
 
 if __name__ == "__main__":
