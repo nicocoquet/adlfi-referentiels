@@ -1,0 +1,52 @@
+name: Lieux — découvrir le condominium IGN (île des Faisans)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_condominium_wfs_ign.py'
+      - 'tests/test_auditer_condominium_wfs_ign.py'
+      - '.github/workflows/lieux-condominium-ign-wfs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  condominium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer les dépendances de validation topologique
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Tests sans réseau
+        run: python3 -m unittest discover -s tests -p 'test_auditer_condominium_wfs_ign.py' -v
+      - name: Interroger le WFS officiel IGN sans publier de géométrie
+        run: |
+          python3 scripts/auditer_condominium_wfs_ign.py \
+            --sortie "$RUNNER_TEMP/recette/rapport_condominium_wfs.json"
+      - name: Vérifier les garde-fous
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"recette/rapport_condominium_wfs.json"
+          r=json.loads(p.read_text())
+          assert r["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert r["cog_cible"]=={"famille":"COMER","nature":"CDM","code":"98101"}
+          assert r["geometries_publiees"]==0
+          assert r["nouvel_alignement_pactols"]==0
+          if "resultat" in r:
+              assert r["resultat"]["identite_COG_98101_etablie"] is False
+          print("Diagnostic WFS:",r["diagnostic"])
+          print("Couches condominium:",r["couches_condominium"])
+          PY
+      - name: Archiver uniquement les métadonnées de recette
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-condominium-ign-wfs
+          path: ${{ runner.temp }}/recette/rapport_condominium_wfs.json
+          retention-days: 30
