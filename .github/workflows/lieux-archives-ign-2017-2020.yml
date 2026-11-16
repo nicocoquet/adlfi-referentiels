@@ -1,0 +1,59 @@
+name: Lieux — expertiser les archives vectorielles IGN 2017 / 2020
+on:
+  push:
+    branches: [feat/lieux-completer-2017-2020-20261116]
+    paths:
+      - 'scripts/inspecter_paquets_ign_2017_2020.py'
+      - '.github/workflows/lieux-archives-ign-2017-2020.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspecter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 36
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - annee: 2017
+            package: ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19
+          - annee: 2020
+            package: ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer le décompresseur 7z pour inventaire
+        run: python3 -m pip install --disable-pip-version-check 'py7zr==1.0.0'
+      - name: Télécharger la source officielle IGN sans la publier
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source"
+          paquet='${{ matrix.package }}'
+          curl --fail --location --show-error --silent \
+            --retry 8 --retry-all-errors --retry-delay 4 \
+            --connect-timeout 30 --max-time 1200 \
+            "https://data.geopf.fr/telechargement/download/ADMIN-EXPRESS-COG/$paquet/$paquet.7z" \
+            -o "$RUNNER_TEMP/source/$paquet.7z"
+          test -s "$RUNNER_TEMP/source/$paquet.7z"
+          sha256sum "$RUNNER_TEMP/source/$paquet.7z"
+      - name: Inventorier les Shapefiles, projections et composants
+        shell: bash
+        run: |
+          set -euo pipefail
+          paquet='${{ matrix.package }}'
+          python3 scripts/inspecter_paquets_ign_2017_2020.py \
+            --annee ${{ matrix.annee }} \
+            --archive "$RUNNER_TEMP/source/$paquet.7z" \
+            --sortie "$RUNNER_TEMP/inventaire-${{ matrix.annee }}.json"
+      - name: Conserver le rapport et non le paquet de données volumineux
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-paquet-ign-${{ matrix.annee }}
+          path: ${{ runner.temp }}/inventaire-${{ matrix.annee }}.json
+          retention-days: 30
+          if-no-files-found: ignore

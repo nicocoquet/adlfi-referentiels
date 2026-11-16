@@ -1,0 +1,37 @@
+{
+  "annee": 2020,
+  "couches": [
+    {
+      "champs": [
+        "ID",
+        "NOM_DEP",
+        "NOM_DEP_M",
+        "INSEE_DEP",
+        "INSEE_REG",
+        "CHF_DEP"
+      ],
+      "chemin": "ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2020-11-20/ADE-COG_2-1_SHP_WGS84G_FRA/DEPARTEMENT.shp",
+      "crs": "EPSG:4326",
+      "effectif": 101,
+      "encodage": "UTF-8"
+    },
+    {
+      "champs": [
+        "ID",
+        "NOM_REG",
+        "NOM_REG_M",
+        "INSEE_REG",
+        "CHF_REG"
+      ],
+      "chemin": "ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2020-11-20/ADE-COG_2-1_SHP_WGS84G_FRA/REGION.shp",
+      "crs": "EPSG:4326",
+      "effectif": 18,
+      "encodage": "UTF-8"
+    }
+  ],
+  "date_edition_IGN": "2020-11-20",
+  "divergences_noms": [],
+  "nouvelles_autorites_Pactols": 0,
+  "reparations": [],
+  "source_IGN_SHA256": "ff7a732872a069cbc31f426b613a751cf990e80f4a98e984ecd81d9adbf0fd08"
+}
