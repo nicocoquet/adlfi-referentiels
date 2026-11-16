@@ -7,6 +7,7 @@ on:
       - 'tests/test_auditer_geofla_guyane_2015.py'
       - '.github/workflows/lieux-guyane-geofla-2015-recette.yml'
       - 'recette/lieux/GUYANE-GEOFLA-2015-PROVENANCE.md'
+      - 'recette/lieux/GUYANE-GEOFLA-2015-COHERENCE-RECETTE.md'
   workflow_dispatch:
 
 permissions:
