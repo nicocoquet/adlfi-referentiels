@@ -1,6 +1,6 @@
 # Lieux — Guyane, lot 01 : identités COG, histoire, Pactols, géométries
 
-**16 novembre 2026 · Recette uniquement. Aucun nouvel alignement ni contour publié.**
+**16 novembre 2026 · Rapport d'audit en recette ; approbation éditoriale des 22 liens courants consignée ensuite, sans adoption de géométrie.**
 
 ## Périmètre
 
@@ -49,6 +49,6 @@ La CI produit deux fois des sorties octet à octet identiques dans des répertoi
 
 Le fichier RDF est l'export Git LFS du 22 juillet 2026, commit épinglé. Les citations de codes INSEE ou concordances lexicales sont **des candidats**, jamais un alignement automatiquement approuvé.
 
-**Aucune modification de données publiques sous docs, aucune frontière publiée, aucune validation Pactols créée.** Pour les géométries anciennes, il faudra identifier une source datée ou une reconstruction spatialement et historiquement justifiée.
+**Le rapport brut n'infère aucune relation Pactols ; après cet audit, les 22 `exactMatch` des communes courantes ont été expressément validés par l'éditeur et portés dans `recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv`.** L'index public comporte ces validations datées, mais toujours **aucune frontière de Guyane publiée par ce chantier**. Pour les géométries anciennes, il faudra identifier une source datée ou une reconstruction spatialement et historiquement justifiée.
 
 Après validation de cette méthode sur la Guyane, le protocole sera étendu à la Martinique puis à la Guadeloupe.
