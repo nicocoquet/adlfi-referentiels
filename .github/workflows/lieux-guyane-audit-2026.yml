@@ -6,6 +6,13 @@ on:
       - 'scripts/auditer_guyane_2026.py'
       - 'tests/test_auditer_guyane_2026.py'
       - 'recette/lieux/GUYANE-LOT-01-2026.md'
+      - 'recette/lieux/GUYANE-LOT-01-RESULTATS.md'
+      - 'recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'recette/lieux/POLITIQUE-ALIGNEMENT-PACTOLS-COG.md'
+      - 'scripts/extraire_index_public_outremer_2026.py'
+      - 'tests/test_validations_guyane_pactols_2026.py'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
       - '.github/workflows/lieux-guyane-audit-2026.yml'
   workflow_dispatch:
 
@@ -40,6 +47,9 @@ jobs:
       - name: Tests synthétiques, sans réseau
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_auditer_guyane_2026.py' -v
+      - name: Tester les décisions Guyane appliquées à la projection publique
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_validations_guyane_pactols_2026.py' -v
       - name: Acquisition du COG Insee 2026 figé
         working-directory: referentiels
         run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
@@ -82,6 +92,26 @@ jobs:
           with (root/"guyane-pactols-candidats-26.csv").open(encoding="utf-8-sig",newline="") as fh:
               candidats=list(csv.DictReader(fh,delimiter=";"))
           assert len(candidats)==26
+          decisions=Path("referentiels/recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv")
+          with decisions.open(encoding="utf-8-sig",newline="") as fh:
+              approves=list(csv.DictReader(fh,delimiter=";"))
+          current={x["code_insee_source"]:x for x in candidats
+                   if x["statut_code_COG"]=="COMMUNE_COG_2026"}
+          assert len(approves)==len(current)==22
+          assert len({x["ark_pactols"] for x in approves})==22
+          for row in approves:
+              ref=current[row["code_insee"]]
+              assert row["ark_pactols"]==ref["ark_pactols_source"]
+              assert row["libelle_COG_2026"]==ref["libelle_COG"]
+              assert row["uri_insee"]==ref["uri_insee_source"]
+              assert row["predicat_source"]==ref["predicat_source"]=="exactMatch"
+              assert row["concept_deprecie"]==ref["concept_deprecie"]=="non"
+              assert row["prefLabel_fr_pactols"]==ref["prefLabel_fr_pactols"]
+              assert row["portee_COG"]=="2026-01-01"
+              assert row["statut_validation"]=="VALIDE_ADLFI_2026"
+          from hashlib import sha256
+          raw=(root/"guyane-pactols-candidats-26.csv").read_bytes()
+          assert sha256(raw).hexdigest()=="b9d7d7c84f1b5d5f39dee30a16cb2cbc18d10c1b13bd07964eea5fb5ba7f98dc"
           assert len({(x["code_insee_source"],x["ark_pactols_source"]) for x in candidats})==26
           assert {x["code_insee_source"] for x in candidats
                   if x["statut_code_COG"]=="CODE_COG_HISTORIQUE_NON_COURANT"} == {
