@@ -1,0 +1,111 @@
+name: Lieux — localiser écarts GEOFLA 2015 Guyane / Etalab 2026 50m-100m
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/localiser_ecarts_geofla_guyane.py'
+      - 'tests/test_localiser_ecarts_geofla_guyane.py'
+      - 'recette/lieux/GUYANE-GEOFLA-LOCALISATION-2015-2026.md'
+      - '.github/workflows/lieux-guyane-localisation-ecarts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  localiser-ecarts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer les dépendances spatiales figées
+        run: python3 -m pip install --disable-pip-version-check 'shapely==2.1.2' 'pyproj==3.7.2' 'pyshp==2.3.1'
+      - name: Tests géométriques synthétiques et absence de polygones exportés
+        run: python3 -m unittest discover -s tests -p 'test_localiser_ecarts_geofla_guyane.py' -v
+      - name: Acquérir le paquet candidat GEOFLA 2015, dont l'identité IGN reste non authentifiée
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar' \
+            --output "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          echo "3aac9e8b979118b25df48e9ef21fc1029d735cc3c99a025cd1f5688560f41298  $RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar" | sha256sum --check
+          test "$(stat -c %s "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar")" -le 3000000
+      - name: Acquérir les deux généralisations officielles des contours nationaux 2026
+        run: |
+          for metres in 100 50; do
+            curl --fail --location --retry 3 --connect-timeout 20 --max-time 240 \
+              "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-$metres"m.geojson.gz \
+              --output "$RUNNER_TEMP/communes-$metres"m.geojson.gz
+          done
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+          sha256sum "$RUNNER_TEMP/communes-50m.geojson.gz"
+          test "$(stat -c %s "$RUNNER_TEMP/communes-50m.geojson.gz")" -ge 10000000
+      - name: Extraire le seul paquet GEOFLA, après contrôle des chemins d'archive
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libarchive-tools
+          export RAR="$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          bsdtar -tf "$RAR" > "$RUNNER_TEMP/manifest-rar.txt"
+          python3 - <<'PY'
+          import os
+          from pathlib import PurePosixPath,Path
+          names=(Path(os.environ["RUNNER_TEMP"])/"manifest-rar.txt").read_text().splitlines()
+          assert 4<=len(names)<=100,len(names)
+          for name in names:
+              p=PurePosixPath(name)
+              assert not p.is_absolute() and ".." not in p.parts and "\\" not in name,name
+          print("ENTREES ARCHIVE",len(names))
+          PY
+          mkdir "$RUNNER_TEMP/geofla"
+          bsdtar -xf "$RAR" -C "$RUNNER_TEMP/geofla"
+      - name: Calculer deux fois les localisations, vérifier la reproductibilité
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/localiser_ecarts_geofla_guyane.py \
+              --dossier "$RUNNER_TEMP/geofla" \
+              --archive "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar" \
+              --geo100 "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --geo50 "$RUNNER_TEMP/communes-50m.geojson.gz" \
+              --sortie "$RUNNER_TEMP/localisation-$n.json" > "$RUNNER_TEMP/bilan-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/localisation-1.json" "$RUNNER_TEMP/localisation-2.json"
+          cat "$RUNNER_TEMP/bilan-1.txt"
+      - name: Contrôler les surfaces et l'absence de géométries divulguées
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"localisation-1.json"
+          a=json.loads(p.read_text())
+          assert a["statut"]=="RECETTE_CARTOGRAPHIQUE_NON_PUBLIEE"
+          assert a["schema"]=="adlfi.lieux.guyane.ecarts-localises-geofla15-etalab26.v1"
+          assert a["provenance"]["original_IGN_authentifie"] is False
+          assert a["aucun_contour_exporte"] and a["aucun_ark_pactols_cree"]
+          comps=a["comparaisons_globales"]
+          assert abs(comps["2015_vers_2026_100m"]["symdiff_km2"]-733.434981)<0.01
+          assert set(a["trois_communes_prioritaires"])=={"97301","97312","97303"}
+          for code,entry in a["trois_communes_prioritaires"].items():
+            assert entry["nom"]
+            for ref in ("exterieur_guyane_100m","exterieur_guyane_50m"):
+              groups=entry[ref]
+              for direction in ("edition_2015_hors_emprise_2026","edition_2026_hors_emprise_2015"):
+                detail=groups[direction]
+                assert detail["composantes_exportees"]<=12
+                assert detail["surface_totale_km2"]>=detail["surface_composantes_exportees_km2"]-0.0001
+                for c in detail["composantes"]:
+                  assert all(k not in c for k in ("coordinates","geometry","polygon","wkt"))
+                  assert -60<c["longitude_point_interieur"]<-48
+                  assert 0<c["latitude_point_interieur"]<7
+                  assert len(c["enveloppe_wgs84_lonlat"])==4
+          print("VALIDATION LOCALISATIONS",a["provenance"])
+          PY
+      - name: Archiver uniquement les mesures et points descriptifs, sans contours
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-guyane-localisation-ecarts-geofla15-etalab26-recette
+          path: ${{ runner.temp }}/localisation-1.json
+          retention-days: 30
+          if-no-files-found: error
