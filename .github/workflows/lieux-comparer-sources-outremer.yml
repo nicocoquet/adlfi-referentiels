@@ -1,0 +1,68 @@
+name: Lieux — comparaison des limites ultramarines avec les sources territoriales
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/comparer_sources_geometrie_outremer.py'
+      - 'tests/test_comparer_sources_geometrie_outremer.py'
+      - '.github/workflows/lieux-comparer-sources-outremer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comparaison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances géométriques
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Tests synthétiques sans réseau
+        run: python3 -m unittest discover -s tests -p 'test_comparer_sources_geometrie_outremer.py' -v
+      - name: Source nationale figée — édition 4 mai 2026
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Capturer les réponses de Te Fenua et DITTT (non publiées)
+        run: |
+          python3 scripts/comparer_sources_geometrie_outremer.py \
+            --acquerir --sources "$RUNNER_TEMP/sources_territoriales.json"
+      - name: Comparer une seule acquisition deux fois
+        run: |
+          python3 scripts/comparer_sources_geometrie_outremer.py \
+            --sources "$RUNNER_TEMP/sources_territoriales.json" \
+            --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette1/rapport_comparaison.json"
+          python3 scripts/comparer_sources_geometrie_outremer.py \
+            --sources "$RUNNER_TEMP/sources_territoriales.json" \
+            --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette2/rapport_comparaison.json"
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Contrôles d'interdiction de publication
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          f=Path(os.environ["RUNNER_TEMP"])/"recette1/rapport_comparaison.json"
+          obj=json.loads(f.read_text())
+          assert obj["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert obj["alignements_pactols_crees"]==0
+          assert obj["geometries_publiees"]==0
+          assert set(obj["comparaisons"])=={"98745","98805"}
+          assert all(v["verification_identite_source"]=="A_INSTRUIRE" for v in obj["comparaisons"].values())
+          PY
+      - name: Conserver les rapports et sources comparées hors docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-sources-territoriales-tahaa-dumbea
+          path: |
+            ${{ runner.temp }}/sources_territoriales.json
+            ${{ runner.temp }}/recette1/rapport_comparaison.json
+          retention-days: 30
