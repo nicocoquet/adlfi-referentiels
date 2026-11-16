@@ -163,80 +163,57 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertNotIn('"editorial"',text)
 
     def test_shared_authority_media_and_unique_roles(self):
+        # Les anciens noms, les autres formats et le rôle illustration ne sont
+        # jamais explorés ; le logo se déduit de l'ID stable.
         self.assertEqual(export_organismes.SITE_ROOT, ROOT / 'docs')
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
             folder = root / 'assets/organismes'
             folder.mkdir(parents=True)
-            # Un même logo est utilisé pour l'ORG elle-même et comme tutelle.
             (folder / 'ORG-0004-logo.svg').write_text('<svg/>', encoding='utf-8')
             (folder / 'ORG-0001-illustration.webp').write_bytes(b'image')
-            (folder / 'ORG-0001-logo.png').write_bytes(b'logo')
-            with patch.object(export_organismes,'SITE_ROOT',root):
-                self.assertEqual(export_organismes.media_for('ORG-0004'), {
-                    'image': None,
-                    'logo': 'assets/organismes/ORG-0004-logo.svg'})
-                self.assertEqual(export_organismes.media_for('ORG-0001'), {
-                    'image': 'assets/organismes/ORG-0001-illustration.webp',
-                    'logo': 'assets/organismes/ORG-0001-logo.png'})
+            with patch.object(export_organismes, 'SITE_ROOT', root):
+                self.assertEqual(export_organismes.media_for('ORG-0004'),
+                                 {'image': None, 'logo': None})
+                self.assertEqual(export_organismes.media_for('ORG-0001'),
+                                 {'image': None, 'logo': None})
                 self.assertEqual(export_organismes.media_for('ORG-NONVALIDE'),
-                                 {'image':None,'logo':None})
-                # Un JPEG ID.jpg est prioritaire et reste un logo unique,
-                # y compris lorsque d'anciens fichiers demeurent présents.
+                                 {'image': None, 'logo': None})
                 (folder / 'ORG-0001.jpg').write_bytes(b'jpeg')
-                self.assertEqual(export_organismes.media_for('ORG-0001'), {
-                    'image': None,
-                    'logo': 'assets/organismes/ORG-0001.jpg'})
+                self.assertEqual(export_organismes.media_for('ORG-0001'),
+                                 {'image': None,
+                                  'logo': 'assets/organismes/ORG-0001.jpg'})
                 (folder / 'ORG-0001.jpg').unlink()
-                # Deux extensions pour le même rôle ne sont pas permises.
-                (folder / 'ORG-0001-logo.svg').write_text('<svg/>',encoding='utf-8')
-                with self.assertRaises(ValueError):
-                    export_organismes.media_for('ORG-0001')
+                self.assertEqual(export_organismes.media_for('ORG-0001'),
+                                 {'image': None, 'logo': None})
 
     def test_all_published_logos_are_present_and_unique(self):
-        # Les logos canoniques ID.jpg ont priorité dans la publication 1.49 ;
-        # les médias historiques restent sur le disque pour compatibilité.
         import re
         folder = ROOT / 'docs/assets/organismes'
-        legacy = {'assets/organismes/' + p.name for p in folder.iterdir()
-                  if p.is_file() and re.fullmatch(
-                      r'(?:ORG|SER)-[0-9]{4}-logo\.(?:webp|svg|png|jpg|jpeg)',
-                      p.name)}
-        canonical = {'assets/organismes/' + p.name for p in folder.iterdir()
-                     if p.is_file() and re.fullmatch(r'(?:ORG|SER)-[0-9]{4}\.jpg', p.name)}
-        logos = {}
-        for record in self.d['authorities']:
-            ident = record['id']
-            ref = record['presentation']['media']['logo']
-            if not ref:
+        files = [p for p in folder.iterdir() if p.is_file() and p.name != 'README.md']
+        for fichier in files:
+            self.assertRegex(fichier.name, r'^(?:ORG|SER)-[0-9]{4}\.jpg$')
+        canonical = {'assets/organismes/' + p.name for p in files}
+        self.assertGreaterEqual(len(canonical), 397)
+        ids = set(self.authorities)
+        for ref in canonical:
+            self.assertIn(Path(ref).stem, ids, f'Logo orphelin : {ref}')
+        for ident, record in self.authorities.items():
+            media = record['presentation']['media']
+            self.assertIsNone(media['image'])
+            ref = media['logo']
+            if ref is None:
                 continue
-            self.assertRegex(ref, r'^assets/organismes/(?:ORG|SER)-[0-9]{4}(?:-logo\.(?:webp|svg|png|jpg|jpeg)|\.jpg)$')
-            self.assertEqual(ref.split('/')[-1][:8], ident)
-            self.assertTrue((ROOT / 'docs' / ref).is_file(), f'Média absent : {ref}')
-            self.assertNotIn(ref, logos, f'Logo réutilisé par plusieurs autorités : {ref}')
-            logos[ref] = ident
-        is_149 = self.d['provenance']['source_filename'].startswith(
-            'AdlFI_referentiel_1-49_')
-        if is_149:
-            # Tous les JPEG canoniques sont utilisés ; les anciens logos ne
-            # restent dans le JSON que lorsqu'aucun JPEG canonique n'existe.
-            self.assertTrue(canonical.issubset(logos.keys()))
-            self.assertEqual(
-                set(logos),
-                canonical | {ref for ref in legacy
-                             if 'assets/organismes/' + ref.split('/')[-1][:8] + '.jpg' not in canonical})
-            self.assertEqual(logos['assets/organismes/ORG-0008.jpg'], 'ORG-0008')
-            self.assertEqual(logos['assets/organismes/ORG-0675.jpg'], 'ORG-0675')
-        else:
-            # Contrat de l'instantané publié 1.47.
-            self.assertEqual(set(logos), legacy)
-        self.assertGreaterEqual(len(logos), 150)
-        self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('ORG-')]), 139)
-        self.assertGreaterEqual(len([i for i in logos.values() if i.startswith('SER-')]), 11)
+            self.assertEqual(ref, f'assets/organismes/{ident}.jpg')
+            self.assertIn(ref, canonical, f'Logo référencé mais absent : {ref}')
+        # Contrats historiques des identifiants, sans anciens fichiers WebP.
         self.assertEqual(self.authorities['ORG-0079']['presentation']['media']['logo'],
-                         'assets/organismes/ORG-0079-logo.webp')
+                         'assets/organismes/ORG-0079.jpg')
         self.assertEqual(self.authorities['SER-0083']['presentation']['media']['logo'],
-                         'assets/organismes/SER-0083-logo.webp')
+                         'assets/organismes/SER-0083.jpg')
+        self.assertEqual(self.authorities['SER-0155']['presentation']['media']['logo'],
+                         'assets/organismes/SER-0155.jpg')
+        self.assertIsNone(self.authorities['ORG-0242']['presentation']['media']['logo'])
 
     def test_laboratory_cards_keep_the_standard_grid(self):
         # Les laboratoires ne doivent pas occuper les deux colonnes :
