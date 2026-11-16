@@ -250,6 +250,67 @@ def main():
         inspecter_contours(page,100,"lieux-communes-2026")
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
 
+        # Recette nationale COG 2026 : fiches indépendantes de Pactols,
+        # aucun contour inventé pour les communes d'outre-mer.
+        page.locator("#search").fill("Papeete")
+        page.locator("#results button").filter(
+            has_text="Commune · COG 2026 · Polynésie française · 98735"
+        ).first.click()
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Papeete')",
+            timeout=30000)
+        assert "Aucune limite de cette commune n’est affichée" in page.locator("#detail").text_content()
+        assert page.locator("#level").input_value()=="commune"
+        assert "ref_cog=COMER%3ACOM%3A98735" in page.url
+
+        page.locator("#search").fill("Dembeni")
+        page.locator("#results button").filter(
+            has_text="Commune · COG 2026 · Mayotte · 97607"
+        ).first.click()
+        assert "26678/crtZcuFSJVYZU" in page.locator("#detail").text_content()
+        assert "la correspondance Pactols–COG demeure à valider" in page.locator("#detail").text_content()
+        assert page.locator("#detail").get_by_text(
+            "Correspondance Pactols validée (2026)", exact=False
+        ).count()==0
+
+        page.locator("#search").fill("Acoua")
+        page.locator("#results button").filter(
+            has_text="Commune · COG 2026 · Mayotte · 97601"
+        ).first.click()
+        assert "26678/pcrtZfYYjyoUIE" in page.locator("#detail").text_content()
+        assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
+
+        page.locator("#search").fill("Kerguelen")
+        page.locator("#results button").filter(
+            has_text="District · COG 2026"
+        ).first.click()
+        assert "Archipel des Kerguelen" in page.locator("#detail").text_content()
+        assert "n’est pas une commune dans le sélecteur territorial" in page.locator("#detail").text_content()
+        assert page.locator("#level").input_value()=="commune"
+
+        page.locator("#search").fill("Île des Faisans")
+        page.locator("#results button").filter(
+            has_text="Condominium · COG 2026"
+        ).first.click()
+        assert "COMER:CDM:98101" in page.locator("#detail").text_content()
+        assert "Aucun contour de ce zonage" in page.locator("#detail").text_content()
+
+        # Le COG 2026 ne devient pas une géométrie ni un nom historique.
+        page.locator("#year").evaluate(
+            "(el) => {el.value='2015';el.dispatchEvent(new Event('change',{bubbles:true}));}"
+        )
+        page.locator("#search").fill("Tahaa")
+        page.locator("#results button").filter(has_text="Commune · COG 2026").first.click()
+        assert "contour national 2026 présente une anomalie topologique" in page.locator("#detail").text_content()
+        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98745&annee=2015",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Tahaa')",
+            timeout=60000
+        )
+        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
         page.wait_for_url(re.compile(r"/lieux/\?"),timeout=30000)
         page.wait_for_function(
