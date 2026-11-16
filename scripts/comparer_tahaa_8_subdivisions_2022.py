@@ -101,7 +101,7 @@ def examiner_source(archive: Path):
     }
 
 
-def construire(archive: Path, national: Path) -> dict:
+def construire(archive: Path, national: Path, territorial: Path | None = None) -> dict:
     if hashlib.sha256(national.read_bytes()).hexdigest() != NATIONAL_SHA:
         raise ValueError("Empreinte GeoJSON national 2026 inattendue")
     union, info = examiner_source(archive)
@@ -111,11 +111,32 @@ def construire(archive: Path, national: Path) -> dict:
     if len(target)!=1:
         raise ValueError("Polygone national 98745 non unique")
     metrics = stats_comparaison(mapping(union), target[0]["geometry"])
+    comparaison_territoriale = None
+    if territorial is not None:
+        snapshot = json.loads(territorial.read_text(encoding="utf-8"))
+        if snapshot.get("schema") != "adlfi.lieux.sources.territoriales.v1":
+            raise ValueError("Instantané Te Fenua non conforme")
+        source = snapshot.get("sources", {}).get("98745", {})
+        props = source.get("proprietes", {})
+        if (normaliser(props.get("com_nom", "")) != "tahaa"
+            or props.get("com_id") != 45
+            or not source.get("geojson", {}).get("geometry")):
+            raise ValueError("Référent Tahaa de la source Te Fenua non attesté")
+        comparaison_territoriale = {
+            "code_cog_presume": "98745",
+            "code_source": props["com_id"],
+            "empreinte_geojson": source.get("geometrie_sha256", ""),
+            "statut": "COMPARAISON_NON_VALIDANTE",
+            "mesures": stats_comparaison(
+                mapping(union), source["geojson"]["geometry"]
+            ),
+        }
     return {
         "schema": "adlfi.lieux.tahaa.comparaison_subdivisions2022.v1",
         "statut": "RECETTE_NON_VALIDANTE_NON_PUBLIEE",
         "reconstruction": info,
         "comparaison_national_2026": metrics,
+        "comparaison_tefenua": comparaison_territoriale,
         "source_2022_sha256": SOURCE_SHA,
         "national_2026_sha256": NATIONAL_SHA,
         "avertissements": [
@@ -134,10 +155,11 @@ def main():
     p.add_argument("--archive",type=Path,required=True)
     p.add_argument("--national",type=Path,required=True)
     p.add_argument("--sortie",type=Path,required=True)
+    p.add_argument("--sources-territoriales",type=Path)
     args=p.parse_args()
     if "docs" in args.sortie.resolve().parts:
         raise ValueError("Dossier docs interdit pour un résultat de recette")
-    r=construire(args.archive,args.national)
+    r=construire(args.archive,args.national,args.sources_territoriales)
     args.sortie.parent.mkdir(parents=True,exist_ok=True)
     args.sortie.write_text(json.dumps(r,indent=2,ensure_ascii=False,sort_keys=True)+"\n",encoding="utf-8")
     print(json.dumps(r,indent=2,ensure_ascii=False,sort_keys=True))
