@@ -192,7 +192,7 @@ La [CI n°43905295979](https://github.com/nicocoquet/adlfi-referentiels/actions/
 | Comparaison | Union des 8 communes associées (2022) / Te Fenua | Union des 8 (2022) / National (2026) | Te Fenua / National (2026) |
 |---|---:|---:|---:|
 | Différence symétrique | **1,027156 km²** | 2,630999 km² | 3,132074 km² |
-| Indice de Jaccard | **98,873210 %** | ≈97,95 % sur la surface de l'union (recouvrement, **pas indice de Jaccard**) | 96,582942 % |
+| Indice de Jaccard | **98,873210 %** | 97,135417 % | 96,582942 % |
 | Validité source comparée (avant make_valid) | Union : valide ; Te Fenua : invalide | Union : valide ; national : invalide | Te Fenua : invalide ; national : invalide |
 
 Dans la comparaison **union / Te Fenua** :
