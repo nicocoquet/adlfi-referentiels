@@ -18,6 +18,7 @@ from auditer_geofla_guyane_2015 import (
 )
 
 SCHEMA="adlfi.lieux.guyane.ecarts-localises-geofla15-etalab26.v1"
+SHA_50M="6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38"
 FOCUS={"97301":"Régina","97312":"Sinnamary","97303":"Iracoubo"}
 CODES={"97301","97302","97303","97304","97305","97306","97307",
        "97308","97309","97310","97311","97312","97313","97314",
@@ -194,6 +195,8 @@ def produire(dossier:Path,archive:Path,geo100:Path,geo50:Path,sortie:Path)->dict
         raise ValueError("Archive GEOFLA 2015 non conforme à la copie épinglée")
     if sha256(geo100)!=SHA_NATIONAL:
         raise ValueError("Source 2026 100m non épinglée")
+    if sha256(geo50)!=SHA_50M:
+        raise ValueError("Source 2026 50m non épinglée")
     if "docs" in sortie.resolve().parts or sortie.exists():
         raise ValueError("Sortie vers site public ou écrasement interdit")
     a=charger_communes_2015(dossier)
