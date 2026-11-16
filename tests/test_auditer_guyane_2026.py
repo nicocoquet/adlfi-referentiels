@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from auditer_guyane_2026 import (
-    normaliser, lire_reference, lire_pactols, extraire_histoire, generer,
+    normaliser, lire_reference, lire_pactols, extraire_histoire, generer, revue_26_candidats,
 )
 
 RDF_FIXTURE='''<?xml version="1.0"?>
@@ -90,6 +90,29 @@ class AuditerGuyaneTests(unittest.TestCase):
         self.assertTrue(all(x["geometrie_historique"] is None for x in episodes))
         self.assertTrue(all(x["identite_juridique_retroactive"]=="NON_ETABLIE"
                             for x in episodes))
+
+    def test_registre_editorial_conserve_les_codes_historiques_distincts(self):
+        report={
+            "communes":[{"code_COG_2026":"97302","libelle_COG_2026":"Cayenne",
+                "pactols_uri_insee_source":[{
+                    "ark":"26678/pcrtCAY","libelles_fr":[{"libelle":"Cayenne","propriete":"prefLabel"}],
+                    "predicat":"exactMatch","uri_insee":"http://id.insee.fr/geo/commune/97302",
+                    "concept_deprecie":False}]}],
+            "bilan":{"source_Pactols_stats":{"liens_insee_non_courants":[{
+                "code_insee_cite":"97351","ark":"26678/pcrtOLD",
+                "libelles_fr":[{"libelle":"Approuague (chef-lieu Régina)","propriete":"prefLabel"}],
+                "predicat":"exactMatch","uri_insee":"http://id.insee.fr/geo/commune/97351",
+                "concept_deprecie":False}]}}
+        }
+        percode={"97351":[{"libelle":"Approuague (chef-lieu Régina)",
+                           "debut_inclus":"1953-01-01"}]}
+        rows=revue_26_candidats(report,percode)
+        self.assertEqual(len(rows),2)
+        self.assertEqual(rows[0][2],"COMMUNE_COG_2026")
+        self.assertEqual(rows[0][9],"A_INSTRUIRE")
+        self.assertEqual(rows[1][2],"CODE_COG_HISTORIQUE_NON_COURANT")
+        self.assertEqual(rows[1][9],"A_INSTRUIRE_HISTORIQUE")
+        self.assertEqual(rows[1][8],"non")
 
     def test_refus_contradiction_entre_cog_courant_et_export(self):
         with self.assertRaisesRegex(ValueError,"non conforme"):
