@@ -1,0 +1,88 @@
+name: Lieux — identifier GEOFLA Guyane 2015 (source tierce non validante)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_geofla_guyane_2015.py'
+      - 'tests/test_auditer_geofla_guyane_2015.py'
+      - '.github/workflows/lieux-guyane-geofla-2015-recette.yml'
+      - 'recette/lieux/GUYANE-GEOFLA-2015-PROVENANCE.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances d'inventaire (Shapely, pyproj, pyshp)
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2' 'pyshp==2.3.1'
+      - name: Tests sans réseau
+        run: python3 -m unittest discover -s tests -p 'test_auditer_geofla_guyane_2015.py' -v
+      - name: Acquérir le paquet candidat GEOFLA 2015 depuis un miroir non officiel
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar' \
+            --output "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          sha256sum "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          test "$(stat -c %s "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar")" -le 3000000
+      - name: Acquérir les contours nationaux 2026 déjà contrôlés
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Installer le lecteur d'archives RAR
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libarchive-tools
+      - name: Vérifier la liste des chemins avant extraction
+        run: |
+          export RAR="$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          bsdtar -tf "$RAR" > "$RUNNER_TEMP/liste-archive.txt"
+          python3 - <<'PY'
+          import os
+          from pathlib import PurePosixPath,Path
+          names=(Path(os.environ["RUNNER_TEMP"])/"liste-archive.txt").read_text().splitlines()
+          assert 4<=len(names)<=100, len(names)
+          for name in names:
+              p=PurePosixPath(name)
+              assert not p.is_absolute() and ".." not in p.parts and "\\" not in name, name
+          print("Contenu préliminaire GEOFLA : ",names)
+          PY
+          mkdir -p "$RUNNER_TEMP/decompresse"
+          bsdtar -xf "$RAR" -C "$RUNNER_TEMP/decompresse"
+      - name: Inspecter les objets et comparer uniquement des métriques
+        run: |
+          python3 scripts/auditer_geofla_guyane_2015.py \
+            --dossier "$RUNNER_TEMP/decompresse" \
+            --archive "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar" \
+            --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/rapport-geofla-guyane-2015.json"
+      - name: Vérifier l'absence de frontière géographique publiée
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"rapport-geofla-guyane-2015.json").read_text())
+          assert r["statut"]=="AUDIT_SOURCE_TIERCE_NON_AUTHENTIFIEE"
+          assert r["source2015"]["identite_source_IGN_confirmee"] is False
+          assert r["publication_possible"] is False
+          assert r["geometries_publiees"]==0
+          assert r["contours_historiques_adoptes"]==0
+          assert all("geometry" not in x and "coordinates" not in x for x in r["comparaisons_par_code"])
+          print("RAPPORT GEOFLA",json.dumps(r["statistiques"],ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver uniquement le rapport de source
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-guyane-geofla-2015-controle-source-tierce
+          path: ${{ runner.temp }}/rapport-geofla-guyane-2015.json
+          retention-days: 30
+          if-no-files-found: error
