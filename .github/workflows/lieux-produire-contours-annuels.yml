@@ -1,0 +1,94 @@
+name: Lieux — produire les couches annuelles et les tester avant publication
+on:
+  push:
+    branches: [feat/lieux-publication-couches-2018-2025-20261116]
+    paths:
+      - 'scripts/construire_couches_lieux_2018_2025.py'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'tests/test_lieux_publication_annuels.py'
+      - 'tests/test_lieux_publication_navigateur.py'
+      - '.github/workflows/lieux-produire-contours-annuels.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  produire-et-verifier:
+    # Branche de travail exclusivement, jamais de génération directe sur main.
+    if: github.repository == 'nicocoquet/adlfi-referentiels' && github.ref_name == 'feat/lieux-publication-couches-2018-2025-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer les contrôles topologiques
+        run: python3 -m pip install --disable-pip-version-check 'shapely==2.1.2' 'pyproj==3.7.2' 'playwright==1.58.0'
+      - name: Restaurer les sources géométriques et leurs COG déjà contrôlés
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source-sig" "$RUNNER_TEMP/source-cog"
+          gh run download 43869252036 --repo "$GITHUB_REPOSITORY" \
+            --name adlfi-lieux-contours-2018-2025-audit-source \
+            --dir "$RUNNER_TEMP/source-sig"
+          gh run download 43878201668 --repo "$GITHUB_REPOSITORY" \
+            --name adlfi-lieux-insee-cog-annuels-2018-2025 \
+            --dir "$RUNNER_TEMP/source-cog"
+          test "$(find "$RUNNER_TEMP/source-sig/archives" -name '*.geojson.gz' | wc -l)" -eq 14
+          test "$(find "$RUNNER_TEMP/source-cog/cog" -name '*.zip' | wc -l)" -eq 8
+      - name: Générer puis reproduire les 14 GeoJSON 2018–2025 (hors docs)
+        run: |
+          set -euo pipefail
+          python3 scripts/construire_couches_lieux_2018_2025.py \
+            --archives-sig "$RUNNER_TEMP/source-sig/archives" \
+            --archives-cog "$RUNNER_TEMP/source-cog/cog" \
+            --sortie "$RUNNER_TEMP/production-1"
+          python3 scripts/construire_couches_lieux_2018_2025.py \
+            --archives-sig "$RUNNER_TEMP/source-sig/archives" \
+            --archives-cog "$RUNNER_TEMP/source-cog/cog" \
+            --sortie "$RUNNER_TEMP/production-2"
+          diff -qr "$RUNNER_TEMP/production-1" "$RUNNER_TEMP/production-2"
+          cp "$RUNNER_TEMP/production-1/lieux-historique/"* docs/data/lieux-historique/
+          test "$(find docs/data/lieux-historique -maxdepth 1 -name '*-20??.geojson' | wc -l)" -ge 20
+      - name: Vérifier les données, les scripts et les fiches historiques
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -v
+          node --check docs/assets/lieux-multiechelon.js
+          node tests/test_lieux_search.js
+          node tests/test_tutelles_order.js
+          node tests/test_evolution.js
+      - name: Recette réelle de Leaflet en Chromium avant publication
+        run: |
+          python3 -m playwright install chromium
+          python3 tests/test_lieux_publication_navigateur.py
+      - name: Archiver les nouveaux contours et captures de la recette
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-2018-2025-recette-geojson
+          path: |
+            ${{ runner.temp }}/production-1/lieux-historique/
+            /tmp/lieux-*.png
+          retention-days: 21
+          if-no-files-found: ignore
+      - name: Ajouter les seules couches validées à la branche de publication
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/lieux-historique/*.geojson \
+                  docs/data/lieux-historique/index-annuels.json \
+                  docs/data/lieux-historique/rapport-annuels.json
+          if git diff --cached --quiet; then
+            echo "Aucune différence à publier dans la branche."
+            exit 0
+          fi
+          git commit -m "Lieux : publier les quatorze contours SIG annuels qualifiés (2018–2025)"
+          git push origin "HEAD:$GITHUB_REF_NAME"
