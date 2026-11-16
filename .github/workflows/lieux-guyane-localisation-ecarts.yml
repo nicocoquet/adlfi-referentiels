@@ -40,7 +40,7 @@ jobs:
               --output "$RUNNER_TEMP/communes-$metres"m.geojson.gz
           done
           echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
-          sha256sum "$RUNNER_TEMP/communes-50m.geojson.gz"
+          echo "6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38  $RUNNER_TEMP/communes-50m.geojson.gz" | sha256sum --check
           test "$(stat -c %s "$RUNNER_TEMP/communes-50m.geojson.gz")" -ge 10000000
       - name: Extraire le seul paquet GEOFLA, après contrôle des chemins d'archive
         run: |
@@ -83,6 +83,9 @@ jobs:
           assert a["statut"]=="RECETTE_CARTOGRAPHIQUE_NON_PUBLIEE"
           assert a["schema"]=="adlfi.lieux.guyane.ecarts-localises-geofla15-etalab26.v1"
           assert a["provenance"]["original_IGN_authentifie"] is False
+          assert a["provenance"]["2026_50m_SHA256"]=="6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38"
+          assert abs(a["comparaisons_globales"]["2015_vers_2026_50m"]["symdiff_km2"]-733.142348)<0.01
+          assert abs(a["comparaisons_globales"]["2026_100m_vers_2026_50m"]["symdiff_km2"]-21.968320)<0.01
           assert a["aucun_contour_exporte"] and a["aucun_ark_pactols_cree"]
           comps=a["comparaisons_globales"]
           assert abs(comps["2015_vers_2026_100m"]["symdiff_km2"]-733.434981)<0.01
