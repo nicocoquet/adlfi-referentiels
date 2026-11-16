@@ -1,0 +1,135 @@
+name: Lieux — publier seulement après contrôle les contours IGN 2017/2020
+on:
+  push:
+    branches: [feat/lieux-publier-2017-2020-20261116]
+    paths:
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'tests/test_lieux_ponts_2017_2020.py'
+      - 'tests/test_lieux_publication_navigateur.py'
+      - '.github/workflows/lieux-publier-ponts-2017-2020.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  recette-et-publication-branch:
+    if: github.repository == 'nicocoquet/adlfi-referentiels' && github.ref_name == 'feat/lieux-publier-2017-2020-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer la recette SIG et Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'shapely==2.1.2' 'pyproj==3.7.2' 'playwright==1.58.0'
+      - name: Récupérer les quatre GeoJSON qualifiés dans la CI IGN source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for year in 2017 2020; do
+            mkdir -p "$RUNNER_TEMP/year-$year"
+            gh run download 43887011910 --repo "$GITHUB_REPOSITORY" \
+              --name "adlfi-lieux-geom-qualification-$year" \
+              --dir "$RUNNER_TEMP/year-$year"
+            test -s "$RUNNER_TEMP/year-$year/regions-$year.geojson"
+            test -s "$RUNNER_TEMP/year-$year/departements-$year.geojson"
+            test -s "$RUNNER_TEMP/year-$year/index-$year.json"
+            test -s "$RUNNER_TEMP/year-$year/rapport-$year.json"
+          done
+      - name: Assembler les 238 fiches COG et tester les quatre couches
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          src=Path(os.environ["RUNNER_TEMP"])
+          dst=Path("docs/data/lieux-historique")
+          entries=[]
+          reports={}
+          for year in (2017,2020):
+              folder=src/f"year-{year}"
+              for level in ("regions","departements"):
+                  p=folder/f"{level}-{year}.geojson"
+                  fc=json.loads(p.read_text())
+                  assert fc["provenance"]["cog_au_premier_janvier"]==str(year)
+                  assert fc["provenance"]["annee_geometrie"]==year
+                  assert fc["provenance"]["pactols_valide"] is False
+                  assert len(fc["features"])==(18 if level=="regions" else 101)
+                  (dst/p.name).write_bytes(p.read_bytes())
+              idx=json.loads((folder/f"index-{year}.json").read_text())
+              assert idx["schema"]=="adlfi.lieux.admin.index_ponts.v1"
+              assert idx["annee"]==year
+              assert idx["nouvelles_correspondances_pactols"]==0
+              assert len(idx["entries"])==119
+              entries+=idx["entries"]
+              rep=json.loads((folder/f"rapport-{year}.json").read_text())
+              assert rep["nouvelles_autorites_Pactols"]==0
+              assert rep["divergences_noms"]==[]
+              reports[str(year)]=rep
+              (dst/f"rapport-{year}.json").write_bytes((folder/f"rapport-{year}.json").read_bytes())
+          assert len(entries)==238
+          assert len({(e['year'],e['level'],e['code']) for e in entries})==238
+          index={
+              "schema":"adlfi.lieux.admin.index_ponts.v1",
+              "annees":[2017,2020],
+              "nouvelles_correspondances_pactols":0,
+              "entries":entries
+          }
+          (dst/"index-ponts.json").write_text(json.dumps(index,ensure_ascii=False,
+              separators=(",",":"),sort_keys=True)+"\n")
+          (dst/"rapport-ponts.json").write_text(json.dumps({
+              "schema":"adlfi.lieux.rapport_ponts_2017_2020.v1",
+              "annees":[2017,2020],"rapports":reports,
+              "nouvelles_correspondances_pactols":0
+          },ensure_ascii=False,indent=2,sort_keys=True)+"\n")
+          print("COUCHES",4,"AUTORITÉS DATÉES",238,
+                "RÉPARATIONS",sum(len(r["reparations"]) for r in reports.values()))
+          PY
+          python3 -m unittest discover -s tests -v
+          node --check docs/assets/lieux-multiechelon.js
+          node tests/test_lieux_search.js
+          node tests/test_tutelles_order.js
+          node tests/test_evolution.js
+      - name: Recette navigateur avec les contours réels de 2017 et 2020
+        run: |
+          python3 -m playwright install chromium
+          python3 tests/test_lieux_publication_navigateur.py
+      - name: Archiver le rendu sans publier encore sur main
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-2017-2020-recette-pages
+          path: |
+            docs/data/lieux-historique/*-2017.geojson
+            docs/data/lieux-historique/*-2020.geojson
+            docs/data/lieux-historique/index-ponts.json
+            docs/data/lieux-historique/rapport-*2017*.json
+            docs/data/lieux-historique/rapport-*2020*.json
+            /tmp/lieux-*.png
+          retention-days: 21
+          if-no-files-found: ignore
+      - name: Ajouter uniquement les données qualifiées à la branche de recette
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/lieux-historique/*-2017.geojson \
+                  docs/data/lieux-historique/*-2020.geojson \
+                  docs/data/lieux-historique/index-ponts.json \
+                  docs/data/lieux-historique/rapport-2017.json \
+                  docs/data/lieux-historique/rapport-2020.json \
+                  docs/data/lieux-historique/rapport-ponts.json
+          if git diff --cached --quiet; then
+            echo "Aucun changement des données."
+            exit 0
+          fi
+          git commit -m "Lieux : intégrer les géométries IGN COG 2017 et 2020 validées"
+          git push origin "HEAD:$GITHUB_REF_NAME"
