@@ -15,6 +15,11 @@ import zipfile
 from pathlib import Path
 
 YEARS = (2017, 2020)
+ARCHIVES_SHA256 = {
+    "reg2017-txt.zip": "5683ada3aa4691c70b50cd337a1f64a50913ab8fdabe2f87ddd1ffe0dca612ae",
+    "depts2017-txt.zip": "57feea872bd9e11be359e66430e79328123cb004a92195d9021daac749cdd18c",
+    "cog_ensemble_2020_csv.zip": "d63ef3b1b258b479839d6883ecc37385c850b0c8319d1efa0e982365e08054bf",
+}
 SOURCES = {
     2017: {
         "region": "https://www.insee.fr/fr/statistiques/fichier/2666684/reg2017-txt.zip",
@@ -27,6 +32,8 @@ SOURCES = {
 
 def lire(chemin: Path, year: int, level: str):
     raw = chemin.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != ARCHIVES_SHA256.get(chemin.name):
+        raise ValueError("Archive Insee non conforme à l'empreinte de recette : " + chemin.name)
     with zipfile.ZipFile(io.BytesIO(raw)) as z:
         expected = ("reg2017.txt" if level == "region" else "depts2017.txt") if year == 2017 \
           else ("region2020.csv" if level == "region" else "departement2020.csv")
@@ -82,6 +89,14 @@ def audit(dossier: Path, sortie: Path):
            for code,v in sorted(a["departements"].items())
            if v["region"]!=b["departements"][code]["region"]]
     out["rattachements_2017_2020_differents"]=diffs
+    out["noms_regionaux_2017_2020_differents"]=[
+        {"code":code,"nom_2017":v["nom"],"nom_2020":b["regions"][code]["nom"]}
+        for code,v in sorted(a["regions"].items())
+        if v["nom"]!=b["regions"][code]["nom"]]
+    out["noms_departementaux_2017_2020_differents"]=[
+        {"code":code,"nom_2017":v["nom"],"nom_2020":b["departements"][code]["nom"]}
+        for code,v in sorted(a["departements"].items())
+        if v["nom"]!=b["departements"][code]["nom"]]
     sortie.parent.mkdir(parents=True,exist_ok=True)
     sortie.write_text(json.dumps(out,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     return {"codes_regions_2017":len(a["regions"]), "codes_departements_2020":len(b["departements"]),
