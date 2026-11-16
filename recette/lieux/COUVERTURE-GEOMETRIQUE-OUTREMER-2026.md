@@ -123,6 +123,16 @@ Pour permettre la différence symétrique sur des géométries initialement inva
 
 **Attention aux millésimes :** la comparaison croise plusieurs éditions ; elle ne démontre pas que les sources territoriales décrivent précisément le 1er janvier 2026. Les résultats métriques doivent être interprétés à cette lumière, et la présence d'un contour n'implique pas une modification autorisée de la carte publique.
 
+## Archive administrative polynésienne de 2022 — second contrôle indépendant à instruire
+
+Une archive publiée par la Section Cadastre-Topographie de Polynésie française a été retrouvée via le jeu « Géographie administrative de la Polynésie-française » (data.gouv.fr). Ressource principale : fichier ZIP de 14,6 Mo intitulé « Limite administrative des communes et communes associées » (28 février 2022), URL fournie par le portail de téléchargement :
+
+https://static.data.gouv.fr/resources/geographie-administrative-de-la-polynesie-francaise/20220228-205331/loc-commune-associee.zip
+
+Outils ajoutés : scripts/inventorier_source_polynesie_2022.py, tests/test_inventorier_source_polynesie_2022.py et workflow lieux-inventaire-polynesie-2022.yml. La CI doit extraire **en mémoire** les attributs, l'emprise documentaire, le système de coordonnées inscrit dans les fichiers .prj et rechercher les mentions exactes de Tahaa. Les identifiants locaux (IDCom, etc.) ne sont pas transformés automatiquement en codes COG. Un inventaire n'est **pas** encore une validation de la géométrie de Tahaa ni une preuve d'indépendance par rapport à Te Fenua.
+
+**En attente de confirmation de la CI d'inventaire et, le cas échéant, d'un audit topologique de la géométrie alternative.** L'archive complète ne sera pas intégrée au dépôt ni au site.
+
 ## Étapes avant publication cartographique
 
 - Examiner les géométries absentes, invalides ou traversant potentiellement l'antiméridien ; identifier des sources alternatives, notamment pour TAAF, Wallis-et-Futuna, Clipperton et Île des Faisans.
