@@ -54,6 +54,8 @@ class AuditerGuyaneTests(unittest.TestCase):
         self.assertEqual(stats["concepts_examines"],5)
         self.assertEqual(stats["concepts_avec_code_insee_guyane"],3)
         self.assertEqual(stats["liens_insee_rejetes_hors_communes_2026"],1)
+        self.assertEqual(stats["liens_insee_non_courants"][0]["code_insee_cite"],"97370")
+        self.assertEqual(stats["liens_insee_non_courants"][0]["statut"],"IDENTITE_HISTORIQUE_A_INSTRUIRE")
         self.assertEqual(len(c["97302"]["uri_insee_citees"]),1)
         self.assertEqual(len(c["97302"]["candidatures_lexicales"]),2)
         self.assertEqual(len(c["97306"]["uri_insee_citees"]),1)
