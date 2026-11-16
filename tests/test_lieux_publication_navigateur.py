@@ -53,6 +53,7 @@ def inspecter_contours(page, attendu, capture):
     print('COUCHES TEST',capture,details,flush=True)
     page.screenshot(path='/tmp/'+capture+'.png',full_page=True)
     assert any(c['drawn_pixels']>attendu for c in details['canvases']),details
+    assert details['canvas_count']==1, 'Accumulation de canevas Leaflet : '+str(details)
 
 def main():
     if sync_playwright is None:
@@ -77,6 +78,30 @@ def main():
         assert page.evaluate("typeof L")=="object"
         assert page.locator(".leaflet-tile-pane").count()==1
         inspecter_contours(page,100,"lieux-regions-2016")
+        # En 2026, le dernier contour disponible (2016) sert uniquement de
+        # repère et ne doit jamais passer pour une restitution historique 2026.
+        page.locator("#year-now").click()
+        page.wait_for_function(
+          "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2026)')",
+          timeout=30000
+        )
+        inspecter_contours(page,100,"lieux-regions-repere-2026")
+        page.locator("#reference").uncheck()
+        page.wait_for_function(
+          "() => !document.querySelector('#map-status')?.textContent.includes('Repère cartographique affiché')",
+          timeout=30000
+        )
+        page.locator("#reference").check()
+        page.wait_for_function(
+          "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2026)')",
+          timeout=30000
+        )
+        page.locator("#year").evaluate("(el) => {el.value='2016';el.dispatchEvent(new Event('change',{bubbles:true}));}")
+        page.wait_for_function(
+          "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
+          timeout=30000
+        )
+
 
         page.locator("#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"
@@ -153,6 +178,11 @@ def main():
         assert page.locator("#year").input_value()=="2015"
         assert page.locator("#year-label").text_content()=="2015"
         assert page.locator("#level").input_value()=="commune"
+        page.wait_for_function(
+          "() => document.querySelector('#map-status')?.textContent.includes('contours communaux 2026 (et NON 2015)')",
+          timeout=60000
+        )
+        inspecter_contours(page,100,"lieux-communes-repere-2015")
         assert not failures,failures
         page.screenshot(path=os.environ.get("ADLFI_CAPTURE","/tmp/lieux-publication.png"),full_page=True)
         print("PUBLICATION LIEUX : navigateur Leaflet, 13/22/96 états, Pactols et redirection OK")
