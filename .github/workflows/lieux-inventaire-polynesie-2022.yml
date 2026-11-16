@@ -62,15 +62,21 @@ jobs:
           curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
             'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
             --output "$RUNNER_TEMP/communes-100m.geojson.gz"
-      - name: Comparer sur copies uniquement les 8 subdivisions et le contour national
+      - name: Capturer une fois la source Te Fenua (non publiée)
+        run: |
+          python3 scripts/comparer_sources_geometrie_outremer.py \
+            --acquerir --sources "$RUNNER_TEMP/sources_territoriales.json"
+      - name: Comparer les 8 subdivisions au contour national et à Te Fenua
         run: |
           python3 scripts/comparer_tahaa_8_subdivisions_2022.py \
             --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
             --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sources-territoriales "$RUNNER_TEMP/sources_territoriales.json" \
             --sortie "$RUNNER_TEMP/recette1/tahaa_8_subdivisions.json"
           python3 scripts/comparer_tahaa_8_subdivisions_2022.py \
             --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
             --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sources-territoriales "$RUNNER_TEMP/sources_territoriales.json" \
             --sortie "$RUNNER_TEMP/recette2/tahaa_8_subdivisions.json"
           diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
       - name: Archiver la seule description des couches
