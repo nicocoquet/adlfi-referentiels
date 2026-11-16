@@ -1,6 +1,6 @@
 # Guyane — résultats de la recette COG / Pactols, lot 01
 
-**Analyse du 16 novembre 2026 · PR 44 · Source : COG 2026 et export Pactols Lieux du 22 juillet 2026 · Statut non validé éditorialement.**
+**Analyse du 16 novembre 2026 · PR 44 · Source : COG 2026 et Pactols Lieux du 22 juillet 2026 · Résultats de l'audit AVANT la décision éditoriale.**
 
 La [CI spécialisée (exécution n°43923775488)](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43923775488) a exécuté le traitement deux fois, sur les sources SHA-256 épinglées, avec résultats octet à octet identiques. [Artefact de recette : cinq fichiers, dont la table de prévalidation des 26 concepts](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43923775488/artifacts/14255162269).
 
@@ -24,7 +24,7 @@ Les 52 lignes de mouvements COG ne doivent pas être confondues avec les **56 r�
 
 ## Candidats Pactols des 22 communes actuelles
 
-Chaque lien ci-dessous est une assertion **skos:exactMatch** vers l'URI Insee correspondante, dans la version RDF Lieux du 22 juillet 2026. Aucun n'a encore le statut AdlFI de relation éditorialement validée.
+Chaque lien ci-dessous est une assertion **skos:exactMatch** vers l'URI Insee correspondante, dans la version RDF Lieux du 22 juillet 2026. **Lors de l'audit**, ces liens n'étaient pas encore validés ; la décision éditoriale postérieure est consignée dans l'addendum ci-dessous.
 
 | INSEE | Commune COG 2026 | ARK Pactols relevé dans le RDF |
 | --- | --- | --- |
@@ -82,3 +82,11 @@ La première période de commune répertoriée dans la série 973 commence en **
 4. **Recherche publique** : les 22 communes sont déjà retrouvables par nom et code INSEE sur GitHub Pages. Aucune nouvelle relation Pactols ou frontière ne sera affichée avant les validations.
 
 La table éditoriale **guyane-pactols-candidats-26.csv** est générée directement à partir des sources épinglées et doit rester avec son manifeste de provenance. Les résultats complets (dont les surfaces diagnostiques et toutes les dates) sont disponibles dans l'artefact de recette de la CI.
+
+## Addendum — décision éditoriale validée le 16 novembre 2026
+
+L'éditeur **approuve les 22 correspondances communes COG 2026 ↔ ARK Pactols** recensées ci-dessus. Ces couples sont maintenant publiables au statut `VALIDE_ADLFI_2026` pour l'identité administrative du 1er janvier 2026. Leurs preuves sont inscrites dans `recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv` ; la règle détaillée figure dans `recette/lieux/POLITIQUE-ALIGNEMENT-PACTOLS-COG.md`.
+
+- Les quatre ARK correspondant à **97351, 97354, 97355 et 97359** restent des **identités historiques distinctes non validées comme communes de 2026**.
+- **Aucune géométrie 2026** n'est adoptée et aucun contour n'est appliqué rétroactivement.
+- Le rapport d'audit demeure conservé **tel qu'établi avant la validation**, afin de distinguer assertion de source, contrôle automatique et décision éditoriale.
