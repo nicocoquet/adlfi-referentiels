@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'scripts/inventorier_source_polynesie_2022.py'
+      - 'scripts/comparer_tahaa_8_subdivisions_2022.py'
+      - 'tests/test_comparer_tahaa_8_subdivisions_2022.py'
       - 'tests/test_inventorier_source_polynesie_2022.py'
       - '.github/workflows/lieux-inventaire-polynesie-2022.yml'
   workflow_dispatch:
@@ -21,7 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Lecture de Shapefiles
-        run: python3 -m pip install 'pyshp==2.3.1'
+        run: python3 -m pip install 'pyshp==2.3.1' 'shapely==2.1.2' 'pyproj==3.7.2'
       - name: Tests synthétiques hors réseau
         run: python3 -m unittest discover -s tests -p 'test_inventorier_source_polynesie_2022.py' -v
       - name: Télécharger l'archive administrative 2022 de la Polynésie
@@ -53,9 +55,29 @@ jobs:
           print("COUCHES",len(r["couches"]))
           print("OCCURRENCES TAHAA",[(x["shp"],len(x["occurrences_tahaa"])) for x in r["couches"]])
           PY
+      - name: Tester l'agrégation diagnostique des huit subdivisions de Tahaa
+        run: python3 -m unittest discover -s tests -p 'test_comparer_tahaa_8_subdivisions_2022.py' -v
+      - name: Télécharger la géométrie nationale 2026 pour contrôle croisé
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+      - name: Comparer sur copies uniquement les 8 subdivisions et le contour national
+        run: |
+          python3 scripts/comparer_tahaa_8_subdivisions_2022.py \
+            --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
+            --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette1/tahaa_8_subdivisions.json"
+          python3 scripts/comparer_tahaa_8_subdivisions_2022.py \
+            --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
+            --national "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette2/tahaa_8_subdivisions.json"
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
       - name: Archiver la seule description des couches
         uses: actions/upload-artifact@v4
         with:
           name: adlfi-lieux-inventaire-polynesie-2022
-          path: ${{ runner.temp }}/recette1/inventaire.json
+          path: |
+            ${{ runner.temp }}/recette1/inventaire.json
+            ${{ runner.temp }}/recette1/tahaa_8_subdivisions.json
           retention-days: 30
