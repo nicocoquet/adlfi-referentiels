@@ -24,6 +24,13 @@ HASHES={
  "departements":"513900ca23edc682ef9b912d7bfc317129eac3a7d71ff19bc22b40ea4838e6eb",
 }
 EDITION="2026-05-04"
+# Les fichiers de contour présentent aussi huit COM/TAAF/Clipperton ;
+# ces entités ne sont ni des régions ni des départements du COG.
+HORS_ECHELON={"975","977","978","984","986","987","988","989"}
+GEO_HASHES={
+ "regions":"52ec7200994624753908c9cc1f7dd88d090abddb348c7e757d1eb60190f3bc74",
+ "departements":"c330276ba97a2c273c7b0508db9e47f3025d90b1734faf454fd089b87d9e96ea",
+}
 SCHEMA="adlfi.lieux.contours.administratifs_2026.v1"
 
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -45,9 +52,10 @@ def lire_cog(path,kind):
   raise ValueError("Codes COG 2026 dupliqués ou incomplets : "+kind)
  return lookup,sha(data)
 
-def lire_carte(path):
+def lire_carte(path,kind):
  raw=Path(path).read_bytes()
  if not raw:raise ValueError("Source géométrique vide")
+ if sha(raw)!=GEO_HASHES[kind]:raise ValueError("Source GeoJSON 2026 différente de l’édition vérifiée : "+kind)
  data=json.loads(gzip.decompress(raw) if raw[:2]==b"\x1f\x8b" else raw)
  if data.get("type")!="FeatureCollection" or not isinstance(data.get("features"),list):
   raise ValueError("Source géographique non GeoJSON FeatureCollection")
@@ -62,6 +70,8 @@ def geo_par_codes(fc,attendus,kind):
   code=str(raw_code)
   if code in geoms:raise ValueError("Code géographique dupliqué "+kind+"/"+code)
   if code not in attendus:
+   if code not in HORS_ECHELON:raise ValueError("Contour hors COG non qualifié "+kind+"/"+code)
+   if code in inattendus:raise ValueError("Code de territoire dupliqué "+kind+"/"+code)
    inattendus.append(code)
    continue
   if f.get("geometry",{}).get("type") not in ("Polygon","MultiPolygon") or not f["geometry"].get("coordinates"):
@@ -69,8 +79,7 @@ def geo_par_codes(fc,attendus,kind):
   geoms[code]=f
  missing=sorted(set(attendus)-set(geoms))
  if missing:raise ValueError("Codes COG 2026 sans géométrie "+kind+" : "+",".join(missing))
- if inattendus:raise ValueError("Contours hors COG de ce niveau "+kind+" : "+",".join(inattendus))
- return geoms
+ return geoms,sorted(inattendus)
 
 def construire(reg,dep,georeg,geodep,hash_sources):
  if len(reg)!=18 or len(dep)!=101:raise ValueError("Cardinalités COG 2026 incompatibles")
@@ -132,11 +141,13 @@ def produire(regions_geo,departements_geo,regions_cog,departements_cog,sortie):
  if sortie.exists() and any(sortie.iterdir()):raise ValueError("Refus de remplacer une sortie existante")
  reg,hr=lire_cog(regions_cog,"regions")
  dep,hd=lire_cog(departements_cog,"departements")
- rgeo,hgr=lire_carte(regions_geo);dgeo,hgd=lire_carte(departements_geo)
- gr=geo_par_codes(rgeo,reg,"region");gd=geo_par_codes(dgeo,dep,"departement")
+ rgeo,hgr=lire_carte(regions_geo,"regions");dgeo,hgd=lire_carte(departements_geo,"departements")
+ gr,exr=geo_par_codes(rgeo,reg,"region");gd,exd=geo_par_codes(dgeo,dep,"departement")
  source={"cog_region_2026.csv":hr,"cog_departement_2026.csv":hd,
          "regions-100m.geojson.gz":hgr,"departements-100m.geojson.gz":hgd}
  col,index,rapport=construire(reg,dep,gr,gd,source)
+ rapport["contours_autres_territoires_ignores"]={"regions":exr,"departements":exd}
+ if exr!=sorted(HORS_ECHELON):raise ValueError("Couverture des territoires complémentaires 2026 inattendue : "+str(exr))
  sortie.mkdir(parents=True,exist_ok=True)
  for path,obj in {**col,"index-2026.json":index,"rapport-2026.json":rapport}.items():
   (sortie/path).write_text(json.dumps(obj,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")
