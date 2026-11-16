@@ -1,0 +1,179 @@
+name: Lieux — archive primaire GEOFLA métropole du 4 mars 2015
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/audit-lieux-geofla-original-2015.yml'
+      - 'scripts/qualifier_source_geofla_originale_bfc.py'
+      - 'scripts/construire_vue_bfc_ign_2015_ods_2016.py'
+      - 'tests/test_qualifier_source_geofla_originale_bfc.py'
+      - 'scripts/lister_geofla_2015_paquets.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  geofla-originale-2015:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Découvrir le fichier d'archive exact sur le site de téléchargement IGN
+        run: |
+          mkdir -p "$RUNNER_TEMP/geofla-original"
+          python3 - <<'PY'
+          import urllib.request,urllib.parse,xml.etree.ElementTree as ET,json,os
+          from pathlib import Path
+          name="GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04"
+          uri="https://data.geopf.fr/telechargement/resource/GEOFLA/"+name
+          with urllib.request.urlopen(urllib.request.Request(
+            uri,headers={"User-Agent":"AdlFI-referentiel-territorial-2015/1.0"}),timeout=60) as r:
+              data=r.read(1000000)
+          root=ET.fromstring(data)
+          links=[{"href":el.attrib.get("href"),"rel":el.attrib.get("rel"),"type":el.attrib.get("type")}
+                 for el in root.iter() if el.tag.endswith("link")]
+          titles=[el.text for el in root.iter() if el.tag.endswith("title")]
+          out={"source":uri,"archive_attendue":name,"titres":titles,"liens":links}
+          path=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          (path/"liste-archive-geofla-2015.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - name: Recenser les paquets départementaux 2015 dans toutes les pages Atom IGN
+        run: |
+          python3 scripts/lister_geofla_2015_paquets.py \
+            --sortie "$RUNNER_TEMP/geofla-original/catalogue-tous-paquets-geofla-2015.json"
+      - name: Télécharger et calculer le SHA-256 du paquet IGN ; vérifier le MD5 s'il existe
+        run: |
+          python3 -m pip install 'py7zr==1.0.0'
+          python3 - <<'PY'
+          import os,re,json,hashlib,urllib.request
+          from pathlib import Path
+          import py7zr
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          manifest=json.loads((root/"liste-archive-geofla-2015.json").read_text())
+          links=manifest["liens"]
+          def url(suffix):
+              found=[r["href"] for r in links
+                  if r.get("href","").endswith(suffix)
+                  and r.get("href","").startswith("https://data.geopf.fr/telechargement/download/GEOFLA/")]
+              if len(found)!=1:raise ValueError("Lien officiel ambigu "+suffix)
+              return found[0]
+          src=url(".7z")
+          md5links=[r["href"] for r in links if r.get("href","").endswith(".md5")]
+          if len(md5links)>1:raise ValueError("Plusieurs MD5 publiés pour la même archive")
+          md5url=md5links[0] if md5links else None
+          def transfer(url,path,maxbytes):
+              h=hashlib.sha256()
+              with urllib.request.urlopen(urllib.request.Request(
+                  url,headers={"User-Agent":"AdlFI-Lieux-IGN-archives/1.0"}),timeout=180) as r:
+                  with path.open("wb") as f:
+                      n=0
+                      while True:
+                          part=r.read(1<<20)
+                          if not part:break
+                          n+=len(part)
+                          if n>maxbytes:raise ValueError("Dépassement volume maximum")
+                          h.update(part);f.write(part)
+              return {"octets":n,"sha256":h.hexdigest()}
+          original=root/"GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
+          meta=transfer(src,original,350_000_000)
+          md5att=None
+          if md5url:
+              checksum=root/"original.md5"
+              transfer(md5url,checksum,10000)
+              md5text=checksum.read_text(errors="replace")
+              match=re.search(r"[a-fA-F0-9]{32}",md5text)
+              if not match:raise ValueError("Empreinte MD5 IGN illisible")
+              md5att=match.group(0).lower()
+              md5act=hashlib.md5(original.read_bytes()).hexdigest()
+              if md5att!=md5act:raise ValueError("Contrôle MD5 IGN en échec")
+          with py7zr.SevenZipFile(original,"r") as z:
+              names=z.getnames()
+          departements=[n for n in names if n.lower().endswith("departement.shp")]
+          # Ce paquet dit "GeoFLA" ne garantit pas une couche DEPARTEMENT.
+          # Enregistrer ce constat sans inventer un fichier absent.
+          inv={
+              "source_primaire":src,"source_md5":md5url,
+              "sha256_archive":meta["sha256"],"octets_archive":meta["octets"],
+              "md5_IGN_verifie":md5att,"md5_disponible_dans_catalogue":bool(md5url),
+              "verification_sha256_locale":True,
+              "nombre_entrees":len(names),
+              "fichiers_departements":sorted(n for n in names if "DEPARTEMENT" in n.upper())[:50],
+              "shapefile_departements":departements[0] if len(departements)==1 else None,
+              "shapefile_canton_present":any(n.lower().endswith("canton.shp") for n in names),
+              "niveau_regional_autonome":any(n.lower().endswith("region.shp") for n in names),
+              "statut":"ARCHIVE_IGN_IDENTIFIEE_AVEC_EMPREINTE_LOCALE_SANS_VALIDATION_CARTOGRAPHIQUE",
+          }
+          (root/"inventaire-verifie-archive-ign.json").write_text(
+              json.dumps(inv,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf8")
+          print(json.dumps(inv,ensure_ascii=False,indent=2))
+          PY
+          # Conserver le paquet original vérifié pour une comparaison géométrique indépendante.
+      - name: Extraire le thème DÉPARTEMENT de l'archive originale IGN (pas LIMITE_DEPARTEMENT)
+        run: |
+          python3 - <<'PY'
+          import os,py7zr
+          from pathlib import Path
+          base=Path(os.environ["RUNNER_TEMP"])/"geofla-original"
+          arc=base/"GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z"
+          with py7zr.SevenZipFile(arc,mode="r") as z:
+              z.extractall(path=base/"extrait")
+          shp=[p for p in (base/"extrait").rglob("*") if p.is_file() and p.name.upper()=="DEPARTEMENT.SHP"]
+          if len(shp)!=1:raise ValueError("Le thème DEPARTEMENT.shp d'origine doit être unique")
+          (base/"chemin-shapefile.txt").write_text(str(shp[0]),encoding="utf8")
+          print("Shapefile IGN :",shp[0])
+          PY
+      - name: Installer dépendances SIG pour contre-expertise des polygones
+        run: |
+          python3 -m pip install 'geopandas==1.1.2' 'shapely==2.1.2' 'pyproj==3.7.2' 'pyogrio>=0.12,<0.14'
+      - name: Contrôler les huit départements BFC et comparer à Opendatasoft 2015
+        run: |
+          python3 -m unittest discover -s tests -p 'test_qualifier_source_geofla_originale_bfc.py' -v
+          python3 scripts/preparer_pilote_regions_bfc.py \
+            --sortie "$RUNNER_TEMP/geofla-original/ods"
+          SHP="$(cat "$RUNNER_TEMP/geofla-original/chemin-shapefile.txt")"
+          python3 scripts/qualifier_source_geofla_originale_bfc.py \
+            --shp "$SHP" \
+            --ods2015 "$RUNNER_TEMP/geofla-original/ods/regions-2015-bfc.geojson" \
+            --archive "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette"
+          python3 scripts/qualifier_source_geofla_originale_bfc.py \
+            --shp "$SHP" \
+            --ods2015 "$RUNNER_TEMP/geofla-original/ods/regions-2015-bfc.geojson" \
+            --archive "$RUNNER_TEMP/geofla-original/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z" \
+            --sortie "$RUNNER_TEMP/geofla-original/reproduction"
+          diff -qr "$RUNNER_TEMP/geofla-original/recette" "$RUNNER_TEMP/geofla-original/reproduction"
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          base=Path(os.environ["RUNNER_TEMP"])/"geofla-original/recette"
+          r=json.loads((base/"rapport-comparaison-GEOFLA-ODS-2015.json").read_text())
+          assert r["departements_metropole_officiels"]==96
+          assert r["departements_BFC_controles"]==8
+          assert r["nombre_contours_regionaux_directement_produits_par_ign"]==0
+          assert r["nombre_contours_regionaux_derived_de_departements_2015"]==2
+          assert r["geometries_retroprojetees_depuis_2026"]==0
+          assert r["alignements_Pactols_crees"]==0
+          assert len(r["comparaisons"])==2
+          assert all(95.0<x["recouvrement_iou_pct"]<100 for x in r["comparaisons"])
+          print("GEOFLA source primaire 2015 et deux régions dérivées contrôlés.")
+          PY
+      - name: Construire le pilote cartographique mixte aux sources explicitement distinctes
+        run: |
+          python3 scripts/construire_vue_bfc_ign_2015_ods_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --ign2015 "$RUNNER_TEMP/geofla-original/recette/bfc-regions-reconstituees-departements-IGN-2015.geojson" \
+            --ods2016 "$RUNNER_TEMP/geofla-original/ods/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette/AdlFI_BFC_IGN_2015_ODS_2016.html"
+          python3 scripts/construire_vue_bfc_ign_2015_ods_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --ign2015 "$RUNNER_TEMP/geofla-original/recette/bfc-regions-reconstituees-departements-IGN-2015.geojson" \
+            --ods2016 "$RUNNER_TEMP/geofla-original/ods/regions-2016-bfc.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
+          cmp "$RUNNER_TEMP/geofla-original/recette/AdlFI_BFC_IGN_2015_ODS_2016.html" \
+              "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
+          rm "$RUNNER_TEMP/geofla-original/recette/reproduction.html"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adlfi-geofla-2015-source-primaire-inventaire
+          path: ${{ runner.temp }}/geofla-original/
+          retention-days: 30

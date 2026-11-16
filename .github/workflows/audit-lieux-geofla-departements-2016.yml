@@ -1,0 +1,352 @@
+name: Lieux — reconnaître les éditions IGN GEOFLA DEPARTEMENT 2016
+on:
+  pull_request:
+    paths:
+      - 'scripts/reperer_geofla_2016_paquets.py'
+      - 'scripts/comparer_geofla_2015_2016_bfc.py'
+      - 'tests/test_comparer_geofla_2015_2016_bfc.py'
+      - 'scripts/construire_vue_bfc_ign_2015_2016.py'
+      - 'scripts/controle_national_geofla_cog_2015_2016.py'
+      - 'tests/test_controle_national_geofla_cog_2015_2016.py'
+      - 'scripts/construire_regions_metropole_geofla_2015_2016.py'
+      - 'tests/test_construire_regions_metropole_geofla_2015_2016.py'
+      - 'recette/lieux/CONTROLE-NATIONAL-REGIONS-METROPOLE-IGN-2015-2016.md'
+      - 'scripts/auditer_ecarts_departementaux_geofla_2015_2016.py'
+      - 'tests/test_auditer_ecarts_departementaux_geofla_2015_2016.py'
+      - 'scripts/construire_vue_lieux_multiechelon.py'
+      - 'tests/test_construire_vue_lieux_multiechelon.py'
+      - 'recette/lieux/vue-lieux-multiechelon-modele.html'
+      - 'scripts/construire_vue_lieux_leaflet_integree.py'
+      - 'tests/test_construire_vue_lieux_leaflet_integree.py'
+      - 'recette/lieux/vue-lieux-leaflet-integree-modele.html'
+      - 'recette/lieux/INTERFACE-MULTIECHELON-2015-2016-RECETTE.md'
+      - 'recette/lieux/ECARTS-GEOFLA-DEPARTEMENTS-2015-2016-20261116.md'
+      - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  identification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Valider la syntaxe sans accès à des données géographiques
+        run: python3 -m py_compile scripts/reperer_geofla_2016_paquets.py
+      - name: Rechercher toutes les archives IGN départementales métropolitaines 2016
+        run: |
+          python3 scripts/reperer_geofla_2016_paquets.py \
+            --sortie "$RUNNER_TEMP/geofla-2016/inventaire-paquets-2016.json"
+      - name: Lire la fiche Atom de chaque candidat et lister son fichier 7z officiel
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          inventory=json.loads((root/"inventaire-paquets-2016.json").read_text(encoding="utf8"))
+          rows=[]
+          for item in inventory["paquets_metropolitains_departements_2016"]:
+            req=urllib.request.Request(item["fiche"],headers={"User-Agent":"AdlFI-Lieux-IGN-2016-recette/1.0"})
+            with urllib.request.urlopen(req,timeout=60) as response:
+              doc=ET.fromstring(response.read(1_000_000))
+            links=[l.attrib.get("href","") for l in doc.iter() if l.tag.endswith("link")]
+            files=[url for url in links if url.startswith("https://data.geopf.fr/telechargement/download/GEOFLA/") and url.endswith(".7z")]
+            if len(files)!=1:raise ValueError("Lien officiel 7z absent ou ambigu pour "+item["code"])
+            rows.append({**item,"url_download":files[0],
+                         "sha256_original":None,"statut":"LIEN_OFFICIEL_TROUVE_ARCHIVE_NON_TELECHARGEE"})
+          (root/"candidats-2016-liens-officiels.json").write_text(json.dumps(rows,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print(json.dumps(rows,ensure_ascii=False,indent=2))
+          PY
+      - name: Installer les outils de lecture 7z et SIG
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'py7zr==1.0.0' 'geopandas==1.1.2' 'shapely==2.1.2' \
+            'pyproj==3.7.2' 'pyogrio>=0.12,<0.14'
+      - name: Télécharger l'archive 2016 UNIQUEMENT depuis la fiche IGN vérifiée
+        run: |
+          python3 - <<'PY'
+          import os,json,urllib.request,hashlib
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          candidates=json.loads((root/"candidats-2016-liens-officiels.json").read_text())
+          expected="GEOFLA_2-2_DEPARTEMENT_SHP_LAMB93_FXX_2016-06-28"
+          if len(candidates)!=1 or candidates[0]["code"]!=expected:
+              raise ValueError("Pas de source IGN 2016 unique et identifiée")
+          entry=candidates[0]
+          url=entry["url_download"]
+          if not url.startswith("https://data.geopf.fr/telechargement/download/GEOFLA/") or not url.endswith(expected+".7z"):
+              raise ValueError("URL de téléchargement non conforme à la fiche")
+          path=root/"GEOFLA_departement_2016_original.7z"
+          h=hashlib.sha256();n=0
+          req=urllib.request.Request(url,headers={"User-Agent":"AdlFI-Lieux-GEOFLA-2016-qualification/1.0"})
+          with urllib.request.urlopen(req,timeout=120) as r:
+              with path.open("wb") as o:
+                  while True:
+                      buf=r.read(1<<20)
+                      if not buf:break
+                      n+=len(buf)
+                      if n>150_000_000:raise ValueError("Taille inattendue")
+                      h.update(buf);o.write(buf)
+          if n<100_000:raise ValueError("Archive téléchargée trop petite")
+          if h.hexdigest()!="8e1538791c12b7679ef0ffb638a0fc53f8e9dede359c170af6e15576826ea91a":
+              raise ValueError("Le téléchargement 2016 a changé : vérifier l'archive source et le nouvel SHA-256")
+          entry["sha256_telechargement"]=h.hexdigest()
+          entry["octets_telechargement"]=n
+          entry["date_edition_IGN"]="2016-06-28"
+          (root/"fiche-archive-2016-verifiee.json").write_text(json.dumps(entry,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print(json.dumps(entry,ensure_ascii=False,indent=2))
+          PY
+      - name: Télécharger l'édition originale 2015 avec empreinte locale contrôlée
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://data.geopf.fr/telechargement/download/GEOFLA/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04.7z' \
+            -o "$RUNNER_TEMP/geofla-2016/GEOFLA_departement_2015_original.7z"
+          printf '%s  %s\n' \
+            '7831ad942f3c0646d7b9ebf9ba480dcf746d6f69d46834b38e36fa6681c1060e' \
+            "$RUNNER_TEMP/geofla-2016/GEOFLA_departement_2015_original.7z" | sha256sum --check -
+      - name: Extraire les couches DEPARTEMENT des deux éditions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,json,py7zr
+          root=Path(os.environ['RUNNER_TEMP'])/'geofla-2016'
+          out={}
+          for year in ('2015','2016'):
+              f=root/f'GEOFLA_departement_{year}_original.7z'
+              with py7zr.SevenZipFile(f,'r') as archive:
+                  names=archive.getnames()
+                  layers=[x for x in names if Path(x).name.lower()=='departement.shp']
+                  if len(layers)!=1:raise ValueError(f'Edition {year}: couche DEPARTEMENT.shp absente/dupliquée, {names[:20]}')
+                  archive.extractall(path=root/f'extrait-{year}')
+              matches=[x for x in (root/f'extrait-{year}').rglob('*') if x.is_file() and x.name.lower()=='departement.shp']
+              if len(matches)!=1:raise ValueError(f'Edition {year}: shapefile introuvable')
+              out[year]={'shapefile':str(matches[0]),'membres':len(names)}
+          (root/'shapefiles-geofla.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - name: Tester les contraintes et comparer les huit départements des deux éditions
+        run: |
+          python3 -m unittest discover -s tests -p 'test_comparer_geofla_2015_2016_bfc.py' -v
+          python3 - <<'PY'
+          import subprocess,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          paths=json.loads((root/"shapefiles-geofla.json").read_text())
+          source=json.loads((root/"fiche-archive-2016-verifiee.json").read_text())
+          base=[
+            "python3","scripts/comparer_geofla_2015_2016_bfc.py",
+            "--shp2015",paths["2015"]["shapefile"],
+            "--shp2016",paths["2016"]["shapefile"],
+            "--archive2015",str(root/"GEOFLA_departement_2015_original.7z"),
+            "--archive2016",str(root/"GEOFLA_departement_2016_original.7z"),
+            "--url2016",source["url_download"]
+          ]
+          for name in ("recette","reproduction"):
+              subprocess.run(base+["--sortie",str(root/name)],check=True)
+          subprocess.run(["diff","-qr",str(root/"recette"),str(root/"reproduction")],check=True)
+          report=json.loads((root/"recette/rapport-comparaison-GEOFLA-2015-2016.json").read_text())
+          assert report["nombre_departements_metropole_par_annee"]==96
+          assert len(report["comparaison_par_departement"])==8
+          assert report["groupe_2016"]["27"]==["21","25","39","58","70","71","89","90"]
+          assert report["nombre_de_nouveaux_alignements_pactols"]==0
+          assert report["nombre_de_contours_inferes_des_geometries_2026"]==0
+          print("QUALIFICATION IGN 2015/2016 OK",json.dumps(report["comparaison_totale"]))
+          PY
+      - name: Télécharger les COG officiels 2015 et 2016 pour validation nationale
+        run: |
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2560698/depts2015-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/depts2015-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2114819/depts2016-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/depts2016-txt.zip"
+      - name: Qualifier la couverture nationale IGN–COG 2015 et 2016
+        run: |
+          python3 -m unittest discover -s tests -p 'test_controle_national_geofla_cog_2015_2016.py' -v
+          python3 - <<'PY'
+          import subprocess,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla-2016"
+          p=json.loads((root/"shapefiles-geofla.json").read_text())
+          base=["python3","scripts/controle_national_geofla_cog_2015_2016.py",
+                "--shp2015",p["2015"]["shapefile"],
+                "--shp2016",p["2016"]["shapefile"],
+                "--dep2015",str(root/"depts2015-txt.zip"),
+                "--dep2016",str(root/"depts2016-txt.zip")]
+          for sub in ("recette","reproduction"):
+              subprocess.run(base+["--sortie",str(root/sub)],check=True)
+          d=json.loads((root/"recette/rapport-national-geofla-cog-2015-2016.json").read_text())
+          assert (d["departements_metropole_2015"],d["departements_metropole_2016"])==(96,96)
+          assert (d["regions_metropole_2015"],d["regions_metropole_2016"])==(22,13)
+          assert d["departements_dont_code_regional_change"]==65
+          assert d["fusions"]==7 and d["anciennes_regions_fusionnees"]==16
+          assert d["nouveaux_alignements_Pactols"]==0
+          print("Rattachements GEOFLA/COG : 96 sur 96 pour 2015 et 2016")
+          PY
+          cmp "$RUNNER_TEMP/geofla-2016/recette/rattachements-IGN-COG-2015-2016.csv" \
+              "$RUNNER_TEMP/geofla-2016/reproduction/rattachements-IGN-COG-2015-2016.csv"
+          cmp "$RUNNER_TEMP/geofla-2016/recette/rapport-national-geofla-cog-2015-2016.json" \
+              "$RUNNER_TEMP/geofla-2016/reproduction/rapport-national-geofla-cog-2015-2016.json"
+      - name: Générer les 35 géométries régionales métropolitaines et auditer 13 successions
+        run: |
+          python3 -m py_compile scripts/construire_regions_metropole_geofla_2015_2016.py
+          python3 -m unittest discover -s tests -p 'test_construire_regions_metropole_geofla_2015_2016.py' -v
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2560698/reg2015-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/reg2015-txt.zip"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.insee.fr/fr/statistiques/fichier/2114819/reg2016-txt.zip' \
+            -o "$RUNNER_TEMP/geofla-2016/reg2016-txt.zip"
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          fichiers = json.loads((root / "shapefiles-geofla.json").read_text())
+          args = [
+              "python3", "scripts/construire_regions_metropole_geofla_2015_2016.py",
+              "--shp2015", fichiers["2015"]["shapefile"],
+              "--shp2016", fichiers["2016"]["shapefile"],
+              "--archive2015", str(root / "GEOFLA_departement_2015_original.7z"),
+              "--archive2016", str(root / "GEOFLA_departement_2016_original.7z"),
+              "--dep2015", str(root / "depts2015-txt.zip"),
+              "--dep2016", str(root / "depts2016-txt.zip"),
+              "--reg2015", str(root / "reg2015-txt.zip"),
+              "--reg2016", str(root / "reg2016-txt.zip"),
+          ]
+          for folder in ("recette", "reproduction"):
+              subprocess.run(args + ["--sortie", str(root / folder)], check=True)
+          noms = (
+              "regions-metropole-2015-IGN-geofla.geojson",
+              "regions-metropole-2016-IGN-geofla.geojson",
+              "comparaisons-regions-metropole-IGN-2015-2016.csv",
+              "rapport-regions-metropole-IGN-2015-2016.json",
+          )
+          for nom in noms:
+              assert (root / "recette" / nom).read_bytes() == (root / "reproduction" / nom).read_bytes(), nom
+          rapport = json.loads((root / "recette" / noms[-1]).read_text(encoding="utf8"))
+          assert rapport["regions_par_millesime"] == {"2015": 22, "2016": 13}
+          assert rapport["nombre_geometries_regionales_derivees"] == 35
+          assert rapport["fusions_regionales_controlees"] == 7
+          assert rapport["regions_maintenues_controlees"] == 6
+          assert rapport["departements_changeant_de_code_region"] == 65
+          assert rapport["alignements_Pactols_crees"] == 0
+          assert rapport["publication_docs"] is False
+          for year, expected in (("2015", 22), ("2016", 13)):
+              features = json.loads((root / "recette" / f"regions-metropole-{year}-IGN-geofla.geojson").read_text())["features"]
+              assert len(features) == expected
+          print("RECETTE 35 régions (22 + 13), 7 fusions, 6 continuités, reproductibilité OK")
+          PY
+      - name: Qualifier les écarts des 96 contours départementaux et le transfert 44 vers 49
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_ecarts_departementaux_geofla_2015_2016.py' -v
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          sources = json.loads((root / "shapefiles-geofla.json").read_text())
+          args = [
+              "python3", "scripts/auditer_ecarts_departementaux_geofla_2015_2016.py",
+              "--shp2015", sources["2015"]["shapefile"],
+              "--shp2016", sources["2016"]["shapefile"],
+              "--archive2015", str(root / "GEOFLA_departement_2015_original.7z"),
+              "--archive2016", str(root / "GEOFLA_departement_2016_original.7z"),
+          ]
+          for sub in ("recette", "reproduction"):
+              subprocess.run(args + ["--sortie", str(root / sub)], check=True)
+          for nom in ("comparaison-96-departements-GEOFLA-2015-2016.csv",
+                      "rapport-ecarts-departements-GEOFLA-2015-2016.json"):
+              assert (root / "recette" / nom).read_bytes() == (root / "reproduction" / nom).read_bytes(), nom
+          rapport = json.loads((root / "recette" / "rapport-ecarts-departements-GEOFLA-2015-2016.json").read_text())
+          assert rapport["departements_controles"] == 96
+          transfert = rapport["transfert_interdepartemental_documente"]
+          assert 6.0 <= transfert["surface_geometrique_perdue_et_gagnee_km2"] <= 6.4
+          assert transfert["date_effet_juridique"] == "2015-12-31"
+          assert rapport["nouveaux_alignements_Pactols"] == 0 and rapport["publication_docs"] is False
+          print("AUDIT 96 départements et événement 44→49 reproductible")
+          PY
+      - name: Construire la carte autonome multi-échelon (régions et départements datés)
+        run: |
+          python3 -m py_compile scripts/construire_vue_lieux_multiechelon.py
+          python3 -m unittest discover -s tests -p 'test_construire_vue_lieux_multiechelon.py' -v
+          python3 - <<'PY'
+          import os, json, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          src = json.loads((root / "shapefiles-geofla.json").read_text())
+          cmd = ["python3", "scripts/construire_vue_lieux_multiechelon.py",
+                 "--modele", "recette/lieux/vue-lieux-multiechelon-modele.html",
+                 "--shp2015", src["2015"]["shapefile"],
+                 "--shp2016", src["2016"]["shapefile"],
+                 "--regions2015", str(root / "recette/regions-metropole-2015-IGN-geofla.geojson"),
+                 "--regions2016", str(root / "recette/regions-metropole-2016-IGN-geofla.geojson"),
+                 "--dep2015", str(root / "depts2015-txt.zip"),
+                 "--dep2016", str(root / "depts2016-txt.zip"),
+                 "--reg2015", str(root / "reg2015-txt.zip"),
+                 "--reg2016", str(root / "reg2016-txt.zip")]
+          name = "AdlFI_Lieux_Multiechelon_2015_2016.html"
+          for folder in ("recette", "reproduction"):
+              subprocess.run(cmd + ["--sortie", str(root / folder / name)], check=True)
+          for fname in (name, "rapport-interface-multiechelon-2015-2016.json"):
+              assert (root / "recette" / fname).read_bytes() == (root / "reproduction" / fname).read_bytes(), fname
+          report = json.loads((root / "recette/rapport-interface-multiechelon-2015-2016.json").read_text())
+          assert (report["regions_2015"],report["regions_2016"]) == (22,13)
+          assert (report["departements_2015"],report["departements_2016"]) == (96,96)
+          assert report["simplification_affichage_metres"] == 100
+          assert report["alignements_Pactols_generes"] == 0
+          assert report["publication_docs"] is False
+          print("CARTE RECETTE multi-échelon 2015-2016 : 227 états, 4 couches, reproductibilité OK")
+          PY
+      - name: Intégrer la carte Leaflet OSM aux quatre corpus communaux existants
+        run: |
+          python3 -m py_compile scripts/construire_vue_lieux_leaflet_integree.py
+          python3 -m unittest discover -s tests -p 'test_construire_vue_lieux_leaflet_integree.py' -v
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess, json, os
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          args = [
+            "python3", "scripts/construire_vue_lieux_leaflet_integree.py",
+            "--modele", "recette/lieux/vue-lieux-leaflet-integree-modele.html",
+            "--source-html", str(root / "recette/AdlFI_Lieux_Multiechelon_2015_2016.html"),
+            "--dossier-communautes", "docs/data/lieux-chronologie",
+            "--lieux", "docs/data/lieux.json",
+            "--core", "docs/assets/lieux-chronologie-core.js",
+          ]
+          for folder in ("recette", "reproduction"):
+            subprocess.run(args + [
+              "--sortie", str(root / folder / "AdlFI_Lieux_Leaflet_Integration_2015_2016.html")
+            ], check=True)
+          for filename in ("AdlFI_Lieux_Leaflet_Integration_2015_2016.html",
+                           "rapport-integration-leaflet.json"):
+            assert (root / "recette" / filename).read_bytes() == (root / "reproduction" / filename).read_bytes(), filename
+          rapport = json.loads((root / "recette/rapport-integration-leaflet.json").read_text())
+          assert rapport["autorites_pactols_PACA_intactes"] == 103
+          assert (rapport["regions_2015"],rapport["regions_2016"],
+                  rapport["departements_2015"],rapport["departements_2016"]) == (22,13,96,96)
+          assert rapport["nouvelles_correspondances_Pactols"] == 0
+          assert rapport["publication_docs"] is False
+          assert len(rapport["sources_communales_SHA256"]) == 9
+          print("INTÉGRATION LEAFLET + 4 corpus communaux + 103 Pactols : reproductibilité OK")
+          PY
+      - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
+        run: |
+          python3 scripts/construire_vue_bfc_ign_2015_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --geom2015 "$RUNNER_TEMP/geofla-2016/recette/regions-bfc-2015-IGN-geofla.geojson" \
+            --geom2016 "$RUNNER_TEMP/geofla-2016/recette/regions-bfc-2016-IGN-geofla.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-2016/recette/AdlFI_BFC_IGN_2015_2016.html"
+          python3 scripts/construire_vue_bfc_ign_2015_2016.py \
+            --modele recette/lieux/pilote-bfc-modele.html \
+            --geom2015 "$RUNNER_TEMP/geofla-2016/recette/regions-bfc-2015-IGN-geofla.geojson" \
+            --geom2016 "$RUNNER_TEMP/geofla-2016/recette/regions-bfc-2016-IGN-geofla.geojson" \
+            --sortie "$RUNNER_TEMP/geofla-2016/recette/reproduction.html"
+          cmp "$RUNNER_TEMP/geofla-2016/recette/AdlFI_BFC_IGN_2015_2016.html" "$RUNNER_TEMP/geofla-2016/recette/reproduction.html"
+          rm "$RUNNER_TEMP/geofla-2016/recette/reproduction.html"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-catalogue-geofla-departements-2016
+          path: ${{ runner.temp }}/geofla-2016/
+          retention-days: 30
