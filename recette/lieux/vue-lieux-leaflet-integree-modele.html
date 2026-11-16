@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>AdlFI — Lieux · Recette intégrée Leaflet et référentiel communal</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#173448;background:#f4f7f8}*{box-sizing:border-box}body{margin:0}a{color:#115f7e;text-underline-offset:2px}button,select,input{font:inherit}button,select{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #d98d59;outline-offset:2px}.top{padding:23px max(19px,calc((100% - 1370px)/2));background:#021323;color:#fff}.top small{letter-spacing:.11em;text-transform:uppercase;color:#acc3ce;font-weight:650}.top h1{font-size:clamp(23px,2.9vw,34px);line-height:1.18;margin:9px 0}.top p{font-size:13px;line-height:1.55;color:#cad8dd;margin:0;max-width:970px}main{max-width:1390px;padding:19px 20px 44px;margin:auto}.notice-intro{font-size:13px;line-height:1.6;color:#4c6470;margin:0 0 15px}.tag{background:#e2edf1;color:#275b72;border-radius:4px;padding:3px 7px;font-size:11px;font-weight:700}.controls{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.48fr;gap:12px;background:#fff;border:1px solid #d9e5e8;padding:15px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 10px #12273708}.control{min-width:0;display:flex;flex-direction:column;gap:7px}.control label{font-size:12px;font-weight:750;color:#3f5c6d}.control select,.control input[type=search]{border:1px solid #b7ccd4;border-radius:6px;background:#fff;min-width:0;width:100%;height:43px;padding:8px 11px;font-size:13px;color:#173b50}.hint{color:#6a818e;font-size:11px;line-height:1.4}.search-wrap{position:relative}.results{position:absolute;z-index:1500;background:#fff;box-shadow:0 8px 18px #0f263d34;border:1px solid #d7e2e6;border-radius:7px;list-style:none;margin:4px 0 0;padding:4px;width:100%;max-height:290px;overflow:auto}.results[hidden]{display:none}.results li{margin:0}.results button{display:block;width:100%;padding:9px 10px;text-align:left;border:0;background:white;color:#24495f;border-radius:5px;font-size:12px}.results button:hover,.results button:focus-visible{background:#e8f3f4}.results small{display:block;color:#6e8792;margin-top:3px}.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:15px;align-items:start}.map-card,.detail{border:1px solid #d8e4e8;border-radius:11px;background:#fff;overflow:hidden;box-shadow:0 2px 10px #0a29400c}.map-head{display:flex;justify-content:space-between;gap:8px;padding:12px 17px;border-bottom:1px solid #e4ebef;align-items:center}.map-head strong{font-size:14px}.map-head small{font-size:11px;color:#667e89;display:block;margin-top:3px}.map-head button{padding:8px 11px;color:#21536b;background:#f4f8f9;border-radius:6px;border:1px solid #cddde3;font-size:11px}.map{height:clamp(420px,56vw,660px);background:#e9f0f2}.map-foot{padding:10px 15px;font-size:11px;line-height:1.5;color:#617885;border-top:1px solid #e8edef}.map-status{padding:9px 14px;background:#f4f7f8;border-top:1px solid #e8edef;color:#536c7a;line-height:1.5;font-size:11px;min-height:35px}.detail{min-height:370px;padding:20px}.detail h2{font-size:clamp(20px,2.1vw,25px);line-height:1.25;margin:8px 0 15px}.detail p,.detail li{font-size:12px;line-height:1.65;color:#456071}.detail .kicker{font-size:11px;font-weight:740;letter-spacing:.07em;text-transform:uppercase;color:#65808f}.detail dl{display:grid;grid-template-columns:1fr 1.22fr;gap:9px 8px;margin:16px 0;font-size:12px}.detail dt{color:#6e8490}.detail dd{margin:0;overflow-wrap:anywhere;font-weight:590}.detail .warning{border-left:3px solid #ddaa76;background:#fff7ed;padding:10px 13px;font-size:12px;color:#624c36;line-height:1.6;margin-top:12px}.detail .source{border-left:3px solid #83b3bd;background:#f3f8fa;padding:10px 13px;font-size:12px;line-height:1.6}.detail ul{padding-left:19px}.secondary{border:1px solid #d9e4e8;background:#fff;border-radius:11px;padding:16px 19px;font-size:12px;line-height:1.7;color:#456475;margin-top:16px}.secondary strong{color:#193c52}.reference{display:flex;align-items:center;gap:8px;padding:10px 15px;font-size:12px;color:#4c6470;line-height:1.4;border-top:1px solid #e8edef;background:#fbfcfc}.reference input{accent-color:#346e7c;cursor:pointer}.leaflet-container{font:inherit}.leaflet-tooltip{font-size:11px}@media(max-width:1080px){.controls{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr 0.9fr}}@media(max-width:780px){main{padding:13px 11px 28px}.layout{grid-template-columns:1fr}.detail{min-height:200px}.map{height:440px}.top{padding:18px}}@media(max-width:475px){.controls{grid-template-columns:1fr;padding:12px}.map{height:390px}}
+</style>
+</head>
+<body>
+<header class="top"><small>Référentiels AdlFI · Lieux · Recette d'intégration</small><h1>Explorer les territoires et les communes dans le temps</h1><p>Carte Leaflet avec fond OpenStreetMap, états régionaux et départementaux millésimés et référentiel communal historique AdlFI existant. Prototype de recette distinct du site public.</p></header>
+<main>
+<p class="notice-intro"><span class="tag">NON PUBLIÉ</span> Les trois commandes sont indépendantes : le cadrage n’altère pas le millésime ni l’échelon. Les identités communales et correspondances Pactols sont reprises des données déjà publiées, sans création d’autorité.</p>
+<section class="controls" aria-label="Navigation du référentiel">
+<div class="control"><label for="zoom">Zoom sur</label><select id="zoom"><option value="metropole">France métropolitaine</option><option value="bfc">Bourgogne–Franche-Comté</option><option value="pdl">Pays de la Loire</option><option value="corse">Corse</option><option value="paca">Provence-Alpes-Côte d’Azur</option><option value="antilles">Antilles et Guyane</option><option value="indien">Océan Indien</option><option value="pacifique">Pacifique</option><option value="atlantique">Atlantique Nord</option><option value="taaf">TAAF</option></select><span class="hint">Cadrage géographique uniquement ; le fond OSM reste visible partout.</span></div>
+<div class="control"><label for="level">Échelon territorial</label><select id="level"><option value="region">Région</option><option value="departement">Département</option><option value="commune">Commune</option><option value="arrondissement">Arrondissement municipal — à instruire</option><option value="territoire">Collectivité ou territoire — à instruire</option></select><span class="hint">Les communes historiques sont consultables même sans contours anciens.</span></div>
+<div class="control"><label for="year">Situation administrative au 1er janvier</label><select id="year"></select><span class="hint">COG historique 1943–2026 pour les communes étudiées ; IGN 2015/2016 pour régions et départements.</span></div>
+<div class="control"><label for="search">Rechercher un nom, un code INSEE ou un ARK Pactols</label><div class="search-wrap"><input type="search" id="search" placeholder="Ex. Charny, Bourgogne, 49069, 26678/…" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" hidden aria-label="Résultats de recherche"></ul></div><span class="hint">Recherche transversale dans les quatre corpus communaux et les états régionaux/départementaux.</span></div>
+</section>
+<div class="layout">
+<section class="map-card" aria-label="Carte interactive du référentiel"><div class="map-head"><div><strong id="map-title">Régions · 2016</strong><small id="map-subtitle">Fond actuel OpenStreetMap · limites IGN datées</small></div><button type="button" id="reset">Recentrer la carte</button></div><div id="map" class="map" role="region" aria-label="Carte Leaflet et OpenStreetMap"></div><label class="reference"><input type="checkbox" id="reference"> Afficher les contours communaux 2026 comme <strong>repère actuel</strong> (jamais comme limites historiques)</label><p id="map-status" class="map-status" role="status"></p><div class="map-foot">Fond : © contributeurs OpenStreetMap, géographie contemporaine. Couches historiques : GEOFLA IGN 2015 et 2016, états COG Insee. Couche communale 2026 : contours déjà publiés dans le référentiel. Généralisation IGN d’affichage : 100 m.</div></section>
+<aside id="detail" class="detail" aria-live="polite" aria-label="Fiche du référentiel"><span class="kicker">Fiche territoriale ou communale</span><h2>Sélectionnez un territoire</h2><p>Cliquez sur une limite visible ou recherchez un nom historique. Les fiches distinguent l’état administratif, les identités Pactols validées et le millésime des contours.</p></aside>
+</div>
+<section class="secondary"><strong>Précisions historiques et éditoriales.</strong> Les situations administratives au 1er janvier 2015 et 2016 ne doivent pas être confondues avec les éditions IGN GEOFLA du 4 mars 2015 et du 28 juin 2016. Les données COG communales publiées couvrent les codes étudiés en PACA, Corse, Pays de la Loire et Bourgogne-Franche-Comté, mais ne comportent pas de contours historiques. Les limites communales 2026 n'apparaissent comme repères actuels qu'à la demande lorsque la date est antérieure à 2026. Aucune équivalence Pactols ancienne n’est inférée d’une correspondance validée au millésime 2026. Les sélecteurs de cadrage ultramarin montrent le fond OSM ; les couches territoriales historiques correspondantes ne sont pas encore qualifiées.</section>
+</main>
+<script id="geographie-historique" type="application/json">__ADLFI_HISTORICAL_DATA__</script>
+<script id="referentiel-communal" type="application/json">__ADLFI_COMMUNAL_DATA__</script>
+<script>__ADLFI_COMMUNAL_CORE__</script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+<script>
+(()=>{
+'use strict';
+const geo=JSON.parse(document.getElementById('geographie-historique').textContent);
+const commun=JSON.parse(document.getElementById('referentiel-communal').textContent);
+const core=window.AdlfiLieuxChronologieCore;
+const $=id=>document.getElementById(id);
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const label={region:'Région',departement:'Département',commune:'Commune',arrondissement:'Arrondissement municipal',territoire:'Collectivité ou territoire'};
+const ids=['paca','corse','pdl','bfc'];
+const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
+const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[16,-51]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false};
+let activeRequest=0;
+function year(){return Number($('year').value)}
+function level(){return $('level').value}
+function selectedFeature(){if(state.selected?.kind!=='admin')return null;const x=state.selected;return geo.layers[String(x.year)]?.[x.level]?.find(f=>f.properties.code===x.code)||null}
+function start(){
+ if(geo.schema!=='adlfi.lieux.interface_multiechelon_recette.v1'||geo.alignements_Pactols_generes!==0||!geo.aucune_geometrie_2026_retroprojetee)throw Error('Données historiques non qualifiées');
+ if(commun.schema!=='adlfi.lieux.integration_communes_recette.v1')throw Error('Sources communales incompatibles');
+ for(const id of ids){const data=commun.regions[id]?.cog;if(!data)throw Error('Données communales manquantes : '+id);core.verifier(data);if(commun.regions[id].contours_2026?.provenance?.millesime!==2026)throw Error('Couche 2026 non datée : '+id)}
+ if(commun.pactols.autorites?.length!==103 || commun.pactols.totaux?.autorites_pactols!==103)throw Error('Les 103 autorités Pactols PACA doivent être conservées');
+ for(let y=1943;y<=2026;y++){const op=document.createElement('option');op.value=String(y);op.textContent=String(y);$('year').append(op)}
+ $('year').value='2016';
+ state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog).map(e=>({...e,zone:id})))
+   .concat([2015,2016].flatMap(y=>['region','departement'].flatMap(l=>geo.layers[String(y)][l].map(f=>({kind:'admin',code:f.properties.code,year:y,level:l,label:f.properties.nom,champs:[core.normaliser(f.properties.nom),core.normaliser(f.properties.code)],feature:f})))));
+ if(window.L){
+  state.map=L.map('map',{scrollWheelZoom:false,preferCanvas:true}).setView([46.5,2.2],6);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'}).addTo(state.map);
+  state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
+  frame();
+ }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible. La recherche et les fiches du référentiel restent accessibles.'}
+ $('zoom').addEventListener('change',frame);
+ $('level').addEventListener('change',render);
+ $('year').addEventListener('change',render);
+ $('reference').addEventListener('change',render);
+ $('reset').addEventListener('click',frame);
+ $('search').addEventListener('input',search);
+ $('search').addEventListener('keydown',e=>{if(e.key==='Escape'){hideResults()}else if(e.key==='Enter'&&!$('results').hidden){const a=$('results').querySelector('button');if(a)a.click()}});
+ render();
+}
+function frame(){
+ if(!state.map)return;
+ const v=views[$('zoom').value];
+ if(v)state.map.fitBounds(v,{padding:[16,16],animate:false});
+}
+function destroy(){if(state.map){if(state.layer)state.map.removeLayer(state.layer);if(state.reference)state.map.removeLayer(state.reference)}state.layer=null;state.reference=null;state.bounds.clear()}
+function color(l){return l==='region'?'#286e83':l==='departement'?'#597f8c':'#8d9ca6'}
+function geoLayer(features,{reference=false}={}){
+ if(!state.map)return null;
+ return L.geoJSON({type:'FeatureCollection',features},{renderer:L.canvas(),interactive:!reference,
+   style:f=>({color:reference?'#747e89':color(f.properties.niveau||'commune'),weight:reference?.7:1.15,
+      opacity:reference?.7:.9,fillColor:reference?'#c7ccd0':'#5d9cab',fillOpacity:reference?.025:.10,
+      dashArray:reference?'4,5':null}),
+   onEachFeature(f,layer){if(!reference){
+      const p=f.properties;
+      const key=p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
+      state.bounds.set(key,layer);
+      layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
+      layer.on('click',()=>choose(p.niveau==='commune'?{kind:'commune',code:p.code,zone:p.zone,year:year()}:{kind:'admin',code:p.code,level:p.niveau,year:p.annee}));
+   }}
+ }).addTo(state.map);
+}
+function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}})))}
+function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
+function render(){
+ const y=year(), l=level(), current=state.selected;
+ destroy();
+ $('map-title').textContent=(label[l]||l)+' · état au 1er janvier '+y;
+ $('map-subtitle').textContent='Fond OSM contemporain · données administratives '+y;
+ let features=[],desc='';
+ if((l==='region'||l==='departement')&&(y===2015||y===2016)){
+   features=geo.layers[String(y)][l];
+   desc=features.length+' contours '+label[l].toLowerCase()+'s · IGN GEOFLA '+geo.edition_IGN[String(y)]+', simplifiés à 100 m (affichage).';
+ } else if(l==='commune'&&y===2026){
+   features=communes2026();
+   desc=features.length+' communes 2026 · contours du référentiel actuel, uniquement pour PACA, Corse, Pays de la Loire et Bourgogne-Franche-Comté.';
+ } else if(l==='commune'){
+   desc='Les états COG communaux sont disponibles par recherche pour '+y+', mais aucun contour communal '+y+' n’est qualifié. Le fond OSM est contemporain.';
+ } else {desc='Pas de géométrie '+label[l]?.toLowerCase()+' qualifiée au millésime '+y+' dans cette recette.'}
+ if(features.length)state.layer=geoLayer(features);
+ if($('reference').checked && !(l==='commune'&&y===2026)){
+   state.reference=geoLayer(communes2026(),{reference:true});
+   desc+=' Contours communaux 2026 visibles uniquement comme repères contemporains.';
+ }
+ showEmpty('Échelon '+(label[l]||l)+' · '+y,desc);
+ if(current){
+   if(current.kind==='admin'&&(current.year!==y||current.level!==l))state.selected=null;
+   if(current.kind==='commune'&&l!=='commune')state.selected=null;
+ }
+ detail();
+}
+function hideResults(){$('results').hidden=true;$('search').setAttribute('aria-expanded','false')}
+function search(){
+ const q=core.normaliser($('search').value);const ul=$('results');ul.replaceChildren();
+ if(q.length<2){hideResults();return}
+ const hits=state.indexes.filter(x=>{const parts=q.split(' ');return parts.every(t=>x.champs.some(ch=>ch.includes(t)))}).slice(0,22);
+ for(const h of hits){const li=document.createElement('li'),btn=document.createElement('button');btn.type='button';
+ const heading=document.createElement('strong');heading.textContent=h.label;
+ const sub=document.createElement('small');sub.textContent=h.kind==='admin'?`${label[h.level]} · COG ${h.year} · ${h.code}`:
+   `${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
+ btn.append(heading,sub);btn.addEventListener('click',()=>{
+   if(h.kind==='admin'){ $('level').value=h.level;$('year').value=String(h.year);state.selected={kind:'admin',level:h.level,year:h.year,code:h.code}; }
+   else{$('level').value='commune';state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),ark:h.kind==='pactols'?h.ark:null};}
+   hideResults();render();focusSelection();
+ });li.append(btn);ul.append(li)}
+ if(!hits.length){const li=document.createElement('li');li.textContent='Aucun résultat dans les données étudiées.';li.style.padding='12px';ul.append(li)}
+ ul.hidden=false;$('search').setAttribute('aria-expanded','true');
+}
+function focusSelection(){const x=state.selected;if(!x||!state.map)return;const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
+ const layer=state.bounds.get(key);
+ if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
+}
+function choose(entry){state.selected=entry;hideResults();detail();focusSelection()}
+function ligne(dl,k,v,href){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(v);dd.append(a)}else dd.textContent=String(v??'Non documenté');dl.append(dt,dd)}
+function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':'Fiche du référentiel';target.append(kicker);
+ if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='admin'){
+   const f=selectedFeature();if(!f){state.selected=null;detail();return};const p=f.properties;
+   const h=document.createElement('h2');h.textContent=p.nom;target.append(h);
+   const dl=document.createElement('dl');ligne(dl,'Échelon',label[x.level]);ligne(dl,'Code COG',p.code);ligne(dl,'État',`1er janvier ${x.year}`);ligne(dl,'Édition IGN',geo.edition_IGN[String(x.year)]);
+   if(x.level==='departement')ligne(dl,'Région de rattachement',`${p.nom_region_parent} (${p.code_region_parent})`);
+   if(x.level==='region')ligne(dl,'Composition',`${p.departements.length} départements`);
+   target.append(dl);
+   const note=document.createElement('p');note.className='source';note.textContent='Géométrie : '+p.source_geometrie+'. Couche simplifiée pour l’affichage ; aucun ARK Pactols n’est attribué automatiquement.';target.append(note);
+   const source=document.createElement('p'),a=document.createElement('a');a.href=geo.source_COG[String(x.year)];a.textContent=`Source officielle : Insee COG ${x.year}`;a.target='_blank';a.rel='noopener noreferrer';source.append(a);target.append(source);
+   if(p.niveau==='departement'&&(p.code==='44'||p.code==='49')){const warn=document.createElement('p');warn.className='warning';warn.textContent='Le transfert du Fresne-sur-Loire (44 → 49) prend effet juridiquement le 31 décembre 2015 ; cette date est distincte de la création de la commune nouvelle le 1er janvier 2016.';target.append(warn)}
+   return;
+ }
+ const data=commun.regions[x.zone].cog;const stateCom=core.etat(data,x.code,year());
+ const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code);
+ const h=document.createElement('h2');h.textContent=stateCom.etat?.libelle||x.code;target.append(h);
+ const dl=document.createElement('dl');ligne(dl,'Code INSEE',x.code);ligne(dl,'État administratif',`1er janvier ${year()}`);ligne(dl,'Zone du corpus',nomZones[x.zone]);
+ if(stateCom.etat){ligne(dl,'Libellé COG',stateCom.etat.libelle);ligne(dl,'Type de commune',stateCom.etat.typecom);
+   ligne(dl,'Période du libellé',`${stateCom.etat.debut_inclus} – ${stateCom.etat.fin_exclue||'en cours dans la source'}`)}
+ if(align){ligne(dl,'Concept Pactols',align.libelle_pactols,'https://ark.frantiq.fr/ark:/'+align.ark_pactols);ligne(dl,'ARK',align.ark_pactols)}
+ target.append(dl);
+ const note=document.createElement('p');note.className=align?'source':'warning';note.textContent=align?'Correspondance Pactols–COG déjà validée par AdlFI pour le millésime 2026 seulement : elle ne vaut pas validation historique automatique.':'Aucun alignement Pactols individuellement validé pour cette commune dans le corpus disponible.';target.append(note);
+ if(!stateCom.etat){const n=document.createElement('p');n.className='warning';n.textContent='Aucun état COM attesté pour cette date et ce code dans le corpus étudié ; ne pas en conclure à la disparition du lieu.';target.append(n)}
+ if(year()!==2026){const n=document.createElement('p');n.className='warning';n.textContent='Aucun contour communal historique qualifié dans cette recette. Les éventuelles limites communales affichées sont exclusivement des repères 2026.';target.append(n)}
+ if(stateCom.mouvements.length){const t=document.createElement('h3');t.textContent='Mouvements COG déjà survenus';target.append(t);const ul=document.createElement('ul');for(const ev of stateCom.mouvements.slice(-6)){const li=document.createElement('li');li.textContent=`${ev.date_effet} · ${ev.libelle_avant||'—'} → ${ev.libelle_apres||'—'} (MOD ${ev.mod})`;ul.append(li)}target.append(ul)}
+}
+try{start()}catch(error){$('map-status').textContent='Erreur du jeu de recette : '+error.message;console.error(error)}
+})();
+</script>
+</body>
+</html>
