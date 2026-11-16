@@ -9,6 +9,9 @@ on:
       - 'recette/lieux/MARTINIQUE-VALIDATIONS-PACTOLS-COG-2026.csv'
       - 'tests/test_validations_martinique_pactols_2026.py'
       - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'scripts/verifier_index_public_martinique_2026.py'
+      - 'docs/data/lieux-martinique/**'
+      - 'docs/assets/lieux-martinique-historique.js'
       - 'docs/data/manifest.json'
       - '.github/workflows/lieux-martinique-audit-2026.yml'
   workflow_dispatch:
@@ -70,6 +73,12 @@ jobs:
               --sortie "$sortie" > "$RUNNER_TEMP/bilan.json"
           done
           diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Confronter les épisodes historiques publics à la source COG
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_index_public_martinique_2026.py \
+            --audit "$RUNNER_TEMP/recette1/martinique-34-communes-audit.json" \
+            --public docs/data/lieux-martinique/chronologie-cog-2026.json
       - name: Contrôler la séparation des preuves et des décisions
         run: |
           python3 - <<'PY'
