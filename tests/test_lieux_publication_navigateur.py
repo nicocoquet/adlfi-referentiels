@@ -113,6 +113,57 @@ def main():
         )
         inspecter_contours(page,100,"lieux-regions-2016")
 
+        # Couches réellement millésimées ; ne jamais confondre un repère et
+        # la géométrie géographique de la situation COG.
+        def set_year(new_year):
+            page.locator("#year").evaluate(
+                "(el, y) => {el.value=String(y);el.dispatchEvent(new Event('change',{bubbles:true}));}",
+                new_year)
+        set_year(2019)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2019')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-regions-2019")
+        page.locator("#search").fill("Bretagne")
+        page.locator("#results button").filter(has_text="Région · COG 2019 · 53").click()
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Millésime 2019')",
+            timeout=30000)
+        assert "Repère cartographique" not in page.locator("#map-status").text_content()
+
+        # 2020 reste explicitement un repère de 2019, jamais un contour 2020.
+        set_year(2020)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2019 (et NON 2020)')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-region-repere-2020")
+        set_year(2025)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2025')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-regions-2025")
+        page.locator("#level").select_option("departement")
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('101 contours départementaux')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-departements-2025")
+        set_year(2019)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2019')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-departements-2019")
+        set_year(2017)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2017)')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-departement-repere-2017")
+        page.locator("#level").select_option("region")
+        set_year(2016)
+        page.wait_for_function(
+            "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
+            timeout=30000)
+        inspecter_contours(page,100,"lieux-regions-2016-reprise")
+
         page.locator("#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"
         assert page.locator("#level").input_value()=="region"

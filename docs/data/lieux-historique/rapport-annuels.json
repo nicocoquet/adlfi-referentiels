@@ -1,0 +1,235 @@
+{
+  "annees": [
+    2018,
+    2019,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "couches": {
+    "departements-2018.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 101,
+      "sha256_COG": "513a1fdcf90b0088febb55ed3060a3d86dd26b3764b6ccc090188ef0fa29071e",
+      "sha256_origine": "cfbc29aa611707116bd364f070cc990591f929a8d25e8633ccef92f46f001667"
+    },
+    "departements-2019.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 101,
+      "sha256_COG": "b2ad58004d9498b035303fd4d68c5038d3d71798b58ed613495aab6bd6a9df90",
+      "sha256_origine": "429c4a8b645c02564f641f9106ee5738c77c4b3f665522eb03f5d30d0a4e1fd4"
+    },
+    "departements-2021.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 101,
+      "sha256_COG": "641510f894aab61417175bcd45c6c1a2b9761d2fe8950ff06568bb1fe09c24a3",
+      "sha256_origine": "debf967fb7c5fd3fe5dbb369bfb7d3e24d1198a0092aeaf800cc16ca83e36b22"
+    },
+    "departements-2022.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 101,
+      "sha256_COG": "ba8ce90735cd2e1632db954544732a07c81bff99b18f62dfa0331c62fb667612",
+      "sha256_origine": "0e06b418f4e41e739b345fde31146b67ad3ca00594f993697faa8c9b1600fdfa"
+    },
+    "departements-2023.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 101,
+      "sha256_COG": "ee23de694716c5d38a93c151be335790da6e8590fdff495dfafce5440da55fbd",
+      "sha256_origine": "3264f8e1894782d58e604889c6ae8acd36c0c354fb929049de352ef17a3da635"
+    },
+    "departements-2024.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 101,
+      "sha256_COG": "9842beab5eeb292febd4ad0dc46a3dd05b929794a42357447426511739e9abff",
+      "sha256_origine": "a9c6e5acac23fa557fb3cf33c30bc0229001215079e0c79f706bc0ffdb90bd1f"
+    },
+    "departements-2025.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 101,
+      "sha256_COG": "89329a7fc6669e215f90d557b123a7eb83cb926cdb769946b1a9a8bf19bc12d9",
+      "sha256_origine": "7ea4ce7830de4e1284ea6fc41ba053b32536ff0b6f5f40c465c9a81dd6894340"
+    },
+    "regions-2018.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 18,
+      "sha256_COG": "f7a57d73fff536cbd1309eb5746627c2b65f6c005077fb56e3c3768c178a11bf",
+      "sha256_origine": "24aab871b958675ed5aff9162229ea5abfcd55c1d15f13ee43a916b7558d37ca"
+    },
+    "regions-2019.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 18,
+      "sha256_COG": "b2ad58004d9498b035303fd4d68c5038d3d71798b58ed613495aab6bd6a9df90",
+      "sha256_origine": "9dee9ede27ed019551922883ee941c7bca9646d96b4df13894edd784608a23c6"
+    },
+    "regions-2021.geojson": {
+      "exclus_hors_echelon": [],
+      "nombre_codes": 18,
+      "sha256_COG": "641510f894aab61417175bcd45c6c1a2b9761d2fe8950ff06568bb1fe09c24a3",
+      "sha256_origine": "ddc570806e8fbf817227ce8478f1e7176ce1df53512bba225abe8081109c10c3"
+    },
+    "regions-2022.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 18,
+      "sha256_COG": "ba8ce90735cd2e1632db954544732a07c81bff99b18f62dfa0331c62fb667612",
+      "sha256_origine": "387bfc839ebeaa514c60fa4a9297c7fcf9bbaa71f27bca2e954aa9ff2e373a56"
+    },
+    "regions-2023.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 18,
+      "sha256_COG": "ee23de694716c5d38a93c151be335790da6e8590fdff495dfafce5440da55fbd",
+      "sha256_origine": "ee20c63792b1b6d8e3f6a5f5784c229857151aa0b88ba4c7a65bda18cd7e2371"
+    },
+    "regions-2024.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 18,
+      "sha256_COG": "9842beab5eeb292febd4ad0dc46a3dd05b929794a42357447426511739e9abff",
+      "sha256_origine": "b745ef61874aacfd2ffeb2681250b0de9146d24edcae77e2dd0fc79202ced556"
+    },
+    "regions-2025.geojson": {
+      "exclus_hors_echelon": [
+        "975",
+        "977",
+        "978",
+        "984",
+        "986",
+        "987",
+        "988",
+        "989"
+      ],
+      "nombre_codes": 18,
+      "sha256_COG": "89329a7fc6669e215f90d557b123a7eb83cb926cdb769946b1a9a8bf19bc12d9",
+      "sha256_origine": "396b35422d1f10332b85bb07f7747baf7e86e79b7175070fc03431e34114924c"
+    }
+  },
+  "nouvelles_correspondances_pactols": 0,
+  "reparations_geometriques": [
+    {
+      "annee": 2019,
+      "anomalie": "Self-intersection[-3.10580000000001 48.7218]",
+      "code": "53",
+      "difference_aire_m2": -0.03625,
+      "difference_relative_aire_pct": 1.3e-10,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "region",
+      "type_obtenu_make_valid": "MultiPolygon"
+    },
+    {
+      "annee": 2019,
+      "anomalie": "Self-intersection[-3.10580000000001 48.7218]",
+      "code": "22",
+      "difference_aire_m2": -0.03615,
+      "difference_relative_aire_pct": 5.2e-10,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "departement",
+      "type_obtenu_make_valid": "MultiPolygon"
+    },
+    {
+      "annee": 2019,
+      "anomalie": "Self-intersection[5.438 46.8558]",
+      "code": "39",
+      "difference_aire_m2": 0.06547,
+      "difference_relative_aire_pct": 1.3e-09,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "departement",
+      "type_obtenu_make_valid": "GeometryCollection"
+    },
+    {
+      "annee": 2019,
+      "anomalie": "Self-intersection[5.438 46.8558]",
+      "code": "71",
+      "difference_aire_m2": -0.06548,
+      "difference_relative_aire_pct": 7.6e-10,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "departement",
+      "type_obtenu_make_valid": "GeometryCollection"
+    },
+    {
+      "annee": 2025,
+      "anomalie": "Self-intersection[-3.30548181818182 48.8489262626263]",
+      "code": "53",
+      "difference_aire_m2": 70.5464,
+      "difference_relative_aire_pct": 2.5682e-07,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "region",
+      "type_obtenu_make_valid": "MultiPolygon"
+    },
+    {
+      "annee": 2025,
+      "anomalie": "Self-intersection[-3.30548181818182 48.8489262626263]",
+      "code": "22",
+      "difference_aire_m2": 70.54637,
+      "difference_relative_aire_pct": 1.01053e-06,
+      "methode": "shapely.make_valid; composantes surfaciques seulement; unary_union",
+      "niveau": "departement",
+      "type_obtenu_make_valid": "MultiPolygon"
+    }
+  ],
+  "restitution_historique_depuis_2026": false,
+  "schema": "adlfi.lieux.production_couches_annuelles.v1",
+  "source_geometrique": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/"
+}
