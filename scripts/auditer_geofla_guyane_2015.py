@@ -81,7 +81,7 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     import shapefile
     from shapely.geometry import shape
     from shapely.ops import transform, unary_union
-    from pyproj import CRS,Transformer
+    from pyproj import CRS,Transformer,Geod
     if rar.name!=ARCHIVE_NAME:
         raise ValueError("Nom d'archive non conforme au produit attendu")
     if sha256(rar)!=SOURCE_TIERS_SHA:
@@ -108,6 +108,9 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     to_geo=Transformer.from_crs(src_crs,"EPSG:4326",always_xy=True)
     ref_crs=CRS.from_epsg(2972)
     crs_equiv_2972=src_crs.equals(ref_crs,ignore_axis_order=True)
+    to_geo_officiel=Transformer.from_crs(ref_crs,"EPSG:4326",always_xy=True)
+    geod=Geod(ellps="WGS84")
+    offsets_crs_m=[]
     source=collections.defaultdict(list)
     code_fields=collections.Counter()
     centres_wgs84=[]
@@ -125,6 +128,9 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
                 if not (-60<lon<-48 and 0<lat<7):
                     raise ValueError("Coordonnées projetées hors Guyane : "+code)
                 centres_wgs84.append((lon,lat))
+                lon_ref,lat_ref=to_geo_officiel.transform(centre.x,centre.y)
+                distance=geod.inv(lon,lat,lon_ref,lat_ref)[2]
+                offsets_crs_m.append(distance)
                 source[code].append(transform(to6933.transform,original))
             records.append({"code_identifie":code,"champs":sorted(attr.keys())})
     cogs={code for code in source if code.startswith("973")}
@@ -207,6 +213,18 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
             "epsg_resolu":src_crs.to_epsg(),
             "crs_equivalent_epsg2972":crs_equiv_2972,
             "epsg2972_attendu_selon_ign":2972,
+            "datum_wkt":src_crs.datum.name if src_crs.datum else None,
+            "ellipsoide_wkt":src_crs.ellipsoid.name if src_crs.ellipsoid else None,
+            "projection_wkt":src_crs.coordinate_operation.method_name if src_crs.coordinate_operation else None,
+            "parametres_projection_wkt":[{
+                "nom":p.name,"valeur":p.value,"unite":p.unit_name}
+                for p in src_crs.coordinate_operation.params] if src_crs.coordinate_operation else [],
+            "controle_operationnel_epsg2972":{
+                "nombre_points":len(offsets_crs_m),
+                "ecart_maximum_wgs84_m":round(max(offsets_crs_m),6),
+                "ecart_moyen_wgs84_m":round(sum(offsets_crs_m)/len(offsets_crs_m),6),
+                "interpretation":"Distance de position calculée en coordonnées WGS84, sans authentifier le CRS source.",
+            },
             "centres_wgs84_plage_lons":[round(min(x for x,y in centres_wgs84),6),
                                        round(max(x for x,y in centres_wgs84),6)],
             "centres_wgs84_plage_lats":[round(min(y for x,y in centres_wgs84),6),
