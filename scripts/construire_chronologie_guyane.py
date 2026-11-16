@@ -180,6 +180,30 @@ def preparer(audit: dict, validees: list[dict],
         }
         evenements.append(row)
         par_date[day].append(row)
+    # Les quatre fusions sont attestées par des lignes COG 31 explicites.
+    # Consigner cette preuve source sans déduire l'égalité historique des ARK.
+    for ancien,identite in old_index.items():
+        fusions=[e for e in evenements if
+                 e["code_modalite"]=="31" and
+                 e["avant"]["code"]==ancien and
+                 e["apres"]["code"]!=ancien]
+        if len(fusions)!=1 or fusions[0]["date_effet_COG"]!="1969-03-27":
+            raise ValueError("Fusion COG historique ambiguë ou manquante : "+ancien)
+        fusion=fusions[0]
+        if fusion["apres"]["code"] not in current:
+            raise ValueError("Destination de fusion non courante : "+ancien)
+        identite["mouvement_fusion_atteste_COG"]={
+            "modalite_COG":"31",
+            "nature_source":"Fusion simple",
+            "date_effet_COG":fusion["date_effet_COG"],
+            "code_source":ancien,
+            "code_destination":fusion["apres"]["code"],
+            "libelle_destination":fusion["apres"]["libelle"],
+            "fichier_source":"v_mvt_commune_2026.csv",
+            "relation_COG_source_attestee":True,
+            "alignement_Pactols_avec_destination_valide":False,
+            "geometrie_commune_avant_fusion":None,
+        }
     evenements.sort(key=lambda x:(x["date_effet_COG"],x["code_modalite"],
                          x["avant"]["code"] or "",x["apres"]["code"] or "",
                          x["avant"]["libelle"] or "",x["apres"]["libelle"] or ""))
