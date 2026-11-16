@@ -18,10 +18,18 @@ from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from pyproj import Transformer
-from shapely import make_valid
-from shapely.geometry import shape
-from shapely.ops import transform
+try:
+    from pyproj import Transformer
+    from shapely import make_valid
+    from shapely.geometry import shape
+    from shapely.ops import transform
+    GEOMETRIES_DISPONIBLES = True
+except ImportError:
+    Transformer = None
+    make_valid = None
+    shape = None
+    transform = None
+    GEOMETRIES_DISPONIBLES = False
 
 TARGETS = {
     "98745": {
@@ -125,6 +133,8 @@ def lire_national(path: Path) -> dict:
 
 
 def stats_comparaison(source_geometry: dict, national_geometry: dict) -> dict:
+    if not GEOMETRIES_DISPONIBLES:
+        raise RuntimeError("Les dépendances Shapely et pyproj sont nécessaires à la comparaison")
     source, national = shape(source_geometry), shape(national_geometry)
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:6933", always_xy=True)
     source_ok, national_ok = source.is_valid, national.is_valid
