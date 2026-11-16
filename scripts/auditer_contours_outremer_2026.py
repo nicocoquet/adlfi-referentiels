@@ -127,7 +127,7 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
     sortie.update(statut="ABSENTE_DU_FICHIER_COMMUNES",
                   type_geometrie="", valide_topologie="",
                   motif_topologique="", type_reparation_theorique="",
-                  ecart_aire_theorique_pct="",
+                  reparation_theorique_valide="", ecart_aire_theorique_pct="",
                   alerte_antimeridien="", nombre_features=0)
     if cible["nature"] == "TERRITOIRE":
         sortie["statut"] = "NON_EVALUE_TERRITOIRE_SANS_COUCHE_DEDIEE"
@@ -151,6 +151,7 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
             sortie["motif_topologique"] = explain_validity(g)
             repar = make_valid(g)  # diagnostic sur copie, jamais retenu comme contour
             sortie["type_reparation_theorique"] = repar.geom_type
+            sortie["reparation_theorique_valide"] = ("oui" if repar.is_valid else "non")
             if g.area > 0:
                 sortie["ecart_aire_theorique_pct"] = round(
                     abs(repar.area - g.area) / g.area * 100, 9
