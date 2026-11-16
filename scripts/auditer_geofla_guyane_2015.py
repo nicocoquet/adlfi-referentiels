@@ -77,6 +77,118 @@ def comparer_geometries(a,b)->dict:
     }
 
 
+
+def decomposer_ecarts_cartographiques(source:dict, reference:dict,
+                                       focus:tuple[str,...]=("97301","97312","97303"))->dict:
+    """Décomposer des différences *de dessin*, pas des mutations juridiques.
+
+    2015 et 2026 sont des partitions surfaciques potentiellement généralisées.
+    Dans leur emprise commune : A_i ∩ B_j, i != j, est une différence de
+    classement cartographique (ce n'est PAS un transfert administratif).
+    Aux marges : A \ B et B \ A sont des différences de contour extérieur.
+    """
+    from shapely.ops import unary_union
+
+    if set(source)!=set(reference) or len(source)!=22:
+        raise ValueError("Partitions comparées incomplètes ou hétérogènes")
+    if not set(focus).issubset(source):
+        raise ValueError("Commune prioritaire absente des géométries")
+
+    for obj in [*source.values(),*reference.values()]:
+        if obj.is_empty or not obj.is_valid or obj.area<=0:
+            raise ValueError("Géométrie non valide pour une partition")
+    ua=unary_union(list(source.values()))
+    ub=unary_union(list(reference.values()))
+    if not ua.is_valid or not ub.is_valid:
+        raise ValueError("Union de communes invalide")
+
+    # Vérifier qu'une commune ne recouvre pas une autre du même millésime.
+    for year,features,union in (("2015",source,ua),("2026",reference,ub)):
+        duplicate_area=sum(x.area for x in features.values())-union.area
+        if abs(duplicate_area)>100:  # m² sur 22 géométries très généralisées
+            raise ValueError("Recouvrement/géométrie incohérent pour "+year)
+
+    km=lambda a:round(a/1e6,6)
+    rows=[]
+    for code in sorted(source):
+        a,b=source[code],reference[code]
+        marge_2015=a.difference(ub).area
+        marge_2026=b.difference(ua).area
+        sortant=a.intersection(ub).difference(b).area
+        entrant=b.intersection(ua).difference(a).area
+        total=a.symmetric_difference(b).area
+        somme=marge_2015+marge_2026+sortant+entrant
+        if abs(total-somme)>100:  # m²
+            raise ValueError("Non fermeture du bilan géométrique : "+code)
+        rows.append({
+            "code":code,
+            "difference_symetrique_totale_km2":km(total),
+            "hors_emprise_2026_depuis_carte_2015_km2":km(marge_2015),
+            "hors_emprise_2015_depuis_carte_2026_km2":km(marge_2026),
+            "ecart_interne_sortant_2015_vers_autre_code_2026_km2":km(sortant),
+            "ecart_interne_entrant_autre_code_2015_vers_2026_km2":km(entrant),
+            "ecart_externe_total_km2":km(marge_2015+marge_2026),
+            "ecart_interne_double_km2":km(sortant+entrant),
+            "part_externe_pct":round((marge_2015+marge_2026)/total*100,3)
+                if total else 0,
+        })
+
+    # Calculer les échanges cartographiques seulement pour les 3 cas prioritaires.
+    prioritaires={}
+    for code in focus:
+        outgoing=[]
+        incoming=[]
+        for neighbor in sorted(source):
+            if code==neighbor:
+                continue
+            a=source[code].intersection(reference[neighbor]).area
+            b=source[neighbor].intersection(reference[code]).area
+            if a>100:
+                outgoing.append({"code_2026":neighbor,"intersection_km2":km(a)})
+            if b>100:
+                incoming.append({"code_2015":neighbor,"intersection_km2":km(b)})
+        prioritaires[code]={
+            "ecarts_de_codes_cartographiques_2015_vers_2026":
+                sorted(outgoing,key=lambda x:(-x["intersection_km2"],x["code_2026"])),
+            "ecarts_de_codes_cartographiques_2026_depuis_2015":
+                sorted(incoming,key=lambda x:(-x["intersection_km2"],x["code_2015"])),
+        }
+
+    source_externe=sum(source[code].difference(ub).area for code in source)
+    ref_externe=sum(reference[code].difference(ua).area for code in source)
+    total=sum(source[code].symmetric_difference(reference[code]).area
+              for code in source)
+    total_internes=sum(
+        source[code].intersection(ub).difference(reference[code]).area
+        for code in source)
+    total_entrants=sum(
+        reference[code].intersection(ua).difference(source[code]).area
+        for code in source)
+    emprise_externe=ua.symmetric_difference(ub).area
+    if (abs(total_internes-total_entrants)>100
+        or abs((source_externe+ref_externe)-emprise_externe)>100
+        or abs(total-(emprise_externe+total_internes+total_entrants))>100):
+        raise ValueError("Non fermeture comptable des partitions spatiales")
+    return {
+        "statut":"DIFFERENCES_DE_CARTES_NON_JURIDIQUES",
+        "decomposition_global_km2":{
+            "ecart_externe_total_km2":km(emprise_externe),
+            "ecart_externe_2015_hors_2026_km2":km(source_externe),
+            "ecart_externe_2026_hors_2015_km2":km(ref_externe),
+            "ecart_interne_unique_km2":km(total_internes),
+            "ecart_interne_compte_deux_fois_km2":km(total_internes+total_entrants),
+            "somme_ecarts_communaux_km2":km(total),
+            "equation":"sommes communales = écart externe + 2 × écart interne, pour des partitions sans recouvrement",
+        },
+        "par_commune":sorted(rows,key=lambda x:(-x["difference_symetrique_totale_km2"],x["code"])),
+        "priorites":prioritaires,
+        "incertitudes":[
+            "Une intersection de deux codes différents entre éditions n'établit aucune décision administrative.",
+            "La différence d'emprise peut relever du trait de côte, de frontières externes, de précision ou de méthode.",
+            "Les métriques ne contiennent aucune géométrie historique ou actuelle publiable.",
+        ],
+    }
+
 def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     import shapefile
     from shapely.geometry import shape
@@ -198,6 +310,10 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
               for x in comparison if x.get("mesures") is not None],
             key=lambda x:(-x["ecart_km2"],x["code"]))[:8],
     }
+    decomposition=decomposer_ecarts_cartographiques(
+        {c:gs[0] for c,gs in source.items() if len(gs)==1},
+        {c:target[c][0] for c in source if len(target.get(c,[]))==1}
+    )
     report={
         "schema":SCHEMA,"statut":"AUDIT_SOURCE_TIERCE_NON_AUTHENTIFIEE",
         "source2015":{
@@ -237,6 +353,7 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
             "edition":"2026-05-04",
             "nature":"contours nationaux généralisés, distincts de GEOFLA"},
         "statistiques":stats,"comparaisons_par_code":comparison,
+        "decomposition_ecarts_cartographiques":decomposition,
         "contours_historiques_adoptes":0,
         "geometries_publiees":0,
         "publication_possible":False,
