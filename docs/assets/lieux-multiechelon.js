@@ -466,6 +466,28 @@ function afficherChronologieGuyane(target,code){
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='cogHistoriqueGuyane'){
+   const ancienne=state.guyane?.old.get(x.code);
+   if(!ancienne){state.selected=null;detail();return}
+   const now=state.guyane.etat(x.code,year());
+   const all=state.guyane.periodes(x.code);
+   const heading=document.createElement('h2');
+   heading.textContent=(now?.label||all.at(-1).label)+' · '+x.code;target.append(heading);
+   const dl=document.createElement('dl');
+   ligne(dl,'Ancien code INSEE',x.code);
+   ligne(dl,'Concept Pactols historique identifié (lien non encore arbitré)',
+     ancienne.ark_candidat,'https://ark.frantiq.fr/ark:/'+ancienne.ark_candidat);
+   ligne(dl,'Mouvement COG attesté','Fusion simple (MOD 31) · 27 mars 1969');
+   const destination=state.outremer.get('DROM:COM:'+ancienne.code_destination_mouvement_COG_1969);
+   ligne(dl,'Code de la commune de destination',ancienne.code_destination_mouvement_COG_1969+
+     (destination?' · '+destination.label:''));
+   target.append(dl);
+   afficherChronologieGuyane(target,x.code);
+   const note=document.createElement('p');note.className='warning';
+   note.textContent='La fusion administrative est documentée par le COG. Elle ne signifie pas que cet ARK Pactols historique équivaut à l’ARK Pactols de la commune de destination.';
+   target.append(note);
+   return;
+ }
  if(x.kind==='cog2026'||x.kind==='autre_cog2026'){
    const entry=state.outremer?.get(x.id);
    if(!entry){state.selected=null;detail();return}
