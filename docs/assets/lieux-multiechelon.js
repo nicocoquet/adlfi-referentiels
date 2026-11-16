@@ -181,9 +181,15 @@ function color(l){return l==='region'?'#286e83':l==='departement'?'#597f8c':'#8d
 function geoLayer(features,{reference=false}={}){
  if(!state.map)return null;
  return L.geoJSON({type:'FeatureCollection',features},{renderer:state.renderer,interactive:!reference,
-   style:f=>({color:reference?'#354e59':color(f.properties.niveau||'commune'),weight:reference?1.4:1.15,
-      opacity:reference?.95:.9,fillColor:reference?'#c7ccd0':'#5d9cab',fillOpacity:reference?.02:.10,
-      dashArray:reference?'5,5':null}),
+   style:f=>{
+      const communeRepere=reference&&f.properties?.niveau==='commune';
+      return {color:reference?'#354e59':color(f.properties.niveau||'commune'),
+        weight:reference?(communeRepere?.55:1.4):1.15,
+        opacity:reference?(communeRepere?.60:.95):.9,
+        fillColor:reference?'#c7ccd0':'#5d9cab',
+        fillOpacity:reference?0:.10,
+        dashArray:reference?(communeRepere?'2,5':'5,5'):null};
+   },
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
       const key=p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
