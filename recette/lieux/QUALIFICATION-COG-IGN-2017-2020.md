@@ -37,7 +37,9 @@ Deux auto-intersections ont été corrigées sur copies de travail : **région 0
 
 ## Géométries 2020
 
-L'archive est une livraison nationale au format Shapefile WGS84, avec des couches `REGION` et `DEPARTEMENT` distinguées de leurs variantes cartographiques. Sa qualification géométrique est assurée par la CI spécialisée et doit être confirmée avant publication.
+L'archive est une livraison nationale au format Shapefile WGS84, avec des couches `REGION` et `DEPARTEMENT` distinguées de leurs variantes cartographiques. **Les 18 régions et 101 départements ont été validés contre le COG 2020** sans divergence de code, de nom ni de rattachement.
+
+La génération des deux GeoJSON 2020 à 100 m a été effectuée deux fois à l'identique. **Aucune réparation topologique n'a été nécessaire**, et **aucune géométrie invalide ne subsiste**. Recette : [exécution IGN 2017/2020](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43887011910), réussie sur les deux matrices.
 
 ## Contrats de diffusion
 
