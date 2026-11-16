@@ -80,8 +80,8 @@ def comparer_geometries(a,b)->dict:
 def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     import shapefile
     from shapely.geometry import shape
-    from shapely.ops import transform
-    from pyproj import CRS,Transformer
+    from shapely.ops import transform, unary_union
+    from pyproj import CRS,Transformer,Geod
     if rar.name!=ARCHIVE_NAME:
         raise ValueError("Nom d'archive non conforme au produit attendu")
     if sha256(rar)!=SOURCE_TIERS_SHA:
@@ -105,8 +105,15 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
     if not src_crs.is_projected:
         raise ValueError("Source GEOFLA sans système projeté vérifiable")
     to6933=Transformer.from_crs(src_crs,"EPSG:6933",always_xy=True)
+    to_geo=Transformer.from_crs(src_crs,"EPSG:4326",always_xy=True)
+    ref_crs=CRS.from_epsg(2972)
+    crs_equiv_2972=src_crs.equals(ref_crs,ignore_axis_order=True)
+    to_geo_officiel=Transformer.from_crs(ref_crs,"EPSG:4326",always_xy=True)
+    geod=Geod(ellps="WGS84")
+    offsets_crs_m=[]
     source=collections.defaultdict(list)
     code_fields=collections.Counter()
+    centres_wgs84=[]
     records=[]
     with shapefile.Reader(str(shp),encoding="latin-1") as shpfile:
         fields=[x[0] for x in shpfile.fields[1:]]
@@ -114,7 +121,17 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
             attr=dict(zip(fields,list(sr.record)))
             code,field=reconnaitre_code(attr)
             if field:code_fields[field]+=1
-            if code:source[code].append(transform(to6933.transform,shape(sr.shape.__geo_interface__)))
+            if code:
+                original=shape(sr.shape.__geo_interface__)
+                centre=original.representative_point()
+                lon,lat=to_geo.transform(centre.x,centre.y)
+                if not (-60<lon<-48 and 0<lat<7):
+                    raise ValueError("Coordonnées projetées hors Guyane : "+code)
+                centres_wgs84.append((lon,lat))
+                lon_ref,lat_ref=to_geo_officiel.transform(centre.x,centre.y)
+                distance=geod.inv(lon,lat,lon_ref,lat_ref)[2]
+                offsets_crs_m.append(distance)
+                source[code].append(transform(to6933.transform,original))
             records.append({"code_identifie":code,"champs":sorted(attr.keys())})
     cogs={code for code in source if code.startswith("973")}
     if any(code not in cogs for code in source):raise ValueError("Commune non guyanaise dans la couche")
@@ -133,6 +150,35 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
         if a.is_valid and b.is_valid and not a.is_empty and not b.is_empty:
             row["mesures"]=comparer_geometries(a,b)
         comparison.append(row)
+    # La comparaison de l'emprise totale distingue un désaccord sur le
+    # contour externe de désaccords au sein du maillage de communes.
+    # Ce n'est PAS une preuve de mutation administrative : généralisation
+    # et changements de sources sont des causes concurrentes.
+    communs=sorted(code for code in source if len(source[code])==1
+                   and len(target.get(code,[]))==1)
+    source_union=unary_union([source[c][0] for c in communs])
+    target_union=unary_union([target[c][0] for c in communs])
+    if not (source_union.is_valid and target_union.is_valid
+            and not source_union.is_empty and not target_union.is_empty):
+        raise ValueError("Union des contours communaux non exploitable")
+    area= lambda geom:round(geom.area/1e6,6)
+    sommes_source=sum(source[c][0].area for c in communs)
+    sommes_cible=sum(target[c][0].area for c in communs)
+    emprise_comparaison={
+        "communes_comparees":len(communs),
+        "source2015_union_km2":area(source_union),
+        "national2026_union_km2":area(target_union),
+        "ecart_externe_symetrique_km2":area(source_union.symmetric_difference(target_union)),
+        "source2015_hors_2026_union_km2":area(source_union.difference(target_union)),
+        "national2026_hors_2015_union_km2":area(target_union.difference(source_union)),
+        "surcomptage_surface_source2015_km2":round((sommes_source-source_union.area)/1e6,6),
+        "surcomptage_surface_national2026_km2":round((sommes_cible-target_union.area)/1e6,6),
+        "interpretation":"Mesures de différences de dessins/cartes, non de changements administratifs.",
+    }
+    for source_key in ("surcomptage_surface_source2015_km2",
+                       "surcomptage_surface_national2026_km2"):
+        if emprise_comparaison[source_key] < -0.000001:
+            raise ValueError("Union incohérente : "+source_key)
     stats={
         "fichiers_2015":len(records),
         "codes_reconnus":len(cogs),
@@ -140,6 +186,12 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
         "codes_avec_comparaison_valide":sum(x.get("mesures") is not None for x in comparison),
         "geometries_2015_valides":sum(g.is_valid for shapes in source.values() for g in shapes),
         "codes_2015_non_uniques":sorted(c for c,gs in source.items() if len(gs)!=1),
+        "codes_2015_absents_par_rapport_2026":sorted(set(target)-set(source)),
+        "emprise_collective_comparaison":emprise_comparaison,
+        "ecart_cumule_des_comparaisons_par_code_km2":round(
+            sum(x["mesures"]["difference_symetrique_km2"]
+                for x in comparison if x.get("mesures") is not None),6),
+        "geometries_source_2015_dans_le_domaine_guyane":len(centres_wgs84),
         "principaux_ecarts_km2":sorted(
             [{"code":x["code"],"ecart_km2":x["mesures"]["difference_symetrique_km2"],
               "jaccard_pct":x["mesures"]["jaccard_pct"]}
@@ -159,6 +211,24 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
             "champ_code_detecte":dict(code_fields),
             "crs_wkt_sha256":hashlib.sha256(prj.read_bytes()).hexdigest(),
             "epsg_resolu":src_crs.to_epsg(),
+            "crs_equivalent_epsg2972":crs_equiv_2972,
+            "epsg2972_attendu_selon_ign":2972,
+            "datum_wkt":src_crs.datum.name if src_crs.datum else None,
+            "ellipsoide_wkt":src_crs.ellipsoid.name if src_crs.ellipsoid else None,
+            "projection_wkt":src_crs.coordinate_operation.method_name if src_crs.coordinate_operation else None,
+            "parametres_projection_wkt":[{
+                "nom":p.name,"valeur":p.value,"unite":p.unit_name}
+                for p in src_crs.coordinate_operation.params] if src_crs.coordinate_operation else [],
+            "controle_operationnel_epsg2972":{
+                "nombre_points":len(offsets_crs_m),
+                "ecart_maximum_wgs84_m":round(max(offsets_crs_m),6),
+                "ecart_moyen_wgs84_m":round(sum(offsets_crs_m)/len(offsets_crs_m),6),
+                "interpretation":"Distance de position calculée en coordonnées WGS84, sans authentifier le CRS source.",
+            },
+            "centres_wgs84_plage_lons":[round(min(x for x,y in centres_wgs84),6),
+                                       round(max(x for x,y in centres_wgs84),6)],
+            "centres_wgs84_plage_lats":[round(min(y for x,y in centres_wgs84),6),
+                                       round(max(y for x,y in centres_wgs84),6)],
             "identite_source_IGN_confirmee":False,
             "date_fichier_nom":"2015-12-01",
             "date_limites_administratives_attestee":None,

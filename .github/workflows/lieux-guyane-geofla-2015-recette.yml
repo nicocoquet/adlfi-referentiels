@@ -7,6 +7,7 @@ on:
       - 'tests/test_auditer_geofla_guyane_2015.py'
       - '.github/workflows/lieux-guyane-geofla-2015-recette.yml'
       - 'recette/lieux/GUYANE-GEOFLA-2015-PROVENANCE.md'
+      - 'recette/lieux/GUYANE-GEOFLA-2015-COHERENCE-RECETTE.md'
   workflow_dispatch:
 
 permissions:
@@ -79,6 +80,43 @@ jobs:
           assert r["statistiques"]["codes_avec_comparaison_valide"]==22
           assert r["statistiques"]["geometries_2015_valides"]==22
           assert r["statistiques"]["codes_2015_non_uniques"]==[]
+          assert r["statistiques"]["geometries_source_2015_dans_le_domaine_guyane"]==22
+          assert r["source2015"]["epsg2972_attendu_selon_ign"]==2972
+          assert isinstance(r["source2015"]["crs_equivalent_epsg2972"],bool)
+          import math
+          comp=r["source2015"]["controle_operationnel_epsg2972"]
+          assert comp["nombre_points"]==22
+          assert math.isfinite(comp["ecart_maximum_wgs84_m"])
+          assert 0<=comp["ecart_moyen_wgs84_m"]<=comp["ecart_maximum_wgs84_m"]
+          # Le WKT historique ne code pas explicitement RGFG95, mais les
+          # transformations PROJ choisies pour cette recette coïncident.
+          assert comp["ecart_maximum_wgs84_m"]<0.1
+          assert r["source2015"]["datum_wkt"]
+          assert r["source2015"]["ellipsoide_wkt"]
+          assert r["source2015"]["projection_wkt"]
+          assert r["source2015"]["parametres_projection_wkt"]
+          print("COMPARAISON WKT / EPSG2972",json.dumps({
+            "datum":r["source2015"]["datum_wkt"],
+            "ellipsoide":r["source2015"]["ellipsoide_wkt"],
+            "projection":r["source2015"]["projection_wkt"],
+            "parametres":r["source2015"]["parametres_projection_wkt"],
+            "difference_positions":comp,
+          },ensure_ascii=False,indent=2))
+          assert all(-60<x<-48 for x in r["source2015"]["centres_wgs84_plage_lons"])
+          assert all(0<x<7 for x in r["source2015"]["centres_wgs84_plage_lats"])
+          emprise=r["statistiques"]["emprise_collective_comparaison"]
+          assert emprise["communes_comparees"]==22
+          assert emprise["source2015_union_km2"]>0
+          assert emprise["national2026_union_km2"]>0
+          assert emprise["ecart_externe_symetrique_km2"]>=0
+          assert emprise["ecart_externe_symetrique_km2"] <= (
+            r["statistiques"]["ecart_cumule_des_comparaisons_par_code_km2"] + 0.001
+          )
+          print("CONTROLE PROJECTION GEOFLA",r["source2015"]["epsg_resolu"],
+                r["source2015"]["crs_equivalent_epsg2972"],
+                r["source2015"]["centres_wgs84_plage_lons"],
+                r["source2015"]["centres_wgs84_plage_lats"])
+          print("EMPRISES",json.dumps(emprise,ensure_ascii=False,indent=2))
           assert r["publication_possible"] is False
           assert r["geometries_publiees"]==0
           assert r["contours_historiques_adoptes"]==0
