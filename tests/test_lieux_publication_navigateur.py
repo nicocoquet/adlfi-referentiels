@@ -32,6 +32,28 @@ def site_local():
             thread.join(timeout=5)
 
 
+
+def inspecter_contours(page, attendu, capture):
+    details=page.evaluate("""() => {
+      const map=document.getElementById('map');
+      const canvases=[...document.querySelectorAll('.leaflet-overlay-pane canvas')];
+      return {
+        map_status:document.getElementById('map-status').textContent,
+        map_rect:map.getBoundingClientRect().toJSON(),
+        canvas_count:canvases.length,
+        canvases:canvases.map(c=>{
+          const ctx=c.getContext('2d');
+          const d=ctx.getImageData(0,0,c.width,c.height).data;
+          let pixels=0;
+          for(let i=3;i<d.length;i+=4){if(d[i]>0)pixels++;}
+          return {width:c.width,height:c.height,drawn_pixels:pixels,css:c.getAttribute('style')};
+        })
+      };
+    }""")
+    print('COUCHES TEST',capture,details,flush=True)
+    page.screenshot(path='/tmp/'+capture+'.png',full_page=True)
+    assert any(c['drawn_pixels']>attendu for c in details['canvases']),details
+
 def main():
     if sync_playwright is None:
         raise RuntimeError('Exécuter la recette navigateur après installation de Playwright')
@@ -54,6 +76,7 @@ def main():
         assert page.locator("#level").input_value()=="region"
         assert page.evaluate("typeof L")=="object"
         assert page.locator(".leaflet-tile-pane").count()==1
+        inspecter_contours(page,100,"lieux-regions-2016")
 
         page.locator("#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"
@@ -65,6 +88,7 @@ def main():
         )
         assert page.locator("#year").input_value()=="2015"
         assert page.locator("#year-label").text_content()=="2015"
+        inspecter_contours(page,100,"lieux-regions-2015")
         page.locator("#year-next").click()
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
@@ -81,6 +105,8 @@ def main():
           "() => document.querySelector('#map-status')?.textContent.includes('96 contours départementaux')",
           timeout=30000
         )
+
+        inspecter_contours(page,100,"lieux-departements-2015")
 
         page.locator("#search").fill("Bourgogne")
         page.locator("#results button").first.wait_for(timeout=15000)
@@ -114,6 +140,7 @@ def main():
           timeout=60000
         )
         assert page.locator("#year-now").is_disabled()
+        inspecter_contours(page,100,"lieux-communes-2026")
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
 
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
