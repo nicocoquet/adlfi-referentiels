@@ -39,8 +39,12 @@ jobs:
           assert r["cog_cible"]=={"famille":"COMER","nature":"CDM","code":"98101"}
           assert r["geometries_publiees"]==0
           assert r["nouvel_alignement_pactols"]==0
-          if "resultat" in r:
-              assert r["resultat"]["identite_COG_98101_etablie"] is False
+          assert len(r["couches_condominium"])==1, "Classe IGN Condominium absente ou ambiguë"
+          assert r["couches_condominium"][0]["name"]=="BDTOPO_V3:condominium"
+          assert r["diagnostic"]=="COUCHE_CONDOMINIUM_INTERROGEE"
+          assert r["resultat"]["nombre_features"]==1
+          assert r["resultat"]["preuve_ign_concordante"], "Souveraineté ou géométrie IGN divergente"
+          assert r["resultat"]["identite_COG_98101_etablie"] is False
           print("Diagnostic WFS:",r["diagnostic"])
           print("Couches condominium:",r["couches_condominium"])
           PY
