@@ -31,6 +31,31 @@ Il s'agit de métriques de diagnostic. Le fait qu'un écart d'emprise soit infé
 
 Les métriques sont calculées en EPSG:6933 sur géométries projetées depuis le **WKT effectivement livré**, jamais depuis le code EPSG supposé. On ne compare pas les valeurs brutes exprimées dans les projections différentes.
 
+## Résultats du contrôle approfondi — CI n°43937147634
+
+**Projection du shapefile 2015 :**
+
+- La transformation à partir du PRJ place les centres des 22 communes dans l'intervalle de longitude **–54,362763 à –51,747198** et de latitude **2,866371 à 5,675605**, ce qui est conforme au domaine guyanais.
+- Le WKT décrit une **Transverse Mercator** sur l'ellipsoïde **GRS 1980**, méridien central **–51°**, latitude d'origine **0°**, facteur d'échelle **0,9996**, fausse abscisse **500 000 m** et fausse ordonnée **0 m**. Ce sont les paramètres projetés attendus de RGFG95 / UTM 22N.
+- Mais le **datum de ce WKT est indiqué « Not specified (based on GRS 1980 ellipsoid) »**. Par conséquent, pyproj renvoie **to_epsg() = None** et l'égalité stricte avec **EPSG:2972** est **fausse**.
+- Une expérience numérique, sur les **22 centres de communes**, a comparé deux chemins de conversion vers WGS84 : l'un utilisant directement le **WKT source**, l'autre supposant **EPSG:2972**. **Différence calculée : 0,0 m** au niveau des précisions restituées par les deux transformations PROJ en environnement de recette. Cela indique une **compatibilité opérationnelle dans les transformations choisies**, pas l'authentification du datum historique : PROJ peut employer la même transformation par défaut même si un datum est absent du WKT.
+
+**Emprises et différences cartographiques (surfaces projetées en EPSG:6933) :**
+
+| Mesure | Valeur |
+| --- | ---: |
+| Union des 22 polygones GEOFLA 2015 | **83 752,411654 km²** |
+| Union des 22 polygones nationaux 2026 | **83 128,737437 km²** |
+| Surface 2015 hors emprise 2026 | **678,554599 km²** |
+| Surface 2026 hors emprise 2015 | **54,880382 km²** |
+| Différence symétrique des unions | **733,434981 km²** |
+| Somme des différences symétriques des 22 communes prises séparément | **918,066563 km²** |
+| Surcomptage surfacique lié aux superpositions entre communes de même édition | **0 km²** dans les deux ensembles, au seuil numérique affiché |
+
+La différence d'emprise extérieure (733,43 km²) représente environ **80 % du cumul arithmétique des différences communales** (918,07 km²). Ce rapport n'est **pas** une partition juridique en « changements de territoire » et « changements internes » : les différences communales recouvrent aussi des effets de généralisation et peuvent compter deux fois certaines zones frontalières.
+
+**Conclusion :** le principal problème n'est pas une erreur de localisation du système de coordonnées dans la recette. Les différences entre les produits 2015 et 2026 restent **réelles en géométrie calculée**, mais leur origine juridique, cartographique ou méthodologique **n'est pas encore établie**. La copie 2015 demeure non authentifiée par rapport à l'archive canonique IGN.
+
 ## Protocole de classement des écarts
 
 **Première priorité** : Sinnamary (97312), Iracoubo (97303) et Régina (97301), puis les autres communes où le recouvrement de Jaccard est réduit.
