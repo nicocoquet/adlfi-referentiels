@@ -4,7 +4,10 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from shapely.geometry import box
+try:
+    from shapely.geometry import box
+except ImportError:
+    box = None  # La CI générale n'installe pas les dépendances SIG.
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from construire_regions_metropole_geofla_2015_2016 import (
@@ -18,10 +21,15 @@ def corpus_synthetique():
     avant_apres = {old: new for new, parents in FUSIONS_2016.items() for old in parents}
     anciennes = sorted((*avant_apres, *REGIONS_MAINTENUES))
     assert len(anciennes) == 22 and len(set(anciennes)) == 22
+    # 65 départements affectés aux 16 régions fusionnées et 31 aux
+    # six régions maintenues : cardinalités identiques à l'audit national.
+    repartition = (
+        [sorted(avant_apres)[i % 16] for i in range(65)]
+        + [REGIONS_MAINTENUES[i % 6] for i in range(31)]
+    )
     ancien, nouveau = {}, {}
-    for i in range(96):
+    for i, old in enumerate(repartition):
         dep = f"D{i:03d}"
-        old = anciennes[i % len(anciennes)]
         new = avant_apres.get(old, old)
         geometrie = box(i % 12, i // 12, i % 12 + 1, i // 12 + 1)
         ancien[dep] = (old, geometrie)
@@ -31,6 +39,7 @@ def corpus_synthetique():
     return ancien, nouveau, noms15, noms16
 
 
+@unittest.skipUnless(box is not None, "Shapely réservé aux workflows SIG")
 class RegionsMetropoleTests(unittest.TestCase):
     def test_35_regions_7_fusions_et_6_continuites(self):
         collections, comparaisons = construire(*corpus_synthetique())
