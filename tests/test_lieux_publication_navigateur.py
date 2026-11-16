@@ -68,40 +68,50 @@ def main():
         page.on("pageerror",lambda error:failures.append(str(error)))
         page.goto(base+"/lieux/",wait_until="domcontentloaded",timeout=45000)
         page.wait_for_function(
-          "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
+          "() => document.querySelector('#map-status')?.textContent.includes('18 contours régionaux')",
           timeout=60000
         )
-        assert page.locator("#year").input_value()=="2016"
+        assert page.locator("#year").input_value()=="2026"
         assert page.locator("#year").get_attribute("type")=="range"
-        assert page.locator("#year-label").text_content()=="2016"
+        assert page.locator("#year-label").text_content()=="2026"
         assert page.locator("#level").input_value()=="region"
         assert page.evaluate("typeof L")=="object"
         assert page.locator(".leaflet-tile-pane").count()==1
-        inspecter_contours(page,100,"lieux-regions-2016")
-        # En 2026, le dernier contour disponible (2016) sert uniquement de
-        # repère et ne doit jamais passer pour une restitution historique 2026.
-        page.locator("#year-now").click()
-        page.wait_for_function(
-          "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2026)')",
-          timeout=30000
-        )
-        inspecter_contours(page,100,"lieux-regions-repere-2026")
+        assert "Repère cartographique" not in page.locator("#map-status").text_content()
+        inspecter_contours(page,100,"lieux-regions-2026")
         page.locator("#reference").uncheck()
-        page.wait_for_function(
-          "() => !document.querySelector('#map-status')?.textContent.includes('Repère cartographique affiché')",
-          timeout=30000
-        )
+        inspecter_contours(page,100,"lieux-regions-2026-sans-repere")
         page.locator("#reference").check()
+
+        # DROM géographiquement visibles : cadrage sans changement d'année ou d'échelon.
+        page.locator("#zoom").select_option("indien")
+        assert page.locator("#year").input_value()=="2026"
+        assert page.locator("#level").input_value()=="region"
+        inspecter_contours(page,100,"lieux-region-mayotte-reunion-2026")
+        page.locator("#search").fill("Mayotte")
+        page.locator("#results button").filter(has_text="Région · COG 2026 · 06").first.click()
         page.wait_for_function(
-          "() => document.querySelector('#map-status')?.textContent.includes('limites IGN de 2016 (et NON 2026)')",
+          "() => document.querySelector('#detail')?.textContent.includes('4 mai 2026')",
           timeout=30000
         )
+        assert "06" in page.locator("#detail").text_content()
+        assert "976R" in page.locator("#detail").text_content()
+        page.locator("#level").select_option("departement")
+        page.wait_for_function(
+          "() => document.querySelector('#map-status')?.textContent.includes('101 contours départementaux')",
+          timeout=30000
+        )
+        inspecter_contours(page,100,"lieux-departements-drom-2026")
+        page.locator("#zoom").select_option("metropole")
+        inspecter_contours(page,100,"lieux-departements-2026")
+
+        page.locator("#level").select_option("region")
         page.locator("#year").evaluate("(el) => {el.value='2016';el.dispatchEvent(new Event('change',{bubbles:true}));}")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
           timeout=30000
         )
-
+        inspecter_contours(page,100,"lieux-regions-2016")
 
         page.locator("#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"

@@ -1,0 +1,109 @@
+name: Lieux — qualifier les 18 régions et 101 départements 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/preparer_admin_2026.py'
+      - 'tests/test_preparer_admin_2026.py'
+      - '.github/workflows/lieux-admin-2026-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualifier-2026:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier le contrat par les tests sans réseau
+        run: |
+          python3 -m pip install --disable-pip-version-check 'shapely==2.1.2'
+          python3 -m py_compile scripts/preparer_admin_2026.py
+          python3 -m unittest discover -s tests -p 'test_preparer_admin_2026.py' -v
+      - name: Télécharger les sources primaires officielles 2026
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/adlfi2026/sources"
+          cd "$RUNNER_TEMP/adlfi2026/sources"
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_region_2026.csv' -o v_region_2026.csv
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/v_departement_2026.csv' -o v_departement_2026.csv
+          echo 'd903566d9c0d263389d279baea6761917b7460749a07bec8ba37dd8f2ff7d98a  v_region_2026.csv' | sha256sum --check
+          echo '513900ca23edc682ef9b912d7bfc317129eac3a7d71ff19bc22b40ea4838e6eb  v_departement_2026.csv' | sha256sum --check
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/regions-100m.geojson.gz' \
+            -o regions-100m.geojson.gz
+          curl -fSL --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/departements-100m.geojson.gz' \
+            -o departements-100m.geojson.gz
+          test -s regions-100m.geojson.gz
+          test -s departements-100m.geojson.gz
+          sha256sum ./*
+      - name: Reproduire à l'octet l'export de quatre fichiers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for sortie in recette reproduction; do
+            python3 scripts/preparer_admin_2026.py \
+              --regions-geo "$RUNNER_TEMP/adlfi2026/sources/regions-100m.geojson.gz" \
+              --departements-geo "$RUNNER_TEMP/adlfi2026/sources/departements-100m.geojson.gz" \
+              --regions-cog "$RUNNER_TEMP/adlfi2026/sources/v_region_2026.csv" \
+              --departements-cog "$RUNNER_TEMP/adlfi2026/sources/v_departement_2026.csv" \
+              --sortie "$RUNNER_TEMP/adlfi2026/$sortie"
+          done
+          diff -qr "$RUNNER_TEMP/adlfi2026/recette" "$RUNNER_TEMP/adlfi2026/reproduction"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"adlfi2026/recette"
+          report=json.loads((root/"rapport-2026.json").read_text())
+          assert report["regions"]==18 and report["departements"]==101
+          assert report["mayotte"]["region"]=="06"
+          assert report["alignements_Pactols_crees"]==0
+          assert report["nombre_reparations"]==2
+          assert {(x["niveau"],x["code"]) for x in report["reparations_geometriques"]}=={("region","53"),("departement","22")}
+          print("AUDIT 2026 IGN/COG : 18 régions, 101 départements, Mayotte REG 06/DEP 976, reproductibilité OK")
+          for file in sorted(root.glob("*")):
+            print(file.name,file.stat().st_size)
+          PY
+      - name: Contrôler la validité SIG des 119 polygones retenus
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          from shapely.geometry import shape
+          root=Path(os.environ["RUNNER_TEMP"])/"adlfi2026/recette"
+          for niveau,attendu in (("regions",18),("departements",101)):
+            fc=json.loads((root/f"{niveau}-2026.geojson").read_text())
+            assert len(fc["features"])==attendu
+            invalid=[]
+            for f in fc["features"]:
+              geo=shape(f["geometry"])
+              if geo.is_empty or not geo.is_valid or geo.area<=0:
+                invalid.append((f["properties"]["code"],"géométrie invalide"))
+              x0,y0,x1,y1=geo.bounds
+              if not(-180<=x0<=x1<=180 and -90<=y0<=y1<=90):
+                invalid.append((f["properties"]["code"],"coordonnées hors WGS84"))
+            assert not invalid,invalid
+            print(niveau,attendu,"géométries SIG valides après deux réparations ponctuelles")
+          PY
+      - name: Refuser toute dérive des GeoJSON et index publiés
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in regions-2026.geojson departements-2026.geojson index-2026.json rapport-2026.json; do
+            cmp "$RUNNER_TEMP/adlfi2026/recette/$name" "docs/data/lieux-historique/$name"
+          done
+          echo "COG / contours 2026 : quatre livrables publiés reproductibles à l'octet"
+      - name: Archiver la recette 2026 et sa provenance (sans publier)
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-admin-2026-contours-recette
+          path: ${{ runner.temp }}/adlfi2026/recette/
+          retention-days: 30

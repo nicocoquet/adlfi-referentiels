@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 const geo={layers:{},edition_IGN:{'2015':'2015-03-04','2016':'2016-06-28'},
-  source_COG:{'2015':'https://www.insee.fr/fr/information/2560698','2016':'https://www.insee.fr/fr/information/2114819'}};
+  source_COG:{'2015':'https://www.insee.fr/fr/information/2560698','2016':'https://www.insee.fr/fr/information/2114819','2026':'https://www.insee.fr/fr/information/8740222'}};
 const commun={regions:{},pactols:null};
 const core=window.AdlfiLieuxChronologieCore;
 const $=id=>document.getElementById(id);
@@ -56,15 +56,37 @@ function validateAdmin(index){
  if(counts['2015/region']!==22||counts['2015/departement']!==96||
     counts['2016/region']!==13||counts['2016/departement']!==96)throw new Error('Cardinalités administratives incorrectes');
 }
+function validateAdmin2026(index){
+ if(index.schema!=='adlfi.lieux.admin.index_2026.v1'||index.date_reference!=='2026-01-01'||
+    index.edition_contours!=='2026-05-04'||index.nouvelles_correspondances_pactols!==0||
+    index.entries?.length!==119)throw Error('Index COG 2026 invalide');
+ const pairs=new Set();
+ for(const e of index.entries){
+   if(e.kind!=='admin'||e.year!==2026||!['region','departement'].includes(e.level)||
+      !e.code||!e.label||!e.champs?.length)throw Error('Entrée COG 2026 non qualifiée');
+   const key=e.level+':'+e.code;
+   if(pairs.has(key))throw Error('Index COG 2026 dupliqué');
+   pairs.add(key);
+ }
+ if([...pairs].filter(x=>x.startsWith('region:')).length!==18||
+    [...pairs].filter(x=>x.startsWith('departement:')).length!==101||
+    !pairs.has('region:06')||!pairs.has('departement:976'))throw Error('Effectifs 2026 incomplets');
+}
 async function layerFor(y,l){
  const key=l+'s-'+y;
  if(!layerData.has(key)){
    const path=ROOT+'lieux-historique/'+key+'.geojson';
    layerData.set(key,loadJSON(path).then(fc=>{
-     if(fc.type!=='FeatureCollection'||fc.provenance?.schema!=='adlfi.lieux.contours.historiques.v1'||
-        fc.provenance?.cog_au_premier_janvier!==String(y)||fc.provenance?.pactols_valide!==false||
-        fc.provenance?.edition_IGN!==geo.edition_IGN[String(y)]||
-        fc.features?.length!==(l==='region'?(y===2015?22:13):96))
+     const contemporaine=y===2026;
+     const taille=contemporaine?(l==='region'?18:101):(l==='region'?(y===2015?22:13):96);
+     if(fc.type!=='FeatureCollection'||fc.provenance?.cog_au_premier_janvier!==String(y)||
+        fc.provenance?.pactols_valide!==false||fc.features?.length!==taille||
+        (contemporaine?
+         (fc.provenance?.schema!=='adlfi.lieux.contours.administratifs_2026.v1'||
+          fc.provenance?.edition_contours!=='2026-05-04'||
+          fc.provenance?.generalisation_m!==100):
+         (fc.provenance?.schema!=='adlfi.lieux.contours.historiques.v1'||
+          fc.provenance?.edition_IGN!==geo.edition_IGN[String(y)])))
        throw new Error('Couche IGN/COG incompatible : '+key);
      for(const f of fc.features){
        if(f.properties?.annee!==y||f.properties?.niveau!==l||
@@ -94,26 +116,27 @@ async function chargerCommunes2026(){
 }
 async function start(){
  if(!core || !window.AdlfiLieuxSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,...cogs]=await Promise.all([
+ const [pactols,adminIndex,adminIndex2026,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
+   loadJSON(ROOT+'lieux-historique/index-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
    throw Error('Les 103 autorités Pactols PACA doivent être conservées');
- commun.pactols=pactols;validateAdmin(adminIndex);
+ commun.pactols=pactols;validateAdmin(adminIndex);validateAdmin2026(adminIndex2026);
  for(let i=0;i<ids.length;i++){
    const id=ids[i],data=cogs[i];
    core.verifier(data);
    if(data.region!==id)throw Error('Corps communal mal identifié : '+id);
    commun.regions[id]={cog:data};
  }
- $('year').value='2016';
+ $('year').value='2026';
  const former=window.AdlfiLieuxSearch.creerIndex(pactols.autorites);
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -210,10 +233,11 @@ async function render(){
  $('map-status').textContent='Chargement de la couche et des fiches du référentiel…';
  let features=[],desc='';
  try{
-  if((l==='region'||l==='departement')&&(y===2015||y===2016)){
+  if((l==='region'||l==='departement')&&(y===2015||y===2016||y===2026)){
     features=await layerFor(y,l);
     desc=features.length+' contours '+(l==='region'?'régionaux':'départementaux')+
-      ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).';
+      (y===2026?' · COG 1er janvier 2026 et contours data.gouv.fr du 4 mai 2026 (100 m).':
+       ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
     desc=features.length+' contours communaux 2026 sur les quatre régions pilotes, sans alignement Pactols inféré.';
@@ -280,10 +304,17 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  if(x.kind==='admin'){
    const f=selectedFeature();if(!f){state.selected=null;detail();return};const p=f.properties;
    const h=document.createElement('h2');h.textContent=p.nom;target.append(h);
-   const dl=document.createElement('dl');ligne(dl,'Échelon',label[x.level]);ligne(dl,'Code COG',p.code);ligne(dl,'État',`1er janvier ${x.year}`);ligne(dl,'Édition IGN',geo.edition_IGN[String(x.year)]);
+   const dl=document.createElement('dl');ligne(dl,'Échelon',label[x.level]);ligne(dl,'Code COG',p.code);ligne(dl,'État',`1er janvier ${x.year}`);
+   if(x.year===2026)ligne(dl,'Édition des contours','4 mai 2026 · data.gouv.fr / IGN Admin Express');
+   else ligne(dl,'Édition IGN',geo.edition_IGN[String(x.year)]);
    if(x.level==='departement')ligne(dl,'Région de rattachement',`${p.nom_region_parent} (${p.code_region_parent})`);
    if(x.level==='region')ligne(dl,'Composition',`${p.departements.length} départements`);
    target.append(dl);
+   if(x.year===2026&&((x.level==='region'&&p.code==='06')||(x.level==='departement'&&p.code==='976'))){
+     const spec=document.createElement('p');spec.className='warning';
+     spec.textContent='Mayotte : le COG 2026 conserve les identifiants géographiques de région 06 et de département 976 ; la collectivité à statut particulier Département-Région de Mayotte porte l’identifiant distinct 976R, non représenté ici comme autorité régionale.';
+     target.append(spec);
+   }
    const note=document.createElement('p');note.className='source';note.textContent='Géométrie : '+p.source_geometrie+'. Couche simplifiée pour l’affichage ; aucun ARK Pactols n’est attribué automatiquement.';target.append(note);
    const source=document.createElement('p'),a=document.createElement('a');a.href=geo.source_COG[String(x.year)];a.textContent=`Source officielle : Insee COG ${x.year}`;a.target='_blank';a.rel='noopener noreferrer';source.append(a);target.append(source);
    if(p.niveau==='departement'&&(p.code==='44'||p.code==='49')){const warn=document.createElement('p');warn.className='warning';warn.textContent='Le transfert du Fresne-sur-Loire (44 → 49) prend effet juridiquement le 31 décembre 2015 ; cette date est distincte de la création de la commune nouvelle le 1er janvier 2016.';target.append(warn)}
