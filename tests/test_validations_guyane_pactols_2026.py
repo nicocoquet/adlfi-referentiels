@@ -43,7 +43,8 @@ class AlignementsGuyaneTests(unittest.TestCase):
         self.assertEqual(len(self.csv),22)
         result=appliquer_validations(self.socle(),[GUYANE])
         self.assertEqual(result,self.public)
-        self.assertEqual(len(result["pactols_valides"]),38)
+        self.assertEqual(len(result["pactols_valides"]),72)
+        self.assertEqual(sum(c.startswith("972") for c in result["pactols_valides"]),34)
         self.assertEqual(sum(c.startswith("973") for c in result["pactols_valides"]),22)
         self.assertEqual(sum(c.startswith("976") for c in result["pactols_valides"]),16)
         self.assertEqual(result["ark_confirmes_non_valides"],{
