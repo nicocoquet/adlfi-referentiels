@@ -94,6 +94,33 @@ class LieuxUITests(unittest.TestCase):
                          "Rechercher un nom, un code INSEE ou un ARK Pactols"):
             self.assertIn(expected, self.html)
 
+    def test_index_cog_outremer_complementaire_et_non_geometrique(self):
+        dataset = json.loads(
+            (ROOT / "docs/data/lieux-outremer/recherche-2026.json")
+            .read_text(encoding="utf-8")
+        )
+        self.assertEqual(dataset["schema"], "adlfi.lieux.recherche.outremer.public.v1")
+        self.assertEqual(dataset["cog_ref"], "2026-01-01")
+        self.assertEqual(set(dataset["communes"]), {
+            "971", "972", "973", "974", "975", "976", "987", "988"
+        })
+        counts = {key: len(value.splitlines()) for key, value
+                  in dataset["communes"].items()}
+        self.assertEqual(counts, {"971": 32, "972": 34, "973": 22,
+                                  "974": 24, "975": 2, "976": 17,
+                                  "987": 48, "988": 33})
+        self.assertEqual(sum(counts.values()), 212)
+        self.assertEqual(len(dataset["autres"]), 21)
+        self.assertEqual(len(dataset["pactols_valides"]), 16)
+        self.assertEqual(dataset["ark_confirmes_non_valides"], {
+            "97407": "26678/pcrtIKvRT9vwUl",
+            "97607": "26678/crtZcuFSJVYZU",
+        })
+        self.assertEqual(dataset["contours_invalides"], ["98745", "98805"])
+        self.assertNotIn("geometry", str(dataset))
+        self.assertIn("ref_cog", (ROOT / "docs/assets/lieux-multiechelon.js")
+                      .read_text(encoding="utf-8"))
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
@@ -103,12 +130,14 @@ class LieuxUITests(unittest.TestCase):
                 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
                 "../assets/lieux-chronologie-core.js",
                 "../assets/lieux-search.js",
+                "../assets/lieux-outremer-search.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-multiechelon.css",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
             self.assertTrue((ROOT / path).is_file(), path)
