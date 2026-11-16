@@ -81,6 +81,8 @@ class Comparaisons(unittest.TestCase):
         ]]}
         r=stats_comparaison(poly,polygon(1))
         self.assertFalse(r["validite_source"])
+        self.assertIn("Self-intersection", r["motif_source"])
+        self.assertTrue(r["reparation_diagnostic_source"])
         self.assertTrue(r["diagnostic_sur_copie_uniquement"])
         self.assertGreater(r["source_surface_km2"],0)
 
