@@ -1,0 +1,98 @@
+name: Lieux — audit géométrique des 233 entités ultramarines au COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_contours_outremer_2026.py'
+      - 'tests/test_auditer_contours_outremer_2026.py'
+      - 'recette/lieux/COUVERTURE-GEOMETRIQUE-OUTREMER-2026.md'
+      - '.github/workflows/audit-lieux-contours-outremer-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controle-geometrique:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bibliothèque géométrique
+        run: python3 -m pip install 'shapely==2.1.2'
+      - name: Tests synthétiques (sans réseau)
+        run: python3 -m unittest discover -s tests -p 'test_auditer_contours_outremer_2026.py' -v
+      - name: Sources officielles — COG au 1er janvier et contours au 4 mai 2026
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          python3 - <<'PY'
+          import hashlib, os, zipfile
+          from pathlib import Path
+          tmp=Path(os.environ["RUNNER_TEMP"])
+          names={"v_commune_2026.csv", "v_commune_comer_2026.csv", "v_comer_2026.csv"}
+          out=tmp/"cog"; out.mkdir()
+          with zipfile.ZipFile(tmp/"cog_ensemble_2026_csv.zip") as z:
+              for name in sorted(names):
+                  matches=[i for i in z.infolist() if Path(i.filename).name==name]
+                  if len(matches)!=1: raise ValueError("Fichier COG absent ou multiple : "+name)
+                  raw=z.read(matches[0])
+                  if not raw or len(raw)>6_000_000: raise ValueError("CSV COG suspect : "+name)
+                  (out/name).write_bytes(raw)
+                  print(name,len(raw),hashlib.sha256(raw).hexdigest())
+          known={
+             "v_comer_2026.csv":"d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+             "v_commune_comer_2026.csv":"9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
+          }
+          for name, sha in known.items():
+              assert hashlib.sha256((out/name).read_bytes()).hexdigest()==sha, name
+          geo=tmp/"communes-100m.geojson.gz"
+          assert 1_000_000 < geo.stat().st_size < 50_000_000
+          print(geo.name,geo.stat().st_size,hashlib.sha256(geo.read_bytes()).hexdigest())
+          PY
+      - name: Qualifier deux fois sans corriger ni publier les contours
+        run: |
+          python3 scripts/auditer_contours_outremer_2026.py \
+            --sources "$RUNNER_TEMP/cog" \
+            --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette1"
+          python3 scripts/auditer_contours_outremer_2026.py \
+            --sources "$RUNNER_TEMP/cog" \
+            --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --sortie "$RUNNER_TEMP/recette2"
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Vérifier le périmètre et interdire toute inférence
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"recette1/rapport_couverture_2026.json").read_text())
+          assert r["nombre_cibles"]==233
+          assert r["statut"]=="RECETTE_NON_VALIDANTE_NON_PUBLIEE"
+          assert r["nouveaux_alignements_pactols"]==0
+          assert r["geometries_publiees"]==0
+          assert r["repartition"]["DROM:COM"]["total"]==129
+          assert r["repartition"]["COMER:COM"]["total"]==85
+          assert r["repartition"]["COMER:DIS"]["total"]==5
+          assert r["repartition"]["COMER:CIR"]["total"]==3
+          assert r["repartition"]["COMER:CPT"]["total"]==1
+          assert r["repartition"]["COMER:CDM"]["total"]==1
+          assert r["repartition"]["COMER:TERRITOIRE"]["total"]==9
+          couverture=r["repartition"]["DROM:COM"]["statuts"].get("PRESENTE_VALIDE_A_QUALIFIER",0)
+          assert couverture>=50, f"Couverture DROM inattendue : {couverture}"
+          print("Couverture par nature administrative :")
+          print(json.dumps(r["repartition"],ensure_ascii=False,sort_keys=True,indent=2))
+          PY
+      - name: Artefact d'audit seulement, hors GitHub Pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-contours-outremer-2026-audit
+          path: ${{ runner.temp }}/recette1/
+          retention-days: 30
