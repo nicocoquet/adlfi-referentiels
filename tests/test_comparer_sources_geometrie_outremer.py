@@ -74,6 +74,16 @@ class Comparaisons(unittest.TestCase):
         self.assertTrue(r["validite_nationale"])
         self.assertGreater(r["difference_symetrique_km2"],0)
         self.assertEqual(r["recouvrement_pct_surface_source"],0)
+        d = r["localisation_ecarts"]
+        self.assertEqual(d["nombre_zones_superieures_1m2"], 2)
+        self.assertEqual(d["indice_jaccard_pct"], 0)
+        self.assertAlmostEqual(
+            d["source_hors_national_km2"] + d["national_hors_source_km2"],
+            r["difference_symetrique_km2"], places=5
+        )
+        self.assertTrue(all("point_temoin_lon" in x and "point_temoin_lat" in x
+                            for x in d["dix_principales_zones"]))
+        self.assertEqual(d["part_dix_principales_zones_pct"], 100)
 
     def test_autointersection_diagnostique_sur_copie(self):
         poly={"type":"Polygon","coordinates":[[
