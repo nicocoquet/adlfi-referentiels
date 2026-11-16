@@ -7,6 +7,9 @@ on:
       - 'docs/assets/lieux-multiechelon.*'
       - 'docs/assets/lieux-outremer-search.js'
       - 'docs/assets/lieux-guyane-historique.js'
+      - 'docs/assets/lieux-martinique-historique.js'
+      - 'docs/data/lieux-martinique/**'
+      - 'tests/test_lieux_martinique_historique.js'
       - 'docs/data/lieux-guyane/**'
       - 'tests/test_lieux_guyane_historique.js'
       - 'docs/data/lieux-outremer/**'
@@ -34,6 +37,8 @@ jobs:
         run: node tests/test_lieux_outremer_search.js
       - name: Tester les 41 états historiques COG de Guyane (Node.js)
         run: node tests/test_lieux_guyane_historique.js
+      - name: Tester les 34 périodes historiques COG de Martinique (Node.js)
+        run: node tests/test_lieux_martinique_historique.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
