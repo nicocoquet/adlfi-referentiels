@@ -30,7 +30,7 @@ jobs:
           curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
             'https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar' \
             --output "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
-          sha256sum "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar"
+          echo "3aac9e8b979118b25df48e9ef21fc1029d735cc3c99a025cd1f5688560f41298  $RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar" | sha256sum --check
           test "$(stat -c %s "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar")" -le 3000000
       - name: Acquérir les contours nationaux 2026 déjà contrôlés
         run: |
@@ -73,6 +73,12 @@ jobs:
           r=json.loads((Path(os.environ["RUNNER_TEMP"])/"rapport-geofla-guyane-2015.json").read_text())
           assert r["statut"]=="AUDIT_SOURCE_TIERCE_NON_AUTHENTIFIEE"
           assert r["source2015"]["identite_source_IGN_confirmee"] is False
+          assert r["source2015"]["sha256"]=="3aac9e8b979118b25df48e9ef21fc1029d735cc3c99a025cd1f5688560f41298"
+          assert r["statistiques"]["fichiers_2015"]==22
+          assert r["statistiques"]["codes_reconnus"]==22
+          assert r["statistiques"]["codes_avec_comparaison_valide"]==22
+          assert r["statistiques"]["geometries_2015_valides"]==22
+          assert r["statistiques"]["codes_2015_non_uniques"]==[]
           assert r["publication_possible"] is False
           assert r["geometries_publiees"]==0
           assert r["contours_historiques_adoptes"]==0
