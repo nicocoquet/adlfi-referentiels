@@ -384,6 +384,8 @@ function search(){
        (h.arkValide?' · Pactols validé pour 2026':'');
    else if(h.kind==='autre_cog2026')
      sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
+   else if(h.kind==='cogHistoriqueGuyane')
+     sub.textContent='Commune historique · Guyane · '+h.code+' · COG jusqu’en 1969 (sans contour)';
    else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
    btn.append(heading,sub);
    btn.addEventListener('click',()=>{
@@ -394,6 +396,10 @@ function search(){
      }else if(h.kind==='cog2026'||h.kind==='autre_cog2026'){
        if(h.kind==='cog2026')$('level').value='commune';
        state.selected={kind:h.kind,id:h.id,code:h.code};
+     }else if(h.kind==='cogHistoriqueGuyane'){
+       $('level').value='commune';
+       $('year').value=String(h.dernierAnActif);
+       state.selected={kind:'cogHistoriqueGuyane',code:h.code};
      }else{
        $('level').value='commune';
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
@@ -410,7 +416,12 @@ function search(){
  }
  ul.hidden=false;$('search').setAttribute('aria-expanded','true');
 }
-function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','commune'].includes(x.kind))return;
+function focusSelection(){const x=state.selected;
+ if(!x||!state.map)return;
+ if((x.kind==='cogHistoriqueGuyane')||(x.kind==='cog2026'&&x.code?.startsWith('973'))){
+   state.map.fitBounds([[2,-54.8],[6,-51.5]],{padding:[24,24],animate:false});return;
+ }
+ if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
