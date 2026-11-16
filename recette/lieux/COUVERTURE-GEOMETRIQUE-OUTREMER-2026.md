@@ -82,6 +82,30 @@ L'écart est un **ratio de surfaces planaires en coordonnées géographiques**, 
 
 Une vérification explicite de la validité des multipolygones issus de make_valid est désormais testée ; cette opération reste **strictement diagnostique et non publiable**.
 
+## Comparaison avec les producteurs géographiques territoriaux
+
+**Tahaa (98745) — Polynésie française.** Un FeatureServer public Te Fenua est identifiable :
+
+- Service : https://services.arcgis.com/L4H4rU26VyhEF588/ArcGIS/rest/services/Communes_de_la_Polyn%C3%A9sie_fran%C3%A7aise_%28Tefenua%29/FeatureServer/0
+- Champs d'identité de la couche : com_nom, com_id, date_maj_donnee, source. Attention : com_id est un **identifiant de source**, à ne pas assimiler au COG 98745 sans table de correspondance.
+- La couche est en EPSG:3857 et permet un retour GeoJSON en EPSG:4326, mais la date de mise à jour du service n'est pas la date d'effet de chaque limite.
+- Source complémentaire : jeu « Géographie administrative de la Polynésie-française » (Section Cadastre-Topographie, data.gouv.fr, 28 février 2022).
+
+**Dumbéa (98805) — Nouvelle-Calédonie.** Couche publique du Gouvernement de Nouvelle-Calédonie / DITTT :
+
+- Service : https://services1.arcgis.com/TZcrgU6CIbqWt9Qv/arcgis/rest/services/limites_terrestres/FeatureServer/0
+- Champs : nom, code_com ; projection source RGNC91-93 (EPSG:3163). Le code du service doit être vérifié comme identifiant COG actuel avant d'utiliser une correspondance.
+- Généalogie annoncée : limites Dumbéa et Grand Nouméa révisées le 2 mars 2022, jeu mis à jour le 28 octobre 2024 ; date de livraison et validité historique non confondues.
+- Source complémentaire : BDADMIN-NC « Limites administratives » du Gouvernement de Nouvelle-Calédonie.
+
+**Île des Faisans (98101).** La BD TOPO IGN (descriptif de contenu v3.4, octobre 2024, section 6.7 p. 47) définit une classe administrative distincte **condominium** de géométrie MultiPolygone, qui correspond explicitement à l'île sur la Bidassoa. Ce référentiel est à privilégier pour la récupération d'un contour identifié, plutôt que de produire un polygone à partir des communes voisines ; le rattachement au code de zonage COG CDM 98101 doit être contrôlé **explicitement**.
+
+Référence IGN : https://geoservices.ign.fr/sites/default/files/2025-01/DC_BDTOPO_3-4.pdf
+
+**Recette comparative ajoutée :** scripts/comparer_sources_geometrie_outremer.py, tests/test_comparer_sources_geometrie_outremer.py et .github/workflows/lieux-comparer-sources-outremer.yml. L'outil capture les deux sources ArcGIS **une fois**, fige leurs réponses et compare chacune au contour national du 4 mai 2026, puis répète la comparaison de manière reproductible. Les mesures de surface, intersection et différence symétrique sont calculées dans EPSG:6933 (projection équivalente). Les réparations Shapely, lorsqu'elles sont nécessaires, restent des **copies de diagnostic**. Aucun alignement Pactols ou contour approuvé n'est généré.
+
+**Attention aux millésimes :** la comparaison croise plusieurs éditions ; elle ne démontre pas que les sources territoriales décrivent précisément le 1er janvier 2026. Les résultats métriques doivent être interprétés à cette lumière, et la présence d'un contour n'implique pas une modification autorisée de la carte publique.
+
 ## Étapes avant publication cartographique
 
 - Examiner les géométries absentes, invalides ou traversant potentiellement l'antiméridien ; identifier des sources alternatives, notamment pour TAAF, Wallis-et-Futuna, Clipperton et Île des Faisans.
