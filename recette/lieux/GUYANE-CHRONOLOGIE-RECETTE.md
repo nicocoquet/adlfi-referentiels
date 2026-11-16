@@ -94,6 +94,14 @@ Le registre recette/lieux/GUYANE-CANDIDATS-HISTORIQUES-PACTOLS-2026.csv contient
 | [Contours administratifs Etalab](https://www.data.gouv.fr/datasets/contours-administratifs) | Référence du 4 mai 2026 déjà contrôlée | **22/22 polygones valides topologiquement**, mais non représentatifs automatiquement de 1953, 1969, 1976, 1989 ou 1993 |
 | Actes et plans d'archives, cartes IGN datées | Variable | **À rechercher** en priorité pour les divisions antérieures aux années 1990 |
 
+### Premier fichier GEOFLA communal guyanais identifié dans un inventaire externe
+
+L'inventaire du dépôt public [justinelliotmeyers/official_france_administrative_boundary_shapefile](https://github.com/justinelliotmeyers/official_france_administrative_boundary_shapefile) contient un paquet nommé **GEOFLA_2-1_COMMUNE_SHP_UTM22RGFG95_D973_2015-12-01.rar** (103 109 octets selon l'API GitHub). Le code D973 et la projection UTM22RGFG95 désignent explicitement la Guyane ; il s'agit d'une **copie tiers**, et non d'une livraison déjà vérifiée sur le site IGN. Son existence est une piste documentaire concrète.
+
+La [nomenclature officielle des paquets IGN](https://data.geopf.fr/annexes/ressources/documentation/Nomenclature_paquets.pdf) documente aussi la structure des noms GEOFLA et le système de coordonnées spécifique de Guyane. Le produit [GEOFLA sur data.gouv.fr](https://www.data.gouv.fr/datasets/geofla-r) précise que la série concerne les DROM.
+
+**Suite impérative avant toute réutilisation :** retrouver l'archive canonique ou une empreinte IGN, vérifier la couche COMMUNE, le nombre d'objets et leurs codes INSEE, la précision géométrique, le millésime administratif effectif et l'écart avec les 22 contours 2026. La date inscrite dans le nom de fichier est une date d'édition de paquet et **ne constitue pas une preuve des frontières pour 1993 ni pour 1969**.
+
 Une union des polygones 2026 (par exemple Mana + Awala-Yalimapo, ou Grand-Santi + Papaichton + Apatou) reste **une hypothèse de reconstruction**, jamais une limite historique officielle par défaut. Elle ne pourra être retenue que si les changements complémentaires et la provenance cartographique sont vérifiés.
 
 ## Livraison reproductible
