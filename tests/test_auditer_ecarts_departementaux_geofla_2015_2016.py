@@ -21,13 +21,13 @@ def corpus():
     nouveau = {}
     for i in range(94):
         code = f"D{i:03d}"
-        geometry = box(100 + i, 0, 101 + i, 1)
+        geometry = box(100000 + 2000 * i, 0, 101000 + 2000 * i, 1000)
         ancien[code] = ("11", geometry)
         nouveau[code] = ("11", geometry)
-    ancien["44"] = ("52", box(0, 0, 10, 1))
-    nouveau["44"] = ("52", box(0, 0, 3.8, 1))
-    ancien["49"] = ("52", box(10, 0, 20, 1))
-    nouveau["49"] = ("52", box(3.8, 0, 20, 1))
+    ancien["44"] = ("52", box(0, 0, 10000, 1000))
+    nouveau["44"] = ("52", box(0, 0, 3800, 1000))
+    ancien["49"] = ("52", box(10000, 0, 20000, 1000))
+    nouveau["49"] = ("52", box(3800, 0, 20000, 1000))
     return ancien, nouveau
 
 
@@ -36,14 +36,14 @@ class DepartementsGeoFLATests(unittest.TestCase):
     def test_transfert_geometrique(self):
         a, b = corpus()
         area = calculer_transfert(a["44"][1], b["44"][1], a["49"][1], b["49"][1])
-        self.assertAlmostEqual(area, 6.2)
+        self.assertAlmostEqual(area / 1e6, 6.2)
 
     def test_96_departements_et_transfert_non_regional(self):
         ancien, nouveau = corpus()
         rows, rapport = comparer(ancien, nouveau)
         self.assertEqual(len(rows), 96)
         self.assertEqual(rapport["transfert_interdepartemental_documente"]["date_effet_juridique"], "2015-12-31")
-        self.assertEqual(rapport["transfert_interdepartemental_documente"]["surface_geometrique_perdue_et_gagnee_km2"], 0.0)
+        self.assertEqual(rapport["transfert_interdepartemental_documente"]["surface_geometrique_perdue_et_gagnee_km2"], 6.2)
         self.assertEqual(next(r for r in rows if r["code_departement"] == "44")["code_region_2016"], "52")
         self.assertEqual(rapport["nouveaux_alignements_Pactols"], 0)
 
