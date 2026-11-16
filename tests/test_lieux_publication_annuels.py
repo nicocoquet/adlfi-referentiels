@@ -15,13 +15,13 @@ ANOMALIES={(2019,"region","53"),(2019,"departement","22"),
 class PublicationAnnuelle(unittest.TestCase):
     def test_implementation_des_millesimes_sans_interpolation(self):
         js=(ROOT/"docs/assets/lieux-multiechelon.js").read_text(encoding="utf8")
-        self.assertIn("ANNEES_QUALIFIEES=[2018,2019,2021,2022,2023,2024,2025]",js)
+        self.assertIn("ANNEES_ETALAB=[2018,2019,2021,2022,2023,2024,2025]",js)
         self.assertIn("validateAdminAnnuels",js)
         self.assertIn("index-annuels.json",js)
         self.assertIn("ANNEES_DISPONIBLES.has(y)",js)
         self.assertIn("geo.source_COG[String(y)]=fc.provenance.source_cog_url",js)
         self.assertIn("const refYear=y<2015?2015:",js)
-        self.assertNotIn("2017,2020",js)
+        self.assertIn("ANNEES_PONTS=[2017,2020]",js)
 
     @unittest.skipUnless((DOCS/"index-annuels.json").exists(),
                          "Couches de recette non encore publiées dans la branche")
@@ -67,9 +67,9 @@ class PublicationAnnuelle(unittest.TestCase):
         self.assertEqual(fixed,ANOMALIES)
         self.assertTrue(all(r["difference_relative_aire_pct"]<0.00001
                             for r in report["reparations_geometriques"]))
-        for year in (2017,2020):
-            self.assertFalse((DOCS/f"regions-{year}.geojson").exists())
-            self.assertFalse((DOCS/f"departements-{year}.geojson").exists())
+        # Les années 2017 et 2020 sont maintenant qualifiées séparément
+        # depuis leurs archives officielles IGN ADMIN EXPRESS COG.
+        # Elles sont contrôlées par test_lieux_ponts_2017_2020.py.
 
     @unittest.skipUnless(importlib.util.find_spec("shapely"),
                          "Shapely disponible dans la recette géographique")
