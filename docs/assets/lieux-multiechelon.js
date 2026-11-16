@@ -10,7 +10,7 @@ const label={region:'Région',departement:'Département',commune:'Commune',arron
 const ids=['paca','corse','pdl','bfc'];
 const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
 const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[16,-51]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
-const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false};
+const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false, renderer:null};
 let activeRequest=0;
 const ROOT='../data/';
 const layerData=new Map();
@@ -130,6 +130,7 @@ async function start(){
      $('level').value='commune';$('year').value='2026';}}
  if(window.L){
   state.map=L.map('map',{scrollWheelZoom:false,preferCanvas:true}).setView([46.5,2.2],6);
+  state.renderer=L.canvas();
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
     attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'}).addTo(state.map);
   state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
@@ -179,10 +180,10 @@ function destroy(){if(state.map){if(state.layer)state.map.removeLayer(state.laye
 function color(l){return l==='region'?'#286e83':l==='departement'?'#597f8c':'#8d9ca6'}
 function geoLayer(features,{reference=false}={}){
  if(!state.map)return null;
- return L.geoJSON({type:'FeatureCollection',features},{renderer:L.canvas(),interactive:!reference,
-   style:f=>({color:reference?'#747e89':color(f.properties.niveau||'commune'),weight:reference?.7:1.15,
-      opacity:reference?.7:.9,fillColor:reference?'#c7ccd0':'#5d9cab',fillOpacity:reference?.025:.10,
-      dashArray:reference?'4,5':null}),
+ return L.geoJSON({type:'FeatureCollection',features},{renderer:state.renderer,interactive:!reference,
+   style:f=>({color:reference?'#354e59':color(f.properties.niveau||'commune'),weight:reference?1.4:1.15,
+      opacity:reference?.95:.9,fillColor:reference?'#c7ccd0':'#5d9cab',fillOpacity:reference?.02:.10,
+      dashArray:reference?'5,5':null}),
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
       const key=p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
@@ -215,9 +216,18 @@ async function render(){
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
   }else desc='Aucun contour '+(label[l]||l).toLowerCase()+' disponible et qualifié pour '+y+'.';
   let references=[];
-  if($('reference').checked&&!(l==='commune'&&y===2026)){
-    references=await chargerCommunes2026();
-    desc+=' Les contours 2026 sont affichés uniquement comme repères actuels.';
+  // Ne jamais masquer silencieusement tous les contours lorsque la source
+  // historique du millésime demandé n'existe pas. Le repère est visuellement
+  // distinct, daté et NON assimilé à l'état COG de l'année sélectionnée.
+  if(!features.length&&$('reference').checked){
+    if(l==='commune'&&y!==2026){
+      references=await chargerCommunes2026();
+      desc+=' Repère cartographique affiché : contours communaux 2026 (et NON '+y+'). Ce tracé contemporain ne représente pas les limites historiques.';
+    }else if(l==='region'||l==='departement'){
+      const refYear=y<2015?2015:2016;
+      references=await layerFor(refYear,l);
+      desc+=' Repère cartographique affiché : limites IGN de '+refYear+' (et NON '+y+'). Ce tracé n\'atteste pas les limites administratives à la date choisie.';
+    }
   }
   if(sequence!==activeRequest)return;
   destroy();
