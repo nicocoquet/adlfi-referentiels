@@ -367,6 +367,43 @@ def main():
         assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
         assert "Aucun contour historique de Guyane n’est affiché" in page.locator("#detail").text_content()
 
+        # Martinique : les 34 codes ont un état COG distinct de l'ARK valide pour 2026.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97234&annee=1950&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Martinique au 1er janvier 1950')",
+            timeout=60000)
+        text_m=page.locator("#detail").text_content()
+        assert "Aucun épisode actif" in text_m
+        assert "Correspondance Pactols validée (2026)" in text_m
+        assert "26678/pcrtFk4CSrgt1O" in text_m
+        assert "Aucun contour historique de Martinique n’est affiché" in text_m
+        set_year(1951)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Libellé à la date sélectionnée')",
+            timeout=30000)
+        assert "Bellefontaine" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97233&annee=1949&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Martinique au 1er janvier 1949')",
+            timeout=60000)
+        assert "Aucun épisode actif" in page.locator("#detail").text_content()
+        set_year(1950)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Libellé à la date sélectionnée')",
+            timeout=30000)
+        assert "Le Morne-Vert" in page.locator("#detail").text_content()
+        assert page.locator("#year").input_value()=="1950"
+
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97209&annee=1947",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Fort-de-France') && document.querySelector('#detail')?.textContent.includes('État COG de Martinique')",
+            timeout=60000)
+        assert "Aucun contour historique de Martinique n’est affiché" in page.locator("#detail").text_content()
+
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
         page.wait_for_url(re.compile(r"/lieux/\?"),timeout=30000)
         page.wait_for_function(

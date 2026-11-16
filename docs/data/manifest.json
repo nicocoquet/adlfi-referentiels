@@ -56,6 +56,20 @@
         "nouvelles_relations_pactols_validees": 0,
         "contours_historiques_publies": 0,
         "niveau_territorial": "Commune"
+      },
+      "historique_communes_martinique": {
+        "statut": "états COG documentaires publiés sans géométries historiques",
+        "fichier": "data/lieux-martinique/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "periodes_COG": 34,
+        "codes_historiques_distincts": 34,
+        "codes_historiques_non_courants": 0,
+        "communes_COG_2026": 34,
+        "correspondances_pactols_2026_conservees": 34,
+        "nouveaux_alignements_pactols": 0,
+        "contours_historiques_publies": 0,
+        "niveau_territorial": "Commune"
       }
     },
     "personnes": {

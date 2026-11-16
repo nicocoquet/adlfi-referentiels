@@ -10,6 +10,7 @@ const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
 const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
+const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -171,8 +172,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -180,6 +181,7 @@ async function start(){
    loadJSON(ROOT+'lieux-historique/index-ponts.json'),
    loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
    loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-martinique/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -197,6 +199,7 @@ async function start(){
  const autresCOG=outremerSearch.creerIndex(indexOutremer);
  state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
   state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
+  state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex);
@@ -418,6 +421,9 @@ function search(){
 }
 function focusSelection(){const x=state.selected;
  if(!x||!state.map)return;
+ if(x.kind==='cog2026'&&x.code?.startsWith('972')){
+   state.map.fitBounds([[14.32,-61.27],[14.93,-60.79]],{padding:[24,24],animate:false});return;
+ }
  if((x.kind==='cogHistoriqueGuyane')||(x.kind==='cog2026'&&x.code?.startsWith('973'))){
    state.map.fitBounds([[2,-54.8],[6,-51.5]],{padding:[24,24],animate:false});return;
  }
@@ -461,6 +467,41 @@ function afficherChronologieGuyane(target,code){
  link.append(a);target.append(link);
  const warn=document.createElement('p');warn.className='warning';
  warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Guyane n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
+ target.append(warn);
+}
+function afficherChronologieMartinique(target,code){
+ if(!state.martinique)return;
+ const h=document.createElement('h3');h.textContent='État COG de Martinique au 1er janvier '+year();target.append(h);
+ const period=state.martinique.etat(code,year()),all=state.martinique.periodes(code);
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé à la date sélectionnée',period.label);
+   ligne(dl,'Période documentée',period.start+' – '+(period.end||'en cours dans la source'));
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode actif n’est attesté pour ce code au 1er janvier '+
+     year()+' dans l’historique COG étudié. Il ne faut pas en déduire l’absence historique du lieu.';
+   target.append(p);
+ }
+ if(all.length>1){
+   const heading=document.createElement('h3');heading.textContent='États documentés du même code';target.append(heading);
+   const ul=document.createElement('ul');
+   for(const e of all){
+     const li=document.createElement('li');
+     li.textContent=e.label+' · '+e.start+' – '+(e.end||'en cours dans la source');
+     ul.append(li);
+   }
+   target.append(ul);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/2560452';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, historique des communes (COG 2026)';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Martinique n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
  target.append(warn);
 }
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
@@ -532,6 +573,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    }
    if(entry.kind==='cog2026'&&entry.code.startsWith('973')){
      afficherChronologieGuyane(target,entry.code);
+   }else if(entry.kind==='cog2026'&&entry.code.startsWith('972')){
+     afficherChronologieMartinique(target,entry.code);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
