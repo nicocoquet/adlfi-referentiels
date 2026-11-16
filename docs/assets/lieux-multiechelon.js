@@ -8,6 +8,7 @@ const ANNEES_PONTS=[2017,2020];
 const ANNEES_QUALIFIEES=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
 const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
+const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -169,13 +170,14 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
    loadJSON(ROOT+'lieux-historique/index-annuels.json'),
    loadJSON(ROOT+'lieux-historique/index-ponts.json'),
+   loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -190,9 +192,11 @@ async function start(){
  $('year').value='2026';
  const former=window.AdlfiLieuxSearch.creerIndex(pactols.autorites);
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
+ const autresCOG=outremerSearch.creerIndex(indexOutremer);
+ state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -203,6 +207,12 @@ async function start(){
  if(Number.isInteger(y)&&y>=1943&&y<=2026)$('year').value=String(y);
  const code=params.get('code'),zone=params.get('zone')||params.get('region');
  if(code && ids.includes(zone))state.selected={kind:'commune',code,zone,year:year()};
+ const cogId=params.get('ref_cog');
+ if(cogId && state.outremer.has(cogId)){
+   const entry=state.outremer.get(cogId);
+   state.selected={kind:entry.kind,id:entry.id,code:entry.code};
+   if(entry.kind==='cog2026')$('level').value='commune';
+ }
  const hash=new URLSearchParams(location.hash.replace(/^#/,'')),ark=hash.get('ark');
  if(ark){const found=state.indexes.find(x=>x.kind==='pactols'&&x.ark===ark);
    if(found){state.selected={kind:'commune',code:found.code,zone:found.zone,year:year(),ark};
@@ -245,6 +255,9 @@ function updateUrl(){
    u.searchParams.set('code',state.selected.code);
    u.searchParams.set('zone',state.selected.zone);
  }else{u.searchParams.delete('code');u.searchParams.delete('zone')}
+ if(state.selected?.kind==='cog2026'||state.selected?.kind==='autre_cog2026'){
+   u.searchParams.set('ref_cog',state.selected.id);
+ }else u.searchParams.delete('ref_cog');
  history.replaceState(null,'',u);
 }
 function frame(){
@@ -349,7 +362,8 @@ function search(){
  if(!hits.length){const li=document.createElement('li');li.textContent='Aucun résultat dans les données étudiées.';li.style.padding='12px';ul.append(li)}
  ul.hidden=false;$('search').setAttribute('aria-expanded','true');
 }
-function focusSelection(){const x=state.selected;if(!x||!state.map)return;const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
+function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','commune'].includes(x.kind))return;
+ const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
 }
