@@ -40,6 +40,20 @@
         "identites_historiques_retroprojetees": 0,
         "relations_pactols_cog_validees_guyane_2026": 22,
         "source_validations_guyane": "recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv"
+      },
+      "historique_communes_guyane": {
+        "statut": "états COG documentaires publiés sans géométries historiques",
+        "fichier": "data/lieux-guyane/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "periodes_COG": 41,
+        "codes_historiques_distincts": 26,
+        "anciens_codes_COG": 4,
+        "communes_COG_2026": 22,
+        "correspondances_pactols_2026_conservees": 22,
+        "nouvelles_relations_pactols_validees": 0,
+        "contours_historiques_publies": 0,
+        "niveau_territorial": "Commune"
       }
     },
     "personnes": {
