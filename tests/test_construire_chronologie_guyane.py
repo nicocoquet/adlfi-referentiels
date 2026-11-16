@@ -61,11 +61,17 @@ def donnees():
              "uri_insee":src["uri_insee"],"predicat_source":"exactMatch",
              "statut_historique":"CONCEPT_PACTOLS_HISTORIQUE_A_INSTRUIRE"})
     assert len(etats)==41
-    events=[{"DATE_EFF":"1969-03-27","MOD":"31",
-             "COM_AV":"97351","TYPECOM_AV":"COM",
-             "LIBELLE_AV":"Ancienne 97351",
+    events=[{"DATE_EFF":"1969-03-27","MOD":"10",
+             "COM_AV":"97301","TYPECOM_AV":"COM",
+             "LIBELLE_AV":"Commune 97301",
              "COM_AP":"97301","TYPECOM_AP":"COM",
-             "LIBELLE_AP":"Commune 97301"} for _ in range(52)]
+             "LIBELLE_AP":"Commune 97301"} for _ in range(48)]
+    for code,target in zip(codes_hist,codes[:4]):
+        events.append({"DATE_EFF":"1969-03-27","MOD":"31",
+             "COM_AV":code,"TYPECOM_AV":"COM",
+             "LIBELLE_AV":"Ancienne "+code,
+             "COM_AP":target,"TYPECOM_AP":"COM",
+             "LIBELLE_AP":"Commune "+target})
     audit={
         "schema":"adlfi.lieux.guyane.audit.cog-pactols-geom.v1",
         "bilan":{"communes_COG_2026":22,"codes_distincts_historiques_973":26,
@@ -123,6 +129,14 @@ class ChronologieGuyaneTests(unittest.TestCase):
         self.assertTrue(all(x["successeur_COG"]=="A_INSTRUIRE_A_PARTIR_DES_MOUVEMENTS"
                             for x in old))
         self.assertTrue(all(x["correspondance_avec_commune_2026"] is None for x in old))
+        self.assertEqual(
+            {x["code_insee_historique"]:x["mouvement_fusion_atteste_COG"]["code_destination"]
+             for x in old},
+            {"97351":"97301","97354":"97302","97355":"97303","97359":"97304"})
+        self.assertTrue(all(
+            x["mouvement_fusion_atteste_COG"]["relation_COG_source_attestee"]
+            and not x["mouvement_fusion_atteste_COG"]["alignement_Pactols_avec_destination_valide"]
+            for x in old))
         self.assertEqual(r["statistiques"]["liens_Pactols_historiques_valides"],0)
         self.assertEqual(r["statistiques"]["geometries_historiques_validees"],0)
 
