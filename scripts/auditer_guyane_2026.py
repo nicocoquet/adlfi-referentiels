@@ -89,7 +89,8 @@ def lire_pactols(path: Path, communes: dict) -> tuple[dict,dict]:
         noms[normaliser(name)].append(code)
     result={c:{"uri_insee_citees":[],"candidatures_lexicales":[]} for c in codes}
     meta={"concepts_examines":0,"concepts_avec_code_insee_guyane":0,
-          "liens_insee_rejetes_hors_communes_2026":0}
+          "liens_insee_rejetes_hors_communes_2026":0,
+          "liens_insee_non_courants":[]}
     ctx=ET.iterparse(path,events=("start","end"))
     _,root=next(ctx)
     if root.tag!=RDF+"RDF":
@@ -125,11 +126,16 @@ def lire_pactols(path: Path, communes: dict) -> tuple[dict,dict]:
             if cm:
                 cited.add((cm.group(1),child.tag.split("}")[-1],uri))
         if cited:meta["concepts_avec_code_insee_guyane"]+=1
+        deprecie=any(x.tag==OWL+"deprecated" and
+            (x.text or "").strip().lower() in ("true","1") for x in element)
         info={"ark":match.group(1),"source_uri":resource,
-              "libelles_fr":labels}
+              "libelles_fr":labels,"concept_deprecie":deprecie}
         for code,pred,uri in sorted(cited):
             if code not in codes:
                 meta["liens_insee_rejetes_hors_communes_2026"]+=1
+                meta["liens_insee_non_courants"].append({
+                    **info,"code_insee_cite":code,"predicat":pred,
+                    "uri_insee":uri,"statut":"IDENTITE_HISTORIQUE_A_INSTRUIRE"})
                 continue
             result[code]["uri_insee_citees"].append({
                 **info,"predicat":pred,"uri_insee":uri,
@@ -144,6 +150,8 @@ def lire_pactols(path: Path, communes: dict) -> tuple[dict,dict]:
                 "statut":"HOMONYMIE_CANDIDATE_SANS_PREUVE_IDENTITE"})
         element.clear()
         root.clear()
+    meta["liens_insee_non_courants"].sort(
+        key=lambda x:(x["code_insee_cite"],x["ark"],x["predicat"]))
     for c in result:
         for key in ("uri_insee_citees","candidatures_lexicales"):
             result[c][key].sort(key=lambda o:(o["ark"],o.get("predicat","")))
