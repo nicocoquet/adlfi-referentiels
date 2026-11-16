@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import csv
 import hashlib
 import json
 import re
@@ -76,11 +77,38 @@ def sources_cog(source_dir: Path, strict: bool = True) -> dict:
     }
 
 
+def lire_registre_editorial(path: Path, colonnes: set[str]) -> list[dict]:
+    """Lire les décisions approuvées sans perdre les ; des justifications.
+
+    Les CSV éditoriaux existants utilisent ; comme délimiteur *et* comme
+    ponctuation dans leur dernière colonne, sans guillemets RFC 4180.
+    Cette seule colonne est reconstruite explicitement, pas les champs d'ID.
+    """
+    with path.open("r", encoding="utf-8-sig", newline="") as fh:
+        reader = csv.reader(fh, delimiter=";")
+        header = next(reader, [])
+        if len(header) != len(set(header)) or not colonnes.issubset(header) \
+           or header[-1] != "justification_editoriale":
+            raise ValueError("Structure du registre éditorial non conforme : "+path.name)
+        lignes = []
+        for line_no, fields in enumerate(reader, 2):
+            if len(fields) < len(header):
+                raise ValueError(f"Registre éditorial tronqué : {path.name}:{line_no}")
+            values = fields[:len(header)-1] + [";".join(fields[len(header)-1:])]
+            row = dict(zip(header, values))
+            if not all(row[c] for c in colonnes):
+                raise ValueError(f"Décision éditoriale incomplète : {path.name}:{line_no}")
+            lignes.append(row)
+        if not lignes:
+            raise ValueError("Registre éditorial vide : "+path.name)
+        return lignes
+
+
 def instructions_editoriales(directory: Path, strict: bool = True) -> dict:
-    mayotte = csv_lignes(directory / "LOT-MAYOTTE-17-COMMUNES-20261115.csv",
+    mayotte = lire_registre_editorial(directory / "LOT-MAYOTTE-17-COMMUNES-20261115.csv",
                          {"code_insee", "ark_candidat_Pactols", "decision_editoriale",
                           "libelle_COG_2026", "URI_INSEE_existante_dans_Pactols"})
-    reunion = csv_lignes(directory / "LOT-REUNION-24-COMMUNES-20261115.csv",
+    reunion = lire_registre_editorial(directory / "LOT-REUNION-24-COMMUNES-20261115.csv",
                          {"code_INSEE_2026", "ark_Pactols_candidat",
                           "decision_editoriale", "libelle_COG_2026",
                           "uri_INSEE_declaree_dans_Pactols"})
