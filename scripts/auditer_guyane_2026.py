@@ -185,7 +185,7 @@ def extraire_histoire(courant: list[dict],periodes: list[dict],mouvements: list[
         if x["debut_inclus"]<="2026-01-01" and
            (x["fin_exclue"] is None or "2026-01-01"<x["fin_exclue"])
     ]
-    if len(active)!=22 or {x["code"] for x in active}!=set(communes):
+    if len(active)!=len(communes) or {x["code"] for x in active}!=set(communes):
         raise ValueError("L'état historique COG actif diffère du COG courant 2026")
     events=[]
     for r in mouvements:
