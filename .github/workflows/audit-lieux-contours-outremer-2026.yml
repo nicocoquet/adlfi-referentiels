@@ -89,6 +89,12 @@ jobs:
           assert couverture>=50, f"Couverture DROM inattendue : {couverture}"
           print("Couverture par nature administrative :")
           print(json.dumps(r["repartition"],ensure_ascii=False,sort_keys=True,indent=2))
+          print("Empreintes sources :",json.dumps(r["sources_sha256"],sort_keys=True))
+          import csv
+          path=Path(os.environ["RUNNER_TEMP"])/"recette1/controle_233_cibles.csv"
+          with path.open(encoding="utf-8-sig",newline="") as f:
+              anomalies=[{"cle":x["cle"],"nom":x["libelle_cog"],"statut":x["statut"],"type":x["type_geometrie"]} for x in csv.DictReader(f,delimiter=";") if x["statut"] not in ("PRESENTE_VALIDE_A_QUALIFIER","NON_EVALUE_TERRITOIRE_SANS_COUCHE_DEDIEE")]
+          print("Anomalies géométriques à instruire :",json.dumps(anomalies,ensure_ascii=False,sort_keys=True))
           PY
       - name: Artefact d'audit seulement, hors GitHub Pages
         uses: actions/upload-artifact@v4
