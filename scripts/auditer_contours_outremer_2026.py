@@ -18,8 +18,12 @@ from pathlib import Path
 
 try:
     from shapely.geometry import shape
+    from shapely.validation import explain_validity
+    from shapely import make_valid
 except ImportError:  # Le test de structure reste importable sans Shapely.
     shape = None
+    explain_validity = None
+    make_valid = None
 
 DROM = frozenset(("971", "972", "973", "974", "976"))
 NATURES = ("COM", "DIS", "CIR", "CPT", "CDM")
@@ -122,6 +126,8 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
     sortie = dict(cible)
     sortie.update(statut="ABSENTE_DU_FICHIER_COMMUNES",
                   type_geometrie="", valide_topologie="",
+                  motif_topologique="", type_reparation_theorique="",
+                  ecart_aire_theorique_pct="",
                   alerte_antimeridien="", nombre_features=0)
     if cible["nature"] == "TERRITOIRE":
         sortie["statut"] = "NON_EVALUE_TERRITOIRE_SANS_COUCHE_DEDIEE"
@@ -141,6 +147,14 @@ def qualifier(cible: dict, index: dict[str, list[dict]]) -> dict:
         ok = bool(g.is_valid and not g.is_empty and g.area > 0
                   and g.geom_type in ("Polygon", "MultiPolygon"))
         sortie["valide_topologie"] = "oui" if ok else "non"
+        if not g.is_valid:
+            sortie["motif_topologique"] = explain_validity(g)
+            repar = make_valid(g)  # diagnostic sur copie, jamais retenu comme contour
+            sortie["type_reparation_theorique"] = repar.geom_type
+            if g.area > 0:
+                sortie["ecart_aire_theorique_pct"] = round(
+                    abs(repar.area - g.area) / g.area * 100, 9
+                )
         minx, miny, maxx, maxy = g.bounds
         sortie["alerte_antimeridien"] = (
             "A_CONTROLER" if maxx - minx > 180 else ""
@@ -209,7 +223,9 @@ def construire(source_dir: Path, geo_path: Path, sortie_dir: Path,
             "Un contour nommé ou portant le bon code ne valide pas l'identité juridique du zonage.",
             "COM dans le fichier COMER n'implique pas commune de droit commun.",
             "Les DIS, CIR, CPT, CDM ne deviennent pas des communes dans l'interface.",
-            "Validité topologique de la source contrôlée sans réparation; provenance locale à instruire.",
+            "Validité topologique contrôlée sans réparation des contours diffusés.",
+            "make_valid sur copie : diagnostic d\u0027impact uniquement, jamais une géométrie retenue.",
+            "Les variations de surface sont planaires WGS84, non des mesures géodésiques.",
             "Un intervalle de longitude supérieur à 180 degrés demande un contrôle de l'antiméridien.",
             "COG au 1er janvier 2026 et édition des contours du 4 mai 2026 distincts.",
             "Aucune géométrie 2026 n'est une géométrie historique par défaut.",
