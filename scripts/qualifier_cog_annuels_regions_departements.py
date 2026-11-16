@@ -66,8 +66,11 @@ def lire_cog(path: Path, annee: int, niveau: str) -> tuple[dict, dict]:
         membre = membre_cog(archive, annee, niveau)
         content = archive.read(membre)
     texte = content.decode("latin-1" if annee == 2018 else "utf-8-sig")
-    rows = list(csv.DictReader(io.StringIO(texte),
-                               delimiter="\t" if annee == 2018 else ","))
+    reader = csv.DictReader(io.StringIO(texte),
+                            delimiter="\t" if annee == 2018 else ",")
+    # 2019 diffuse des en-têtes minuscules ; les millésimes suivants passent
+    # en majuscules, sans que les champs changent de signification.
+    rows = [{str(k).upper(): v for k, v in r.items()} for r in reader]
     cle = ("REGION" if annee == 2018 else "REG") if niveau == "regions" else "DEP"
     parent = ("REGION" if annee == 2018 else "REG") if niveau == "departements" else None
     attendu = {cle, "NCCENR"} | ({parent} if parent else set())
