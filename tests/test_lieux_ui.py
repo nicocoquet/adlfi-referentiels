@@ -67,8 +67,11 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(year_attrs.get("aria-describedby"), "year-description")
         self.assertEqual(self.page.ids["year-label"][0], "output")
         self.assertEqual(self.page.ids["year-label"][1].get("for"), "year")
-        for button in ("year-prev", "year-next", "year-now"):
-            self.assertEqual(self.page.ids[button][0], "button")
+        for removed in ("year-prev", "year-next", "year-now"):
+            self.assertNotIn(removed, self.page.ids)
+        self.assertIn("year-description", self.page.ids)
+        self.assertEqual(self.page.ids["year-description"][1].get("class"),
+                         "visually-hidden")
         self.assertIn('class="lieux-timeline"', self.html)
         self.assertNotIn('<select id="year"', self.html)
         self.assertIn("historique", self.html)
@@ -76,10 +79,20 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("function refreshTimeline()", js)
         self.assertIn("function commitTimeline()", js)
         self.assertIn("'year').addEventListener('input'", js)
-        self.assertIn("'year-prev').addEventListener('click'", js)
-        self.assertIn("'year-next').addEventListener('click'", js)
-        self.assertIn("'year-now').addEventListener('click'", js)
+        self.assertNotIn("'year-prev'", js)
+        self.assertNotIn("'year-next'", js)
+        self.assertNotIn("'year-now'", js)
         self.assertIn("state.selected?.kind==='admin'&&state.selected.year!==year()", js)
+
+    def test_presentation_compacte_sans_aides_visibles(self):
+        self.assertNotIn('class="notice-intro"', self.html)
+        self.assertNotIn('class="hint"', self.html)
+        self.assertNotIn('class="lieux-timeline-actions"', self.html)
+        self.assertEqual(self.html.count('class="control"'), 3)
+        self.assertIn('class="visually-hidden"', self.html)
+        for expected in ("Zoom sur", "Échelon territorial",
+                         "Rechercher un nom, un code INSEE ou un ARK Pactols"):
+            self.assertIn(expected, self.html)
 
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
