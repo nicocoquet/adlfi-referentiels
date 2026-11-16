@@ -3,7 +3,9 @@
 const geo={layers:{},edition_IGN:{'2015':'2015-03-04','2016':'2016-06-28'},
   source_COG:{'2015':'https://www.insee.fr/fr/information/2560698','2016':'https://www.insee.fr/fr/information/2114819','2026':'https://www.insee.fr/fr/information/8740222'}};
 const commun={regions:{},pactols:null};
-const ANNEES_QUALIFIEES=[2018,2019,2021,2022,2023,2024,2025];
+const ANNEES_ETALAB=[2018,2019,2021,2022,2023,2024,2025];
+const ANNEES_PONTS=[2017,2020];
+const ANNEES_QUALIFIEES=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
 const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
 const $=id=>document.getElementById(id);
@@ -76,13 +78,13 @@ function validateAdmin2026(index){
 }
 function validateAdminAnnuels(index){
  if(index.schema!=='adlfi.lieux.admin.index_annuels.v1'||
-    JSON.stringify(index.annees)!==JSON.stringify(ANNEES_QUALIFIEES)||
+    JSON.stringify(index.annees)!==JSON.stringify(ANNEES_ETALAB)||
     index.nouvelles_correspondances_pactols!==0||
-    index.entries?.length!==ANNEES_QUALIFIEES.length*119)
+    index.entries?.length!==ANNEES_ETALAB.length*119)
    throw Error('Index annuel historique incomplet');
  const counts=new Map(),seen=new Set();
  for(const e of index.entries){
-   if(e.kind!=='admin'||!ANNEES_QUALIFIEES.includes(e.year)||
+   if(e.kind!=='admin'||!ANNEES_ETALAB.includes(e.year)||
       !['region','departement'].includes(e.level)||!e.code||!e.label||!e.champs?.length)
      throw Error('Entrée COG annuelle invalide');
    const key=e.year+'/'+e.level+'/'+e.code;
@@ -91,9 +93,30 @@ function validateAdminAnnuels(index){
    const yLevel=e.year+'/'+e.level;
    counts.set(yLevel,(counts.get(yLevel)||0)+1);
  }
- for(const year of ANNEES_QUALIFIEES){
+ for(const year of ANNEES_ETALAB){
    if(counts.get(year+'/region')!==18||counts.get(year+'/departement')!==101)
      throw Error('Effectifs COG annuels invalides : '+year);
+ }
+}
+function validateAdminPonts(index){
+ if(index.schema!=='adlfi.lieux.admin.index_ponts.v1'||
+    JSON.stringify(index.annees)!==JSON.stringify(ANNEES_PONTS)||
+    index.nouvelles_correspondances_pactols!==0||index.entries?.length!==238)
+   throw Error('Index IGN 2017/2020 incomplet');
+ const codes=new Set(),counts=new Map();
+ for(const e of index.entries){
+   if(e.kind!=='admin'||!ANNEES_PONTS.includes(e.year)||
+      !['region','departement'].includes(e.level)||!e.code||!e.label||!e.champs?.length)
+     throw Error('Entrée IGN 2017/2020 invalide');
+   const k=e.year+'/'+e.level+'/'+e.code;
+   if(codes.has(k))throw Error('Entrée IGN 2017/2020 dupliquée');
+   codes.add(k);
+   const groupe=e.year+'/'+e.level;
+   counts.set(groupe,(counts.get(groupe)||0)+1);
+ }
+ for(const year of ANNEES_PONTS){
+   if(counts.get(year+'/region')!==18||counts.get(year+'/departement')!==101)
+     throw Error('Millésime IGN incomplet '+year);
  }
 }
 async function layerFor(y,l){
@@ -122,7 +145,15 @@ async function layerFor(y,l){
        if(f.properties?.annee!==y||f.properties?.niveau!==l||
           f.properties?.pactols_valide!==false)throw new Error('État géographique non validé : '+key);
      }
-     if(annuelle)geo.source_COG[String(y)]=fc.provenance.source_cog_url;
+     if(annuelle){
+       geo.source_COG[String(y)]=fc.provenance.source_cog_url;
+       if(ANNEES_PONTS.includes(y)){
+         if(fc.provenance.source_geometrie!=='IGN ADMIN EXPRESS COG'||
+            fc.provenance.edition_IGN!==(y===2017?'2017-06-19':'2020-11-20'))
+           throw Error('Édition IGN 2017/2020 incompatible : '+key);
+         geo.edition_IGN[String(y)]=fc.provenance.edition_IGN;
+       }
+     }
      geo.layers[String(y)]??={};
      geo.layers[String(y)][l]=fc.features;
      return fc.features;
@@ -147,16 +178,17 @@ async function chargerCommunes2026(){
 }
 async function start(){
  if(!core || !window.AdlfiLieuxSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,...cogs]=await Promise.all([
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
    loadJSON(ROOT+'lieux-historique/index-annuels.json'),
+   loadJSON(ROOT+'lieux-historique/index-ponts.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
    throw Error('Les 103 autorités Pactols PACA doivent être conservées');
- commun.pactols=pactols;validateAdmin(adminIndex);validateAdmin2026(adminIndex2026);validateAdminAnnuels(adminIndexAnnuels);
+ commun.pactols=pactols;validateAdmin(adminIndex);validateAdmin2026(adminIndex2026);validateAdminAnnuels(adminIndexAnnuels);validateAdminPonts(indexPonts);
  for(let i=0;i<ids.length;i++){
    const id=ids[i],data=cogs[i];
    core.verifier(data);
@@ -168,7 +200,7 @@ async function start(){
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -270,7 +302,9 @@ async function render(){
     desc=features.length+' contours '+(l==='region'?'régionaux':'départementaux')+
       (y===2026?' · COG 1er janvier 2026 et contours data.gouv.fr du 4 mai 2026 (100 m).':
        ANNEES_QUALIFIEES.includes(y)?' · COG au 1er janvier '+y+
-         ' et contours Etalab/IGN du millésime '+y+' (100 m, réparations topologiques documentées).':
+         (ANNEES_PONTS.includes(y)?' et contours IGN ADMIN EXPRESS COG, édition '+
+           geo.edition_IGN[String(y)]+' (100 m, réparations topologiques documentées).':
+          ' et contours Etalab/IGN du millésime '+y+' (100 m, réparations topologiques documentées).'):
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
@@ -340,6 +374,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    const h=document.createElement('h2');h.textContent=p.nom;target.append(h);
    const dl=document.createElement('dl');ligne(dl,'Échelon',label[x.level]);ligne(dl,'Code COG',p.code);ligne(dl,'État',`1er janvier ${x.year}`);
    if(x.year===2026)ligne(dl,'Édition des contours','4 mai 2026 · data.gouv.fr / IGN Admin Express');
+   else if(ANNEES_PONTS.includes(x.year))
+     ligne(dl,'Édition des contours','IGN ADMIN EXPRESS COG '+geo.edition_IGN[String(x.year)]+' · généralisation 100 m');
    else if(ANNEES_QUALIFIEES.includes(x.year))
      ligne(dl,'Édition des contours','Millésime '+x.year+' · Etalab / IGN, généralisation 100 m');
    else ligne(dl,'Édition IGN',geo.edition_IGN[String(x.year)]);
