@@ -118,26 +118,20 @@ def split_sigles(raw):
 # Une seule bibliothèque par autorité : réutilisation d'un logo en visuel
 # principal de l'ORG et dans le bandeau des tutelles, sans copie du fichier.
 # Les deux variantes éventuelles (logo / illustration) ont des rôles distincts.
-MEDIA_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.svg')
 SITE_ROOT = Path(__file__).resolve().parents[1] / 'docs'
 
 def media_for(ident: str):
+    """Une autorité = au plus un logo, nommé exactement ID.jpg.
+
+    Les anciennes variantes -logo.*, -illustration.* et les fichiers non
+    JPEG ne sont plus publiés, et leur présence n'est plus interprétée.
+    """
     if not re.fullmatch(r'(?:ORG|SER)-[0-9]{4}', ident):
         return {'image': None, 'logo': None}
-    folder = SITE_ROOT / 'assets' / 'organismes'
-    def find(role):
-        candidates = [folder / (ident + '-' + role + suffix)
-                      for suffix in MEDIA_EXTENSIONS]
-        matches = [p for p in candidates if p.is_file()]
-        if len(matches) > 1:
-            raise ValueError(f'Plusieurs médias {role} pour {ident}: {matches}')
-        return 'assets/organismes/' + matches[0].name if matches else None
-    # Le carré JPEG ID.jpg est la convention prioritaire. Lorsqu'il est
-    # absent, le contrat JSON historique reste reconnu pour la transition.
-    canonical = folder / (ident + '.jpg')
-    if canonical.is_file():
-        return {'image': None, 'logo': 'assets/organismes/' + canonical.name}
-    return {'image': find('illustration'), 'logo': find('logo')}
+    logo = SITE_ROOT / 'assets' / 'organismes' / (ident + '.jpg')
+    return {'image': None,
+            'logo': 'assets/organismes/' + logo.name if logo.is_file() else None}
+
 
 def build(source: Path):
     sh=parse_workbook(source)
