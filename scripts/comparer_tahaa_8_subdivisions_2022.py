@@ -14,10 +14,15 @@ import json
 import zipfile
 from pathlib import Path
 
-from pyproj import CRS, Transformer
-from shapely import make_valid
-from shapely.geometry import shape, mapping
-from shapely.ops import transform, unary_union
+try:
+    from pyproj import CRS, Transformer
+    from shapely import make_valid
+    from shapely.geometry import shape, mapping
+    from shapely.ops import transform, unary_union
+    COMPARAISON_DISPONIBLE = True
+except ImportError:
+    CRS = Transformer = make_valid = shape = mapping = transform = unary_union = None
+    COMPARAISON_DISPONIBLE = False
 
 from comparer_sources_geometrie_outremer import stats_comparaison
 from inventorier_source_polynesie_2022 import normaliser
@@ -59,6 +64,8 @@ def source_shapefile(archive: Path):
 
 
 def examiner_source(archive: Path):
+    if not COMPARAISON_DISPONIBLE:
+        raise RuntimeError("Shapely et pyproj nécessaires au contrôle géométrique")
     crs, found = source_shapefile(archive)
     transformer = Transformer.from_crs(crs, "EPSG:4326", always_xy=True)
     geoms = []
