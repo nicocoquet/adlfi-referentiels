@@ -18,6 +18,7 @@ RDF_FIXTURE='''<?xml version="1.0"?>
   <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtEXACT">
     <skos:prefLabel xml:lang="fr">Cayenne</skos:prefLabel>
     <skos:exactMatch rdf:resource="http://id.insee.fr/geo/commune/97302"/>
+    <skos:exactMatch rdf:resource="http://id.insee.fr/geo/commune/75056"/>
   </skos:Concept>
   <skos:Concept rdf:about="https://ark.frantiq.fr/ark:/26678/pcrtHOMONYME">
     <skos:prefLabel xml:lang="fr">Cayenne</skos:prefLabel>
@@ -57,6 +58,10 @@ class AuditerGuyaneTests(unittest.TestCase):
         self.assertEqual(stats["liens_insee_non_courants"][0]["code_insee_cite"],"97370")
         self.assertEqual(stats["liens_insee_non_courants"][0]["statut"],"IDENTITE_HISTORIQUE_A_INSTRUIRE")
         self.assertEqual(len(c["97302"]["uri_insee_citees"]),1)
+        self.assertEqual(
+            c["97302"]["uri_insee_citees"][0]["codes_communes_INSEE_exactMatch"],
+            ["75056","97302"])
+        self.assertFalse(c["97302"]["uri_insee_citees"][0]["concept_remplace"])
         self.assertEqual(len(c["97302"]["candidatures_lexicales"]),2)
         self.assertEqual(len(c["97306"]["uri_insee_citees"]),1)
         self.assertEqual(c["97306"]["uri_insee_citees"][0]["predicat"],"closeMatch")
