@@ -81,6 +81,34 @@ def geo_par_codes(fc,attendus,kind):
  if missing:raise ValueError("Codes COG 2026 sans géométrie "+kind+" : "+",".join(missing))
  return geoms,sorted(inattendus)
 
+def qualifier_reparations(georeg,geodep):
+ """Deux auto-intersections côtieres mesurées sur l'édition 100 m du 04/05/2026.
+
+ La réparation ne modifie pas les archives source (SHA conservés) ; toute autre
+ géométrie invalide, changement de code ou variation d'aire excessive bloque.
+ """
+ from shapely import make_valid
+ from shapely.geometry import shape,mapping
+ from shapely.validation import explain_validity
+ anomalies=[]
+ for niveau,code,ensemble in (
+    ("region","53",georeg),("departement","22",geodep)):
+  geo=shape(ensemble[code]["geometry"])
+  cause=explain_validity(geo)
+  if geo.is_empty or geo.is_valid or not cause.startswith("Self-intersection"):
+   raise ValueError("Anomalie géométrique connue modifiée : "+niveau+"/"+code+" : "+cause)
+  corrige=make_valid(geo)
+  variation=100*abs(corrige.area-geo.area)/geo.area
+  if (not corrige.is_valid or corrige.is_empty or
+      corrige.geom_type not in ("Polygon","MultiPolygon") or
+      variation>=0.00001):
+   raise ValueError("Réparation invalide ou trop forte : "+niveau+"/"+code)
+  ensemble[code]["geometry"]=mapping(corrige)
+  anomalies.append({"niveau":niveau,"code":code,"defaut_source":cause,
+                    "methode":"Shapely/GEOS make_valid","difference_relative_aire_pct":round(variation,10),
+                    "edition_source":"2026-05-04","type_geometrie_corrigee":corrige.geom_type})
+ return anomalies
+
 def construire(reg,dep,georeg,geodep,hash_sources):
  if len(reg)!=18 or len(dep)!=101:raise ValueError("Cardinalités COG 2026 incompatibles")
  if set(georeg)!=set(reg) or set(geodep)!=set(dep):raise ValueError("Codes des contours ≠ codes COG")
@@ -129,7 +157,7 @@ def construire(reg,dep,georeg,geodep,hash_sources):
                      "collectivite_statut_particulier":"976R — autorité distincte, non créée par cette chaîne"},
           "validite":{"date_COG":"2026-01-01","edition_cartographique":EDITION},
           "source_SHA256":hash_sources,"alignements_Pactols_crees":0,
-          "contours_source_conserves":True}
+          "empreintes_archives_source_conservees":True}
  if rapport["zones_ultramarines"]!={"regions":["01","02","03","04","06"],"departements":["971","972","973","974","976"]}:
   raise ValueError("Couverture région/département DROM 2026 inattendue")
  if rapport["mayotte"]["region"]!="06":raise ValueError("Rattachement Mayotte non attesté dans COG")
@@ -143,10 +171,19 @@ def produire(regions_geo,departements_geo,regions_cog,departements_cog,sortie):
  dep,hd=lire_cog(departements_cog,"departements")
  rgeo,hgr=lire_carte(regions_geo,"regions");dgeo,hgd=lire_carte(departements_geo,"departements")
  gr,exr=geo_par_codes(rgeo,reg,"region");gd,exd=geo_par_codes(dgeo,dep,"departement")
+ reparations=qualifier_reparations(gr,gd)
  source={"cog_region_2026.csv":hr,"cog_departement_2026.csv":hd,
          "regions-100m.geojson.gz":hgr,"departements-100m.geojson.gz":hgd}
  col,index,rapport=construire(reg,dep,gr,gd,source)
  rapport["contours_autres_territoires_ignores"]={"regions":exr,"departements":exd}
+ rapport["reparations_geometriques"]=reparations
+ rapport["nombre_reparations"]=len(reparations)
+ for item in reparations:
+  fichier=item["niveau"]+"s-2026.geojson"
+  feature=next(x for x in col[fichier]["features"] if x["properties"]["code"]==item["code"])
+  feature["properties"]["reparation_geometrique_qualifiee"]=item["methode"]
+ col["regions-2026.geojson"]["provenance"]["reparations_cotieres_documentees"]=reparations
+ col["departements-2026.geojson"]["provenance"]["reparations_cotieres_documentees"]=reparations
  if exr!=sorted(HORS_ECHELON):raise ValueError("Couverture des territoires complémentaires 2026 inattendue : "+str(exr))
  sortie.mkdir(parents=True,exist_ok=True)
  for path,obj in {**col,"index-2026.json":index,"rapport-2026.json":rapport}.items():
