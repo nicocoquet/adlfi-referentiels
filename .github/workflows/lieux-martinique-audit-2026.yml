@@ -1,0 +1,105 @@
+name: Lieux — Martinique COG 2026, historique et Pactols
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_martinique_2026.py'
+      - 'tests/test_auditer_martinique_2026.py'
+      - 'recette/lieux/MARTINIQUE-LOT-01-2026.md'
+      - '.github/workflows/lieux-martinique-audit-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  instruction-martinique:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances spatiales
+        run: python3 -m pip install --disable-pip-version-check 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Tests sans réseau (RDF et règles Pactols)
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_martinique_2026.py' -v
+      - name: Télécharger les trois fichiers COG 2026 épinglés
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Acquérir les contours administratifs nationaux 2026 (copie immuable)
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Contrôler la source Frantiq Pactols Lieux RDF
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Reconstituer deux fois le lot Martinique
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for sortie in "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"; do
+            python3 scripts/auditer_martinique_2026.py \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --public-index docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$sortie" > "$RUNNER_TEMP/bilan.json"
+          done
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Contrôler la séparation des preuves et des décisions
+        run: |
+          python3 - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"recette1"
+          report=json.loads((root/"martinique-34-communes-audit.json").read_text())
+          b=report["bilan"]
+          assert b["communes_COG_2026"]==34
+          assert b["geometries_topologiquement_valides"]==34
+          assert b["correspondances_Pactols_validees_par_cet_audit"]==0
+          assert b["contours_adoptes_par_cet_audit"]==0
+          assert b["relations_de_succession_creees"]==0
+          assert b["exactmatch_eligibles_selon_regle"]+b["alignements_a_instruire"]==34
+          with (root/"martinique-exactmatch-eligibilite-34.csv").open(encoding="utf-8-sig",newline="") as f:
+              rows=list(csv.DictReader(f,delimiter=";"))
+          assert len(rows)==34
+          assert all(x["statut"] in ("ELIGIBLE_SELON_REGLE","A_INSTRUIRE") for x in rows)
+          assert all(x["ark_pactols"] and x["predicat_source"]=="exactMatch" and
+                     x["concept_deprecie"]=="non"
+                     for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE")
+          assert len({x["ark_pactols"] for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE"})==b["exactmatch_eligibles_selon_regle"]
+          assert all(x["geometrie_2026"]["contour_adopte"] is False for x in report["communes"])
+          print("BILAN MARTINIQUE",json.dumps(b,ensure_ascii=False,indent=2))
+          print("ELIGIBLES",json.dumps([
+            {k:x[k] for k in ("code_insee","libelle_COG_2026","ark_pactols","statut","motif")}
+            for x in rows],ensure_ascii=False,indent=2))
+          print("HISTORIQUE COG",json.dumps({
+            "codes_distincts":b["codes_distincts_historiques_972"],
+            "periodes":b["periodes_historiques_972"],
+            "mouvements":b["mouvements_impliquant_code_972"]
+          },ensure_ascii=False))
+          PY
+      - name: Archiver les résultats de recette, sans fichier public
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-martinique-cog-pactols-2026-lot01-recette
+          path: ${{ runner.temp }}/recette1/
+          retention-days: 30
+          if-no-files-found: error
