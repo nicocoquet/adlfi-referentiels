@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Lieux · Carte administrative multi-échelon · Recette AdlFI</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#152f40;background:#f4f7f8;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0}
+a{color:#135d81;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+.site-header{background:#021323;color:white;padding:20px max(20px,calc((100% - 1350px)/2)) 25px}
+.site-header .kicker{font-size:12px;letter-spacing:.13em;color:#aac0cb;text-transform:uppercase;font-weight:650}
+.site-header h1{font-size:clamp(23px,3vw,33px);line-height:1.2;margin:8px 0 7px;font-weight:680}
+.site-header p{color:#c5d3da;font-size:14px;line-height:1.55;max-width:990px;margin:0}
+main{max-width:1380px;padding:24px 22px 45px;margin:0 auto}
+.recette{display:inline-block;background:#e3ebef;color:#274c61;border-radius:5px;padding:4px 9px;font-size:11px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
+.description{line-height:1.6;color:#405d6b;font-size:14px;max-width:1060px;margin:4px 0 19px}
+.toolbar{display:grid;grid-template-columns:1.1fr 1fr .9fr 1.5fr;gap:14px;background:#fff;border:1px solid #dce5e9;border-radius:12px;padding:17px;box-shadow:0 2px 10px #0a294005;margin-bottom:17px}
+.control{min-width:0;display:flex;flex-direction:column;gap:7px}
+label{color:#415c6c;font-size:12px;font-weight:700;letter-spacing:.015em}
+select,input{min-width:0;width:100%;background:#fff;border:1px solid #b8cbd3;border-radius:7px;padding:11px 12px;color:#17364a;font:inherit;font-size:14px}
+select:focus-visible,input:focus-visible,button:focus-visible,.area:focus-visible{outline:3px solid #e68b48;outline-offset:3px}
+.hint{color:#687e88;font-size:12px;line-height:1.4}
+.search-wrap{position:relative}
+#results{position:absolute;z-index:8;top:100%;left:0;right:0;list-style:none;padding:5px;margin:5px 0 0;border:1px solid #d4e0e6;border-radius:8px;box-shadow:0 12px 30px #0f293329;background:white;max-height:280px;overflow-y:auto}
+#results[hidden]{display:none}
+#results li{list-style:none;margin:0}
+#results button{width:100%;text-align:left;padding:10px 9px;background:white;border:0;border-radius:5px;color:#193e53;font:inherit;font-size:13px;cursor:pointer}
+#results button:hover,#results button:focus-visible{background:#edf4f7}
+#results small{display:block;font-size:11px;color:#5e7886;margin-top:3px}
+.layout{display:grid;grid-template-columns:minmax(0,2.12fr) minmax(290px,1fr);gap:17px;align-items:start}
+.map-card,.detail-card{border:1px solid #d7e2e8;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px #0a294007}
+.map-head{padding:15px 18px;display:flex;gap:14px;justify-content:space-between;align-items:center;border-bottom:1px solid #e3eaee}
+.map-head strong{display:block;font-size:15px;font-weight:700}
+.map-head small{display:block;margin-top:5px;font-size:12px;color:#69818d}
+.map-actions{display:flex;align-items:center;gap:5px}
+.map-actions button{background:#f5f8f9;color:#234e62;border:1px solid #cbd9df;border-radius:6px;font:inherit;font-size:16px;min-width:33px;min-height:33px;cursor:pointer}
+.map-actions button:disabled{opacity:.45;cursor:default}
+#map-viewport{height:clamp(390px,55vw,610px);position:relative;background:linear-gradient(130deg,#e7f0f3 0%,#f0f5f7 80%);overflow:hidden}
+#map{display:block;width:100%;height:100%;touch-action:pan-y}
+.area{stroke:#fff;stroke-width:1.15;vector-effect:non-scaling-stroke;stroke-linejoin:round;cursor:pointer;fill-rule:evenodd;transition:fill .12s ease,opacity .12s ease}
+.area.region{stroke:#fff;stroke-width:1.7}
+.area.c0{fill:#a4c7d3}.area.c1{fill:#8eaebb}.area.c2{fill:#c1d4ce}.area.c3{fill:#b9c3df}.area.c4{fill:#dbd2bf}.area.c5{fill:#93c0bc}
+.area:hover,.area:focus{fill:#f3c68c;stroke:#1d526c;stroke-width:2.2}
+.area.selected{fill:#efbd77;stroke:#113d57;stroke-width:2.8}
+#empty-map{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:10px;padding:25px;background:#f2f6f8;color:#496575}
+#empty-map[hidden]{display:none}
+#empty-map strong{font-size:17px;color:#1d4054}
+.map-foot{font-size:12px;color:#5a7583;line-height:1.5;padding:11px 16px;background:#f9fbfb;border-top:1px solid #e2e9ed}
+.detail-card{min-height:370px;padding:21px}
+.detail-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#597989;font-weight:730}
+.detail-card h2{font-size:clamp(20px,2.2vw,25px);line-height:1.25;margin:8px 0 11px}
+.detail-card p{font-size:13px;line-height:1.65;color:#455f6f}
+.detail-card dl{display:grid;grid-template-columns:1fr 1.24fr;gap:9px 10px;margin:20px 0;font-size:13px}
+.detail-card dt{color:#647c8a}.detail-card dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.detail-card .notice{background:#f6f9fa;padding:11px 13px;margin:14px 0;border-left:3px solid #91b6c6;font-size:12px;line-height:1.55;color:#3b5564}
+.detail-card details{font-size:13px;color:#3d5b6b;margin:13px 0}
+.detail-card summary{cursor:pointer;font-weight:600}
+.detail-card details p{margin-top:8px}
+.source-block{margin-top:17px;background:#fff;border:1px solid #dce5ea;border-radius:11px;padding:18px 20px;line-height:1.7;font-size:13px;color:#466171}
+.source-block strong{color:#153a50}
+.source-block p{margin:6px 0 0}
+#summary{font-size:12px;color:#496c80;margin:13px 2px 0}
+#summary strong{color:#174057}
+@media(max-width:1060px){.toolbar{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1.5fr 1fr}}
+@media(max-width:790px){main{padding:14px 12px 30px}.toolbar{grid-template-columns:1fr 1fr;padding:12px;gap:13px}.layout{grid-template-columns:1fr}.detail-card{min-height:170px}#map-viewport{height:420px}.site-header{padding:18px}}
+@media(max-width:450px){.toolbar{grid-template-columns:1fr}#map-viewport{height:340px}.map-head{align-items:start}.map-actions{flex-shrink:0}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="kicker">Référentiels AdlFI · Lieux · Recette indépendante</div>
+  <h1>Explorer les territoires administratifs dans le temps</h1>
+  <p>Régions et départements de la France métropolitaine, avant et après la réforme de 2016. Une carte de contrôle des géométries IGN et des rattachements COG, sans alignement Pactols automatique.</p>
+</header>
+<main>
+  <span class="recette">Prototype non publié</span>
+  <p class="description">Les commandes sont indépendantes : <strong>Zoom sur</strong> détermine seulement le cadrage ; <strong>Échelon territorial</strong> choisit les entités ; <strong>Situation au</strong> indique la date de référence administrative. Les contours sont issus des éditions IGN du <strong>4 mars 2015</strong> ou du <strong>28 juin 2016</strong>, et non de cartes juridiquement garanties au 1er janvier.</p>
+  <section class="toolbar" aria-label="Navigation géographique et temporelle">
+    <div class="control">
+      <label for="zoom">Zoom sur</label>
+      <select id="zoom">
+        <option value="metropole">France métropolitaine</option>
+        <option value="bfc">Bourgogne–Franche-Comté</option>
+        <option value="pdl">Pays de la Loire</option>
+        <option value="corse">Corse</option>
+        <option value="antilles">Antilles et Guyane — à venir</option>
+        <option value="indien">Océan Indien — à venir</option>
+        <option value="pacifique">Pacifique — à venir</option>
+        <option value="atlantique">Atlantique Nord — à venir</option>
+        <option value="taaf">TAAF et Clipperton — à venir</option>
+        <option value="selection">Territoire sélectionné</option>
+      </select>
+      <span class="hint">Cadrage uniquement, aucun filtrage administratif.</span>
+    </div>
+    <div class="control">
+      <label for="level">Échelon territorial</label>
+      <select id="level">
+        <option value="region">Région</option>
+        <option value="departement">Département</option>
+        <option value="commune">Commune — à venir</option>
+        <option value="arrondissement">Arrondissement municipal — à venir</option>
+        <option value="territoire">Collectivité ou territoire — à venir</option>
+      </select>
+      <span class="hint">Les niveaux non documentés restent indisponibles.</span>
+    </div>
+    <div class="control">
+      <label for="year">Situation administrative au 1er janvier</label>
+      <select id="year">
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2026">2026 — à venir</option>
+      </select>
+      <span class="hint">Éditions cartographiques : mars 2015 / juin 2016.</span>
+    </div>
+    <div class="control">
+      <label for="search">Rechercher un territoire, un nom ou un code COG</label>
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Ex. Bourgogne, Gironde, 49, Corse…" autocomplete="off" aria-controls="results" aria-expanded="false">
+        <ul id="results" hidden aria-label="Résultats de recherche"></ul>
+      </div>
+      <span class="hint">Recherche dans les deux millésimes, résultats datés.</span>
+    </div>
+  </section>
+  <div class="layout">
+    <section class="map-card" aria-label="Carte vectorielle interactive">
+      <div class="map-head">
+        <div><strong id="map-title">Régions de France métropolitaine · 2015</strong><small id="map-subtitle">Édition IGN : 4 mars 2015</small></div>
+        <div class="map-actions" aria-label="Zoom manuel">
+          <button id="zoom-in" type="button" aria-label="Agrandir la carte" title="Agrandir">+</button>
+          <button id="zoom-out" type="button" aria-label="Réduire la carte" title="Réduire">−</button>
+          <button id="reset" type="button" aria-label="Revenir au cadrage sélectionné" title="Réinitialiser le zoom">↺</button>
+        </div>
+      </div>
+      <div id="map-viewport">
+        <svg id="map" role="group" aria-label="Carte de sélection des territoires administratifs" preserveAspectRatio="xMidYMid meet"></svg>
+        <div id="empty-map" hidden role="status"><strong>Couche géographique non disponible</strong><span id="empty-reason"></span></div>
+      </div>
+      <div class="map-foot">Contour régional : union documentée des départements GEOFLA · contour départemental : GEOFLA DÉPARTEMENT · généralisation d’affichage : 100 m · aucune rétroprojection de 2026.</div>
+    </section>
+    <aside id="detail" class="detail-card" aria-live="polite" aria-label="Fiche du territoire sélectionné">
+      <span class="detail-kicker">Fiche administrative et géographique</span>
+      <h2>Choisir un territoire</h2>
+      <p>Cliquez sur un polygone, utilisez le clavier pour sélectionner un contour, ou recherchez un lieu par son nom ou son code. Les sources et les filiations seront affichées ici.</p>
+    </aside>
+  </div>
+  <p id="summary" aria-live="polite"></p>
+  <section class="source-block" aria-label="Méthode et provenance">
+    <strong>Provenance et limites de la recette</strong>
+    <p>Administration : <a href="https://www.insee.fr/fr/information/2560698">COG 2015</a> et <a href="https://www.insee.fr/fr/information/2114819">COG 2016</a>, situations au 1er janvier. Géographie : <a href="https://data.geopf.fr/telechargement/resource/GEOFLA/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2015-03-04">IGN GEOFLA 2015</a> et <a href="https://data.geopf.fr/telechargement/resource/GEOFLA/GEOFLA_2-2_DEPARTEMENT_SHP_LAMB93_FXX_2016-06-28">IGN GEOFLA 2016</a>. Les limites affichées sont simplifiées à 100 m pour la consultation : ce ne sont pas les fichiers originaux. La <a href="https://www.legifrance.gouv.fr/eli/loi/2015/1/16/INTX1412841L/jo/article_1">loi du 16 janvier 2015</a> documente les fusions au 1er janvier 2016 ; elle ne valide pas la précision géométrique de chaque tracé. Une comparaison entre éditions IGN ne suffit pas à prouver une mutation administrative. Pour les communes, les arrondissements municipaux, l’outre-mer ou 2026, aucune géométrie n’est présentée faute de couche qualifiée dans cette recette.</p>
+  </section>
+</main>
+<script id="data" type="application/json">__LIEUX_MULTIECHELON_INLINE_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const all = JSON.parse(document.getElementById('data').textContent);
+  const $ = id => document.getElementById(id);
+  const svg = $('map');
+  const ns = 'http://www.w3.org/2000/svg';
+  const zoneNames = {metropole:'France métropolitaine',bfc:'Bourgogne–Franche-Comté',
+    pdl:'Pays de la Loire',corse:'Corse',antilles:'Antilles et Guyane',
+    indien:'océan Indien',pacifique:'Pacifique',atlantique:'Atlantique Nord',
+    taaf:'TAAF et Clipperton',selection:'territoire sélectionné'};
+  const levelNames = {region:'Région',departement:'Département',commune:'Commune',
+    arrondissement:'Arrondissement municipal',territoire:'Collectivité ou territoire'};
+  const fused = {'27':['26','43'],'28':['23','25'],'32':['22','31'],
+    '44':['21','41','42'],'75':['54','72','74'],'76':['73','91'],'84':['82','83']};
+  const oldToNew = Object.fromEntries(Object.entries(fused).flatMap(([parent,children])=>children.map(child=>[child,parent])));
+  const state = {year:'2015',level:'region',zoom:'metropole',selected:null,override:null};
+  const projected = new Map();
+  let currentFeatures=[];
+  let visibleBounds=null;
+
+  const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const proj=([lon,lat])=>[lon*76.5,-lat*111.2]; // equirectangulaire, latitude centrale ~46,6°
+  const rings=geo=>geo.type==='Polygon'?[geo.coordinates]:geo.coordinates;
+  const eachPoint=(geo,callback)=>rings(geo).forEach(poly=>poly.forEach(ring=>ring.forEach(xy=>callback(proj(xy)))));
+  const getKey=f=>`${f.properties.annee}/${f.properties.niveau}/${f.properties.code}`;
+  function getShape(feature){
+    const key=getKey(feature);
+    if(projected.has(key))return projected.get(key);
+    let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity;
+    const parts=[];
+    for(const poly of rings(feature.geometry))for(const ring of poly){
+      let part='';
+      for(let i=0;i<ring.length;i++){
+        const [x,y]=proj(ring[i]);
+        minx=Math.min(minx,x);maxx=Math.max(maxx,x);
+        miny=Math.min(miny,y);maxy=Math.max(maxy,y);
+        part+=(i?'L':'M')+x.toFixed(2)+','+y.toFixed(2);
+      }
+      parts.push(part+'Z');
+    }
+    const item={d:parts.join(' '),bounds:{minx,miny,maxx,maxy}};
+    projected.set(key,item);
+    return item;
+  }
+  function mergeBounds(features){
+    const box={minx:Infinity,miny:Infinity,maxx:-Infinity,maxy:-Infinity};
+    for(const f of features){
+      const b=getShape(f).bounds;
+      box.minx=Math.min(box.minx,b.minx);box.miny=Math.min(box.miny,b.miny);
+      box.maxx=Math.max(box.maxx,b.maxx);box.maxy=Math.max(box.maxy,b.maxy);
+    }
+    if(!isFinite(box.minx))return null;
+    return box;
+  }
+  function paddedView(b){
+    if(!b)return null;
+    const w=Math.max(b.maxx-b.minx,5),h=Math.max(b.maxy-b.miny,5);
+    const pad=Math.max(w,h)*.08;
+    return {x:b.minx-pad,y:b.miny-pad,w:w+2*pad,h:h+2*pad};
+  }
+  function setView(v){
+    visibleBounds=v;
+    svg.setAttribute('viewBox',[v.x,v.y,v.w,v.h].map(x=>x.toFixed(3)).join(' '));
+  }
+  function available(){
+    return (state.year==='2015'||state.year==='2016') &&
+      (state.level==='region'||state.level==='departement') &&
+      ['metropole','bfc','pdl','corse','selection'].includes(state.zoom);
+  }
+  function focusedBounds(){
+    if(state.zoom==='selection' && state.selected){
+      const f=currentFeatures.find(f=>getKey(f)===state.selected);
+      if(f)return mergeBounds([f]);
+    }
+    const regions=all.layers[state.year].region;
+    if(state.zoom==='metropole'||state.zoom==='selection')return mergeBounds(regions);
+    const codes={bfc:state.year==='2015'?['26','43']:['27'],pdl:['52'],corse:['94']}[state.zoom];
+    return mergeBounds(regions.filter(f=>codes.includes(f.properties.code)));
+  }
+  function familyColor(f){
+    const id=f.properties.code_region_parent||f.properties.code;
+    return Math.abs([...id].reduce((n,c)=>n*31+c.charCodeAt(0),0))%6;
+  }
+  function clearDetails(){
+    $('detail').innerHTML='<span class="detail-kicker">Fiche administrative et géographique</span>'+
+      '<h2>Choisir un territoire</h2><p>Sélectionnez un contour ou recherchez un nom et un code COG.</p>';
+  }
+  function adminNote(p){
+    if(p.niveau==='departement' && (p.code==='44'||p.code==='49')){
+      return 'Le décret n° 2015-1751 a transféré Le Fresne-sur-Loire de la Loire-Atlantique vers le Maine-et-Loire au 31 décembre 2015. Les deux départements restent dans les Pays de la Loire. <a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000031690124/">Texte juridique</a>.';
+    }
+    if(p.niveau==='departement')return 'Les limites départementales peuvent évoluer même lorsque le code du département et sa région demeurent identiques.';
+    if(p.annee===2015 && p.code==='24')return 'Au 1er janvier 2015, le COG indique « Centre » ; la dénomination « Centre-Val de Loire » entre en vigueur le 17 janvier 2015.';
+    if(p.annee===2016 && ['32','44','75','76'].includes(p.code))return 'Le nom affiché est celui du COG au 1er janvier 2016, provisoire. La dénomination définitive entre en vigueur le 30 septembre 2016.';
+    if(p.annee===2015 && oldToNew[p.code]){
+      const s=all.layers['2016'].region.find(f=>f.properties.code===oldToNew[p.code]);
+      return 'Cette région a fusionné au 1er janvier 2016 pour former '+escapeHtml(s.properties.nom)+' (code '+escapeHtml(s.properties.code)+').';
+    }
+    if(p.annee===2016 && fused[p.code]){
+      const names=fused[p.code].map(code=>{
+        const f=all.layers['2015'].region.find(x=>x.properties.code===code);
+        return escapeHtml(f.properties.nom)+' ('+escapeHtml(code)+')';
+      });
+      return 'Issue de la fusion du 1er janvier 2016 : '+names.join(' + ')+'.';
+    }
+    return 'Code régional maintenu entre 2015 et 2016 ; cela ne prouve pas que toutes les limites départementales sont immuables.';
+  }
+  function showDetails(feature){
+    const p=feature.properties;
+    const year=String(p.annee), date=all.edition_IGN[year];
+    const isRegion=p.niveau==='region';
+    const depLine=isRegion?`<dt>Composition</dt><dd>${p.departements.length} départements</dd>`:
+      `<dt>Région parente au COG ${year}</dt><dd>${escapeHtml(p.nom_region_parent)} (${escapeHtml(p.code_region_parent)})</dd>`;
+    let liste='';
+    if(isRegion){
+      const allDeps=all.layers[year].departement;
+      const departements=p.departements.map(code=>{
+        const feat=allDeps.find(f=>f.properties.code===code);
+        return (feat?feat.properties.nom:code)+' ('+code+')';
+      });
+      liste=`<details><summary>Voir les ${departements.length} départements</summary><p>${departements.map(escapeHtml).join(' · ')}</p></details>`;
+    }
+    $('detail').innerHTML=`<span class="detail-kicker">${isRegion?'Région':'Département'} · état COG ${year}</span>`+
+      `<h2>${escapeHtml(p.nom)}</h2>`+
+      `<dl><dt>Code COG</dt><dd>${escapeHtml(p.code)}</dd>`+
+      `<dt>Référence administrative</dt><dd>1er janvier ${year}</dd>`+
+      depLine+`<dt>Édition cartographique</dt><dd>${date.split('-').reverse().join('/')}</dd>`+
+      `<dt>Géométrie</dt><dd>${escapeHtml(p.source_geometrie)} (simplifiée pour affichage)</dd></dl>`+
+      liste+`<div class="notice">${adminNote(p)}</div>`+
+      `<p>Source : <a href="${escapeHtml(all.source_COG[year])}">Insee · COG ${year}</a>. Aucun ARK Pactols n’est attribué automatiquement.</p>`;
+  }
+  function selectFeature(feature,fromSearch=false){
+    const p=feature.properties;
+    if(fromSearch){
+      state.year=String(p.annee);state.level=p.niveau;state.zoom='selection';
+      $('year').value=state.year;$('level').value=state.level;$('zoom').value=state.zoom;
+      state.override=null;
+    }
+    state.selected=getKey(feature);
+    render();
+  }
+  function draw(){
+    svg.replaceChildren();
+    const layer=document.createElementNS(ns,'g');
+    for(const f of currentFeatures){
+      const p=f.properties;
+      const path=document.createElementNS(ns,'path');
+      path.setAttribute('d',getShape(f).d);
+      path.setAttribute('class',`area ${state.level} c${familyColor(f)}${getKey(f)===state.selected?' selected':''}`);
+      path.setAttribute('role','button');
+      path.setAttribute('tabindex','0');
+      path.setAttribute('aria-label',`${p.nom}, ${levelNames[p.niveau].toLowerCase()} ${p.code}, situation au 1er janvier ${p.annee}`);
+      const title=document.createElementNS(ns,'title');title.textContent=p.nom+' ('+p.code+')';
+      path.appendChild(title);
+      path.addEventListener('click',()=>selectFeature(f));
+      path.addEventListener('keydown',ev=>{
+        if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectFeature(f);}
+      });
+      layer.appendChild(path);
+    }
+    svg.appendChild(layer);
+  }
+  function render(){
+    const ready=available();
+    const reason=state.year==='2026'?'La géométrie 2026 n’est pas incluse dans cette recette.':
+      !['region','departement'].includes(state.level)?'Cet échelon doit encore être qualifié pour les années sélectionnées.':
+      'Aucune géométrie ultramarine n’est disponible dans cette recette métropolitaine.';
+    $('empty-map').hidden=ready;
+    $('empty-reason').textContent=ready?'':reason;
+    $('map').hidden=!ready;
+    $('zoom-in').disabled=!ready;$('zoom-out').disabled=!ready;$('reset').disabled=!ready;
+    $('map-title').textContent=levelNames[state.level]+' · '+zoneNames[state.zoom]+' · '+state.year;
+    $('map-subtitle').textContent=ready?('Contour IGN : '+all.edition_IGN[state.year]+' · COG au 01/01/'+state.year):'Couche non disponible';
+    currentFeatures=ready?all.layers[state.year][state.level]:[];
+    if(state.selected && !currentFeatures.some(f=>getKey(f)===state.selected))state.selected=null;
+    if(ready){
+      draw();
+      const bounds=state.override||paddedView(focusedBounds());
+      if(bounds)setView(bounds);
+      const item=currentFeatures.find(f=>getKey(f)===state.selected);
+      if(item)showDetails(item);else clearDetails();
+    }else{
+      svg.replaceChildren();
+      $('detail').innerHTML='<span class="detail-kicker">Données de recette indisponibles</span>'+
+        '<h2>Aucun contour à afficher</h2><p>'+escapeHtml(reason)+
+        ' Les autres commandes conservent leur valeur, sans substituer des contours 2026 à une situation ancienne.</p>';
+    }
+    $('summary').innerHTML=ready?`<strong>${currentFeatures.length} ${state.level==='region'?'régions':'départements'}</strong> · données COG ${state.year} · édition IGN ${all.edition_IGN[state.year]} · aucun alignement Pactols inféré.`:
+      '<strong>Indisponible dans cette recette.</strong> Les niveaux et territoires non documentés restent distincts.';
+  }
+  function zoomBy(factor){
+    if(!visibleBounds)return;
+    const v=visibleBounds,cx=v.x+v.w/2,cy=v.y+v.h/2;
+    const w=v.w*factor,h=v.h*factor;
+    state.override={x:cx-w/2,y:cy-h/2,w,h};
+    setView(state.override);
+  }
+  $('zoom-in').addEventListener('click',()=>zoomBy(.75));
+  $('zoom-out').addEventListener('click',()=>zoomBy(1.33));
+  $('reset').addEventListener('click',()=>{state.override=null;render();});
+  $('zoom').addEventListener('change',ev=>{
+    state.zoom=ev.target.value;state.override=null;render();
+  });
+  $('level').addEventListener('change',ev=>{
+    state.level=ev.target.value;state.override=null;render();
+  });
+  $('year').addEventListener('change',ev=>{
+    state.year=ev.target.value;state.override=null;render();
+  });
+  const index=Object.values(all.layers).flatMap(layer=>[...layer.region,...layer.departement]);
+  const search=$('search'),results=$('results');
+  function suggest(){
+    const term=norm(search.value.trim());
+    results.replaceChildren();
+    if(term.length<2){results.hidden=true;search.setAttribute('aria-expanded','false');return;}
+    const hits=index.filter(f=>norm(f.properties.nom).includes(term)||norm(f.properties.code)===term).slice(0,12);
+    for(const f of hits){
+      const p=f.properties;
+      const li=document.createElement('li'),button=document.createElement('button');
+      button.type='button';
+      const label=document.createElement('span');label.textContent=p.nom+' ('+p.code+')';
+      const small=document.createElement('small');small.textContent=levelNames[p.niveau]+' · '+p.annee;
+      button.append(label,small);
+      button.addEventListener('click',()=>{
+        search.value=p.nom;results.hidden=true;search.setAttribute('aria-expanded','false');selectFeature(f,true);
+      });
+      li.appendChild(button);results.appendChild(li);
+    }
+    if(!hits.length){
+      const li=document.createElement('li');li.textContent='Aucun résultat dans les millésimes disponibles.';
+      li.style.padding='12px';results.appendChild(li);
+    }
+    results.hidden=false;search.setAttribute('aria-expanded','true');
+  }
+  search.addEventListener('input',suggest);
+  search.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){results.hidden=true;search.setAttribute('aria-expanded','false');}
+    if(event.key==='Enter'){
+      const first=results.querySelector('button');if(first){event.preventDefault();first.click();}
+    }
+  });
+  document.addEventListener('click',event=>{
+    if(!event.target.closest('.search-wrap')){results.hidden=true;search.setAttribute('aria-expanded','false');}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
