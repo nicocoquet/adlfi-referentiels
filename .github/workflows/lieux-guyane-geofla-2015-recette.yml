@@ -88,6 +88,9 @@ jobs:
           assert comp["nombre_points"]==22
           assert math.isfinite(comp["ecart_maximum_wgs84_m"])
           assert 0<=comp["ecart_moyen_wgs84_m"]<=comp["ecart_maximum_wgs84_m"]
+          # Le WKT historique ne code pas explicitement RGFG95, mais les
+          # transformations PROJ choisies pour cette recette coïncident.
+          assert comp["ecart_maximum_wgs84_m"]<0.1
           assert r["source2015"]["datum_wkt"]
           assert r["source2015"]["ellipsoide_wkt"]
           assert r["source2015"]["projection_wkt"]
