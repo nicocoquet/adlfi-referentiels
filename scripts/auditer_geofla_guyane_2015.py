@@ -89,10 +89,12 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
         raise ValueError("Rapport de recette interdit dans les sources ou le site")
     shapefiles=sorted(p for p in dossier.rglob("*") if p.is_file()
                       and p.suffix.lower()==".shp")
-    if len(shapefiles)!=1:
-        raise ValueError("Archive avec plusieurs shapefiles ou sans shapefile : "+
+    communes=[p for p in shapefiles if p.stem.upper()=="COMMUNE"]
+    limites=[p for p in shapefiles if p.stem.upper()=="LIMITE_COMMUNE"]
+    if len(communes)!=1 or len(limites)!=1 or len(shapefiles)!=2:
+        raise ValueError("Couches GEOFLA COMMUNE et LIMITE_COMMUNE non reconnues : "+
                          ", ".join(str(p.relative_to(dossier)) for p in shapefiles))
-    shp=shapefiles[0]
+    shp=communes[0]
     prj=shp.with_suffix(".prj")
     if not prj.exists():
         raise ValueError("Projection source absente : pas de géocodage par hypothèse")
@@ -148,6 +150,8 @@ def inspecter(dossier:Path,rar:Path,national:Path,sortie:Path)->dict:
             "sha256":sha256(rar),
             "format":"shapefile archivé au format RAR",
             "shapefile_dans_archive":str(shp.relative_to(dossier)),
+            "shapefiles_inventory": [str(p.relative_to(dossier)) for p in shapefiles],
+            "couche_limite_commune_presente":True,
             "champs_attributaires":fields,
             "champ_code_detecte":dict(code_fields),
             "crs_wkt_sha256":hashlib.sha256(prj.read_bytes()).hexdigest(),
