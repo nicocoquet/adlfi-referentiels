@@ -1,0 +1,61 @@
+name: Lieux — inventaire des limites polynésiennes administratives 2022
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/inventorier_source_polynesie_2022.py'
+      - 'tests/test_inventorier_source_polynesie_2022.py'
+      - '.github/workflows/lieux-inventaire-polynesie-2022.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Lecture de Shapefiles
+        run: python3 -m pip install 'pyshp==2.3.1'
+      - name: Tests synthétiques hors réseau
+        run: python3 -m unittest discover -s tests -p 'test_inventorier_source_polynesie_2022.py' -v
+      - name: Télécharger l'archive administrative 2022 de la Polynésie
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://static.data.gouv.fr/resources/geographie-administrative-de-la-polynesie-francaise/20220228-205331/loc-commune-associee.zip' \
+            --output "$RUNNER_TEMP/limites-polynesie-2022.zip"
+          test -s "$RUNNER_TEMP/limites-polynesie-2022.zip"
+          sha256sum "$RUNNER_TEMP/limites-polynesie-2022.zip"
+      - name: Inventorier, détecter Tahaa et comparer deux exécutions
+        run: |
+          python3 scripts/inventorier_source_polynesie_2022.py \
+            --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
+            --sortie "$RUNNER_TEMP/recette1/inventaire.json"
+          python3 scripts/inventorier_source_polynesie_2022.py \
+            --archive "$RUNNER_TEMP/limites-polynesie-2022.zip" \
+            --sortie "$RUNNER_TEMP/recette2/inventaire.json"
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Vérifier l'absence de publication
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"recette1/inventaire.json").read_text())
+          assert r["statut"]=="RECETTE_NON_VALIDANTE"
+          assert r["alignements_cog_crees"]==0
+          assert r["geometries_publiees"]==0
+          assert r["geom_disponible"]
+          print("COUCHES",len(r["couches"]))
+          print("OCCURRENCES TAHAA",[(x["shp"],len(x["occurrences_tahaa"])) for x in r["couches"]])
+          PY
+      - name: Archiver la seule description des couches
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-inventaire-polynesie-2022
+          path: ${{ runner.temp }}/recette1/inventaire.json
+          retention-days: 30
