@@ -9,6 +9,7 @@ const ANNEES_QUALIFIEES=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
 const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
 const outremerSearch=window.AdlfiLieuxOutremerSearch;
+const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -170,14 +171,15 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
    loadJSON(ROOT+'lieux-historique/index-annuels.json'),
    loadJSON(ROOT+'lieux-historique/index-ponts.json'),
    loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
+   loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -194,9 +196,10 @@ async function start(){
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  const autresCOG=outremerSearch.creerIndex(indexOutremer);
  state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
+  state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -212,6 +215,11 @@ async function start(){
    const entry=state.outremer.get(cogId);
    state.selected={kind:entry.kind,id:entry.id,code:entry.code};
    if(entry.kind==='cog2026')$('level').value='commune';
+ }
+ const historicalCode=params.get('ref_cog_historique');
+ if(historicalCode && state.guyane.old.has(historicalCode)){
+   state.selected={kind:'cogHistoriqueGuyane',code:historicalCode};
+   $('level').value='commune';
  }
  const hash=new URLSearchParams(location.hash.replace(/^#/,'')),ark=hash.get('ark');
  if(ark){const found=state.indexes.find(x=>x.kind==='pactols'&&x.ark===ark);
@@ -258,6 +266,8 @@ function updateUrl(){
  if(state.selected?.kind==='cog2026'||state.selected?.kind==='autre_cog2026'){
    u.searchParams.set('ref_cog',state.selected.id);
  }else u.searchParams.delete('ref_cog');
+ if(state.selected?.kind==='cogHistoriqueGuyane')u.searchParams.set('ref_cog_historique',state.selected.code);
+ else u.searchParams.delete('ref_cog_historique');
  history.replaceState(null,'',u);
 }
 function frame(){
@@ -374,6 +384,8 @@ function search(){
        (h.arkValide?' · Pactols validé pour 2026':'');
    else if(h.kind==='autre_cog2026')
      sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
+   else if(h.kind==='cogHistoriqueGuyane')
+     sub.textContent='Commune historique · Guyane · '+h.code+' · COG jusqu’en 1969 (sans contour)';
    else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
    btn.append(heading,sub);
    btn.addEventListener('click',()=>{
@@ -384,6 +396,10 @@ function search(){
      }else if(h.kind==='cog2026'||h.kind==='autre_cog2026'){
        if(h.kind==='cog2026')$('level').value='commune';
        state.selected={kind:h.kind,id:h.id,code:h.code};
+     }else if(h.kind==='cogHistoriqueGuyane'){
+       $('level').value='commune';
+       $('year').value=String(h.dernierAnActif);
+       state.selected={kind:'cogHistoriqueGuyane',code:h.code};
      }else{
        $('level').value='commune';
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
@@ -400,16 +416,78 @@ function search(){
  }
  ul.hidden=false;$('search').setAttribute('aria-expanded','true');
 }
-function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','commune'].includes(x.kind))return;
+function focusSelection(){const x=state.selected;
+ if(!x||!state.map)return;
+ if((x.kind==='cogHistoriqueGuyane')||(x.kind==='cog2026'&&x.code?.startsWith('973'))){
+   state.map.fitBounds([[2,-54.8],[6,-51.5]],{padding:[24,24],animate:false});return;
+ }
+ if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
 }
 function choose(entry){state.selected=entry;hideResults();detail();focusSelection();updateUrl()}
 function ligne(dl,k,v,href){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(v);dd.append(a)}else dd.textContent=String(v??'Non documenté');dl.append(dt,dd)}
+function afficherChronologieGuyane(target,code){
+ if(!state.guyane)return;
+ const h=document.createElement('h3');h.textContent='État COG de Guyane au 1er janvier '+year();target.append(h);
+ const period=state.guyane.etat(code,year()),all=state.guyane.periodes(code);
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé à la date sélectionnée',period.label);
+   ligne(dl,'Période documentée',period.start+' – '+(period.end||'en cours dans la source'));
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode actif n’est attesté pour ce code au 1er janvier '+
+     year()+' dans l’historique COG étudié. Il ne faut pas en déduire l’absence historique du lieu.';
+   target.append(p);
+ }
+ if(all.length>1){
+   const heading=document.createElement('h3');heading.textContent='États documentés du même code';target.append(heading);
+   const ul=document.createElement('ul');
+   for(const e of all){
+     const li=document.createElement('li');
+     li.textContent=e.label+' · '+e.start+' – '+(e.end||'en cours dans la source');
+     ul.append(li);
+   }
+   target.append(ul);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/2560452';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, historique des communes (COG 2026)';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Guyane n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
+ target.append(warn);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='cogHistoriqueGuyane'){
+   const ancienne=state.guyane?.old.get(x.code);
+   if(!ancienne){state.selected=null;detail();return}
+   const now=state.guyane.etat(x.code,year());
+   const all=state.guyane.periodes(x.code);
+   const heading=document.createElement('h2');
+   heading.textContent=(now?.label||all.at(-1).label)+' · '+x.code;target.append(heading);
+   const dl=document.createElement('dl');
+   ligne(dl,'Ancien code INSEE',x.code);
+   ligne(dl,'Concept Pactols historique identifié (lien non encore arbitré)',
+     ancienne.ark_candidat,'https://ark.frantiq.fr/ark:/'+ancienne.ark_candidat);
+   ligne(dl,'Mouvement COG attesté','Fusion simple (MOD 31) · 27 mars 1969');
+   const destination=state.outremer.get('DROM:COM:'+ancienne.code_destination_mouvement_COG_1969);
+   ligne(dl,'Code de la commune de destination',ancienne.code_destination_mouvement_COG_1969+
+     (destination?' · '+destination.label:''));
+   target.append(dl);
+   afficherChronologieGuyane(target,x.code);
+   const note=document.createElement('p');note.className='warning';
+   note.textContent='La fusion administrative est documentée par le COG. Elle ne signifie pas que cet ARK Pactols historique équivaut à l’ARK Pactols de la commune de destination.';
+   target.append(note);
+   return;
+ }
  if(x.kind==='cog2026'||x.kind==='autre_cog2026'){
    const entry=state.outremer?.get(x.id);
    if(!entry){state.selected=null;detail();return}
@@ -452,7 +530,9 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      p.textContent='Aucune correspondance Pactols individuellement approuvée pour cette fiche COG 2026.';
      target.append(p);
    }
-   if(year()!==2026){
+   if(entry.kind==='cog2026'&&entry.code.startsWith('973')){
+     afficherChronologieGuyane(target,entry.code);
+   }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
      target.append(p);

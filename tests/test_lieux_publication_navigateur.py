@@ -311,6 +311,62 @@ def main():
         )
         assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
 
+        # Guyane : états COG documentés indépendants des contours 2026.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97301&annee=1969",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Approuague-Kaw')",
+            timeout=60000)
+        assert "Libellé à la date sélectionnée" in page.locator("#detail").text_content()
+        assert "correspondances Pactols validées pour 2026 ne sont pas rétroactives" in page.locator("#detail").text_content()
+        assert "Aucun contour historique de Guyane n’est affiché" in page.locator("#detail").text_content()
+        assert page.locator("#year").input_value()=="1969"
+        set_year(1970)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Guyane au 1er janvier 1970')",
+            timeout=30000)
+        assert "Régina" in page.locator("#detail").text_content()
+
+        # Recherche : les quatre autorités anciennes ont leurs propres codes/ARK.
+        page.locator("#search").fill("Approuague (chef-lieu Régina)")
+        page.locator("#results button").filter(
+            has_text="Commune historique · Guyane · 97351"
+        ).first.click()
+        assert page.locator("#year").input_value()=="1969"
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('26678/pcrtIPUh7AuXTg')",
+            timeout=30000)
+        assert "Fusion simple (MOD 31)" in page.locator("#detail").text_content()
+        assert "97301 · Régina" in page.locator("#detail").text_content()
+        assert "lien non encore arbitré" in page.locator("#detail").text_content()
+        assert "ref_cog_historique=97351" in page.url
+
+        page.goto(base+"/lieux/?ref_cog_historique=97355&annee=1953",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Moyenne-Mana')",
+            timeout=60000)
+        assert "26678/pcrtbvSjznYKWV" in page.locator("#detail").text_content()
+        assert "97306 · Mana" in page.locator("#detail").text_content()
+        set_year(1970)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Aucun épisode actif')",
+            timeout=30000)
+        assert "absence historique du lieu" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97361&annee=1988",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Aucun épisode actif')",
+            timeout=60000)
+        set_year(1989)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('Libellé à la date sélectionnée')",
+            timeout=30000)
+        assert "Awala-Yalimapo" in page.locator("#detail").text_content()
+        assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
+        assert "Aucun contour historique de Guyane n’est affiché" in page.locator("#detail").text_content()
+
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
         page.wait_for_url(re.compile(r"/lieux/\?"),timeout=30000)
         page.wait_for_function(

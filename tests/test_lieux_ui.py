@@ -122,6 +122,21 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("ref_cog", (ROOT / "docs/assets/lieux-multiechelon.js")
                       .read_text(encoding="utf-8"))
 
+
+    def test_guyane_historique_41_etats_sans_geometrie(self):
+        p = ROOT / "docs/data/lieux-guyane/chronologie-cog-2026.json"
+        data = json.loads(p.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"], "adlfi.lieux.guyane.etats_cog_public.v1")
+        self.assertEqual(data["start_year"], 1943)
+        self.assertEqual(data["end_year"], 2026)
+        self.assertEqual(len(data["episodes"].splitlines()), 41)
+        self.assertEqual(len(data["anciennes"]), 4)
+        self.assertEqual(data["contours_historiques_publies"], 0)
+        self.assertEqual(data["nouvelles_relations_pactols_validees"], 0)
+        self.assertEqual({a["code"] for a in data["anciennes"]},
+                         {"97351", "97354", "97355", "97359"})
+        self.assertFalse(any("geometry" in x.lower() for x in data))
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
@@ -132,12 +147,14 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-chronologie-core.js",
                 "../assets/lieux-search.js",
                 "../assets/lieux-outremer-search.js",
+                "../assets/lieux-guyane-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
             "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
