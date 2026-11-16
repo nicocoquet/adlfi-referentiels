@@ -30,6 +30,7 @@ class WFSTests(unittest.TestCase):
     def test_aucune_couche_ne_devient_une_commune(self):
         couches = lister_couches(
             XML.replace(b"condominium", b"territoire_inconnu")
+               .replace(b"Condominium", b"Territoire inconnu")
         )
         self.assertEqual(candidat_condominium(couches), [])
 
