@@ -31,6 +31,33 @@ Les différences peuvent refléter des **méthodes de généralisation** différ
 
 Le contrôle doit échouer plutôt que d'inventer un code à partir d'un toponyme ou de supposer un système de coordonnées. Une divergence dans deux champs de code INSEE est traitée comme ambiguë.
 
+## Bilan mesuré — comparaison de la copie 2015 avec 2026
+
+La [première CI réussie n°43934919783](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43934919783) confirme :
+
+- **22 entités communales** dans COMMUNE.shp, **22 codes INSEE explicites** et uniques sous l'attribut INSEE_COM, **22 géométries topologiquement valides** ;
+- une seconde couche LIMITE_COMMUNE.shp (linéaire), conservée uniquement comme découverte de structure du paquet ;
+- **22 comparaisons spatiales valides** avec la couche nationale 2026, calculées sur copies reprojetées vers EPSG:6933 ;
+- une empreinte **SHA-256 de la copie tierce** : 3aac9e8b979118b25df48e9ef21fc1029d735cc3c99a025cd1f5688560f41298 ;
+- un identifiant EPSG **non résolu automatiquement** par pyproj à partir du fichier PRJ, bien que le système source soit projeté et renseigné dans son WKT. La transformation et les comparaisons ont utilisé le WKT fourni, et non un EPSG inventé.
+
+**Principaux écarts de superficie non recouvrante (différence symétrique) :**
+
+| Code INSEE | Commune | Différence symétrique entre éditions | Jaccard |
+| --- | --- | ---: | ---: |
+| 97301 | Régina | 267,618 km² | 97,688 % |
+| 97312 | Sinnamary | 159,664 km² | 87,404 % |
+| 97303 | Iracoubo | 133,783 km² | 94,848 % |
+| 97306 | Mana | 45,427 km² | 99,313 % |
+| 97310 | Roura | 44,167 km² | 98,806 % |
+| 97311 | Saint-Laurent-du-Maroni | 31,343 km² | 99,272 % |
+| 97353 | Maripasoula | 28,909 km² | 99,845 % |
+| 97305 | Macouria | 26,113 km² | 91,581 % |
+
+Le **descriptif officiel IGN GEOFLA v2.2** [documente explicitement](https://geoservices.ign.fr/sites/default/files/2021-07/DC_GEOFLA_2-2.pdf) un allégement des géométries BD CARTO pouvant atteindre **1 000 m**, ainsi qu'un usage cartographique à petite échelle. Il serait donc incorrect d'interpréter directement les différences de surfaces observées comme des modifications juridiques des limites communales.
+
+Cette mesure est **un progrès dans l'identification d'une source cartographique datée**, mais elle ne vaut **ni validation de la provenance originale IGN ni qualification des contours historiques**. Les différences fortes à Sinnamary et à Iracoubo appellent une inspection cartographique ciblée.
+
 ## Conditions avant utilisation dans le module Lieux
 
 - retrouver la **provenance canonique IGN** et, si possible, l'empreinte de l'archive originale ;
