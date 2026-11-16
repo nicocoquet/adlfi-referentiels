@@ -98,7 +98,7 @@ class AuditerGuyaneTests(unittest.TestCase):
 
     def test_rapport_ne_valide_ni_ark_ni_contour(self):
         c={"97302":"Cayenne"}
-        rows,met=generer(c,{"97302":[]},[],[],
+        rows=generer(c,{"97302":[]},[],[],
            {"97302":{"statut":"PRESENTE_VALIDE_A_QUALIFIER",
                      "contour_adopte":False,"geometrie_historique":None}},
            {"97302":{"uri_insee_citees":[{"ark":"26678/pcrtTEST"}],
