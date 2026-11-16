@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'scripts/auditer_guyane_2026.py'
+      - 'scripts/verifier_index_public_guyane_2026.py'
+      - 'docs/data/lieux-guyane/**'
       - 'scripts/construire_chronologie_guyane.py'
       - 'tests/test_construire_chronologie_guyane.py'
       - 'recette/lieux/GUYANE-CANDIDATS-HISTORIQUES-PACTOLS-2026.csv'
@@ -79,6 +81,12 @@ jobs:
               --sortie "$target"
           done
           diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Vérifier l'index historique public par comparaison exacte avec l'audit officiel
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_index_public_guyane_2026.py \
+            --audit "$RUNNER_TEMP/recette1/guyane-22-communes-audit.json" \
+            --public docs/data/lieux-guyane/chronologie-cog-2026.json
       - name: Contrôler la séparation de la preuve et de la validation
         run: |
           python3 - <<'PY'
