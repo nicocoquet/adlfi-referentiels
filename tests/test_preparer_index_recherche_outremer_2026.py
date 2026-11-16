@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -10,7 +11,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from preparer_index_recherche_outremer_2026 import (
     SCHEMA, construire, instructions_editoriales, normaliser, rechercher,
-    entree_commune, episodes_historique,
+    entree_commune, episodes_historique, lire_registre_editorial,
 )
 
 
@@ -138,6 +139,23 @@ class IndexOutremerTests(unittest.TestCase):
         self.assertEqual([x["code_insee"] for x in rechercher(entries, "le port reunion")], ["97407"])
         self.assertEqual([x["code_insee"] for x in rechercher(entries, "97502")], ["97502"])
         self.assertEqual(rechercher(entries, "98101"), [])
+
+    def test_csv_editorial_justification_avec_point_virgule(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "decisions.csv"
+            path.write_text(
+                "code_insee;decision_editoriale;justification_editoriale\\n"
+                "97601;VALIDE_2026;Validé; portée 2026 uniquement\\n".replace("\\\\n", "\\n"),
+                encoding="utf-8"
+            )
+            rows = lire_registre_editorial(path, {"code_insee", "decision_editoriale"})
+            self.assertEqual(rows[0]["justification_editoriale"],
+                             "Validé; portée 2026 uniquement")
+            path.write_text("code_insee;decision_editoriale;justification_editoriale\\n"
+                            "97601;VALIDE_2026\\n".replace("\\\\n", "\\n"),
+                            encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "tronqué"):
+                lire_registre_editorial(path, {"code_insee", "decision_editoriale"})
 
     def test_blocage_si_decision_contradictoire(self):
         ds = decisions()
