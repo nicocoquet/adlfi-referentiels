@@ -6,6 +6,10 @@ on:
       - 'scripts/auditer_martinique_2026.py'
       - 'tests/test_auditer_martinique_2026.py'
       - 'recette/lieux/MARTINIQUE-LOT-01-2026.md'
+      - 'recette/lieux/MARTINIQUE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'tests/test_validations_martinique_pactols_2026.py'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
       - '.github/workflows/lieux-martinique-audit-2026.yml'
   workflow_dispatch:
 
@@ -38,6 +42,9 @@ jobs:
       - name: Tests sans réseau (RDF et règles Pactols)
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_auditer_martinique_2026.py' -v
+      - name: Tester les décisions éditoriales Martinique (avec refus de conflits)
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_validations_martinique_pactols_2026.py' -v
       - name: Télécharger les trois fichiers COG 2026 épinglés
         working-directory: referentiels
         run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
@@ -86,6 +93,41 @@ jobs:
                      for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE")
           assert len({x["ark_pactols"] for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE"})==b["exactmatch_eligibles_selon_regle"]
           assert all(x["geometrie_2026"]["contour_adopte"] is False for x in report["communes"])
+          with (Path("referentiels/recette/lieux/MARTINIQUE-VALIDATIONS-PACTOLS-COG-2026.csv")).open(
+              encoding="utf-8-sig",newline="") as f:
+              valides=list(csv.DictReader(f,delimiter=";"))
+          assert len(valides)==34
+          source={item["code_COG_2026"]:item for item in report["communes"]}
+          assert len(source)==34
+          assert len({r["ark_pactols"] for r in valides})==34
+          assert {r["code_insee"] for r in valides}==set(source)
+          for row in valides:
+              code=row["code_insee"]
+              src=source[code]
+              preuves=src["pactols_uri_insee_source"]
+              assert len(preuves)==1
+              proof=preuves[0]
+              pref=[x["libelle"] for x in proof["libelles_fr"] if x["propriete"]=="prefLabel"]
+              assert pref==[row["prefLabel_fr_pactols"]]
+              assert row["libelle_COG_2026"]==src["libelle_COG_2026"]
+              assert row["ark_pactols"]==proof["ark"]
+              assert row["predicat_source"]==proof["predicat"]=="exactMatch"
+              assert row["uri_insee"]==proof["uri_insee"]=="http://id.insee.fr/geo/commune/"+code
+              assert proof["codes_communes_INSEE_exactMatch"]==[code]
+              assert proof["concept_deprecie"] is False and proof["concept_remplace"] is False
+              assert row["statut_validation"]=="VALIDE_ADLFI_2026"
+              assert row["portee_COG"]=="2026-01-01"
+          assert b["exactmatch_eligibles_selon_regle"]==34
+          assert b["alignements_a_instruire"]==0
+          assert b["codes_distincts_historiques_972"]==34
+          assert b["periodes_historiques_972"]==34
+          assert b["mouvements_impliquant_code_972"]==36
+          assert b["source_Pactols_stats"]["liens_insee_non_courants"]==[]
+          from collections import Counter
+          counts=Counter((m["DATE_EFF"],m["MOD"]) for m in report["mouvements_source_avec_code_972"])
+          assert counts=={("1946-03-21","20"):32,("1949-03-25","20"):2,
+                          ("1950-08-26","20"):2}
+          print("VALIDATIONS MARTINIQUE",len(valides),"MOUVEMENTS",dict(sorted(counts.items())))
           print("BILAN MARTINIQUE",json.dumps(b,ensure_ascii=False,indent=2))
           print("PREUVE EXACTMATCH",json.dumps([
              {"code":e["code_COG_2026"],"nom":e["libelle_COG_2026"],
