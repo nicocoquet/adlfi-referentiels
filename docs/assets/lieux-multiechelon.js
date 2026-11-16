@@ -8,6 +8,7 @@ const ANNEES_PONTS=[2017,2020];
 const ANNEES_QUALIFIEES=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
 const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
+const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -169,13 +170,14 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
    loadJSON(ROOT+'lieux-historique/index-annuels.json'),
    loadJSON(ROOT+'lieux-historique/index-ponts.json'),
+   loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -190,9 +192,11 @@ async function start(){
  $('year').value='2026';
  const former=window.AdlfiLieuxSearch.creerIndex(pactols.autorites);
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
+ const autresCOG=outremerSearch.creerIndex(indexOutremer);
+ state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -203,6 +207,12 @@ async function start(){
  if(Number.isInteger(y)&&y>=1943&&y<=2026)$('year').value=String(y);
  const code=params.get('code'),zone=params.get('zone')||params.get('region');
  if(code && ids.includes(zone))state.selected={kind:'commune',code,zone,year:year()};
+ const cogId=params.get('ref_cog');
+ if(cogId && state.outremer.has(cogId)){
+   const entry=state.outremer.get(cogId);
+   state.selected={kind:entry.kind,id:entry.id,code:entry.code};
+   if(entry.kind==='cog2026')$('level').value='commune';
+ }
  const hash=new URLSearchParams(location.hash.replace(/^#/,'')),ark=hash.get('ark');
  if(ark){const found=state.indexes.find(x=>x.kind==='pactols'&&x.ark===ark);
    if(found){state.selected={kind:'commune',code:found.code,zone:found.zone,year:year(),ark};
@@ -245,6 +255,9 @@ function updateUrl(){
    u.searchParams.set('code',state.selected.code);
    u.searchParams.set('zone',state.selected.zone);
  }else{u.searchParams.delete('code');u.searchParams.delete('zone')}
+ if(state.selected?.kind==='cog2026'||state.selected?.kind==='autre_cog2026'){
+   u.searchParams.set('ref_cog',state.selected.id);
+ }else u.searchParams.delete('ref_cog');
  history.replaceState(null,'',u);
 }
 function frame(){
@@ -334,30 +347,118 @@ async function render(){
 }
 function hideResults(){$('results').hidden=true;$('search').setAttribute('aria-expanded','false')}
 function search(){
- const q=core.normaliser($('search').value);const ul=$('results');ul.replaceChildren();
+ const q=core.normaliser($('search').value),ul=$('results');
+ ul.replaceChildren();
  if(q.length<2){hideResults();return}
- const hits=state.indexes.filter(x=>{const parts=q.split(' ');return parts.every(t=>x.champs.some(ch=>ch.includes(t)))}).slice(0,22);
- for(const h of hits){const li=document.createElement('li'),btn=document.createElement('button');btn.type='button';
- const heading=document.createElement('strong');heading.textContent=h.label;
- const sub=document.createElement('small');sub.textContent=h.kind==='admin'?`${label[h.level]} · COG ${h.year} · ${h.code}`:
-   `${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
- btn.append(heading,sub);btn.addEventListener('click',()=>{
-   if(h.kind==='admin'){ $('level').value=h.level;$('year').value=String(h.year);state.selected={kind:'admin',level:h.level,year:h.year,code:h.code}; }
-   else{$('level').value='commune';state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),ark:h.kind==='pactols'?h.ark:null};}
-   hideResults();render().then(focusSelection);
- });li.append(btn);ul.append(li)}
- if(!hits.length){const li=document.createElement('li');li.textContent='Aucun résultat dans les données étudiées.';li.style.padding='12px';ul.append(li)}
+ const terms=q.split(' ');
+ const score=h=>{
+   const n=core.normaliser(h.label||''),c=core.normaliser(h.code||'');
+   if(h.kind==='admin'&&h.year===year()&&n===q)return 0;
+   if(n===q||c===q||core.normaliser(h.ark||h.arkValide||'')===q)return 1;
+   if(n.startsWith(q))return 2;
+   if(c.startsWith(q))return 3;
+   return 4;
+ };
+ const hits=state.indexes.filter(h=>terms.every(t=>h.champs.some(ch=>ch.includes(t))))
+   .sort((a,b)=>score(a)-score(b)||
+     a.label.localeCompare(b.label,'fr',{sensitivity:'base'})||
+     String(a.id||a.code).localeCompare(String(b.id||b.code))).slice(0,22);
+ for(const h of hits){
+   const li=document.createElement('li'),btn=document.createElement('button');
+   btn.type='button';
+   const heading=document.createElement('strong');heading.textContent=h.label;
+   const sub=document.createElement('small');
+   if(h.kind==='admin')sub.textContent=`${label[h.level]} · COG ${h.year} · ${h.code}`;
+   else if(h.kind==='cog2026')
+     sub.textContent=`Commune · COG 2026 · ${h.parent} · ${h.code}`+
+       (h.arkValide?' · Pactols validé pour 2026':'');
+   else if(h.kind==='autre_cog2026')
+     sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
+   else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
+   btn.append(heading,sub);
+   btn.addEventListener('click',()=>{
+     if(h.kind==='admin'){
+       $('level').value=h.level;
+       $('year').value=String(h.year);
+       state.selected={kind:'admin',level:h.level,year:h.year,code:h.code};
+     }else if(h.kind==='cog2026'||h.kind==='autre_cog2026'){
+       if(h.kind==='cog2026')$('level').value='commune';
+       state.selected={kind:h.kind,id:h.id,code:h.code};
+     }else{
+       $('level').value='commune';
+       state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
+         ark:h.kind==='pactols'?h.ark:null};
+     }
+     hideResults();render().then(focusSelection);
+   });
+   li.append(btn);ul.append(li);
+ }
+ if(!hits.length){
+   const li=document.createElement('li');
+   li.textContent='Aucun résultat dans les données étudiées.';
+   li.style.padding='12px';ul.append(li);
+ }
  ul.hidden=false;$('search').setAttribute('aria-expanded','true');
 }
-function focusSelection(){const x=state.selected;if(!x||!state.map)return;const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
+function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','commune'].includes(x.kind))return;
+ const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
 }
 function choose(entry){state.selected=entry;hideResults();detail();focusSelection();updateUrl()}
 function ligne(dl,k,v,href){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(v);dd.append(a)}else dd.textContent=String(v??'Non documenté');dl.append(dt,dd)}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='cog2026'||x.kind==='autre_cog2026'){
+   const entry=state.outremer?.get(x.id);
+   if(!entry){state.selected=null;detail();return}
+   const h=document.createElement('h2');h.textContent=entry.label;target.append(h);
+   const dl=document.createElement('dl');
+   ligne(dl,'Identifiant COG',entry.id);
+   ligne(dl,'Code géographique',entry.code);
+   ligne(dl,'Nature',entry.type);
+   if(entry.parent)ligne(dl,'Territoire de rattachement (2026)',entry.parent);
+   ligne(dl,'État documenté','COG au 1er janvier 2026');
+   if(entry.kind==='cog2026'){
+     if(entry.arkValide){
+       ligne(dl,'Correspondance Pactols validée (2026)',entry.arkValide,
+         'https://ark.frantiq.fr/ark:/'+entry.arkValide);
+     }else if(entry.arkConfirme){
+       ligne(dl,'ARK identifié (lien COG non validé)',entry.arkConfirme);
+     }
+   }
+   target.append(dl);
+   const source=document.createElement('p'),a=document.createElement('a');
+   a.href='https://www.insee.fr/fr/information/8740222';
+   a.target='_blank';a.rel='noopener noreferrer';
+   a.textContent='Source administrative : Insee, COG 2026';
+   source.append(a);target.append(source);
+   const note=document.createElement('p');note.className='warning';
+   if(entry.kind==='cog2026'){
+     note.textContent=entry.geomStatut==='PRESENTE_INVALIDE'?
+       'Le contour national 2026 présente une anomalie topologique : aucune géométrie de remplacement n’est adoptée ou affichée dans ce module.':
+       'Un contour national 2026 est identifié, mais sa géométrie n’a pas encore été qualifiée pour publication dans ce module. Aucune limite de cette commune n’est affichée.';
+   }else{
+     note.textContent='Cette entité administrative n’est pas une commune dans le sélecteur territorial. Aucun contour de ce zonage n’est publié dans ce module.';
+   }
+   target.append(note);
+   if(entry.arkConfirme){
+     const p=document.createElement('p');p.className='warning';
+     p.textContent='L’identifiant ARK est confirmé, mais la correspondance Pactols–COG demeure à valider : elle n’est pas présentée comme un alignement.';
+     target.append(p);
+   }else if(entry.kind==='cog2026'&&!entry.arkValide){
+     const p=document.createElement('p');p.className='source';
+     p.textContent='Aucune correspondance Pactols individuellement approuvée pour cette fiche COG 2026.';
+     target.append(p);
+   }
+   if(year()!==2026){
+     const p=document.createElement('p');p.className='warning';
+     p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
+     target.append(p);
+   }
+   return;
+ }
  if(x.kind==='admin'){
    const f=selectedFeature();if(!f){state.selected=null;detail();return};const p=f.properties;
    const h=document.createElement('h2');h.textContent=p.nom;target.append(h);

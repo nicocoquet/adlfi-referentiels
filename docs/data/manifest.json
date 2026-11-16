@@ -27,7 +27,18 @@
         "nature": "surcouches d'affichage 100 m, coordonnées arrondies à 5 décimales, sans nouvel ARK Pactols"
       },
       "referentiel_communautes": "data/lieux-chronologie/",
-      "etat": "navigateur multi-echelon avec geographies historiques partiellement qualifiees"
+      "etat": "navigateur multi-echelon avec geographies historiques partiellement qualifiees",
+      "recherche_cog_outremer_2026": {
+        "statut": "index documentaire publié sans géométries",
+        "fichier": "data/lieux-outremer/recherche-2026.json",
+        "etat_cog": "2026-01-01",
+        "communes": 212,
+        "autres_entites": 21,
+        "relations_pactols_cog_validees_2026": 16,
+        "ark_confirmes_lien_non_valide": 2,
+        "geometries_publiees": 0,
+        "identites_historiques_retroprojetees": 0
+      }
     },
     "personnes": {
       "status": "preparation",

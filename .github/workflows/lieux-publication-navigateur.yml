@@ -5,6 +5,9 @@ on:
     paths:
       - 'docs/lieux/**'
       - 'docs/assets/lieux-multiechelon.*'
+      - 'docs/assets/lieux-outremer-search.js'
+      - 'docs/data/lieux-outremer/**'
+      - 'tests/test_lieux_outremer_search.js'
       - 'docs/data/lieux-historique/**'
       - 'tests/test_lieux_publication_navigateur.py'
       - '.github/workflows/lieux-publication-navigateur.yml'
@@ -24,6 +27,8 @@ jobs:
           python-version: '3.12'
       - name: Vérifier le contrat statique du gabarit Lieux
         run: python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Tester les 233 identités COG ultramarines (Node.js)
+        run: node tests/test_lieux_outremer_search.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
