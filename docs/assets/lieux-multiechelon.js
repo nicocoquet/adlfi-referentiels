@@ -3,6 +3,8 @@
 const geo={layers:{},edition_IGN:{'2015':'2015-03-04','2016':'2016-06-28'},
   source_COG:{'2015':'https://www.insee.fr/fr/information/2560698','2016':'https://www.insee.fr/fr/information/2114819','2026':'https://www.insee.fr/fr/information/8740222'}};
 const commun={regions:{},pactols:null};
+const ANNEES_QUALIFIEES=[2018,2019,2021,2022,2023,2024,2025];
+const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -72,19 +74,47 @@ function validateAdmin2026(index){
     [...pairs].filter(x=>x.startsWith('departement:')).length!==101||
     !pairs.has('region:06')||!pairs.has('departement:976'))throw Error('Effectifs 2026 incomplets');
 }
+function validateAdminAnnuels(index){
+ if(index.schema!=='adlfi.lieux.admin.index_annuels.v1'||
+    JSON.stringify(index.annees)!==JSON.stringify(ANNEES_QUALIFIEES)||
+    index.nouvelles_correspondances_pactols!==0||
+    index.entries?.length!==ANNEES_QUALIFIEES.length*119)
+   throw Error('Index annuel historique incomplet');
+ const counts=new Map(),seen=new Set();
+ for(const e of index.entries){
+   if(e.kind!=='admin'||!ANNEES_QUALIFIEES.includes(e.year)||
+      !['region','departement'].includes(e.level)||!e.code||!e.label||!e.champs?.length)
+     throw Error('Entrée COG annuelle invalide');
+   const key=e.year+'/'+e.level+'/'+e.code;
+   if(seen.has(key))throw Error('Entrée COG annuelle dupliquée');
+   seen.add(key);
+   const yLevel=e.year+'/'+e.level;
+   counts.set(yLevel,(counts.get(yLevel)||0)+1);
+ }
+ for(const year of ANNEES_QUALIFIEES){
+   if(counts.get(year+'/region')!==18||counts.get(year+'/departement')!==101)
+     throw Error('Effectifs COG annuels invalides : '+year);
+ }
+}
 async function layerFor(y,l){
  const key=l+'s-'+y;
  if(!layerData.has(key)){
    const path=ROOT+'lieux-historique/'+key+'.geojson';
    layerData.set(key,loadJSON(path).then(fc=>{
      const contemporaine=y===2026;
-     const taille=contemporaine?(l==='region'?18:101):(l==='region'?(y===2015?22:13):96);
+     const annuelle=ANNEES_QUALIFIEES.includes(y);
+     const taille=contemporaine||annuelle?(l==='region'?18:101):(l==='region'?(y===2015?22:13):96);
      if(fc.type!=='FeatureCollection'||fc.provenance?.cog_au_premier_janvier!==String(y)||
         fc.provenance?.pactols_valide!==false||fc.features?.length!==taille||
         (contemporaine?
          (fc.provenance?.schema!=='adlfi.lieux.contours.administratifs_2026.v1'||
           fc.provenance?.edition_contours!=='2026-05-04'||
           fc.provenance?.generalisation_m!==100):
+         annuelle?
+         (fc.provenance?.schema!=='adlfi.lieux.contours.annuels.v1'||
+          fc.provenance?.annee_geometrie!==y||
+          fc.provenance?.generalisation_m!==100||
+          !fc.provenance?.source_archives_sha256):
          (fc.provenance?.schema!=='adlfi.lieux.contours.historiques.v1'||
           fc.provenance?.edition_IGN!==geo.edition_IGN[String(y)])))
        throw new Error('Couche IGN/COG incompatible : '+key);
@@ -92,6 +122,7 @@ async function layerFor(y,l){
        if(f.properties?.annee!==y||f.properties?.niveau!==l||
           f.properties?.pactols_valide!==false)throw new Error('État géographique non validé : '+key);
      }
+     if(annuelle)geo.source_COG[String(y)]=fc.provenance.source_cog_url;
      geo.layers[String(y)]??={};
      geo.layers[String(y)][l]=fc.features;
      return fc.features;
@@ -116,15 +147,16 @@ async function chargerCommunes2026(){
 }
 async function start(){
  if(!core || !window.AdlfiLieuxSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,...cogs]=await Promise.all([
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
+   loadJSON(ROOT+'lieux-historique/index-annuels.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
    throw Error('Les 103 autorités Pactols PACA doivent être conservées');
- commun.pactols=pactols;validateAdmin(adminIndex);validateAdmin2026(adminIndex2026);
+ commun.pactols=pactols;validateAdmin(adminIndex);validateAdmin2026(adminIndex2026);validateAdminAnnuels(adminIndexAnnuels);
  for(let i=0;i<ids.length;i++){
    const id=ids[i],data=cogs[i];
    core.verifier(data);
@@ -136,7 +168,7 @@ async function start(){
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -233,10 +265,12 @@ async function render(){
  $('map-status').textContent='Chargement de la couche et des fiches du référentiel…';
  let features=[],desc='';
  try{
-  if((l==='region'||l==='departement')&&(y===2015||y===2016||y===2026)){
+  if((l==='region'||l==='departement')&&ANNEES_DISPONIBLES.has(y)){
     features=await layerFor(y,l);
     desc=features.length+' contours '+(l==='region'?'régionaux':'départementaux')+
       (y===2026?' · COG 1er janvier 2026 et contours data.gouv.fr du 4 mai 2026 (100 m).':
+       ANNEES_QUALIFIEES.includes(y)?' · COG au 1er janvier '+y+
+         ' et contours Etalab/IGN du millésime '+y+' (100 m, réparations topologiques documentées).':
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
@@ -254,7 +288,7 @@ async function render(){
       references=await chargerCommunes2026();
       desc+=' Repère cartographique affiché : contours communaux 2026 (et NON '+y+'). Ce tracé contemporain ne représente pas les limites historiques.';
     }else if(l==='region'||l==='departement'){
-      const refYear=y<2015?2015:2016;
+      const refYear=y<2015?2015:[...ANNEES_DISPONIBLES].filter(v=>v<=y).at(-1);
       references=await layerFor(refYear,l);
       desc+=' Repère cartographique affiché : limites IGN de '+refYear+' (et NON '+y+'). Ce tracé n\'atteste pas les limites administratives à la date choisie.';
     }
@@ -306,6 +340,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    const h=document.createElement('h2');h.textContent=p.nom;target.append(h);
    const dl=document.createElement('dl');ligne(dl,'Échelon',label[x.level]);ligne(dl,'Code COG',p.code);ligne(dl,'État',`1er janvier ${x.year}`);
    if(x.year===2026)ligne(dl,'Édition des contours','4 mai 2026 · data.gouv.fr / IGN Admin Express');
+   else if(ANNEES_QUALIFIEES.includes(x.year))
+     ligne(dl,'Édition des contours','Millésime '+x.year+' · Etalab / IGN, généralisation 100 m');
    else ligne(dl,'Édition IGN',geo.edition_IGN[String(x.year)]);
    if(x.level==='departement')ligne(dl,'Région de rattachement',`${p.nom_region_parent} (${p.code_region_parent})`);
    if(x.level==='region')ligne(dl,'Composition',`${p.departements.length} départements`);
