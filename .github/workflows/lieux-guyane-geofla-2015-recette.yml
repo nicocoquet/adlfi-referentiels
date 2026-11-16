@@ -8,6 +8,7 @@ on:
       - '.github/workflows/lieux-guyane-geofla-2015-recette.yml'
       - 'recette/lieux/GUYANE-GEOFLA-2015-PROVENANCE.md'
       - 'recette/lieux/GUYANE-GEOFLA-2015-COHERENCE-RECETTE.md'
+      - 'recette/lieux/GUYANE-GEOFLA-2015-DECOMPOSITION.md'
   workflow_dispatch:
 
 permissions:
@@ -117,6 +118,29 @@ jobs:
                 r["source2015"]["centres_wgs84_plage_lons"],
                 r["source2015"]["centres_wgs84_plage_lats"])
           print("EMPRISES",json.dumps(emprise,ensure_ascii=False,indent=2))
+          decomp=r["decomposition_ecarts_cartographiques"]
+          assert decomp["statut"]=="DIFFERENCES_DE_CARTES_NON_JURIDIQUES"
+          stats=decomp["decomposition_global_km2"]
+          assert len(decomp["par_commune"])==22
+          assert set(decomp["priorites"])=={"97301","97303","97312"}
+          assert abs(stats["ecart_externe_total_km2"]-733.434981)<0.001
+          assert abs(stats["somme_ecarts_communaux_km2"]-918.066563)<0.001
+          assert abs(stats["ecart_externe_total_km2"]+
+                     2*stats["ecart_interne_unique_km2"]-
+                     stats["somme_ecarts_communaux_km2"])<0.001
+          assert abs(stats["ecart_interne_compte_deux_fois_km2"]-
+                     2*stats["ecart_interne_unique_km2"])<0.001
+          assert all(abs(x["ecart_externe_total_km2"]+
+                         x["ecart_interne_double_km2"]-
+                         x["difference_symetrique_totale_km2"])<0.001
+                     for x in decomp["par_commune"])
+          print("DECOMPOSITION ECARTS",json.dumps(stats,ensure_ascii=False,indent=2))
+          for code in ("97301","97312","97303"):
+              row=next(x for x in decomp["par_commune"] if x["code"]==code)
+              print("FOCUS",code,json.dumps({
+                "surfaces":row,"voisinage":decomp["priorites"][code]
+              },ensure_ascii=False,indent=2))
+
           assert r["publication_possible"] is False
           assert r["geometries_publiees"]==0
           assert r["contours_historiques_adoptes"]==0
