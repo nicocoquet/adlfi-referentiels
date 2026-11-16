@@ -128,15 +128,28 @@ def auditer(racine: Path, actuel: Path, sortie: Path) -> dict:
             if vides:
                 raise ValueError("Géométries vides : "+nom+" "+str(vides))
             metriques = {}
+            divergences_rattachement = []
             if niveau == "regions":
                 for code in sorted(METRO_REGIONS):
                     metriques[code] = mesurer(geos[code], ref[niveau][code])
+            else:
+                for code in sorted(present):
+                    p = geos[code].get("properties") or {}
+                    region_archive = p.get("region")
+                    if not isinstance(region_archive, str) or not region_archive:
+                        raise ValueError("Département sans code de région source : "+nom+"/"+code)
+                    region_2026 = ref[niveau][code]["properties"]["code_region_parent"]
+                    if region_archive != region_2026:
+                        divergences_rattachement.append({
+                            "departement": code, "region_archive": region_archive,
+                            "region_COG_2026": region_2026})
             rapport["lots"][str(annee)][niveau] = {
                 "archive": nom,
                 "source_sha256": empreinte,
                 "nombre_COG": len(present),
                 "territoires_hors_COG": sorted(exclus),
                 "geometries_invalides": invalides,
+                "departements_region_autre_que_COG_2026": divergences_rattachement,
                 "comparaison_avec_2026": metriques,
             }
     if sortie.exists():
