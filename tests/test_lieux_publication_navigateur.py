@@ -185,7 +185,9 @@ def main():
         page.locator("#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"
         assert page.locator("#level").input_value()=="region"
-        page.locator("#year-prev").click()
+        # Navigation clavier native du curseur : plus de boutons annexes.
+        page.locator("#year").focus()
+        page.locator("#year").press("ArrowLeft")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('22 contours régionaux')",
           timeout=30000
@@ -193,13 +195,13 @@ def main():
         assert page.locator("#year").input_value()=="2015"
         assert page.locator("#year-label").text_content()=="2015"
         inspecter_contours(page,100,"lieux-regions-2015")
-        page.locator("#year-next").click()
+        page.locator("#year").press("ArrowRight")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
           timeout=30000
         )
         assert page.locator("#year-label").text_content()=="2016"
-        page.locator("#year-prev").click()
+        page.locator("#year").press("ArrowLeft")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('22 contours régionaux')",
           timeout=30000
@@ -231,19 +233,20 @@ def main():
         assert page.locator("#detail").get_by_text("2026 seulement",exact=False).count()>=1
 
         # La frise doit conserver la commune sélectionnée quand la date change.
-        page.locator("#year-next").click()
+        page.locator("#year").focus()
+        page.locator("#year").press("ArrowRight")
         page.wait_for_function(
           "() => document.querySelector('#year-label')?.textContent === '2016'",
           timeout=30000
         )
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
-        page.locator("#year-now").click()
+        page.locator("#year").press("End")
         page.wait_for_function(
           "() => document.querySelector('#year-label')?.textContent === '2026' && "
           "document.querySelector('#map-status')?.textContent.includes('contours communaux 2026')",
           timeout=60000
         )
-        assert page.locator("#year-now").is_disabled()
+        assert page.locator("#year").input_value()=="2026"
         inspecter_contours(page,100,"lieux-communes-2026")
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
 

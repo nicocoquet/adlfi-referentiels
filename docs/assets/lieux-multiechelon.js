@@ -27,9 +27,6 @@ function refreshTimeline(){
  $('year-label').textContent=String(y);
  $('year-label').value=String(y);
  $('year').setAttribute('aria-valuetext','Situation administrative au 1er janvier '+y);
- $('year-prev').disabled=y<=1943;
- $('year-next').disabled=y>=2026;
- $('year-now').disabled=y===2026;
 }
 function commitTimeline(){
  if(timelineTimer!==null){clearTimeout(timelineTimer);timelineTimer=null;}
@@ -37,11 +34,6 @@ function commitTimeline(){
  // régionale/départementale doit être désélectionnée si son instantané change.
  if(state.selected?.kind==='admin'&&state.selected.year!==year())state.selected=null;
  render();
-}
-function setTimelineYear(value){
- $('year').value=String(Math.max(1943,Math.min(2026,value)));
- refreshTimeline();
- commitTimeline();
 }
 function selectedFeature(){if(state.selected?.kind!=='admin')return null;const x=state.selected;return geo.layers[String(x.year)]?.[x.level]?.find(f=>f.properties.code===x.code)||null}
 async function loadJSON(url){
@@ -231,9 +223,6 @@ async function start(){
    timelineTimer=setTimeout(commitTimeline,160);
  });
  $('year').addEventListener('change',commitTimeline);
- $('year-prev').addEventListener('click',()=>setTimelineYear(year()-1));
- $('year-next').addEventListener('click',()=>setTimelineYear(year()+1));
- $('year-now').addEventListener('click',()=>setTimelineYear(2026));
  $('reference').addEventListener('change',render);
  $('reset').addEventListener('click',frame);
  $('search').addEventListener('input',search);
