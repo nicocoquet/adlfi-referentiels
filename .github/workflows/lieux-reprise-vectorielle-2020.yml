@@ -1,0 +1,71 @@
+name: Lieux — reprendre le téléchargement vectoriel IGN 2020 (SHA stricte)
+on:
+  push:
+    branches: [feat/lieux-completer-2017-2020-20261116]
+    paths:
+      - '.github/workflows/lieux-reprise-vectorielle-2020.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  qualification-2020:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer aria2 et la chaîne SIG
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq aria2
+          python3 -m pip install --disable-pip-version-check \
+            'py7zr==1.0.0' 'pyshp==2.3.1' 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Reprendre les sources COG Insee auditées
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/reference"
+          gh run download 43884765551 --repo "$GITHUB_REPOSITORY" \
+            --name adlfi-lieux-inventaire-ign-cog-2017-2020 \
+            --dir "$RUNNER_TEMP/reference"
+      - name: Télécharger depuis le serveur officiel sur quatre connexions
+        shell: bash
+        run: |
+          set -euo pipefail
+          paquet="ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20"
+          mkdir -p "$RUNNER_TEMP/source"
+          aria2c -x 4 -s 4 -k 4M -m 6 \
+            --retry-wait=4 --connect-timeout=20 --timeout=60 \
+            --file-allocation=none \
+            -d "$RUNNER_TEMP/source" -o "$paquet.7z" \
+            "https://data.geopf.fr/telechargement/download/ADMIN-EXPRESS-COG/$paquet/$paquet.7z"
+          echo "ff7a732872a069cbc31f426b613a751cf990e80f4a98e984ecd81d9adbf0fd08  $RUNNER_TEMP/source/$paquet.7z" | sha256sum -c -
+      - name: Produire les géométries validées avec la même chaîne de contrôle
+        run: |
+          set -euo pipefail
+          paquet="ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20"
+          python3 scripts/qualifier_geometries_ign_2017_2020.py \
+            --annee 2020 --archive "$RUNNER_TEMP/source/$paquet.7z" \
+            --sources-cog "$RUNNER_TEMP/reference/cog" \
+            --sortie "$RUNNER_TEMP/recette"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          from shapely.geometry import shape
+          folder=Path(os.environ["RUNNER_TEMP"])/"recette"
+          for level,size in (("regions",18),("departements",101)):
+              data=json.loads((folder/f"{level}-2020.geojson").read_text())
+              assert len(data["features"])==size
+              assert all(shape(x["geometry"]).is_valid for x in data["features"])
+          PY
+      - name: Conserver les sorties validées et non la source de 160 Mo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-reprise-geometrique-2020
+          path: ${{ runner.temp }}/recette/
+          retention-days: 30
+          if-no-files-found: ignore
