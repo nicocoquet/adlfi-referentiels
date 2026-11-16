@@ -46,6 +46,16 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(self.page.ids["map"][1]["role"], "region")
 
 
+    def test_trois_echelons_territoriaux_visibles(self):
+        """Les arrondissements et collectivités atypiques restent hors sélecteur."""
+        selecteur = self.html.split('<select id="level">', 1)[1].split('</select>', 1)[0]
+        self.assertEqual(
+            [fragment.split('"', 1)[0] for fragment in selecteur.split('<option value="')[1:]],
+            ['region', 'departement', 'commune'],
+        )
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf8")
+        self.assertIn("const label={region:'Région',departement:'Département',commune:'Commune'};", js)
+
     def test_frise_historique_remplace_le_selecteur_annee(self):
         year_tag, year_attrs = self.page.ids["year"]
         self.assertEqual(year_tag, "input")
