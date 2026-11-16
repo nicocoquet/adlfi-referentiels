@@ -99,6 +99,8 @@ jobs:
           assert manifest["statistiques"]["communes_contours_topologiquement_valides"]==210
           assert manifest["statistiques"]["communes_contours_invalides"]==["98745","98805"]
           assert manifest["statistiques"]["correspondances_Pactols_COG_validees_2026"]==16
+          assert manifest["statistiques"]["observations_historiques_COG_liees_par_code"]==242
+          assert manifest["statistiques"]["observations_Mayotte_COMER_anterieures_transition_2011"]==17
           assert manifest["statistiques"]["ark_identifiants_confirmes_lien_a_valider"]==["97407","97607"]
           assert bycode["97607"]["pactols"]["ark_valide"] is None
           assert bycode["97407"]["pactols"]["ark_valide"] is None
