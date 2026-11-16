@@ -428,8 +428,43 @@ function focusSelection(){const x=state.selected;
 }
 function choose(entry){state.selected=entry;hideResults();detail();focusSelection();updateUrl()}
 function ligne(dl,k,v,href){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(v);dd.append(a)}else dd.textContent=String(v??'Non documenté');dl.append(dt,dd)}
+function afficherChronologieGuyane(target,code){
+ if(!state.guyane)return;
+ const h=document.createElement('h3');h.textContent='État COG de Guyane au 1er janvier '+year();target.append(h);
+ const period=state.guyane.etat(code,year()),all=state.guyane.periodes(code);
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé à la date sélectionnée',period.label);
+   ligne(dl,'Période documentée',period.start+' – '+(period.end||'en cours dans la source'));
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode actif n’est attesté pour ce code au 1er janvier '+
+     year()+' dans l’historique COG étudié. Il ne faut pas en déduire l’absence historique du lieu.';
+   target.append(p);
+ }
+ if(all.length>1){
+   const heading=document.createElement('h3');heading.textContent='États documentés du même code';target.append(heading);
+   const ul=document.createElement('ul');
+   for(const e of all){
+     const li=document.createElement('li');
+     li.textContent=e.label+' · '+e.start+' – '+(e.end||'en cours dans la source');
+     ul.append(li);
+   }
+   target.append(ul);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/2560452';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, historique des communes (COG 2026)';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Guyane n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
+ target.append(warn);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
  if(x.kind==='cog2026'||x.kind==='autre_cog2026'){
    const entry=state.outremer?.get(x.id);
