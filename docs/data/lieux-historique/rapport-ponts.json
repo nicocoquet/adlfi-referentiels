@@ -1,0 +1,214 @@
+{
+  "annees": [
+    2017,
+    2020
+  ],
+  "nouvelles_correspondances_pactols": 0,
+  "rapports": {
+    "2017": {
+      "annee": 2017,
+      "couches": [
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_LAMB93_FR/DEPARTEMENT.shp",
+          "crs": "PROJCS[\"RGF93_Lambert_93\",GEOGCS[\"GCS_RGF_1993\",DATUM[\"D_RGF_1993\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Lambert_Conformal_Conic\"],PARAMETER[\"False_Easting\",700000.0],PARAMETER[\"False_Northing\",6600000.0],PARAMETER[\"Central_Meridian\",3.0],PARAMETER[\"Standard_Parallel_1\",44.0],PARAMETER[\"Standard_Parallel_2\",49.0],PARAMETER[\"Latitude_Of_Origin\",46.5],UNIT[\"Meter\",1.0]]",
+          "effectif": 96,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_LAMB93_FR/REGION.shp",
+          "crs": "PROJCS[\"RGF93_Lambert_93\",GEOGCS[\"GCS_RGF_1993\",DATUM[\"D_RGF_1993\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Lambert_Conformal_Conic\"],PARAMETER[\"False_Easting\",700000.0],PARAMETER[\"False_Northing\",6600000.0],PARAMETER[\"Central_Meridian\",3.0],PARAMETER[\"Standard_Parallel_1\",44.0],PARAMETER[\"Standard_Parallel_2\",49.0],PARAMETER[\"Latitude_Of_Origin\",46.5],UNIT[\"Meter\",1.0]]",
+          "effectif": 13,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_RGM04UTM38S_D976/DEPARTEMENT.shp",
+          "crs": "PROJCS[\"RGM04\",GEOGCS[\"GCS_GRS_1980\",DATUM[\"D_GRS_1980\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",10000000.0],PARAMETER[\"Central_Meridian\",45.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_RGM04UTM38S_D976/REGION.shp",
+          "crs": "PROJCS[\"RGM04\",GEOGCS[\"GCS_GRS_1980\",DATUM[\"D_GRS_1980\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",10000000.0],PARAMETER[\"Central_Meridian\",45.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_RGR92UTM40S_D974/DEPARTEMENT.shp",
+          "crs": "PROJCS[\"RGR92_UTM_Zone_40S\",GEOGCS[\"GCS_RGR_1992\",DATUM[\"D_RGR_1992\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",10000000.0],PARAMETER[\"Central_Meridian\",57.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_RGR92UTM40S_D974/REGION.shp",
+          "crs": "PROJCS[\"RGR92_UTM_Zone_40S\",GEOGCS[\"GCS_RGR_1992\",DATUM[\"D_RGR_1992\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",10000000.0],PARAMETER[\"Central_Meridian\",57.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM20W84GUAD_D971/DEPARTEMENT.shp",
+          "crs": "EPSG:32620",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM20W84GUAD_D971/REGION.shp",
+          "crs": "EPSG:32620",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM20W84MART_D972/DEPARTEMENT.shp",
+          "crs": "EPSG:32620",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM20W84MART_D972/REGION.shp",
+          "crs": "EPSG:32620",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "INSEE_DEP",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM22RGFG95_D973/DEPARTEMENT.shp",
+          "crs": "PROJCS[\"RGFG95_UTM_Zone_22N\",GEOGCS[\"GCS_RGFG95\",DATUM[\"D_GRS_1980\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-51.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "INSEE_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_1-0__SHP__FRA_2017-06-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2017-06-19/ADE-COG_1-0_SHP_UTM22RGFG95_D973/REGION.shp",
+          "crs": "PROJCS[\"RGFG95_UTM_Zone_22N\",GEOGCS[\"GCS_RGFG95\",DATUM[\"D_GRS_1980\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-51.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+          "effectif": 1,
+          "encodage": "1252"
+        }
+      ],
+      "date_edition_IGN": "2017-06-19",
+      "divergences_noms": [],
+      "nouvelles_autorites_Pactols": 0,
+      "reparations": [
+        {
+          "annee": 2017,
+          "anomalie": "Self-intersection[45.1232234199976 -12.7075110845554]",
+          "code": "976",
+          "difference_relative_aire_pct": 0.0,
+          "methode": "shapely.make_valid et composants surfaciques seulement",
+          "niveau": "departement",
+          "sortie_make_valid": "MultiPolygon"
+        },
+        {
+          "annee": 2017,
+          "anomalie": "Self-intersection[45.1232234199976 -12.7075110845554]",
+          "code": "06",
+          "difference_relative_aire_pct": 0.0,
+          "methode": "shapely.make_valid et composants surfaciques seulement",
+          "niveau": "region",
+          "sortie_make_valid": "MultiPolygon"
+        }
+      ],
+      "source_IGN_SHA256": "222c420c4edbbf6fac76a7426ff74f075feed337103794b5048ede92abcb0133"
+    },
+    "2020": {
+      "annee": 2020,
+      "couches": [
+        {
+          "champs": [
+            "ID",
+            "NOM_DEP",
+            "NOM_DEP_M",
+            "INSEE_DEP",
+            "INSEE_REG",
+            "CHF_DEP"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2020-11-20/ADE-COG_2-1_SHP_WGS84G_FRA/DEPARTEMENT.shp",
+          "crs": "EPSG:4326",
+          "effectif": 101,
+          "encodage": "UTF-8"
+        },
+        {
+          "champs": [
+            "ID",
+            "NOM_REG",
+            "NOM_REG_M",
+            "INSEE_REG",
+            "CHF_REG"
+          ],
+          "chemin": "ADMIN-EXPRESS-COG_2-1__SHP__FRA_2020-11-20/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2020-11-20/ADE-COG_2-1_SHP_WGS84G_FRA/REGION.shp",
+          "crs": "EPSG:4326",
+          "effectif": 18,
+          "encodage": "UTF-8"
+        }
+      ],
+      "date_edition_IGN": "2020-11-20",
+      "divergences_noms": [],
+      "nouvelles_autorites_Pactols": 0,
+      "reparations": [],
+      "source_IGN_SHA256": "ff7a732872a069cbc31f426b613a751cf990e80f4a98e984ecd81d9adbf0fd08"
+    }
+  },
+  "schema": "adlfi.lieux.rapport_ponts_2017_2020.v1"
+}
