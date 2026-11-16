@@ -45,6 +45,32 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(self.page.ids["map-status"][1]["role"], "status")
         self.assertEqual(self.page.ids["map"][1]["role"], "region")
 
+
+    def test_frise_historique_remplace_le_selecteur_annee(self):
+        year_tag, year_attrs = self.page.ids["year"]
+        self.assertEqual(year_tag, "input")
+        self.assertEqual(year_attrs.get("type"), "range")
+        self.assertEqual(year_attrs.get("min"), "1943")
+        self.assertEqual(year_attrs.get("max"), "2026")
+        self.assertEqual(year_attrs.get("step"), "1")
+        self.assertEqual(year_attrs.get("value"), "2016")
+        self.assertEqual(year_attrs.get("aria-describedby"), "year-description")
+        self.assertEqual(self.page.ids["year-label"][0], "output")
+        self.assertEqual(self.page.ids["year-label"][1].get("for"), "year")
+        for button in ("year-prev", "year-next", "year-now"):
+            self.assertEqual(self.page.ids[button][0], "button")
+        self.assertIn('class="lieux-timeline"', self.html)
+        self.assertNotIn('<select id="year"', self.html)
+        self.assertIn("historique", self.html)
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf8")
+        self.assertIn("function refreshTimeline()", js)
+        self.assertIn("function commitTimeline()", js)
+        self.assertIn("'year').addEventListener('input'", js)
+        self.assertIn("'year-prev').addEventListener('click'", js)
+        self.assertIn("'year-next').addEventListener('click'", js)
+        self.assertIn("'year-now').addEventListener('click'", js)
+        self.assertIn("state.selected?.kind==='admin'&&state.selected.year!==year()", js)
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
