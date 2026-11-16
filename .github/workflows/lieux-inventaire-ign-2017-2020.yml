@@ -1,0 +1,56 @@
+name: Lieux — inventorier les sources IGN et Insee 2017 / 2020
+on:
+  push:
+    branches: [feat/lieux-completer-2017-2020-20261116]
+    paths:
+      - 'scripts/inventorier_admin_express_2017_2020.py'
+      - 'scripts/auditer_cog_2017_2020.py'
+      - '.github/workflows/lieux-inventaire-ign-2017-2020.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualification-sources:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inventorier les fichiers vectoriels IGN (pas des rendus WMTS)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/cog"
+          python3 scripts/inventorier_admin_express_2017_2020.py \
+            --sortie "$RUNNER_TEMP/inventaire-ign-2017-2020.json"
+      - name: Acquérir les COG Insee officiels et enregistrer les SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/cog"
+          curl -fLsS --retry 6 --retry-all-errors --retry-delay 2 --max-time 90 \
+            'https://www.insee.fr/fr/statistiques/fichier/2666684/reg2017-txt.zip' \
+            -o "$base/reg2017-txt.zip"
+          curl -fLsS --retry 6 --retry-all-errors --retry-delay 2 --max-time 90 \
+            'https://www.insee.fr/fr/statistiques/fichier/2666684/depts2017-txt.zip' \
+            -o "$base/depts2017-txt.zip"
+          curl -fLsS --retry 6 --retry-all-errors --retry-delay 2 --max-time 90 \
+            'https://www.insee.fr/fr/statistiques/fichier/4316069/cog_ensemble_2020_csv.zip' \
+            -o "$base/cog_ensemble_2020_csv.zip"
+          sha256sum "$base"/*.zip
+          python3 scripts/auditer_cog_2017_2020.py \
+            --sources "$base" \
+            --sortie "$RUNNER_TEMP/rapport-cog-2017-2020.json"
+      - name: Archiver l’inventaire et la recette hors site
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-lieux-inventaire-ign-cog-2017-2020
+          path: |
+            ${{ runner.temp }}/inventaire-ign-2017-2020.json
+            ${{ runner.temp }}/rapport-cog-2017-2020.json
+            ${{ runner.temp }}/cog/*.zip
+          retention-days: 30
+          if-no-files-found: ignore
