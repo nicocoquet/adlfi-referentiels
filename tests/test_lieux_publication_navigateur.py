@@ -10,7 +10,10 @@ import socketserver
 import threading
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    sync_playwright = None  # Tests navigateur exécutés dans un environnement dédié
 
 ROOT=Path(__file__).resolve().parents[1] / "docs"
 
@@ -30,6 +33,8 @@ def site_local():
 
 
 def main():
+    if sync_playwright is None:
+        raise RuntimeError('Exécuter la recette navigateur après installation de Playwright')
     binary=next((shutil.which(s) for s in ("google-chrome","chromium","chromium-browser") if shutil.which(s)),None)
     with site_local() as base, sync_playwright() as playwright:
         kw={"headless":True,"args":["--no-sandbox"]}
