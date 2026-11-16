@@ -259,12 +259,17 @@ def construire(data: dict, diagnostic: list[dict], decisions: dict,
         if appartient:
             communes.append(entree_commune(item, parents, ds, decisions, hist))
         else:
+            parent_label = parents["COMER"].get(item["parent"], {}).get("libelle", "")
+            termes = (item["libelle_cog"], item["code"], parent_label, item["parent"])
             autres.append({
                 "id": item["cle"], "famille_COG": item["famille"],
                 "nature_COG": item["nature"], "code": item["code"],
                 "libelle": item["libelle_cog"], "parent_2026": item["parent"],
+                "libelle_parent_2026": parent_label,
                 "statut_geom_2026": ds[item["cle"]]["statut"],
                 "niveau_recherche": None,
+                "recherche_globale": True,
+                "champs_recherche": sorted({normaliser(t) for t in termes if normaliser(t)}),
                 "interdiction_assimilation_commune": True,
                 "alignement_Pactols": None,
             })
@@ -329,8 +334,9 @@ def rechercher(entrees: list[dict], requete: str, limite: int = 10) -> list[dict
     results = [e for e in entrees if all(
         any(t in v for v in e["champs_recherche"]) for t in tokens)]
     def key(item):
-        n = normaliser(item["libelle_COG_2026"])
-        return (0 if n == q or item["code_insee"] == q else
+        n = normaliser(item.get("libelle_COG_2026", item.get("libelle", "")))
+        code = item.get("code_insee", item.get("code", ""))
+        return (0 if n == q or code == q else
                 1 if n.startswith(q) else 2, n, item["id"])
     return sorted(results, key=key)[:limite]
 
