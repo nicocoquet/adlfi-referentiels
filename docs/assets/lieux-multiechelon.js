@@ -408,8 +408,57 @@ function focusSelection(){const x=state.selected;if(!x||!state.map||!['admin','c
 function choose(entry){state.selected=entry;hideResults();detail();focusSelection();updateUrl()}
 function ligne(dl,k,v,href){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(v);dd.append(a)}else dd.textContent=String(v??'Non documenté');dl.append(dt,dd)}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='cog2026'||x.kind==='autre_cog2026'){
+   const entry=state.outremer?.get(x.id);
+   if(!entry){state.selected=null;detail();return}
+   const h=document.createElement('h2');h.textContent=entry.label;target.append(h);
+   const dl=document.createElement('dl');
+   ligne(dl,'Identifiant COG',entry.id);
+   ligne(dl,'Code géographique',entry.code);
+   ligne(dl,'Nature',entry.type);
+   if(entry.parent)ligne(dl,'Territoire de rattachement (2026)',entry.parent);
+   ligne(dl,'État documenté','COG au 1er janvier 2026');
+   if(entry.kind==='cog2026'){
+     if(entry.arkValide){
+       ligne(dl,'Correspondance Pactols validée (2026)',entry.arkValide,
+         'https://ark.frantiq.fr/ark:/'+entry.arkValide);
+     }else if(entry.arkConfirme){
+       ligne(dl,'ARK identifié (lien COG non validé)',entry.arkConfirme);
+     }
+   }
+   target.append(dl);
+   const source=document.createElement('p'),a=document.createElement('a');
+   a.href='https://www.insee.fr/fr/information/8740222';
+   a.target='_blank';a.rel='noopener noreferrer';
+   a.textContent='Source administrative : Insee, COG 2026';
+   source.append(a);target.append(source);
+   const note=document.createElement('p');note.className='warning';
+   if(entry.kind==='cog2026'){
+     note.textContent=entry.geomStatut==='PRESENTE_INVALIDE'?
+       'Le contour national 2026 présente une anomalie topologique : aucune géométrie de remplacement n’est adoptée ou affichée dans ce module.':
+       'Un contour national 2026 est identifié, mais sa géométrie n’a pas encore été qualifiée pour publication dans ce module. Aucune limite de cette commune n’est affichée.';
+   }else{
+     note.textContent='Cette entité administrative n’est pas une commune dans le sélecteur territorial. Aucun contour de ce zonage n’est publié dans ce module.';
+   }
+   target.append(note);
+   if(entry.arkConfirme){
+     const p=document.createElement('p');p.className='warning';
+     p.textContent='L’identifiant ARK est confirmé, mais la correspondance Pactols–COG demeure à valider : elle n’est pas présentée comme un alignement.';
+     target.append(p);
+   }else if(entry.kind==='cog2026'&&!entry.arkValide){
+     const p=document.createElement('p');p.className='source';
+     p.textContent='Aucune correspondance Pactols individuellement approuvée pour cette fiche COG 2026.';
+     target.append(p);
+   }
+   if(year()!==2026){
+     const p=document.createElement('p');p.className='warning';
+     p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
+     target.append(p);
+   }
+   return;
+ }
  if(x.kind==='admin'){
    const f=selectedFeature();if(!f){state.selected=null;detail();return};const p=f.properties;
    const h=document.createElement('h2');h.textContent=p.nom;target.append(h);
