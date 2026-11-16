@@ -11,6 +11,9 @@ on:
       - 'scripts/construire_regions_metropole_geofla_2015_2016.py'
       - 'tests/test_construire_regions_metropole_geofla_2015_2016.py'
       - 'recette/lieux/CONTROLE-NATIONAL-REGIONS-METROPOLE-IGN-2015-2016.md'
+      - 'scripts/auditer_ecarts_departementaux_geofla_2015_2016.py'
+      - 'tests/test_auditer_ecarts_departementaux_geofla_2015_2016.py'
+      - 'recette/lieux/ECARTS-GEOFLA-DEPARTEMENTS-2015-2016-20261116.md'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
   workflow_dispatch:
 permissions:
@@ -228,6 +231,34 @@ jobs:
               features = json.loads((root / "recette" / f"regions-metropole-{year}-IGN-geofla.geojson").read_text())["features"]
               assert len(features) == expected
           print("RECETTE 35 régions (22 + 13), 7 fusions, 6 continuités, reproductibilité OK")
+          PY
+      - name: Qualifier les écarts des 96 contours départementaux et le transfert 44 vers 49
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_ecarts_departementaux_geofla_2015_2016.py' -v
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          sources = json.loads((root / "shapefiles-geofla.json").read_text())
+          args = [
+              "python3", "scripts/auditer_ecarts_departementaux_geofla_2015_2016.py",
+              "--shp2015", sources["2015"]["shapefile"],
+              "--shp2016", sources["2016"]["shapefile"],
+              "--archive2015", str(root / "GEOFLA_departement_2015_original.7z"),
+              "--archive2016", str(root / "GEOFLA_departement_2016_original.7z"),
+          ]
+          for sub in ("recette", "reproduction"):
+              subprocess.run(args + ["--sortie", str(root / sub)], check=True)
+          for nom in ("comparaison-96-departements-GEOFLA-2015-2016.csv",
+                      "rapport-ecarts-departements-GEOFLA-2015-2016.json"):
+              assert (root / "recette" / nom).read_bytes() == (root / "reproduction" / nom).read_bytes(), nom
+          rapport = json.loads((root / "recette" / "rapport-ecarts-departements-GEOFLA-2015-2016.json").read_text())
+          assert rapport["departements_controles"] == 96
+          transfert = rapport["transfert_interdepartemental_documente"]
+          assert 6.0 <= transfert["surface_geometrique_perdue_et_gagnee_km2"] <= 6.4
+          assert transfert["date_effet_juridique"] == "2015-12-31"
+          assert rapport["nouveaux_alignements_Pactols"] == 0 and rapport["publication_docs"] is False
+          print("AUDIT 96 départements et événement 44→49 reproductible")
           PY
       - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
         run: |
