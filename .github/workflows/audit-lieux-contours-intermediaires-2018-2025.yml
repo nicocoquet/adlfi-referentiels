@@ -48,6 +48,9 @@ jobs:
             done
           fi
           test "$(find "$RUNNER_TEMP/archives" -name '*.geojson.gz' | wc -l)" -eq 14
+          # Le ZIP de référence contient son ancien rapport de recette ; ce
+          # rapport ne doit jamais préempter la nouvelle sortie reproductible.
+          rm -f "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
           python3 - <<'PY'
           import os,sys
           from pathlib import Path
