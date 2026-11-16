@@ -74,9 +74,28 @@ def analyser_geojson(data: dict) -> dict:
             "surface_km2": round(km2, 6) if km2 is not None else None,
             "bounds_wgs84": [round(x, 7) for x in bounds],
         })
+    unique = len(inspectes) == 1
+    if unique:
+        f = inspectes[0]
+        souverainetes = str(
+            f["proprietes"].get("unites_administratives_souveraines", "")
+        ).casefold()
+        corroboration = (
+            f["valide_topologiquement"]
+            and f["emprise_region_bidassoa"]
+            and f["type_geometrie"] == "MultiPolygon"
+            and "france" in souverainetes and "espagne" in souverainetes
+        )
+    else:
+        corroboration = False
     return {
         "nombre_features": len(inspectes),
         "features": inspectes,
+        "preuve_ign_concordante": bool(corroboration),
+        "qualification": (
+            "CANDIDAT_DOCUMENTAIRE_COG_98101_FORTEMENT_ETAYE"
+            if corroboration else "A_INSTRUIRE"
+        ),
         "identite_COG_98101_etablie": False,
         "geometries_publiees": 0,
     }
