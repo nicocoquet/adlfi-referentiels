@@ -30,6 +30,50 @@ Les premières périodes COG observées commencent en 1946. L'absence d'observat
 
 Le rapport de recette conserve **les lignes avant/après du COG**, leur MOD et leur date. Ces relations sources ne sont pas une approbation d'une succession juridique permanente ni d'un polygone cartographique.
 
+## Résultats contrôlés du lot 02 — chronologie effective
+
+[CI de recette n°43931916896](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43931916896) : génération de **84 vues au 1er janvier**, **41 périodes COG**, **52 lignes de mouvements sur 8 dates distinctes** et **4 autorités disparues**. Le comptage s'établit comme suit :
+
+| Date d'effet COG | Lignes de mouvements | Modalités | Avant → Après (nombre de communes) |
+| --- | ---: | --- | ---: |
+| 21 mars 1946 | 18 | 18 créations (20) | 0 → 18 dans le fichier COG (le 0 ne désigne pas un vide historique réel) |
+| 12 novembre 1949 | 1 | 1 création (20) | 18 → 19 |
+| 7 avril 1950 | 2 | 2 lignes création (20) | 19 → 20 |
+| 1er janvier 1953 | 11 | 5 changements de nom (10), 6 lignes création (20) | 20 → 23 |
+| 27 mars 1969 | 14 | 6 changements de nom (10), 8 lignes fusion (31) | **23 → 19** |
+| 12 novembre 1976 | 2 | 2 lignes création (20) | 19 → 20 |
+| 1er janvier 1989 | 2 | 2 lignes création (20) | 20 → 21 |
+| 1er janvier 1993 | 2 | 2 lignes création (20) | 21 → 22 |
+
+Le **nombre de lignes** d'un événement de création ou de fusion n'est pas nécessairement égal au **nombre de communes créées ou supprimées** : une seule transformation peut comporter une ligne pour la commune conservée et une autre pour le territoire détaché.
+
+### Photographies administratives au premier janvier
+
+| Année | Communes attestées |
+| --- | ---: |
+| 1943 et 1946 | 0 actif dans le fichier au premier janvier, faute d'observations antérieures au 21 mars 1946 |
+| 1947 | 18 |
+| 1953 | 23 |
+| 1969 | 23 (avant la réforme de mars) |
+| 1970 | 19 |
+| 1976 | 19 (avant la création d'Apatou) |
+| 1977 | 20 |
+| 1989 | 21 |
+| 1993 et 2026 | 22 |
+
+### Liens issus des mouvements de fusion simple du 27 mars 1969
+
+Ces quatre transitions sont **explicitement représentées par des lignes MOD 31** du fichier COG. Elles fournissent le *sens de l'événement administratif*, mais **pas** une équivalence entre les concepts Pactols ni une géométrie de l'ancienne commune.
+
+| Ancien code et libellé final | Code destinataire | Date COG | Nature |
+| --- | --- | --- | --- |
+| 97351 — Approuague (chef-lieu Régina) | 97301 — Régina | 1969-03-27 | Fusion simple COG |
+| 97354 — Samson (chef-lieu Dégrad-Samson) | 97352 — Saül | 1969-03-27 | Fusion simple COG |
+| 97355 — Moyenne-Mana (chef-lieu Mana) | 97306 — Mana | 1969-03-27 | Fusion simple COG |
+| 97359 — La Comté (chef-lieu Dégrad-Edmond) | 97310 — Roura | 1969-03-27 | Fusion simple COG |
+
+**Périodes de libellé final** : les quatre noms précédents sont attestés entre **le 1er janvier 1953 et le 27 mars 1969** (fin exclue). Les codes 97351, 97354 et 97355 existaient avant le 1er janvier 1953 avec d'autres noms COG : Centre-Approuague, Haute-Mana et Mana respectivement. **La Comté (97359)** n'a qu'un épisode répertorié à compter du 1er janvier 1953.
+
 ## Quatre autorités historiques distinctes
 
 | Code ancien | ARK Pactols | Statut |
