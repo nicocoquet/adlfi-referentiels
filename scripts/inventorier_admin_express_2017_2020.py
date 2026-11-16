@@ -120,16 +120,37 @@ def inventorier() -> dict:
             candidats = [r for r in rows if re.search(rf"(^|[^0-9]){year}([^0-9]|$)",
                 r["title"] + " " + r["id"] + " " +
                 " ".join(l["href"] for l in r["links"]))]
+            subresources = []
+            # Les dossiers Atom ne sont pas eux-mêmes les archives téléchargeables.
+            # Lire l'étage inférieur pour vérifier les .7z, tailles et liens.
+            for e in candidats[:5]:
+                url = next((l["href"] for l in e["links"]
+                            if l.get("type") == "application/atom+xml"), e["id"])
+                if not url.startswith(ROOT):
+                    raise ValueError("Lien d'archive hors du service IGN officiel")
+                try:
+                    sub = parse_entries(page(url + "?page=1&limit=50"))
+                    subresources.append({"dossier":e["title"],"url":url,
+                                         "entries":sub["entries"],"nombre":len(sub["entries"]),
+                                         "total":sub["total"]})
+                except Exception as exc:
+                    report["erreurs"].append({"annee":year,"produit":product,
+                                               "sous_dossier":e["title"],
+                                               "erreur":type(exc).__name__+": "+str(exc)})
             report["annees"][str(year)][product] = {
                 "url": ROOT + product,
                 "total_annonce": all_count, "pages": retrieved,
                 "entrees": rows[:160],
                 "candidats_annee": candidats[:100],
+                "fichiers_dossiers": subresources,
             }
             print(f"{year} {product}: {len(rows)} entries, {len(candidats)} candidat(s), total={all_count}",
                   flush=True)
             for e in candidats[:7]:
                 print(" ", e["title"][:180], e["id"][:200], flush=True)
+            for sub in subresources:
+                for file in sub["entries"][:9]:
+                    print("  FICHIER:",file["title"][:150],file["id"][:250],flush=True)
     return report
 
 
