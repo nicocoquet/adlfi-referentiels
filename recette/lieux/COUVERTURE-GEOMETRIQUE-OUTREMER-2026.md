@@ -148,6 +148,43 @@ La [CI spécialisée n°43901467790](https://github.com/nicocoquet/adlfi-referen
 
 L'interface publique doit continuer à ne proposer que Région / Département / Commune. Les huit communes associées sont des subdivisions documentaires et ne constituent pas un quatrième échelon proposé au sélecteur.
 
+## Différences détaillées et points témoins (audit du 16 novembre 2026)
+
+La [CI de comparaison des limites territoriales n°43904336072](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43904336072) ajoute une décomposition des différences en composantes surfaciques calculées sur des **copies valides**. Un point intérieur représentatif de chaque composante est exprimé en coordonnées WGS84, uniquement pour guider le contrôle spatial. Les polygones différentiels ne sont pas publiés.
+
+| Indicateur | Tahaa, Te Fenua / national 2026 | Dumbéa, DITTT / national 2026 |
+|---|---:|---:|
+| Source territoriale hors contour national | 1,679855 km² | 1,643315 km² |
+| Contour national hors source territoriale | 1,452219 km² | 1,454445 km² |
+| Nombre de zones d'écart supérieures à 1 m² | 754 | 659 |
+| Indice de Jaccard surfacique | 96,582942 % | 98,774925 % |
+| Part des dix zones principales dans la différence totale | 26,257703 % | 22,087043 % |
+
+**Exemples de composantes prioritaires**, à visualiser en recette, en tenant compte du fait que leur point intérieur ne décrit pas leurs sommets :
+
+- Tahaa : national seul (0,138920 km²), témoin **151,472143° O / 16,591049° S** ; source seule (0,089273 km²), témoin **151,566606° O / 16,606617° S**.
+- Dumbéa : national seul (0,162984 km²), témoin **166,452893° E / 22,153296° S** ; source seule (0,087891 km²), témoin **166,447198° E / 22,157784° S**.
+
+Les centaines de composantes suggèrent des écarts répartis entre de nombreuses petites zones. **L'interprétation « différences de littoral ou de généralisation » n'est pas démontrée par ces seules mesures** : elle demande une confrontation visuelle, éventuellement avec des orthophotographies datées et les limites voisines. La métrique géométrique ne tranche pas la valeur juridique ou administrative des limites.
+
+## Île des Faisans — géométrie officielle IGN obtenue
+
+[Exécution WFS n°43904452349](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43904452349) : contrôle spécialisé **réussi** sur le service https://data.geopf.fr/wfs/ows, dont le GetCapabilities dénombre 861 couches, avec une seule classe Condominium sous le nom **BDTOPO_V3:condominium**.
+
+Le GetFeature de cette couche retourne **une seule feature**, avec :
+
+- **cleabs** : CONDOMIN0000002204519109 ;
+- **unites_administratives_souveraines** : France/Espagne ;
+- **MultiPolygon valide**, dans la Bidassoa, près d'Hendaye ; emprise WGS84 : longitude [-1,766864 ; -1,7642545], latitude [43,3425054 ; 43,3432021] ;
+- **surface géométrique indicative** : 0,006603 km², soit 6 603 m², calculée en EPSG:6933 ;
+- date_creation en base : 2019-09-27 ; date_modification en base : 2026-03-13 ; date_d_apparition et date_de_confirmation vides. **Ces dates ne sont pas des dates juridiques de création ou de souveraineté**.
+
+**Empreinte GetFeature (SHA-256)** : b579f137d4c0aefda86de35c1696d22e90083fb725bb3db5ebbf61c3b9296bbd.
+
+La documentation IGN qualifie explicitement cette entité comme **l'île des Faisans, à souveraineté alternée France/Espagne**. Le rapprochement géographique au code COG **COMER:CDM:98101** est donc fortement étayé, mais aucun champ direct de correspondance COG n'est présent dans la feature. Conserver deux identifiants typés et une relation candidate explicite à approuver ; aucun alignement Pactols inféré. La classe Condominium ne doit être assimilée ni aux communes ni à un échelon supplémentaire du sélecteur.
+
+Code : scripts/auditer_condominium_wfs_ign.py, tests/test_auditer_condominium_wfs_ign.py ; contrôle CI .github/workflows/lieux-condominium-ign-wfs.yml.
+
 ## Étapes avant publication cartographique
 
 - Examiner les géométries absentes, invalides ou traversant potentiellement l'antiméridien ; identifier des sources alternatives, notamment pour TAAF, Wallis-et-Futuna, Clipperton et Île des Faisans.
