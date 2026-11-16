@@ -83,6 +83,22 @@ jobs:
           assert r["statistiques"]["geometries_source_2015_dans_le_domaine_guyane"]==22
           assert r["source2015"]["epsg2972_attendu_selon_ign"]==2972
           assert isinstance(r["source2015"]["crs_equivalent_epsg2972"],bool)
+          import math
+          comp=r["source2015"]["controle_operationnel_epsg2972"]
+          assert comp["nombre_points"]==22
+          assert math.isfinite(comp["ecart_maximum_wgs84_m"])
+          assert 0<=comp["ecart_moyen_wgs84_m"]<=comp["ecart_maximum_wgs84_m"]
+          assert r["source2015"]["datum_wkt"]
+          assert r["source2015"]["ellipsoide_wkt"]
+          assert r["source2015"]["projection_wkt"]
+          assert r["source2015"]["parametres_projection_wkt"]
+          print("COMPARAISON WKT / EPSG2972",json.dumps({
+            "datum":r["source2015"]["datum_wkt"],
+            "ellipsoide":r["source2015"]["ellipsoide_wkt"],
+            "projection":r["source2015"]["projection_wkt"],
+            "parametres":r["source2015"]["parametres_projection_wkt"],
+            "difference_positions":comp,
+          },ensure_ascii=False,indent=2))
           assert all(-60<x<-48 for x in r["source2015"]["centres_wgs84_plage_lons"])
           assert all(0<x<7 for x in r["source2015"]["centres_wgs84_plage_lats"])
           emprise=r["statistiques"]["emprise_collective_comparaison"]
