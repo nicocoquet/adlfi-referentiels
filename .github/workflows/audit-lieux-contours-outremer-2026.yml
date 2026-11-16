@@ -48,6 +48,7 @@ jobs:
                   (out/name).write_bytes(raw)
                   print(name,len(raw),hashlib.sha256(raw).hexdigest())
           known={
+             "v_commune_2026.csv":"7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
              "v_comer_2026.csv":"d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
              "v_commune_comer_2026.csv":"9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
           }
@@ -55,7 +56,9 @@ jobs:
               assert hashlib.sha256((out/name).read_bytes()).hexdigest()==sha, name
           geo=tmp/"communes-100m.geojson.gz"
           assert 1_000_000 < geo.stat().st_size < 50_000_000
-          print(geo.name,geo.stat().st_size,hashlib.sha256(geo.read_bytes()).hexdigest())
+          geo_sha=hashlib.sha256(geo.read_bytes()).hexdigest()
+          assert geo_sha=="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778", geo_sha
+          print(geo.name,geo.stat().st_size,geo_sha)
           PY
       - name: Qualifier deux fois sans corriger ni publier les contours
         run: |
@@ -93,7 +96,7 @@ jobs:
           import csv
           path=Path(os.environ["RUNNER_TEMP"])/"recette1/controle_233_cibles.csv"
           with path.open(encoding="utf-8-sig",newline="") as f:
-              anomalies=[{"cle":x["cle"],"nom":x["libelle_cog"],"statut":x["statut"],"type":x["type_geometrie"]} for x in csv.DictReader(f,delimiter=";") if x["statut"] not in ("PRESENTE_VALIDE_A_QUALIFIER","NON_EVALUE_TERRITOIRE_SANS_COUCHE_DEDIEE")]
+              anomalies=[{"cle":x["cle"],"nom":x["libelle_cog"],"statut":x["statut"],"type":x["type_geometrie"],"motif":x["motif_topologique"],"reparation_diagnostic":x["type_reparation_theorique"],"ecart_aire_pct":x["ecart_aire_theorique_pct"]} for x in csv.DictReader(f,delimiter=";") if x["statut"] not in ("PRESENTE_VALIDE_A_QUALIFIER","NON_EVALUE_TERRITOIRE_SANS_COUCHE_DEDIEE")]
           print("Anomalies géométriques à instruire :",json.dumps(anomalies,ensure_ascii=False,sort_keys=True))
           PY
       - name: Artefact d'audit seulement, hors GitHub Pages
