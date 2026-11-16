@@ -185,6 +185,27 @@ La documentation IGN qualifie explicitement cette entité comme **l'île des Fai
 
 Code : scripts/auditer_condominium_wfs_ign.py, tests/test_auditer_condominium_wfs_ign.py ; contrôle CI .github/workflows/lieux-condominium-ign-wfs.yml.
 
+## Confrontation triangulaire de Tahaa — deux sources polynésiennes et source nationale
+
+La [CI n°43905295979](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/43905295979) confirme la comparaison **sur un seul instantané Te Fenua** et deux générations de rapport identiques.
+
+| Comparaison | Union des 8 communes associées (2022) / Te Fenua | Union des 8 (2022) / National (2026) | Te Fenua / National (2026) |
+|---|---:|---:|---:|
+| Différence symétrique | **1,027156 km²** | 2,630999 km² | 3,132074 km² |
+| Indice de Jaccard | **98,873210 %** | ≈97,95 % sur la surface de l'union (recouvrement, **pas indice de Jaccard**) | 96,582942 % |
+| Validité source comparée (avant make_valid) | Union : valide ; Te Fenua : invalide | Union : valide ; national : invalide | Te Fenua : invalide ; national : invalide |
+
+Dans la comparaison **union / Te Fenua** :
+
+- surface de l'union seule : **0,949951 km²** ;
+- surface Te Fenua seule : **0,077205 km²** ;
+- différence nette de surfaces : **0,872746 km²** ;
+- 2 318 zones différentielles supérieures à 1 m², dont les dix principales représentent 58,177205 % de la différence totale.
+
+**Interprétation prudente :** la concordance spatiale de l'union et de Te Fenua est forte, sans que cela démontre l'indépendance de leurs sources ni la vérité juridique des frontières. La distinction entre **source publiée en 2022**, **service territorial à date locale indéterminée** et **contour national daté du 4 mai 2026** doit être conservée. Aucune version n'est officiellement substituée à une autre.
+
+**Proposition éditoriale à instruire :** pour une représentation de Tahaa sans défaut topologique, l'union des huit communes associées fournit un candidat de reconstitution documentée de 2022. En l'absence de validation des limites pour 2026, son emploi ne devrait pas être présenté comme « contour officiel COG 2026 ».
+
 ## Étapes avant publication cartographique
 
 - Examiner les géométries absentes, invalides ou traversant potentiellement l'antiméridien ; identifier des sources alternatives, notamment pour TAAF, Wallis-et-Futuna, Clipperton et Île des Faisans.
