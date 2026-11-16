@@ -101,6 +101,27 @@ def examiner_source(archive: Path):
     }
 
 
+def diagnostic_tefenua(union, snapshot: dict) -> dict:
+    """Confronter deux sources géométriques, sans attribuer le code COG."""
+    if snapshot.get("schema") != "adlfi.lieux.sources.territoriales.v1":
+        raise ValueError("Instantané Te Fenua non conforme")
+    source = snapshot.get("sources", {}).get("98745", {})
+    props = source.get("proprietes", {})
+    if (normaliser(props.get("com_nom", "")) != "tahaa"
+        or props.get("com_id") != 45
+        or not source.get("geojson", {}).get("geometry")):
+        raise ValueError("Référent Tahaa de la source Te Fenua non attesté")
+    return {
+        "code_cog_presume": "98745",
+        "code_source": props["com_id"],
+        "empreinte_geojson": source.get("geometrie_sha256", ""),
+        "statut": "COMPARAISON_NON_VALIDANTE",
+        "mesures": stats_comparaison(
+            mapping(union), source["geojson"]["geometry"]
+        ),
+    }
+
+
 def construire(archive: Path, national: Path, territorial: Path | None = None) -> dict:
     if hashlib.sha256(national.read_bytes()).hexdigest() != NATIONAL_SHA:
         raise ValueError("Empreinte GeoJSON national 2026 inattendue")
@@ -114,23 +135,7 @@ def construire(archive: Path, national: Path, territorial: Path | None = None) -
     comparaison_territoriale = None
     if territorial is not None:
         snapshot = json.loads(territorial.read_text(encoding="utf-8"))
-        if snapshot.get("schema") != "adlfi.lieux.sources.territoriales.v1":
-            raise ValueError("Instantané Te Fenua non conforme")
-        source = snapshot.get("sources", {}).get("98745", {})
-        props = source.get("proprietes", {})
-        if (normaliser(props.get("com_nom", "")) != "tahaa"
-            or props.get("com_id") != 45
-            or not source.get("geojson", {}).get("geometry")):
-            raise ValueError("Référent Tahaa de la source Te Fenua non attesté")
-        comparaison_territoriale = {
-            "code_cog_presume": "98745",
-            "code_source": props["com_id"],
-            "empreinte_geojson": source.get("geometrie_sha256", ""),
-            "statut": "COMPARAISON_NON_VALIDANTE",
-            "mesures": stats_comparaison(
-                mapping(union), source["geojson"]["geometry"]
-            ),
-        }
+        comparaison_territoriale = diagnostic_tefenua(union, snapshot)
     return {
         "schema": "adlfi.lieux.tahaa.comparaison_subdivisions2022.v1",
         "statut": "RECETTE_NON_VALIDANTE_NON_PUBLIEE",
