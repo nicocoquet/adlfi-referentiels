@@ -34,10 +34,12 @@
         "etat_cog": "2026-01-01",
         "communes": 212,
         "autres_entites": 21,
-        "relations_pactols_cog_validees_2026": 16,
+        "relations_pactols_cog_validees_2026": 38,
         "ark_confirmes_lien_non_valide": 2,
         "geometries_publiees": 0,
-        "identites_historiques_retroprojetees": 0
+        "identites_historiques_retroprojetees": 0,
+        "relations_pactols_cog_validees_guyane_2026": 22,
+        "source_validations_guyane": "recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv"
       }
     },
     "personnes": {
