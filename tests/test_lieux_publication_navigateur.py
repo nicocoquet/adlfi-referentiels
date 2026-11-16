@@ -400,7 +400,7 @@ def main():
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97209&annee=1947",
                   wait_until="domcontentloaded")
         page.wait_for_function(
-            "() => document.querySelector('#detail')?.textContent.includes('Fort-de-France') and document.querySelector('#detail')?.textContent.includes('État COG de Martinique')",
+            "() => document.querySelector('#detail')?.textContent.includes('Fort-de-France') && document.querySelector('#detail')?.textContent.includes('État COG de Martinique')",
             timeout=60000)
         assert "Aucun contour historique de Martinique n’est affiché" in page.locator("#detail").text_content()
 
