@@ -135,7 +135,7 @@ class LieuxUITests(unittest.TestCase):
 
     def test_limitations_and_attribution_visible(self):
         for excerpt in (
-            "103 correspondances", "contours", "limites régionales",
+            "103 correspondances", "contours", "Les régions et départements des cinq DROM",
             "https://www.data.gouv.fr/datasets/contours-administratifs",
             "OpenStreetMap", "Zoom sur", "Échelon territorial",
             "Situation administrative au 1er janvier",
