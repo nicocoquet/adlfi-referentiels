@@ -99,6 +99,17 @@ class IndexOutremerTests(unittest.TestCase):
                             for x in other["entrees"]))
         self.assertEqual(other["manifest"]["geometries_publiees"], 0)
 
+    def test_recherche_globale_des_entites_non_communales(self):
+        c, other = construire(donnees(), diagnostics(donnees()),
+                             decisions(), strict=False)
+        self.assertTrue(all(x["recherche_globale"] for x in other["entrees"]))
+        result = rechercher(c["entrees"] + other["entrees"], "kerguelen")
+        self.assertEqual([x["id"] for x in result], ["COMER:DIS:98412"])
+        self.assertIsNone(result[0]["niveau_recherche"])
+        self.assertTrue(result[0]["interdiction_assimilation_commune"])
+        result = rechercher(c["entrees"] + other["entrees"], "ile des faisans")
+        self.assertTrue(any(x["id"]=="COMER:CDM:98101" for x in result))
+
     def test_ark_valide_2026_et_ark_confirme_sont_distincts(self):
         c,_ = construire(donnees(), diagnostics(donnees()),
                          decisions(), strict=False)
