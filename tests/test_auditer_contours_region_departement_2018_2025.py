@@ -8,6 +8,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -40,11 +41,16 @@ class Archives(unittest.TestCase):
             chemin = Path(temp) / "regions-2018.geojson.gz"
             data = json.dumps(fc([polygon("11")])).encode()
             chemin.write_bytes(gzip.compress(data,mtime=0))
-            doc, empreinte = audit.lire_geojson(chemin, originaire=True)
-            self.assertEqual(len(doc["features"]), 1)
-            self.assertEqual(empreinte, audit.sha256(chemin.read_bytes()))
-            chemin.write_bytes(gzip.compress(json.dumps({"type": "Feature"}).encode(),mtime=0))
-            with self.assertRaisesRegex(ValueError,"GeoJSON"):
+            with patch.dict(audit.HASHES_VALIDES, {}, clear=True):
+                doc, empreinte = audit.lire_geojson(chemin, originaire=True)
+                self.assertEqual(len(doc["features"]), 1)
+                self.assertEqual(empreinte, audit.sha256(chemin.read_bytes()))
+                chemin.write_bytes(gzip.compress(json.dumps({"type": "Feature"}).encode(),mtime=0))
+                with self.assertRaisesRegex(ValueError,"GeoJSON"):
+                    audit.lire_geojson(chemin, originaire=True)
+            # En recette stricte, une source modifiée doit être rejetée
+            # AVANT même le parsing de sa géométrie.
+            with self.assertRaisesRegex(ValueError,"différente"):
                 audit.lire_geojson(chemin, originaire=True)
 
     def test_codes_doublons_et_territoires_non_regionaux(self):
