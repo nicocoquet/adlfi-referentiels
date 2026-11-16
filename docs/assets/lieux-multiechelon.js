@@ -9,6 +9,7 @@ const ANNEES_QUALIFIEES=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
 const ANNEES_DISPONIBLES=new Set([2015,2016,...ANNEES_QUALIFIEES,2026]);
 const core=window.AdlfiLieuxChronologieCore;
 const outremerSearch=window.AdlfiLieuxOutremerSearch;
+const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -170,14 +171,15 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
    loadJSON(ROOT+'lieux-historique/index-annuels.json'),
    loadJSON(ROOT+'lieux-historique/index-ponts.json'),
    loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
+   loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -194,9 +196,10 @@ async function start(){
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  const autresCOG=outremerSearch.creerIndex(indexOutremer);
  state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
+  state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -212,6 +215,11 @@ async function start(){
    const entry=state.outremer.get(cogId);
    state.selected={kind:entry.kind,id:entry.id,code:entry.code};
    if(entry.kind==='cog2026')$('level').value='commune';
+ }
+ const historicalCode=params.get('ref_cog_historique');
+ if(historicalCode && state.guyane.old.has(historicalCode)){
+   state.selected={kind:'cogHistoriqueGuyane',code:historicalCode};
+   $('level').value='commune';
  }
  const hash=new URLSearchParams(location.hash.replace(/^#/,'')),ark=hash.get('ark');
  if(ark){const found=state.indexes.find(x=>x.kind==='pactols'&&x.ark===ark);
@@ -258,6 +266,8 @@ function updateUrl(){
  if(state.selected?.kind==='cog2026'||state.selected?.kind==='autre_cog2026'){
    u.searchParams.set('ref_cog',state.selected.id);
  }else u.searchParams.delete('ref_cog');
+ if(state.selected?.kind==='cogHistoriqueGuyane')u.searchParams.set('ref_cog_historique',state.selected.code);
+ else u.searchParams.delete('ref_cog_historique');
  history.replaceState(null,'',u);
 }
 function frame(){
