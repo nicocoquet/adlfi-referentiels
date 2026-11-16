@@ -16,6 +16,9 @@ on:
       - 'scripts/construire_vue_lieux_multiechelon.py'
       - 'tests/test_construire_vue_lieux_multiechelon.py'
       - 'recette/lieux/vue-lieux-multiechelon-modele.html'
+      - 'scripts/construire_vue_lieux_leaflet_integree.py'
+      - 'tests/test_construire_vue_lieux_leaflet_integree.py'
+      - 'recette/lieux/vue-lieux-leaflet-integree-modele.html'
       - 'recette/lieux/INTERFACE-MULTIECHELON-2015-2016-RECETTE.md'
       - 'recette/lieux/ECARTS-GEOFLA-DEPARTEMENTS-2015-2016-20261116.md'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
@@ -295,6 +298,38 @@ jobs:
           assert report["alignements_Pactols_generes"] == 0
           assert report["publication_docs"] is False
           print("CARTE RECETTE multi-échelon 2015-2016 : 227 états, 4 couches, reproductibilité OK")
+          PY
+      - name: Intégrer la carte Leaflet OSM aux quatre corpus communaux existants
+        run: |
+          python3 -m py_compile scripts/construire_vue_lieux_leaflet_integree.py
+          python3 -m unittest discover -s tests -p 'test_construire_vue_lieux_leaflet_integree.py' -v
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess, json, os
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          args = [
+            "python3", "scripts/construire_vue_lieux_leaflet_integree.py",
+            "--modele", "recette/lieux/vue-lieux-leaflet-integree-modele.html",
+            "--source-html", str(root / "recette/AdlFI_Lieux_Multiechelon_2015_2016.html"),
+            "--dossier-communautes", "docs/data/lieux-chronologie",
+            "--lieux", "docs/data/lieux.json",
+            "--core", "docs/assets/lieux-chronologie-core.js",
+          ]
+          for folder in ("recette", "reproduction"):
+            subprocess.run(args + [
+              "--sortie", str(root / folder / "AdlFI_Lieux_Leaflet_Integration_2015_2016.html")
+            ], check=True)
+          for filename in ("AdlFI_Lieux_Leaflet_Integration_2015_2016.html",
+                           "rapport-integration-leaflet.json"):
+            assert (root / "recette" / filename).read_bytes() == (root / "reproduction" / filename).read_bytes(), filename
+          rapport = json.loads((root / "recette/rapport-integration-leaflet.json").read_text())
+          assert rapport["autorites_pactols_PACA_intactes"] == 103
+          assert (rapport["regions_2015"],rapport["regions_2016"],
+                  rapport["departements_2015"],rapport["departements_2016"]) == (22,13,96,96)
+          assert rapport["nouvelles_correspondances_Pactols"] == 0
+          assert rapport["publication_docs"] is False
+          assert len(rapport["sources_communales_SHA256"]) == 9
+          print("INTÉGRATION LEAFLET + 4 corpus communaux + 103 Pactols : reproductibilité OK")
           PY
       - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
         run: |
