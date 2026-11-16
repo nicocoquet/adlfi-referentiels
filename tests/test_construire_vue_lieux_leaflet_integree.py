@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-SCRIPT = Path(__file__).resolve().parent / 'construire_vue_lieux_leaflet_integree.py'
+SCRIPT = Path(__file__).resolve().parents[1] / 'scripts' / 'construire_vue_lieux_leaflet_integree.py'
 spec = importlib.util.spec_from_file_location('integration_leaflet', SCRIPT)
 module = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = module
