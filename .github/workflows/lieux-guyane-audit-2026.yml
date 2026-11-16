@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - 'scripts/auditer_guyane_2026.py'
+      - 'scripts/construire_chronologie_guyane.py'
+      - 'tests/test_construire_chronologie_guyane.py'
+      - 'recette/lieux/GUYANE-CANDIDATS-HISTORIQUES-PACTOLS-2026.csv'
+      - 'recette/lieux/GUYANE-CHRONOLOGIE-RECETTE.md'
       - 'tests/test_auditer_guyane_2026.py'
       - 'recette/lieux/GUYANE-LOT-01-2026.md'
       - 'recette/lieux/GUYANE-LOT-01-RESULTATS.md'
@@ -47,6 +51,9 @@ jobs:
       - name: Tests synthétiques, sans réseau
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_auditer_guyane_2026.py' -v
+      - name: Tester la chronologie guyanaise (dates d'effet et frontières non inférées)
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_construire_chronologie_guyane.py' -v
       - name: Tester les décisions Guyane appliquées à la projection publique
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_validations_guyane_pactols_2026.py' -v
@@ -153,6 +160,58 @@ jobs:
                     "URI Pactols",len(x["pactols_uri_insee_source"]),
                     "labels Pactols",len(x["pactols_concordances_lexicales"]))
           PY
+      - name: Construire deux fois les chronologies documentaires 1943–2026
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for sortie in "$RUNNER_TEMP/chrono1" "$RUNNER_TEMP/chrono2"; do
+            python3 scripts/construire_chronologie_guyane.py \
+              --audit "$RUNNER_TEMP/recette1/guyane-22-communes-audit.json" \
+              --validations recette/lieux/GUYANE-VALIDATIONS-PACTOLS-COG-2026.csv \
+              --historiques recette/lieux/GUYANE-CANDIDATS-HISTORIQUES-PACTOLS-2026.csv \
+              --sortie "$sortie"
+          done
+          diff -qr "$RUNNER_TEMP/chrono1" "$RUNNER_TEMP/chrono2"
+      - name: Contrôler le modèle chronologique non rétropolé
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"chrono1"
+          meta=json.loads((root/"manifest-guyane-chronologie.json").read_text())
+          stats=meta["statistiques"]
+          assert stats["communes_COG_2026"]==22
+          assert stats["codes_distincts_historique"]==26
+          assert stats["periodes_COG"]==41
+          assert stats["lignes_mouvements_COG"]==52
+          assert stats["codes_historiques_disparus"]==4
+          assert stats["liens_Pactols_actuels_valides_2026"]==22
+          assert stats["liens_Pactols_historiques_valides"]==0
+          assert stats["geometries_historiques_validees"]==0
+          assert stats["nouvelles_succession_inferrees"]==0
+          assert stats["etats_annuels"]==84
+          assert meta["nouvelles_geometries"]==0
+          assert meta["nouvelles_relations_Pactols"]==0
+          states=json.loads((root/"guyane-etats-1943-2026.json").read_text())["etats"]
+          selected={x["annee"]:x["total"] for x in states
+                    if x["annee"] in (1943,1946,1953,1969,1970,1976,1977,1989,1993,2026)}
+          assert selected[1943]==0
+          assert selected[2026]==22
+          hist=json.loads((root/"guyane-autorites-historiques.json").read_text())["candidats"]
+          assert {r["code_insee_historique"] for r in hist} == {
+            "97351","97354","97355","97359"}
+          assert all(r["successeur_COG"]=="A_INSTRUIRE_A_PARTIR_DES_MOUVEMENTS"
+                     for r in hist)
+          print("ETATS COG GUYANE",selected)
+          print("STATISTIQUES CHRONOLOGIE",json.dumps(stats,ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver les états et mouvements historiques sans géométrie
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-guyane-chronologie-cog-1943-2026-recette
+          path: ${{ runner.temp }}/chrono1/
+          retention-days: 30
+          if-no-files-found: error
       - name: Archiver les rapports Guyane sans publier les géométries
         uses: actions/upload-artifact@v4
         with:
