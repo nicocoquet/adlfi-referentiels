@@ -53,7 +53,7 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(year_attrs.get("min"), "1943")
         self.assertEqual(year_attrs.get("max"), "2026")
         self.assertEqual(year_attrs.get("step"), "1")
-        self.assertEqual(year_attrs.get("value"), "2016")
+        self.assertEqual(year_attrs.get("value"), "2026")
         self.assertEqual(year_attrs.get("aria-describedby"), "year-description")
         self.assertEqual(self.page.ids["year-label"][0], "output")
         self.assertEqual(self.page.ids["year-label"][1].get("for"), "year")
@@ -112,7 +112,7 @@ class LieuxUITests(unittest.TestCase):
 
     def test_limitations_and_attribution_visible(self):
         for excerpt in (
-            "103 correspondances", "contours", "limites historiques",
+            "103 correspondances", "contours", "limites régionales",
             "https://www.data.gouv.fr/datasets/contours-administratifs",
             "OpenStreetMap", "Zoom sur", "Échelon territorial",
             "Situation administrative au 1er janvier",
