@@ -34,9 +34,18 @@ jobs:
           set -euo pipefail
           for year in 2017 2020; do
             mkdir -p "$RUNNER_TEMP/year-$year"
-            gh run download 43887011910 --repo "$GITHUB_REPOSITORY" \
+            if ! gh run download 43887011910 --repo "$GITHUB_REPOSITORY" \
               --name "adlfi-lieux-geom-qualification-$year" \
-              --dir "$RUNNER_TEMP/year-$year"
+              --dir "$RUNNER_TEMP/year-$year"; then
+              if [ "$year" != "2020" ]; then
+                echo "Artefact de référence 2017 indisponible." >&2
+                exit 1
+              fi
+              echo "Reprise de la recette 2020 vérifiée par SHA depuis le runner alternatif."
+              gh run download 43889131272 --repo "$GITHUB_REPOSITORY" \
+                --name adlfi-lieux-reprise-geometrique-2020 \
+                --dir "$RUNNER_TEMP/year-2020"
+            fi
             test -s "$RUNNER_TEMP/year-$year/regions-$year.geojson"
             test -s "$RUNNER_TEMP/year-$year/departements-$year.geojson"
             test -s "$RUNNER_TEMP/year-$year/index-$year.json"
