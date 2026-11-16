@@ -15,8 +15,30 @@ let activeRequest=0;
 const ROOT='../data/';
 const layerData=new Map();
 let communeDataPromise=null;
+let timelineTimer=null;
 function year(){return Number($('year').value)}
 function level(){return $('level').value}
+function refreshTimeline(){
+ const y=year();
+ $('year-label').textContent=String(y);
+ $('year-label').value=String(y);
+ $('year').setAttribute('aria-valuetext','Situation administrative au 1er janvier '+y);
+ $('year-prev').disabled=y<=1943;
+ $('year-next').disabled=y>=2026;
+ $('year-now').disabled=y===2026;
+}
+function commitTimeline(){
+ if(timelineTimer!==null){clearTimeout(timelineTimer);timelineTimer=null;}
+ // Une fiche communale reste suivie d'une année à l'autre ; une fiche de géométrie
+ // régionale/départementale doit être désélectionnée si son instantané change.
+ if(state.selected?.kind==='admin'&&state.selected.year!==year())state.selected=null;
+ render();
+}
+function setTimelineYear(value){
+ $('year').value=String(Math.max(1943,Math.min(2026,value)));
+ refreshTimeline();
+ commitTimeline();
+}
 function selectedFeature(){if(state.selected?.kind!=='admin')return null;const x=state.selected;return geo.layers[String(x.year)]?.[x.level]?.find(f=>f.properties.code===x.code)||null}
 async function loadJSON(url){
  const r=await fetch(url,{cache:'force-cache'});
@@ -86,9 +108,6 @@ async function start(){
    if(data.region!==id)throw Error('Corps communal mal identifié : '+id);
    commun.regions[id]={cog:data};
  }
- for(let y=1943;y<=2026;y++){
-   const op=document.createElement('option');op.value=String(y);op.textContent=String(y);$('year').append(op);
- }
  $('year').value='2016';
  const former=window.AdlfiLieuxSearch.creerIndex(pactols.autorites);
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
@@ -118,7 +137,15 @@ async function start(){
  }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible : la recherche et les fiches restent accessibles.'}
  $('zoom').addEventListener('change',()=>{frame();updateUrl()});
  $('level').addEventListener('change',()=>{state.selected=null;render()});
- $('year').addEventListener('change',()=>{state.selected=null;render()});
+ $('year').addEventListener('input',()=>{
+   refreshTimeline();
+   if(timelineTimer!==null)clearTimeout(timelineTimer);
+   timelineTimer=setTimeout(commitTimeline,160);
+ });
+ $('year').addEventListener('change',commitTimeline);
+ $('year-prev').addEventListener('click',()=>setTimelineYear(year()-1));
+ $('year-next').addEventListener('click',()=>setTimelineYear(year()+1));
+ $('year-now').addEventListener('click',()=>setTimelineYear(2026));
  $('reference').addEventListener('change',render);
  $('reset').addEventListener('click',frame);
  $('search').addEventListener('input',search);
@@ -168,6 +195,7 @@ function geoLayer(features,{reference=false}={}){
 function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}})))}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
+ refreshTimeline();
  const sequence=++activeRequest;
  const y=year(),l=level(),current=state.selected;
  $('map-title').textContent=(label[l]||l)+' · état au 1er janvier '+y;
