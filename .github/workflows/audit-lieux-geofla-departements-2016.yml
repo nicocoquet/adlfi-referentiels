@@ -13,6 +13,10 @@ on:
       - 'recette/lieux/CONTROLE-NATIONAL-REGIONS-METROPOLE-IGN-2015-2016.md'
       - 'scripts/auditer_ecarts_departementaux_geofla_2015_2016.py'
       - 'tests/test_auditer_ecarts_departementaux_geofla_2015_2016.py'
+      - 'scripts/construire_vue_lieux_multiechelon.py'
+      - 'tests/test_construire_vue_lieux_multiechelon.py'
+      - 'recette/lieux/vue-lieux-multiechelon-modele.html'
+      - 'recette/lieux/INTERFACE-MULTIECHELON-2015-2016-RECETTE.md'
       - 'recette/lieux/ECARTS-GEOFLA-DEPARTEMENTS-2015-2016-20261116.md'
       - '.github/workflows/audit-lieux-geofla-departements-2016.yml'
   workflow_dispatch:
@@ -259,6 +263,38 @@ jobs:
           assert transfert["date_effet_juridique"] == "2015-12-31"
           assert rapport["nouveaux_alignements_Pactols"] == 0 and rapport["publication_docs"] is False
           print("AUDIT 96 départements et événement 44→49 reproductible")
+          PY
+      - name: Construire la carte autonome multi-échelon (régions et départements datés)
+        run: |
+          python3 -m py_compile scripts/construire_vue_lieux_multiechelon.py
+          python3 -m unittest discover -s tests -p 'test_construire_vue_lieux_multiechelon.py' -v
+          python3 - <<'PY'
+          import os, json, subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "geofla-2016"
+          src = json.loads((root / "shapefiles-geofla.json").read_text())
+          cmd = ["python3", "scripts/construire_vue_lieux_multiechelon.py",
+                 "--modele", "recette/lieux/vue-lieux-multiechelon-modele.html",
+                 "--shp2015", src["2015"]["shapefile"],
+                 "--shp2016", src["2016"]["shapefile"],
+                 "--regions2015", str(root / "recette/regions-metropole-2015-IGN-geofla.geojson"),
+                 "--regions2016", str(root / "recette/regions-metropole-2016-IGN-geofla.geojson"),
+                 "--dep2015", str(root / "depts2015-txt.zip"),
+                 "--dep2016", str(root / "depts2016-txt.zip"),
+                 "--reg2015", str(root / "reg2015-txt.zip"),
+                 "--reg2016", str(root / "reg2016-txt.zip")]
+          name = "AdlFI_Lieux_Multiechelon_2015_2016.html"
+          for folder in ("recette", "reproduction"):
+              subprocess.run(cmd + ["--sortie", str(root / folder / name)], check=True)
+          for fname in (name, "rapport-interface-multiechelon-2015-2016.json"):
+              assert (root / "recette" / fname).read_bytes() == (root / "reproduction" / fname).read_bytes(), fname
+          report = json.loads((root / "recette/rapport-interface-multiechelon-2015-2016.json").read_text())
+          assert (report["regions_2015"],report["regions_2016"]) == (22,13)
+          assert (report["departements_2015"],report["departements_2016"]) == (96,96)
+          assert report["simplification_affichage_metres"] == 100
+          assert report["alignements_Pactols_generes"] == 0
+          assert report["publication_docs"] is False
+          print("CARTE RECETTE multi-échelon 2015-2016 : 227 états, 4 couches, reproductibilité OK")
           PY
       - name: Générer et reproduire la carte autonome IGN 2015 / IGN 2016
         run: |
