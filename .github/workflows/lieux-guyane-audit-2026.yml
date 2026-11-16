@@ -72,6 +72,24 @@ jobs:
           manifest=json.loads((root/"manifest-guyane.json").read_text())
           b=report["bilan"]
           assert b["communes_COG_2026"]==22
+          assert b["codes_distincts_historiques_973"]==26
+          assert b["periodes_historiques_973"]==41
+          assert b["mouvements_impliquant_code_973"]==52
+          assert b["candidatures_avec_uri_source"]==22
+          assert b["source_Pactols_stats"]["liens_insee_rejetes_hors_communes_2026"]==4
+          assert len(b["source_Pactols_stats"]["liens_insee_non_courants"])==4
+          import csv
+          with (root/"guyane-pactols-candidats-26.csv").open(encoding="utf-8-sig",newline="") as fh:
+              candidats=list(csv.DictReader(fh,delimiter=";"))
+          assert len(candidats)==26
+          assert len({(x["code_insee_source"],x["ark_pactols_source"]) for x in candidats})==26
+          assert {x["code_insee_source"] for x in candidats
+                  if x["statut_code_COG"]=="CODE_COG_HISTORIQUE_NON_COURANT"} == {
+                      "97351","97354","97355","97359"}
+          assert all(x["predicat_source"]=="exactMatch" and
+                     x["concept_deprecie"]=="non" and
+                     x["decision_editoriale"].startswith("A_INSTRUIRE")
+                     for x in candidats)
           assert b["geometries_topologiquement_valides"]==22
           assert b["correspondances_Pactols_validees_par_cet_audit"]==0
           assert b["contours_adoptes_par_cet_audit"]==0
@@ -85,6 +103,10 @@ jobs:
           assert all(r["statut_alignement_Pactols"]=="A_INSTRUIRE" for r in report["communes"])
           assert all(not r["geometrie_2026"]["contour_adopte"] for r in report["communes"])
           print("BILAN GUYANE",json.dumps(b,ensure_ascii=False,sort_keys=True,indent=2))
+          print("CANDIDATS PACTOLS",json.dumps([
+              {k:x[k] for k in ("code_insee_source","libelle_COG","ark_pactols_source",
+                                "statut_code_COG","concordance_prefLabel_COG")}
+              for x in candidats],ensure_ascii=False,sort_keys=True,indent=2))
           for x in report["communes"]:
               print("FICHE",x["code_COG_2026"],x["libelle_COG_2026"],
                     "episodes",len(x["historique_meme_code"]),
