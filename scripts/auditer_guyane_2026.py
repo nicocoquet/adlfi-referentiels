@@ -33,8 +33,10 @@ GEOM_SHA = "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 RDF = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"
 SKOS = "{http://www.w3.org/2004/02/skos/core#}"
 OWL = "{http://www.w3.org/2002/07/owl#}"
+DCT = "{http://purl.org/dc/terms/}"
 XML = "{http://www.w3.org/XML/1998/namespace}"
 INSEE_URI = re.compile(r"^https?://id[.]insee[.]fr/geo/commune/(973[0-9]{2})/?$")
+INSEE_URI_ALL = re.compile(r"^https?://id[.]insee[.]fr/geo/commune/([0-9]{5})/?$")
 ARK = re.compile(r"^https?://ark[.]frantiq[.]fr/ark:/((?:26678)/[A-Za-z0-9]+)$")
 SCHEMA = "adlfi.lieux.guyane.audit.cog-pactols-geom.v1"
 
@@ -117,19 +119,26 @@ def lire_pactols(path: Path, communes: dict) -> tuple[dict,dict]:
                 labels.append({"libelle":child.text.strip(),
                                "propriete":"prefLabel" if child.tag==SKOS+"prefLabel" else "altLabel"})
         cited=set()
+        exact_codes=set()
         for child in element:
             if child.tag not in (SKOS+"exactMatch",SKOS+"closeMatch",
                                  SKOS+"relatedMatch",OWL+"sameAs"):
                 continue
             uri=child.get(RDF+"resource","")
+            if child.tag==SKOS+"exactMatch":
+                global_match=INSEE_URI_ALL.fullmatch(uri)
+                if global_match:exact_codes.add(global_match.group(1))
             cm=INSEE_URI.fullmatch(uri)
             if cm:
                 cited.add((cm.group(1),child.tag.split("}")[-1],uri))
         if cited:meta["concepts_avec_code_insee_guyane"]+=1
         deprecie=any(x.tag==OWL+"deprecated" and
             (x.text or "").strip().lower() in ("true","1") for x in element)
+        remplace=bool(element.findall(DCT+"isReplacedBy"))
         info={"ark":match.group(1),"source_uri":resource,
-              "libelles_fr":labels,"concept_deprecie":deprecie}
+              "libelles_fr":labels,"concept_deprecie":deprecie,
+              "concept_remplace":remplace,
+              "codes_communes_INSEE_exactMatch":sorted(exact_codes)}
         for code,pred,uri in sorted(cited):
             if code not in codes:
                 meta["liens_insee_rejetes_hors_communes_2026"]+=1
