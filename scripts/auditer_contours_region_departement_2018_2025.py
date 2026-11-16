@@ -19,9 +19,24 @@ HORS_COG = frozenset(("975", "977", "978", "984", "986", "987", "988", "989"))
 METRO_REGIONS = frozenset(("11", "24", "27", "28", "32", "44", "52", "53",
                            "75", "76", "84", "93", "94"))
 DROM_REGIONS = frozenset(("01", "02", "03", "04", "06"))
-# Les empreintes des originaux sont introduites uniquement après une première
-# recette vérifiée ; aucune prétention d'authentification lors de l'inventaire.
-HASHES_VALIDES = {}
+# Empreintes SHA256 figées après contrôle de tous les fichiers originaux
+# dans le rapport du run GitHub Actions 43869252036. Toute variation bloque.
+HASHES_VALIDES = {
+    "regions-2018.geojson.gz": "24aab871b958675ed5aff9162229ea5abfcd55c1d15f13ee43a916b7558d37ca",
+    "departements-2018.geojson.gz": "cfbc29aa611707116bd364f070cc990591f929a8d25e8633ccef92f46f001667",
+    "regions-2019.geojson.gz": "9dee9ede27ed019551922883ee941c7bca9646d96b4df13894edd784608a23c6",
+    "departements-2019.geojson.gz": "429c4a8b645c02564f641f9106ee5738c77c4b3f665522eb03f5d30d0a4e1fd4",
+    "regions-2021.geojson.gz": "ddc570806e8fbf817227ce8478f1e7176ce1df53512bba225abe8081109c10c3",
+    "departements-2021.geojson.gz": "debf967fb7c5fd3fe5dbb369bfb7d3e24d1198a0092aeaf800cc16ca83e36b22",
+    "regions-2022.geojson.gz": "387bfc839ebeaa514c60fa4a9297c7fcf9bbaa71f27bca2e954aa9ff2e373a56",
+    "departements-2022.geojson.gz": "0e06b418f4e41e739b345fde31146b67ad3ca00594f993697faa8c9b1600fdfa",
+    "regions-2023.geojson.gz": "ee20c63792b1b6d8e3f6a5f5784c229857151aa0b88ba4c7a65bda18cd7e2371",
+    "departements-2023.geojson.gz": "3264f8e1894782d58e604889c6ae8acd36c0c354fb929049de352ef17a3da635",
+    "regions-2024.geojson.gz": "b745ef61874aacfd2ffeb2681250b0de9146d24edcae77e2dd0fc79202ced556",
+    "departements-2024.geojson.gz": "a9c6e5acac23fa557fb3cf33c30bc0229001215079e0c79f706bc0ffdb90bd1f",
+    "regions-2025.geojson.gz": "396b35422d1f10332b85bb07f7747baf7e86e79b7175070fc03431e34114924c",
+    "departements-2025.geojson.gz": "7ea4ce7830de4e1284ea6fc41ba053b32536ff0b6f5f40c465c9a81dd6894340",
+}
 
 def sha256(donnees: bytes) -> str:
     return hashlib.sha256(donnees).hexdigest()
@@ -91,7 +106,7 @@ def auditer(racine: Path, actuel: Path, sortie: Path) -> dict:
         "annees_sans_archive_dans_ce_depot": [2017, 2020],
         "origine": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/",
         "generalisation_m": 100,
-        "date_reconstruction_hebergement": "2026-05-04",
+        "date_reconstruction_hebergement": "non_etablie",
         "cog_2026_est_reference_codes_et_non_cog_annuel": True,
         "nouvelles_correspondances_pactols": 0,
         "etats_administratifs_historiques_publies": 0,
