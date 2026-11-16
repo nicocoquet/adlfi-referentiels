@@ -87,6 +87,25 @@ jobs:
           assert len({x["ark_pactols"] for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE"})==b["exactmatch_eligibles_selon_regle"]
           assert all(x["geometrie_2026"]["contour_adopte"] is False for x in report["communes"])
           print("BILAN MARTINIQUE",json.dumps(b,ensure_ascii=False,indent=2))
+          print("PREUVE EXACTMATCH",json.dumps([
+             {"code":e["code_COG_2026"],"nom":e["libelle_COG_2026"],
+              "preuves":[{"ark":p["ark"],
+                          "prefLabel":[n["libelle"] for n in p["libelles_fr"] if n["propriete"]=="prefLabel"],
+                          "predicat":p["predicat"],"uri_insee":p["uri_insee"],
+                          "exactmatch_codes":p["codes_communes_INSEE_exactMatch"],
+                          "deprecie":p["concept_deprecie"],"remplace":p["concept_remplace"]}
+                         for p in e["pactols_uri_insee_source"]]}
+             for e in report["communes"]],ensure_ascii=False,indent=2))
+          from collections import Counter
+          mouvements=report["mouvements_source_avec_code_972"]
+          print("DATES DE MOUVEMENTS",json.dumps(
+              sorted([{"date":key[0],"mod":key[1],"lignes":count}
+                for key,count in Counter((m["DATE_EFF"],m["MOD"]) for m in mouvements).items()],
+                key=lambda x:(x["date"],x["mod"])),ensure_ascii=False,indent=2))
+          print("EPISODES HISTORIQUES",json.dumps([
+              {"code":p["code"],"libelle":p["libelle"],
+               "debut":p["debut_inclus"],"fin_exclue":p["fin_exclue"]}
+              for p in report["historique_codes_972"]],ensure_ascii=False,indent=2))
           print("ELIGIBLES",json.dumps([
             {k:x[k] for k in ("code_insee","libelle_COG_2026","ark_pactols","statut","motif")}
             for x in rows],ensure_ascii=False,indent=2))
