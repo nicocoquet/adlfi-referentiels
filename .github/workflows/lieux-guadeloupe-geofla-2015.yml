@@ -32,7 +32,7 @@ jobs:
           curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
             'https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/GEOFLA_2-1_COMMUNE_SHP_UTM20W84GUAD_D971_2015-12-01.rar' \
             --output "$RAR"
-          sha256sum "$RAR"
+          echo "e33e412d840e27e01df70c811241481199e2bf4fa9597a8c19a5f7255b5693df  $RAR" | sha256sum --check
           test "$(stat -c %s "$RAR")" -ge 5000
           test "$(stat -c %s "$RAR")" -le 4000000
       - name: Télécharger les deux généralisations nationales 2026 déjà épinglées
