@@ -19,7 +19,7 @@ from auditer_geofla_guyane_2015 import lire_geojson
 SCHEMA="adlfi.lieux.mayotte.audit.geofla2015-etalab2026.v1"
 ARCHIVE_NAME="GEOFLA_2-1_COMMUNE_SHP_RGM04UTM38S_D976_2015-12-01.rar"
 # Empreinte de la copie candidate contrôlée et épinglée ; authenticité IGN non établie.
-SHA_2015="SOURCE_SHA256_A_QUALIFIER"
+SHA_2015="7d9747f01a47a70ba8afb14dab7077fe04268a37c0a89eb196706b5cd3d1b47e"
 SHA_2026_100="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 SHA_2026_50="6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38"
 CODES={f"976{n:02d}" for n in range(1,18)}
@@ -71,7 +71,13 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
         raise ValueError("Projection source .prj manquante")
     crs=CRS.from_wkt(prj.read_text(encoding="utf-8",errors="replace"))
     if not crs.is_projected:
-        raise ValueError("GEOFLA 2015 sans CRS projeté reconnu")
+        raise ValueError("GEOFLA 2015 sans projection exploitable")
+    # Le PRJ étudié nomme RGM04 mais ne définit pas son datum : EPSG:4471
+    # n'est PAS reconnu. Tolérer la mesure exploratoire sans valider le CRS.
+    statut_datum = crs.datum.name if crs.datum else None
+    if crs.to_epsg() is not None or crs.equals(CRS.from_epsg(4471),ignore_axis_order=True) or (
+       not statut_datum or "Not specified" not in statut_datum):
+        raise ValueError("Le profil WKT du candidat Mayotte a changé : réinstruction obligatoire")
     transformer=Transformer.from_crs(crs,"EPSG:6933",always_xy=True)
     points=Transformer.from_crs(crs,"EPSG:4326",always_xy=True)
     bycode={}
@@ -102,6 +108,9 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
         "crs_epsg_reconnu":crs.to_epsg(),
         "crs_equivalent_epsg4471":crs.equals(CRS.from_epsg(4471),ignore_axis_order=True),
         "crs_datum":crs.datum.name if crs.datum else None,
+        "crs_PRJ_datum_absent":True,
+        "crs_rgm04_nominal_non_assimile_a_epsg4471":True,
+        "transformation_spatiale_exploratoire_non_certifiee":True,
         "projection_parametres":[{
             "nom":p.name,"valeur":p.value,"unite":p.unit_name
         } for p in crs.coordinate_operation.params] if crs.coordinate_operation else [],
@@ -239,7 +248,7 @@ def evaluer(dossier:Path,archive:Path,reference100:Path,reference50:Path,sortie:
     generalization=KM(u100.symmetric_difference(u50).area)
     result={
         "schema":SCHEMA,
-        "statut":"AUDIT_NON_VALIDANT_SOURCE_TIERCE_NON_AUTHENTIFIEE",
+        "statut":"AUDIT_EXPLORATOIRE_SOURCE_TIERCE_DATUM_NON_IDENTIFIE",
         "sources":{
             "copie_2015":{"nom":ARCHIVE_NAME,"url_tiers":SOURCE_URL,
                 "empreinte_sha256":hashes["copie_GEOFLA_2015"],
@@ -261,6 +270,8 @@ def evaluer(dossier:Path,archive:Path,reference100:Path,reference50:Path,sortie:
         "limites_interpretation":[
             "La date 2015 du fichier n'atteste pas la date d'effet des limites.",
             "La source tierce n'est pas authentifiée par le producteur IGN.",
+            "Le WKT PRJ nomme RGM04 mais ne précise pas son datum ; équivalence EPSG:4471 non établie.",
+            "La conversion géographique utilise une transformation indicative sur datum inconnu : métriques exploratoires uniquement.",
             "Les différences géométriques ne prouvent aucun changement juridique.",
             "Aucune représentation 2015 n'est projetée sur 1946-2014 ni sur le présent.",
             "Points et enveloppes des composantes ne sont pas des frontières.",
