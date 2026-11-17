@@ -1,0 +1,107 @@
+name: Lieux — La Réunion, publier 24 exactMatch Pactols–COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'docs/data/lieux-outremer/**'
+      - 'docs/assets/lieux-outremer-search.js'
+      - 'docs/data/manifest.json'
+      - 'recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'recette/lieux/POLITIQUE-ALIGNEMENT-PACTOLS-COG.md'
+      - 'scripts/extraire_index_public_outremer_2026.py'
+      - 'tests/test_validations_reunion_pactols_2026.py'
+      - '.github/workflows/lieux-reunion-validations-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validations-reunion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les décisions Réunion et les non-régressions éditoriales
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_validations_reunion_pactols_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_validations_guadeloupe_pactols_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_validations_martinique_pactols_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_validations_guyane_pactols_2026.py' -v
+          node tests/test_lieux_outremer_search.js
+      - name: Télécharger les sources COG 2026 épinglées
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Vérifier le RDF Frantiq original
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Confronter les 24 validations aux sources officielles et au RDF
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_reunion_2026.py \
+            --cog-dir "$RUNNER_TEMP/cog2026" \
+            --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --registre recette/lieux/REUNION-CANDIDATS-PACTOLS-COG-2026.csv \
+            --sortie "$RUNNER_TEMP/reunion-audit.json"
+          python3 - "$RUNNER_TEMP/reunion-audit.json" <<'PY'
+          import csv,json,sys
+          from pathlib import Path
+          audit=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          with Path("recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv").open(encoding="utf-8",newline="") as f:
+              approved=list(csv.DictReader(f,delimiter=";"))
+          source={x["code_insee"]:x for x in audit["lignes"]}
+          assert len(approved)==len(source)==24
+          assert audit["bilan"]["eligibles"]==24 and audit["bilan"]["a_instruire"]==0
+          for row in approved:
+              code=row["code_insee"]
+              assert code in source and row["statut_validation"]=="VALIDE_ADLFI_2026"
+              assert row["portee_COG"]=="2026-01-01" and row["predicat_source"]=="exactMatch"
+              assert row["concept_deprecie"]=="non"
+              a=source[code]
+              assert a["statut"]=="ELIGIBLE_SELON_REGLE"
+              assert row["libelle_COG_2026"]==a["libelle_COG_2026"]
+              assert row["ark_pactols"]==a["ark_pactols_candidat"]
+              assert row["uri_insee"]=="http://id.insee.fr/geo/commune/"+code
+              assert len(a["pactols_preuves"])==1
+              proof=a["pactols_preuves"][0]
+              assert proof["ark"]==row["ark_pactols"]
+              assert proof["prefLabels_fr"]==[row["prefLabel_fr_pactols"]]
+              assert proof["codes_exactmatch"]==[code]
+              assert not proof["deprecie"] and not proof["remplace"]
+              assert a["geometrie_historique"] is None
+          print("CONTRÔLE 24 VALIDATIONS RÉUNION : OK")
+          PY
+      - name: Vérifier le manifeste et l'absence d'équivalences rétroactives
+        working-directory: referentiels
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          idx=json.loads(Path("docs/data/lieux-outremer/recherche-2026.json").read_text())
+          m=json.loads(Path("docs/data/manifest.json").read_text())["modules"]["lieux"]["recherche_cog_outremer_2026"]
+          assert len(idx["pactols_valides"])==m["relations_pactols_cog_validees_2026"]==128
+          assert m["relations_pactols_cog_validees_reunion_2026"]==24
+          assert len(idx["ark_confirmes_non_valides"])==m["ark_confirmes_lien_non_valide"]==1
+          assert idx["ark_confirmes_non_valides"]=={"97607":"26678/crtZcuFSJVYZU"}
+          assert idx["pactols_valides"]["97407"]=="26678/pcrtIKvRT9vwUl"
+          assert m["geometries_publiees"]==m["identites_historiques_retroprojetees"]==0
+          assert len(idx["pactols_valides"])==len(set(idx["pactols_valides"].values()))
+          print("MANIFESTE 128 VALIDATIONS, DÉMBENI EN ATTENTE — OK")
+          PY
