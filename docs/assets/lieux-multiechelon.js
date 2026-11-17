@@ -12,6 +12,7 @@ const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
 const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
+const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -173,8 +174,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -184,6 +185,7 @@ async function start(){
    loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-martinique/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-guadeloupe/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -203,6 +205,7 @@ async function start(){
   state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
   state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
   state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
+   state.reunion=reunionHistorique.creer(indexReunionHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -447,7 +450,10 @@ function focusSelection(){const x=state.selected;
  if((x.kind==='cogHistoriqueGuyane')||(x.kind==='cog2026'&&x.code?.startsWith('973'))){
    state.map.fitBounds([[2,-54.8],[6,-51.5]],{padding:[24,24],animate:false});return;
  }
- if(!['admin','commune'].includes(x.kind))return;
+ if(x.kind==='cog2026'&&x.code?.startsWith('974')){
+    state.map.fitBounds([[-21.42,55.14],[-20.84,55.87]],{padding:[24,24],animate:false});return;
+  }
+  if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
@@ -652,6 +658,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      afficherChronologieMartinique(target,entry.code);
    }else if(entry.kind==='cog2026'&&entry.code.startsWith('971')){
      afficherChronologieGuadeloupe(target,entry.code);
+    }else if(entry.kind==='cog2026'&&entry.code.startsWith('974')){
+      afficherChronologieReunion(target,entry.code);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
