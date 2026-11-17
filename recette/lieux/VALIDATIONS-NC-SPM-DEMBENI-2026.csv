@@ -1,0 +1,37 @@
+code_insee;libelle_COG_2026;ark_pactols;uri_insee;predicat_source;source;statut_validation;portee_COG;qualification;note_editoriale
+97501;Miquelon-Langlade;26678/pcrtQAMzeGHldU;http://id.insee.fr/geo/commune/97501;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;Audit RDF 97501 antérieur
+97502;Saint-Pierre;26678/pcrtYQmFfwxLq8;http://id.insee.fr/geo/commune/97502;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;EXCEPTION_EDITORIALE_LIBELLE_ILE;prefLabel « île Saint-Pierre (Saint-Pierre-et-Miquelon) » ; correction à demander à Pactols
+97607;Dembeni;26678/crtZcuFSJVYZU;http://id.insee.fr/geo/commune/97607;ARK_CONFIRME_EDITORIALEMENT_LIEN_NON_CERTIFIE_PAR_EXACTMATCH;confirmation_editeur_2026-11-17;VALIDE_ARK_EDITORIAL;2026-01-01;VERIFICATION_ALIGNEMENT_REQUISE;Validation de l'ARK par éditeur ; preuve RDF exactMatch à vérifier avant publication d'alignement
+98801;Belep;26678/pcrtxYWRyTLz3c;http://id.insee.fr/geo/commune/98801;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98802;Bouloupari;26678/pcrtSZwdrKJeW2;http://id.insee.fr/geo/commune/98802;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98803;Bourail;26678/pcrtrPbIxFR6jF;http://id.insee.fr/geo/commune/98803;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98804;Canala;26678/pcrt0U8R1jYriI;http://id.insee.fr/geo/commune/98804;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98805;Dumbéa;26678/pcrtNgxsi7Als5;http://id.insee.fr/geo/commune/98805;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98806;Farino;26678/pcrtuhk0Vh73MJ;http://id.insee.fr/geo/commune/98806;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98807;Hienghène;26678/pcrtyOcfzfohyr;http://id.insee.fr/geo/commune/98807;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98808;Houaïlou;26678/pcrt17nUSAgrTA;http://id.insee.fr/geo/commune/98808;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98809;L'Île-des-Pins;26678/pcrti4LqTHByEs;http://id.insee.fr/geo/commune/98809;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;EXCEPTION_EDITORIALE_LIBELLE_ILE;prefLabel « Île-des-Pins » ; altLabel « L'Île-des-Pins » ; arbitrage explicite
+98810;Kaala-Gomen;26678/pcrtuAB6u3yT9r;http://id.insee.fr/geo/commune/98810;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98811;Koné;26678/pcrteDAiJCL0XU;http://id.insee.fr/geo/commune/98811;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98812;Koumac;26678/pcrtLaLhppnvtY;http://id.insee.fr/geo/commune/98812;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98813;La Foa;26678/pcrtWsd6TAaW5v;http://id.insee.fr/geo/commune/98813;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98814;Lifou;26678/pcrt9DfBxTeGT7;http://id.insee.fr/geo/commune/98814;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98815;Maré;26678/pcrtTWUxFY8JJM;http://id.insee.fr/geo/commune/98815;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98816;Moindou;26678/pcrtMqz1I69dlx;http://id.insee.fr/geo/commune/98816;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98817;Le Mont-Dore;26678/pcrtCvyXBTi1lL;http://id.insee.fr/geo/commune/98817;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98818;Nouméa;26678/pcrt8dX6NgqriI;http://id.insee.fr/geo/commune/98818;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98819;Ouégoa;26678/pcrtkbFPcpoYil;http://id.insee.fr/geo/commune/98819;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98820;Ouvéa;26678/pcrtYj85QGmGa3;http://id.insee.fr/geo/commune/98820;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98821;Païta;26678/pcrtrfG4XO0W2n;http://id.insee.fr/geo/commune/98821;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98822;Poindimié;26678/pcrttPh2FOHPgK;http://id.insee.fr/geo/commune/98822;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98823;Ponérihouen;26678/pcrtM0myELNau3;http://id.insee.fr/geo/commune/98823;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98824;Pouébo;26678/pcrtOVL5eE7gI6;http://id.insee.fr/geo/commune/98824;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98825;Pouembout;26678/pcrt0Ch2Yo7F61;http://id.insee.fr/geo/commune/98825;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98826;Poum;26678/pcrt5GAomZJft2;http://id.insee.fr/geo/commune/98826;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98827;Poya;26678/pcrtVFTIYEIxCE;http://id.insee.fr/geo/commune/98827;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98828;Sarraméa;26678/pcrtsTzOaug6Qw;http://id.insee.fr/geo/commune/98828;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98829;Thio;26678/pcrtsON8o2Rmvy;http://id.insee.fr/geo/commune/98829;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98830;Touho;26678/pcrtEJBcWLNwOZ;http://id.insee.fr/geo/commune/98830;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98831;Voh;26678/pcrtsmvEFN56C3;http://id.insee.fr/geo/commune/98831;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98832;Yaté;26678/pcrtv1RE2d1yYj;http://id.insee.fr/geo/commune/98832;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
+98833;Kouaoua;26678/pcrtG19KzMHHLy;http://id.insee.fr/geo/commune/98833;skos:exactMatch;Pactols_Lieux_th17_20260722.rdf;VALIDE_ADLFI_2026;2026-01-01;CONFORME_REGLE;
