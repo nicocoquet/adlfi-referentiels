@@ -923,9 +923,66 @@ function afficherChronologiePolynesie(target,entry){
  note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique n’est publiée. '+(commune?'La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).':'La correspondance Pactols–COG de la collectivité 987 est validée pour 2026, indépendamment des 48 alignements communaux, sans transfert aux communes associées ni aux périodes anciennes.');
  target.append(note);
 }
+function afficherDetailAssocieeISPF(target,entry){
+ const title=document.createElement('h2');title.textContent=entry.label;target.append(title);
+ const h=document.createElement('h3');
+ h.textContent='Commune associée de Polynésie française · nomenclature ISPF';
+ target.append(h);
+ const dl=document.createElement('dl');
+ ligne(dl,'Identifiant de commune associée ISPF (3 chiffres)',entry.code);
+ ligne(dl,'Commune principale de rattachement',entry.parent+' · '+entry.parentCode);
+ ligne(dl,'Code INSEE de la commune principale',entry.parentCode);
+ ligne(dl,'Subdivision administrative ISPF',entry.subdivision+' · '+entry.subdivisionCode);
+ ligne(dl,'Référentiel de rattachement','COG 2026 / ISPF (consulté le 17 novembre 2026)');
+ ligne(dl,'ARK Pactols propre à la commune associée','Non validé');
+ ligne(dl,'Contour cartographique','Non publié et non homologué');
+ ligne(dl,'Historique juridique propre','Non reconstruit');
+ target.append(dl);
+ const p=document.createElement('p'),a=document.createElement('a');
+ a.href='?ref_cog='+encodeURIComponent('COMER:COM:'+entry.parentCode)+
+   '&annee=2026&niveau=commune';
+ a.textContent='Consulter la commune principale '+entry.parent+
+   ' ('+entry.parentCode+')';
+ p.append(a);target.append(p);
+ if(entry.code==='441'||entry.code==='501'){
+   const other=entry.code==='441'?'501':'441';
+   const equivalent=state.associees?.byId.get('ISPF:COMAS:'+other);
+   if(equivalent){
+     const hom=document.createElement('p'),a2=document.createElement('a');
+     a2.href='?ref_ispf='+encodeURIComponent(other)+'&annee=2026&niveau=commune';
+     a2.textContent='Avera homonyme distinct : '+other+' · '+equivalent.parent;
+     hom.append(a2);target.append(hom);
+   }
+ }
+ for(const [label,url]of [
+  ['ISPF — nomenclatures et codes géographiques',
+   'https://www.ispf.pf/ispf/referentiels'],
+  ['Légifrance — annexe du décret du 20 décembre 2022',
+   'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000046768003/2026-04-17']
+ ]){
+   const p=document.createElement('p'),link=document.createElement('a');
+   link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+   link.textContent=label;p.append(link);target.append(p);
+ }
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='La source ISPF décrit une nomenclature consultée le 17 novembre 2026, et non une histoire datée des communes associées. Le code à trois chiffres n’est pas un code INSEE communal à cinq chiffres. Aucun ARK Pactols ou contour propre n’est déduit de la commune principale.';
+ target.append(warn);
+ if(year()!==2026){
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Le curseur indique '+year()+
+    ', mais cette fiche ISPF ne certifie pas l’existence ou le périmètre de la commune associée à cette date.';
+   target.append(p);
+ }
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':x?.kind==='associee_ispf'?'Commune associée · ISPF':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='associee_ispf'){
+   const e=state.associees?.byId.get(x.id);
+   if(!e){state.selected=null;detail();return}
+   afficherDetailAssocieeISPF(target,e);
+   return;
+ }
  if(x.kind==='cogHistoriqueGuadeloupe'){
    const ancienne=state.guadeloupe?.old.get(x.code);
    if(!ancienne){state.selected=null;detail();return}
