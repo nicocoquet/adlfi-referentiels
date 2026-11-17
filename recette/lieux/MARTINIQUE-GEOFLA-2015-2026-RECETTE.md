@@ -79,6 +79,24 @@ L'identité est contrôlée sur les géométries non arrondies : **cumul des éc
 
 Ces communes doivent être **contrôlées géographiquement** avant qu'une explication littorale, hydrographique ou administrative soit retenue.
 
+### Localisation des composantes principales
+
+Les points ci-dessous sont des **points intérieurs aux différences d'emprise calculées**, non des points de référence topographique ou juridique. Ils concernent uniquement les surfaces **présentes sur le dessin GEOFLA 2015 et absentes de l'union des communes Etalab 2026 à 100 m**.
+
+| Composante | Surface | Longitude (WGS84) | Latitude (WGS84) |
+| --- | ---: | ---: | ---: |
+| 1 | **9,072063 km²** | –60,990886 | 14,559070 |
+| 2 | **3,134137 km²** | –61,016261 | 14,603262 |
+| 3 | 0,725585 km² | –60,841114 | 14,426828 |
+| 4 | 0,718578 km² | –60,829929 | 14,527465 |
+| 5 | 0,428985 km² | –60,910748 | 14,691046 |
+
+La **plus grande composante reste proche de 9,09 km² avec la référence à 50 m**, avec un point intérieur à (–60,990926 ; 14,559098). La deuxième composante de 100 m est subdivisée différemment à 50 m : sa surface affichée comme composante unique passe de 3,13 à 1,37 km². **Ce changement de partition des composantes est lui-même un effet de dessin cartographique**, non la preuve d'une mutation territoriale.
+
+Pour la différence inverse (**présent dans l'emprise Etalab 2026 à 100 m mais absent de GEOFLA 2015**), la plus grande composante mesurée est de **0,676753 km²**, avec point intérieur à (–60,887208 ; 14,693450).
+
+Les enveloppes rectangulaires approximatives et les autres composantes sont conservées dans l'[artefact GitHub Actions du rapport de recette](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44013086518/artifacts/14297586332). **Aucun polygone n'est archivé ou publié** par cette PR. Le contrôle d'une éventuelle coïncidence avec un bassin versant, une mangrove, une bande côtière ou un autre objet géographique exige un **jeu de référence indépendant et daté**.
+
 ### Limites de preuve
 
 L'identification du modèle GEOFLA et la correspondance du WKT, de la structure de livraison et des 34 codes **renforcent la cohérence documentaire de la copie**, mais **n'authentifient pas** son empreinte auprès de l'IGN. Le descriptif officiel [GEOFLA version 2.2](https://geoservices.ign.fr/sites/default/files/2021-07/DC_GEOFLA_2-2.pdf) indique que le produit est une carte généralisée pour des usages proches du **1:1 000 000**, que ses informations peuvent avoir **jusqu'à un an d'ancienneté à la date d'édition** et que sa dernière édition est **2016**. Il serait donc erroné d'assimiler automatiquement les contours de l'archive estampillée 2015 à une situation administrative exacte au 1er janvier 2015.
