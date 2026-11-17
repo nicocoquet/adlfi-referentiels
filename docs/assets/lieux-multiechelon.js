@@ -697,7 +697,7 @@ function afficherChronologieMayotte(target,code){
  }
  if(code==='97607'){
    const reserve=document.createElement('p');reserve.className='warning';
-   reserve.textContent='Dembeni (97607) : ARK 26678/crtZcuFSJVYZU confirmé dans sa forme littérale, mais correspondance Pactols–COG non validée, y compris pour 2026. Aucun alignement historique n’est produit.';
+   reserve.textContent='Dembeni (97607) : l’ARK Pactols 26678/crtZcuFSJVYZU est désormais aligné par skos:exactMatch sur le code communal COG au 1er janvier 2026. Cette validation documentaire ne s’étend pas automatiquement aux périodes antérieures et ne produit aucun contour historique.';
    target.append(reserve);
  }
  const link=document.createElement('p'),a=document.createElement('a');
@@ -706,7 +706,7 @@ function afficherChronologieMayotte(target,code){
  a.textContent='Source : Insee, COG 2026, séries historiques COMER et DROM';
  link.append(a);target.append(link);
  const warn=document.createElement('p');warn.className='warning';
- warn.textContent='Les 34 périodes COG sont documentaires, sans contour historique de Mayotte. Le code institutionnel 976R ne désigne pas une commune. Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives.';
+ warn.textContent='Les 34 périodes COG sont documentaires, sans contour historique de Mayotte. Le code institutionnel 976R ne désigne pas une commune. Les 17 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives.';
  target.append(warn);
 }
 function afficherChronologieSPM(target,entry){
