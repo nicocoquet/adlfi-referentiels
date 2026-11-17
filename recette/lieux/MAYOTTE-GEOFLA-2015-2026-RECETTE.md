@@ -24,7 +24,25 @@ La comparaison géométrique **GEOFLA 2015 / Etalab 2026** intervient **après**
 6. Localiser les principales composantes de différence par un **point intérieur représentatif**, sans publier le contour correspondant.
 7. Répéter l'audit deux fois et comparer les rapports JSON octet par octet ; archiver uniquement le rapport numérique.
 
-**Inventaire engagé.** Les métriques seront ajoutées uniquement une fois calculées et contrôlées.
+## Inventaire source vérifié
+
+[CI d'inventaire n°44023499890](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44023499890) **réussie**.
+
+- Copie candidate GEOFLA 2015 : **22 029 octets**, **13 entrées**, SHA-256 `7d9747f01a47a70ba8afb14dab7077fe04268a37c0a89eb196706b5cd3d1b47e` ;
+- Couches `COMMUNE.shp` et `LIMITE_COMMUNE.shp` ; **17 objets** `COMMUNE`, tous les codes `INSEE_COM` de `97601` à `97617`, sans doublon ;
+- Coordonnées projetées en **UTM 38 Sud**, géométries localisées à Mayotte, mais **datum non identifié dans le fichier WKT**.
+
+### Réserve spécifique au géoréférencement
+
+Le **nom** du système de référence dans le fichier PRJ est `RGM04`, et ses paramètres de projection correspondent nominalement à UTM 38 Sud sur l'ellipsoïde GRS80. Toutefois, le WKT contient explicitement un **datum indéterminé** : `Not specified (based on GRS 1980 ellipsoid)`.
+
+La bibliothèque `pyproj` **ne reconnaît aucun EPSG** (`CRS.to_epsg() = None`) et **ne juge pas ce WKT équivalent à EPSG:4471**. Il serait donc faux d'annoncer une certification de la copie en RGM04/EPSG:4471. La mesure comparative peut être tentée avec les informations de projection présentes, mais son résultat doit garder le statut **exploratoire, transformation géodésique non certifiée**, en plus de la réserve déjà identifiée sur l'authenticité IGN de la copie.
+
+**Aucun contour ne sera adopté pour une représentation historique** sur la seule base de cette source.
+
+## Mesures exploratoires
+
+L'audit complet est soumis à une CI indépendante ; les métriques ne seront intégrées qu'après réussite des validations.
 
 ## Interprétation
 
