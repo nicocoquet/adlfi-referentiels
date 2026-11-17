@@ -51,6 +51,7 @@ class TestAntillesPactols(unittest.TestCase):
   self.assertEqual(result["codes"]["97127"],[])
   self.assertEqual(result["codes"]["978"],[])
   self.assertEqual([x["ark"] for x in result["lexicaux_non_validants"]],["26678/pcrtLexical"])
+  self.assertEqual(result["homonymes_sans_contexte_antillais_ecartes"],1)
  def test_une_uri_explicite_ne_sert_pas_a_valider_automatiquement(self):
   with (patch.object(a,"empreinte",return_value=a.RDF_SHA),
         patch.object(a,"verifier_cog",return_value=None)):
