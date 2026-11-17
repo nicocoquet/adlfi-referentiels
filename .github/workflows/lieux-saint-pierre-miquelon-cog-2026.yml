@@ -6,6 +6,14 @@ on:
       - 'scripts/auditer_cog_saint_pierre_miquelon_2026.py'
       - 'tests/test_auditer_cog_saint_pierre_miquelon_2026.py'
       - 'recette/lieux/SAINT-PIERRE-MIQUELON-COG-2026-RECETTE.md'
+      - 'docs/data/lieux-saint-pierre-miquelon/**'
+      - 'docs/assets/lieux-saint-pierre-miquelon-historique.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'scripts/verifier_index_public_saint_pierre_miquelon_2026.py'
+      - 'tests/test_lieux_saint_pierre_miquelon_historique.js'
+      - 'tests/test_lieux_ui.py'
       - '.github/workflows/lieux-saint-pierre-miquelon-cog-2026.yml'
   workflow_dispatch:
 
@@ -77,6 +85,33 @@ jobs:
           for key in ("collectivite_actuelle","episodes_collectivite_COG",
                       "episodes_communes_COMER_COG","episodes_communes_DROM_COG"):
               print(key,json.dumps(data[key],ensure_ascii=False))
+          PY
+      - name: Valider la chronologie publique contre les six sources officielles
+        run: |
+          node tests/test_lieux_saint_pierre_miquelon_historique.js
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          python3 scripts/verifier_index_public_saint_pierre_miquelon_2026.py \
+            --cog-dir "$RUNNER_TEMP/cog2026" \
+            --public docs/data/lieux-saint-pierre-miquelon/chronologie-cog-2026.json
+      - name: Vérifier Pactols 2026 et l'absence de limites historiques nouvelles
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('docs/data/lieux-saint-pierre-miquelon/chronologie-cog-2026.json').read_text())
+          idx=json.loads(Path('docs/data/lieux-outremer/recherche-2026.json').read_text())
+          m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']
+          assert idx['communes']['975']=='97501|Miquelon-Langlade\n97502|Saint-Pierre'
+          assert len(idx['pactols_valides'])==128
+          assert not [k for k in idx['pactols_valides'] if k.startswith('975')]
+          assert not [k for k in idx['ark_confirmes_non_valides'] if k.startswith('975')]
+          assert m['historique_communes_saint_pierre_miquelon']['episodes_communes_COMER']==2
+          assert m['historique_communes_saint_pierre_miquelon']['episodes_collectivite_COG']==1
+          assert m['recherche_cog_outremer_2026']['relations_pactols_cog_validees_2026']==128
+          assert d['contours_historiques_publies']==0
+          assert d['nouveaux_alignements_pactols']==0
+          assert d['identites_historiques_retroprojetees']==0
+          print('SPM : 2 communes et 1 collectivité, 0 ARK validé, 0 contour historique — OK')
           PY
       - name: Archiver uniquement le rapport de préinstruction, hors Pages
         uses: actions/upload-artifact@v4
