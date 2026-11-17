@@ -1,0 +1,113 @@
+name: Lieux — publier les 1140 ARK PDL validés 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_alignements_pactols_pdl_2026.py'
+      - 'scripts/verifier_publication_pactols_pdl_2026.py'
+      - 'scripts/preparer_validations_pactols_pdl_2026.py'
+      - 'docs/assets/lieux-pdl-pactols.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'docs/data/lieux-chronologie/pactols-pdl-2026.json'
+      - 'recette/lieux/PDL-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'recette/lieux/PDL-PUBLICATION-1140-PACTOLS-COG-2026.md'
+      - 'tests/test_lieux_pdl_pactols_2026.js'
+      - 'tests/test_lieux_pdl_pactols_navigateur.py'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-pdl-publication-1140-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  construire-et-verifier:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier le RDF épinglé et acquérir le COG 2026
+        working-directory: referentiels
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Générer le registre et l'index depuis les sources officielles
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_alignements_pactols_pdl_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --csv "$RUNNER_TEMP/pdl-registre-$n.csv" \
+              --json "$RUNNER_TEMP/pdl-index-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-registre-1.csv" "$RUNNER_TEMP/pdl-registre-2.csv"
+          cmp "$RUNNER_TEMP/pdl-index-1.json" "$RUNNER_TEMP/pdl-index-2.json"
+          mkdir -p docs/data/lieux-chronologie
+          cp "$RUNNER_TEMP/pdl-registre-1.csv" recette/lieux/PDL-VALIDATIONS-PACTOLS-COG-2026.csv
+          cp "$RUNNER_TEMP/pdl-index-1.json" docs/data/lieux-chronologie/pactols-pdl-2026.json
+      - name: Vérifier la publication, les 88 exceptions et les quatre chronologies
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 scripts/verifier_publication_pactols_pdl_2026.py
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_chronologie_4regions.js
+          python3 tests/controle_lieux_chronologie_4regions.py docs/data/lieux-chronologie
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Installer Chromium pour la recette navigateur
+        run: |
+          python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
+          python3 -m playwright install chromium
+      - name: Tester les fiches PDL et Corse dans Chromium
+        working-directory: referentiels
+        run: |
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdl-1140-registre-et-index-verifies-2026
+          path: |
+            ${{ runner.temp }}/pdl-registre-1.csv
+            ${{ runner.temp }}/pdl-index-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner les fichiers générés dans la branche de PR après vérification
+        working-directory: referentiels
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- recette/lieux/PDL-VALIDATIONS-PACTOLS-COG-2026.csv \
+            docs/data/lieux-chronologie/pactols-pdl-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'Lieux PDL : versionner les 1140 alignements Pactols 2026 contrôlés'
+            git push origin "HEAD:$HEAD_REF"
+          else
+            echo 'Index PDL déjà conforme au RDF Pactols et au COG épinglés'
+          fi
