@@ -41,7 +41,7 @@ Les épisodes `98611`–`98613` ne sont **pas** rétroprojetés sur 1961–1984.
 
 Les quatre entités COG 2026 étaient déjà dans le moteur de recherche `lieux-outremer/recherche-2026.json` : la collectivité `COMER:TERRITOIRE:986` et les trois `COMER:CIR:98611/12/13`. Le module historique **les enrichit sans les dupliquer**. Le terme `98609` renvoie au dossier territorial, avec la chronologie datée, et non à une commune ou à un nouvel ARK.
 
-Aucun contour ancien ou contemporain des trois circonscriptions n'est publié ; la carte peut seulement **recentrer** sur l'archipel. La rubrique `Commune` n'est pas étendue aux circonscriptions. **Aucun ARK Pactols** n'est validé pour les quatre autorités par cette étape.
+Aucun contour ancien ou contemporain des trois circonscriptions n'est publié ; la carte peut seulement **recentrer** sur l'archipel. La rubrique `Commune` n'est pas étendue aux circonscriptions. La recette historique initiale **ne validait aucun ARK Pactols** : une validation ultérieure de la seule collectivité `986` est documentée séparément ci-dessous.
 
 ### Sources et recette
 
@@ -51,3 +51,7 @@ Aucun contour ancien ou contemporain des trois circonscriptions n'est publié ; 
 - [Recette d'extraction COG, Actions n°44055036186](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44055036186).
 
 Les scripts `auditer_cog_wallis_futuna_2026.py` et `verifier_index_public_wallis_futuna_2026.py` empêchent de confondre le code historique `98607` (Nouvelle-Calédonie) avec Wallis-et-Futuna et certifient **0 commune, 0 géométrie historique, 0 nouvel alignement Pactols**.
+
+## Complément : autorité Pactols de la collectivité `986`
+
+Le registre de [validation Pactols–COG des collectivités](../../../recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv) reconnaît pour le **millésime 2026** l'URI `collectiviteDOutreMer/986` liée par `skos:exactMatch` à `26678/pcrtwFq5jKHO3k`. **Aucune** des trois circonscriptions `98611`, `98612`, `98613` n'acquiert cet ARK, pas davantage que l'ancien code `98609` ou le code historique `98607` de Nouvelle-Calédonie. La série d'épisodes historiques et les conclusions relatives aux géométries restent inchangées.
