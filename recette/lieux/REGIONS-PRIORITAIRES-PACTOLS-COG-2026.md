@@ -45,6 +45,20 @@ Le RDF contient **50 556 concepts ARK examinés** par le parseur. L'audit a éga
 
 La **Corse** constitue un lot favorable pour une validation éditoriale datée (360/360 liens admissibles). La **Bourgogne-Franche-Comté** et les **Pays de la Loire** demandent une instruction séparée des 104 codes avec plusieurs ARK, en priorité les communes nouvelles et les fusions : l'assertion `exactMatch` de deux concepts distincts vers un même code actuel ne suffit pas à les assimiler. Exemples rencontrés dans les résultats : **Source-Seine (21084)**, **Cormot-Vauchignon (21195)**, **Étalans (25222)**. Les divergences de libellé, parmi lesquelles **Valforêt (21178)** et **Collonges-et-Premières (21183)**, sont également conservées en instruction.
 
+### Cinq communes sans assertion `skos:exactMatch` — dossiers nominatifs
+
+La [seconde exécution](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44160718426), réussie, identifie précisément les cinq codes sans assertion RDF typée :
+
+| Région | Code COG | Commune | Indice Pactols non validant |
+| --- | --- | --- | --- |
+| Bourgogne-Franche-Comté | `25060` | Val-d'Usiers | Homonyme lexical, ARK `26678/pcrtksq5m3cwb846scr9wzkv` |
+| Pays de la Loire | `44066` | Grandchamp-des-Fontaines | Homonyme lexical, ARK `26678/pcrt99dzcmxdhR` |
+| Pays de la Loire | `85165` | L'Oie | Homonyme lexical, ARK `26678/pcrtsn4IGEserS` |
+| Pays de la Loire | `85212` | Sainte-Florence | Aucun homonyme lexical signalé par le parseur dans le RDF épinglé |
+| Pays de la Loire | `85292` | Rives-du-Fougerais | Homonyme lexical, ARK `26678/pcrtjr01c5sg25ngf5hq8898` |
+
+**Prudence :** ces quatre ARK sont des candidats par identité de libellé, **pas des relations Pactols–COG**. Le préflight peut conduire soit à documenter une assertion manquante dans Pactols, soit à résoudre une ambiguïté administrative, soit à conserver l'absence de lien. Le cas `85212` exige d'abord une recherche complémentaire sur les variantes de nom et les identités historiques.
+
 ## Priorités opérationnelles
 
 1. **Corse** : générer un registre daté des 360 liens dont les conditions RDF sont réunies, avec contrôle systématique des ARK, libellés et URI, puis produire une publication autonome non géométrique.
