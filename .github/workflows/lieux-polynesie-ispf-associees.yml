@@ -1,0 +1,55 @@
+name: Lieux — source ISPF, nomenclature des communes associées de Polynésie
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/inspecter_nomenclature_geographique_ispf.py'
+      - 'scripts/qualifier_communes_associees_ispf.py'
+      - 'tests/test_qualifier_communes_associees_ispf.py'
+      - 'recette/lieux/POLYNESIE-ISPF-COMMUNES-ASSOCIEES-RECETTE.md'
+      - '.github/workflows/lieux-polynesie-ispf-associees.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nomenclature-ispf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Télécharger la source originale ISPF
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 180 \
+            'https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx' \
+            --output "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+          file "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+          test "$(stat -c%s "$RUNNER_TEMP/ispf-codes-geographiques.xlsx")" -gt 9000
+          sha256sum "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+      - name: Inspecter chaque onglet, type de code et première et dernière ligne
+        run: |
+          python3 scripts/inspecter_nomenclature_geographique_ispf.py \
+            --source "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
+            --sortie "$RUNNER_TEMP/ispf-inspection.json"
+      - name: Tests de qualification sans publication de nouveaux lieux
+        run: |
+          if test -f scripts/qualifier_communes_associees_ispf.py; then
+            python3 -m unittest discover -s tests -p 'test_qualifier_communes_associees_ispf.py' -v
+            python3 scripts/qualifier_communes_associees_ispf.py \
+              --source "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
+              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/ispf-associees-recette.json"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-ispf-communes-associees-nomenclature-controle
+          path: |
+            ${{ runner.temp }}/ispf-inspection.json
+            ${{ runner.temp }}/ispf-associees-recette.json
+          retention-days: 30
+          if-no-files-found: error
