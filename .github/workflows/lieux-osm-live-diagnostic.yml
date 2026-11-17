@@ -1,0 +1,37 @@
+name: Lieux — diagnostic du fond OpenStreetMap en production
+
+on:
+  pull_request:
+    paths:
+      - 'tests/diagnostiquer_lieux_osm_live.py'
+      - 'tests/test_lieux_osm_indisponible.py'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - '.github/workflows/lieux-osm-live-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python3 -m pip install 'playwright==1.58.0'
+          python3 -m playwright install chromium
+      - name: Simuler l'indisponibilité du fond tout en conservant les contours
+        run: python3 tests/test_lieux_osm_indisponible.py
+      - name: Inspecter le fond de carte déployé
+        run: python3 tests/diagnostiquer_lieux_osm_live.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnostic-osm-production
+          path: /tmp/lieux-osm-live-diagnostic.png
+          if-no-files-found: ignore
