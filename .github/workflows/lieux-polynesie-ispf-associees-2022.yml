@@ -74,3 +74,35 @@ jobs:
                 print("ISPF_ECHANTILLON",name,row)
               print("ISPF_DERNIERES_LIGNES",name,all_rows[-3:])
           PY
+      - name: Tester le contrôle des identités ISPF et des 48 codes parents COG
+        run: python3 -m unittest discover -s tests -p 'test_auditer_ispf_polynesie_associees.py' -v
+      - name: Auditer les 98 communes associées et la partition 116 unités
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_ispf_polynesie_associees.py \
+              --ispf "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
+              --index-public docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/ispf-associees-$n.json" > "$RUNNER_TEMP/rapport-ispf-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/ispf-associees-1.json" "$RUNNER_TEMP/ispf-associees-2.json"
+          cat "$RUNNER_TEMP/rapport-ispf-1.txt"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"ispf-associees-1.json"
+          d=json.loads(p.read_text())
+          assert len(d["communes_associees"])==98
+          assert len(d["unites_communes_non_subdivisees"])==18
+          assert d["statistiques"]["lignes_geo_source"]==179
+          assert d["statistiques"]["iles_rattachees_lignes_Geo"]==63
+          assert d["statistiques"]["nouveaux_ARK_Pactols_crees"]==0
+          print("ISPF_DONNEES_JSON",json.dumps(d,sort_keys=True,ensure_ascii=False))
+          PY
+      - name: Archiver le référentiel ISPF contrôlé hors des données publiques
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-polynesie-ispf-98-associees-preinstruction
+          path: ${{ runner.temp }}/ispf-associees-1.json
+          retention-days: 30
+          if-no-files-found: error
