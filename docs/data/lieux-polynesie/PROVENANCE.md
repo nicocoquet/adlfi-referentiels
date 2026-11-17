@@ -1,6 +1,6 @@
 # Polynésie française — chronologie des 48 communes dans le COG 2026
 
-**17 novembre 2026 — édition documentaire des couples code–libellé, sans géométries historiques ni alignements Pactols.**
+**17 novembre 2026 — chronologie COG des communes, complétée par 48 correspondances Pactols–COG validées pour le seul état du 1er janvier 2026 ; aucune géométrie historique homologuée.**
 
 ## Résultat officiel du COG
 
@@ -38,4 +38,14 @@ Le moteur du module Lieux utilise le fichier `chronologie-cog-2026.json` pour le
 
 Le script `scripts/verifier_index_public_polynesie_2026.py` reconfronte les 48 épisodes publiés **aux six tables INSEE originales** et vérifie Clipperton. Les tests Python, Node.js et Chromium empêchent une rétroprojection des codes ou une assimilation des associations au COG.
 
-**0 alignement Pactols nouveau, 0 contour historique, 0 commune associée créée, 0 succession automatique**. Les **128 correspondances communales ultramarines déjà validées** et les **212 communes existantes dans l'index public** demeurent inchangées.
+## Validation des correspondances Pactols–COG au millésime 2026
+
+La [PR n°71](https://github.com/nicocoquet/adlfi-referentiels/pull/71) a établi **48 `skos:exactMatch` univoques** entre les 48 communes du COG 2026 et 48 concepts actifs distincts dans le [RDF Frantiq-Lieux du 22 juillet 2026](https://github.com/frantiq/PACTOLS), commit `69bf9697e24cefd645a69465bbd271702786285a`, SHA-256 `3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7`.
+
+La publication des décisions éditoriales est documentée dans [`POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv`](../../../recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv) : chaque ligne comprend code et libellé de commune COG, ARK, URI INSEE `geo/commune`, prédicat `skos:exactMatch`, statut non déprécié et `VALIDE_ADLFI_2026`, portée **`2026-01-01`**.
+
+**Le module Lieux publie 176 alignements communaux ultramarins**, dont **48 pour la Polynésie française**. Le concept correspondant au territoire **`987`** (`26678/pcrt4K8nLVxWOP`, URI `collectiviteDOutreMer/987`) est **distinct** et ne figure pas dans ces 48 décisions. Le code historique **`98799` Clipperton** ne reçoit aucun ARK par cette publication.
+
+L'alignement `98745` Tahaa → `26678/pcrteZcqWgVUaT` est **validé pour les identifiants seulement**. L'anomalie topologique du contour 2026 de Tahaa demeure signalée, sans contour adopté. Les **98 communes associées ISPF** n'ont reçu aucun identifiant de commune principale ni alignement déduit.
+
+**0 contour historique, 0 commune associée créée, 0 succession automatique.** Les 212 communes et 21 autres entités COG de l'index demeurent inchangées.

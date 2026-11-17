@@ -45,7 +45,7 @@ class ValidationReunionTests(unittest.TestCase):
                          [f"974{i:02d}" for i in range(1,25)])
         data=self.appliquer_lignes(self.records)
         self.assertEqual(data,self.public)
-        self.assertEqual(len(data["pactols_valides"]),128)
+        self.assertEqual(len(data["pactols_valides"]),176)
         self.assertEqual(sum(c.startswith("974") for c in data["pactols_valides"]),24)
         self.assertEqual(data["pactols_valides"]["97407"],PORT_ARK)
         self.assertEqual(data["ark_confirmes_non_valides"],{"97607":DEMBENI_ARK})

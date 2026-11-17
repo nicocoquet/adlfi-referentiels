@@ -62,13 +62,18 @@ def verifier(folder:Path,existing_index:Path,published:dict)->dict:
      law.get("communes_ajoutees_reforme")!=44 or
      law.get("creation_juridique_toutes_communes_deduite_1972") is not False):
   raise ValueError("Date de création des communes non attestée")
- for key in ("alignements_pactols_2026_valides","nouveaux_alignements_pactols",
+ if published.get("alignements_pactols_2026_valides")!=48 or (
+    published.get("source_alignements_pactols_2026")!="recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv" or
+    published.get("alignements_uniquement_millesime_2026") is not True or
+    published.get("contour_tahaa_98745_non_homologue") is not True):
+  raise ValueError("Validations Pactols 2026 des 48 communes polynésiennes incohérentes")
+ for key in ("nouveaux_alignements_pactols",
              "contours_historiques_publies","communes_associees_creees",
              "subdivisions_mises_dans_communes","relations_historiques_inferrees"):
   if published.get(key)!=0:raise ValueError("Inférence historique / Pactols interdite : "+key)
  return {"communes":48,"episodes":48,"premiere_attestation_COG":"1972-05-21",
      "Clipperton_98799_exclu":True,"associations_ISPF_sans_codes_inventes":98,
-     "nouvelles_relations_Pactols":0,"contours_historiques":0}
+     "relations_Pactols_2026_deja_publiees":48,"nouvelles_relations_depuis_la_chronologie":0,"contours_historiques":0}
 
 if __name__=="__main__":
  parser=argparse.ArgumentParser(description=__doc__)

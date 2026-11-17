@@ -24,6 +24,9 @@ for(let i=11;i<=58;i++){
  assert.equal(e.nature,'COM');
  assert.equal(h.etat(code,2026).code,code);
 }
+assert.equal(d.alignements_pactols_2026_valides,48);
+assert.equal(d.alignements_uniquement_millesime_2026,true);
+assert.equal(d.contour_tahaa_98745_non_homologue,true);
 assert.equal(h.referenceISPF.nombre_communes_associees,98);
 assert.equal(h.referenceISPF.nombre_unites_de_nomenclature_fine,116);
 assert.equal(d.historique_juridique.communes_preexistantes_avant_1971,4);
@@ -38,6 +41,8 @@ p=clone();p.historique_juridique.creation_juridique_toutes_communes_deduite_1972
 assert.throws(()=>api.creer(p),/juridique/);
 p=clone();p.ancien_code_Clipperton_COG.code_actuel=true;
 assert.throws(()=>api.creer(p),/Clipperton/);
+p=clone();p.alignements_pactols_2026_valides=0;
+assert.throws(()=>api.creer(p),/usurpés/);
 p=clone();p.nouveaux_alignements_pactols=1;
 assert.throws(()=>api.creer(p),/usurpés/);
 console.log('Polynésie : 48 codes COMER, 48 épisodes COG, première attestation 21 mai 1972, 98799 isolé — OK');

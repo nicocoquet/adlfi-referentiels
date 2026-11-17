@@ -111,13 +111,18 @@ class LieuxUITests(unittest.TestCase):
                                   "987": 48, "988": 33})
         self.assertEqual(sum(counts.values()), 212)
         self.assertEqual(len(dataset["autres"]), 21)
-        self.assertEqual(len(dataset["pactols_valides"]), 128)
+        self.assertEqual(len(dataset["pactols_valides"]), 176)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("971")]), 32)
         self.assertNotIn("97123", dataset["pactols_valides"])
         self.assertNotIn("97127", dataset["pactols_valides"])
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("972")]), 34)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("973")]), 22)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("974")]), 24)
+        self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("987")]), 48)
+        self.assertEqual(dataset["pactols_valides"]["98711"],"26678/pcrtwSlYRcWVFw")
+        self.assertEqual(dataset["pactols_valides"]["98735"],"26678/pcrtr90gKcAXiG")
+        self.assertEqual(dataset["pactols_valides"]["98745"],"26678/pcrteZcqWgVUaT")
+        self.assertEqual(dataset["pactols_valides"]["98758"],"26678/pcrtRw9F7i5M8l")
         self.assertEqual(dataset["pactols_valides"]["97407"], "26678/pcrtIKvRT9vwUl")
         self.assertEqual(dataset["ark_confirmes_non_valides"], {
             "97607": "26678/crtZcuFSJVYZU",
@@ -354,6 +359,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(m["Clipperton_ancien_code_COG"],"98799")
         self.assertEqual(m["Clipperton_date_fin_exclusive"],"2007-02-23")
         self.assertEqual(m["nombre_nouveaux_alignements_pactols"],0)
+        self.assertEqual(m["correspondances_pactols_2026_validees"],48)
+        self.assertIs(m["validation_identifiants_independante_geometries"],True)
+        self.assertEqual(m["codes_contours_audites_invalides"],["98745"])
         self.assertEqual(m["nombre_contours_historiques_publies"],0)
         self.assertEqual(m["nombre_communes_associees_creees_automatiquement"],0)
         data=json.loads((ROOT/"docs/data/lieux-polynesie/chronologie-cog-2026.json").read_text(encoding="utf-8"))
@@ -366,6 +374,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["decoupage_ISPF"]["nombre_unites_de_nomenclature_fine"],116)
         self.assertIs(data["historique_juridique"]["creation_juridique_toutes_communes_deduite_1972"],False)
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["alignements_pactols_2026_valides"],48)
+        self.assertIs(data["alignements_uniquement_millesime_2026"],True)
+        self.assertIs(data["contour_tahaa_98745_non_homologue"],True)
         self.assertEqual(data["communes_associees_creees"],0)
 
     def test_module_manifest_and_homepage(self):
@@ -378,7 +389,10 @@ class LieuxUITests(unittest.TestCase):
         outremer = lieu["recherche_cog_outremer_2026"]
         self.assertEqual(outremer["communes"], 212)
         self.assertEqual(outremer["autres_entites"], 21)
-        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 128)
+        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 176)
+        self.assertEqual(outremer["relations_pactols_cog_validees_polynesie_2026"], 48)
+        self.assertEqual(outremer["source_validations_polynesie"],
+                         "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv")
         self.assertEqual(outremer["relations_pactols_cog_validees_guadeloupe_2026"], 32)
         self.assertEqual(outremer["relations_pactols_cog_validees_reunion_2026"], 24)
         self.assertEqual(outremer["relations_pactols_cog_validees_martinique_2026"], 34)

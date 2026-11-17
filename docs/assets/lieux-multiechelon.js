@@ -899,7 +899,7 @@ function afficherChronologiePolynesie(target,entry){
   p.append(a);target.append(p);
  }
  const note=document.createElement('p');note.className='warning';
- note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique ni correspondance Pactols–COG n’est publiée pour cette fiche.';
+ note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique n’est publiée. La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).';
  target.append(note);
 }
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;

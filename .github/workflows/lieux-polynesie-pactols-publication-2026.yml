@@ -1,0 +1,116 @@
+name: Lieux — Polynésie, publication de 48 exactMatch Pactols–COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'scripts/verifier_publication_pactols_polynesie_2026.py'
+      - 'scripts/verifier_index_public_polynesie_2026.py'
+      - 'tests/test_lieux_polynesie_publication_2026.py'
+      - '.github/workflows/lieux-polynesie-pactols-publication-2026.yml'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/lieux-polynesie/**'
+      - 'docs/data/manifest.json'
+      - 'docs/assets/lieux-outremer-search.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publier-pactols-987:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier les 48 registres de décisions et les 176 liens publics
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_lieux_polynesie_publication_2026.py' -v
+          node tests/test_lieux_outremer_search.js
+          node tests/test_lieux_polynesie_historique.js
+      - name: Vérifier le RDF Frantiq épinglé
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Télécharger et vérifier les 6 CSV officiels du COG Insee 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,hashlib,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"referentiels/scripts")
+          from auditer_cog_polynesie_2026 import SHAS
+          p=Path(os.environ["RUNNER_TEMP"]);out=p/"cog2026";out.mkdir()
+          with zipfile.ZipFile(p/"cog_ensemble_2026_csv.zip") as z:
+              for name,digest in SHAS.items():
+                  found=[x for x in z.infolist() if Path(x.filename).name==name]
+                  assert len(found)==1,name
+                  raw=z.read(found[0])
+                  h=hashlib.sha256(raw).hexdigest()
+                  assert h==digest,(name,h)
+                  (out/name).write_bytes(raw)
+                  print("COG2026",name,len(raw),h)
+          PY
+      - name: Reconstruire le socle antérieur à partir du commit publié de la PR 71
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          git show e936ff5e2cf6dd485e1127b808cd9ba20fedaee2:docs/data/lieux-outremer/recherche-2026.json > "$RUNNER_TEMP/socle-128.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"socle-128.json").read_text())
+          assert len(d["pactols_valides"])==128
+          assert not any(c.startswith("987") for c in d["pactols_valides"])
+          assert d["contours_invalides"]==["98745","98805"]
+          print("SOCLE_128_VALIDATIONS",len(d["pactols_valides"]))
+          PY
+      - name: Vérifier les 48 ARK contre le RDF et la reconstruction exacte de l'index 176
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/verifier_publication_pactols_polynesie_2026.py \
+              --registre recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --socle "$RUNNER_TEMP/socle-128.json" \
+              --public docs/data/lieux-outremer/recherche-2026.json \
+              --manifest docs/data/manifest.json \
+              --chronologie docs/data/lieux-polynesie/chronologie-cog-2026.json > "$RUNNER_TEMP/polynesie-publication-$n.json"
+          done
+          cmp "$RUNNER_TEMP/polynesie-publication-1.json" "$RUNNER_TEMP/polynesie-publication-2.json"
+          cat "$RUNNER_TEMP/polynesie-publication-1.json"
+      - name: Vérifier que l'historique COG est indépendant des correspondances validées en 2026
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_index_public_polynesie_2026.py \
+            --sources "$RUNNER_TEMP/cog2026" \
+            --index-public docs/data/lieux-outremer/recherche-2026.json \
+            --public docs/data/lieux-polynesie/chronologie-cog-2026.json
+      - name: Archiver la recette certifiée
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-polynesie-48-exactmatch-publication-2026
+          path: ${{ runner.temp }}/polynesie-publication-1.json
+          retention-days: 30
+          if-no-files-found: error

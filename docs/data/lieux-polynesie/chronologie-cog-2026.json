@@ -51,10 +51,13 @@
     "communes_ajoutees_reforme": 44,
     "creation_juridique_toutes_communes_deduite_1972": false
   },
-  "alignements_pactols_2026_valides": 0,
+  "alignements_pactols_2026_valides": 48,
   "nouveaux_alignements_pactols": 0,
   "contours_historiques_publies": 0,
   "communes_associees_creees": 0,
   "subdivisions_mises_dans_communes": 0,
-  "relations_historiques_inferrees": 0
+  "relations_historiques_inferrees": 0,
+  "source_alignements_pactols_2026": "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv",
+  "alignements_uniquement_millesime_2026": true,
+  "contour_tahaa_98745_non_homologue": true
 }

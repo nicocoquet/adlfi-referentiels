@@ -34,7 +34,7 @@
         "etat_cog": "2026-01-01",
         "communes": 212,
         "autres_entites": 21,
-        "relations_pactols_cog_validees_2026": 128,
+        "relations_pactols_cog_validees_2026": 176,
         "ark_confirmes_lien_non_valide": 1,
         "geometries_publiees": 0,
         "identites_historiques_retroprojetees": 0,
@@ -45,7 +45,9 @@
         "relations_pactols_cog_validees_guadeloupe_2026": 32,
         "source_validations_guadeloupe": "recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv",
         "relations_pactols_cog_validees_reunion_2026": 24,
-        "source_validations_reunion": "recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv"
+        "source_validations_reunion": "recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "relations_pactols_cog_validees_polynesie_2026": 48,
+        "source_validations_polynesie": "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv"
       },
       "historique_communes_guyane": {
         "statut": "états COG documentaires publiés sans géométries historiques",
@@ -230,7 +232,12 @@
         "nombre_nouveaux_alignements_pactols": 0,
         "nombre_contours_historiques_publies": 0,
         "nombre_communes_associees_creees_automatiquement": 0,
-        "niveau_territorial": "Commune principale / collectivité, distinct des communes associées et subdivisions ISPF"
+        "niveau_territorial": "Commune principale / collectivité, distinct des communes associées et subdivisions ISPF",
+        "correspondances_pactols_2026_validees": 48,
+        "validation_identifiants_independante_geometries": true,
+        "codes_contours_audites_invalides": [
+          "98745"
+        ]
       }
     },
     "personnes": {

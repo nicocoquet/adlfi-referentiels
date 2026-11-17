@@ -32,7 +32,10 @@
     d.start_year!==1943||d.end_year!==2026||
     d.source_cog!=='https://www.insee.fr/fr/information/8740222'||
     JSON.stringify(d.cog_sha256)!==JSON.stringify(SHAS)||
-    d.alignements_pactols_2026_valides!==0||
+    d.alignements_pactols_2026_valides!==48||
+    d.source_alignements_pactols_2026!=='recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv'||
+    d.alignements_uniquement_millesime_2026!==true||
+    d.contour_tahaa_98745_non_homologue!==true||
     d.nouveaux_alignements_pactols!==0||d.contours_historiques_publies!==0||
     d.communes_associees_creees!==0||d.subdivisions_mises_dans_communes!==0||
     d.relations_historiques_inferrees!==0)
