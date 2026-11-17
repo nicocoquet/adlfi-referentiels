@@ -115,6 +115,7 @@ def qualifier(source:Path,index:Path)->dict:
  ile={r["IDIle"]:r["Ile"] for r in d["Ile"]}
  if len(ile)!=119:raise ValueError("Nombre de codes d'îles distinctes inattendu")
  geo=[]
+ geo_code_exceptions=[]
  for r in d["Geo"]:
   idc=r["IDComas"].zfill(3)
   if idc not in ids:raise ValueError("Rattachement de l'île à un IDComas inexistant : "+idc)
@@ -129,9 +130,11 @@ def qualifier(source:Path,index:Path)->dict:
   # Les cinq positions CODGEO ne sont pas des codes de communes INSEE.
   # Le classeur d'origine utilise un suffixe 00 pour plusieurs îles non
   # rattachées : il faut contrôler chaque IDGeo sans le construire.
-  if not re.fullmatch(r"\d{5}",r["IDGeo"]) or r["IDGeo"][:3]!=idc:
-   raise ValueError("Code CODGEO ISPF non canonique : "+
+  if not re.fullmatch(r"\d{5}",r["IDGeo"]):
+   raise ValueError("CODGEO ISPF non numérique à cinq positions : "+
       json.dumps(r,ensure_ascii=False))
+  if r["IDGeo"][:3]!=idc:
+   geo_code_exceptions.append(r)
   geo.append(r)
  if len(set(x["IDGeo"] for x in geo))!=len(geo):
   raise ValueError("CODGEO dupliqué")
@@ -153,6 +156,7 @@ def qualifier(source:Path,index:Path)->dict:
   "unites_conventionnelles_non_associees":sorted(autonomes,key=lambda x:x["id_comas_ISPF"]),
   "distribution_associees_par_commune":dict(sorted(parents.items())),
   "homonymes_avera":avera,
+  "exceptions_CODE_GEO_prefixe_IDComas":geo_code_exceptions,
   "codes_geographiques":geo
  }
 def main():
@@ -170,6 +174,7 @@ def main():
  print("ISPF_BILAN",json.dumps(result["bilan"],ensure_ascii=False))
  print("ISPF_RATTACHEMENTS",json.dumps(result["distribution_associees_par_commune"],ensure_ascii=False))
  print("ISPF_HOMONYMES_AVERA",json.dumps(result["homonymes_avera"],ensure_ascii=False))
+ print("ISPF_EXCEPTIONS_CODGEO",json.dumps(result["exceptions_CODE_GEO_prefixe_IDComas"],ensure_ascii=False))
  print("ISPF_VARIANTES_ISPF_COG",json.dumps([
    c for c in result["communes_ISPF_vers_COG"].values() if c["variantes_libelles"]],
    ensure_ascii=False))
