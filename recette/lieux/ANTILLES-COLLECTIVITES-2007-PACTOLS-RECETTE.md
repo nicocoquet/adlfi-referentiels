@@ -52,3 +52,11 @@ Les correspondances `977` / `978` peuvent être **proposées à l'arbitrage édi
 
 Le premier passage a recensé **18 ressemblances « Saint-Barthélemy »** correspondant à d'autres communes (Villers-Saint-Barthélemy, Saint-Barthélemy-d'Anjou, etc.). Ces résultats **ne sont pas des candidats antillais**. La recette a été corrigée pour les **écarter de la liste des candidats qualifiés** et les dénombrer séparément comme homonymes sans contexte antillais. Ce contrôle limite les alignements par ressemblance et est testé sur le RDF synthétique.
 
+
+### Recette finale des homonymes (RDF épinglé)
+
+La [CI consolidée n°44053293173](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44053293173) confirme **quatre déclarations exactMatch vers les six codes**, émanant des **deux concepts Pactols décrits ci-dessus**. Aucune ancienne commune `97123` ou `97127` n'est référencée par exactMatch.
+
+Après exclusion des toponymes sans contexte antillais dans leur libellé préféré, le contrôle a écarté **304 concepts contenant « Saint-Martin » ou « Saint-Barthélemy »** au sens lexical (dont les 18 Saint-Barthélemy identifiés lors du premier passage). Ce sont **304 cas non qualifiés géographiquement par leur seul libellé**, pas nécessairement 304 lieux distincts. **Zéro candidat purement lexical suffisamment contextualisé** demeure dans le périmètre de cette recette.
+
+Ce constat ne conduit à **aucune validation automatique**. Les concepts actuels `977` / `978` restent proposés pour examen éditorial en tant qu'autorités territoriales, avec le problème des deux `exactMatch` vers les codes applicatifs `97701` / `97801` conservé dans la note.
