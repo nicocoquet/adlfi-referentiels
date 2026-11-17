@@ -418,7 +418,7 @@ async function render(){
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
-    desc=features.length+' contours communaux datés de 2026 : quatre régions métropolitaines et 129 communes des cinq DROM. Les liens Pactols sont distincts des géométries.';
+    desc=features.length+' contours communaux 2026 : quatre régions métropolitaines et 129 communes des cinq DROM. Les liens Pactols sont distincts des géométries.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
