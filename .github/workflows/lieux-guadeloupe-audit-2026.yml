@@ -1,0 +1,158 @@
+name: Lieux — Guadeloupe COG 2026, historique et Pactols (recette)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_guadeloupe_2026.py'
+      - 'tests/test_auditer_guadeloupe_2026.py'
+      - 'recette/lieux/GUADELOUPE-LOT-01-2026.md'
+      - 'recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'tests/test_validations_guadeloupe_pactols_2026.py'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
+      - 'docs/assets/lieux-outremer-search.js'
+      - '.github/workflows/lieux-guadeloupe-audit-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  instruction-guadeloupe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer Shapely et pyproj
+        run: python3 -m pip install --disable-pip-version-check 'shapely==2.1.2' 'pyproj==3.7.2'
+      - name: Tester les 32 codes, RDF et liens de source non validés
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_guadeloupe_2026.py' -v
+      - name: Tester les 32 décisions Pactols et le refus des codes historiques
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_validations_guadeloupe_pactols_2026.py' -v
+      - name: Acquérir les trois fichiers officiels INSEE 2026 par SHA-256
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Acquérir les contours Etalab 2026 100 m
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Vérifier le RDF Frantiq Lieux 22 juillet 2026
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Reconstituer deux fois les observations 971
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for out in "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"; do
+            python3 scripts/auditer_guadeloupe_2026.py \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --geojson "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --public-index docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$out" > "$RUNNER_TEMP/bilan-guadeloupe.json"
+          done
+          diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Contrôler les 32 communes et exposer toutes les preuves
+        run: |
+          python3 - <<'PY'
+          import csv,json,os,collections
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"recette1"
+          r=json.loads((root/"guadeloupe-32-communes-audit.json").read_text())
+          b=r["bilan"]
+          assert b["communes_COG_2026"]==32
+          assert b["geometries_topologiquement_valides"]==32
+          assert b["correspondances_Pactols_validees_par_cet_audit"]==0
+          assert b["contours_adoptes_par_cet_audit"]==0
+          assert b["relations_de_succession_creees"]==0
+          assert b["exactmatch_eligibles_selon_regle"]+b["alignements_a_instruire"]==32
+          assert len(r["communes"])==32
+          codes={x["code_COG_2026"] for x in r["communes"]}
+          assert len(codes)==32 and "97123" not in codes and "97127" not in codes
+          assert all(x["geometrie_2026"]["contour_adopte"] is False for x in r["communes"])
+          with (root/"guadeloupe-exactmatch-eligibilite-32.csv").open(encoding="utf-8-sig",newline="") as f:
+              rows=list(csv.DictReader(f,delimiter=";"))
+          assert len(rows)==32 and {x["code_insee"] for x in rows}==codes
+          assert all(x["statut"] in ("ELIGIBLE_SELON_REGLE","A_INSTRUIRE") for x in rows)
+          assert sum(x["statut"]=="ELIGIBLE_SELON_REGLE" for x in rows)==b["exactmatch_eligibles_selon_regle"]
+          assert all(x["ark_pactols"] and x["predicat_source"]=="exactMatch" and x["concept_deprecie"]=="non"
+                     for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE")
+          assert len({x["ark_pactols"] for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE"})==b["exactmatch_eligibles_selon_regle"]
+          with Path("referentiels/recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv").open(
+              encoding="utf-8-sig",newline="") as f:
+              approved=list(csv.DictReader(f,delimiter=";"))
+          assert len(approved)==32 and {x["code_insee"] for x in approved}==codes
+          assert len({x["ark_pactols"] for x in approved})==32
+          source={x["code_COG_2026"]:x for x in r["communes"]}
+          for x in approved:
+              code=x["code_insee"]
+              proofs=source[code]["pactols_uri_insee_source"]
+              assert len(proofs)==1
+              proof=proofs[0]
+              pref=[n["libelle"] for n in proof["libelles_fr"] if n["propriete"]=="prefLabel"]
+              assert len(pref)==1 and pref==[x["prefLabel_fr_pactols"]]
+              assert x["libelle_COG_2026"]==source[code]["libelle_COG_2026"]
+              assert x["ark_pactols"]==proof["ark"]
+              assert x["predicat_source"]==proof["predicat"]=="exactMatch"
+              assert x["uri_insee"]==proof["uri_insee"]=="http://id.insee.fr/geo/commune/"+code
+              assert proof["codes_communes_INSEE_exactMatch"]==[code]
+              assert proof["concept_deprecie"] is False and proof["concept_remplace"] is False
+              assert x["statut_validation"]=="VALIDE_ADLFI_2026"
+              assert x["portee_COG"]=="2026-01-01"
+          assert b["exactmatch_eligibles_selon_regle"]==32
+          assert b["alignements_a_instruire"]==0
+          assert b["codes_distincts_historiques_971"]==34
+          assert b["periodes_historiques_971"]==35
+          assert b["mouvements_impliquant_code_971"]==37
+          assert b["source_Pactols_stats"]["liens_insee_non_courants"]==[]
+          assert {(x["code"],x["fin_exclue"]) for x in r["historique_codes_971"]
+                  if x["code"] in {"97123","97127"}}=={
+                  ("97123","2007-02-23"),("97127","2007-02-23")}
+          print("VALIDATIONS GUADELOUPE",len(approved))
+          print("BILAN GUADELOUPE",json.dumps(b,ensure_ascii=False,indent=2))
+          print("ELIGIBILITE GUADELOUPE",json.dumps(rows,ensure_ascii=False,indent=2))
+          print("PREUVES RDF",json.dumps([
+             {"code":e["code_COG_2026"],"nom":e["libelle_COG_2026"],
+              "preuves":[{"ark":p["ark"],
+                          "prefLabel":[n["libelle"] for n in p["libelles_fr"] if n["propriete"]=="prefLabel"],
+                          "predicat":p["predicat"],"uri_insee":p["uri_insee"],
+                          "exactmatch_codes":p["codes_communes_INSEE_exactMatch"],
+                          "deprecie":p["concept_deprecie"],"remplace":p["concept_remplace"]}
+                         for p in e["pactols_uri_insee_source"]]}
+             for e in r["communes"]],ensure_ascii=False,indent=2))
+          print("HISTORIQUE COG",json.dumps(r["historique_codes_971"],ensure_ascii=False,indent=2))
+          print("DETAIL MOUVEMENTS 1976 ET 2007",json.dumps([
+              x for x in r["mouvements_source_avec_code_971"]
+              if x["DATE_EFF"] in ("1976-06-04","2007-02-23")
+          ],ensure_ascii=False,indent=2))
+          counts=collections.Counter((x["DATE_EFF"],x["MOD"]) for x in r["mouvements_source_avec_code_971"])
+          print("DATES ET MODALITES",json.dumps([
+              {"date":date,"mod":mod,"lignes":n} for (date,mod),n in sorted(counts.items())
+          ],ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver les preuves sans les promouvoir dans le référentiel public
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-guadeloupe-cog-pactols-2026-lot01-recette
+          path: ${{ runner.temp }}/recette1/
+          retention-days: 30
+          if-no-files-found: error

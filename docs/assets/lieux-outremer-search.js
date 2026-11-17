@@ -46,7 +46,9 @@
   const mayotte=valid.filter(code=>/^976(?:0[1-9]|1[0-7])$/.test(code)&&code!=='97607');
   const guyane=valid.filter(code=>/^973(?:0[1-9]|1[0-4]|5[2-3]|5[6-8]|6[0-2])$/.test(code));
   const martinique=valid.filter(code=>/^972(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code));
-  if(valid.length!==72||mayotte.length!==16||guyane.length!==22||martinique.length!==34||
+  const guadeloupe=valid.filter(code=>/^971(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code)
+    &&code!=='97123'&&code!=='97127');
+  if(valid.length!==104||mayotte.length!==16||guyane.length!==22||martinique.length!==34||guadeloupe.length!==32||
      confirmed.join(',')!=='97407,97607'||
      data.ark_confirmes_non_valides['97607']!=='26678/crtZcuFSJVYZU'||
      data.ark_confirmes_non_valides['97407']!=='26678/pcrtIKvRT9vwUl'||
