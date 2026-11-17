@@ -58,8 +58,12 @@ def codes_publics(path:Path)->dict[str,str]:
  codes=dict(pairs)
  if len(codes)!=48 or set(codes)!=set(f"987{x}" for x in range(11,59)):
   raise ValueError("Les codes communaux publics 987 sont incomplets")
- if any(code in data["pactols_valides"] for code in codes):
-  raise ValueError("Un ARK 987 est déjà publié, audit à revoir")
+ # L'audit COG reste indépendant de la validation Pactols : il accepte
+ # soit l'ancien état sans ARK, soit la publication complète des 48 codes,
+ # mais interdit une publication partielle non recensée dans cette recette.
+ publiés={code for code in codes if code in data["pactols_valides"]}
+ if publiés and publiés!=set(codes):
+  raise ValueError("Publication partielle des ARK communaux 987 à instruire")
  return codes
 
 def analyser(folder:Path,public:Path)->dict:
