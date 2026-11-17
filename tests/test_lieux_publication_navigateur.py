@@ -451,6 +451,44 @@ def main():
         assert "ref_cog_historique_guadeloupe=97127" in page.url
         assert "COM_AP" in page.locator("#detail").text_content()
 
+        # La Réunion : même code Saint-Louis avant/après la division du 5 février 1965.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97414&annee=1965&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de La Réunion au 1er janvier 1965')",
+          timeout=60000)
+        text_r=page.locator("#detail").text_content()
+        assert "Saint-Louis" in text_r and "97414" in text_r
+        assert "Avant la division du 5 février 1965" in text_r
+        assert "Cilaos (97424, nouveau code)" in text_r
+        assert "Aucun contour historique de La Réunion n’est affiché" in text_r
+        assert "Correspondance Pactols validée (2026)" in text_r
+        assert "26678/pcrtBwoUOdthOV" in text_r
+        set_year(1966)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de La Réunion au 1er janvier 1966')",
+          timeout=30000)
+        assert "Après la division du 5 février 1965" in page.locator("#detail").text_content()
+        assert "Période code–libellé COG" in page.locator("#detail").text_content()
+
+        # Cilaos ne possède pas d'état au 1er janvier 1965, contrairement à 1966.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97424&annee=1965&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de La Réunion au 1er janvier 1965')",
+          timeout=60000)
+        text_r=page.locator("#detail").text_content()
+        assert "Aucun épisode actif" in text_r
+        assert "Cilaos n’apparaît dans les états au 1er janvier qu’en 1966" in text_r
+        assert "Correspondance Pactols validée (2026)" in text_r
+        set_year(1966)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Libellé COG à la date sélectionnée')",
+          timeout=30000)
+        text_r=page.locator("#detail").text_content()
+        assert "Cilaos" in text_r and "1965-02-05" in text_r
+        assert "Aucun contour historique de La Réunion n’est affiché" in text_r
+
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
         page.wait_for_url(re.compile(r"/lieux/\?"),timeout=30000)
         page.wait_for_function(

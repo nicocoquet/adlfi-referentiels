@@ -12,6 +12,7 @@ const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
 const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
+const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -173,8 +174,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -184,6 +185,7 @@ async function start(){
    loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-martinique/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-guadeloupe/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -203,6 +205,7 @@ async function start(){
   state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
   state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
   state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
+   state.reunion=reunionHistorique.creer(indexReunionHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -447,7 +450,10 @@ function focusSelection(){const x=state.selected;
  if((x.kind==='cogHistoriqueGuyane')||(x.kind==='cog2026'&&x.code?.startsWith('973'))){
    state.map.fitBounds([[2,-54.8],[6,-51.5]],{padding:[24,24],animate:false});return;
  }
- if(!['admin','commune'].includes(x.kind))return;
+ if(x.kind==='cog2026'&&x.code?.startsWith('974')){
+    state.map.fitBounds([[-21.42,55.14],[-20.84,55.87]],{padding:[24,24],animate:false});return;
+  }
+  if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
@@ -559,6 +565,48 @@ function afficherChronologieGuadeloupe(target,code){
  warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Guadeloupe n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
  target.append(warn);
 }
+function afficherChronologieReunion(target,code){
+ if(!state.reunion)return;
+ const h=document.createElement('h3');
+ h.textContent='État COG de La Réunion au 1er janvier '+year();
+ target.append(h);
+ const period=state.reunion.etat(code,year());
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé COG à la date sélectionnée',period.label);
+   ligne(dl,'Période code–libellé COG',period.start+' – '+(period.end||'en cours dans la source'));
+   if(code==='97414'){
+     const avant=state.reunion.perimetreSaintLouis(year())==='AVANT_DIVISION_1965';
+     ligne(dl,'Situation territoriale documentée',
+       avant?'Avant la division du 5 février 1965':'Après la division du 5 février 1965 (code 97414 conservé)');
+   }
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode actif n’est attesté pour ce code au 1er janvier '+
+     year()+' dans l’historique COG étudié. Il ne faut pas en déduire l’absence historique du lieu.';
+   target.append(p);
+ }
+ if(code==='97414'||code==='97424'){
+   const div=document.createElement('p');div.className='source';
+   div.textContent='Mouvement COG attesté le 5 février 1965 (MOD 20) : division de Saint-Louis (97414) en Saint-Louis (97414, code conservé avec emprise réduite) et Cilaos (97424, nouveau code). Le COG comporte deux lignes pour un seul événement de division.';
+   target.append(div);
+   if(year()===1965){
+     const note=document.createElement('p');note.className='warning';
+     note.textContent='La frise représente le 1er janvier 1965, antérieur à la division du 5 février : Cilaos n’apparaît dans les états au 1er janvier qu’en 1966.';
+     target.append(note);
+   }
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/2560452';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, historique des communes (COG 2026)';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Les épisodes COG sont documentaires. Le maintien du code Saint-Louis en 1965 ne signifie pas maintien de son territoire. Aucun contour historique de La Réunion n’est affiché ; les 24 alignements Pactols validés pour 2026 ne sont pas rétroactifs.';
+ target.append(warn);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -652,6 +700,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      afficherChronologieMartinique(target,entry.code);
    }else if(entry.kind==='cog2026'&&entry.code.startsWith('971')){
      afficherChronologieGuadeloupe(target,entry.code);
+    }else if(entry.kind==='cog2026'&&entry.code.startsWith('974')){
+      afficherChronologieReunion(target,entry.code);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
