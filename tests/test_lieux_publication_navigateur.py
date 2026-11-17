@@ -330,7 +330,7 @@ def main():
         text_ma=page.locator("#detail").text_content()
         assert "976R · Département-Région de Mayotte" in text_ma
         assert "Correspondance Pactols validée (2026)" in text_ma
-        assert "Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives" in text_ma
+        assert "Les 17 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives" in text_ma
 
         # Saint-Pierre-et-Miquelon : codes communaux 97501/97502 et collectivité
         # 975, sans assimiler l'année de la loi au début d'une commune.
