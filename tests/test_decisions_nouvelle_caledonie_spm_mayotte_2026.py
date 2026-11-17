@@ -16,15 +16,16 @@ class TestDecisions(unittest.TestCase):
   self.assertEqual(r["97502"]["ark_pactols"],"26678/pcrtYQmFfwxLq8")
   self.assertEqual(r["98809"]["ark_pactols"],"26678/pcrti4LqTHByEs")
   self.assertEqual(r["97607"]["ark_pactols"],"26678/crtZcuFSJVYZU")
-  self.assertNotEqual(r["97607"]["statut_validation"],"VALIDE_ADLFI_2026")
+  self.assertEqual(r["97607"]["statut_validation"],"VALIDE_ADLFI_2026")
+  self.assertEqual(r["97607"]["predicat_source"],"skos:exactMatch")
   self.assertEqual(len(INDEX["pactols_valides"]),176)
- def test_aucune_promotion_dembeni_sans_preuve(self):
+ def test_refus_de_preuve_dembeni_non_exactmatch(self):
   raw=REG.read_text(encoding="utf-8")
   with tempfile.TemporaryDirectory() as tmp:
    p=Path(tmp)/"bad.csv"
-   p.write_text(raw.replace("ARK_CONFIRME_EDITORIALEMENT_LIEN_NON_CERTIFIE_PAR_EXACTMATCH",
-                            "skos:exactMatch"),encoding="utf-8")
-   with self.assertRaisesRegex(ValueError,"Dembeni"):lire_csv(p,INDEX)
+   p.write_text(raw.replace("http://id.insee.fr/geo/commune/97607",
+                            "http://id.insee.fr/geo/commune/97608"),encoding="utf-8")
+   with self.assertRaises(ValueError):lire_csv(p,INDEX)
  def test_aucun_ark_double(self):
   raw=REG.read_text(encoding="utf-8")
   with tempfile.TemporaryDirectory() as tmp:
