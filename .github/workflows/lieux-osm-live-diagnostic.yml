@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'tests/diagnostiquer_lieux_osm_live.py'
+      - 'tests/test_lieux_osm_indisponible.py'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
       - '.github/workflows/lieux-osm-live-diagnostic.yml'
   workflow_dispatch:
 
@@ -22,6 +25,8 @@ jobs:
       - run: |
           python3 -m pip install 'playwright==1.58.0'
           python3 -m playwright install chromium
+      - name: Simuler l'indisponibilité du fond tout en conservant les contours
+        run: python3 tests/test_lieux_osm_indisponible.py
       - name: Inspecter le fond de carte déployé
         run: python3 tests/diagnostiquer_lieux_osm_live.py
       - uses: actions/upload-artifact@v4
