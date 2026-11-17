@@ -342,8 +342,8 @@ def main():
         t=page.locator("#detail").text_content()
         assert "Aucun épisode communal n’est documenté" in t
         assert "non sa date de création" in t
-        assert "aucun nouvel alignement Pactols" in t
-        assert page.locator("#detail").get_by_text("Correspondance Pactols validée (2026)",exact=False).count()==0
+        assert "Les deux correspondances Pactols des communes de Saint-Pierre-et-Miquelon sont validées pour le millésime 2026 uniquement" in t
+        assert page.locator("#detail").get_by_text("Correspondance Pactols validée (2026)",exact=False).count()==1
 
         set_year(1977)
         page.wait_for_function(
