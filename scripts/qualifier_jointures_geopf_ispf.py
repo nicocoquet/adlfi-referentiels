@@ -12,8 +12,7 @@ import json
 from pathlib import Path
 from zipfile import ZipFile
 from inspecter_nomenclature_geographique_ispf import read_xlsx
-from qualifier_communes_associees_ispf import SHA as XLSX_SHA, rows, normaliser
-from inventorier_geopf_polynesie import audit as audit_geopf
+from qualifier_communes_associees_ispf import SHA as XLSX_SHA, rows
 
 GEO_PF_SHA = "29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b"
 CHAMPS = {
@@ -23,9 +22,6 @@ CHAMPS = {
     "IDCom": "code_commu",
     "IDSub": "code_subdi",
 }
-NOMS = {"Geo": "nom_geogra", "Ile": "nom", "Comas": "nom_commun"}
-# La correspondance des champs lexicaux est exploratoire et peut différer
-# selon la signification des colonnes : elle ne valide aucun identifiant.
 
 def code(value, width=None):
     if value is None or isinstance(value, bool):
@@ -85,7 +81,7 @@ def qualifier(xlsx: Path, archive: Path):
     shp,ds=indexer(observed,"code_geogr",5)
     missing=sorted(set(xls)-set(shp))
     extra=sorted(set(shp)-set(xls))
-    mismatches=[];lexical=[]
+    mismatches=[]
     for ident in sorted(set(xls)&set(shp)):
         x= xls[ident]; y=shp[ident]
         for field in ("IDIle","IDComas","IDCom","IDSub"):
@@ -98,12 +94,6 @@ def qualifier(xlsx: Path, archive: Path):
                                        "ispf":left,"geopf":right})
             except ValueError as err:
                 mismatches.append({"IDGeo":ident,"champ":field,"erreur":str(err)})
-        for col,other in NOMS.items():
-            # Les colonnes de dénomination peuvent désigner des niveaux
-            # différents ; ces écarts sont seulement des alertes lexicales.
-            if x.get(col) and y.get(other) and normaliser(str(x[col]))!=normaliser(str(y[other])):
-                lexical.append({"IDGeo":ident,"champ":col,
-                                "ispf":x[col],"geopf":str(y[other])})
     return {
         "schema":"adlfi.lieux.polynesie.geopf.ispf.jointures.geo.audit.v1",
         "statut":"RECETTE_NON_VALIDANTE",
@@ -115,7 +105,20 @@ def qualifier(xlsx: Path, archive: Path):
         "doublons_ou_codes_invalides_xlsx":dx,
         "doublons_ou_codes_invalides_geopf":ds,
         "divergences_identifiants_hierarchiques":mismatches,
-        "variantes_lexicales_exploratoires":lexical,
+        "contextes_ecarts": {
+            "codes_uniquement_ispf": [
+                {"IDGeo": k, "Geo_ISPF": xls[k].get("Geo"), "Ile_ISPF": xls[k].get("Ile")}
+                for k in missing],
+            "codes_uniquement_geopf": [
+                {"code_geogr": k, "nom_geogra_GEO_PF": shp[k].get("nom_geogra"),
+                 "nom_GEO_PF": shp[k].get("nom"), "id_ile": str(shp[k].get("id_ile"))}
+                for k in extra],
+            "divergences_iles": [
+                {"IDGeo": x["IDGeo"], "IDIle_ISPF": x.get("ispf"), "id_ile_GEO_PF": x.get("geopf"),
+                 "nom_ile_ISPF": xls[x["IDGeo"]].get("Ile"),
+                 "nom_GEO_PF": shp[x["IDGeo"]].get("nom"),
+                 "nom_geogra_GEO_PF": shp[x["IDGeo"]].get("nom_geogra")}
+                for x in mismatches if x["champ"] == "IDIle"]},
         "independance_des_geometries":"NON_ETABLIE",
         "comparaison_de_polygones":"NON_REALISEE",
         "publication":{"contours":0,"ark":0,"autorites":0},
@@ -139,7 +142,7 @@ def main():
         "doublons_geopf":report["doublons_ou_codes_invalides_geopf"],
         "divergences_hierarchiques":report["divergences_identifiants_hierarchiques"][:30],
         "nombre_divergences_hierarchiques":len(report["divergences_identifiants_hierarchiques"]),
-        "nombre_variantes_lexicales":len(report["variantes_lexicales_exploratoires"])
+        "contextes_ecarts":report["contextes_ecarts"]
     },sort_keys=True,ensure_ascii=False))
 
 if __name__=="__main__":
