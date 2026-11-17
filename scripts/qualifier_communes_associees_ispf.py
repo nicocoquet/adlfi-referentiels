@@ -130,7 +130,8 @@ def qualifier(source:Path,index:Path)->dict:
   # Le classeur d'origine utilise un suffixe 00 pour plusieurs îles non
   # rattachées : il faut contrôler chaque IDGeo sans le construire.
   if not re.fullmatch(r"\d{5}",r["IDGeo"]) or r["IDGeo"][:3]!=idc:
-   raise ValueError("Code CODGEO ISPF non canonique : "+r["IDGeo"])
+   raise ValueError("Code CODGEO ISPF non canonique : "+
+      json.dumps(r,ensure_ascii=False))
   geo.append(r)
  if len(set(x["IDGeo"] for x in geo))!=len(geo):
   raise ValueError("CODGEO dupliqué")
