@@ -80,6 +80,31 @@ assert.equal(find('COMER:TERRITOIRE:987').arkValide,undefined);
 const codeArks=new Map(communes.filter(e=>e.arkValide).map(e=>[e.code,e.arkValide]));
 assert.equal(codeArks.size,176);
 assert.equal(new Set(codeArks.values()).size,176);
+// Quatre collectivités validées dans un espace distinct des 176 communes.
+const collectivites={
+  '977':'26678/pcrtrGdtY56gmH',
+  '978':'26678/pcrty5LooX8FgU',
+  '986':'26678/pcrtwFq5jKHO3k',
+  '987':'26678/pcrt4K8nLVxWOP'
+};
+assert.deepEqual(src.pactols_collectivites_valides,collectivites);
+for(const [code,ark] of Object.entries(collectivites)){
+  const ent=find('COMER:TERRITOIRE:'+code);
+  assert.equal(ent.nature,'TERRITOIRE');
+  assert.equal(ent.arkCollectiviteValide,ark);
+  assert.equal(ent.arkValide,undefined);
+  assert.ok(ent.champs.includes(parser.normaliser(ark)));
+}
+for(const id of [
+ 'COMER:COM:97701','COMER:COM:97801',
+ 'COMER:CIR:98611','COMER:CIR:98612','COMER:CIR:98613',
+ 'COMER:TERRITOIRE:975','COMER:TERRITOIRE:988',
+ 'COMER:TERRITOIRE:989']){
+  assert.equal(find(id).arkCollectiviteValide,null,'Aucun ARK transféré à '+id);
+}
+assert.equal(communes.filter(e=>e.arkValide).length,176);
+assert.equal(autres.filter(e=>e.arkCollectiviteValide).length,4);
+assert.ok(entries.every(e=>e.geometriePubliee===false));
 const copy=JSON.parse(JSON.stringify(src));
 copy.pactols_valides['97607']='26678/crtZcuFSJVYZU';
 assert.throws(()=>parser.creerIndex(copy),/Décisions/);
@@ -89,4 +114,10 @@ assert.throws(()=>parser.creerIndex(copy),/Nombre de communes/);
 copy.communes=src.communes;
 copy.contours_invalides=[];
 assert.throws(()=>parser.creerIndex(copy),/Décisions/);
+const copyCollect=JSON.parse(JSON.stringify(src));
+copyCollect.pactols_collectivites_valides['97701']='26678/pcrtFaux';
+assert.throws(()=>parser.creerIndex(copyCollect),/collectivités/);
+delete copyCollect.pactols_collectivites_valides['97701'];
+copyCollect.pactols_collectivites_valides['986']=copyCollect.pactols_collectivites_valides['987'];
+assert.throws(()=>parser.creerIndex(copyCollect),/collectivités/);
 console.log('COG Outre-mer : 212 communes, 21 autres, 176 Pactols validés (48 Polynésie, 24 Réunion, 32 Guadeloupe, 34 Martinique, 22 Guyane, 16 Mayotte), 1 ARK confirmé sans lien — OK');
