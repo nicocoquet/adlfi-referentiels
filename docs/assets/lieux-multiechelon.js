@@ -17,6 +17,7 @@ const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
 const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
 const antilles2007=window.AdlfiLieuxAntilles2007;
 const wallisHistorique=window.AdlfiLieuxWallisFutunaHistorique;
+const polynesieHistorique=window.AdlfiLieuxPolynesieHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -178,8 +179,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -194,6 +195,7 @@ async function start(){
    loadJSON(ROOT+'lieux-saint-pierre-miquelon/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json'),
    loadJSON(ROOT+'lieux-wallis-futuna/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-polynesie/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -222,6 +224,7 @@ async function start(){
     state.spm=spmHistorique.creer(indexSPMHistorique);
      state.antilles2007=antilles2007.creer(indexAntilles2007);
      state.wallis=wallisHistorique.creer(indexWallisHistorique);
+     state.polynesie=polynesieHistorique.creer(indexPolynesieHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -475,6 +478,10 @@ function focusSelection(){const x=state.selected;
   if((x.kind==='cog2026'&&x.code?.startsWith('975'))||
       (x.kind==='autre_cog2026'&&x.id==='COMER:TERRITOIRE:975')){
      state.map.fitBounds([[46.5,-57.0],[47.3,-55.5]],{padding:[24,24],animate:false});return;
+   }
+   if((x.kind==='cog2026'&&x.code?.startsWith('987'))||
+      (x.kind==='autre_cog2026'&&x.id==='COMER:TERRITOIRE:987')){
+      state.map.fitBounds([[-28,-161],[0,-131]],{padding:[24,24],animate:false});return;
    }
    if(x.kind==='autre_cog2026'&&
         (x.id==='COMER:TERRITOIRE:986'||/^COMER:CIR:9861[123]$/.test(x.id))){
@@ -842,6 +849,59 @@ function afficherChronologieWallisFutuna(target,entry){
  p.textContent='Le code 98607 du COG historique porte le libellé « Nouvelle-Calédonie » : il n’est pas repris comme autorité Wallis-et-Futuna ni relié par succession automatique à 986. Aucun contour historique, aucun alignement Pactols et aucune assimilation des circonscriptions à des communes ou à leurs royaumes coutumiers n’est publié.';
  target.append(p);
 }
+function afficherChronologiePolynesie(target,entry){
+ if(!state.polynesie)return;
+ const y=year(),commune=entry.kind==='cog2026';
+ const code=entry.code;
+ const current=commune?state.polynesie.etat(code,y):state.polynesie.etatTerritoire(y);
+ const h=document.createElement('h3');
+ h.textContent='Polynésie française · état au 1er janvier '+y;
+ target.append(h);
+ if(current){
+  const dl=document.createElement('dl');
+  ligne(dl,'Autorité du COG',commune?'Commune de Polynésie française':'Collectivité ou territoire');
+  ligne(dl,'Identifiant et libellé documentés',current.code+' · '+current.label);
+  ligne(dl,'Début de l’épisode code–libellé dans le COG',current.start);
+  ligne(dl,'Fin de l’épisode COG',current.end||'En cours dans l’édition COG 2026');
+  target.append(dl);
+ }else{
+  const p=document.createElement('p');p.className='warning';
+  p.textContent='Aucun épisode COG pour le code '+code+' au 1er janvier '+y+
+    '. La série consultée commence le 21 mai 1972 : cette date ne prouve pas la création juridique de toutes les communes.';
+  target.append(p);
+ }
+ if(y===1972){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Le curseur représente le 1er janvier 1972, antérieur au premier épisode COG daté du 21 mai 1972.';
+  target.append(p);
+ }
+ const dl=document.createElement('dl');
+ ligne(dl,'Communes principales du COG 2026','48 (codes 98711 à 98758)');
+ ligne(dl,'Communes associées (nomenclature ISPF)','98, réparties dans 30 des 48 communes ; non identifiées individuellement dans cette fiche COG');
+ ligne(dl,'Autres communes sans association (ISPF)','18');
+ ligne(dl,'Subdivisions administratives','5, distinctes des communes et des îles');
+ ligne(dl,'Réforme juridique','44 communes ajoutées à quatre communes préexistantes, loi du 24 décembre 1971 et décret de 1972');
+ target.append(dl);
+ const clip=state.polynesie.ancienClipperton(y);
+ if(!commune&&clip){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Code historique distinct à cette date : 98799 Clipperton (premier épisode COG 1972-05-21, fin exclusive 2007-02-23). Il n’est pas une des 48 communes actuelles.';
+  target.append(p);
+ }
+ for(const [name,url]of [
+  ['Insee : édition COG 2026','https://www.insee.fr/fr/information/8740222'],
+  ['Insee : histoire de la codification polynésienne','https://www.insee.fr/fr/information/7929495'],
+  ['ISPF : communes associées, subdivisions et îles','https://www.ispf.pf/ispf/referentiels'],
+  ['Légifrance : loi n° 71-1028 du 24 décembre 1971','https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000693681/']
+ ]){
+  const p=document.createElement('p'),a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name;
+  p.append(a);target.append(p);
+ }
+ const note=document.createElement('p');note.className='warning';
+ note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique ni correspondance Pactols–COG n’est publiée pour cette fiche.';
+ target.append(note);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -940,6 +1000,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
       afficherChronologieReunion(target,entry.code);
     }else if(entry.kind==='cog2026'&&entry.code.startsWith('976')){
       afficherChronologieMayotte(target,entry.code);
+    }else if(entry.kind==='cog2026'&&entry.code.startsWith('987')){
+      afficherChronologiePolynesie(target,entry);
     }else if(entry.kind==='cog2026'&&entry.code.startsWith('975')){
       afficherChronologieSPM(target,entry);
     }else if(entry.kind==='autre_cog2026'&&entry.id==='COMER:TERRITOIRE:975'){
@@ -951,6 +1013,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
     }else if(entry.kind==='autre_cog2026'&&
       (entry.id==='COMER:TERRITOIRE:986'||/^COMER:CIR:9861[123]$/.test(entry.id))){
       afficherChronologieWallisFutuna(target,entry);
+    }else if(entry.kind==='autre_cog2026'&&entry.id==='COMER:TERRITOIRE:987'){
+      afficherChronologiePolynesie(target,entry);
     }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';

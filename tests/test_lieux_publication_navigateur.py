@@ -413,14 +413,16 @@ def main():
         page.locator("#search").fill("Tahaa")
         page.locator("#results button").filter(has_text="Commune · COG 2026").first.click()
         assert "contour national 2026 présente une anomalie topologique" in page.locator("#detail").text_content()
-        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+        assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
+        assert "1972-05-21" in page.locator("#detail").text_content()
         page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98745&annee=2015",
                   wait_until="domcontentloaded")
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('Tahaa')",
             timeout=60000
         )
-        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+        assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
+        assert "1972-05-21" in page.locator("#detail").text_content()
 
         # Guyane : états COG documentés indépendants des contours 2026.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97301&annee=1969",
@@ -623,6 +625,52 @@ def main():
           timeout=30000)
         assert "978 · Saint-Martin" in page.locator("#detail").text_content()
         assert "Collectivité d’outre-mer" in page.locator("#detail").text_content()
+
+        # Polynésie : 48 communes COG ; année 1972 avant première attestation
+        # du 21 mai ; pas de 98 communes associées inventées depuis le COG.
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98711&annee=1972&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 1972')",
+          timeout=60000)
+        pf=page.locator("#detail").text_content()
+        assert "Aucun épisode COG pour le code 98711" in pf
+        assert "Le curseur représente le 1er janvier 1972" in pf
+        assert "98, réparties dans 30 des 48 communes" in pf
+        assert "44 communes ajoutées à quatre communes préexistantes" in pf
+        assert "Aucune géométrie historique ni correspondance Pactols–COG n’est publiée" in pf
+        set_year(1973)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 1973')",
+          timeout=30000)
+        pf=page.locator("#detail").text_content()
+        assert "98711 · Anaa" in pf
+        assert "1972-05-21" in pf
+        assert "Commune de Polynésie française" in pf
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A987&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 2007')",
+          timeout=60000)
+        pf=page.locator("#detail").text_content()
+        assert "987 · Polynésie française" in pf
+        assert "98799 Clipperton" in pf
+        assert "Il n’est pas une des 48 communes actuelles" in pf
+        set_year(2008)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 2008')",
+          timeout=30000)
+        assert "Code historique distinct à cette date" not in page.locator("#detail").text_content()
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98735&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('98735 · Papeete')",
+          timeout=60000)
+        pf=page.locator("#detail").text_content()
+        assert "Commune de Polynésie française" in pf
+        assert "ISPF" in pf
+        assert "n’est pas la date de création de toutes les communes" in pf
 
         # Wallis-et-Futuna : trois CIR non communales, loi 1961 ≠ COG 1985.
         page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A986&annee=1962&niveau=commune",

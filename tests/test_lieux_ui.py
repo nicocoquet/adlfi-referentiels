@@ -192,6 +192,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-saint-pierre-miquelon-historique.js",
                 "../assets/lieux-antilles-collectivites-2007.js",
                 "../assets/lieux-wallis-futuna-historique.js",
+                "../assets/lieux-polynesie-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -206,6 +207,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-saint-pierre-miquelon-historique.js",
             "docs/assets/lieux-antilles-collectivites-2007.js",
             "docs/assets/lieux-wallis-futuna-historique.js",
+            "docs/assets/lieux-polynesie-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -336,6 +338,35 @@ class LieuxUITests(unittest.TestCase):
         self.assertFalse(d["succession_juridique_98609_986_inferree"])
         self.assertEqual(d["nouveaux_alignements_pactols"],0)
         self.assertEqual(d["contours_historiques_publies"],0)
+
+    def test_polynesie_48_communes_sans_assimilation_des_98_associees(self):
+        m=self.manifest["modules"]["lieux"]["historique_communes_polynesie"]
+        self.assertEqual(m["communes_COG_2026"],48)
+        self.assertEqual(m["episodes_COG_2026"],48)
+        self.assertEqual(m["date_premier_episode_COG"],"1972-05-21")
+        self.assertIs(m["date_creation_de_toutes_les_communes_inferree"],False)
+        self.assertEqual(m["communes_preexistantes_reforme_1971"],4)
+        self.assertEqual(m["communes_ajoutees_reforme"],44)
+        self.assertEqual(m["nombre_communes_associees_ISPF_a_instruire"],98)
+        self.assertEqual(m["nombre_communes_avec_associees_ISPF"],30)
+        self.assertEqual(m["nombre_communes_sans_associees_ISPF"],18)
+        self.assertEqual(m["nombre_subdivisions_administratives"],5)
+        self.assertEqual(m["Clipperton_ancien_code_COG"],"98799")
+        self.assertEqual(m["Clipperton_date_fin_exclusive"],"2007-02-23")
+        self.assertEqual(m["nombre_nouveaux_alignements_pactols"],0)
+        self.assertEqual(m["nombre_contours_historiques_publies"],0)
+        self.assertEqual(m["nombre_communes_associees_creees_automatiquement"],0)
+        data=json.loads((ROOT/"docs/data/lieux-polynesie/chronologie-cog-2026.json").read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],"adlfi.lieux.polynesie.etats_cog_public.v1")
+        self.assertEqual(len(data["communes_actuelles_2026"].splitlines()),48)
+        self.assertEqual(len(data["episodes_communes_COG"].splitlines()),48)
+        self.assertEqual(data["episode_territoire_COG"],"987|Polynésie française|1972-05-21|")
+        self.assertEqual(data["ancien_code_Clipperton_COG"]["code"],"98799")
+        self.assertEqual(data["ancien_code_Clipperton_COG"]["fin_exclue"],"2007-02-23")
+        self.assertEqual(data["decoupage_ISPF"]["nombre_unites_de_nomenclature_fine"],116)
+        self.assertIs(data["historique_juridique"]["creation_juridique_toutes_communes_deduite_1972"],False)
+        self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["communes_associees_creees"],0)
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]
