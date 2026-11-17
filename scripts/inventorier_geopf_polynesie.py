@@ -36,7 +36,7 @@ def audit(archive: Path) -> dict:
         "publication": {"polygones": 0, "autorites": 0, "ark": 0}
     }
     with zipfile.ZipFile(io.BytesIO(data)) as z:
-        files = sorted(i for i in z.infolist() if not i.is_dir())
+        files = sorted((i for i in z.infolist() if not i.is_dir()), key=lambda x: x.filename)
         for info in files:
             p = PurePosixPath(info.filename)
             if p.is_absolute() or ".." in p.parts:
