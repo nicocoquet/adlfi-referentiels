@@ -19,7 +19,7 @@ from auditer_geofla_guyane_2015 import lire_geojson
 SCHEMA="adlfi.lieux.martinique.audit.geofla2015-etalab2026.v1"
 ARCHIVE_NAME="GEOFLA_2-1_COMMUNE_SHP_UTM20W84MART_D972_2015-12-01.rar"
 # Empreinte à fixer à partir de la première acquisition contrôlée.
-SHA_2015=""
+SHA_2015="877c32184e42c012f563ab50240b64cd70a41b507a31d042ff8c6823d3ef787a"
 SHA_2026_100="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 SHA_2026_50="6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38"
 CODES={f"972{n:02d}" for n in range(1,35)}
@@ -217,7 +217,7 @@ def evaluer(dossier:Path,archive:Path,reference100:Path,reference50:Path,sortie:
     hashes={"copie_GEOFLA_2015":sha256(archive),
             "contours_2026_100m":sha256(reference100),
             "contours_2026_50m":sha256(reference50)}
-    if SHA_2015 and hashes["copie_GEOFLA_2015"]!=SHA_2015:
+    if hashes["copie_GEOFLA_2015"]!=SHA_2015:
         raise ValueError("Archive GEOFLA 2015 changée")
     if hashes["contours_2026_100m"]!=SHA_2026_100 or hashes["contours_2026_50m"]!=SHA_2026_50:
         raise ValueError("Contours 2026 différents des sources épinglées")
