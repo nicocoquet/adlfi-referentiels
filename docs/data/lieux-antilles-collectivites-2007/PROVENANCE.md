@@ -35,7 +35,7 @@ La [note de codification de l'Insee](https://www.insee.fr/fr/information/7929495
 - Les anciennes communes guadeloupéennes et les collectivités sont des **autorités distinctes** liées par une **succession juridique sourcée**.
 - **Aucune destination `COM_AP` n'est inventée** dans les données du COG.
 - **Aucune équivalence `skos:exactMatch` Pactols** ancienne commune / collectivité n'est créée ou transférée.
-- Les **32 alignements Pactols validés de Guadeloupe** restent inchangés ; le total ultramarin publié reste **128**.
+- Les **32 alignements Pactols validés de Guadeloupe** restent inchangés ; le total ultramarin publié est **176 alignements communaux**, distincts des **quatre collectivités désormais alignées**.
 - **Aucune géométrie historique** n'est créée ; les liens entre fiches ne sont pas une preuve que leurs géométries seraient identiques.
 
 ### Sources et contrôles
@@ -46,3 +46,9 @@ La [note de codification de l'Insee](https://www.insee.fr/fr/information/7929495
 - [Recette de l'audit initial](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44050874502).
 
 Le script `scripts/verifier_index_public_antilles_collectivites_2007.py` et les tests Node.js, Python et Chromium vérifient séparément chaque famille de codes et refusent toute interprétation de `97701` ou `97801` comme nouvelle commune.
+
+## Complément : validation Pactols des collectivités au millésime 2026
+
+La validation ultérieure des identifiants institutionnels est consignée dans [le registre des collectivités `977`, `978`, `986` et `987`](../../../recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv). Saint-Barthélemy `977` correspond au concept `26678/pcrtrGdtY56gmH`, et Saint-Martin `978` au concept `26678/pcrty5LooX8FgU`, sur la preuve explicite des URI INSEE `collectiviteDOutreMer` au **1er janvier 2026**.
+
+Les URI secondaires `commune/97701` et `commune/97801` présentes dans le RDF sont documentées **mais non homologuées comme autorités communales**. Les ARK ne sont pas transmis aux anciennes communes `97123` et `97127` par succession juridique. Aucun nouveau contour n'est publié.
