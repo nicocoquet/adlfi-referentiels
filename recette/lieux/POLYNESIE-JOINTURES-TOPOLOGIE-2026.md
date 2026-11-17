@@ -47,3 +47,8 @@ Le contrôle `is_valid` de GEOS établit seulement la validité topologique **in
 ### CI générale actuellement bloquée par une image hors nomenclature
 
 La CI générale [n°44087653628](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44087653628) échoue sur un fichier introduit indépendamment de cette PR : `docs/assets/organismes/fahl.jpg`, non conforme au modèle `ORG-XXXX.jpg` ou `SER-XXXX.jpg`. Le problème Shapely initial a été corrigé : 377 tests exécutés, un seul échec restant (médias Organismes). **Ne pas renommer l'image avant d'avoir identifié l'autorité correspondante.** La PR demeure en brouillon, et la présente branche ne touche pas aux images.
+
+
+## Reprise après correctif des images Organismes
+
+Le commit `c218a160bdd488af75875573900554077a67ae94` sur `main` supprime le doublon `SER-0005 2.jpg`, strictement identique au `SER-0005.jpg` canonique. Le fichier non canonique `fahl.jpg` avait déjà été supprimé lors du lot précédent. Cette mise à jour documentaire déclenche un nouveau contrôle de la PR 80 sur la base `main` corrigée. Il convient de vérifier les conclusions effectives des deux workflows de ce dernier commit, plutôt que de supposer la réparation de tous les tests.
