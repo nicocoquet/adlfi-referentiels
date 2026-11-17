@@ -82,7 +82,7 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
             attrs=dict(zip(names,list(entry.record)))
             code,field=code_insee(attrs)
             if not code or code not in CODES or code in bycode:
-                raise ValueError("Code commune GEOFLA absent, hors des 24 codes 971 en vigueur ou dupliqué : "+str(code))
+                raise ValueError("Code commune GEOFLA absent, hors des 24 codes 974 courants ou dupliqué : "+str(code))
             source_fields[field]+=1
             original=shape(entry.shape.__geo_interface__)
             if original.is_empty or not original.is_valid or original.geom_type not in ("Polygon","MultiPolygon"):
