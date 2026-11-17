@@ -1,0 +1,119 @@
+name: Lieux — Antilles 2007, audit Pactols des 6 codes COG
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_collectivites_antilles_2007.py'
+      - 'tests/test_auditer_pactols_collectivites_antilles_2007.py'
+      - 'recette/lieux/ANTILLES-COLLECTIVITES-2007-PACTOLS-RECETTE.md'
+      - '.github/workflows/lieux-antilles-collectivites-2007-pactols.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pactols-antilles-2007:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les homonymies et les six catégories de codes
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_collectivites_antilles_2007.py' -v
+      - name: Vérifier l'export Frantiq Pactols-Lieux épinglé
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Extraire la table des codes COMER 2026 du COG officiel
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,hashlib,zipfile
+          from pathlib import Path
+          t=Path(os.environ["RUNNER_TEMP"])
+          with zipfile.ZipFile(t/"cog_ensemble_2026_csv.zip") as z:
+              found=[i for i in z.infolist() if Path(i.filename).name=="v_commune_comer_2026.csv"]
+              assert len(found)==1
+              raw=z.read(found[0])
+          digest=hashlib.sha256(raw).hexdigest()
+          assert digest=="9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",digest
+          (t/"v_commune_comer_2026.csv").write_bytes(raw)
+          print("CSV_COMER_2026",len(raw),digest)
+          PY
+      - name: Exécuter deux audits RDF–COG identiques, sans publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_collectivites_antilles_2007.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/v_commune_comer_2026.csv" \
+              --sortie "$RUNNER_TEMP/antilles-pactols-$n.json" > "$RUNNER_TEMP/antilles-pactols-resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/antilles-pactols-1.json" "$RUNNER_TEMP/antilles-pactols-2.json"
+      - name: Afficher les preuves explicites et les risques de catégorie ontologique
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"antilles-pactols-1.json"
+          d=json.loads(p.read_text(encoding="utf-8"))
+          assert d["schema"]=="adlfi.lieux.antilles2007.audit.pactols-cog2026.v1"
+          assert d["statut"]=="AUDIT_NON_VALIDANT_PAR_CATEGORIE_ADMINISTRATIVE"
+          assert d["bilan"]["codes_verifies"]==6
+          assert {r["code_COG"] for r in d["codes_instruits"]}=={"97123","97127","977","978","97701","97801"}
+          assert d["bilan"]["validations_autorisees_automatiquement"]==0
+          assert d["bilan"]["nouveaux_alignements_pactols"]==0
+          assert d["bilan"]["nouveaux_contours_historiques"]==0
+          assert all(not r["lien_pactols_publie_par_audit"] for r in d["codes_instruits"])
+          assert d["bilan"]["liens_RDF_explicites"]==4
+          assert d["bilan"]["codes_avec_exactMatch"]==4
+          expected={
+             "977":("26678/pcrtrGdtY56gmH","collectiviteDOutreMer","977"),
+             "97701":("26678/pcrtrGdtY56gmH","commune","97701"),
+             "978":("26678/pcrty5LooX8FgU","collectiviteDOutreMer","978"),
+             "97801":("26678/pcrty5LooX8FgU","commune","97801")
+          }
+          bycode={r["code_COG"]:r for r in d["codes_instruits"]}
+          for code,(ark,famille,target) in expected.items():
+              row=bycode[code]
+              assert len(row["preuves_RDF_exactMatch"])==1
+              proof=row["preuves_RDF_exactMatch"][0]
+              assert proof["ark"]==ark and not proof["deprecie"] and not proof["remplace"]
+              assert any(x["code"]==target and x["famille"]==famille
+                         for x in proof["exactMatch_INSEE_cibles"])
+              assert row["statut"]=="A_INSTRUIRE_ONTOLOGIQUEMENT"
+          assert not bycode["97123"]["preuves_RDF_exactMatch"]
+          assert not bycode["97127"]["preuves_RDF_exactMatch"]
+          assert {x["ark"] for x in d["codes_instruits"][2]["preuves_RDF_exactMatch"]}=={
+              "26678/pcrtrGdtY56gmH"}
+          print("HOMONYMES_ECARTES",d["homonymes_sans_contexte_antillais_ecartes"])
+          print("BILAN_ANTILLES_PACTOLS",json.dumps(d["bilan"],ensure_ascii=False))
+          print("PREUVES_RDF",json.dumps(d["codes_instruits"],ensure_ascii=False))
+          print("CANDIDATS_LEXICAUX",json.dumps(d["candidats_lexicaux_non_valides"][:25],ensure_ascii=False))
+          PY
+      - name: Archiver les résultats sans toucher au module public
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-pactols-antilles-2007-6-codes-audit
+          path: ${{ runner.temp }}/antilles-pactols-1.json
+          retention-days: 30
+          if-no-files-found: error
