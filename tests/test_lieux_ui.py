@@ -188,6 +188,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-martinique-historique.js",
                 "../assets/lieux-guadeloupe-historique.js",
                 "../assets/lieux-reunion-historique.js",
+                "../assets/lieux-mayotte-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -198,6 +199,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
             "docs/assets/lieux-reunion-historique.js",
+            "docs/assets/lieux-mayotte-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -226,6 +228,30 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["mouvement_division_1965"]["codes_apres"], ["97414","97424"])
         self.assertIsNone(data["mouvement_division_1965"]["contour_avant_1965"])
         self.assertIsNone(data["mouvement_division_1965"]["contour_apres_1965"])
+
+    def test_mayotte_historique_34_etats_comer_drom_non_geometriques(self):
+        mayotte=self.manifest["modules"]["lieux"]["historique_communes_mayotte"]
+        self.assertEqual(mayotte["total_episodes_COG"], 34)
+        self.assertEqual(mayotte["episodes_COG_COMER"], 17)
+        self.assertEqual(mayotte["episodes_COG_DROM"], 17)
+        self.assertEqual(mayotte["codes_communes"], 17)
+        self.assertEqual(mayotte["transition_COMER_DROM"], "2011-03-31")
+        self.assertEqual(mayotte["date_premiere_attestation_COMER"], "2007-02-23")
+        self.assertEqual(mayotte["code_collectivite_2011_2025"], "976D")
+        self.assertEqual(mayotte["code_collectivite_2026"], "976R")
+        self.assertEqual(mayotte["correspondances_pactols_2026_conservees"],16)
+        self.assertEqual(mayotte["ark_dembeni_confirme_non_aligne"], "26678/crtZcuFSJVYZU")
+        self.assertEqual(mayotte["nouveaux_alignements_pactols"], 0)
+        self.assertEqual(mayotte["contours_historiques_publies"], 0)
+        data=json.loads((ROOT/"docs/data/lieux-mayotte/chronologie-cog-2026.json").read_text())
+        self.assertEqual(data["schema"],"adlfi.lieux.mayotte.etats_cog_public.v1")
+        self.assertEqual(len(data["episodes"].splitlines()),34)
+        self.assertIsNone(data["transition_famille_cog"]["date_creation_des_communes"])
+        self.assertFalse(data["transition_famille_cog"]["creation_de_communes_par_cette_transition"])
+        self.assertEqual(data["correspondances_pactols_COG_2026_conservees"],16)
+        self.assertEqual(data["ark_confirme_sans_alignement_valide"],{
+            "code":"97607","ark":"26678/crtZcuFSJVYZU"})
+        self.assertEqual(data["nouvelles_relations_successions_inferrees"],0)
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]
