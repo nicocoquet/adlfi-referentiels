@@ -1,0 +1,70 @@
+name: Lieux — Polynésie, audit insulaire Hao 20200
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_hao_ispf_geopf.py'
+      - 'tests/test_auditer_hao_ispf_geopf.py'
+      - 'recette/lieux/POLYNESIE-HAO-GEOMETRIES-2026.md'
+      - '.github/workflows/lieux-polynesie-hao-geometries.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-hao:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer les moteurs géométriques épinglés
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2' 'pyshp==2.3.1'
+      - name: Tester la méthode sans réseau
+        run: python3 -m unittest discover -s tests -p 'test_auditer_hao_ispf_geopf.py' -v
+      - name: Vérifier les trois sources institutionnelles
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx' \
+            --output "$RUNNER_TEMP/ispf-codes.xlsx"
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --output "$RUNNER_TEMP/ispf-geojson.zip"
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/89d202c3-4f04-4168-842d-4c50036125c7' \
+            --output "$RUNNER_TEMP/geopf.zip"
+          echo 'd84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6  '"$RUNNER_TEMP/ispf-codes.xlsx" | sha256sum --check
+          echo '6302ad2a17ec1fd8b51f70f1d8ba1501ee7ca212a9cd53c8df4221faedfe0b62  '"$RUNNER_TEMP/ispf-geojson.zip" | sha256sum --check
+          echo '29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b  '"$RUNNER_TEMP/geopf.zip" | sha256sum --check
+      - name: Audit géodésique comparé et reproductibilité
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_hao_ispf_geopf.py \
+            --xlsx "$RUNNER_TEMP/ispf-codes.xlsx" \
+            --ispf-geojson "$RUNNER_TEMP/ispf-geojson.zip" \
+            --geopf "$RUNNER_TEMP/geopf.zip" \
+            --sortie "$RUNNER_TEMP/hao-geometries-a.json"
+          python3 scripts/auditer_hao_ispf_geopf.py \
+            --xlsx "$RUNNER_TEMP/ispf-codes.xlsx" \
+            --ispf-geojson "$RUNNER_TEMP/ispf-geojson.zip" \
+            --geopf "$RUNNER_TEMP/geopf.zip" \
+            --sortie "$RUNNER_TEMP/hao-geometries-b.json"
+          cmp "$RUNNER_TEMP/hao-geometries-a.json" "$RUNNER_TEMP/hao-geometries-b.json"
+          python3 - "$RUNNER_TEMP/hao-geometries-a.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['statut']=='RECETTE_NON_VALIDANTE'
+          assert r['identifiants']=={'IDGeo':'20200','IDComas':'202','IDIle':'23'}
+          assert len(r['statistiques'])==3 and len(r['comparaisons'])==3
+          assert r['publication']=={'nouveaux_contours':0,'ark':0,'autorites':0}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-hao-20200-geometries
+          path: ${{ runner.temp }}/hao-geometries-a.json
+          retention-days: 30
+          if-no-files-found: error
