@@ -1,0 +1,68 @@
+name: Lieux — audit géométrique non validant de 83 communes COM 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_contours_com_2026.py'
+      - 'tests/test_auditer_contours_com_2026.py'
+      - 'recette/lieux/COM-83-CONTOURS-2026-RECETTE.md'
+      - '.github/workflows/lieux-com-83-contours-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualif-com:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer Shapely
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.7
+      - name: Tester la non-publication et l'unicité
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_contours_com_2026.py' -v
+      - name: Acquérir et vérifier le GeoJSON source du 4 mai 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  '"$RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Deux rapports non validants identiques
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_contours_com_2026.py \
+              --geometries "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --index docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/rapport-com-83-$n.json"
+          done
+          cmp "$RUNNER_TEMP/rapport-com-83-1.json" "$RUNNER_TEMP/rapport-com-83-2.json"
+          python3 - "$RUNNER_TEMP/rapport-com-83-1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding="utf-8"))
+          b=d["bilan"]
+          assert b["communes_COG"]==83
+          assert b["geometries_presentes"]==83
+          assert b["geometries_valides"]==81
+          assert b["codes_invalides"]==["98745","98805"]
+          assert b["codes_absents"]==[]
+          assert b["valides_par_territoire"]=={"975":2,"987":47,"988":32}
+          assert b["signalements_conformes_aux_invalides"]
+          assert b["nouvelles_geometries_publiees"]==0
+          assert b["ark_pactols_inferes"]==0
+          assert b["contours_historiques_inferes"]==0
+          print("COM_83_RECETTE_OK",json.dumps(b,ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-com-83-contours-2026-sans-polygones
+          path: ${{ runner.temp }}/rapport-com-83-1.json
+          retention-days: 30
+          if-no-files-found: error
