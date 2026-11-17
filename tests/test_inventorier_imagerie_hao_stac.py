@@ -43,7 +43,7 @@ class TestCatalogueHao(unittest.TestCase):
         def invalid(url):
             raise ConnectionError("Service temporairement inaccessible")
         r=auditer(fetch=invalid)
-        self.assertEqual(len(r["fenetres"]),2)
+        self.assertEqual(len(r["fenetres"]),3)
         self.assertTrue(all(x["statut"]=="CATALOGUE_INACCESSIBLE_OU_INEXPLOITABLE" for x in r["fenetres"]))
         self.assertTrue(all(x["points_sans_scene"] is None for x in r["fenetres"]))
         self.assertEqual(r["publication"]["imagery"],0)
