@@ -58,6 +58,14 @@ jobs:
           d=json.load(open(sys.argv[1]))
           assert d["statut"]=="RECETTE_NON_VALIDANTE"
           assert d["communes_bfc_COG_2026"]==3685
+          assert d["concepts_RDF_examines"]==50556
+          assert d["concepts_avec_exactMatch_uuid_INSEE"]==26
+          assert d["concepts_uuid_concernant_potentiellement_BFC"]==1
+          val=d["candidats_val_d_usiers_25060"]
+          assert len(val)==1
+          assert val[0]["ark"]=="26678/pcrtksq5m3cwb846scr9wzkv"
+          assert val[0]["uris_insee_uuid_exactMatch"]==["http://id.insee.fr/geo/commune/52976ff6-5685-48c9-b468-7417ad44b653"]
+          assert val[0]["codes_bfc_directement_assertes"]==[]
           assert d["nouvelles_validations"]==0
           assert d["modifications_index_public"]==0
           assert d["geometries_historiques_inferrees"]==0
