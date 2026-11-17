@@ -69,6 +69,11 @@ jobs:
           assert all(x["publication"]=="NON_PUBLIE" for x in a["communes"])
           print("REGIONS_RESULTATS",json.dumps({
               "regions":a["regions"],"bilan":a["bilan"]},ensure_ascii=False,sort_keys=True))
+          print("REGIONS_SANS_EXACTMATCH",json.dumps([
+              {"code":x["code"],"nom":x["nom"],"region":x["region"],
+               "candidats_lexicaux":x["candidats_lexicaux_non_validants"]}
+              for x in a["communes"] if x["etat"]=="SANS_EXACTMATCH"],
+              ensure_ascii=False,sort_keys=True))
           print("REGIONS_CAS_A_INSTRUIRE",json.dumps([
               {"code":x["code"],"nom":x["nom"],"statut":x["etat"],
                "arks":[y["ark"] for y in x["preuves_RDF_exactMatch"]]}
