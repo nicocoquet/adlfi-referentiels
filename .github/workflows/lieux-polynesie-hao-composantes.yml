@@ -1,0 +1,65 @@
+name: Lieux — Polynésie, localiser les composantes Hao
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/localiser_composantes_hao_geopf.py'
+      - 'tests/test_localiser_composantes_hao_geopf.py'
+      - 'recette/lieux/POLYNESIE-HAO-COMPOSANTES-2026.md'
+      - '.github/workflows/lieux-polynesie-hao-composantes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  localisation-hao:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances géographiques
+        run: python3 -m pip install 'shapely==2.1.2' 'pyproj==3.7.2' 'pyshp==2.3.1'
+      - name: Tests des classements et localisations
+        run: python3 -m unittest discover -s tests -p 'test_localiser_composantes_hao_geopf.py' -v
+      - name: Télécharger les deux sources institutionnelles
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --output "$RUNNER_TEMP/ispf-geojson.zip"
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/89d202c3-4f04-4168-842d-4c50036125c7' \
+            --output "$RUNNER_TEMP/geopf.zip"
+          echo '6302ad2a17ec1fd8b51f70f1d8ba1501ee7ca212a9cd53c8df4221faedfe0b62  '"$RUNNER_TEMP/ispf-geojson.zip" | sha256sum --check
+          echo '29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b  '"$RUNNER_TEMP/geopf.zip" | sha256sum --check
+      - name: Exécuter deux fois et comparer les résultats
+        run: |
+          set -euo pipefail
+          python3 scripts/localiser_composantes_hao_geopf.py \
+            --geopf "$RUNNER_TEMP/geopf.zip" \
+            --ispf-geojson "$RUNNER_TEMP/ispf-geojson.zip" \
+            --sortie "$RUNNER_TEMP/hao-pieces-a.json"
+          python3 scripts/localiser_composantes_hao_geopf.py \
+            --geopf "$RUNNER_TEMP/geopf.zip" \
+            --ispf-geojson "$RUNNER_TEMP/ispf-geojson.zip" \
+            --sortie "$RUNNER_TEMP/hao-pieces-b.json"
+          cmp "$RUNNER_TEMP/hao-pieces-a.json" "$RUNNER_TEMP/hao-pieces-b.json"
+          python3 - "$RUNNER_TEMP/hao-pieces-a.json" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1]))
+          assert a['statut']=='RECETTE_NON_VALIDANTE'
+          assert len(a['cinq_pieces_classees'])==5
+          assert a['publication']=={'contours':0,'autorites':0,'ark':0}
+          assert a['identification_nature_objets']=='NON_ETABLIE'
+          assert 17398000 < a['aire_totale_hors_ile_ISPF_m2'] < 17400000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-hao-composantes-top5
+          path: ${{ runner.temp }}/hao-pieces-a.json
+          retention-days: 30
+          if-no-files-found: error
