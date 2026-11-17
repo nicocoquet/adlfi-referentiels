@@ -158,9 +158,10 @@ def analyser(ispf:Path,index_public:Path):
  if set(r["code_ispf"] for r in related)|set(r["code_ispf"] for r in nonassoc)!=seen:
   raise ValueError("Partition 116 des unités ISPF incomplète")
  # Deux Avera homonymes : seules leurs identités ISPF+parents les distinguent.
- avera={x["code_ispf"]:x["commune_parent_cog"] for x in related
-        if normaliser(x["libelle"])=="avera"}
- if avera!={"441":"98744","501":"98750"}:
+ avera={x["code_ispf"]:(x["libelle"],x["commune_parent_cog"])
+        for x in related if x["code_ispf"] in ("441","501")}
+ if {c:x[1] for c,x in avera.items()}!={"441":"98744","501":"98750"} or (
+     any(not normaliser(v[0]).startswith("avera") for v in avera.values())):
   raise ValueError("Homonymie Avera ISPF divergent : "+repr(avera))
  # Vérifier indépendamment la partition fine dans la feuille géographique.
  flags=collections.Counter()
