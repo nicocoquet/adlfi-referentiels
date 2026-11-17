@@ -86,6 +86,15 @@ jobs:
           assert r["schema"]=="adlfi.lieux.guadeloupe.audit.geofla2015-etalab2026.v1"
           assert r["statut"]=="AUDIT_NON_VALIDANT_SOURCE_TIERCE_NON_AUTHENTIFIEE"
           assert r["sources"]["copie_2015"]["identite_originale_IGN_authentifiee"] is False
+          assert r["sources"]["copie_2015"]["empreinte_sha256"]=="e33e412d840e27e01df70c811241481199e2bf4fa9597a8c19a5f7255b5693df"
+          assert r["sources"]["copie_2015"]["empreinte_epinglee"] is True
+          assert r["sources"]["copie_2015"]["metadonnees"]["crs_equivalent_epsg32620"] is True
+          assert r["sources"]["copie_2015"]["metadonnees"]["codes_champ"]=={"INSEE_COM":32}
+          assert abs(r["etats_2026_100m"]["ecart_emprise_exterieure_km2"]-20.473639)<0.001
+          assert abs(r["etats_2026_50m"]["ecart_emprise_exterieure_km2"]-20.897009)<0.001
+          assert abs(r["etats_2026_100m"]["ecart_entre_codes_interieur_unique_km2"]-16.897550)<0.001
+          assert abs(r["etats_2026_50m"]["ecart_entre_codes_interieur_unique_km2"]-16.761591)<0.001
+          assert abs(r["difference_emprise_2026_100m_50m_km2"]-8.079128)<0.001
           assert r["sources"]["copie_2015"]["metadonnees"]["crs_equivalent_epsg32620"] is True
           assert r["sources"]["copie_2015"]["metadonnees"]["codes_champ"]=={"INSEE_COM":32}
           assert r["communes_COG_2026"]==32
