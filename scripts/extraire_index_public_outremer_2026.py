@@ -62,7 +62,12 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
                 raise ValueError("Décision éditoriale CSV incomplète")
             code=row["code_insee"]
             ark=row["ark_pactols"]
-            if code in seen or code not in actuel or code in original_valides or code in non_valides:
+            # Cas documenté : promotion du seul ARK déjà confirmé pour Le Port,
+            # après preuve exactMatch et décision millésimée ; Dembeni reste exclue.
+            promotion_port=(code=="97407" and code in non_valides and
+                            ark==non_valides[code]=="26678/pcrtIKvRT9vwUl")
+            if (code in seen or code not in actuel or code in original_valides
+                or (code in non_valides and not promotion_port)):
                 raise ValueError("Code non courant, dupliqué ou déjà arbitré : "+code)
             if (not re.fullmatch(r"[0-9]{5}",code)
                 or not re.fullmatch(r"26678/[A-Za-z0-9]+",ark)
@@ -82,6 +87,10 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
             ):
                 raise ValueError("Libellé divergent à instruire avant validation : "+code)
             seen.add(code)
+            if promotion_port:
+                # Le statut confirmé mais non validé disparaît uniquement
+                # après l'ensemble des vérifications éditoriales.
+                del non_valides[code]
             all_arks.add(ark)
             original_valides[code]=ark
     return data
