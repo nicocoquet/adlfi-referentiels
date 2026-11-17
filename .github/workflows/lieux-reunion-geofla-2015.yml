@@ -1,0 +1,81 @@
+name: Lieux — La Réunion, inventaire GEOFLA candidat 2015 (recette)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lieux-reunion-geofla-2015.yml'
+      - 'recette/lieux/REUNION-GEOFLA-2015-2026-RECETTE.md'
+      - 'scripts/auditer_geofla_reunion_2015.py'
+      - 'tests/test_auditer_geofla_reunion_2015.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer libarchive et les bibliothèques SIG
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libarchive-tools
+          python3 -m pip install --disable-pip-version-check 'pyshp==2.3.1' 'pyproj==3.7.2' 'shapely==2.1.2'
+      - name: Inventorier et empreinter l'archive candidate GEOFLA Réunion 2015
+        run: |
+          set -euo pipefail
+          ARCHIVE="GEOFLA_2-1_COMMUNE_SHP_RGR92UTM40S_D974_2015-12-01.rar"
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            "https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/$ARCHIVE" \
+            --output "$RUNNER_TEMP/$ARCHIVE"
+          test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -ge 5000
+          test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -le 5000000
+          echo "COPY_REUNION_2015_SHA256=$(sha256sum "$RUNNER_TEMP/$ARCHIVE" | cut -d ' ' -f1)"
+          echo "COPY_REUNION_2015_BYTES=$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")"
+          bsdtar -tf "$RUNNER_TEMP/$ARCHIVE" > "$RUNNER_TEMP/files.txt"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path,PurePosixPath
+          paths=(Path(os.environ["RUNNER_TEMP"])/"files.txt").read_text().splitlines()
+          assert 4<=len(paths)<=100
+          for row in paths:
+              p=PurePosixPath(row)
+              assert not p.is_absolute() and ".." not in p.parts and "\\" not in row,row
+          print("ARCHIVE_PATHS",len(paths))
+          print("\n".join(paths))
+          PY
+          mkdir "$RUNNER_TEMP/geofla"
+          bsdtar -xf "$RUNNER_TEMP/$ARCHIVE" -C "$RUNNER_TEMP/geofla"
+      - name: Examiner les couches SHP, les codes et le WKT de projection
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import collections,os,shapefile
+          from pyproj import CRS
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla"
+          shps=list(root.rglob("*.shp"))
+          assert len(shps)<=15
+          print("SHAPEFILES",[str(p.relative_to(root)) for p in shps])
+          candidates=[p for p in shps if p.stem.upper()=="COMMUNE"]
+          assert len(candidates)==1,["Incapable d'identifier une unique couche COMMUNE",candidates]
+          shp=candidates[0]
+          crs=CRS.from_wkt(shp.with_suffix(".prj").read_text(errors="replace"))
+          print("SOURCE_CRS_EPSG",crs.to_epsg())
+          print("SOURCE_CRS_WKT",crs.to_wkt())
+          print("SOURCE_CRS_EQUIVALENT_2975",crs.equals(CRS.from_epsg(2975),ignore_axis_order=True))
+          with shapefile.Reader(str(shp),encoding="latin-1") as sf:
+              names=[x[0] for x in sf.fields[1:]]
+              print("SOURCE_FIELDS",names)
+              print("SOURCE_RECORDS",len(sf))
+              for r in list(sf.iterRecords())[:2]:
+                  print("SOURCE_SAMPLE",dict(zip(names,r)))
+              for candidate in ("INSEE_COM","CODE_INSEE","CODE_COM"):
+                  if candidate in names:
+                      counts=collections.Counter(str(row[names.index(candidate)]).strip()[:3] for row in sf.iterRecords())
+                      print("SOURCE_PREFIX_COUNTS",candidate,dict(counts))
+          PY
