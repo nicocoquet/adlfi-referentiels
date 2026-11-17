@@ -920,8 +920,37 @@ function afficherChronologiePolynesie(target,entry){
   p.append(a);target.append(p);
  }
  const note=document.createElement('p');note.className='warning';
- note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique n’est publiée. '+(commune?'La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).':'La correspondance Pactols–COG de la collectivité 987 est validée pour 2026, indépendamment des 48 alignements communaux, sans transfert aux communes associées ni aux périodes anciennes.');
+ note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées sont documentées dans un index ISPF distinct des 48 communes principales COG ; les cinq subdivisions administratives et les îles sont d’autres niveaux. Aucune géométrie historique n’est publiée. '+(commune?'La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).':'La correspondance Pactols–COG de la collectivité 987 est validée pour 2026, indépendamment des 48 alignements communaux, sans transfert aux communes associées ni aux périodes anciennes.');
  target.append(note);
+ if(commune&&state.associees){
+   // La fiche COG est datable ; la nomenclature ISPF associée ne l'est pas.
+   if(y!==2026){
+     const p=document.createElement('p');p.className='source';
+     p.textContent='Les listes détaillées de communes associées ISPF sont présentées pour la consultation 2026, et ne sont pas rétroprojetées au '+y+'.';
+     target.append(p);
+   }else{
+     const assoc=state.associees.parParent.get(code)||[];
+     const single=state.associees.nonSub.get(code);
+     if(assoc.length){
+       const titre=document.createElement('h3');
+       titre.textContent=assoc.length+' communes associées · nomenclature ISPF';
+       target.append(titre);
+       const ul=document.createElement('ul');
+       for(const a of assoc){
+         const li=document.createElement('li'),link=document.createElement('a');
+         link.href='?ref_ispf='+encodeURIComponent(a.code)+'&annee=2026&niveau=commune';
+         link.textContent=a.label+' · ISPF '+a.code;
+         li.append(link);ul.append(li);
+       }
+       target.append(ul);
+     }else if(single){
+       const p=document.createElement('p');p.className='source';
+       p.textContent='Commune non subdivisée en communes associées : code de partition ISPF '+
+         single.code_ispf+'. Ce code ne constitue pas une commune associée supplémentaire.';
+       target.append(p);
+     }
+   }
+ }
 }
 function afficherDetailAssocieeISPF(target,entry){
  const title=document.createElement('h2');title.textContent=entry.label;target.append(title);
