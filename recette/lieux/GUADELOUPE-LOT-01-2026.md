@@ -33,4 +33,49 @@ La CI `.github/workflows/lieux-guadeloupe-audit-2026.yml` contrôle les sources 
 
 **Aucun fichier `docs/` n'est modifié pendant cette première instruction**, aucune géométrie historique n'est publiée et aucune succession juridique ou équivalence Pactols n'est inférée de la ressemblance d'un nom.
 
-Les résultats chiffrés et les arbitrages seront consignés ici à partir de la CI.
+## Résultats effectivement observés — recette initiale
+
+[Première CI spécialisée réussie n°44015852671](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44015852671), [artefact de revue JSON/CSV](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44015852671/artifacts/14298851780).
+
+| Contrôle | Résultat |
+| --- | ---: |
+| Communes COG au 1er janvier 2026 | **32** |
+| Correspondances Pactols `skos:exactMatch` univoques éligibles | **32/32** |
+| Concepts dépréciés/remplacés bloquants ou discordances | **0** |
+| Codes historiques communaux `971` depuis 1943 | **34** |
+| Épisodes code–libellé COG depuis 1943 | **35** |
+| Lignes de mouvements impliquant un code 971 | **37** |
+| Liens Pactols citant explicitement un code 971 non courant | **0** |
+| Contours communaux 2026 topologiquement valides | **32/32** |
+| Nouveaux contours historiques adoptés | **0** |
+
+### 32 correspondances approuvées pour le COG 2026
+
+**Les 32 correspondances éligibles ont été validées par application de la politique éditoriale adoptée**, et toutes sont inscrites dans le registre `recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv`. Les décisions sont fondées exclusivement sur la citation RDF d'une URI INSEE par `skos:exactMatch`, un seul ARK Pactols actif et le libellé cohérent. Les relations sont **limitées au COG du 1er janvier 2026**.
+
+**Sept préfLabels Pactols présentent une précision géographique explicite**, sans divergence d'identité :
+
+| Code | Libellé COG 2026 | préfLabel Pactols |
+| --- | --- | --- |
+| 97122 | Port-Louis | Port-Louis (Guadeloupe) |
+| 97124 | Saint-Claude | Saint-Claude (Guadeloupe) |
+| 97125 | Saint-François | Saint-François (Guadeloupe) |
+| 97126 | Saint-Louis | Saint-Louis (Guadeloupe) |
+| 97128 | Sainte-Anne | Sainte-Anne (Guadeloupe) |
+| 97129 | Sainte-Rose | Sainte-Rose (Guadeloupe) |
+| 97132 | Trois-Rivières | Trois-Rivières (Guadeloupe) |
+
+### Chronologie et anciens codes
+
+Les **35 épisodes** représentent les 34 codes historiques, avec une seule commune attestant **deux libellés successifs sous le même code** :
+
+- **97107, Capesterre-de-Guadeloupe** du 21 mars 1946 au 4 juin 1976 (fin exclusive), puis **Capesterre-Belle-Eau** à compter du 4 juin 1976. Le COG décrit un mouvement de modalité **MOD 10** à cette date, sans changement de code communal.
+- **97123, Saint-Barthélemy** : épisode du 21 mars 1946 au **23 février 2007**, date de fin exclusive.
+- **97127, Saint-Martin** : même période documentaire, avec date de fin exclusive au **23 février 2007**.
+
+Les mouvements datés se répartissent entre le **21 mars 1946 (34 lignes, MOD 20)**, le **4 juin 1976 (1 ligne, MOD 10)** et le **23 février 2007 (2 lignes, MOD 30)**.
+
+La disparition des codes 97123 et 97127 du COG départemental n'entraîne **ni suppression de leurs anciennes autorités historiques**, ni assimilation automatique aux autorités des collectivités 977 et 978, ni attribution d'ARK par simple concordance. Dans l'export RDF Pactols vérifié, **aucun concept ne cite une URI INSEE de commune pour les anciens codes 97123 et 97127**.
+
+**Les 32 géométries 2026 ont passé le contrôle topologique, mais ne constituent pas des limites historiques.** Les relations Pactols validées en 2026 restent contemporaines, sans rétroprojection sur l'histoire du code.
+
