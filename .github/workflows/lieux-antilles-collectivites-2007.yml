@@ -1,0 +1,95 @@
+name: Lieux — transitions Saint-Barthélemy et Saint-Martin 2007 (COG/Loi)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_transition_saint_barthelemy_saint_martin_2007.py'
+      - 'tests/test_auditer_transition_saint_barthelemy_saint_martin_2007.py'
+      - 'recette/lieux/ANTILLES-COLLECTIVITES-2007-RECETTE.md'
+      - '.github/workflows/lieux-antilles-collectivites-2007.yml'
+      - 'docs/data/lieux-antilles-collectivites-2007/**'
+      - 'docs/assets/lieux-antilles-collectivites-2007.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/data/manifest.json'
+      - 'docs/lieux/index.html'
+      - 'tests/test_lieux_antilles_collectivites_2007.js'
+      - 'tests/test_lieux_ui.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-cog-legal-2007:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier les gardes-fous MOD 30 et relations juridiques
+        run: python3 -m unittest discover -s tests -p 'test_auditer_transition_saint_barthelemy_saint_martin_2007.py' -v
+      - name: Télécharger les sept tables originales Insee COG 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import hashlib,os,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          from auditer_transition_saint_barthelemy_saint_martin_2007 import SHAS
+          temp=Path(os.environ["RUNNER_TEMP"])
+          out=temp/"cog2026";out.mkdir()
+          with zipfile.ZipFile(temp/"cog_ensemble_2026_csv.zip") as z:
+              for name,expected in SHAS.items():
+                  found=[i for i in z.infolist() if Path(i.filename).name==name]
+                  assert len(found)==1,name
+                  info=found[0]
+                  assert 500<=info.file_size<=9_000_000,(name,info.file_size)
+                  raw=z.read(info)
+                  digest=hashlib.sha256(raw).hexdigest()
+                  assert digest==expected,(name,digest)
+                  (out/name).write_bytes(raw)
+                  print("COG_ANTILLES_2007",name,len(raw),digest)
+          PY
+      - name: Reproduire deux fois les épisodes, codes et relations juridiques
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_transition_saint_barthelemy_saint_martin_2007.py \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --sortie "$RUNNER_TEMP/antilles-$n.json" > "$RUNNER_TEMP/resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/antilles-1.json" "$RUNNER_TEMP/antilles-2.json"
+          cat "$RUNNER_TEMP/resume-1.txt"
+      - name: Vérifier l'absence de transformation des codes 5 positions en communes
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"antilles-1.json"
+          d=json.loads(p.read_text(encoding="utf-8"))
+          assert d["bilan"]["anciennes_communes"]==2
+          assert d["bilan"]["collectivites"]==2
+          assert d["bilan"]["nouvelles_relations_successions_juridiques_attestees"]==2
+          assert d["bilan"]["destinations_COM_AP_COG"]==0
+          assert d["bilan"]["nouveaux_alignements_pactols"]==0
+          assert d["bilan"]["contours_historiques_publies"]==0
+          assert d["bilan"]["publication_docs"] is False
+          for x in d["lignes"]:
+              assert not x["code_application_5_positions"]["equivalent_a_commune_actuelle"]
+              assert x["succession_juridique"]["date_effet_relation_precise_inferree"] is None
+              assert not x["succession_juridique"]["identite_conceptuelle_Pactols_inferree"]
+              assert x["mouvement_communal_COG"]["com_ap"] is None
+          print("ANTILLES2007_INVARIANTS_OK")
+          PY
+      - name: Archiver le rapport de vérification (aucune géométrie)
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-antilles-977-978-transition-cog-juridique-2007
+          path: ${{ runner.temp }}/antilles-1.json
+          retention-days: 30
+          if-no-files-found: error
