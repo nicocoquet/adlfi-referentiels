@@ -1,6 +1,6 @@
 # Polynésie française — audit COG 2026 et programme d'autorités
 
-**17 novembre 2026 — phase de contrôle des sources, sans alignement Pactols ni publication de nouvelles fiches.**
+**17 novembre 2026 — audit COG abouti ; intégration de la chronologie documentaire dans les fiches existantes, sans nouvel alignement Pactols.**
 
 ## Périmètre et précautions sémantiques
 
@@ -37,8 +37,18 @@ Le script `scripts/auditer_cog_polynesie_2026.py` confronte les 48 codes publié
 
 Le workflow reproduit deux fois exactement les sorties, extrait les **épisodes COG de chaque code**, les anciens codes non courants, les changements de libellé éventuels, et vérifie que les codes de communes associées ISPF ne sont **pas inventés** à partir du COG.
 
-Les dates et les nombres d'épisodes **seront inscrits dans une restitution publique seulement après examen du rapport officiel produit par la CI**.
+La [CI initiale n°44059455597](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44059455597) a réussi l'extraction des six CSV COG et la comparaison des deux rapports produits. Le résultat documentaire contrôlé est le suivant :
+
+| Famille COG | Nombre de codes et d'épisodes | Début COG commun | Fin |
+| --- | ---: | --- | --- |
+| Communes actuelles `98711` à `98758` | **48 codes, 48 épisodes** | **21 mai 1972** | Aucune fin d'épisode |
+| Territoire `987` | **1 épisode** | **21 mai 1972** | Aucune fin d'épisode |
+| Ancien code `98799` Clipperton | **1 épisode distinct** | **21 mai 1972** | **23 février 2007** (exclusive) |
+
+Le registre historique COG ne contient aucun changement de code–libellé ultérieur parmi les 48 communes actuelles étudiées. Cette stabilité n'est **ni une vérification des limites territoriales ni une preuve de stabilité des régimes institutionnels**.
+
+La [provenance publique](../../docs/data/lieux-polynesie/PROVENANCE.md) et le moteur de fiches `lieux-polynesie-historique.js` exposent maintenant les périodes exactement telles qu'elles ont été lues, et le script `verifier_index_public_polynesie_2026.py` vérifie les sorties contre les sources officielles.
 
 ## Interdictions éditoriales
 
-**Zéro alignement Pactols nouveau, zéro géométrie historique, zéro commune associée générée, zéro identité juridique rétroprojetée.** La recette est distincte de toute PR ultérieure de publication des périodes ou d'alignements.
+**Zéro alignement Pactols nouveau, zéro géométrie historique, zéro commune associée générée, zéro identité juridique rétroprojetée.** Les 48 périodes communales et le code territorial 987 sont publiés comme données COG documentaires ; l’instruction des 98 communes associées ISPF et des alignements Pactols demeure distincte.
