@@ -37,4 +37,29 @@ Le rapport distingue les 48 codes, les candidats explicites, les candidats seule
 
 **0 correspondance validée par le script, 0 contour historique, 0 commune associée construite ou rétroprojetée.** Les 128 relations Pactols communales publiées jusqu'à présent sont inchangées.
 
-Le résultat chiffré et les ARK de la source seront consignés **après exécution effective du workflow sur le RDF épinglé**, et non inférés des noms.
+## Résultat vérifié sur le RDF Frantiq : 48 sur 48
+
+La [CI officielle n°44061695614](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44061695614) a réussi le contrôle SHA-256, les tests RDF et la double extraction reproductible.
+
+| Catégorie | Résultat réel |
+| --- | ---: |
+| Communes COG 2026 examinées | **48** |
+| Codes portant un `skos:exactMatch` explicite | **48** |
+| Concepts Pactols distincts | **48** |
+| Libellés compatibles et concepts actifs | **48** |
+| Conflits de code, concepts multiples ou dépréciations | **0** |
+| Alertes automatiques île/atoll/royaume dans les libellés préférés | **0** |
+| Candidats exclusivement lexicaux sans URI INSEE | **0** |
+| Correspondances nouvelles publiées par cette recette | **0** |
+
+Les 48 URI INSEE ont exactement la forme `http://id.insee.fr/geo/commune/987XX` et chaque concept n'a qu'une seule URI INSEE, vers son code communal courant. Parmi les preuves : **Anaa `98711` → `26678/pcrtwSlYRcWVFw`**, **Bora-Bora `98714` → `26678/pcrtlbU8ne9i3P`**, **Gambier `98719` → `26678/pcrtvKcE6DTLi5`**, **Papeete `98735` → `26678/pcrtr90gKcAXiG`**, **Tahaa `98745` → `26678/pcrteZcqWgVUaT`**, **Uturoa `98758` → `26678/pcrtRw9F7i5M8l`**.
+
+Le RDF contient aussi un **concept distinct pour la collectivité `987`**, ARK **`26678/pcrt4K8nLVxWOP`**, avec `exactMatch` vers `http://id.insee.fr/geo/collectiviteDOutreMer/987`. Il ne porte aucun lien communal à transférer vers les 48 communes.
+
+**Aucun `exactMatch` vers le code historique `98799` Clipperton** n'a été retrouvé dans cet export.
+
+### Décision de méthode
+
+Les **48 couples communaux** satisfont toutes les conditions de la [politique d'alignement Pactols–COG du 16 novembre 2026](POLITIQUE-ALIGNEMENT-PACTOLS-COG.md) et sont **éligibles à validation éditoriale par règle pour l'état du 1er janvier 2026**. Leur publication requerra un **registre CSV versionné** et une PR de publication séparée pour ne pas confondre diagnostic RDF et décision. Cette validation portera sur les **identifiants**, sans homologuer automatiquement la géométrie, les communes associées ISPF ou les périodes historiques.
+
+Le **concept de territoire `987`** sera instruit suivant la politique distincte des collectivités d'outre-mer (cf. [PR n°68](https://github.com/nicocoquet/adlfi-referentiels/pull/68)). Il ne peut être versé dans le registre des communes.
