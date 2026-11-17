@@ -438,6 +438,9 @@ function search(){
 }
 function focusSelection(){const x=state.selected;
  if(!x||!state.map)return;
+ if(x.kind==='cog2026'&&x.code?.startsWith('971')){
+   state.map.fitBounds([[15.7,-61.9],[16.57,-60.85]],{padding:[24,24],animate:false});return;
+ }
  if(x.kind==='cog2026'&&x.code?.startsWith('972')){
    state.map.fitBounds([[14.32,-61.27],[14.93,-60.79]],{padding:[24,24],animate:false});return;
  }
@@ -521,9 +524,64 @@ function afficherChronologieMartinique(target,code){
  warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Martinique n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
  target.append(warn);
 }
+function afficherChronologieGuadeloupe(target,code){
+ if(!state.guadeloupe)return;
+ const h=document.createElement('h3');h.textContent='État COG de Guadeloupe au 1er janvier '+year();target.append(h);
+ const period=state.guadeloupe.etat(code,year()),all=state.guadeloupe.periodes(code);
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé à la date sélectionnée',period.label);
+   ligne(dl,'Période documentée',period.start+' – '+(period.end||'en cours dans la source'));
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode actif n’est attesté pour ce code au 1er janvier '+
+     year()+' dans l’historique COG étudié. Il ne faut pas en déduire l’absence historique du lieu.';
+   target.append(p);
+ }
+ if(all.length>1){
+   const heading=document.createElement('h3');heading.textContent='États documentés du même code';target.append(heading);
+   const ul=document.createElement('ul');
+   for(const e of all){
+     const li=document.createElement('li');
+     li.textContent=e.label+' · '+e.start+' – '+(e.end||'en cours dans la source');
+     ul.append(li);
+   }
+   target.append(ul);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/2560452';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, historique des communes (COG 2026)';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Ces observations concernent des couples code–libellé datés, et non une identité juridique intemporelle. Aucun contour historique de Guadeloupe n’est affiché ; les correspondances Pactols validées pour 2026 ne sont pas rétroactives.';
+ target.append(warn);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
- const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
+ const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
+ if(x.kind==='cogHistoriqueGuadeloupe'){
+   const ancienne=state.guadeloupe?.old.get(x.code);
+   if(!ancienne){state.selected=null;detail();return}
+   const now=state.guadeloupe.etat(x.code,year());
+   const all=state.guadeloupe.periodes(x.code);
+   const heading=document.createElement('h2');
+   heading.textContent=(now?.label||all.at(-1).label)+' · '+x.code;target.append(heading);
+   const dl=document.createElement('dl');
+   ligne(dl,'Ancien code INSEE',x.code);
+   ligne(dl,'Épisode communal terminé le','23 février 2007 (fin exclusive)');
+   ligne(dl,'Mouvement COG attesté','MOD 30 · 23 février 2007');
+   ligne(dl,'Code communal après le mouvement (COM_AP)','Non renseigné dans le fichier des mouvements COG');
+   ligne(dl,'Citation Pactols de l’ancienne URI INSEE','Aucune dans l’export RDF Lieux examiné du 22 juillet 2026');
+   target.append(dl);
+   afficherChronologieGuadeloupe(target,x.code);
+   const note=document.createElement('p');note.className='warning';
+   note.textContent='Cette ancienne commune est une autorité historique documentaire distincte. Le COG consulté ne fournit pas de code de destination dans la ligne MOD 30 ; aucune équivalence automatique avec une collectivité actuelle 977 ou 978, ni avec son concept Pactols, n’est déduite. Aucun contour historique n’est affiché.';
+   target.append(note);
+   return;
+ }
  if(x.kind==='cogHistoriqueGuyane'){
    const ancienne=state.guyane?.old.get(x.code);
    if(!ancienne){state.selected=null;detail();return}
@@ -592,6 +650,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      afficherChronologieGuyane(target,entry.code);
    }else if(entry.kind==='cog2026'&&entry.code.startsWith('972')){
      afficherChronologieMartinique(target,entry.code);
+   }else if(entry.kind==='cog2026'&&entry.code.startsWith('971')){
+     afficherChronologieGuadeloupe(target,entry.code);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
