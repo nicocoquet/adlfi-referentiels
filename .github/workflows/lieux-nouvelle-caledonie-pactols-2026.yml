@@ -1,0 +1,97 @@
+name: Lieux — Nouvelle-Calédonie, audit Pactols RDF de 33 communes
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_nouvelle_caledonie_2026.py'
+      - 'tests/test_auditer_pactols_nouvelle_caledonie_2026.py'
+      - 'recette/lieux/NOUVELLE-CALEDONIE-PACTOLS-33-2026.md'
+      - '.github/workflows/lieux-nouvelle-caledonie-pactols-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rdf-nouvelle-caledonie:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests du triage ontologique NC
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_nouvelle_caledonie_2026.py' -v
+      - name: Empreinte RDF originale du 22 juillet 2026
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Télécharger le COG INSEE 2026, vérifier les six tables
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog2026.zip"
+          python3 - <<'PY'
+          import hashlib,os,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,'referentiels/scripts')
+          from auditer_cog_polynesie_2026 import SHAS
+          p=Path(os.environ['RUNNER_TEMP']);d=p/'cog2026';d.mkdir()
+          with zipfile.ZipFile(p/'cog2026.zip') as archive:
+              for filename,expected in SHAS.items():
+                  matches=[z for z in archive.infolist() if Path(z.filename).name==filename]
+                  assert len(matches)==1,filename
+                  data=archive.read(matches[0])
+                  assert hashlib.sha256(data).hexdigest()==expected,filename
+                  (d/filename).write_bytes(data)
+          print("COG_NC_SOURCES_VALIDES",len(SHAS))
+          PY
+      - name: Audit des 33 communes et reproductibilité
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_nouvelle_caledonie_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --index-public docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/nouvelle-caledonie-rdf-$n.json" > "$RUNNER_TEMP/nc-summary-$n.log"
+          done
+          cmp "$RUNNER_TEMP/nouvelle-caledonie-rdf-1.json" "$RUNNER_TEMP/nouvelle-caledonie-rdf-2.json"
+          python3 - "$RUNNER_TEMP/nouvelle-caledonie-rdf-1.json" <<'PY'
+          import json,sys
+          report=json.load(open(sys.argv[1]))
+          assert report['statut']=='RECETTE_NON_VALIDANTE'
+          assert len(report['communes_COG_2026'])==33
+          assert len({x['code_COG_2026'] for x in report['communes_COG_2026']})==33
+          assert report['publication']=={'nouvelles_relations':0,'nouveaux_contours':0,'nouveaux_ARK':0}
+          assert all(r['alignement_publie'] is False for r in report['communes_COG_2026'])
+          assert all(r['decision_editoriale']=='NON_PRISE' for r in report['communes_COG_2026'])
+          print('NC_RDF_RESULTATS',json.dumps({
+              'bilan':report['bilan'],
+              'codes_avec_exactMatch':[
+                  {'code':r['code_COG_2026'],'statut':r['statut'],
+                   'ark':[p['ark'] for p in r['preuves_RDF_exactMatch']]}
+                  for r in report['communes_COG_2026'] if r['nombre_concepts_exactMatch']],
+          },ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nc-33-pactols-cog2026-audit
+          path: ${{ runner.temp }}/nouvelle-caledonie-rdf-1.json
+          retention-days: 30
+          if-no-files-found: error
