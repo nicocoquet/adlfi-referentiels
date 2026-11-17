@@ -87,6 +87,9 @@ jobs:
           assert base["contours_invalides"]==["98745","98805"]
           print("SOCLE_176_COMMUNES_DISTINCTES_DES_COLLECTIVITES — OK")
           PY
+      - name: Manifeste historique du socle 176
+        working-directory: referentiels
+        run: git show 54d515c55c3c13c0b6fbd2c61628ec8036bdbe6a:docs/data/manifest.json > "$RUNNER_TEMP/manifest-176.json"
       - name: Certifier 4 concepts et 6 URI exactMatch RDF contre COG et index public
         working-directory: referentiels
         run: |
@@ -97,8 +100,8 @@ jobs:
               --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
               --cog "$RUNNER_TEMP/cog2026" \
               --socle "$RUNNER_TEMP/socle-176.json" \
-              --public docs/data/lieux-outremer/recherche-2026.json \
-              --manifest docs/data/manifest.json > "$RUNNER_TEMP/collectivites-$n.json"
+              --public recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
+              --manifest "$RUNNER_TEMP/manifest-176.json" > "$RUNNER_TEMP/collectivites-$n.json"
           done
           cmp "$RUNNER_TEMP/collectivites-1.json" "$RUNNER_TEMP/collectivites-2.json"
           cat "$RUNNER_TEMP/collectivites-1.json"
