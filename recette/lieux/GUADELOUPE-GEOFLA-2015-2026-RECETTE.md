@@ -26,6 +26,64 @@ La comparaison cartographique porte **exclusivement sur les 32 codes 971 encore 
 
 La CI spécialisée contrôle séparément les sources, les codes, la topologie et les métriques. Les résultats seront ajoutés à cette note une fois obtenus et la source candidate 2015 sera alors épinglée par SHA-256.
 
+## Résultats mesurés dans la recette
+
+[CI géométrique n°44018152128 réussie](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44018152128), [artefact JSON de recette](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44018152128/artifacts/14298894872).
+
+### Identification et reproductibilité
+
+- Archive candidate GEOFLA 2015 : `GEOFLA_2-1_COMMUNE_SHP_UTM20W84GUAD_D971_2015-12-01.rar`, **SHA-256 `e33e412d840e27e01df70c811241481199e2bf4fa9597a8c19a5f7255b5693df`**, désormais figé dans le script et la CI.
+- Livraison : `1_DONNEES_LIVRAISON_2015/GEOFLA_2-1_SHP_UTM20W84GUAD_D971-ED152/COMMUNE/`, avec couches `COMMUNE` et `LIMITE_COMMUNE`.
+- **32 objets polygonaux, 32 codes attributaires INSEE_COM**, aucun code 97123 ou 97127 dans le jeu des communes actuelles.
+- Projection WKT source : **WGS 84 / UTM 20N, EPSG:32620**, PRJ SHA-256 `251e5e5bcccb92f6358564951f89c7e2464b0cf63200a9fc55d2d11c23157424`. La correspondance du WKT à EPSG:32620 est vérifiée indépendamment du nom de l'archive.
+- Rapport produit deux fois avec des résultats identiques octet pour octet. **Aucun polygone archivé ni diffusé**.
+
+### Décomposition surfacique en EPSG:6933
+
+| Grandeur | Comparaison 2015 / 2026 à 100 m | Comparaison 2015 / 2026 à 50 m |
+| --- | ---: | ---: |
+| Aire d'emprise GEOFLA 2015 | 1 631,828990 km² | 1 631,828990 km² |
+| Aire d'emprise Etalab 2026 | 1 632,484050 km² | 1 633,373185 km² |
+| **Différence symétrique d'emprise extérieure** | **20,473639 km²** | **20,897009 km²** |
+| Dessin 2015 hors de l'emprise 2026 | 9,909289 km² | 9,676407 km² |
+| Dessin 2026 hors de l'emprise 2015 | 10,564349 km² | 11,220602 km² |
+| **Écart interne unique entre codes communaux** | **16,897550 km²** | **16,761591 km²** |
+| Cumul des différences des 32 communes | **54,268739 km²** | **54,420191 km²** |
+
+Les égalités vérifiées sur les géométries non arrondies sont : **cumul des différences communales = différence extérieure + 2 × différence intérieure unique**. Les très faibles différences au dernier chiffre décimal peuvent provenir des arrondis du tableau.
+
+**Test de généralisation 2026 :** les emprises 2026 à **100 m et 50 m** diffèrent de **8,079128 km²** en différence symétrique. Utiliser la référence 50 m à la place de 100 m modifie l'écart global mesuré avec 2015 de **0,423370 km²**, ce qui ne suffit pas à expliquer les autres divergences. Les effets de généralisation locale restent néanmoins importants.
+
+### Six communes prioritaires pour l'examen géographique
+
+| Code | Commune | Écart total à 100 m | Part d'emprise extérieure dans l'écart |
+| --- | --- | ---: | ---: |
+| 97117 | Le Moule | **3,333675 km²** | 41,887 % |
+| 97129 | Sainte-Rose | **3,168546 km²** | 37,592 % |
+| 97119 | Petit-Canal | **2,980410 km²** | 27,530 % |
+| 97115 | Lamentin | **2,860348 km²** | 11,605 % |
+| 97116 | Morne-à-l’Eau | **2,685930 km²** | 17,763 % |
+| 97118 | Petit-Bourg | **2,334115 km²** | 23,324 % |
+
+Ces chiffres montrent que les différences de maillage interne occupent une place substantielle dans plusieurs communes. Ils ne démontrent **aucun déplacement juridique** d'une limite.
+
+### Localisations descriptives des principales composantes extérieures
+
+Les points ci-dessous se trouvent **à l'intérieur des composantes de différence des deux dessins**, sans représenter des bornes, centres communaux ou événements territoriaux.
+
+| Sens de la comparaison | Surface d'une composante significative | Longitude du point intérieur | Latitude |
+| --- | ---: | ---: | ---: |
+| Dessin GEOFLA 2015 hors emprise Etalab 2026 100 m | 0,329662 km² | –61,797563 | 16,307300 |
+| Dessin GEOFLA 2015 hors emprise Etalab 2026 100 m | 0,267740 km² | –61,398419 | 16,429500 |
+| Dessin Etalab 2026 100 m hors emprise GEOFLA 2015 | 0,795735 km² | –61,591004 | 15,837150 |
+| Dessin Etalab 2026 100 m hors emprise GEOFLA 2015 | 0,365439 km² | –61,594105 | 15,873500 |
+
+Les composantes sont beaucoup moins concentrées que celles détectées en Martinique et en Guyane. L'absence d'un bloc dominant n'autorise pas pour autant une conclusion sur la nature de chaque limite : elle exige le rapprochement avec des sources côtières ou hydrographiques documentées.
+
+### Limite documentaire
+
+L'intégrité du RAR candidat est désormais contrôlée par SHA-256 ; son **authenticité vis-à-vis d'un original IGN** et la date d'effet des limites représentées restent à établir. Cette donnée de 2015 ne représente **ni le millésime 1946 ni les anciens codes 97123 et 97127 terminés en 2007**. Elle ne peut être publiée comme cartographie historique sans qualification complémentaire.
+
 ## Interprétation strictement limitée
 
 Une différence mesurée entre GEOFLA 2015 et Etalab 2026 peut résulter du **trait de côte représenté, de la généralisation, d'autres méthodes de production ou de véritables transformations** ; l'audit n'est pas en mesure d'en identifier la cause juridique.
