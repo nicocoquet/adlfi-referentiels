@@ -12,6 +12,9 @@ on:
       - 'docs/assets/lieux-reunion-historique.js'
       - 'docs/assets/lieux-mayotte-historique.js'
       - 'docs/assets/lieux-saint-pierre-miquelon-historique.js'
+      - 'docs/assets/lieux-antilles-collectivites-2007.js'
+      - 'docs/data/lieux-antilles-collectivites-2007/**'
+      - 'tests/test_lieux_antilles_collectivites_2007.js'
       - 'docs/data/lieux-saint-pierre-miquelon/**'
       - 'tests/test_lieux_saint_pierre_miquelon_historique.js'
       - 'docs/data/lieux-mayotte/**'
@@ -59,6 +62,8 @@ jobs:
         run: node tests/test_lieux_mayotte_historique.js
       - name: Tester les épisodes COG de Saint-Pierre-et-Miquelon (Node.js)
         run: node tests/test_lieux_saint_pierre_miquelon_historique.js
+      - name: Tester les transitions 2007 et les codes 977/978 (Node.js)
+        run: node tests/test_lieux_antilles_collectivites_2007.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
