@@ -71,7 +71,7 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
                 raise ValueError("Code non courant, dupliqué ou déjà arbitré : "+code)
             if (not re.fullmatch(r"[0-9]{5}",code)
                 or not re.fullmatch(r"26678/[A-Za-z0-9]+",ark)
-                or ark in all_arks
+                or (ark in all_arks and not promotion_port)
                 or row["libelle_COG_2026"]!=actuel[code]
                 or row["uri_insee"]!="http://id.insee.fr/geo/commune/"+code
                 or row["predicat_source"]!="exactMatch"
