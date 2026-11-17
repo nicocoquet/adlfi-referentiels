@@ -43,7 +43,7 @@ def analyser_couche(fc, layer):
     features = fc["features"]
     if len(features) != expected:
         raise ValueError("Effectif de couche inattendu")
-    geometries, codes = [], []
+    geometries, codes, parents = [], [], []
     for row in features:
         props = row.get("properties")
         if row.get("type") != "Feature" or not isinstance(props, dict):
@@ -54,6 +54,7 @@ def analyser_couche(fc, layer):
             raise ValueError("Géométrie absente, invalide ou non MultiPolygon : " + ident)
         geometries.append(geom)
         codes.append(ident)
+        parents.append(normaliser_code(props.get('IDCom')) if layer == 'Comas.GeoJSON' else None)
     if len(set(codes)) != expected:
         raise ValueError("Code SIG dupliqué")
 
@@ -87,6 +88,8 @@ def analyser_couche(fc, layer):
                     "geometries_identiques": geom.equals(other),
                     "superposition_totale_de_a": geom.within(other),
                     "superposition_totale_de_b": other.within(geom),
+                    "communes_parentes_ISPF": sorted(set([parents[i], parents[j]])) if layer == "Comas.GeoJSON" else None,
+                    "meme_commune_parente": parents[i] == parents[j] if layer == "Comas.GeoJSON" else None,
                 })
             else:
                 contacts["intersection_sans_surface_plane"] += 1
@@ -98,6 +101,8 @@ def analyser_couche(fc, layer):
         "paires_recouvrement_interieur": contacts["interieurs_en_recouvrement"],
         "paires_intersection_sans_surface": contacts["intersection_sans_surface_plane"],
         "paires_recouvrements_a_instruire": intersections,
+        "recouvrements_meme_commune_parente": sum(x["meme_commune_parente"] is True for x in intersections),
+        "recouvrements_communes_parentes_distinctes": sum(x["meme_commune_parente"] is False for x in intersections),
         "validation_topologique_individuelle": "CONTROLE_PR80",
         "statut": "AUDIT_NON_VALIDANT",
     }
@@ -144,6 +149,8 @@ def main():
             "recouvrements": info["paires_recouvrement_interieur"],
             "autres": info["paires_intersection_sans_surface"],
             "paires": info["paires_recouvrements_a_instruire"],
+            "recouvrements_meme_commune": info["recouvrements_meme_commune_parente"],
+            "recouvrements_communes_distinctes": info["recouvrements_communes_parentes_distinctes"],
         }, ensure_ascii=False, sort_keys=True))
 
 if __name__ == "__main__":
