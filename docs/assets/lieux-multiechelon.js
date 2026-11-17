@@ -846,7 +846,7 @@ function afficherChronologieWallisFutuna(target,entry){
   a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;p.append(a);target.append(p);
  }
  const p=document.createElement('p');p.className='warning';
- p.textContent='Le code 98607 du COG historique porte le libellé « Nouvelle-Calédonie » : il n’est pas repris comme autorité Wallis-et-Futuna ni relié par succession automatique à 986. Aucun contour historique, aucun alignement Pactols et aucune assimilation des circonscriptions à des communes ou à leurs royaumes coutumiers n’est publié.';
+ p.textContent='Le code 98607 du COG historique porte le libellé « Nouvelle-Calédonie » : il n’est pas repris comme autorité Wallis-et-Futuna ni relié par succession automatique à 986. Aucun contour historique, aucune correspondance Pactols propre aux trois circonscriptions et aucune assimilation de celles-ci à des communes ou à leurs royaumes coutumiers ne sont publiés. L’alignement de la collectivité 986 pour 2026 demeure distinct.';
  target.append(p);
 }
 function afficherChronologiePolynesie(target,entry){
@@ -899,7 +899,7 @@ function afficherChronologiePolynesie(target,entry){
   p.append(a);target.append(p);
  }
  const note=document.createElement('p');note.className='warning';
- note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique n’est publiée. La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).';
+ note.textContent='La première attestation COG du 21 mai 1972 n’est pas la date de création de toutes les communes. Les 98 communes associées et les cinq subdivisions administratives nécessitent leur propre nomenclature et ne sont pas ajoutées aux 48 autorités COG. Aucune géométrie historique n’est publiée. '+(commune?'La correspondance Pactols–COG communale est validée pour le seul millésime 2026, sans rétroprojection sur les années antérieures ni homologation du contour de Tahaa (98745).':'La correspondance Pactols–COG de la collectivité 987 est validée pour 2026, indépendamment des 48 alignements communaux, sans transfert aux communes associées ni aux périodes anciennes.');
  target.append(note);
 }
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
@@ -965,6 +965,11 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      }else if(entry.arkConfirme){
        ligne(dl,'ARK identifié (lien COG non validé)',entry.arkConfirme);
      }
+   }else if(entry.kind==='autre_cog2026'&&
+       entry.nature==='TERRITOIRE'&&entry.arkCollectiviteValide){
+     ligne(dl,'Pactols validé pour la collectivité (2026)',
+       entry.arkCollectiviteValide,
+       'https://ark.frantiq.fr/ark:/'+entry.arkCollectiviteValide);
    }
    target.append(dl);
    const source=document.createElement('p'),a=document.createElement('a');
@@ -981,6 +986,12 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      note.textContent='Cette entité administrative n’est pas une commune dans le sélecteur territorial. Aucun contour de ce zonage n’est publié dans ce module.';
    }
    target.append(note);
+   if(entry.kind==='autre_cog2026'&&entry.nature==='TERRITOIRE'&&
+       entry.arkCollectiviteValide){
+     const p=document.createElement('p');p.className='source';
+     p.textContent='Correspondance Pactols–COG validée pour cette collectivité au 1er janvier 2026 seulement. Elle ne désigne ni ses communes anciennes, ni ses circonscriptions, ni ses codes à cinq positions, et ne certifie aucun contour historique.';
+     target.append(p);
+   }
    if(entry.arkConfirme){
      const p=document.createElement('p');p.className='warning';
      p.textContent='L’identifiant ARK est confirmé, mais la correspondance Pactols–COG demeure à valider : elle n’est pas présentée comme un alignement.';
