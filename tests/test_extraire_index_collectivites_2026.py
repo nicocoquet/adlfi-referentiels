@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from extraire_index_public_outremer_2026 import appliquer_validations_collectivites
 REG=ROOT/"recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv"
-PUBLIC=ROOT/"docs/data/lieux-outremer/recherche-2026.json"
+PUBLIC=ROOT/"recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json"
 class TestBuilderCollectivites(unittest.TestCase):
  def base(self):
   x=json.loads(PUBLIC.read_text(encoding="utf-8"))
