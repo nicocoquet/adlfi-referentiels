@@ -18,7 +18,7 @@ from auditer_geofla_guyane_2015 import lire_geojson
 
 SCHEMA="adlfi.lieux.guadeloupe.audit.geofla2015-etalab2026.v1"
 ARCHIVE_NAME="GEOFLA_2-1_COMMUNE_SHP_UTM20W84GUAD_D971_2015-12-01.rar"
-# Empreinte à fixer à partir de la première acquisition contrôlée.
+# Empreinte de la copie candidate contrôlée et épinglée ; authenticité IGN non établie.
 SHA_2015="e33e412d840e27e01df70c811241481199e2bf4fa9597a8c19a5f7255b5693df"
 SHA_2026_100="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 SHA_2026_50="6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38"
