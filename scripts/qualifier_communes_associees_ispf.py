@@ -188,6 +188,8 @@ def main():
  print("ISPF_BILAN",json.dumps(result["bilan"],ensure_ascii=False))
  print("ISPF_RATTACHEMENTS",json.dumps(result["distribution_associees_par_commune"],ensure_ascii=False))
  print("ISPF_HOMONYMES_AVERA",json.dumps(result["homonymes_avera"],ensure_ascii=False))
+ print("ISPF_98_CATALOGUE",json.dumps([[r["id_comas_ISPF"],r["libelle"],r["code_commune_COG"],r["subdivision_ISPF"]]
+    for r in result["communes_associees"]],ensure_ascii=False))
  print("ISPF_EXCEPTIONS_CODGEO",json.dumps(result["exceptions_CODE_GEO_prefixe_IDComas"],ensure_ascii=False))
  print("ISPF_VARIANTES_ISPF_COG",json.dumps([
    c for c in result["communes_ISPF_vers_COG"].values() if c["variantes_libelles"]],
