@@ -62,14 +62,14 @@ def main():
         raise ValueError("CSV et JSON doivent être distincts")
     audit, decisions, exceptions, _ = produire(args.rdf, args.cog)
     if len(exceptions) != 88 or any(x["code_insee"] in {"44066", "85165", "85212", "85292"} for x in decisions):
-        raise ValueError("Exceptions PDL ou Val-d'Usiers promues")
+        raise ValueError("Exceptions PDL ou les quatre communes sans assertion promues")
     args.csv.parent.mkdir(parents=True, exist_ok=True)
     args.json.parent.mkdir(parents=True, exist_ok=True)
     ecrire_csv(decisions, args.csv)
     import hashlib
     csv_sha = hashlib.sha256(args.csv.read_bytes()).hexdigest()
     if csv_sha != CSV_SHA:
-        raise ValueError("Registre PDL divergent de la recette PR 102 : " + csv_sha)
+        raise ValueError("Registre PDL divergent de la recette PR 104 : " + csv_sha)
     published = index_public(audit, decisions)
     args.json.write_text(
         json.dumps(published, ensure_ascii=False, separators=(",", ":")) + "\n",
