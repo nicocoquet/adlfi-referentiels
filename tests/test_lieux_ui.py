@@ -212,7 +212,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-polynesie-historique.js",
                 "../assets/lieux-polynesie-associees.js",
                 "../assets/lieux-corse-pactols.js",
-                "../assets/lieux-multiechelon.js",
+                "../assets/lieux-multiechelon.js?v=20261117-corse360",
             ],
         )
         for path in (
