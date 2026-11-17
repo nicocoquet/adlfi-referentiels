@@ -1,0 +1,75 @@
+name: Lieux — publication des 360 liens Pactols corses 2026
+
+on:
+  pull_request:
+    paths:
+      - 'docs/lieux/**'
+      - 'docs/assets/lieux-corse-pactols.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/data/lieux-chronologie/pactols-corse-2026.json'
+      - 'docs/data/manifest.json'
+      - 'recette/lieux/CORSE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'scripts/verifier_publication_pactols_corse_2026.py'
+      - 'tests/test_lieux_corse_pactols_2026.js'
+      - 'tests/test_lieux_corse_pactols_navigateur.py'
+      - '.github/workflows/lieux-corse-publication-360-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publication:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier le SHA-256 du RDF Pactols officiel
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Récupérer le COG Insee 2026
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Reconstituer les 360 décisions à partir des deux sources épinglées
+        working-directory: referentiels
+        run: |
+          python3 scripts/preparer_validations_pactols_corse_2026.py \
+            --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+            --sortie "$RUNNER_TEMP/corse-registre-genere.csv"
+          cmp "$RUNNER_TEMP/corse-registre-genere.csv" recette/lieux/CORSE-VALIDATIONS-PACTOLS-COG-2026.csv
+      - name: Contrôler le JSON public, le registre et le manifeste
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_publication_pactols_corse_2026.py
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_chronologie_4regions.js
+          python3 tests/controle_lieux_chronologie_4regions.py docs/data/lieux-chronologie
+      - name: Préparer Chromium pour la recette d'affichage
+        run: |
+          python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
+          python3 -m playwright install chromium
+      - name: Tester la recherche d'ARK et la fiche corse en navigateur
+        working-directory: referentiels
+        run: python3 tests/test_lieux_corse_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: corse-360-registre-verifie-2026
+          path: ${{ runner.temp }}/corse-registre-genere.csv
+          retention-days: 30
+          if-no-files-found: error

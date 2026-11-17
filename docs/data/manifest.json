@@ -287,6 +287,17 @@
           "501"
         ],
         "lien_anciennes_communes_inferes": 0
+      },
+      "pactols_corse_2026": {
+        "statut": "correspondances Pactols–COG communales validées au millésime 2026",
+        "fichier": "data/lieux-chronologie/pactols-corse-2026.json",
+        "communes": 360,
+        "relations_validees": 360,
+        "portee_COG": "2026-01-01",
+        "preuve": "skos:exactMatch RDF Pactols 22 juillet 2026",
+        "source_registre": "recette/lieux/CORSE-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "geometries_historiques_validees": 0,
+        "retroprojections": 0
       }
     },
     "personnes": {
