@@ -41,7 +41,7 @@ def main():
         page.wait_for_function("() => !document.querySelector('#results')?.hidden")
         hits=page.locator("#results").text_content()
         assert "Afa" in hits and "Pactols validé en 2026" in hits,hits
-        page.locator("#year").fill("1975")
+        page.locator("#year").evaluate("(el) => { el.value='1975'; el.dispatchEvent(new Event('input',{bubbles:true})); }")
         page.locator("#year").dispatch_event("change")
         page.wait_for_function("() => document.querySelector('#year-label')?.textContent.includes('1975')")
         assert "2026 seulement" in page.locator("#detail").text_content()
