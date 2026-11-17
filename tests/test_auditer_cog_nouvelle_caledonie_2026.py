@@ -48,7 +48,7 @@ class TestNouvelleCaledonie(unittest.TestCase):
  def test_refuser_poya_absente(self):
   t,b=self.fixture()
   t['v_commune_comer_2026.csv'][26]['LIBELLE']='Inconnue'
-  with self.assertRaisesRegex(ValueError,'divergent'):self.audit(t,b)
+  with self.assertRaisesRegex(ValueError,'non concordantes'):self.audit(t,b)
  def test_refuser_commune_drom_988(self):
   t,b=self.fixture();t['v_commune_2026.csv'].append({'COM':'98801'})
   with self.assertRaisesRegex(ValueError,'DROM'):self.audit(t,b)
