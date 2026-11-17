@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from extraire_index_public_outremer_2026 import appliquer_validations
 
-INDEX=ROOT/"docs/data/lieux-outremer/recherche-2026.json"
+INDEX=ROOT/"recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json"
 DECISIONS=ROOT/"recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv"
 PORT_ARK="26678/pcrtIKvRT9vwUl"
 DEMBENI_ARK="26678/crtZcuFSJVYZU"
