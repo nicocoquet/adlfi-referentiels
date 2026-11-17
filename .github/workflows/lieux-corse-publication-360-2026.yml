@@ -59,7 +59,7 @@ jobs:
           python3 scripts/verifier_publication_pactols_corse_2026.py
           node tests/test_lieux_corse_pactols_2026.js
           node tests/test_lieux_chronologie_4regions.js
-          python3 tests/controle_lieux_chronologie_4regions.py
+          python3 tests/controle_lieux_chronologie_4regions.py docs/data/lieux-chronologie
       - name: Préparer Chromium pour la recette d'affichage
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'
