@@ -1,0 +1,29 @@
+name: Lieux — Hao, contrôle des statistiques SCL surfaciques
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/analyser_surfaces_scl_hao.py'
+      - 'tests/test_analyser_surfaces_scl_hao.py'
+      - 'recette/lieux/POLYNESIE-HAO-SCL-SURFACES-2026.md'
+      - '.github/workflows/lieux-hao-scl-surfaces.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tester:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances SIG nécessaires aux tests synthétiques
+        run: python3 -m pip install 'rasterio==1.4.3' 'shapely==2.1.2' 'pyproj==3.7.2' 'pyshp==2.3.1'
+      - name: Tester les statistiques surfaciques sans accès Copernicus
+        run: python3 -m unittest discover -s tests -p 'test_analyser_surfaces_scl_hao.py' -v
+      - name: Vérifier la compilation sans données externes
+        run: python3 -m py_compile scripts/analyser_surfaces_scl_hao.py
