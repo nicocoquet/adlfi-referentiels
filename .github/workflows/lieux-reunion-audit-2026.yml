@@ -1,0 +1,84 @@
+name: Lieux — La Réunion, audit Pactols–COG 2026 (recette)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_reunion_2026.py'
+      - 'tests/test_auditer_reunion_2026.py'
+      - 'recette/lieux/REUNION-CANDIDATS-PACTOLS-COG-2026.csv'
+      - 'recette/lieux/REUNION-AUDIT-2026.md'
+      - '.github/workflows/lieux-reunion-audit-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-reunion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester le registre, les concepts et les homonymies
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_reunion_2026.py' -v
+      - name: Télécharger les tables COG 2026 avec empreintes officielles
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Vérifier le RDF Pactols épinglé
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Auditer deux fois les 24 communes et comparer les résultats
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_reunion_2026.py \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --registre recette/lieux/REUNION-CANDIDATS-PACTOLS-COG-2026.csv \
+              --sortie "$RUNNER_TEMP/rapport-$n.json"
+          done
+          cmp "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
+      - name: Vérifier l'éligibilité, les dates et l'absence de publication
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"rapport-1.json").read_text())
+          b=r["bilan"]
+          assert b["communes"]==24
+          assert b["eligibles"]+b["a_instruire"]==24
+          assert b["validations_publiees_par_audit"]==0
+          assert b["geometries_historiques_publiees"]==0
+          assert len({e["ark_pactols_candidat"] for e in r["lignes"]})==24
+          assert r["historique"]=={"periodes_COG":24,"lignes_mouvements":25,"lignes_division_1965":2}
+          assert all(e["geometrie_historique"] is None for e in r["lignes"])
+          print("BILAN",json.dumps(b,ensure_ascii=False,sort_keys=True))
+          print("CAS A INSTRUIRE",json.dumps([
+            e for e in r["lignes"] if e["statut"]=="A_INSTRUIRE"
+          ],ensure_ascii=False,indent=2))
+          assert b["eligibles"]==24, "Ne pas homologuer automatiquement : certains dossiers restent à instruire"
+          PY
+      - name: Archiver le seul rapport documentaire (sans géométries)
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-reunion-cog-pactols2026-24-candidats
+          path: ${{ runner.temp }}/rapport-1.json
+          retention-days: 30
+          if-no-files-found: error
