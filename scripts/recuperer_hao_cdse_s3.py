@@ -98,7 +98,7 @@ def main():
     if args.max_bytes_par_fichier<=0:raise ValueError("Plafond positif requis")
     destination=args.destination.expanduser().resolve()
     # Garde contre une publication accidentelle dans le dépôt Git.
-    if any((destination/".git").exists() for _ in (0,)) or "docs" in destination.parts:
+    if "docs" in destination.parts or any((parent/".git").exists() for parent in (destination,*destination.parents)):
         raise ValueError("Choisir un dossier de données hors du dépôt et hors docs")
     item=get_json(ITEM_URL)
     keys=plan(item)
