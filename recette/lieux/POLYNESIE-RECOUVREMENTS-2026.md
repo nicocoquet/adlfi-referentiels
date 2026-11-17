@@ -43,3 +43,17 @@ Les **65 recouvrements entre unités fines** sont des **alertes de géométrie**
 L'audit évolue pour distinguer désormais les recouvrements **entre unités fines d'une même commune** de ceux qui concernent **des communes parentes différentes**. Les paires individuelles et leurs codes sont conservés dans l'artefact de la CI. Il faudra ensuite contrôler les écarts avec une source géométrique indépendante et la précision de production, avant toute correction.
 
 Aucun contour publié ni corrigé, aucune validation historique inférée.
+
+
+## Qualification des 65 paires selon les communes parentes
+
+Le workflow [n°44099821057](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44099821057), exécuté sur la version enrichie du script, est **réussi**. Les 65 paires de la couche `Comas` se répartissent ainsi :
+
+- **44 paires** relient deux unités fines d'une **même commune parente** ;
+- **21 paires** relient des unités fines de **communes parentes différentes**.
+
+L'exemple `IDComas 120` (parent `12`) / `IDComas 360` (parent `36`) appartient à la seconde catégorie. L'exemple `141` / `142`, tous deux rattachés à la commune ISPF `14`, appartient à la première.
+
+Ce classement n'indique pas si les limites sont juridiquement incorrectes. Les 21 paires intercommunales sont prioritaires pour le contrôle du découpage administratif ; les 44 paires intracommunales sont prioritaires pour la qualité d'assemblage des unités fines. Il faudra mesurer les surfaces d'intersection **dans une projection métrique correctement justifiée**, et confronter les contours à un autre producteur avant d'envisager toute correction.
+
+La CI générale [n°44099821254](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44099821254) est également réussie. Cette recette n'altère ni les géométries, ni les données du site.
