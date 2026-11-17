@@ -21,6 +21,17 @@ class TestContoursGeoPFISPF(unittest.TestCase):
                                aire(polygon,geod),places=5)
         self.assertEqual(aire(line,geod),0)
 
+    def test_aire_trou_invariante_a_orientation_des_anneaux(self):
+        from shapely.geometry import Polygon
+        from pyproj import CRS
+        geod=CRS.from_epsg(4687).get_geod()
+        exterior=[(-141,-18),(-140,-18),(-140,-17),(-141,-17),(-141,-18)]
+        hole=[(-140.7,-17.7),(-140.3,-17.7),(-140.3,-17.3),(-140.7,-17.3),(-140.7,-17.7)]
+        one=Polygon(exterior,[hole])
+        two=Polygon(exterior[::-1],[hole[::-1]])
+        self.assertAlmostEqual(aire(one,geod),aire(two,geod),places=3)
+        self.assertLess(aire(one,geod),aire(Polygon(exterior),geod))
+
     def test_union_geometrique_et_diff_symetrique(self):
         from shapely.geometry import box
         from shapely.ops import unary_union
