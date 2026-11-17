@@ -82,13 +82,13 @@ jobs:
           for n in 1 2; do
             python3 scripts/auditer_ispf_polynesie_associees.py \
               --ispf "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
-              --index-public docs/data/lieux-outremer/recherche-2026.json \
+              --index-public recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
               --sortie "$RUNNER_TEMP/ispf-associees-$n.json" > "$RUNNER_TEMP/rapport-ispf-$n.txt"
           done
           cmp "$RUNNER_TEMP/ispf-associees-1.json" "$RUNNER_TEMP/ispf-associees-2.json"
           python3 scripts/auditer_ispf_polynesie_associees.py \
             --ispf "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
-            --index-public docs/data/lieux-outremer/recherche-2026.json \
+            --index-public recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
             --verifier docs/data/lieux-polynesie/communes-associees-ispf-2026.json
           node tests/test_lieux_polynesie_associees.js
           python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
