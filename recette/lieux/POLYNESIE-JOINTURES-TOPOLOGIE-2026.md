@@ -26,3 +26,24 @@ Les géométries sont passées dans **Shapely 2.1.2 / GEOS** pour le test topolo
 Rapport produit **hors `docs/`**, double génération vérifiée octet par octet, aucun contour ni nouvel ARK publié.
 
 **Décision avant fusion :** lire les résultats de CI, recenser toutes les discordances et les géométries invalides et déterminer si la recette doit évoluer. Aucune fusion sur la seule réussite technique des tests.
+
+
+## Résultats effectifs du 17 novembre 2026
+
+Workflow spécialisé [n°44087653761](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44087653761) **réussi**, sources SHA-256 conformes et sortie reproductible.
+
+| Couche | Codes communs XLSX–GeoJSON | Absents | Supplémentaires | Doublons | Géométries OGC valides | Invalides |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `Com` | **48/48** | 0 | 0 | 0 | **48/48** | 0 |
+| `Comas` | **116/116** | 0 | 0 | 0 | **116/116** | 0 |
+| `Ile` | **119/119** | 0 | 0 | 0 | **119/119** | 0 |
+
+Aucune divergence `IDCom`/`IDSub` dans les trois couches ; aucune géométrie nulle ou vide détectée.
+
+**Seule divergence lexicale** : code insulaire `IDIle=85` : **`Rocher Thomasset`** dans la feuille `Ile` du XLSX contre **`Roche Thomas`** dans `Ile.GeoJSON`. Les codes sont identiques. **Ne pas choisir un nom officiel par simple préférence lexicale ni créer deux autorités** : vérifier la provenance, le millésime et les variantes avant publication.
+
+Le contrôle `is_valid` de GEOS établit seulement la validité topologique **individuelle** des 283 polygones. Il n'atteste pas l'absence de recouvrement, la précision planimétrique, l'accord des limites communes, ni la validité historique.
+
+### CI générale actuellement bloquée par une image hors nomenclature
+
+La CI générale [n°44087653628](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44087653628) échoue sur un fichier introduit indépendamment de cette PR : `docs/assets/organismes/fahl.jpg`, non conforme au modèle `ORG-XXXX.jpg` ou `SER-XXXX.jpg`. Le problème Shapely initial a été corrigé : 377 tests exécutés, un seul échec restant (médias Organismes). **Ne pas renommer l'image avant d'avoir identifié l'autorité correspondante.** La PR demeure en brouillon, et la présente branche ne touche pas aux images.
