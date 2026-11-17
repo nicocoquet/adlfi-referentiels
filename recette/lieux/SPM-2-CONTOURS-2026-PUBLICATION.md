@@ -25,3 +25,15 @@ La CI reconstruit deux GeoJSON identiques octet à octet, contrôle la provenanc
 Le GeoJSON est versionné dans la branche de la PR seulement **après réussite**. Les limites de Polynésie et de Nouvelle-Calédonie, notamment les anomalies Tahaa/Dumbéa, demeurent séparées dans l'audit PR #109.
 
 Le contenu de l'index des identifiants Pactols reste inchangé. Aucune commune associée ou structure juridique COMER n'est créée ou renommée par déduction de la carte.
+
+
+## Résultats de la recette réelle — 17 novembre 2026
+
+Le [workflow n°44187711504](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44187711504) a réussi l'extraction, l'export et les tests navigateur ; les deux fichiers régénérés sont **identiques octet à octet**.
+
+- GeoJSON public : **8 285 octets**, SHA-256 **`ae66a554acfa6463319af3ad0c37e57d5d92e16f5335d0d5e627d1d034c82574`**.
+- **97501 Miquelon-Langlade** : Polygon ; emprise WGS84 [–56.4055, 46.7828, –56.2376, 47.1442].
+- **97502 Saint-Pierre** : MultiPolygon ; emprise WGS84 [–56.2412, 46.7525, –56.1263, 46.8252].
+- **0 identifiant Pactols créé**, **0 limite juridique homologuée**, **0 état historique inféré**, aucune modification des deux ARK existants.
+- Tests réussis : **SPM_2_INDEX_OK**, **SPM_2_NAVIGATEUR_OK**, **DROM_129_NAVIGATEUR_OK**, **CORSE_360_NAVIGATEUR_OK**, **BFC_3614_NAVIGATEUR_OK**, **PDL_1140_NAVIGATEUR_OK**.
+- Artefact : `contours-2026-saint-pierre-et-miquelon-2-communes`. La CI a ajouté le GeoJSON à la branche de PR après recette. La fusion dépend du contrôle final sur le commit contenant effectivement cette géométrie.
