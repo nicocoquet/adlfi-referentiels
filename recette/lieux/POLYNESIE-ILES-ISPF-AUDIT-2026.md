@@ -30,7 +30,7 @@ Chaque rapport comporte le même SHA source ; double génération JSON et compar
 
 ### Limite à lever dans une tranche ultérieure
 
-Le rapport intermédiaire de PR75 contient les 179 lignes `Geo`, mais ne reproduit pas les **119 lignes de la feuille `Ile`**. La présente étape ne prétend donc pas repérer exhaustivement les codes d'îles absents de `Geo`. Une future qualification devra comparer explicitement les deux feuilles, avant de statuer sur les différences de comptage.
+Le script recoupe maintenant **directement les 119 lignes de la feuille `Ile`** et les observations `Geo` du même classeur contrôlé par SHA-256. Les codes de la nomenclature sans observation `Geo` sont listés avec leur libellé et leur subdivision, sans création de rattachement ou géométrie. Les accords de libellé et subdivision sont contrôlés pour chaque observation. Ce contrôle ne résout pas, à lui seul, l'écart entre les 119 codes et les 121 îles évoquées par la documentation explicative.
 
 ## Contrat éditorial
 
