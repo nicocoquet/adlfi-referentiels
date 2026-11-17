@@ -21,3 +21,13 @@ Quatre communes sans assertion de code dans le RDF épinglé :
 Les 22 collisions historiques de codes à instruire dans le chantier PDL et les mouvements de communes nouvelles demeurent distincts de ces décisions d'identité **2026**.
 
 La CI produit deux exemplaires identiques octet à octet du CSV et des exceptions ; elle ne modifie aucun fichier dans docs, aucun contour et aucun épisode COG. La publication des couples approuvés fera l'objet d'une PR distincte, après vérification des résultats réels.
+
+## Recette réelle — 17 novembre 2026
+
+La [CI n°44179130324](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44179130324) est réussie, comme la [CI générale n°44179130427](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44179130427).
+
+- **1 140** couples générés et contrôlés à partir des sources épinglées.
+- **88** exceptions exclues (60 ARK multiples, 24 divergences, quatre codes sans assertion) ; aucune validation ou géométrie inférée.
+- Deux CSV identiques, SHA-256 **81c49e32e5a443a1dd2e9f40e2d82c842a72ab1f82d81833fd51f02ae9d71335**.
+- Test additionnel sur toutes les URI INSEE de chacun des 1 140 concepts réussi ; quatre tests locaux PDL et sept tests régionaux réussis.
+- Artefact Actions : recette-pdl-1140-pactols-cog-2026 (CSV et rapport JSON d'exceptions).
