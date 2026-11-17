@@ -341,7 +341,7 @@ def main():
           timeout=60000)
         t=page.locator("#detail").text_content()
         assert "Aucun épisode communal n’est documenté" in t
-        assert "ne constitue pas sa date de création" not in t or "non sa date de création" in t
+        assert "non sa date de création" in t
         assert "aucun nouvel alignement Pactols" in t
         assert page.locator("#detail").get_by_text("Correspondance Pactols validée (2026)",exact=False).count()==0
 
