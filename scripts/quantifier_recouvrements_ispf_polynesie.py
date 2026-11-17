@@ -16,6 +16,19 @@ from auditer_recouvrements_ispf_polynesie import (
     auditer as inventaire_precedent, normaliser_code, SOURCE_SHA, CRS
 )
 
+def aire_geodesique(geom, geod):
+        # Une intersection peut être GeometryCollection (surfaces + lignes).
+        # Les lignes ne participent pas à la mesure d'aire.
+        if geom.geom_type in ("GeometryCollection", "MultiPolygon"):
+            return sum(aire_geodesique(part, geod) for part in geom.geoms)
+        if geom.geom_type != "Polygon":
+            return 0.0
+        a, _ = geod.geometry_area_perimeter(geom)
+        if not math.isfinite(a):
+            raise ValueError("Surface géodésique non finie")
+        return abs(a)
+
+
 def quantifier(archive: Path):
     from pyproj import CRS as ProjectionCRS
     from shapely.geometry import shape
@@ -36,17 +49,6 @@ def quantifier(archive: Path):
             raise ValueError("IDComas dupliqué")
         lookup[ident] = shape(feat["geometry"])
 
-    def aire(geom):
-        # Une intersection peut être GeometryCollection (surfaces + lignes).
-        # Les lignes ne participent pas à la mesure d'aire.
-        if geom.geom_type in ("GeometryCollection", "MultiPolygon"):
-            return sum(aire(part) for part in geom.geoms)
-        if geom.geom_type != "Polygon":
-            return 0.0
-        a, _ = geod.geometry_area_perimeter(geom)
-        if not math.isfinite(a):
-            raise ValueError("Surface géodésique non finie")
-        return abs(a)
 
     observations = []
     parents = {x["code_a"] + "|" + x["code_b"]: x
@@ -54,10 +56,10 @@ def quantifier(archive: Path):
     for key, pair in sorted(parents.items()):
         a, b = lookup[pair["code_a"]], lookup[pair["code_b"]]
         inter = a.intersection(b)
-        area = aire(inter)
+        area = aire_geodesique(inter, geod)
         if inter.area <= 0 or area <= 0:
             raise ValueError("Recouvrement sans surface positive : " + key)
-        area_a, area_b = aire(a), aire(b)
+        area_a, area_b = aire_geodesique(a, geod), aire_geodesique(b, geod)
         if not area_a or not area_b:
             raise ValueError("Surface nulle pour une unité fine : " + key)
         observations.append({
