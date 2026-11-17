@@ -117,8 +117,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertNotIn("97127", dataset["pactols_valides"])
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("972")]), 34)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("973")]), 22)
+        self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("974")]), 24)
+        self.assertEqual(dataset["pactols_valides"]["97407"], "26678/pcrtIKvRT9vwUl")
         self.assertEqual(dataset["ark_confirmes_non_valides"], {
-            "97407": "26678/pcrtIKvRT9vwUl",
             "97607": "26678/crtZcuFSJVYZU",
         })
         self.assertEqual(dataset["contours_invalides"], ["98745", "98805"])
