@@ -18,6 +18,13 @@ Le script `scripts/auditer_reunion_2026.py` qualifie chaque candidat comme `ELIG
 
 La PR n'ajoute aucun `skos:exactMatch`, aucune géométrie, aucune relation de succession et ne modifie **aucun fichier du site `docs/`**. La validation éventuelle de ces liens portera uniquement sur l'état COG 2026. Les limites historiques des communes restent à qualifier séparément.
 
-## Résultats
+## Résultats mesurés
 
-À compléter **à partir des résultats effectivement constatés en CI**, sans présumer que les 24 candidats sont éligibles.
+[CI spécialisée n°44019132477](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44019132477) **réussie** ; [contrôles généraux n°44019132484](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44019132484) **réussis**.
+
+- **24/24** candidats `ELIGIBLE_SELON_REGLE`, **0** `A_INSTRUIRE`, après relecture des `skos:exactMatch` du RDF original, des 24 ARK uniques, des libellés français et des états de dépréciation ou remplacement.
+- **24 périodes COG** sur 24 codes actuels et **25 lignes de mouvement**, dont les deux lignes `MOD=20` du **5 février 1965** (division Saint-Louis → Saint-Louis et Cilaos).
+- Le Port `97407` : le seul candidat RDF admissible correspond à l'ARK éditorialement confirmé `26678/pcrtIKvRT9vwUl` ; les homonymes ne passent pas la correspondance INSEE.
+- Rapports générés deux fois et comparés octet à octet ; **aucune écriture sous `docs/`** et **aucun alignement validé par le seul audit**.
+
+**Conclusion :** les 24 couples sont admissibles à la validation documentaire **pour le COG au 1er janvier 2026** selon la politique éditoriale déjà approuvée. Cette conclusion ne valide ni la continuité juridique ancienne des limites, ni des géométries historiques.
