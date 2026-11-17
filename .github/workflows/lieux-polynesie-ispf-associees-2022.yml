@@ -1,0 +1,76 @@
+name: Lieux — inspecter la nomenclature géographique ISPF Polynésie
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lieux-polynesie-ispf-associees-2022.yml'
+      - 'scripts/auditer_ispf_polynesie_associees.py'
+      - 'tests/test_auditer_ispf_polynesie_associees.py'
+      - 'recette/lieux/POLYNESIE-ASSOCIEES-ISPF-2022-RECETTE.md'
+      - 'docs/data/lieux-polynesie/communes-associees-ispf-2022.json'
+      - 'docs/assets/lieux-polynesie-associees.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/data/manifest.json'
+      - 'docs/lieux/index.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nomenclature-ispf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Télécharger la nomenclature ISPF officielle (XLSX, 52 ko)
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx' \
+            -o "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+          file "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+          sha256sum "$RUNNER_TEMP/ispf-codes-geographiques.xlsx"
+      - name: Inventorier les feuilles et colonnes sans utiliser de codes inférés
+        run: |
+          python3 - <<'PY'
+          import os,zipfile,xml.etree.ElementTree as ET,posixpath,hashlib,collections
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"ispf-codes-geographiques.xlsx"
+          M="{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+          R="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+          P="{http://schemas.openxmlformats.org/package/2006/relationships}"
+          with zipfile.ZipFile(p) as z:
+            print("ISPF_SOURCE_SHA256",hashlib.sha256(p.read_bytes()).hexdigest())
+            workbook=ET.fromstring(z.read("xl/workbook.xml"))
+            rels=ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+            targets={x.get("Id"):x.get("Target") for x in rels.findall(P+"Relationship")}
+            ss=[]
+            if "xl/sharedStrings.xml" in z.namelist():
+              root=ET.fromstring(z.read("xl/sharedStrings.xml"))
+              ss=["".join(n.text or "" for n in item.iter(M+"t")) for item in root.findall(M+"si")]
+            for sheet in workbook.findall(M+"sheets/"+M+"sheet"):
+              name=sheet.get("name");target=targets.get(sheet.get(R+"id"))
+              if not target:raise ValueError("Missing XLSX relationship "+name)
+              path=target.lstrip("/") if target.startswith("/") else posixpath.normpath("xl/"+target)
+              if path not in z.namelist():raise ValueError("Missing sheet data "+path)
+              root=ET.fromstring(z.read(path))
+              all_rows=[]
+              for row in root.findall(".//"+M+"sheetData/"+M+"row"):
+                cells=[]
+                for cell in row.findall(M+"c"):
+                  raw=cell.find(M+"v")
+                  if cell.get("t")=="s" and raw is not None:
+                    val=ss[int(raw.text)]
+                  elif cell.get("t")=="inlineStr":
+                    val="".join(n.text or "" for n in cell.iter(M+"t"))
+                  else:
+                    val=raw.text if raw is not None else ""
+                  if val.strip():cells.append([cell.get("r"),val[:90]])
+                if cells:all_rows.append(cells)
+              print("ISPF_FEUILLE",name,"lignes_non_vides",len(all_rows),"xml",path)
+              for row in all_rows[:14]:
+                print("ISPF_ECHANTILLON",name,row)
+              print("ISPF_DERNIERES_LIGNES",name,all_rows[-3:])
+          PY
