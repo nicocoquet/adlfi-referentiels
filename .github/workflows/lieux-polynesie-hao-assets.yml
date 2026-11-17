@@ -1,0 +1,51 @@
+name: Lieux — Polynésie, assets raster Sentinel-2 Hao
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/inventorier_assets_hao_sentinel2.py'
+      - 'scripts/diagnostiquer_pixels_hao_l2a.py'
+      - 'tests/test_diagnostiquer_pixels_hao_l2a.py'
+      - 'tests/test_inventorier_assets_hao_sentinel2.py'
+      - 'recette/lieux/POLYNESIE-HAO-ASSETS-2026.md'
+      - '.github/workflows/lieux-polynesie-hao-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer dépendances de footprint
+        run: python3 -m pip install 'shapely==2.1.2' 'rasterio==1.4.3'
+      - name: Tests de non-régression STAC
+        run: |
+          python3 -m unittest discover -s tests -p 'test_inventorier_assets_hao_sentinel2.py' -v
+          python3 -m unittest discover -s tests -p 'test_diagnostiquer_pixels_hao_l2a.py' -v
+      - name: Lire métadonnées exactes du produit du 26 décembre 2022
+        run: |
+          set -euo pipefail
+          python3 scripts/inventorier_assets_hao_sentinel2.py --sortie "$RUNNER_TEMP/hao-assets-a.json"
+          python3 scripts/inventorier_assets_hao_sentinel2.py --sortie "$RUNNER_TEMP/hao-assets-b.json"
+          cmp "$RUNNER_TEMP/hao-assets-a.json" "$RUNNER_TEMP/hao-assets-b.json"
+          python3 - "$RUNNER_TEMP/hao-assets-a.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['item_id'].startswith('S2A_MSIL2A_20221226T193851')
+          assert r['points_couverts_par_empreinte']==[1,2,3,4,5]
+          assert r['publication']=={'raster':0,'geometrie':0,'autorite':0,'ark':0}
+          assert r['classification_geographique']=='NON_ETABLIE'
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-hao-sentinel2-assets
+          path: ${{ runner.temp }}/hao-assets-a.json
+          retention-days: 30
+          if-no-files-found: error
