@@ -33,3 +33,10 @@ L'index `recherche-2026.json` reste **sans polygones** ; une nouvelle couche `co
 La source géométrique et les codes sont contrôlés avant publication par `scripts/publier_contours_drom_2026.py`. Les contours ne valident pas les ARK Pactols, et inversement. Pour les années anciennes, cette couche ne peut être affichée que comme **repère 2026 optionnel**.
 
 La Polynésie, la Nouvelle-Calédonie et Saint-Pierre-et-Miquelon restent hors de ce lot ; Tahaa (98745) et Dumbéa (98805) conservent leurs réserves topologiques.
+
+
+## Saint-Pierre-et-Miquelon : contours de référence 2026
+
+La couche cartographique autonome `contours-communes-spm-2026.geojson` fournit **Miquelon-Langlade (97501)** et **Saint-Pierre (97502)**, datés du COG au 1er janvier 2026, géométries Etalab du 4 mai 2026, généralisation 100 m. Ces tracés ont subi un contrôle de validité topologique sans réparation et sont indépendants des deux correspondances Pactols déjà approuvées.
+
+Il ne s'agit pas de limites juridiquement homologuées ni de restitutions historiques ; hors de 2026, elles ne peuvent apparaître que comme repères contemporains facultatifs. Les géométries de Polynésie et de Nouvelle-Calédonie restent à instruire.
