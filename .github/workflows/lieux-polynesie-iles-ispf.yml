@@ -1,0 +1,65 @@
+name: Lieux — Polynésie, audit non validant des îles ISPF
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_iles_ispf_polynesie.py'
+      - 'tests/test_auditer_iles_ispf_polynesie.py'
+      - 'recette/lieux/POLYNESIE-ILES-ISPF-AUDIT-2026.md'
+      - '.github/workflows/lieux-polynesie-iles-ispf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-iles-ispf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests locaux de refus des sources incorrectes
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_iles_ispf_polynesie.py' -v
+      - name: Télécharger le classeur ISPF officiel contrôlé
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 180 \
+            'https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx' \
+            --output "$RUNNER_TEMP/ispf-codes.xlsx"
+          echo 'd84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6  '"$RUNNER_TEMP/ispf-codes.xlsx" | sha256sum --check
+      - name: Qualifier la nomenclature avant les relations insulaires
+        run: |
+          python3 scripts/qualifier_communes_associees_ispf.py \
+            --source "$RUNNER_TEMP/ispf-codes.xlsx" \
+            --index-cog docs/data/lieux-outremer/recherche-2026.json \
+            --sortie "$RUNNER_TEMP/ispf-associees-audit.json"
+      - name: Audit des îles et double génération reproductible
+        run: |
+          python3 scripts/auditer_iles_ispf_polynesie.py \
+            --rapport-ispf "$RUNNER_TEMP/ispf-associees-audit.json" \
+            --sortie "$RUNNER_TEMP/ispf-iles-audit-a.json"
+          python3 scripts/auditer_iles_ispf_polynesie.py \
+            --rapport-ispf "$RUNNER_TEMP/ispf-associees-audit.json" \
+            --sortie "$RUNNER_TEMP/ispf-iles-audit-b.json"
+          cmp "$RUNNER_TEMP/ispf-iles-audit-a.json" "$RUNNER_TEMP/ispf-iles-audit-b.json"
+          python3 - "$RUNNER_TEMP/ispf-iles-audit-a.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['schema']=='adlfi.lieux.polynesie.ispf.iles.audit.v1'
+          assert r['statut']=='RECETTE_GEOGRAPHIQUE_NON_VALIDANTE'
+          assert r['comptages']['lignes_Geo']==179
+          assert r['comptages']['exceptions_prefixes_CODGEO']==2
+          assert r['comptages']['nouvelles_geometries']==0
+          assert r['comptages']['nouveaux_ARK']==0
+          print('Audit géographique descriptif reproductible ; non publié')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-polynesie-ispf-iles-audit
+          path: ${{ runner.temp }}/ispf-iles-audit-a.json
+          retention-days: 30
+          if-no-files-found: error
