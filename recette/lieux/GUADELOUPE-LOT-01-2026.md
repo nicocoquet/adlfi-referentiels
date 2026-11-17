@@ -75,6 +75,8 @@ Les **35 épisodes** représentent les 34 codes historiques, avec une seule comm
 
 Les mouvements datés se répartissent entre le **21 mars 1946 (34 lignes, MOD 20)**, le **4 juin 1976 (1 ligne, MOD 10)** et le **23 février 2007 (2 lignes, MOD 30)**.
 
+**Précision sur les deux mouvements de 2007 :** les lignes de modalité **MOD 30** consignent `COM_AV=97123` ou `97127`, mais **`COM_AP` est vide**. Le fichier des mouvements ne code donc **aucune destination communale explicite** de ces deux lignes. L'existence contemporaine des collectivités `977` et `978` ne doit pas être utilisée pour remplir cette lacune comme s'il s'agissait d'une relation attestée par ces mouvements.
+
 La disparition des codes 97123 et 97127 du COG départemental n'entraîne **ni suppression de leurs anciennes autorités historiques**, ni assimilation automatique aux autorités des collectivités 977 et 978, ni attribution d'ARK par simple concordance. Dans l'export RDF Pactols vérifié, **aucun concept ne cite une URI INSEE de commune pour les anciens codes 97123 et 97127**.
 
 **Les 32 géométries 2026 ont passé le contrôle topologique, mais ne constituent pas des limites historiques.** Les relations Pactols validées en 2026 restent contemporaines, sans rétroprojection sur l'histoire du code.
