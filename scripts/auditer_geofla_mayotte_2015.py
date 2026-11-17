@@ -273,7 +273,7 @@ def evaluer(dossier:Path,archive:Path,reference100:Path,reference50:Path,sortie:
             "Le WKT PRJ nomme RGM04 mais ne précise pas son datum ; équivalence EPSG:4471 non établie.",
             "La conversion géographique utilise une transformation indicative sur datum inconnu : métriques exploratoires uniquement.",
             "Les différences géométriques ne prouvent aucun changement juridique.",
-            "Aucune représentation 2015 n'est projetée sur 1946-2014 ni sur le présent.",
+            "Aucune représentation GEOFLA 2015 n'est attribuée aux états COMER/DROM de 2007-2011, ni publiée comme limite historique.",
             "Points et enveloppes des composantes ne sont pas des frontières.",
         ]
     }
