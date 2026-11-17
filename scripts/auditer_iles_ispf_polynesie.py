@@ -145,6 +145,13 @@ def main() -> None:
     args.sortie.parent.mkdir(parents=True, exist_ok=True)
     args.sortie.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     print("ISPF_ILES_BILAN", json.dumps(result["comptages"], sort_keys=True, ensure_ascii=False))
+    print("ISPF_ILES_MULTICOMMUNES", json.dumps([
+        {"code": x["id_ile_ISPF"], "nom": x["libelle_ISPF"],
+         "communes": x["communes_COG_rattachement"],
+         "unites": x["unites_fines_ISPF"]}
+        for x in result["iles_observees_dans_Geo"]
+        if x["rattachement_plusieurs_communes"]
+    ], ensure_ascii=False, sort_keys=True))
 
 if __name__ == "__main__":
     main()
