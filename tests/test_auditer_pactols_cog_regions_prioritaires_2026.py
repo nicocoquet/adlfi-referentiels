@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from auditer_pactols_cog_regions_prioritaires_2026 import qualifier, communes_actuelles,REGIONS
+from auditer_pactols_polynesie_2026 import INSEE
 
 def preuve(code="2A004",pref="Ajaccio",extra=None,dep=False):
     uris=[{"famille":"commune","code":code,
@@ -20,6 +21,11 @@ def preuve(code="2A004",pref="Ajaccio",extra=None,dep=False):
             "deprecie":dep,"remplace":False}
 
 class TestRegionsPrioritaires(unittest.TestCase):
+    def test_regex_insee_corsee_et_numeriques(self):
+        self.assertEqual(INSEE.fullmatch('http://id.insee.fr/geo/commune/2A004').group(2),'2A004')
+        self.assertEqual(INSEE.fullmatch('https://id.insee.fr/geo/commune/2B033').group(2),'2B033')
+        self.assertEqual(INSEE.fullmatch('http://id.insee.fr/geo/commune/44001').group(2),'44001')
+        self.assertIsNone(INSEE.fullmatch('http://id.insee.fr/geo/commune/2A00!'))
     def test_regions_2026_codes_corrects(self):
         self.assertEqual(REGIONS,{"94":"Corse","52":"Pays de la Loire",
                                   "27":"Bourgogne-Franche-Comté"})
