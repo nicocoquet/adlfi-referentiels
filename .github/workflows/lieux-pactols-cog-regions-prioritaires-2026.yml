@@ -1,0 +1,88 @@
+name: Lieux — audit RDF Pactols Corse, Pays de la Loire, BFC (COG 2026)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_polynesie_2026.py'
+      - 'scripts/auditer_pactols_cog_regions_prioritaires_2026.py'
+      - 'tests/test_auditer_pactols_cog_regions_prioritaires_2026.py'
+      - 'recette/lieux/REGIONS-PRIORITAIRES-PACTOLS-COG-2026.md'
+      - '.github/workflows/lieux-pactols-cog-regions-prioritaires-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyser-trois-regions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler le parseur des codes INSEE 2A et 2B
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_pactols_cog_regions_prioritaires_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_auditer_pactols_polynesie_2026.py' -v
+      - name: Vérifier la version RDF Pactols épinglée
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Télécharger le COG Insee 2026 à SHA vérifié
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Produire deux audits identiques et extraire les totaux régionaux
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_cog_regions_prioritaires_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --sortie "$RUNNER_TEMP/audit-trois-regions-$n.json" > "$RUNNER_TEMP/rapport-$n.log"
+          done
+          cmp "$RUNNER_TEMP/audit-trois-regions-1.json" "$RUNNER_TEMP/audit-trois-regions-2.json"
+          python3 - "$RUNNER_TEMP/audit-trois-regions-1.json" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1]))
+          assert a["statut"]=="RECETTE_NON_VALIDANTE"
+          assert set(a["regions"])=={"94","52","27"}
+          assert a["bilan"]["communes_COG"]==len(a["communes"])
+          assert a["bilan"]["nouvelles_validations"]==0
+          assert a["bilan"]["nouvelles_geometries"]==0
+          assert a["bilan"]["liens_historiques_inferes"]==0
+          assert all(x["decision_editoriale"]=="NON_PRISE" for x in a["communes"])
+          assert all(x["publication"]=="NON_PUBLIE" for x in a["communes"])
+          print("REGIONS_RESULTATS",json.dumps({
+              "regions":a["regions"],"bilan":a["bilan"]},ensure_ascii=False,sort_keys=True))
+          print("REGIONS_SANS_EXACTMATCH",json.dumps([
+              {"code":x["code"],"nom":x["nom"],"region":x["region"],
+               "candidats_lexicaux":x["candidats_lexicaux_non_validants"]}
+              for x in a["communes"] if x["etat"]=="SANS_EXACTMATCH"],
+              ensure_ascii=False,sort_keys=True))
+          print("REGIONS_CAS_A_INSTRUIRE",json.dumps([
+              {"code":x["code"],"nom":x["nom"],"statut":x["etat"],
+               "arks":[y["ark"] for y in x["preuves_RDF_exactMatch"]]}
+              for x in a["communes"] if x["etat"].startswith("A_INSTRUIRE")][:40],
+              ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-pactols-cog-2026-corse-pdl-bfc
+          path: ${{ runner.temp }}/audit-trois-regions-1.json
+          retention-days: 30
+          if-no-files-found: error
