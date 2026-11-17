@@ -270,8 +270,31 @@ async function start(){
  if(window.L){
   state.map=L.map('map',{scrollWheelZoom:false,preferCanvas:true}).setView([46.5,2.2],6);
   state.renderer=L.canvas();
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
-    attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'}).addTo(state.map);
+  const osmTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
+    attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'});
+  let erreursTuiles=0;
+  const statutOSM=$('osm-status');
+  osmTiles.on('tileerror',()=>{
+    erreursTuiles++;
+    if(erreursTuiles>=3){
+      statutOSM.hidden=false;
+      statutOSM.textContent='Le fond OpenStreetMap ne se charge pas depuis votre navigateur. Les contours et les fiches restent accessibles. Vérifiez la connexion à tile.openstreetmap.org, les bloqueurs de contenu, puis actualisez la page.';
+    }
+  });
+  osmTiles.on('tileload',()=>{
+    // Une tuile reçue prouve que le fournisseur répond au navigateur :
+    // ne pas laisser affiché un message d'indisponibilité générale.
+    if(erreursTuiles){
+      erreursTuiles=0;
+      statutOSM.hidden=true;
+      statutOSM.textContent='';
+    }
+  });
+  osmTiles.addTo(state.map);
+  // La carte partage une grille responsive avec le panneau des fiches.
+  // Recalculer la taille après le premier affichage évite un fond incomplet
+  // lorsque la disposition CSS est stabilisée après l'initialisation.
+  requestAnimationFrame(()=>state.map?.invalidateSize({animate:false}));
   state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
   frame();
  }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible : la recherche et les fiches restent accessibles.'}
