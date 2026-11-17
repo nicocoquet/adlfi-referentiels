@@ -1,0 +1,116 @@
+name: Lieux — Polynésie française, audit RDF Pactols des 48 communes
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_polynesie_2026.py'
+      - 'tests/test_auditer_pactols_polynesie_2026.py'
+      - 'recette/lieux/POLYNESIE-PACTOLS-2026-RECETTE.md'
+      - '.github/workflows/lieux-polynesie-pactols-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rdf-polynesie:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester l'extraction des URI, homonymes, doublons et îles
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_polynesie_2026.py' -v
+      - name: Vérifier l'empreinte du RDF Frantiq Lieux
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Récupérer six tables COG 2026 officielles et vérifier leur SHA-256
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,hashlib,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"referentiels/scripts")
+          from auditer_cog_polynesie_2026 import SHAS
+          p=Path(os.environ["RUNNER_TEMP"]);out=p/"cog2026";out.mkdir()
+          with zipfile.ZipFile(p/"cog_ensemble_2026_csv.zip") as z:
+              for name,digest in SHAS.items():
+                  found=[x for x in z.infolist() if Path(x.filename).name==name]
+                  assert len(found)==1,name
+                  data=z.read(found[0])
+                  h=hashlib.sha256(data).hexdigest()
+                  assert h==digest,(name,h)
+                  (out/name).write_bytes(data)
+                  print("POLYNESIE_COG_2026",name,len(data),h)
+          PY
+      - name: Calculer deux fois les résultats RDF–COG, sans publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_polynesie_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --index-public docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/polynesie-rdf-$n.json" > "$RUNNER_TEMP/resume-rdf-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/polynesie-rdf-1.json" "$RUNNER_TEMP/polynesie-rdf-2.json"
+      - name: Afficher tous les candidats exactMatch, sans les valider
+        run: |
+          python3 - <<'PY'
+          import os,json,collections
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"polynesie-rdf-1.json").read_text())
+          assert d["schema"]=="adlfi.lieux.polynesie.audit.pactols-cog2026.v1"
+          assert d["statut"]=="RECETTE_PACTOLS_NON_VALIDANTE"
+          rows=d["codes_communes_2026"]
+          assert len(rows)==48
+          assert {r["code_COG"] for r in rows}=={
+              f"987{x}" for x in range(11,59)}
+          assert all(r["categorie_COG"]=="COMMUNE_COMER" for r in rows)
+          assert all(r["alignement_publie"] is False for r in rows)
+          assert d["bilan"]["communes_COG"]==48
+          assert d["bilan"]["nouveaux_alignements_publies"]==0
+          assert d["bilan"]["validations_automatiques"]==0
+          assert d["bilan"]["contours_historiques_publies"]==0
+          assert d["bilan"]["correspondances_anciennes_ou_associees_inferrees"]==0
+          print("BILAN_PACTOLS_POLYNESIE",json.dumps(d["bilan"],ensure_ascii=False))
+          print("COMMUNES_AVEC_EXACTMATCH",json.dumps([
+              {"code":r["code_COG"],"libelle":r["libelle_COG"],"statut":r["statut"],
+               "candidats":[{"ark":p["ark"],"prefLabels_fr":p["prefLabels_fr"],
+                              "insee_exactMatch":p["insee_exactMatch"],
+                              "deprecie":p["deprecie"],"remplace":p["remplace"],
+                              "risque_ile_atoll":p["risque_ile_atoll_autre_type"]}
+                          for p in r["preuves_RDF_exactMatch"]]}
+              for r in rows if r["nombre_concepts_exactMatch"]],ensure_ascii=False))
+          print("TERRITOIRE_987",json.dumps(d["concepts_vers_territoire_987"],ensure_ascii=False))
+          print("CLIPPERTON_98799",json.dumps(d["concepts_vers_Clipperton_historique_98799"],ensure_ascii=False))
+          print("CANDIDATS_LEXICAUX_PAR_CODE",json.dumps([
+              {"code":r["code_COG"],"compte":len(r["candidats_lexicaux_non_validants"])}
+              for r in rows if r["candidats_lexicaux_non_validants"]],ensure_ascii=False))
+          PY
+      - name: Archiver l'audit RDF 48 codes sans modifier les fichiers publics
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-polynesie-pactols-48-communes-preinstruction
+          path: ${{ runner.temp }}/polynesie-rdf-1.json
+          retention-days: 30
+          if-no-files-found: error
