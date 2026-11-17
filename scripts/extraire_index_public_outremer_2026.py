@@ -62,11 +62,16 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
                 raise ValueError("Décision éditoriale CSV incomplète")
             code=row["code_insee"]
             ark=row["ark_pactols"]
-            if code in seen or code not in actuel or code in original_valides or code in non_valides:
+            # Cas documenté : promotion du seul ARK déjà confirmé pour Le Port,
+            # après preuve exactMatch et décision millésimée ; Dembeni reste exclue.
+            promotion_port=(code=="97407" and code in non_valides and
+                            ark==non_valides[code]=="26678/pcrtIKvRT9vwUl")
+            if (code in seen or code not in actuel or code in original_valides
+                or (code in non_valides and not promotion_port)):
                 raise ValueError("Code non courant, dupliqué ou déjà arbitré : "+code)
             if (not re.fullmatch(r"[0-9]{5}",code)
                 or not re.fullmatch(r"26678/[A-Za-z0-9]+",ark)
-                or ark in all_arks
+                or (ark in all_arks and not promotion_port)
                 or row["libelle_COG_2026"]!=actuel[code]
                 or row["uri_insee"]!="http://id.insee.fr/geo/commune/"+code
                 or row["predicat_source"]!="exactMatch"
@@ -82,8 +87,16 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
             ):
                 raise ValueError("Libellé divergent à instruire avant validation : "+code)
             seen.add(code)
+            if promotion_port:
+                # Le statut confirmé mais non validé disparaît uniquement
+                # après l'ensemble des vérifications éditoriales.
+                del non_valides[code]
             all_arks.add(ark)
             original_valides[code]=ark
+    # Ordre canonique : l'index est produit de manière stable quel que soit
+    # l'ordre des registres de décisions, sans changer les correspondances.
+    data["pactols_valides"]=dict(sorted(original_valides.items()))
+    data["ark_confirmes_non_valides"]=dict(sorted(non_valides.items()))
     return data
 
 

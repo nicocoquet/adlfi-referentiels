@@ -48,10 +48,11 @@
   const martinique=valid.filter(code=>/^972(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code));
   const guadeloupe=valid.filter(code=>/^971(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code)
     &&code!=='97123'&&code!=='97127');
-  if(valid.length!==104||mayotte.length!==16||guyane.length!==22||martinique.length!==34||guadeloupe.length!==32||
-     confirmed.join(',')!=='97407,97607'||
+  const reunion=valid.filter(code=>/^974(?:0[1-9]|1[0-9]|2[0-4])$/.test(code));
+  if(valid.length!==128||mayotte.length!==16||guyane.length!==22||martinique.length!==34||guadeloupe.length!==32||reunion.length!==24||
+     confirmed.join(',')!=='97607'||
      data.ark_confirmes_non_valides['97607']!=='26678/crtZcuFSJVYZU'||
-     data.ark_confirmes_non_valides['97407']!=='26678/pcrtIKvRT9vwUl'||
+     data.pactols_valides['97407']!=='26678/pcrtIKvRT9vwUl'||
      data.contours_invalides.slice().sort().join(',')!=='98745,98805')
     throw new Error('Décisions éditoriales ou diagnostics 2026 modifiés');
   for(const [code,ark] of Object.entries({...data.pactols_valides,...data.ark_confirmes_non_valides})){
