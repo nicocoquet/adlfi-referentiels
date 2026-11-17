@@ -77,7 +77,7 @@ jobs:
           done
           cmp "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
           cat "$RUNNER_TEMP/resume-1.txt"
-      - name: Vérifier les 34 codes et l'équation surfaces externe + 2 internes
+      - name: Vérifier les 32 codes et l'équation surfaces externe + 2 internes
         run: |
           python3 - <<'PY'
           import json,math,os
@@ -87,7 +87,7 @@ jobs:
           assert r["statut"]=="AUDIT_NON_VALIDANT_SOURCE_TIERCE_NON_AUTHENTIFIEE"
           assert r["sources"]["copie_2015"]["identite_originale_IGN_authentifiee"] is False
           assert r["sources"]["copie_2015"]["metadonnees"]["crs_equivalent_epsg32620"] is True
-          assert r["sources"]["copie_2015"]["metadonnees"]["codes_champ"]=={"INSEE_COM":34}
+          assert r["sources"]["copie_2015"]["metadonnees"]["codes_champ"]=={"INSEE_COM":32}
           assert r["communes_COG_2026"]==32
           assert r["nouvelles_relations_Pactols"]==0
           assert r["geometries_historiques_adoptees"]==0
@@ -116,7 +116,7 @@ jobs:
               for direction,details in r["etats_2026_"+reference]["composantes_exterieures"].items()}
             for reference in ("100m","50m")
           },ensure_ascii=False,indent=2))
-          print("BILAN 34 COMMUNES",json.dumps({
+          print("BILAN 32 COMMUNES",json.dumps({
             "source2015":r["sources"]["copie_2015"]["empreinte_sha256"],
             "crs_source":r["sources"]["copie_2015"]["metadonnees"],
             "ecart_100m":r["etats_2026_100m"]["ecart_emprise_exterieure_km2"],
