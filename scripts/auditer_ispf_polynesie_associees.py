@@ -180,7 +180,7 @@ def analyser(ispf:Path,index_public:Path):
     raise ValueError("Geo : plusieurs unités de base pour le même code ISPF")
    compact.add(code)
  if (flags!={"COM":18,"COMAS":98,"ILE_RATTACHEE":63} or compact!=seen):
-  raise ValueError("Geo : partition divergente "+repr(dict(flags))+" bases="+repr(len(compact))+" manquants="+repr(sorted(seen-compact))+" supplémentaires="+repr(sorted(compact-seen)))
+  raise ValueError("Geo : partition divergente "+repr(dict(flags))+" bases="+repr(len(compact))+" manquants="+repr(sorted(seen-compact))+" supplémentaires="+repr(sorted(compact-seen))+" geo-190="+repr([r for r in t["Geo"] if r["IDComas"]=="190"]))
  if len(t.get("Ile",[]))!=119:
   raise ValueError("Feuille Ile ISPF modifiée ; inspecter le millésime")
  result={
