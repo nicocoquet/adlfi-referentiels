@@ -322,6 +322,25 @@
         "source_registre": "recette/lieux/PDL-VALIDATIONS-PACTOLS-COG-2026.csv",
         "geometries_historiques_validees": 0,
         "retroprojections": 0
+      },
+      "contours_drom_2026": {
+        "statut": "couche communale 2026, contrôle topologique indépendant",
+        "fichier": "data/lieux-outremer/contours-communes-drom-2026.geojson",
+        "date_cog": "2026-01-01",
+        "date_edition_geometrie": "2026-05-04",
+        "effectifs": {
+          "Guadeloupe": 32,
+          "Martinique": 34,
+          "Guyane": 22,
+          "La Réunion": 24,
+          "Mayotte": 17
+        },
+        "nombre_contours": 129,
+        "generalisation_metres": 100,
+        "source": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz",
+        "source_sha256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+        "associations_pactols_inferrees": 0,
+        "geometries_historiques": 0
       }
     },
     "personnes": {
