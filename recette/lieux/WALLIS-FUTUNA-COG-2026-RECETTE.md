@@ -36,7 +36,19 @@ Le script `scripts/auditer_cog_wallis_futuna_2026.py` lit six CSV Insee de l'[ar
 
 Il contrôle également l'absence de communes `986*` dans les tables françaises courantes et historiques, et extrait les **épisodes réels** des trois CIR et du territoire, ainsi que les codes anciens à examiner.
 
-La CI exécute les tests synthétiques et compare deux sorties JSON indépendantes octet par octet. **Les dates précises des épisodes ne seront publiées qu'après inspection des résultats réels de la CI.**
+La [CI source n°44055036186](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44055036186) a **réussi** le contrôle SHA-256, les tests synthétiques et la génération reproductible de deux rapports JSON. Les états exacts ont été extraits :
+
+| Autorité COG | Début inclusif | Fin exclusive |
+| --- | --- | --- |
+| `98609` Wallis-et-Futuna | **1961-07-31** | **1985-01-01** |
+| `986` Wallis-et-Futuna | **1985-01-01** | En cours |
+| `98611` Alo, CIR | **1985-01-01** | En cours |
+| `98612` Sigave, CIR | **1985-01-01** | En cours |
+| `98613` Uvea, CIR | **1985-01-01** | En cours |
+
+Une réserve déterminante a été confirmée : le code historique `98607` est enregistré sous le libellé **« Nouvelle-Calédonie »**, du **1943-01-01** au **1969-03-30**. Il ne doit pas être publié comme prédécesseur direct de Wallis-et-Futuna.
+
+Ces périodes sont désormais ajoutées sous `docs/data/lieux-wallis-futuna/` et interprétées par `docs/assets/lieux-wallis-futuna-historique.js`. Le script `scripts/verifier_index_public_wallis_futuna_2026.py` vérifie les épisodes publics contre les six fichiers Insee source.
 
 ## Limites
 
@@ -46,4 +58,4 @@ La CI exécute les tests synthétiques et compare deux sorties JSON indépendant
 - **0 succession administrative inférée** ;
 - **0 fusion ontologique entre circonscription, royaume coutumier et territoire**.
 
-Phase 2 prévue : après vérification des épisodes exacts, publier les trois **fiches de circonscription** et l'état de `986` dans le module Lieux, puis instruire les éventuelles correspondances Pactols en préservant les catégories institutionnelles.
+**Phase 2 intégrée à la PR :** les trois **fiches de circonscription** et le code territorial `986` affichent leur chronologie documentaire. Un lien de recherche par le code historique `98609` retrouve le dossier du territoire ; aucune autorité Pactols ou commune nouvelle n’est générée. Les correspondances Pactols seront instruites dans un lot ultérieur, distinct de la validation COG.
