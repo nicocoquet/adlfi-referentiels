@@ -13,7 +13,6 @@ from auditer_cog_polynesie_2026 import SHAS,sha,read,episode
 SOURCE_COG="https://www.insee.fr/fr/information/8740222"
 SOURCE_INSEE="https://www.insee.fr/fr/information/7929495"
 SOURCE_LOI="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000393606/"
-CODES_PARTAGES={"98827"} # Poya : vérifier impérativement code et libellé COG
 
 def analyser(folder:Path,index:Path)->dict:
  for filename,digest in SHAS.items():
