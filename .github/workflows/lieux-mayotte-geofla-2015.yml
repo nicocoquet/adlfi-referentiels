@@ -1,32 +1,32 @@
-name: Lieux — Mayotte, inventaire GEOFLA candidat 2015 (recette)
+name: Lieux — La Mayotte GEOFLA 2015 / Etalab 2026 (recette)
 
 on:
   pull_request:
     paths:
+      - '.github/workflows/lieux-mayotte-geofla-2015.yml'
+      - 'recette/lieux/REUNION-GEOFLA-2015-2026-RECETTE.md'
       - 'scripts/auditer_geofla_mayotte_2015.py'
       - 'tests/test_auditer_geofla_mayotte_2015.py'
-      - 'recette/lieux/MAYOTTE-GEOFLA-2015-2026-RECETTE.md'
-      - '.github/workflows/lieux-mayotte-geofla-2015.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  inventaire:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
+  audit-geofla-mayotte:
+    runs-on: ubuntu-17.04
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Installer libarchive et SIG
+      - name: Installer libarchive et les bibliothèques SIG
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq libarchive-tools
           python3 -m pip install --disable-pip-version-check 'pyshp==2.3.1' 'pyproj==3.7.2' 'shapely==2.1.2'
-      - name: Inventorier l'archive candidate GEOFLA Mayotte 2015
+      - name: Inventorier et empreinter l'archive candidate GEOFLA Mayotte 2015
         run: |
           set -euo pipefail
           ARCHIVE="GEOFLA_2-1_COMMUNE_SHP_RGM04UTM38S_D976_2015-12-01.rar"
@@ -35,53 +35,130 @@ jobs:
             --output "$RUNNER_TEMP/$ARCHIVE"
           test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -ge 5000
           test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -le 5000000
-          echo "COPY_MAYOTTE_2015_SHA256=$(sha256sum "$RUNNER_TEMP/$ARCHIVE" | cut -d ' ' -f1)"
-          echo "COPY_MAYOTTE_2015_BYTES=$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")"
+          echo "7d9747f01a47a70ba8afb14dab7077fe04268a37c0a89eb196706b5cd3d1b47e  $RUNNER_TEMP/$ARCHIVE" | sha256sum --check
+          echo "COPY_REUNION_2015_BYTES=$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")"
           bsdtar -tf "$RUNNER_TEMP/$ARCHIVE" > "$RUNNER_TEMP/files.txt"
           python3 - <<'PY'
           import os
           from pathlib import Path,PurePosixPath
-          entries=(Path(os.environ["RUNNER_TEMP"])/"files.txt").read_text().splitlines()
-          assert 4<=len(entries)<=100,len(entries)
-          for row in entries:
+          paths=(Path(os.environ["RUNNER_TEMP"])/"files.txt").read_text().splitlines()
+          assert 4<=len(paths)<=100
+          for row in paths:
               p=PurePosixPath(row)
               assert not p.is_absolute() and ".." not in p.parts and "\\" not in row,row
-          print("ARCHIVE_ENTRIES",len(entries))
-          print("\n".join(entries))
+          print("ARCHIVE_PATHS",len(paths))
+          print("\n".join(paths))
           PY
           mkdir "$RUNNER_TEMP/geofla"
           bsdtar -xf "$RUNNER_TEMP/$ARCHIVE" -C "$RUNNER_TEMP/geofla"
-      - name: Vérifier la couche communale, les codes et la projection WKT
+      - name: Examiner les couches SHP, les codes et le WKT de projection
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import collections,os,shapefile
-          from pyproj import CRS,Transformer
-          from shapely.geometry import shape
+          from pyproj import CRS
           root=Path(os.environ["RUNNER_TEMP"])/"geofla"
-          shps=sorted(root.rglob("*.shp"))
+          shps=list(root.rglob("*.shp"))
+          assert len(shps)<=15
           print("SHAPEFILES",[str(p.relative_to(root)) for p in shps])
           candidates=[p for p in shps if p.stem.upper()=="COMMUNE"]
-          assert len(candidates)==1,["Une couche COMMUNE unique est attendue",candidates]
+          assert len(candidates)==1,["Incapable d'identifier une unique couche COMMUNE",candidates]
           shp=candidates[0]
           crs=CRS.from_wkt(shp.with_suffix(".prj").read_text(errors="replace"))
           print("SOURCE_CRS_EPSG",crs.to_epsg())
           print("SOURCE_CRS_WKT",crs.to_wkt())
           print("SOURCE_CRS_EQUIVALENT_4471",crs.equals(CRS.from_epsg(4471),ignore_axis_order=True))
-          loc=Transformer.from_crs(crs,"EPSG:4326",always_xy=True)
-          codes=[]
           with shapefile.Reader(str(shp),encoding="latin-1") as sf:
               names=[x[0] for x in sf.fields[1:]]
               print("SOURCE_FIELDS",names)
               print("SOURCE_RECORDS",len(sf))
-              for row in sf.iterShapeRecords():
-                  fields=dict(zip(names,row.record))
-                  codes.append(str(fields.get("INSEE_COM","")).strip())
-                  geom=shape(row.shape.__geo_interface__)
-                  assert geom.is_valid and not geom.is_empty
-                  c=geom.representative_point()
-                  lon,lat=loc.transform(c.x,c.y)
-                  assert 44.8<lon<45.5 and -13.2<lat<-12.4,(lon,lat)
-              print("SOURCE_CODES",sorted(codes))
-          assert len(codes)==17 and sorted(codes)==[f"976{i:02d}" for i in range(1,18)]
+              for r in list(sf.iterRecords())[:2]:
+                  print("SOURCE_SAMPLE",dict(zip(names,r)))
+              for candidate in ("INSEE_COM","CODE_INSEE","CODE_COM"):
+                  if candidate in names:
+                      counts=collections.Counter(str(row[names.index(candidate)]).strip()[:3] for row in sf.iterRecords())
+                      print("SOURCE_PREFIX_COUNTS",candidate,dict(counts))
           PY
+      - name: Tester les partitions et les identifiants réunionnais
+        run: python3 -m unittest discover -s tests -p 'test_auditer_geofla_mayotte_2015.py' -v
+      - name: Télécharger les deux géométries de référence Etalab 2026
+        run: |
+          set -euo pipefail
+          for size in 100m 50m; do
+            curl --fail --location --retry 3 --connect-timeout 20 --max-time 240 \
+              "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-$size.geojson.gz" \
+              --output "$RUNNER_TEMP/communes-$size.geojson.gz"
+          done
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+          echo "6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38  $RUNNER_TEMP/communes-50m.geojson.gz" | sha256sum --check
+      - name: Exécuter deux fois les métriques de géométrie 2015–2026
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_geofla_mayotte_2015.py \
+              --dossier "$RUNNER_TEMP/geofla" \
+              --archive "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_RGM04UTM38S_D976_2015-12-01.rar" \
+              --reference100 "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --reference50 "$RUNNER_TEMP/communes-50m.geojson.gz" \
+              --sortie "$RUNNER_TEMP/rapport-$n.json" > "$RUNNER_TEMP/resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
+          cat "$RUNNER_TEMP/resume-1.txt"
+      - name: Vérifier 17 codes, la projection et l'équation de surfaces
+        run: |
+          python3 - <<'PY'
+          import json,math,os
+          from pathlib import Path
+          report=json.loads((Path(os.environ["RUNNER_TEMP"])/"rapport-1.json").read_text())
+          assert report["schema"]=="adlfi.lieux.mayotte.audit.geofla2015-etalab2026.v1"
+          assert report["statut"]=="AUDIT_EXPLORATOIRE_SOURCE_TIERCE_DATUM_NON_IDENTIFIE"
+          source=report["sources"]["copie_2015"]
+          assert source["empreinte_sha256"]=="7d9747f01a47a70ba8afb14dab7077fe04268a37c0a89eb196706b5cd3d1b47e"
+          assert source["identite_originale_IGN_authentifiee"] is False
+          assert source["metadonnees"]["crs_equivalent_epsg4471"] is False
+          assert source["metadonnees"]["crs_epsg_reconnu"] is None
+          assert source["metadonnees"]["crs_PRJ_datum_absent"] is True
+          assert source["metadonnees"]["crs_rgm04_nominal_non_assimile_a_epsg4471"] is True
+          assert source["metadonnees"]["transformation_spatiale_exploratoire_non_certifiee"] is True
+          assert source["metadonnees"]["codes_champ"]=={"INSEE_COM":17}
+          assert report["communes_COG_2026"]==17
+          assert report["publication_docs"] is False
+          assert report["nouvelles_relations_Pactols"]==report["geometries_historiques_adoptees"]==0
+          for resolution in ("100m","50m"):
+              item=report["etats_2026_"+resolution]
+              assert item["communes"]==len(item["toutes_communes"])==17
+              assert {x["code"] for x in item["toutes_communes"]}=={f"976{i:02d}" for i in range(1,25)}
+              assert abs(item["cumul_ecarts_communaux_km2"]-
+                         item["ecart_emprise_exterieure_km2"]-
+                         2*item["ecart_entre_codes_interieur_unique_km2"])<.00001
+              assert all(math.isfinite(x["jaccard_pct"]) and 0<=x["jaccard_pct"]<=100
+                         for x in item["toutes_communes"])
+              for group in item["composantes_exterieures"].values():
+                  assert group["composantes_exportees"]<=7
+                  for component in group["plus_grandes"]:
+                      lon,lat=component["point_interieur_wgs84_lonlat"]
+                      assert 44.8<lon<45.5 and -13.2<lat<-12.4
+                      assert "geometry" not in component and "coordinates" not in component
+          main=report["etats_2026_100m"]
+          bycode={r["code"]:r for r in main["toutes_communes"]}
+          assert report["difference_emprise_2026_100m_50m_km2"]>=0
+          print("DEMBENI",json.dumps(bycode["97607"],ensure_ascii=False))
+          print("MAMOUDZOU",json.dumps(bycode["97611"],ensure_ascii=False))
+          print("BILAN_METRIQUES",json.dumps({
+              "100m_externe":main["ecart_emprise_exterieure_km2"],
+              "100m_interne":main["ecart_entre_codes_interieur_unique_km2"],
+              "100m_cumul":main["cumul_ecarts_communaux_km2"],
+              "50m_externe":report["etats_2026_50m"]["ecart_emprise_exterieure_km2"],
+              "50m_interne":report["etats_2026_50m"]["ecart_entre_codes_interieur_unique_km2"],
+              "generalisation_2026":report["difference_emprise_2026_100m_50m_km2"],
+              "principaux_ecarts":main["principaux_ecarts_communaux"][:8],
+              "composantes":main["composantes_exterieures"]
+          },ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver le rapport numérique sans contours
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-mayotte-geofla2015-vs-etalab2026-audit
+          path: ${{ runner.temp }}/rapport-1.json
+          retention-days: 30
+          if-no-files-found: error
