@@ -426,7 +426,7 @@ def main():
         page.goto(base+"/lieux/?ref_cog_historique_guadeloupe=97123&annee=2007&niveau=commune",
                   wait_until="domcontentloaded")
         page.wait_for_function(
-          "() => document.querySelector('#detail')?.textContent.includes('Saint-Barthélemy') and document.querySelector('#detail')?.textContent.includes('MOD 30')",
+          "() => document.querySelector('#detail')?.textContent.includes('Saint-Barthélemy') && document.querySelector('#detail')?.textContent.includes('MOD 30')",
           timeout=60000)
         text_g=page.locator("#detail").text_content()
         assert "Ancien code INSEE" in text_g
