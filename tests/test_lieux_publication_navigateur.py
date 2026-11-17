@@ -332,6 +332,65 @@ def main():
         assert "Correspondance Pactols validée (2026)" in text_ma
         assert "Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives" in text_ma
 
+        # Saint-Pierre-et-Miquelon : codes communaux 97501/97502 et collectivité
+        # 975, sans assimiler l'année de la loi au début d'une commune.
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A97501&annee=1976&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1976')",
+          timeout=60000)
+        t=page.locator("#detail").text_content()
+        assert "Aucun épisode communal n’est documenté" in t
+        assert "non sa date de création" in t
+        assert "aucun nouvel alignement Pactols" in t
+        assert page.locator("#detail").get_by_text("Correspondance Pactols validée (2026)",exact=False).count()==0
+
+        set_year(1977)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1977')",
+          timeout=30000)
+        t=page.locator("#detail").text_content()
+        assert "97501 · Miquelon-Langlade" in t
+        assert "1976-07-21" in t
+        assert "Département d’outre-mer (loi du 19 juillet 1976)" in t
+        assert "La série COG COMER ne détermine pas le statut juridique historique" in t
+
+        set_year(1985)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1985')",
+          timeout=30000)
+        assert "Département d’outre-mer" in page.locator("#detail").text_content()
+        set_year(1986)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1986')",
+          timeout=30000)
+        assert "Collectivité territoriale (loi du 11 juin 1985)" in page.locator("#detail").text_content()
+        set_year(2003)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 2003')",
+          timeout=30000)
+        assert "Collectivité territoriale (loi du 11 juin 1985)" in page.locator("#detail").text_content()
+        set_year(2004)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 2004')",
+          timeout=30000)
+        assert "Collectivité d’outre-mer (article 74" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A975&annee=1985&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1985')",
+          timeout=60000)
+        assert "Aucun épisode du code territorial 975" in page.locator("#detail").text_content()
+        set_year(1986)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Saint-Pierre-et-Miquelon au 1er janvier 1986')",
+          timeout=30000)
+        t=page.locator("#detail").text_content()
+        assert "975 · Saint-Pierre-et-Miquelon" in t
+        assert "1985-06-15" in t
+        assert "Aucune limite de cette commune n’est affichée" not in t
+
         page.locator("#search").fill("Kerguelen")
         page.locator("#results button").filter(
             has_text="District · COG 2026"

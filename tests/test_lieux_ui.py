@@ -189,6 +189,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-guadeloupe-historique.js",
                 "../assets/lieux-reunion-historique.js",
                 "../assets/lieux-mayotte-historique.js",
+                "../assets/lieux-saint-pierre-miquelon-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -200,6 +201,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-guadeloupe-historique.js",
             "docs/assets/lieux-reunion-historique.js",
             "docs/assets/lieux-mayotte-historique.js",
+            "docs/assets/lieux-saint-pierre-miquelon-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -252,6 +254,30 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["ark_confirme_sans_alignement_valide"],{
             "code":"97607","ark":"26678/crtZcuFSJVYZU"})
         self.assertEqual(data["nouvelles_relations_successions_inferrees"],0)
+
+    def test_saint_pierre_miquelon_deux_communes_et_collectivite_distinctes(self):
+        spm=self.manifest["modules"]["lieux"]["historique_communes_saint_pierre_miquelon"]
+        self.assertEqual(spm["communes_COG_2026"],2)
+        self.assertEqual(spm["episodes_communes_COMER"],2)
+        self.assertEqual(spm["episodes_communes_DROM"],0)
+        self.assertEqual(spm["episodes_collectivite_COG"],1)
+        self.assertEqual(spm["code_collectivite"],"975")
+        self.assertTrue(spm["famille_COG_distincte_statut_juridique"])
+        self.assertEqual(spm["premiere_date_code_communal_COG"],"1976-07-21")
+        self.assertEqual(spm["premiere_date_code_collectivite_COG"],"1985-06-15")
+        self.assertEqual(spm["annees_lois_statutaires"],[1976,1985,2003,2007])
+        self.assertEqual(spm["correspondances_pactols_2026_conservees"],0)
+        self.assertEqual(spm["nouveaux_alignements_pactols"],0)
+        self.assertEqual(spm["contours_historiques_publies"],0)
+        self.assertEqual(spm["identites_historiques_retroprojetees"],0)
+        data=json.loads((ROOT/"docs/data/lieux-saint-pierre-miquelon/chronologie-cog-2026.json").read_text())
+        self.assertEqual(data["schema"],"adlfi.lieux.spm.etats_cog_public.v1")
+        self.assertEqual(len(data["episodes_communes_COMER"].splitlines()),2)
+        self.assertEqual(data["episodes_communes_DROM"],"")
+        self.assertEqual(data["episodes_collectivite_COG"],"975|Saint-Pierre-et-Miquelon|1985-06-15|")
+        self.assertTrue(data["famille_COG_non_equivalente_au_statut_juridique"])
+        self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["contours_historiques_publies"],0)
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]

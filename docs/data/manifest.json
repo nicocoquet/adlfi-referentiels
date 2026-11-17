@@ -123,6 +123,31 @@
         "nouveaux_alignements_pactols": 0,
         "contours_historiques_publies": 0,
         "niveau_territorial": "Commune"
+      },
+      "historique_communes_saint_pierre_miquelon": {
+        "statut": "états COG documentaires publiés sans géométries historiques",
+        "fichier": "data/lieux-saint-pierre-miquelon/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "communes_COG_2026": 2,
+        "episodes_communes_COMER": 2,
+        "episodes_communes_DROM": 0,
+        "episodes_collectivite_COG": 1,
+        "code_collectivite": "975",
+        "premiere_date_code_communal_COG": "1976-07-21",
+        "premiere_date_code_collectivite_COG": "1985-06-15",
+        "famille_COG_distincte_statut_juridique": true,
+        "annees_lois_statutaires": [
+          1976,
+          1985,
+          2003,
+          2007
+        ],
+        "correspondances_pactols_2026_conservees": 0,
+        "nouveaux_alignements_pactols": 0,
+        "contours_historiques_publies": 0,
+        "identites_historiques_retroprojetees": 0,
+        "niveau_territorial": "Commune et collectivité"
       }
     },
     "personnes": {
