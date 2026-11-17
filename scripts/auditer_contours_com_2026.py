@@ -13,8 +13,6 @@ import gzip
 import json
 from pathlib import Path
 
-from shapely.geometry import shape
-from shapely.validation import explain_validity
 
 from publier_contours_drom_2026 import EXPECTED_SOURCE, SOURCE_URL, sha
 
@@ -46,6 +44,8 @@ def codes_communaux(index: dict) -> dict[str, dict]:
 
 
 def inventorier(fc: dict, codes: dict[str, dict], index: dict) -> dict:
+    from shapely.geometry import shape
+    from shapely.validation import explain_validity
     if fc.get("type") != "FeatureCollection" or not isinstance(fc.get("features"), list):
         raise ValueError("Source non GeoJSON")
     geom = {}
