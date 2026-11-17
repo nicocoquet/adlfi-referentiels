@@ -18,6 +18,18 @@ class TestAiresGeodesiques(unittest.TestCase):
         mix=GeometryCollection([poly,LineString([(-149,-17),(-148,-17)])])
         self.assertAlmostEqual(aire_geodesique(mix,geod),value,places=5)
 
+    def test_aire_independante_orientation_anneaux(self):
+        from shapely.geometry import Polygon
+        from pyproj import CRS
+        geod=CRS.from_epsg(4687).get_geod()
+        ext=[(-141,-18),(-140,-18),(-140,-17),(-141,-17),(-141,-18)]
+        hole=[(-140.7,-17.7),(-140.3,-17.7),(-140.3,-17.3),(-140.7,-17.3),(-140.7,-17.7)]
+        p1=Polygon(ext,[hole])
+        p2=Polygon(ext[::-1],[hole[::-1]])
+        self.assertAlmostEqual(aire_geodesique(p1,geod),
+                               aire_geodesique(p2,geod),places=3)
+        self.assertLess(aire_geodesique(p1,geod),aire_geodesique(Polygon(ext),geod))
+
     def test_ligne_sans_aire(self):
         from shapely.geometry import LineString
         from pyproj import CRS
