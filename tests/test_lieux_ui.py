@@ -112,6 +112,19 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(sum(counts.values()), 212)
         self.assertEqual(len(dataset["autres"]), 21)
         self.assertEqual(len(dataset["pactols_valides"]), 176)
+        self.assertEqual(dataset["pactols_collectivites_valides"], {
+            "977":"26678/pcrtrGdtY56gmH",
+            "978":"26678/pcrty5LooX8FgU",
+            "986":"26678/pcrtwFq5jKHO3k",
+            "987":"26678/pcrt4K8nLVxWOP"
+        })
+        self.assertFalse(set(dataset["pactols_collectivites_valides"].values()) &
+                         set(dataset["pactols_valides"].values()))
+        self.assertTrue(all("COMER:TERRITOIRE:"+code in
+            {row[0] for row in dataset["autres"]}
+            for code in dataset["pactols_collectivites_valides"]))
+        self.assertFalse(set(dataset["pactols_valides"]) &
+            {"977","978","986","987","97123","97127","97701","97801","98611","98612","98613"})
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("971")]), 32)
         self.assertNotIn("97123", dataset["pactols_valides"])
         self.assertNotIn("97127", dataset["pactols_valides"])
@@ -390,6 +403,15 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(outremer["communes"], 212)
         self.assertEqual(outremer["autres_entites"], 21)
         self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 176)
+        self.assertEqual(outremer["relations_pactols_collectivites_2026"], 4)
+        self.assertEqual(outremer["codes_collectivites_pactols_2026"],["977","978","986","987"])
+        self.assertEqual(outremer["source_validations_collectivites"],
+            "recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv")
+        self.assertIs(outremer["relations_pactols_collectivites_2026_distinctes_des_communes"],True)
+        self.assertEqual(outremer["alignements_codes_5_positions_97701_97801_inferes"],0)
+        self.assertEqual(outremer["alignements_circonscriptions_98611_98612_98613_inferes"],0)
+        self.assertEqual(outremer["alignements_communes_historiques_97123_97127_inferes"],0)
+        self.assertIs(outremer["retroprojection_identifiants_2026"],False)
         self.assertEqual(outremer["relations_pactols_cog_validees_polynesie_2026"], 48)
         self.assertEqual(outremer["source_validations_polynesie"],
                          "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv")
