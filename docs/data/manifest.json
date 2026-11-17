@@ -148,6 +148,35 @@
         "contours_historiques_publies": 0,
         "identites_historiques_retroprojetees": 0,
         "niveau_territorial": "Commune et collectivité"
+      },
+      "historique_collectivites_antilles_2007": {
+        "statut": "épisodes historiques COG et relations de succession juridique documentées, sans géométries",
+        "fichier": "data/lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "anciens_codes_communes_971": [
+          "97123",
+          "97127"
+        ],
+        "codes_collectivites_2026": [
+          "977",
+          "978"
+        ],
+        "codes_application_cinq_positions_non_communaux": [
+          "97701",
+          "97801"
+        ],
+        "date_fin_communes_COG": "2007-02-23",
+        "date_debut_collectivites_COG": "2007-02-23",
+        "date_entree_vigueur_loi_organique": "2007-02-22",
+        "mouvements_COG_MOD30_sans_destination": 2,
+        "successions_juridiques_attestees": 2,
+        "reference_loi": "Loi organique n° 2007-223 du 21 février 2007, article 18 X et XI",
+        "relation_succession_source": "Légifrance, non le champ COM_AP du COG",
+        "nouveaux_alignements_pactols": 0,
+        "contours_historiques_publies": 0,
+        "communes_actuelles_creees": 0,
+        "niveaux": "Ancienne commune / Collectivité / Code d'application"
       }
     },
     "personnes": {
