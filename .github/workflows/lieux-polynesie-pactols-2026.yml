@@ -92,6 +92,30 @@ jobs:
           assert d["bilan"]["validations_automatiques"]==0
           assert d["bilan"]["contours_historiques_publies"]==0
           assert d["bilan"]["correspondances_anciennes_ou_associees_inferrees"]==0
+          assert d["bilan"]["codes_avec_exactMatch"]==48
+          assert d["bilan"]["concepts_exactMatch_total"]==48
+          assert d["bilan"]["statuts"]=={"ELIGIBLE_A_ARBITRAGE_COMMUNE_2026":48}
+          assert d["bilan"]["codes_avec_candidats_lexicaux"]==0
+          arks=[]
+          for row in rows:
+              code=row["code_COG"]
+              assert row["statut"]=="ELIGIBLE_A_ARBITRAGE_COMMUNE_2026"
+              assert len(row["preuves_RDF_exactMatch"])==1
+              c=row["preuves_RDF_exactMatch"][0]
+              assert not c["deprecie"] and not c["remplace"] and not c["risque_ile_atoll_autre_type"]
+              assert c["insee_exactMatch"]==[{
+                  "uri":"http://id.insee.fr/geo/commune/"+code,
+                  "famille":"commune","code":code}]
+              assert c["codes_communaux_cites"]==[code]
+              arks.append(c["ark"])
+          assert len(set(arks))==48
+          assert len(d["concepts_vers_territoire_987"])==1
+          terr=d["concepts_vers_territoire_987"][0]
+          assert terr["ark"]=="26678/pcrt4K8nLVxWOP"
+          assert terr["insee_exactMatch"]==[{
+             "uri":"http://id.insee.fr/geo/collectiviteDOutreMer/987",
+             "famille":"collectiviteDOutreMer","code":"987"}]
+          assert d["concepts_vers_Clipperton_historique_98799"]==[]
           print("BILAN_PACTOLS_POLYNESIE",json.dumps(d["bilan"],ensure_ascii=False))
           print("COMMUNES_AVEC_EXACTMATCH",json.dumps([
               {"code":r["code_COG"],"libelle":r["libelle_COG"],"statut":r["statut"],
