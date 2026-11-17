@@ -31,3 +31,24 @@ L'étape de qualification des cinq surfaces nécessite une **source indépendant
 ## Publication et sécurité éditoriale
 
 La CI produit un JSON reproductible en artefact GitHub Actions, hors `docs/`. Aucune autorité, ARK ou géométrie du module Lieux n'est créée ou modifiée. La PR peut être fusionnée une fois les contrôles réalisés ; elle ne constitue **pas** une homologation des limites insulaires.
+
+
+## Résultats du workflow spécialisé
+
+L'exécution [n°44111578059](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44111578059) a réussi, ainsi que la CI générale. Les contrôles de sources par SHA-256 et la reproductibilité bit à bit des rapports JSON sont satisfaits.
+
+La différence `GEO PF Hao 20200 - ISPF Ile 23` totalise **17 398 390,088 m²**, répartis en **654 composantes polygonales** de superficie positive. Les cinq plus grandes représentent **37,14435938 %** de la surface cumulée.
+
+| Rang | Surface m² | Point intérieur (lon, lat) | Emprise (ouest, sud, est, nord) | Trous |
+| --- | ---: | --- | --- | ---: |
+| 1 | 2 415 216,230 | −140,7412651 ; −18,3624007 | −140,8274977 ; −18,4305186 ; −140,6631417 ; −18,2942823 | 17 |
+| 2 | 1 890 678,303 | −140,7531718 ; −18,4187267 | −140,7645479 ; −18,4260687 ; −140,6970197 ; −18,4113828 | 0 |
+| 3 | 1 277 374,555 | −140,8136959 ; −18,3995869 | −140,8226452 ; −18,4093028 ; −140,7857683 ; −18,3898717 | 1 |
+| 4 | 474 780,394 | −140,8287866 ; −18,2859358 | −140,8334744 ; −18,2946106 ; −140,8248148 ; −18,2772651 | 3 |
+| 5 | 404 471,058 | −140,9301156 ; −18,2668435 | −140,9350700 ; −18,2725154 ; −140,9225494 ; −18,2611468 | 4 |
+
+**Attention à la topologie** : le polygone de rang 1 compte **17 anneaux intérieurs** ; son enveloppe géographique couvre une plage assez étendue. Ni sa surface ni son point intérieur ne doivent être interprétés comme une « île » homogène ou comme un lagon. Ces anneaux peuvent influer considérablement sur la signification du polygone.
+
+Les 649 autres composantes représentent environ **10,936 km²** de différence. Pour qualifier la nature géographique, il faudra mettre en regard les cinq premiers polygones avec une orthophotographie/production topographique géoréférencée, documentée par date, résolution et origine. Les noms et types sont pour l'instant **NON_QUALIFIES** ; aucune attribution toponymique automatique ne doit être introduite.
+
+La précision des coordonnées (sept décimales après arrondissement) résulte du format de rapport, **pas** d'une précision métrique garantie. Les données de la PR 87 sont un outil de localisation et de sélection des objets à examiner, non un certificat de délimitation administrative.
