@@ -9,12 +9,15 @@ from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
 import json
+import hashlib
 from pathlib import Path
+from inspecter_nomenclature_geographique_ispf import read_xlsx
+from qualifier_communes_associees_ispf import SHA as SOURCE_SHA, rows as lire_lignes
 
 SCHEMA_IN = "adlfi.lieux.polynesie.ispf.associees.audit.v1"
 SCHEMA_OUT = "adlfi.lieux.polynesie.ispf.iles.audit.v1"
 
-def analyser(audit: dict) -> dict:
+def analyser(audit: dict, source_xlsx: Path | None = None) -> dict:
     if audit.get("schema") != SCHEMA_IN or audit.get("statut") != "RECETTE_ISPF_NON_VALIDANTE":
         raise ValueError("Rapport ISPF source non qualifié")
     bilan = audit["bilan"]
@@ -43,6 +46,30 @@ def analyser(audit: dict) -> dict:
                 raise ValueError("Indicateur Geo invalide : " + flag)
             flags[flag + "=" + r[flag]] += 1
         by_island[island].append(r)
+    referentiel_iles = None
+    if source_xlsx is not None:
+        sha = hashlib.sha256(source_xlsx.read_bytes()).hexdigest()
+        if sha != SOURCE_SHA or sha != audit["source"]["sha256"]:
+            raise ValueError("Empreinte de la source ISPF incohérente")
+        sheets = {x["feuille"]: x for x in read_xlsx(source_xlsx)}
+        if set(sheets) != {"Geo", "Subdivision", "Commune", "Commune associée", "Ile"}:
+            raise ValueError("Feuilles ISPF absentes ou nouvelles")
+        ile_rows = lire_lignes(sheets["Ile"])
+        if len(ile_rows) != 119:
+            raise ValueError("Registre Ile différent des 119 lignes contrôlées")
+        referentiel_iles = {}
+        for r in ile_rows:
+            code = r["IDIle"]
+            if code in referentiel_iles:
+                raise ValueError("IDIle dupliqué dans la feuille Ile : " + code)
+            referentiel_iles[code] = r
+        for r in geo:
+            entry = referentiel_iles.get(r["IDIle"])
+            if entry is None:
+                raise ValueError("IDIle de Geo absent de la nomenclature Ile : " + r["IDIle"])
+            if (entry["Ile"] != r["Ile"] or entry["IDSub"] != r["IDSub"] or
+                entry["Subdivision"] != r["Subdivision"]):
+                raise ValueError("Désaccord Ile/Geo sur code, nom ou subdivision : " + r["IDIle"])
     islands = []
     for island, rows in sorted(by_island.items()):
         names = sorted({r["Ile"] for r in rows})
@@ -72,15 +99,19 @@ def analyser(audit: dict) -> dict:
         ("43001", "431"), ("44001", "441")}:
         raise ValueError("Exceptions de préfixe CODGEO non prévues")
     present = {i["id_ile_ISPF"] for i in islands}
-    # La feuille Ile contient 119 identifiants, mais le rapport de la PR 75
-    # ne transporte pas son registre intégral : ne pas traiter le nombre
-    # de codes distincts de Geo comme le nombre des îles de la nomenclature.
+    missing = (sorted(set(referentiel_iles) - present)
+               if referentiel_iles is not None else None)
+    unused = ([referentiel_iles[code] for code in missing]
+              if missing is not None else None)
+    # Une absence de Geo ne signifie jamais absence d'île.
     return {
         "schema": SCHEMA_OUT, "statut": "RECETTE_GEOGRAPHIQUE_NON_VALIDANTE",
         "source": audit["source"],
         "comptages": {
             "iles_nomenclature_feuille_Ile": 119,
             "codes_iles_distincts_observes_dans_Geo": len(present),
+            "codes_iles_absents_de_Geo": len(missing) if missing is not None else None,
+            "comparaison_exhaustive_feuille_Ile_Geo": referentiel_iles is not None,
             "lignes_Geo": len(geo),
             "iles_plusieurs_unites": sum(i["rattachement_plusieurs_unites"] for i in islands),
             "iles_plusieurs_communes": sum(i["rattachement_plusieurs_communes"] for i in islands),
@@ -91,10 +122,11 @@ def analyser(audit: dict) -> dict:
             "nouvelles_autorites_publiees": 0,
         },
         "iles_observees_dans_Geo": islands,
+        "iles_nomenclature_absentes_de_Geo": unused,
         "exceptions_CODGEO": exceptions,
         "alertes_documentaires": [
             "119 codes d'îles dans la feuille Ile ; 121 îles annoncées sur la page ISPF : périmètres à vérifier",
-            "La feuille Ile complète n'est pas exportée dans le rapport intermédiaire PR75 : aucun code absent de Geo ne peut être qualifié à ce stade",
+            "Les codes présents dans Ile mais absents de Geo sont conservés sans inférence administrative",
             "Gambier : unité 190 présente administrativement, sans ligne Geo 19000 ; vérifier séparément les lignes 19001–19016",
             "Aucune géométrie ne peut être déduite d'un CODGEO ou d'un rattachement administratif",
         ],
@@ -103,12 +135,13 @@ def analyser(audit: dict) -> dict:
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--rapport-ispf", required=True, type=Path)
+    p.add_argument("--source-xlsx", type=Path)
     p.add_argument("--sortie", required=True, type=Path)
     args = p.parse_args()
     if args.sortie.exists() or "docs" in args.sortie.resolve().parts:
         raise ValueError("Ne pas écraser ni publier un rapport d'audit dans docs/")
     audit = json.loads(args.rapport_ispf.read_text(encoding="utf-8"))
-    result = analyser(audit)
+    result = analyser(audit, args.source_xlsx)
     args.sortie.parent.mkdir(parents=True, exist_ok=True)
     args.sortie.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     print("ISPF_ILES_BILAN", json.dumps(result["comptages"], sort_keys=True, ensure_ascii=False))
