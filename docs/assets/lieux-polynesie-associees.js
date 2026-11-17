@@ -46,7 +46,7 @@
      data.anomalie_geo_ispf?.lignes_iles_rattachees_19001_19016!==16)
    throw Error('Confusion de nomenclature ou écart Geo ISPF non documenté');
   if(!publicCOG||publicCOG.schema!=='adlfi.lieux.recherche.outremer.public.v1'||
-     Object.keys(publicCOG.pactols_valides||{}).length!==176||
+     Object.keys(publicCOG.pactols_valides||{}).length!==212||
      Object.keys(publicCOG.pactols_collectivites_valides||{}).length!==4)
    throw Error('Index COG/Pactols 2026 parent absent');
   const parents=new Map(publicCOG.communes['987'].split('\n').map(s=>s.split('|')));
