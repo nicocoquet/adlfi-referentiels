@@ -33,7 +33,7 @@ jobs:
           import json,sys
           r=json.load(open(sys.argv[1]))
           assert r['statut']=='RECETTE_NON_VALIDANTE'
-          assert len(r['fenetres'])==2
+          assert len(r['fenetres'])==3
           assert len(r['points_interieurs_PR87'])==5
           assert r['publication']=={'imagery':0,'geometries':0,'autorites':0,'ark':0}
           # Absence de connexion STAC = résultat non concluant, jamais absence de couverture.
