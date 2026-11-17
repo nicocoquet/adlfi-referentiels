@@ -179,8 +179,21 @@ def analyser(ispf:Path,index_public:Path):
    if row["IDGeo"]!=code+"00" or code in compact:
     raise ValueError("Geo : plusieurs unités de base pour le même code ISPF")
    compact.add(code)
- if (flags!={"COM":18,"COMAS":98,"ILE_RATTACHEE":63} or compact!=seen):
-  raise ValueError("Geo : partition divergente "+repr(dict(flags))+" bases="+repr(len(compact))+" manquants="+repr(sorted(seen-compact))+" supplémentaires="+repr(sorted(compact-seen))+" geo-190="+repr([r for r in t["Geo"] if r["IDComas"]=="190"]))
+ # La feuille Geo est un référentiel *géographique* : Gambier 190 n'a
+ # aucune ligne 19000 de type COM, mais 16 îles rattachées 19001–19016.
+ # Cela ne supprime PAS l'unité 190 de la table administrative de 116 lignes.
+ # Geo classe 64 lignes IR tandis que la notice ISPF en annonce 63 :
+ # préserver l'écart comme observation, sans corriger aucun statut source.
+ gambier_geo=[r for r in t["Geo"] if r["IDComas"]=="190"]
+ if (flags!={"COM":17,"COMAS":98,"ILE_RATTACHEE":64} or
+      compact!=seen-{"190"} or
+      len(gambier_geo)!=16 or
+      [r["IDGeo"] for r in gambier_geo]!=[
+        "190"+str(i).zfill(2) for i in range(1,17)] or
+      any(r["isIleRattachee"]!="1" for r in gambier_geo) or
+      "190" not in {x["code_ispf"] for x in nonassoc}):
+  raise ValueError("Geo : écart documentaire Gambier inattendu "+repr(dict(flags))+
+     " manquants="+repr(sorted(seen-compact)))
  if len(t.get("Ile",[]))!=119:
   raise ValueError("Feuille Ile ISPF modifiée ; inspecter le millésime")
  result={
@@ -195,6 +208,16 @@ def analyser(ispf:Path,index_public:Path):
   "communes_associees":sorted(related,key=lambda x:x["code_ispf"]),
   "unites_communes_non_subdivisees":sorted(nonassoc,key=lambda x:x["code_ispf"]),
   "ecarts_libelles_48_parents_ISPF_COG":ecarts,
+  "anomalie_geo_ispf":{
+    "code_unite_non_subdivisee":"190",
+    "nom_unite":"Gambier",
+    "code_parent_cog":"98719",
+    "ligne_base_19000_absente":True,
+    "lignes_iles_rattachees_19001_19016":16,
+    "lignes_ISPF_Geo_ile_rattachee":64,
+    "nombre_iles_rattachees_annonce_dans_notice_ISPF":63,
+    "traitement":"SIGNALER_SANS_RECLASSER_DES_LIGNES_SOURCE"
+  },
   "statistiques":{
     "communes_COG_parentes":48,
     "communes_avec_associees":30,
@@ -202,7 +225,10 @@ def analyser(ispf:Path,index_public:Path):
     "communes_non_subdivisees":18,
     "unites_nomenclature_fine":116,
     "subdivisions_ISPF":5,
-    "iles_rattachees_lignes_Geo":63,
+    "iles_rattachees_lignes_Geo":64,
+    "nombre_iles_rattachees_notice_ISPF":63,
+    "codes_geo_sans_ligne_de_base":["190"],
+    "lignes_geo_Gambier_190_toutes_IR":16,
     "lignes_geo_source":179,
     "fiches_communales_COG_remplacees":0,
     "alignements_Pactols_communes_conserves":176,
