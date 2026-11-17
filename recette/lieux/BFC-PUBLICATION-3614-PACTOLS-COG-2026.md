@@ -11,7 +11,7 @@
 
 ## Index indépendant du COG historique
 
-- Registre : recette/lieux/BFC-VALIDATIONS-PACTOLS-COG-2026.csv, 3 614 décisions VALIDÉ_ADLFI_2026 par règle.
+- Registre : recette/lieux/BFC-VALIDATIONS-PACTOLS-COG-2026.csv, 3 614 décisions VALIDE_ADLFI_2026 par règle.
 - Index public : docs/data/lieux-chronologie/pactols-bfc-2026.json, schéma adlfi.lieux.pactols.bfc.2026.public.v1.
 - Validateur JS : docs/assets/lieux-bfc-pactols.js, contrôle de la cardinalité COG et du millésime, univocité codes/ARK, provenance et rejet de Val-d'Usiers.
 - Moteur de recherche : docs/assets/lieux-multiechelon.js, recherche par nom/code/ARK, fiche avec lien Pactols explicitement validé pour **2026 seulement**.
@@ -29,3 +29,13 @@ Le workflow lieux-bfc-publication-3614-2026.yml :
 5. Versionne les sorties **dans la branche de PR seulement après succès des tests**, sans écriture directe sur main.
 
 La PR ne sera fusionnée qu'après réussite de la CI sur le code et les deux fichiers générés. Cette publication qualifie des alignements documentaires Pactols–COG 2026, et non la couverture des 9 928 autorités effectivement utilisées dans les notices.
+
+## Résultats de la recette réelle — 17 novembre 2026
+
+- [CI de génération et navigateur n°44176179708](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44176179708) : réussie, avec les deux fichiers ajoutés à la branche de PR après contrôle.
+- **3 614 codes INSEE et 3 614 ARK uniques**, 71 exceptions exclues, dont Val-d’Usiers 25060.
+- CSV régénéré deux fois, SHA-256 **494dad4ddbf562b96a0b37a5e10ea56ba2deff1289255bb7e35bcdecefa5d0c5** ; JSON régénéré deux fois, 1 146 086 octets.
+- Contrôles Python, Node, quatre chronologies et Chromium : **BFC_3614_INDEX_OK**, **BFC_3614_NAVIGATEUR_OK**, **CORSE_360_NAVIGATEUR_OK**.
+- Artefact : bfc-3614-registre-et-index-verifies-2026.
+
+Ces résultats ne qualifient aucun contour historique et n’ajoutent aucun ARK aux 71 communes en instruction.
