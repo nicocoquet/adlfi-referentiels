@@ -9,14 +9,14 @@ ROOT=Path(__file__).resolve().parents[1]/"docs"
 @contextmanager
 def serveur():
     handler=functools.partial(http.server.SimpleHTTPRequestHandler,directory=str(ROOT))
-    http=http.server.ThreadingHTTPServer(("127.0.0.1",0),handler)
-    thread=threading.Thread(target=http.serve_forever,daemon=True)
+    server=http.server.ThreadingHTTPServer(("127.0.0.1",0),handler)
+    thread=threading.Thread(target=server.serve_forever,daemon=True)
     thread.start()
     try:
-        yield "http://127.0.0.1:"+str(http.server_address[1])
+        yield "http://127.0.0.1:"+str(server.server_address[1])
     finally:
-        http.shutdown()
-        http.server_close()
+        server.shutdown()
+        server.server_close()
 
 def main():
     from playwright.sync_api import sync_playwright
