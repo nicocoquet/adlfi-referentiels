@@ -7,7 +7,6 @@ l'ellipsoïde du CRS (GRS 1980). Aucun classement arbitraire par seuil.
 """
 from __future__ import annotations
 import argparse
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -38,8 +37,12 @@ def quantifier(archive: Path):
         lookup[ident] = shape(feat["geometry"])
 
     def aire(geom):
-        # pyproj calcule une aire signée, l'abs permet les orientations
-        # différentes des anneaux ; ne pas ignorer les grandes surfaces.
+        # Une intersection peut être GeometryCollection (surfaces + lignes).
+        # Les lignes ne participent pas à la mesure d'aire.
+        if geom.geom_type in ("GeometryCollection", "MultiPolygon"):
+            return sum(aire(part) for part in geom.geoms)
+        if geom.geom_type != "Polygon":
+            return 0.0
         a, _ = geod.geometry_area_perimeter(geom)
         if not math.isfinite(a):
             raise ValueError("Surface géodésique non finie")
