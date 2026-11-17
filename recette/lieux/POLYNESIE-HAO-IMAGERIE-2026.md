@@ -58,3 +58,17 @@ Une **troisième fenêtre centrée sur la journée du 26 décembre 2022** est aj
 ### Conclusion limitée
 
 Le catalogue fournit maintenant une **référence de produit Sentinel-2 datée et vérifiable**, dont l'emprise traverse les cinq secteurs étudiés. Il reste à contrôler la présence de pixels valides sur les **surfaces exactes**, la nébulosité locale, la qualité géométrique et la composition spectrale avant toute qualification comme récif, motu ou lagon. Il faudrait aussi établir si l'image GEO PF utilisait une acquisition plus ancienne ou un jeu de restitution dérivé ; la coïncidence de source institutionnelle et d'année ne prouve aucune généalogie.
+
+
+## Vérification de la journée ciblée du 26 décembre 2022
+
+Le workflow [n°44113911957](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44113911957) est **réussi**. Sa requête limitée à la journée du **26 décembre 2022 UTC** a renvoyé **4 produits STAC**, **sans lien de pagination**. Deux de ces produits possèdent un footprint contenant au moins un des cinq points ; les autres ne recouvrent aucun de ces points.
+
+| Produit Sentinel-2A L2A | Points PR 87 inclus | Nuages dans la tuile |
+| --- | --- | ---: |
+| `S2A_MSIL2A_20221226T193851_N0510_R056_T07KEV_20240715T211924` | **1, 2, 3, 4, 5** | **3,53 %** |
+| `S2A_MSIL2A_20221226T193851_N0510_R056_T07KDV_20240715T211924` | **5** | **2,20 %** |
+
+Les deux scènes sont datées **2022-12-26 19:38:51 UTC**. Il s'agit de la **couverture d'un point intérieur** par la géométrie de footprint STAC, pas d'un test de couverture de l'**intégralité du polygone** ni de la présence de pixels sans nuage. L'absence de pagination ne concerne **que cette journée et la requête spécifiée**, pas l'ensemble de 2022.
+
+**Conclusion :** une référence de scène Sentinel-2 est désormais établie, datée et reproductiblement appariée aux cinq points de contrôle. La suite logique est l'examen des assets multibandes et de leur couverture effective, dans le respect des conditions Copernicus ; aucun pixel ni résultat spectral n'est encore expertisé ici.
