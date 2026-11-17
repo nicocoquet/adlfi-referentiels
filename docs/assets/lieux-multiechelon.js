@@ -19,6 +19,7 @@ const antilles2007=window.AdlfiLieuxAntilles2007;
 const wallisHistorique=window.AdlfiLieuxWallisFutunaHistorique;
 const polynesieHistorique=window.AdlfiLieuxPolynesieHistorique;
 const polynesieAssociees=window.AdlfiLieuxPolynesieAssociees;
+const corsePactols=window.AdlfiLieuxCorsePactols;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -180,7 +181,7 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!core || !corsePactols || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -209,6 +210,9 @@ async function start(){
    if(data.region!==id)throw Error('Corps communal mal identifié : '+id);
    commun.regions[id]={cog:data};
  }
+ // Les validations Pactols corses pour 2026 sont indépendantes des périodes COG.
+ const corsePublication=await loadJSON(ROOT+'lieux-chronologie/pactols-corse-2026.json');
+ state.corsePactols=corsePactols.creer(corsePublication,commun.regions.corse.cog);
  $('year').value='2026';
  const former=window.AdlfiLieuxSearch.creerIndex(pactols.autorites);
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
@@ -230,7 +234,7 @@ async function start(){
      state.associees=polynesieAssociees.creer(indexPolynesieAssociees,indexOutremer);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -390,7 +394,7 @@ async function render(){
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
-    desc=features.length+' contours communaux 2026 sur les quatre régions pilotes, sans alignement Pactols inféré.';
+    desc=features.length+' contours communaux 2026 sur les quatre régions pilotes. Les ARK corses validés pour 2026 ne constituent pas une validation des contours.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
@@ -1187,7 +1191,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    return;
  }
  const data=commun.regions[x.zone].cog;const stateCom=core.etat(data,x.code,year());
- const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code);
+ const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code) ||
+   (x.zone==='corse'?state.corsePactols?.byCode.get(x.code):null);
  const h=document.createElement('h2');h.textContent=stateCom.etat?.libelle||x.code;target.append(h);
  const dl=document.createElement('dl');ligne(dl,'Code INSEE',x.code);ligne(dl,'État administratif',`1er janvier ${year()}`);ligne(dl,'Zone du corpus',nomZones[x.zone]);
  if(stateCom.etat){ligne(dl,'Libellé COG',stateCom.etat.libelle);ligne(dl,'Type de commune',stateCom.etat.typecom);
