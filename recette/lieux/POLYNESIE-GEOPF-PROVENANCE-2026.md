@@ -48,3 +48,21 @@ Le workflow de comparaison [n°44103354104](https://github.com/nicocoquet/adlfi-
 Une première comparaison textuelle exploratoire a généré des divergences nombreuses parce que les colonnes `nom`, `nom_commun` et `nom_geogra` ne désignent pas systématiquement les mêmes niveaux ; **ce comptage lexical est retiré de la recette comme non probant**. Seules les correspondances de clés explicitement documentées sont retenues.
 
 **Conclusion :** le géoréférencement GEO PF est bien exploitable pour une comparaison ultérieure, mais la concordance étroite des schémas et la divergence de quelques codes ne suffisent ni à prouver ni à infirmer l'indépendance des géométries. Il reste à comparer leurs contours sans réparer ni attribuer des identifiants non vérifiés.
+
+
+## Qualification nominative des quatre discordances
+
+La CI spécialisée [n°44103763392](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44103763392) confirme, sans appariement automatique :
+
+| Objet | Code ISPF | Code GEO PF | Détail lexical |
+| --- | --- | --- | --- |
+| Maria, partie rattachée à Rimatara | `IDGeo=43001` | `code_geogr=43101` | ISPF : `Maria (Australes) (partie Rimatara) (IR)` ; GEO PF : `Maria (Australes)`, `nom=Rimatara` |
+| Maria, partie rattachée à Rurutu | `IDGeo=44001` | `code_geogr=44301` | ISPF : `Maria (Australes) (partie Rurutu) (IR)` ; GEO PF : `Maria (Australes)`, `nom=Rurutu` |
+| Maupihaa (Mopelia) | `IDGeo=28001`, `IDIle=53` | `code_geogr=28001`, `id_ile=54` | Noms géographiques concordants ; **code d'île divergent** |
+| Fangataufa | `IDGeo=55001`, `IDIle=20` | `code_geogr=55001`, `id_ile=113` | Noms géographiques concordants ; **code d'île divergent** |
+
+Les codes de Maria semblent traduire des conventions différentes de rattachement territorial, mais cela ne peut être considéré comme établi par simple comparaison lexicale. Pour Maupihaa et Fangataufa, **l'écart porte sur l'autorité insulaire**, non sur le nom géographique. Aucune des quatre discordances n'est corrigée dans les sources.
+
+Les **175 autres identifiants géographiques** partagent à la fois le code géographique et les codes hiérarchiques contrôlés. Deux autres objets sont bien appariés par `IDGeo`, mais présentent un désaccord sur le code d'île. Le total des `IDGeo` communs est donc **177/179**.
+
+**Prochaine vérification :** calculer les correspondances des `code_com_1` GEO PF vers les `IDComas` ISPF, puis mesurer — sous réserve d'un rattachement explicite — l'accord ou la différence des contours par agrégation des polygones géographiques, sans aucune réécriture des géométries de référence.
