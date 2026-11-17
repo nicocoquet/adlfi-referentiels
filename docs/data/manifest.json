@@ -34,8 +34,8 @@
         "etat_cog": "2026-01-01",
         "communes": 212,
         "autres_entites": 21,
-        "relations_pactols_cog_validees_2026": 104,
-        "ark_confirmes_lien_non_valide": 2,
+        "relations_pactols_cog_validees_2026": 128,
+        "ark_confirmes_lien_non_valide": 1,
         "geometries_publiees": 0,
         "identites_historiques_retroprojetees": 0,
         "relations_pactols_cog_validees_guyane_2026": 22,
@@ -43,7 +43,9 @@
         "relations_pactols_cog_validees_martinique_2026": 34,
         "source_validations_martinique": "recette/lieux/MARTINIQUE-VALIDATIONS-PACTOLS-COG-2026.csv",
         "relations_pactols_cog_validees_guadeloupe_2026": 32,
-        "source_validations_guadeloupe": "recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv"
+        "source_validations_guadeloupe": "recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "relations_pactols_cog_validees_reunion_2026": 24,
+        "source_validations_reunion": "recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv"
       },
       "historique_communes_guyane": {
         "statut": "états COG documentaires publiés sans géométries historiques",
