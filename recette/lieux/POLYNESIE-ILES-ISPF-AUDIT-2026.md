@@ -73,3 +73,29 @@ La carte reproduite dans le rapport (documentation communale) fournit une illust
 **Statut éditorial proposé :** `RATTACHEMENT_MULTICOMMUNAL_CONFIRME_ISPF` pour Maria ; `CODGEO_PREFIXE_DEROGATOIRE_DOCUMENTE_SANS_REGLE_FORMELLE` pour les deux lignes `43001` et `44001`. Ces statuts ne sont pas des types officiels ISPF mais des qualifications internes de la recette AdlFI.
 
 **Attention à l'homonymie :** le rapport de la Chambre mentionne aussi « Maria Est » sous administration de Gambier dans un contexte cartographique. Ce référent doit rester distinct de **Maria (Australes), `IDIle=45`** tant que l'identification nominative des îles n'est pas instruite. Le présent audit n'établit aucun alignement entre ces entités.
+
+
+## Inventaire exhaustif des 14 îles à plusieurs unités fines
+
+Source : [workflow réussi n°44082557647](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44082557647), rapport ISPF recomposé depuis le fichier officiel à empreinte contrôlée.
+
+| IDIle | Île | Unités fines ISPF | Communes COG distinctes |
+|---|---|---:|---:|
+| `14` | Bora Bora | 3 | 1 |
+| `30` | Hiva Oa | 2 | 1 |
+| `31` | Huahine | 8 | 1 |
+| `45` | Maria (Australes) | 2 | 2 |
+| `57` | Moorea | 5 | 1 |
+| `67` | Nuku Hiva | 3 | 1 |
+| `74` | Raiatea | 8 | 3 |
+| `75` | Raivavae | 3 | 1 |
+| `84` | Rimatara | 3 | 1 |
+| `86` | Rurutu | 3 | 1 |
+| `88` | Tahaa | 8 | 1 |
+| `90` | Tahiti | 21 | 12 |
+| `111` | Tubuai | 3 | 1 |
+| `115` | Ua Pou | 2 | 1 |
+
+**Qualification :** onze îles concernent plusieurs unités fines d'une même commune et trois îles concernent plusieurs communes. Ce sont des **relations multiples attendues ou sourcées**, pas automatiquement des erreurs. Les codes `IDIle` désignent des unités de nomenclature et ne sont ni des identifiants INSEE ni des géométries.
+
+Les détails des `IDComas` et des communes concernées sont présents dans le rapport JSON de CI. Maria bénéficie désormais d'une qualification institutionnelle explicite (voir section précédente). Pour Raiatea et Tahiti, la multiplicité des communes doit rester décrite comme un rattachement géographique issu de la nomenclature, sans assimilation à une hiérarchie unique « île → commune ».
