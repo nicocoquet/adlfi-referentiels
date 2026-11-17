@@ -35,3 +35,33 @@ Enfin, seules les paires parmi les unités GEO PF entièrement appariées sont e
 - Les différences de découpage temporel et de généalogie géométrique restent à étudier.
 - Pas de correction de contours ni de publication sur GitHub Pages ; les résultats restent dans un artefact GitHub Actions et une note de recette.
 - **Ne pas fusionner avant vérification des journaux CI et qualification des exclusions.**
+
+
+## Résultats de l'exécution initiale
+
+Le workflow spécialisé [n°44105618773](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44105618773) est **réussi** : téléchargement et SHA des trois sources conformes, double calcul reproductible, artefact JSON de comparaison sans polygones.
+
+**112 des 116 unités fines** sont comparées après contrôle exhaustif de leurs `IDGeo` constitutifs. Quatre unités sont délibérément exclues :
+
+| `IDComas` exclu | Motif | Pièces géographiques manquantes du jeu de comparaison |
+| --- | --- | --- |
+| `280` | Code d'île divergent pour Maupihaa (Mopelia) | `28001` |
+| `431` | Convention de code géographique différente, Maria/Rimatara | `43001` |
+| `441` | Convention de code géographique différente, Maria/Rurutu | `44001` |
+| `550` | Code d'île divergent pour Fangataufa | `55001` |
+
+Au sein des **112 unités GEO PF complètes et appariées**, l'audit ne trouve **aucune paire en recouvrement surfacique**. Ce résultat ne vaut **pas** pour les quatre unités exclues et ne prouve pas que les 65 paires relevées dans ISPF soient des anomalies juridiquement avérées. Les deux sources peuvent appliquer un mode de représentation différent.
+
+### Écarts de contours les plus importants
+
+| `IDComas` | Aire GEO PF | Aire ISPF | Différence symétrique | Part de la différence dans l'union |
+| --- | ---: | ---: | ---: | ---: |
+| `190` | 59,608 km² | 94,134 km² | **35,313 km²** | **37,36 %** |
+| `202` | 44,305 km² | 44,303 km² | **34,851 km²** | **56,46 %** |
+| `112` | 13,975 km² | 40,853 km² | **27,389 km²** | **66,63 %** |
+| `263` | 16,527 km² | 38,862 km² | **22,666 km²** | **58,08 %** |
+| `264` | 12,735 km² | 31,550 km² | **20,654 km²** | **63,61 %** |
+
+Une différence symétrique importante peut correspondre à des îles ou îlots différents, un contour littoral différent, une dissymétrie temporelle, ou une origine cartographique différente. **Le cas `202` est particulièrement révélateur** : les surfaces globales de chaque représentation sont quasiment identiques (environ 44,3 km²), mais leur superposition est insuffisante pour conclure à une même géométrie. L'écart ne saurait être attribué à un simple problème de surface totale.
+
+**Arbitrage méthodologique :** ne publier ni ne corriger aucun de ces contours. La prochaine instruction doit contrôler ce que représentent les ensembles de polygones de chaque `IDComas` et les métadonnées de production, avant toute substitution GEO PF → ISPF. La précision et l'indépendance des géométries restent non établies.
