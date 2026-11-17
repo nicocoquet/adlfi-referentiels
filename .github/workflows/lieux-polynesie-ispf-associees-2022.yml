@@ -95,7 +95,10 @@ jobs:
           assert len(d["communes_associees"])==98
           assert len(d["unites_communes_non_subdivisees"])==18
           assert d["statistiques"]["lignes_geo_source"]==179
-          assert d["statistiques"]["iles_rattachees_lignes_Geo"]==63
+          assert d["statistiques"]["iles_rattachees_lignes_Geo"]==64
+          assert d["statistiques"]["nombre_iles_rattachees_notice_ISPF"]==63
+          assert d["statistiques"]["codes_geo_sans_ligne_de_base"]==["190"]
+          assert d["anomalie_geo_ispf"]["lignes_iles_rattachees_19001_19016"]==16
           assert d["statistiques"]["nouveaux_ARK_Pactols_crees"]==0
           print("ISPF_DONNEES_JSON",json.dumps(d,sort_keys=True,ensure_ascii=False))
           PY
