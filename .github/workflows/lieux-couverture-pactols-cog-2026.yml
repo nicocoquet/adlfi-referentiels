@@ -39,8 +39,8 @@ jobs:
           import json,sys
           r=json.load(open(sys.argv[1]))
           assert r['publication']=={'nouveaux_ark':0,'nouveaux_contours':0,'nouveaux_alignements':0}
-          assert r['totaux']['sans_alignement_communal']==36
-          assert r['ark_confirmes_non_valides']=={'97607':'26678/crtZcuFSJVYZU'}
+          assert r['totaux']['sans_alignement_communal']==0
+          assert r['ark_confirmes_non_valides']=={}
           PY
       - uses: actions/upload-artifact@v4
         with:
