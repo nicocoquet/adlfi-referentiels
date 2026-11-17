@@ -10,8 +10,12 @@ from auditer_geofla_martinique_2015 import (
     SCHEMA,CODES,code_insee,comparaison,principales_composantes,controler_partition,
 )
 
-from shapely.geometry import box
-from pyproj import Transformer
+try:
+    from shapely.geometry import box
+    from pyproj import Transformer
+except ImportError:
+    box = None
+    Transformer = None
 
 
 class AuditerGEOFLAMartiniqueTests(unittest.TestCase):
@@ -33,6 +37,7 @@ class AuditerGEOFLAMartiniqueTests(unittest.TestCase):
         b["97234"]=box(33000,0,34025,1000)
         return a,b
 
+    @unittest.skipIf(box is None, "Shapely et pyproj requis dans la recette géométrique")
     def test_decomposition_et_cloture_comptable(self):
         a,b=self.partition()
         proj=Transformer.from_crs("EPSG:6933","EPSG:4326",always_xy=True)
@@ -47,18 +52,21 @@ class AuditerGEOFLAMartiniqueTests(unittest.TestCase):
         self.assertEqual(len(r["toutes_communes"]),34)
         self.assertTrue(r["composantes_exterieures"]["2015_hors_2026"]["plus_grandes"])
 
+    @unittest.skipIf(box is None, "Shapely et pyproj requis dans la recette géométrique")
     def test_recouvrement_de_communes_refuse(self):
         a,b=self.partition()
         b["97203"]=box(1900,0,3000,1000)
         with self.assertRaisesRegex(ValueError,"recouvrement"):
             controler_partition(b,"source_invalide")
 
+    @unittest.skipIf(box is None, "Shapely et pyproj requis dans la recette géométrique")
     def test_codes_incomplets_refuses(self):
         a,b=self.partition()
         a.pop("97201")
         with self.assertRaisesRegex(ValueError,"incomplets"):
             controler_partition(a,"source")
 
+    @unittest.skipIf(box is None, "Shapely et pyproj requis dans la recette géométrique")
     def test_points_et_enveloppes_sans_geometrie(self):
         proj=Transformer.from_crs("EPSG:6933","EPSG:4326",always_xy=True)
         r=principales_composantes(box(0,0,300,300),proj,seuil_km2=0.01)
