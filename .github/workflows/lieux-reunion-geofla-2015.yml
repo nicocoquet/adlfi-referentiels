@@ -123,8 +123,16 @@ jobs:
           assert report["communes_COG_2026"]==24
           assert report["publication_docs"] is False
           assert report["nouvelles_relations_Pactols"]==report["geometries_historiques_adoptees"]==0
+          expected={"100m":(7.196579,20.630913,48.458405,2503.416919),
+                    "50m":(7.273004,20.640775,48.554554,2503.598017)}
           for resolution in ("100m","50m"):
               item=report["etats_2026_"+resolution]
+              ext,intern,total,area=expected[resolution]
+              assert abs(item["ecart_emprise_exterieure_km2"]-ext)<.00001
+              assert abs(item["ecart_entre_codes_interieur_unique_km2"]-intern)<.00001
+              assert abs(item["cumul_ecarts_communaux_km2"]-total)<.00001
+              assert abs(item["aire_2026_km2"]-area)<.00001
+              assert abs(item["aire_2015_km2"]-2502.16125)<.00001
               assert item["communes"]==len(item["toutes_communes"])==24
               assert {x["code"] for x in item["toutes_communes"]}=={f"974{i:02d}" for i in range(1,25)}
               assert abs(item["cumul_ecarts_communaux_km2"]-
@@ -140,6 +148,9 @@ jobs:
                       assert "geometry" not in component and "coordinates" not in component
           main=report["etats_2026_100m"]
           bycode={r["code"]:r for r in main["toutes_communes"]}
+          assert abs(report["difference_emprise_2026_100m_50m_km2"]-2.527438)<.00001
+          assert abs(bycode["97414"]["diff_symetrique_km2"]-1.795780)<.00001
+          assert abs(bycode["97424"]["diff_symetrique_km2"]-1.530492)<.00001
           print("SAINT_LOUIS",json.dumps(bycode["97414"],ensure_ascii=False))
           print("CILAOS",json.dumps(bycode["97424"],ensure_ascii=False))
           print("BILAN_METRIQUES",json.dumps({
