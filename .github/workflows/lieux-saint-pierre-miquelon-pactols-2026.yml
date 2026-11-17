@@ -1,0 +1,97 @@
+name: Lieux — Saint-Pierre-et-Miquelon, audit RDF Pactols–COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_saint_pierre_miquelon_2026.py'
+      - 'tests/test_auditer_pactols_saint_pierre_miquelon_2026.py'
+      - 'recette/lieux/SAINT-PIERRE-MIQUELON-PACTOLS-2026-RECETTE.md'
+      - '.github/workflows/lieux-saint-pierre-miquelon-pactols-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pactols-spm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler le parseur RDF, les homonymes et les garde-fous éditoriaux
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_saint_pierre_miquelon_2026.py' -v
+      - name: Vérifier la source RDF officielle Pactols-Lieux épinglée
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Acquérir la table COG officielle des communes COMER 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import hashlib,os,zipfile
+          from pathlib import Path
+          t=Path(os.environ["RUNNER_TEMP"])
+          with zipfile.ZipFile(t/"cog_ensemble_2026_csv.zip") as z:
+              matches=[i for i in z.infolist() if Path(i.filename).name=="v_commune_comer_2026.csv"]
+              assert len(matches)==1
+              b=z.read(matches[0])
+          assert len(b)==8012,len(b)
+          h=hashlib.sha256(b).hexdigest()
+          assert h=="9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",h
+          (t/"v_commune_comer_2026.csv").write_bytes(b)
+          print("SPM_COG_2026_SHA",h)
+          PY
+      - name: Reproduire deux fois le résultat RDF–COG sans aucune publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_saint_pierre_miquelon_2026.py \
+              --pactols-rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/v_commune_comer_2026.csv" \
+              --sortie "$RUNNER_TEMP/spm-rdf-$n.json" > "$RUNNER_TEMP/spm-rdf-resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/spm-rdf-1.json" "$RUNNER_TEMP/spm-rdf-2.json"
+      - name: Afficher les correspondances exactes, les candidats et les homonymes
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"spm-rdf-1.json").read_text())
+          assert d["schema"]=="adlfi.lieux.spm.audit.pactols-cog2026.v1"
+          assert d["statut"]=="RECETTE_NON_VALIDANTE"
+          assert {r["code_insee"] for r in d["lignes"]}=={"97501","97502"}
+          assert d["bilan"]["validations_publiees"]==0
+          assert d["bilan"]["geometries_historiques_publiees"]==0
+          assert d["bilan"]["codes_eligibles"]+d["bilan"]["codes_a_instruire"]+d["bilan"]["codes_sans_exactMatch"]==2
+          assert d["bilan"]["candidats_explicites"]>=d["bilan"]["codes_eligibles"]
+          print("BILAN_SPM_RDF",json.dumps(d["bilan"],ensure_ascii=False))
+          print("EXACTMATCH_ET_STATUT",json.dumps(d["lignes"],ensure_ascii=False))
+          print("HOMONYMES_NON_RETENUS",d["homonymes_saint_pierre_non_retenus"])
+          print("CANDIDATS_LEXICAUX",json.dumps(d["candidats_lexicaux_qualifies_non_valides"][:20],ensure_ascii=False))
+          PY
+      - name: Archiver seulement le diagnostic documentaire hors GitHub Pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-spm-pactols-rdf-cog2026-preinstruction
+          path: ${{ runner.temp }}/spm-rdf-1.json
+          retention-days: 30
+          if-no-files-found: error
