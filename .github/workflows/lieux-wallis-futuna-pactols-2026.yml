@@ -6,6 +6,8 @@ on:
       - 'scripts/auditer_pactols_wallis_futuna_2026.py'
       - 'tests/test_auditer_pactols_wallis_futuna_2026.py'
       - 'recette/lieux/WALLIS-FUTUNA-PACTOLS-2026-RECETTE.md'
+      - 'recette/lieux/WALLIS-FUTUNA-COLLECTIVITE-986-ALIGNEMENT-PROPOSE-2026.csv'
+      - 'tests/test_proposition_comer_986_2026.py'
       - '.github/workflows/lieux-wallis-futuna-pactols-2026.yml'
   workflow_dispatch:
 
@@ -36,6 +38,9 @@ jobs:
       - name: Tester les trois CIR et les catégories des URI RDF
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_wallis_futuna_2026.py' -v
+      - name: Vérifier la proposition 986 sans lien Pactols publié
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_proposition_comer_986_2026.py' -v
       - name: Vérifier le RDF Frantiq source épinglé
         run: |
           echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
