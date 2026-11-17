@@ -50,7 +50,7 @@ class AuditerGEOFLAMartiniqueTests(unittest.TestCase):
             r["ecart_emprise_exterieure_km2"]+2*r["ecart_entre_codes_interieur_unique_km2"],
             r["cumul_ecarts_communaux_km2"],places=5)
         self.assertEqual(len(r["toutes_communes"]),34)
-        self.assertTrue(r["composantes_exterieures"]["2015_hors_2026"]["plus_grandes"])
+        self.assertTrue(r["composantes_exterieures"]["2026_hors_2015"]["plus_grandes"])
 
     @unittest.skipIf(box is None, "Shapely et pyproj requis dans la recette géométrique")
     def test_recouvrement_de_communes_refuse(self):
