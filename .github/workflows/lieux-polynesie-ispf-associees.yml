@@ -42,7 +42,7 @@ jobs:
             python3 -m unittest discover -s tests -p 'test_qualifier_communes_associees_ispf.py' -v
             python3 scripts/qualifier_communes_associees_ispf.py \
               --source "$RUNNER_TEMP/ispf-codes-geographiques.xlsx" \
-              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --index-cog recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
               --sortie "$RUNNER_TEMP/ispf-associees-recette.json"
           fi
       - uses: actions/upload-artifact@v4
