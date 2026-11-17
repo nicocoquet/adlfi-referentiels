@@ -1,6 +1,6 @@
 # Arbitrages AdlFI — Nouvelle-Calédonie, Saint-Pierre-et-Miquelon et Dembeni
 
-**17 novembre 2026 — 36 ARK examinés dans ce registre, mais deux niveaux de preuve distincts.**
+**17 novembre 2026 — 36 correspondances communales 2026 étayées par exactMatch et validation éditoriale.**
 
 L'éditeur a explicitement confirmé trois ARK supplémentaires :
 - **`98809` L'Île-des-Pins** ↔ `26678/pcrti4LqTHByEs` ;
@@ -9,19 +9,20 @@ L'éditeur a explicitement confirmé trois ARK supplémentaires :
 
 L'arbitrage de **`97502` Saint-Pierre** ↔ `26678/pcrtYQmFfwxLq8` est déjà consigné dans la PR 93. Les **32 autres communes de Nouvelle-Calédonie** ont une preuve RDF `skos:exactMatch` univoque, sans dépréciation, classée éligible par [l'audit PR 94](NOUVELLE-CALEDONIE-PACTOLS-33-2026.md).
 
-## Distinction obligatoire entre identifiant confirmé et équivalence RDF
+## Décisions et vérifications RDF
 
-Le registre [VALIDATIONS-NC-SPM-DEMBENI-2026.csv](VALIDATIONS-NC-SPM-DEMBENI-2026.csv) conserve **35 décisions `VALIDE_ADLFI_2026`** appuyées par une assertion `skos:exactMatch` en RDF : **33 en Nouvelle-Calédonie, 2 à Saint-Pierre-et-Miquelon**. Parmi ces 35, deux exceptions sont assumées éditorialement :
+L'audit [GitHub Actions n°44152306293](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44152306293) a confronté les **36 ARK** à l'export RDF Frantiq du 22 juillet 2026 (SHA-256 `3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7`). Il trouve **36 assertions `skos:exactMatch` uniques** vers les codes de commune INSEE respectifs, sans dépréciation, remplacement ou autre URI INSEE concurrente.
 
-- Saint-Pierre, `97502`, `prefLabel` actuel **« île Saint-Pierre (Saint-Pierre-et-Miquelon) »**, correction à demander à Pactols ;
-- L'Île-des-Pins, `98809`, `prefLabel` **« Île-des-Pins »**, `altLabel` **« L'Île-des-Pins »**, malgré la possible divergence entre objet insulaire et commune administrative.
+Le registre [VALIDATIONS-NC-SPM-DEMBENI-2026.csv](VALIDATIONS-NC-SPM-DEMBENI-2026.csv) conserve **36 décisions `VALIDE_ADLFI_2026`**, dont **33 en Nouvelle-Calédonie, 2 à Saint-Pierre-et-Miquelon et 1 à Mayotte (Dembeni)**.
 
-Ces deux exceptions sont **nominatives** et ne justifient pas de généraliser une correspondance île/commune.
+Deux exceptions nominatives de libellé restent documentées :
+- **Saint-Pierre `97502`** : `prefLabel` actuellement « île Saint-Pierre (Saint-Pierre-et-Miquelon) » ; correction à demander à Pactols ;
+- **L'Île-des-Pins `98809`** : `prefLabel` « Île-des-Pins », `altLabel` « L'Île-des-Pins » ; distinction ontologique à surveiller.
 
-**Dembeni `97607` :** l'éditeur valide formellement l'ARK `26678/crtZcuFSJVYZU`, qui était déjà présent en `ark_confirmes_non_valides`. À la date de cette décision, la présence d'un `skos:exactMatch` pour l'URI `http://id.insee.fr/geo/commune/97607` **n'était pas certifiée**. Le statut est donc `VALIDE_ARK_EDITORIAL` jusqu'au contrôle du RDF. L'ARK ne doit pas être promu automatiquement en équivalence COG par simple confirmation éditoriale.
+Elles n'autorisent pas de généraliser l'équivalence entre îles et communes.
 
-La CI `lieux-decisions-nc-spm-mayotte.yml` vérifie la source RDF originale SHA-256, confronte les 36 lignes et **affiche explicitement le résultat du contrôle Dembeni**. Toute absence ou contradiction exige une instruction complémentaire.
+**Dembeni `97607`** : l'ARK `26678/crtZcuFSJVYZU` était initialement `ark_confirmes_non_valides`. L'audit en conditions réelles a désormais observé son **`skos:exactMatch` explicite vers `http://id.insee.fr/geo/commune/97607`**, avec `prefLabel` « Dembeni », sans dépréciation ni remplacement. Le lien peut donc être validé **à la fois sur décision éditoriale et preuve RDF indépendante**, sans créer d'exception au critère général.
 
 ## Publication
 
-Cette PR est une **recette préalable non publiante** : l'index public contient encore **176 correspondances communales validées**, les quatre collectivités sont séparées. Une PR de publication devra gérer les garde-fous de l'interface, le manifeste, les tests et les scripts de reconstitution, sans modifier les géométries ni attribuer rétroactivement des ARK. Si le RDF atteste aussi `97607` sans ambiguïté, les 36 nouvelles correspondances pourront être publiées ensemble ; sinon, seules les **35 équivalences fondées sur `exactMatch`** pourront l'être dans ce lot.
+Cette PR est une **recette préalable non publiante** : l'index public contient encore **176 correspondances communales validées**, les quatre collectivités sont séparées. Une PR de publication devra gérer les garde-fous de l'interface, le manifeste, les tests et les scripts de reconstitution, sans modifier les géométries ni attribuer rétroactivement des ARK. Le RDF ayant attesté `97607` sans ambiguïté, les **36 nouvelles correspondances** peuvent désormais être publiées ensemble, sous réserve d'une recette de publication adaptée.
