@@ -1,0 +1,57 @@
+name: Lieux — Polynésie, recouvrements intra-couche ISPF
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_recouvrements_ispf_polynesie.py'
+      - 'tests/test_auditer_recouvrements_ispf_polynesie.py'
+      - 'recette/lieux/POLYNESIE-RECOUVREMENTS-2026.md'
+      - '.github/workflows/lieux-polynesie-recouvrements.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recouvrements:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install 'shapely==2.1.2'
+      - name: Tests indépendants du réseau
+        run: python3 -m unittest discover -s tests -p 'test_auditer_recouvrements_ispf_polynesie.py' -v
+      - name: Récupérer l'archive ISPF, vérifier son empreinte
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --output "$RUNNER_TEMP/ispf-geojson.zip"
+          echo '6302ad2a17ec1fd8b51f70f1d8ba1501ee7ca212a9cd53c8df4221faedfe0b62  '"$RUNNER_TEMP/ispf-geojson.zip" | sha256sum --check
+      - name: Vérifier les paires et la reproductibilité
+        run: |
+          python3 scripts/auditer_recouvrements_ispf_polynesie.py \
+            --archive "$RUNNER_TEMP/ispf-geojson.zip" \
+            --sortie "$RUNNER_TEMP/ispf-recouvrements-a.json"
+          python3 scripts/auditer_recouvrements_ispf_polynesie.py \
+            --archive "$RUNNER_TEMP/ispf-geojson.zip" \
+            --sortie "$RUNNER_TEMP/ispf-recouvrements-b.json"
+          cmp "$RUNNER_TEMP/ispf-recouvrements-a.json" "$RUNNER_TEMP/ispf-recouvrements-b.json"
+          python3 - "$RUNNER_TEMP/ispf-recouvrements-a.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['schema']=='adlfi.lieux.polynesie.recouvrements.intracouche.audit.v1'
+          assert r['statut']=='RECETTE_NON_VALIDANTE'
+          assert r['publication']=={'polygones':0,'autorites':0,'nouveaux_ark':0}
+          assert {n:c['features'] for n,c in r['couches'].items()}=={
+              'Com.GeoJSON':48,'Comas.GeoJSON':116,'Ile.GeoJSON':119}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-ispf-recouvrements-intracouche
+          path: ${{ runner.temp }}/ispf-recouvrements-a.json
+          retention-days: 30
+          if-no-files-found: error
