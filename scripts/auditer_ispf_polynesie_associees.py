@@ -161,7 +161,7 @@ def analyser(ispf:Path,index_public:Path):
  avera={x["code_ispf"]:x["commune_parent_cog"] for x in related
         if normaliser(x["libelle"])=="avera"}
  if avera!={"441":"98744","501":"98750"}:
-  raise ValueError("Homonymie Avera (441 Rurutu / 501 Taputapuatea) mal résolue")
+  raise ValueError("Homonymie Avera ISPF divergent : "+repr(avera))
  # Vérifier indépendamment la partition fine dans la feuille géographique.
  flags=collections.Counter()
  compact=set()
