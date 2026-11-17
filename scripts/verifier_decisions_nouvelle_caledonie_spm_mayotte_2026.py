@@ -46,20 +46,15 @@ def lire_csv(path:Path,index:dict)->dict:
             ark in all_arks or
             (code in EXPECTED and ark!=EXPECTED[code])):
             raise ValueError("Décision incohérente : "+code)
-        if code=="97607":
-            if (row["predicat_source"]!=ARK_CONFIRM or
-                row["statut_validation"]!="VALIDE_ARK_EDITORIAL" or
-                row["qualification"]!="VERIFICATION_ALIGNEMENT_REQUISE" or
-                index["ark_confirmes_non_valides"].get(code)!=ark):
-                raise ValueError("Dembeni : preuve RDF non établie")
-        else:
-            if (row["predicat_source"]!="skos:exactMatch" or
-                row["statut_validation"]!="VALIDE_ADLFI_2026" or
-                row["source"]!="Pactols_Lieux_th17_20260722.rdf" or
-                row["qualification"]!=
-                  ("EXCEPTION_EDITORIALE_LIBELLE_ILE" if code in ("97502","98809")
-                   else "CONFORME_REGLE")):
-                raise ValueError("Décision communale RDF invalide : "+code)
+        if (row["predicat_source"]!="skos:exactMatch" or
+            row["statut_validation"]!="VALIDE_ADLFI_2026" or
+            row["source"]!="Pactols_Lieux_th17_20260722.rdf" or
+            row["qualification"]!=
+             ("EXCEPTION_EDITORIALE_LIBELLE_ILE" if code in ("97502","98809")
+              else "CONFORME_REGLE")):
+            raise ValueError("Décision RDF 2026 non conforme : "+code)
+        if code=="97607" and index["ark_confirmes_non_valides"].get(code)!=ark:
+            raise ValueError("Dembeni : ARK confirmé historique non conservé")
         seen.add(code);all_arks.add(ark)
     if seen!=expected_codes:
         raise ValueError("Liste de codes incomplète")
@@ -83,7 +78,7 @@ def controle(rdf:Path,index_file:Path,registre:Path)->dict:
             evidence["insee_exactMatch"]==[{"uri":r["uri_insee"],
                "famille":"commune","code":code}] and
             not evidence["deprecie"] and not evidence["remplace"])
-        if code!="97607" and not exact_unique:
+        if not exact_unique:
             raise ValueError("exactMatch RDF non unique / divergent : "+code)
         results.append({
             "code":code,"ark":r["ark_pactols"],"preuve_RDF_exactMatch_unique":exact_unique,
