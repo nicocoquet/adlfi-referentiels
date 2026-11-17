@@ -12,14 +12,16 @@ assert.equal(entries.length,233);
 assert.equal(communes.length,212);
 assert.equal(autres.length,21);
 assert.equal(new Set(entries.map(e=>e.id)).size,233);
-assert.equal(communes.filter(e=>e.arkValide).length,176);
+assert.equal(communes.filter(e=>e.arkValide).length,212);
 assert.equal(communes.filter(e=>e.code.startsWith('987')&&e.arkValide).length,48);
 assert.equal(communes.filter(e=>e.code.startsWith('974')&&e.arkValide).length,24);
 assert.equal(communes.filter(e=>e.code.startsWith('971')&&e.arkValide).length,32);
 assert.equal(communes.filter(e=>e.code.startsWith('972')&&e.arkValide).length,34);
 assert.equal(communes.filter(e=>e.code.startsWith('973')&&e.arkValide).length,22);
-assert.equal(communes.filter(e=>e.code.startsWith('976')&&e.arkValide).length,16);
-assert.equal(communes.filter(e=>e.arkConfirme).length,1);
+assert.equal(communes.filter(e=>e.code.startsWith('976')&&e.arkValide).length,17);
+assert.equal(communes.filter(e=>e.code.startsWith('975')&&e.arkValide).length,2);
+assert.equal(communes.filter(e=>e.code.startsWith('988')&&e.arkValide).length,33);
+assert.equal(communes.filter(e=>e.arkConfirme).length,0);
 assert.deepEqual(communes.filter(e=>e.geomStatut==='PRESENTE_INVALIDE').map(e=>e.code).sort(),['98745','98805']);
 assert.ok(entries.every(e=>e.geometriePubliee===false));
 assert.ok(autres.every(e=>e.kind!=='cog2026'));
@@ -56,9 +58,9 @@ assert.equal(find('DROM:COM:97308').arkValide,'26678/pcrtFDuzqh49Ol');
 assert.equal(find('DROM:COM:97360').arkValide,'26678/pcrtlaYvADNGdY');
 assert.ok(communes.every(e=>!['97351','97354','97355','97359'].includes(e.code)));
 const dembeni=find('DROM:COM:97607');
-assert.equal(dembeni.arkValide,null);
-assert.equal(dembeni.arkConfirme,'26678/crtZcuFSJVYZU');
-assert.equal(dembeni.champs.includes(parser.normaliser(dembeni.arkConfirme)),false);
+assert.equal(dembeni.arkValide,'26678/crtZcuFSJVYZU');
+assert.equal(dembeni.arkConfirme,null);
+assert.equal(dembeni.champs.includes(parser.normaliser(dembeni.arkValide)),true);
 const leport=find('DROM:COM:97407');
 assert.equal(leport.arkValide,'26678/pcrtIKvRT9vwUl');
 assert.equal(leport.arkConfirme,null);
@@ -78,9 +80,9 @@ assert.equal(tahaa.geometriePubliee,false);
 assert.equal(find('COMER:TERRITOIRE:987').kind,'autre_cog2026');
 assert.equal(find('COMER:TERRITOIRE:987').arkValide,undefined);
 const codeArks=new Map(communes.filter(e=>e.arkValide).map(e=>[e.code,e.arkValide]));
-assert.equal(codeArks.size,176);
-assert.equal(new Set(codeArks.values()).size,176);
-// Quatre collectivités validées dans un espace distinct des 176 communes.
+assert.equal(codeArks.size,212);
+assert.equal(new Set(codeArks.values()).size,212);
+// Quatre collectivités validées dans un espace distinct des 212 communes.
 const collectivites={
   '977':'26678/pcrtrGdtY56gmH',
   '978':'26678/pcrty5LooX8FgU',
@@ -102,11 +104,11 @@ for(const id of [
  'COMER:TERRITOIRE:989']){
   assert.equal(find(id).arkCollectiviteValide,null,'Aucun ARK transféré à '+id);
 }
-assert.equal(communes.filter(e=>e.arkValide).length,176);
+assert.equal(communes.filter(e=>e.arkValide).length,212);
 assert.equal(autres.filter(e=>e.arkCollectiviteValide).length,4);
 assert.ok(entries.every(e=>e.geometriePubliee===false));
 const copy=JSON.parse(JSON.stringify(src));
-copy.pactols_valides['97607']='26678/crtZcuFSJVYZU';
+copy.pactols_valides['97607']='26678/pcrtInvalide';
 assert.throws(()=>parser.creerIndex(copy),/Décisions/);
 copy.pactols_valides=src.pactols_valides;
 copy.communes['976']='97601|Acoua';
@@ -120,4 +122,4 @@ assert.throws(()=>parser.creerIndex(copyCollect),/collectivités/);
 delete copyCollect.pactols_collectivites_valides['97701'];
 copyCollect.pactols_collectivites_valides['986']=copyCollect.pactols_collectivites_valides['987'];
 assert.throws(()=>parser.creerIndex(copyCollect),/collectivités/);
-console.log('COG Outre-mer : 212 communes, 21 autres, 176 Pactols validés (48 Polynésie, 24 Réunion, 32 Guadeloupe, 34 Martinique, 22 Guyane, 16 Mayotte), 1 ARK confirmé sans lien — OK');
+console.log('COG Outre-mer : 212 communes, 21 autres, 212 Pactols communaux validés, 4 collectivités distinctes — OK');
