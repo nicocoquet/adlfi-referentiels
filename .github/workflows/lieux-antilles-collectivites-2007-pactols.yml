@@ -84,6 +84,28 @@ jobs:
           assert d["bilan"]["nouveaux_alignements_pactols"]==0
           assert d["bilan"]["nouveaux_contours_historiques"]==0
           assert all(not r["lien_pactols_publie_par_audit"] for r in d["codes_instruits"])
+          assert d["bilan"]["liens_RDF_explicites"]==4
+          assert d["bilan"]["codes_avec_exactMatch"]==4
+          expected={
+             "977":("26678/pcrtrGdtY56gmH","collectiviteDOutreMer","977"),
+             "97701":("26678/pcrtrGdtY56gmH","commune","97701"),
+             "978":("26678/pcrty5LooX8FgU","collectiviteDOutreMer","978"),
+             "97801":("26678/pcrty5LooX8FgU","commune","97801")
+          }
+          bycode={r["code_COG"]:r for r in d["codes_instruits"]}
+          for code,(ark,famille,target) in expected.items():
+              row=bycode[code]
+              assert len(row["preuves_RDF_exactMatch"])==1
+              proof=row["preuves_RDF_exactMatch"][0]
+              assert proof["ark"]==ark and not proof["deprecie"] and not proof["remplace"]
+              assert any(x["code"]==target and x["famille"]==famille
+                         for x in proof["exactMatch_INSEE_cibles"])
+              assert row["statut"]=="A_INSTRUIRE_ONTOLOGIQUEMENT"
+          assert not bycode["97123"]["preuves_RDF_exactMatch"]
+          assert not bycode["97127"]["preuves_RDF_exactMatch"]
+          assert {x["ark"] for x in d["codes_instruits"][2]["preuves_RDF_exactMatch"]}=={
+              "26678/pcrtrGdtY56gmH"}
+          print("HOMONYMES_ECARTES",d["homonymes_sans_contexte_antillais_ecartes"])
           print("BILAN_ANTILLES_PACTOLS",json.dumps(d["bilan"],ensure_ascii=False))
           print("PREUVES_RDF",json.dumps(d["codes_instruits"],ensure_ascii=False))
           print("CANDIDATS_LEXICAUX",json.dumps(d["candidats_lexicaux_non_valides"][:25],ensure_ascii=False))
