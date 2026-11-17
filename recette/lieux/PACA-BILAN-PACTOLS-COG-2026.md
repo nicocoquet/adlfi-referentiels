@@ -32,3 +32,16 @@ Le [workflow n°44183508914](https://github.com/nicocoquet/adlfi-referentiels/ac
 - **0 nouveau lien ou contour publié** dans cette PR.
 
 Important : les nombres 934 et 103 ne s'additionnent pas. Les correspondances retenues dans le pilote font partie de la couverture RDF à l'exception de la différence de classification signalée ci-dessus. Ce premier audit ne garantit pas encore que tous les nouveaux candidats soient indemnes d'URI INSEE supplémentaires non reconnues par le parseur ; la vérification exhaustive précède toute publication.
+
+
+### Dossiers exceptionnels identifiés dans le RDF épinglé
+
+**Huit codes présentent plusieurs concepts ARK** : Ubaye-Serre-Ponçon (04033), Val d'Oronaye (04120), Valdoule (05024), Aubessagne (05039), Garde-Colombe (05053), Vallouise-Pelvoux (05101), Val Buëch-Méouge (05118), **Dévoluy (05139)**.
+
+**Trois codes présentent une divergence de libellé, statut ou URI** : Abriès-Ristolas (05001), Rousset-Serre-Ponçon (05127), Esparron-de-Pallières (83052).
+
+**Un code n'a pas d'exactMatch vers la forme INSEE à code reconnue** : Céreste-en-Luberon (04045).
+
+**Dévoluy (05139)** est un dossier particulier : l'autorité `26678/pcrtSeD2WMEIYA` a déjà été approuvée dans les 103 décisions du pilote et est toujours citée par exactMatch ; le même code est aussi revendiqué par `26678/pcrt2XYqgMPgx5`. Il ne faut ni supprimer la validation éditoriale antérieure ni publier le second ARK comme une identité supplémentaire sans arbitrage. Ce cas explique pourquoi **934 éligibles par la règle automatique** ne signifie pas exactement **103 validations du pilote + 832 nouveaux éligibles** : seuls 102 des 103 pilotes sont dans la sous-catégorie éligible, le 103e étant Dévoluy.
+
+Les **11 dossiers hors pilote** sont exclus de l'extension proposée. Leurs codes sont 04033, 04045, 04120, 05001, 05024, 05039, 05053, 05101, 05118, 05127 et 83052.
