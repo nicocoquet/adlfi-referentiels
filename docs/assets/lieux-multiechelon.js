@@ -11,6 +11,7 @@ const core=window.AdlfiLieuxChronologieCore;
 const outremerSearch=window.AdlfiLieuxOutremerSearch;
 const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
+const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -172,8 +173,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -182,6 +183,7 @@ async function start(){
    loadJSON(ROOT+'lieux-outremer/recherche-2026.json'),
    loadJSON(ROOT+'lieux-guyane/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-martinique/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-guadeloupe/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -200,9 +202,10 @@ async function start(){
  state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
   state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
   state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
+  state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -222,6 +225,11 @@ async function start(){
  const historicalCode=params.get('ref_cog_historique');
  if(historicalCode && state.guyane.old.has(historicalCode)){
    state.selected={kind:'cogHistoriqueGuyane',code:historicalCode};
+   $('level').value='commune';
+ }
+ const guadeloupeCode=params.get('ref_cog_historique_guadeloupe');
+ if(guadeloupeCode && state.guadeloupe.old.has(guadeloupeCode)){
+   state.selected={kind:'cogHistoriqueGuadeloupe',code:guadeloupeCode};
    $('level').value='commune';
  }
  const hash=new URLSearchParams(location.hash.replace(/^#/,'')),ark=hash.get('ark');
@@ -271,6 +279,9 @@ function updateUrl(){
  }else u.searchParams.delete('ref_cog');
  if(state.selected?.kind==='cogHistoriqueGuyane')u.searchParams.set('ref_cog_historique',state.selected.code);
  else u.searchParams.delete('ref_cog_historique');
+ if(state.selected?.kind==='cogHistoriqueGuadeloupe')
+   u.searchParams.set('ref_cog_historique_guadeloupe',state.selected.code);
+ else u.searchParams.delete('ref_cog_historique_guadeloupe');
  history.replaceState(null,'',u);
 }
 function frame(){
@@ -389,6 +400,8 @@ function search(){
      sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
    else if(h.kind==='cogHistoriqueGuyane')
      sub.textContent='Commune historique · Guyane · '+h.code+' · COG jusqu’en 1969 (sans contour)';
+   else if(h.kind==='cogHistoriqueGuadeloupe')
+     sub.textContent='Ancienne commune · Guadeloupe · '+h.code+' · COG jusqu’en 2007 (sans contour ni ARK aligné)';
    else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
    btn.append(heading,sub);
    btn.addEventListener('click',()=>{
@@ -403,6 +416,10 @@ function search(){
        $('level').value='commune';
        $('year').value=String(h.dernierAnActif);
        state.selected={kind:'cogHistoriqueGuyane',code:h.code};
+     }else if(h.kind==='cogHistoriqueGuadeloupe'){
+       $('level').value='commune';
+       $('year').value=String(h.dernierAnActif);
+       state.selected={kind:'cogHistoriqueGuadeloupe',code:h.code};
      }else{
        $('level').value='commune';
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
