@@ -10,6 +10,9 @@ on:
       - 'docs/assets/lieux-martinique-historique.js'
       - 'docs/assets/lieux-guadeloupe-historique.js'
       - 'docs/assets/lieux-reunion-historique.js'
+      - 'docs/assets/lieux-mayotte-historique.js'
+      - 'docs/data/lieux-mayotte/**'
+      - 'tests/test_lieux_mayotte_historique.js'
       - 'docs/data/lieux-reunion/**'
       - 'tests/test_lieux_reunion_historique.js'
       - 'docs/data/lieux-guadeloupe/**'
@@ -49,6 +52,8 @@ jobs:
         run: node tests/test_lieux_guadeloupe_historique.js
       - name: Tester les 24 épisodes COG Réunion et la division de 1965 (Node.js)
         run: node tests/test_lieux_reunion_historique.js
+      - name: Tester les 34 épisodes Mayotte, COMER/DROM et Dembeni (Node.js)
+        run: node tests/test_lieux_mayotte_historique.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'

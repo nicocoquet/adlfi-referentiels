@@ -13,6 +13,7 @@ const guyaneHistorique=window.AdlfiLieuxGuyaneHistorique;
 const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
 const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
 const reunionHistorique=window.AdlfiLieuxReunionHistorique;
+const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -174,8 +175,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -186,6 +187,7 @@ async function start(){
    loadJSON(ROOT+'lieux-martinique/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-guadeloupe/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-mayotte/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -206,6 +208,7 @@ async function start(){
   state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
   state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
    state.reunion=reunionHistorique.creer(indexReunionHistorique);
+   state.mayotte=mayotteHistorique.creer(indexMayotteHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -453,6 +456,9 @@ function focusSelection(){const x=state.selected;
  if(x.kind==='cog2026'&&x.code?.startsWith('974')){
     state.map.fitBounds([[-21.42,55.14],[-20.84,55.87]],{padding:[24,24],animate:false});return;
   }
+  if(x.kind==='cog2026'&&x.code?.startsWith('976')){
+    state.map.fitBounds([[-13.1,44.95],[-12.55,45.35]],{padding:[24,24],animate:false});return;
+  }
   if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
@@ -607,6 +613,53 @@ function afficherChronologieReunion(target,code){
  warn.textContent='Les épisodes COG sont documentaires. Le maintien du code Saint-Louis en 1965 ne signifie pas maintien de son territoire. Aucun contour historique de La Réunion n’est affiché ; les 24 alignements Pactols validés pour 2026 ne sont pas rétroactifs.';
  target.append(warn);
 }
+function afficherChronologieMayotte(target,code){
+ if(!state.mayotte)return;
+ const h=document.createElement('h3');
+ h.textContent='État COG de Mayotte au 1er janvier '+year();
+ target.append(h);
+ const period=state.mayotte.etat(code,year());
+ if(period){
+   const dl=document.createElement('dl');
+   ligne(dl,'Code communal documenté',code);
+   ligne(dl,'Libellé COG à la date sélectionnée',period.label);
+   ligne(dl,'Famille de données du COG',period.famille==='COMER'?
+     'COMER · communes des collectivités et territoires d’outre-mer':
+     'DROM · communes des départements et régions d’outre-mer');
+   ligne(dl,'Période documentaire',period.start+' – '+(period.end||'en cours dans la source'));
+   if(period.famille==='DROM'){
+     ligne(dl,'Code de la collectivité à statut particulier (autre niveau)',
+       year()===2026?'976R · Département-Région de Mayotte':'976D · Département de Mayotte');
+   }
+   target.append(dl);
+ }else{
+   const p=document.createElement('p');p.className='warning';
+   p.textContent='Aucun épisode de Mayotte n’est documenté dans les deux séries COG utilisées au 1er janvier '+
+     year()+'. La première attestation de cette sélection est le 23 février 2007 ; cela ne prouve pas que les communes n’existaient pas auparavant.';
+   target.append(p);
+ }
+ const p=document.createElement('p');p.className='source';
+ p.textContent='Au 31 mars 2011, les 17 communes passent de la série COG COMER à la série DROM, avec conservation de leurs codes et libellés dans ces deux séries. Il s’agit d’un changement de statut et de famille documentaire, et non de la date de création des communes.';
+ target.append(p);
+ if(year()===2011){
+   const note=document.createElement('p');note.className='warning';
+   note.textContent='Le curseur représente le 1er janvier 2011, avant le changement de statut effectif le 31 mars : l’état COMER reste affiché pour cette année.';
+   target.append(note);
+ }
+ if(code==='97607'){
+   const reserve=document.createElement('p');reserve.className='warning';
+   reserve.textContent='Dembeni (97607) : ARK 26678/crtZcuFSJVYZU confirmé dans sa forme littérale, mais correspondance Pactols–COG non validée, y compris pour 2026. Aucun alignement historique n’est produit.';
+   target.append(reserve);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ a.href='https://www.insee.fr/fr/information/8740222';
+ a.target='_blank';a.rel='noopener noreferrer';
+ a.textContent='Source : Insee, COG 2026, séries historiques COMER et DROM';
+ link.append(a);target.append(link);
+ const warn=document.createElement('p');warn.className='warning';
+ warn.textContent='Les 34 périodes COG sont documentaires, sans contour historique de Mayotte. Le code institutionnel 976R ne désigne pas une commune. Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives.';
+ target.append(warn);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -702,6 +755,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
      afficherChronologieGuadeloupe(target,entry.code);
     }else if(entry.kind==='cog2026'&&entry.code.startsWith('974')){
       afficherChronologieReunion(target,entry.code);
+    }else if(entry.kind==='cog2026'&&entry.code.startsWith('976')){
+      afficherChronologieMayotte(target,entry.code);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';

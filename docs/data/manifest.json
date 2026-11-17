@@ -104,6 +104,25 @@
         "nouveaux_alignements_pactols": 0,
         "contours_historiques_publies": 0,
         "niveau_territorial": "Commune"
+      },
+      "historique_communes_mayotte": {
+        "statut": "états COG documentaires publiés sans géométries historiques",
+        "fichier": "data/lieux-mayotte/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "episodes_COG_COMER": 17,
+        "episodes_COG_DROM": 17,
+        "total_episodes_COG": 34,
+        "codes_communes": 17,
+        "transition_COMER_DROM": "2011-03-31",
+        "date_premiere_attestation_COMER": "2007-02-23",
+        "code_collectivite_2011_2025": "976D",
+        "code_collectivite_2026": "976R",
+        "correspondances_pactols_2026_conservees": 16,
+        "ark_dembeni_confirme_non_aligne": "26678/crtZcuFSJVYZU",
+        "nouveaux_alignements_pactols": 0,
+        "contours_historiques_publies": 0,
+        "niveau_territorial": "Commune"
       }
     },
     "personnes": {
