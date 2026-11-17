@@ -1,6 +1,6 @@
 """Les géométries des COM ne deviennent pas automatiquement des limites publiées."""
 from __future__ import annotations
-import sys,unittest
+import sys,unittest,importlib.util
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
@@ -10,6 +10,7 @@ def poly(code):
     return {"type":"Feature","properties":{"code":code},"geometry":{
         "type":"Polygon","coordinates":[[[0,0],[1,0],[1,1],[0,1],[0,0]]]}}
 
+@unittest.skipUnless(importlib.util.find_spec('shapely'), 'Shapely absent du contrôle général ; recette géospatiale spécialisée')
 class TestCom(unittest.TestCase):
     def test_un_polygone_valide_ne_publie_rien(self):
         out=inventorier({"type":"FeatureCollection","features":[poly("97501")]},
