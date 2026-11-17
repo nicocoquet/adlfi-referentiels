@@ -37,3 +37,19 @@ Le script recoupe maintenant **directement les 119 lignes de la feuille `Ile`** 
 Zéro nouvelle autorité publiée, zéro ARK Pactols déduit, zéro code INSEE construit, zéro contour spatial validé, aucune date historique rétroprojetée. Les **176 liens Pactols–COG communaux**, **4 liens de collectivités** et **98 communes associées ISPF** déjà publiés demeurent inchangés.
 
 **Recette conditionnelle :** examiner l'artefact JSON réel et les alertes de relations multiples après passage de la CI avant d'autoriser une intégration cartographique.
+
+## Résultats contrôlés de la comparaison exhaustive
+
+Exécution GitHub Actions [n°44081927304](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44081927304) : 119/119 codes de la feuille `Ile` présents dans `Geo`, zéro code absent ; 179 observations `Geo`, 14 îles décrites dans plusieurs unités fines, trois dans plusieurs communes, aucune dans plusieurs subdivisions. Les deux exceptions de préfixe Maria sont conservées. **Ces dénombrements portent sur les codes et relations de la source, pas sur des géométries homologuées.**
+
+Le journal de l'exécution [n°44082070138](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44082070138) identifie les **trois îles multicommunales** :
+
+| Code ISPF de l'île | Île | Communes COG concernées |
+| --- | --- | --- |
+| `45` | Maria (Australes) | `98743` Rimatara ; `98744` Rurutu |
+| `74` | Raiatea | `98750` Taputapuatea ; `98754` Tumaraa ; `98758` Uturoa |
+| `90` | Tahiti | `98712`, `98715`, `98722`, `98725`, `98733`, `98734`, `98735`, `98736`, `98738`, `98747`, `98748`, `98752` |
+
+Les **14 îles à plusieurs unités fines** sont consignées individuellement dans l'artefact JSON. La présence de plusieurs communes sur Raiatea et Tahiti est compatible avec leur organisation administrative, mais ne permet pas de dessiner ni fusionner leurs contours. Pour Maria, la relation entre les deux communes et les exceptions `CODGEO` demande une instruction spécifique.
+
+La divergence documentaire **119 codes / 121 îles** reste non résolue : l'exhaustivité du classeur vérifiée ici ne prouve pas l'équivalence entre les deux méthodes de dénombrement.
