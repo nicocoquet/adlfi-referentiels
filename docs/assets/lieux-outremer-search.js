@@ -43,16 +43,21 @@
     throw new Error('Départements/collectivités COG incomplets');
   const valid=Object.keys(data.pactols_valides).sort();
   const confirmed=Object.keys(data.ark_confirmes_non_valides).sort();
-  const mayotte=valid.filter(code=>/^976(?:0[1-9]|1[0-7])$/.test(code)&&code!=='97607');
+  const mayotte=valid.filter(code=>/^976(?:0[1-9]|1[0-7])$/.test(code));
+  const saintPierre=valid.filter(code=>code.startsWith('975'));
+  const nouvelleCaledonie=valid.filter(code=>code.startsWith('988'));
   const guyane=valid.filter(code=>/^973(?:0[1-9]|1[0-4]|5[2-3]|5[6-8]|6[0-2])$/.test(code));
   const martinique=valid.filter(code=>/^972(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code));
   const guadeloupe=valid.filter(code=>/^971(?:0[1-9]|[12][0-9]|3[0-4])$/.test(code)
     &&code!=='97123'&&code!=='97127');
   const reunion=valid.filter(code=>/^974(?:0[1-9]|1[0-9]|2[0-4])$/.test(code));
   const polynesie=valid.filter(code=>/^987(?:[1-5][0-9])$/.test(code));
-  if(valid.length!==176||mayotte.length!==16||guyane.length!==22||martinique.length!==34||guadeloupe.length!==32||reunion.length!==24||polynesie.length!==48||
-     confirmed.join(',')!=='97607'||
-     data.ark_confirmes_non_valides['97607']!=='26678/crtZcuFSJVYZU'||
+  if(valid.length!==212||mayotte.length!==17||saintPierre.length!==2||nouvelleCaledonie.length!==33||guyane.length!==22||martinique.length!==34||guadeloupe.length!==32||reunion.length!==24||polynesie.length!==48||
+     confirmed.length!==0||
+     data.pactols_valides['97607']!=='26678/crtZcuFSJVYZU'||
+     data.pactols_valides['97501']!=='26678/pcrtQAMzeGHldU'||
+     data.pactols_valides['97502']!=='26678/pcrtYQmFfwxLq8'||
+     data.pactols_valides['98809']!=='26678/pcrti4LqTHByEs'||
      data.pactols_valides['97407']!=='26678/pcrtIKvRT9vwUl'||
      data.pactols_valides['98711']!=='26678/pcrtwSlYRcWVFw'||
      data.pactols_valides['98735']!=='26678/pcrtr90gKcAXiG'||
@@ -60,9 +65,9 @@
      data.pactols_valides['98758']!=='26678/pcrtRw9F7i5M8l'||
      data.contours_invalides.slice().sort().join(',')!=='98745,98805')
     throw new Error('Décisions éditoriales ou diagnostics 2026 modifiés');
-  if(new Set(Object.values(data.pactols_valides)).size!==176)
+  if(new Set(Object.values(data.pactols_valides)).size!==212)
     throw new Error('Plusieurs communes partagent un ARK Pactols');
-  // Autorités de collectivités : niveau séparé des 176 communes COG.
+  // Autorités de collectivités : niveau séparé des 212 communes COG.
   const collect=data.pactols_collectivites_valides;
   if(!collect||JSON.stringify(Object.keys(collect).sort())!==
        JSON.stringify(['977','978','986','987'])||
