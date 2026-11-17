@@ -241,6 +241,12 @@ async function start(){
  if(Number.isInteger(y)&&y>=1943&&y<=2026)$('year').value=String(y);
  const code=params.get('code'),zone=params.get('zone')||params.get('region');
  if(code && ids.includes(zone))state.selected={kind:'commune',code,zone,year:year()};
+ const refIspf=params.get('ref_ispf');
+ if(refIspf && state.associees.byId.has('ISPF:COMAS:'+refIspf)){
+   const a=state.associees.byId.get('ISPF:COMAS:'+refIspf);
+   state.selected={kind:'associee_ispf',id:a.id,code:a.code};
+   $('level').value='commune';$('year').value='2026';
+ }
  const cogId=params.get('ref_cog');
  if(cogId && state.outremer.has(cogId)){
    const entry=state.outremer.get(cogId);
@@ -302,6 +308,8 @@ function updateUrl(){
  if(state.selected?.kind==='cog2026'||state.selected?.kind==='autre_cog2026'){
    u.searchParams.set('ref_cog',state.selected.id);
  }else u.searchParams.delete('ref_cog');
+ if(state.selected?.kind==='associee_ispf')u.searchParams.set('ref_ispf',state.selected.code);
+ else u.searchParams.delete('ref_ispf');
  if(state.selected?.kind==='cogHistoriqueGuyane')u.searchParams.set('ref_cog_historique',state.selected.code);
  else u.searchParams.delete('ref_cog_historique');
  if(state.selected?.kind==='cogHistoriqueGuadeloupe')
@@ -421,6 +429,8 @@ function search(){
    else if(h.kind==='cog2026')
      sub.textContent=`Commune · COG 2026 · ${h.parent} · ${h.code}`+
        (h.arkValide?' · Pactols validé pour 2026':'');
+   else if(h.kind==='associee_ispf')
+     sub.textContent='Commune associée · ISPF '+h.code+' · '+h.parent+' (INSEE '+h.parentCode+')';
    else if(h.kind==='autre_cog2026')
      sub.textContent=`${h.type} · COG 2026 · ${h.parent||'Territoire'} · ${h.code}`;
    else if(h.kind==='cogHistoriqueGuyane')
@@ -437,6 +447,9 @@ function search(){
      }else if(h.kind==='cog2026'||h.kind==='autre_cog2026'){
        if(h.kind==='cog2026')$('level').value='commune';
        state.selected={kind:h.kind,id:h.id,code:h.code};
+     }else if(h.kind==='associee_ispf'){
+       $('level').value='commune';$('year').value='2026';
+       state.selected={kind:'associee_ispf',id:h.id,code:h.code};
      }else if(h.kind==='cogHistoriqueGuyane'){
        $('level').value='commune';
        $('year').value=String(h.dernierAnActif);
@@ -463,6 +476,11 @@ function search(){
 }
 function focusSelection(){const x=state.selected;
  if(!x||!state.map)return;
+ if(x.kind==='associee_ispf'){
+   // Simple vue sur l'archipel, sans contour ni position inventée.
+   state.map.fitBounds([[-28,-161],[0,-131]],{padding:[24,24],animate:false});
+   return;
+ }
  if(x.kind==='cog2026'&&x.code?.startsWith('971')){
    state.map.fitBounds([[15.7,-61.9],[16.57,-60.85]],{padding:[24,24],animate:false});return;
  }
