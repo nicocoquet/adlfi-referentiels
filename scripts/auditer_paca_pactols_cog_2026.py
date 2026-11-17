@@ -137,6 +137,15 @@ def main():
     a.sortie.write_text(json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+"\n",
                          encoding="utf-8")
     print("PACA_COG_PACTOLS_BILAN",json.dumps(result["bilan"],ensure_ascii=False,sort_keys=True))
+    for row in result["communes"]:
+        if row["statut_rdf"]!="ELIGIBLE_SELON_REGLE":
+            print("PACA_A_INSTRUIRE",json.dumps({
+                "code":row["code"],"libelle":row["libelle"],
+                "statut":row["statut_rdf"],
+                "pilote":row["pilote_103_valide"],
+                "ark_pilote":row["ark_pilote"],
+                "arks_RDF":row["arks_exactMatch_dans_rdf"],
+            },ensure_ascii=False,sort_keys=True))
 
 
 if __name__=="__main__":main()
