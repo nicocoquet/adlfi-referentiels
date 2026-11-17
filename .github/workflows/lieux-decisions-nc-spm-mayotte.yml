@@ -1,0 +1,56 @@
+name: Lieux — décisions Nouvelle-Calédonie SPM et Dembeni
+
+on:
+  pull_request:
+    paths:
+      - 'recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv'
+      - 'recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.md'
+      - 'scripts/verifier_decisions_nouvelle_caledonie_spm_mayotte_2026.py'
+      - 'tests/test_decisions_nouvelle_caledonie_spm_mayotte_2026.py'
+      - '.github/workflows/lieux-decisions-nc-spm-mayotte.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier-preuves:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler les décisions et l'absence de promotion implicite
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_decisions_nouvelle_caledonie_spm_mayotte_2026.py' -v
+      - name: Contrôler le RDF Pactols original
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Confronter les 36 décisions à la source RDF Pactols
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_decisions_nouvelle_caledonie_spm_mayotte_2026.py \
+            --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --index docs/data/lieux-outremer/recherche-2026.json \
+            --registre recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv \
+            --sortie "$RUNNER_TEMP/decisions-outremer.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rapport-decisions-nc-spm-dembeni
+          path: ${{ runner.temp }}/decisions-outremer.json
+          retention-days: 30
+          if-no-files-found: error
