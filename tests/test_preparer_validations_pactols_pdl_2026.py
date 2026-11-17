@@ -45,7 +45,7 @@ class TestPaysDeLaLoire(unittest.TestCase):
             row("44001","Aigrefeuille-sur-Maine","ELIGIBLE_SELON_REGLE"),
             row("44002","Ancenis-Saint-Géréon","ELIGIBLE_SELON_REGLE")
         ]}
-        with self.assertRaisesRegex(ValueError,"dupliqués"):
+        with self.assertRaisesRegex(ValueError,"URI ou ARK ambigu"):
             preparer_depuis_rapport(r,{"ELIGIBLE_SELON_REGLE":2})
     def test_statuts_inattendus_bloquent(self):
         r={"pactols":{"sha256":"source"},"communes":[
