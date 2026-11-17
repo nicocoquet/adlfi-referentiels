@@ -18,6 +18,7 @@ const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
 const antilles2007=window.AdlfiLieuxAntilles2007;
 const wallisHistorique=window.AdlfiLieuxWallisFutunaHistorique;
 const polynesieHistorique=window.AdlfiLieuxPolynesieHistorique;
+const polynesieAssociees=window.AdlfiLieuxPolynesieAssociees;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -179,8 +180,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -196,6 +197,7 @@ async function start(){
    loadJSON(ROOT+'lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json'),
    loadJSON(ROOT+'lieux-wallis-futuna/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-polynesie/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-polynesie/communes-associees-ispf-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -225,9 +227,10 @@ async function start(){
      state.antilles2007=antilles2007.creer(indexAntilles2007);
      state.wallis=wallisHistorique.creer(indexWallisHistorique);
      state.polynesie=polynesieHistorique.creer(indexPolynesieHistorique);
+     state.associees=polynesieAssociees.creer(indexPolynesieAssociees,indexOutremer);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
