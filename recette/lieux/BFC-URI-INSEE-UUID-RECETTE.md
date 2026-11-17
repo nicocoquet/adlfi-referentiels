@@ -12,6 +12,20 @@ Le script scripts/auditer_uris_insee_uuid_pactols_2026.py lit la version RDF Pac
 
 La sortie JSON est un artefact de recette, hors du répertoire GitHub Pages docs. Un champ code_cog_resolu_par_uuid demeure null pour tous les enregistrements. Les rapprochements de libellés ne sont jamais promus en alignements. Aucun JSON public, épisode COG, contour ou décision validée n'est modifié.
 
+
+## Résultat du contrôle réel (17 novembre 2026)
+
+Le workflow [44171980827](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44171980827) est réussi, de même que la CI générale [44171980781](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44171980781). Deux inventaires issus des sources épinglées sont identiques octet à octet :
+
+- **50 556 concepts Pactols examinés** ;
+- **26 concepts porteurs d'un skos:exactMatch INSEE UUID**, toutes zones ;
+- **1 seul concept susceptible de concerner la BFC**, par libellé ou code INSEE direct : Val-d'Usiers ;
+- **0 validation**, **0 contour**, **0 modification du site public**.
+
+Dossier Val-d'Usiers : ARK 26678/pcrtksq5m3cwb846scr9wzkv ; URI INSEE exacte http://id.insee.fr/geo/commune/52976ff6-5685-48c9-b468-7417ad44b653 ; libellé Pactols Val-d'Usiers ; altLabels « 25060 (code Insee) » et « 25520 (code postal) » ; autre exactMatch Wikidata https://www.wikidata.org/wiki/Q123014277. Le code 25060 n'est **pas** directement cité sous la forme d'une URI de code dans les exactMatch de ce concept du snapshot.
+
+Ces éléments convergents restent distincts de la résolution du **référent de l'URI UUID**. Aucune propriété officielle de l'objet RDF INSEE n'a encore été récupérée et contrôlée dans cette recette.
+
 ## Préflight avant publication BFC
 
 1. Exécuter ce nouvel inventaire et relever les concepts susceptibles de concerner la Bourgogne-Franche-Comté, dont le cas Val-d'Usiers.
