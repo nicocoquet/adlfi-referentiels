@@ -1,0 +1,43 @@
+name: Lieux — Hao, validation du téléchargement local CDSE
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/recuperer_hao_cdse_s3.py'
+      - 'tests/test_recuperer_hao_cdse_s3.py'
+      - 'recette/lieux/POLYNESIE-HAO-CDSE-LOCAL-2026.md'
+      - '.github/workflows/lieux-hao-cdse-s3-local.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests synthétiques sans clé ni pixels
+        run: python3 -m unittest discover -s tests -p 'test_recuperer_hao_cdse_s3.py' -v
+      - name: Vérifier les cinq URI dans les métadonnées de la scène
+        run: |
+          python3 scripts/recuperer_hao_cdse_s3.py \
+            --destination "$RUNNER_TEMP/hao-l2a" \
+            > "$RUNNER_TEMP/plan-s3.json"
+          python3 - "$RUNNER_TEMP/plan-s3.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p['mode']=='PREPARATION_SEULEMENT'
+          assert len(p['bandes'])==5
+          assert p['aucun_pixel_telecharge'] is True
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hao-plan-acquisition-s3
+          path: ${{ runner.temp }}/plan-s3.json
+          retention-days: 14
+          if-no-files-found: error
