@@ -1,0 +1,47 @@
+name: Lieux — Polynésie, catalogue d'imagerie Hao
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/inventorier_imagerie_hao_stac.py'
+      - 'tests/test_inventorier_imagerie_hao_stac.py'
+      - 'recette/lieux/POLYNESIE-HAO-IMAGERIE-2026.md'
+      - '.github/workflows/lieux-polynesie-hao-imagerie.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dépendances géométriques de validation d'emprise
+        run: python3 -m pip install 'shapely==2.1.2'
+      - name: Tests hors réseau
+        run: python3 -m unittest discover -s tests -p 'test_inventorier_imagerie_hao_stac.py' -v
+      - name: Cataloguer les scènes Hao sur les deux périodes sans téléchargement de pixels
+        run: |
+          set -euo pipefail
+          python3 scripts/inventorier_imagerie_hao_stac.py --sortie "$RUNNER_TEMP/hao-stac-catalogue.json"
+          python3 - "$RUNNER_TEMP/hao-stac-catalogue.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['statut']=='RECETTE_NON_VALIDANTE'
+          assert len(r['fenetres'])==3
+          assert len(r['points_interieurs_PR87'])==5
+          assert r['publication']=={'imagery':0,'geometries':0,'autorites':0,'ark':0}
+          # Absence de connexion STAC = résultat non concluant, jamais absence de couverture.
+          assert all(s['statut'] in ('CATALOGUE_CONSULTE','CATALOGUE_INACCESSIBLE_OU_INEXPLOITABLE') for s in r['fenetres'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-hao-stac-inventaire
+          path: ${{ runner.temp }}/hao-stac-catalogue.json
+          retention-days: 30
+          if-no-files-found: error
