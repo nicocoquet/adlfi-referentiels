@@ -60,8 +60,8 @@ class Audits(unittest.TestCase):
   patch_label='''<skos:prefLabel xml:lang="fr">île Saint-Pierre (Saint-Pierre-et-Miquelon)</skos:prefLabel>
  <skos:exactMatch rdf:resource="http://id.insee.fr/geo/commune/97502"/>'''
   self.path.write_text(PREFIX+CONCEPTS.replace(label,patch_label)+END,encoding="utf-8")
-  with patch.object(aud,"sha",side_effect=lambda p:aud.RDF_SHA),\\
-       patch.object(aud,"verifier_cog",return_value=None):
+  with (patch.object(aud,"sha",side_effect=lambda p:aud.RDF_SHA),
+       patch.object(aud,"verifier_cog",return_value=None)):
    r=aud.rapport(self.path,Path(self.tmp.name)/"cog.csv")
   self.assertEqual(r["lignes"][1]["statut"],"A_INSTRUIRE")
   self.assertTrue(r["lignes"][1]["alerte_confusion_ile_commune"])
