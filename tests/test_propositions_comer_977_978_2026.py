@@ -31,7 +31,7 @@ class TestPropositionCOMER(unittest.TestCase):
    self.assertEqual(r["homologie_anciennes_communes_inferree"],"non")
    self.assertEqual(r["portee_COG"],"2026-01-01")
   published=json.loads((ROOT/"docs/data/lieux-outremer/recherche-2026.json").read_text())
-  self.assertEqual(len(published["pactols_valides"]),128)
+  self.assertEqual(len(published["pactols_valides"]),176)
   self.assertEqual(set(published["pactols_valides"]).intersection(
    {"977","978","97701","97801","97123","97127"}),set())
   self.assertEqual({x[0] for x in published["autres"] if x[0].endswith(
