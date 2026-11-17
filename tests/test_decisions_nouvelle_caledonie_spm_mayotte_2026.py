@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from verifier_decisions_nouvelle_caledonie_spm_mayotte_2026 import lire_csv
-INDEX=json.loads((ROOT/"docs/data/lieux-outremer/recherche-2026.json").read_text(encoding="utf-8"))
+INDEX=json.loads((ROOT/"recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json").read_text(encoding="utf-8"))
 REG=ROOT/"recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv"
 class TestDecisions(unittest.TestCase):
  def test_36_codes_uniques_et_dembeni_separee(self):
