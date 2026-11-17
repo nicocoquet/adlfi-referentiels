@@ -35,4 +35,27 @@ Les simples homonymes « Alo », « Uvea » ou « Sigave » sans contexte géogr
 
 La comparaison RDF–COG est **reproductible** et archivée hors des fichiers publics. Elle conserve **zéro validation automatique, zéro nouvel alignement Pactols, zéro géométrie et zéro commune**.
 
-Les ARK et les volumes exacts resteront **non affirmés tant que le RDF officiel n'aura pas été lu par la CI**.
+## Résultat réel du RDF Frantiq — 17 novembre 2026
+
+La [CI n°44057523347](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44057523347) a réussi le contrôle des empreintes du RDF et des CSV COG, les tests synthétiques, la double exécution reproductible et l'audit sémantique.
+
+**Un seul concept porte une assertion `skos:exactMatch` vers les quatre codes COG 2026 examinés :**
+
+| Code COG | Type administratif | ARK Pactols trouvé | URI INSEE explicitement citée |
+| --- | --- | --- | --- |
+| **`986` Wallis-et-Futuna** | Territoire / COMER | **`26678/pcrtwFq5jKHO3k`** | `http://id.insee.fr/geo/collectiviteDOutreMer/986` |
+| `98611` Alo | CIR | Aucun | Aucune URI exacte |
+| `98612` Sigave | CIR | Aucun | Aucune URI exacte |
+| `98613` Uvea | CIR | Aucun | Aucune URI exacte |
+
+Le [concept Pactols `26678/pcrtwFq5jKHO3k`](https://ark.frantiq.fr/ark:/26678/pcrtwFq5jKHO3k) a pour `prefLabel` français « **Wallis et Futuna** » et pour `altLabel` « **Territoire des îles Wallis et Futuna** ». Le concept est **non déprécié, non remplacé** ; son `exactMatch` est typé **`collectiviteDOutreMer`**, de même nature administrative que l'autorité COG actuelle `986`.
+
+Les deux codes historiques `98609` et `98607` ne portent **aucune déclaration exacte** dans l'export RDF contrôlé. **Deux concepts à libellé non suffisamment contextualisé** ont été exclus de la correspondance par homonymie ; aucun candidat purement lexical qualifié n'a été retenu.
+
+### Arbitrage éditorial proposé
+
+Le couple **`986` → `26678/pcrtwFq5jKHO3k`** satisfait les critères documentaires de cohérence entre collectivité COG courante, URI INSEE typée, concept Pactols unique et actif. Il est **proposé pour validation au 1er janvier 2026**, selon le modèle séparé des collectivités d'outre-mer institué dans la [PR n°68](https://github.com/nicocoquet/adlfi-referentiels/pull/68).
+
+Ce statut n'est **pas** celui d'une relation déjà publiée. Aucun `exactMatch` ne sera attribué aux trois circonscriptions à partir de l'ARK du territoire, ni rétroactivement à `98609` ou `98607`. Le compteur public conserve **128 alignements communaux**, distincts des propositions de collectivités.
+
+Le contrôle CI de la PR vérifie désormais **l'ARK précis**, la famille de l'URI INSEE, les libellés Pactols, la non-dépréciation, l'absence de liens CIR et l'absence de correspondances vers les anciens codes.
