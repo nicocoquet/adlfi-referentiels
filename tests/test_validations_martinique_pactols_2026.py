@@ -43,7 +43,7 @@ class ValidationMartiniqueTests(unittest.TestCase):
                          [f"972{i:02d}" for i in range(1,35)])
         actual=self.appliquer_lignes(self.records)
         self.assertEqual(actual,self.public)
-        self.assertEqual(len(actual["pactols_valides"]),128)
+        self.assertEqual(len(actual["pactols_valides"]),176)
         self.assertEqual(len([x for x in actual["pactols_valides"] if x.startswith("971")]),32)
         self.assertEqual(len([x for x in actual["pactols_valides"] if x.startswith("972")]),34)
         self.assertEqual(len([x for x in actual["pactols_valides"] if x.startswith("973")]),22)
