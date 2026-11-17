@@ -26,3 +26,25 @@ Le rapport, contenant l'empreinte complète du ZIP, reste en artefact CI hors `d
 ## Suite conditionnelle
 
 Si l'archive est exploitable et les identifiants comparables, préparer une deuxième tranche de la PR pour vérifier les couples ISPF `311/312`, `120/250`, `312/313`, `471/482` et `120/360`. Dans le cas contraire, conserver les limites de la preuve et instruire prioritairement les attributs de la couche ArcGIS, sans prétendre qu'elle est indépendante.
+
+
+## Résultats effectifs — archive GEO PF figée
+
+Le workflow de préflight [n°44102888857](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44102888857) confirme une archive de **15 310 967 octets** (SHA-256 **`29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b`**), avec une couche `loc_commune_associee` de **179 polygones** (type SHP 5), en coordonnées **RGPF/GRS 1980**. Champs structurants : `code_geogr`, `code_com_1`, `code_commu`, `code_subdi`, `id_ile`, `code_com_i`, `nom_geogra`. Le champ `mode_acq` décrit le mode d'acquisition, dont une valeur effectivement observée est `TERRAIN_TOPO`, avec `org_acq=CADASTRE`. Il faut qualifier ces métadonnées à l'échelle des 179 enregistrements et ne pas en inférer un levé direct de toutes les limites.
+
+Le workflow de comparaison [n°44103354104](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44103354104), lui aussi **réussi**, a rapproché cette couche des **179 lignes de la feuille ISPF `Geo`** par `IDGeo` / `code_geogr` et comparé les clés hiérarchiques par codes :
+
+| Contrôle | Résultat |
+| --- | --- |
+| Géographies avec code identique | **177/179** |
+| Codes présents dans ISPF mais pas GEO PF | **`43001`, `44001`** |
+| Codes présents dans GEO PF mais pas ISPF | **`43101`, `44301`** |
+| Autres écarts de hiérarchie pour les 177 codes communs | **2 codes d'île** |
+| Code `IDGeo=28001` | ISPF `IDIle=53` ; GEO PF `id_ile=54` |
+| Code `IDGeo=55001` | ISPF `IDIle=20` ; GEO PF `id_ile=113` |
+
+**Aucun rapprochement automatique** des codes `43001`/`43101` ou `44001`/`44301` : les îlots Maria et leurs rattachements appellent une instruction séparée, en tenant compte des attributs et des actes. Les différences d'îles pour `28001` et `55001` seront vérifiées par leur libellé dans les deux sources ; le code partagé n'efface pas le désaccord hiérarchique.
+
+Une première comparaison textuelle exploratoire a généré des divergences nombreuses parce que les colonnes `nom`, `nom_commun` et `nom_geogra` ne désignent pas systématiquement les mêmes niveaux ; **ce comptage lexical est retiré de la recette comme non probant**. Seules les correspondances de clés explicitement documentées sont retenues.
+
+**Conclusion :** le géoréférencement GEO PF est bien exploitable pour une comparaison ultérieure, mais la concordance étroite des schémas et la divergence de quelques codes ne suffisent ni à prouver ni à infirmer l'indépendance des géométries. Il reste à comparer leurs contours sans réparer ni attribuer des identifiants non vérifiés.
