@@ -25,6 +25,27 @@ Le workflow récupère le dépôt RDF avec **Git LFS**, compare les empreintes e
 
 Le rapport indique séparément les deux codes, leurs éventuels `exactMatch`, leurs candidats lexicaux et les homonymes rejetés. **Aucun nom, identifiant Pactols ou résultat chiffré n'est préjugé avant l'exécution sur le RDF officiel.**
 
+## Résultat de la confrontation réelle — 17 novembre 2026
+
+[GitHub Actions — rapport RDF n°44049557151](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44049557151) : le téléchargement Pactols/COG, les tests de parsing, les deux calculs reproductibles et le contrôle du rapport sont réussis.
+
+| Code communal COG | ARK Pactols retrouvé | `skos:prefLabel` français du concept | `skos:exactMatch` INSEE | Avis |
+| --- | --- | --- | --- | --- |
+| `97501` Miquelon-Langlade | `26678/pcrtQAMzeGHldU` | Miquelon-Langlade | `http://id.insee.fr/geo/commune/97501` | **Éligible à validation 2026** |
+| `97502` Saint-Pierre | `26678/pcrtYQmFfwxLq8` | **île Saint-Pierre (Saint-Pierre-et-Miquelon)** | `http://id.insee.fr/geo/commune/97502` | **À instruire : type d'entité différent** |
+
+Aucun des deux concepts n'est marqué `owl:deprecated` ou `dct:isReplacedBy`, aucun code INSEE concurrent n'est déclaré sur le concept. Le rapport trouve **deux correspondances explicites**, une éligible selon notre politique et une à instruire, **zéro validation publiée**.
+
+**Réserve majeure :** le concept Pactols [`26678/pcrtYQmFfwxLq8`](https://ark.frantiq.fr/ark:/26678/pcrtYQmFfwxLq8) a pour libellé préféré **« île Saint-Pierre (Saint-Pierre-et-Miquelon) »**. Ce libellé décrit vraisemblablement l'île, tandis que `97502` identifie la **commune administrative**. Un lien explicite `skos:exactMatch` vers le code communal ne garantit donc pas, en lui-même, l'identité sémantique entre les deux concepts. L'alignement **ne doit pas être homologué** à ce stade. Une instruction auprès de Pactols/Frantiq ou une vérification du périmètre exact du concept serait nécessaire.
+
+Pour **Miquelon-Langlade**, l'ARK `26678/pcrtQAMzeGHldU` et le libellé concordent avec le COG 2026 ; la déclaration `exactMatch` satisfait les critères déjà retenus par l'éditeur pour les communes, sous réserve de l'opération de publication distincte.
+
+### Point de méthode
+
+La règle éditoriale « URI INSEE explicite = alignement communal validable » doit inclure un contrôle préalable de la **catégorie ontologique et du périmètre de l'entité**. Un alignement documenté par la source peut porter une erreur ou concerner une entité topographique insulaire plutôt qu'une autorité administrative. Cela vaut particulièrement pour les îles, quartiers, hameaux et centres-bourgs homonymes d'une commune.
+
+Le total actuel des **128 correspondances ultramarines publiées** reste inchangé à l'issue de cette recette. Aucune correspondance rétroactive ne découle du rapport.
+
 ## Bornes
 
 **0** nouvel alignement Pactols, **0** contour historique, **0** lien de succession. Aucun changement dans `docs/`.
