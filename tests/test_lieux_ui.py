@@ -111,7 +111,10 @@ class LieuxUITests(unittest.TestCase):
                                   "987": 48, "988": 33})
         self.assertEqual(sum(counts.values()), 212)
         self.assertEqual(len(dataset["autres"]), 21)
-        self.assertEqual(len(dataset["pactols_valides"]), 72)
+        self.assertEqual(len(dataset["pactols_valides"]), 104)
+        self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("971")]), 32)
+        self.assertNotIn("97123", dataset["pactols_valides"])
+        self.assertNotIn("97127", dataset["pactols_valides"])
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("972")]), 34)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("973")]), 22)
         self.assertEqual(dataset["ark_confirmes_non_valides"], {
@@ -197,7 +200,8 @@ class LieuxUITests(unittest.TestCase):
         outremer = lieu["recherche_cog_outremer_2026"]
         self.assertEqual(outremer["communes"], 212)
         self.assertEqual(outremer["autres_entites"], 21)
-        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 72)
+        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 104)
+        self.assertEqual(outremer["relations_pactols_cog_validees_guadeloupe_2026"], 32)
         self.assertEqual(outremer["relations_pactols_cog_validees_martinique_2026"], 34)
         self.assertEqual(outremer["relations_pactols_cog_validees_guyane_2026"], 22)
         self.assertEqual(outremer["ark_confirmes_lien_non_valide"], 2)
