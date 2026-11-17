@@ -48,3 +48,16 @@ La [page officielle des référentiels ISPF](https://www.ispf.pf/ispf/referentie
 ## Décision de publication
 
 Cette PR est une **recette de provenance et d'inventaire**, sans création de nouvelle autorité, sans ARK déduit et sans rétroprojection de géométrie moderne vers 1972 ou 1974. Vérifier les résultats réels de CI et la liste d'archives avant la fusion.
+
+
+## Résultat effectif de la CI d'inventaire — 17 novembre 2026
+
+Le workflow [n°44083686983](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44083686983) est **réussi** (trois tests locaux réussis, archive contrôlée et deux inventaires strictement identiques). Archive GeoJSON ISPF :
+
+- taille : **49 127 691 octets** ;
+- SHA-256 : `6302ad2a17ec1fd8b51f70f1d8ba1501ee7ca212a9cd53c8df4221faedfe0b62` ;
+- contenu : exactement **`Com.GeoJSON`**, **`Comas.GeoJSON`** et **`Ile.GeoJSON`**.
+
+**Attention :** cette archive ne présente pas de fichier indépendant intitulé `CodeGeo`. La table de relations est décrite par le jeu de données institutionnel mais son intégration effective au ZIP géométrique n'est **pas** démontrée ; il faudra vérifier les attributs de chaque couche et l'existence de la ressource tabulaire distincte. L'étape ultérieure auditerait le nombre de `Feature`, les propriétés, le CRS, la validité des géométries et les clés de jointure avec la nomenclature ISPF.
+
+Aucun de ces trois fichiers n'a été publié dans `docs/`.
