@@ -25,7 +25,7 @@ class TestPropositionWallis(unittest.TestCase):
   self.assertEqual(r["report_autres_niveaux"],"interdit")
   self.assertEqual(r["validation_site_publiee"],"non")
   index=json.loads((ROOT/"docs/data/lieux-outremer/recherche-2026.json").read_text())
-  self.assertEqual(len(index["pactols_valides"]),176)
+  self.assertEqual(len(index["pactols_valides"]),212)
   self.assertFalse(set(index["pactols_valides"])&
                    {"986","98611","98612","98613","98609","98607"})
   autres={row[0] for row in index["autres"]}
