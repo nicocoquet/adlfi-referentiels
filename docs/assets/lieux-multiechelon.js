@@ -751,7 +751,7 @@ function afficherChronologieSPM(target,entry){
    a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;p.append(a);target.append(p);
  }
  const p=document.createElement('p');p.className='warning';
- p.textContent='États COG documentaires seulement : aucun contour historique, aucun nouvel alignement Pactols, aucune succession inférée. Les géométries contemporaines ne sont pas rétroprojetées.';
+ p.textContent='États COG documentaires seulement : aucun contour historique ni succession inférée. Les deux correspondances Pactols des communes de Saint-Pierre-et-Miquelon sont validées pour le millésime 2026 uniquement ; les géométries contemporaines ne sont pas rétroprojetées.';
  target.append(p);
 }
 function afficherTransitionAntilles2007(target,entry){
