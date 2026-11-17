@@ -6,6 +6,11 @@ on:
       - 'scripts/auditer_guadeloupe_2026.py'
       - 'tests/test_auditer_guadeloupe_2026.py'
       - 'recette/lieux/GUADELOUPE-LOT-01-2026.md'
+      - 'recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'tests/test_validations_guadeloupe_pactols_2026.py'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
+      - 'docs/assets/lieux-outremer-search.js'
       - '.github/workflows/lieux-guadeloupe-audit-2026.yml'
   workflow_dispatch:
 
@@ -38,6 +43,9 @@ jobs:
       - name: Tester les 32 codes, RDF et liens de source non validés
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_auditer_guadeloupe_2026.py' -v
+      - name: Tester les 32 décisions Pactols et le refus des codes historiques
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_validations_guadeloupe_pactols_2026.py' -v
       - name: Acquérir les trois fichiers officiels INSEE 2026 par SHA-256
         working-directory: referentiels
         run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
@@ -89,6 +97,37 @@ jobs:
           assert all(x["ark_pactols"] and x["predicat_source"]=="exactMatch" and x["concept_deprecie"]=="non"
                      for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE")
           assert len({x["ark_pactols"] for x in rows if x["statut"]=="ELIGIBLE_SELON_REGLE"})==b["exactmatch_eligibles_selon_regle"]
+          with Path("referentiels/recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv").open(
+              encoding="utf-8-sig",newline="") as f:
+              approved=list(csv.DictReader(f,delimiter=";"))
+          assert len(approved)==32 and {x["code_insee"] for x in approved}==codes
+          assert len({x["ark_pactols"] for x in approved})==32
+          source={x["code_COG_2026"]:x for x in r["communes"]}
+          for x in approved:
+              code=x["code_insee"]
+              proofs=source[code]["pactols_uri_insee_source"]
+              assert len(proofs)==1
+              proof=proofs[0]
+              pref=[n["libelle"] for n in proof["libelles_fr"] if n["propriete"]=="prefLabel"]
+              assert len(pref)==1 and pref==[x["prefLabel_fr_pactols"]]
+              assert x["libelle_COG_2026"]==source[code]["libelle_COG_2026"]
+              assert x["ark_pactols"]==proof["ark"]
+              assert x["predicat_source"]==proof["predicat"]=="exactMatch"
+              assert x["uri_insee"]==proof["uri_insee"]=="http://id.insee.fr/geo/commune/"+code
+              assert proof["codes_communes_INSEE_exactMatch"]==[code]
+              assert proof["concept_deprecie"] is False and proof["concept_remplace"] is False
+              assert x["statut_validation"]=="VALIDE_ADLFI_2026"
+              assert x["portee_COG"]=="2026-01-01"
+          assert b["exactmatch_eligibles_selon_regle"]==32
+          assert b["alignements_a_instruire"]==0
+          assert b["codes_distincts_historiques_971"]==34
+          assert b["periodes_historiques_971"]==35
+          assert b["mouvements_impliquant_code_971"]==37
+          assert b["source_Pactols_stats"]["liens_insee_non_courants"]==[]
+          assert {(x["code"],x["fin_exclue"]) for x in r["historique_codes_971"]
+                  if x["code"] in {"97123","97127"}}=={
+                  ("97123","2007-02-23"),("97127","2007-02-23")}
+          print("VALIDATIONS GUADELOUPE",len(approved))
           print("BILAN GUADELOUPE",json.dumps(b,ensure_ascii=False,indent=2))
           print("ELIGIBILITE GUADELOUPE",json.dumps(rows,ensure_ascii=False,indent=2))
           print("PREUVES RDF",json.dumps([
@@ -101,6 +140,10 @@ jobs:
                          for p in e["pactols_uri_insee_source"]]}
              for e in r["communes"]],ensure_ascii=False,indent=2))
           print("HISTORIQUE COG",json.dumps(r["historique_codes_971"],ensure_ascii=False,indent=2))
+          print("DETAIL MOUVEMENTS 1976 ET 2007",json.dumps([
+              x for x in r["mouvements_source_avec_code_971"]
+              if x["DATE_EFF"] in ("1976-06-04","2007-02-23")
+          ],ensure_ascii=False,indent=2))
           counts=collections.Counter((x["DATE_EFF"],x["MOD"]) for x in r["mouvements_source_avec_code_971"])
           print("DATES ET MODALITES",json.dumps([
               {"date":date,"mod":mod,"lignes":n} for (date,mod),n in sorted(counts.items())
