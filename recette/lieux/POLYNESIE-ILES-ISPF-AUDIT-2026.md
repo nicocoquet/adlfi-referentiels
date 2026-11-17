@@ -53,3 +53,23 @@ Le journal de l'exécution [n°44082070138](https://github.com/nicocoquet/adlfi-
 Les **14 îles à plusieurs unités fines** sont consignées individuellement dans l'artefact JSON. La présence de plusieurs communes sur Raiatea et Tahiti est compatible avec leur organisation administrative, mais ne permet pas de dessiner ni fusionner leurs contours. Pour Maria, la relation entre les deux communes et les exceptions `CODGEO` demande une instruction spécifique.
 
 La divergence documentaire **119 codes / 121 îles** reste non résolue : l'exhaustivité du classeur vérifiée ici ne prouve pas l'équivalence entre les deux méthodes de dénombrement.
+
+
+## Qualification institutionnelle des îles Maria — sources retrouvées
+
+**Décision documentaire : rattachement multicommunal légitime, sans correction arithmétique de CODGEO.**
+
+La [documentation officielle ISPF](https://www.ispf.pf/ispf/referentiels), rubrique « Remarques », confirme explicitement le partage : partie **est** des îles Maria rattachée à **Avera**, commune de **Rurutu** (`IDComas 441`, `98744`) ; partie **ouest** à **Amaru**, commune de **Rimatara** (`IDComas 431`, `98743`).
+
+Le [rapport d'observations définitives de la Chambre territoriale des comptes de Polynésie française sur Rimatara (2024), p. 11](https://www.ccomptes.fr/sites/default/files/2024-07/PFR2024006_0.pdf), documente :
+
+- rattachement initial de Maria à Rimatara lors de la création des communes en 1972 ;
+- délibération de Rimatara du **13 août 1974**, après une demande de Rurutu du **12 août 1974** ;
+- **arrêté n°3659 BAC du 18 septembre 1974** fixant les limites entre Rimatara et Rurutu (acte cité dans le rapport, original non encore contrôlé) ;
+- **Haerai** et **Tanimanu** à Rimatara ; **Tapuata** et **Tinimanu** à Rurutu.
+
+La carte reproduite dans le rapport (documentation communale) fournit une illustration, mais **ne constitue pas un polygone géoréférencé homologué**. La date du 18 septembre 1974 est celle de l'acte cité ; son entrée en vigueur et la géométrie légale précise restent à documenter par consultation de l'original.
+
+**Statut éditorial proposé :** `RATTACHEMENT_MULTICOMMUNAL_CONFIRME_ISPF` pour Maria ; `CODGEO_PREFIXE_DEROGATOIRE_DOCUMENTE_SANS_REGLE_FORMELLE` pour les deux lignes `43001` et `44001`. Ces statuts ne sont pas des types officiels ISPF mais des qualifications internes de la recette AdlFI.
+
+**Attention à l'homonymie :** le rapport de la Chambre mentionne aussi « Maria Est » sous administration de Gambier dans un contexte cartographique. Ce référent doit rester distinct de **Maria (Australes), `IDIle=45`** tant que l'identification nominative des îles n'est pas instruite. Le présent audit n'établit aucun alignement entre ces entités.
