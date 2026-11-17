@@ -19,3 +19,16 @@ Le rapport est reproductible deux fois et publié comme artefact GitHub Actions 
 ## Questions subséquentes
 
 Il faudra distinguer : couverture communale au COG 2026, couverture des ARK Pactols de l'export RDF et couverture des autorités *effectivement utilisées dans les notices AdlFI* (corpus de 9 928 autorités à l'échelle nationale), puis examiner les communes nouvelles et les codes hérités sans inférer de relation historique.
+
+
+## Résultat effectif de l'audit sur sources épinglées (17 novembre 2026)
+
+Le [workflow n°44183508914](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44183508914) est réussi et les deux rapports sont identiques octet à octet.
+
+- **946** communes PACA (COG 2026) ; **103** correspondances éditoriales du pilote, toutes retrouvées sur le même code par exactMatch dans le RDF.
+- RDF : **934** communes éligibles par la règle stricte ; **8** cas à plusieurs ARK, **3** divergences libellé/statut/URI, **1** sans exactMatch.
+- **832** communes éligibles **hors des 103 autorités du pilote** : elles correspondent au potentiel immédiat d'enrichissement, encore non publié et soumis au préflight des URI concurrentes.
+- **11** communes non éligibles hors pilote ; **une** autorité déjà validée éditorialement dans les 103 n'entre pas dans le statut éligible par la règle automatisée, malgré la présence de son exactMatch. Cette décision n'est pas invalidée automatiquement : le dossier est à qualifier.
+- **0 nouveau lien ou contour publié** dans cette PR.
+
+Important : les nombres 934 et 103 ne s'additionnent pas. Les correspondances retenues dans le pilote font partie de la couverture RDF à l'exception de la différence de classification signalée ci-dessus. Ce premier audit ne garantit pas encore que tous les nouveaux candidats soient indemnes d'URI INSEE supplémentaires non reconnues par le parseur ; la vérification exhaustive précède toute publication.
