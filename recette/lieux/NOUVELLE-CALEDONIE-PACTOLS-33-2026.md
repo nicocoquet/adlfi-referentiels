@@ -28,3 +28,33 @@ Le script `scripts/auditer_pactols_nouvelle_caledonie_2026.py` récupère les `s
 La CI `lieux-nouvelle-caledonie-pactols-2026.yml` contrôle les sources par SHA-256, exécute deux fois la qualification des 33 codes et archive le rapport JSON sous les artefacts de recette. Les nombres d'assertions réellement trouvées et les ARK seront consignés **après le premier calcul effectif** : aucune cardinalité Pactols n'est supposée.
 
 **Aucune publication d'ARK, de lien, de toponyme ou de géométrie dans cette PR.** Toute décision de validation fera l'objet d'un registre éditorial et d'une recette de publication séparée.
+
+
+## Résultats vérifiés sur les données réelles — 17 novembre 2026
+
+L'exécution [GitHub Actions n°44150401473](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44150401473) a vérifié les empreintes des **six tables COG** et du **RDF Pactols**, puis obtenu deux rapports identiques octet à octet.
+
+| Contrôle | Résultat |
+| --- | ---: |
+| Communes COG Nouvelle-Calédonie au 1er janvier 2026 | **33** |
+| Codes cités par `skos:exactMatch` communal dans Pactols | **33/33** |
+| Concepts `exactMatch` recensés | **33** |
+| Couples éligibles selon la règle générale | **32** |
+| Cas nécessitant instruction de catégorie/libellé | **1** |
+| Candidats seulement lexicaux sans URI pour ces 33 codes | **0** |
+| Alignements publiés par cet audit | **0** |
+
+### Cas restant à arbitrer : `98809` — L'Île-des-Pins
+
+Le [concept Pactols `26678/pcrti4LqTHByEs`](https://ark.frantiq.fr/ark:/26678/pcrti4LqTHByEs) possède :
+
+- un `skos:exactMatch` explicite vers `http://id.insee.fr/geo/commune/98809` ;
+- un **`prefLabel` « Île-des-Pins »**, désignant potentiellement un objet insulaire ;
+- un **`altLabel` « L'Île-des-Pins »**, qui concorde avec le nom de la commune COG 2026 ;
+- aucune dépréciation, aucun remplacement ni autre URI INSEE concurrente dans l'export étudié.
+
+Le lien est donc **fortement étayé mais non automatiquement accepté** : le `prefLabel` pourrait décrire l'île géographique plutôt que la commune administrative. Le `altLabel` identique au libellé administratif et le `exactMatch` constituent des éléments favorables, mais ne lèvent pas formellement la question de la **nature de l'autorité Pactols**. Il faudra un arbitrage éditorial ou une correction explicite de la notice Pactols, comme pour Saint-Pierre, sans généraliser une équivalence automatique île↔commune.
+
+### Conséquence opérationnelle
+
+Les **32 autres codes** sont éligibles à une validation dans un **registre versionné** et à une publication contrôlée ; le code **`98809`** doit rester à instruire, sans être perdu du référentiel ni comptabilisé comme validé. Cette distinction vise la **qualité des identifiants 2026**, pas l'homologation des contours : notamment, la géométrie 2026 de **Dumbéa (98805)** était encore signalée invalide dans les contrôles précédents et **n'est pas corrigée** par l'admissibilité de son ARK.
