@@ -96,12 +96,12 @@ jobs:
           from pathlib import Path
           idx=json.loads(Path("docs/data/lieux-outremer/recherche-2026.json").read_text())
           m=json.loads(Path("docs/data/manifest.json").read_text())["modules"]["lieux"]["recherche_cog_outremer_2026"]
-          assert len(idx["pactols_valides"])==m["relations_pactols_cog_validees_2026"]==128
+          assert len(idx["pactols_valides"])==m["relations_pactols_cog_validees_2026"]==176
           assert m["relations_pactols_cog_validees_reunion_2026"]==24
           assert len(idx["ark_confirmes_non_valides"])==m["ark_confirmes_lien_non_valide"]==1
           assert idx["ark_confirmes_non_valides"]=={"97607":"26678/crtZcuFSJVYZU"}
           assert idx["pactols_valides"]["97407"]=="26678/pcrtIKvRT9vwUl"
           assert m["geometries_publiees"]==m["identites_historiques_retroprojetees"]==0
           assert len(idx["pactols_valides"])==len(set(idx["pactols_valides"].values()))
-          print("MANIFESTE 128 VALIDATIONS, DÉMBENI EN ATTENTE — OK")
+          print("MANIFESTE 176 VALIDATIONS, DÉMBENI EN ATTENTE — OK")
           PY
