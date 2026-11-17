@@ -17,7 +17,7 @@ from urllib.error import HTTPError, URLError
 
 ITEM_ID="S2A_MSIL2A_20221226T193851_N0510_R056_T07KEV_20240715T211924"
 ITEM_URL="https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l2a/items/"+ITEM_ID
-CIBLES={"B02","B03","B04","B08","SCL","visual","thumbnail"}
+CIBLES={"B02_10m","B03_10m","B04_10m","B08_10m","SCL_20m","CLD_20m","TCI_10m","thumbnail"}
 POINTS=[
     {"rang":1,"lon":-140.7412651,"lat":-18.3624007},
     {"rang":2,"lon":-140.7531718,"lat":-18.4187267},
