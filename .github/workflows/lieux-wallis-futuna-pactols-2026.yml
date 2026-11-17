@@ -1,0 +1,126 @@
+name: Lieux — Wallis-et-Futuna, audit Pactols du territoire et des trois CIR
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_wallis_futuna_2026.py'
+      - 'tests/test_auditer_pactols_wallis_futuna_2026.py'
+      - 'recette/lieux/WALLIS-FUTUNA-PACTOLS-2026-RECETTE.md'
+      - 'recette/lieux/WALLIS-FUTUNA-COLLECTIVITE-986-ALIGNEMENT-PROPOSE-2026.csv'
+      - 'tests/test_proposition_comer_986_2026.py'
+      - '.github/workflows/lieux-wallis-futuna-pactols-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rdf-wallis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les trois CIR et les catégories des URI RDF
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_pactols_wallis_futuna_2026.py' -v
+      - name: Vérifier la proposition 986 sans lien Pactols publié
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_proposition_comer_986_2026.py' -v
+      - name: Vérifier le RDF Frantiq source épinglé
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Récupérer deux tables officielles COG du territoire et des CIR
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,sys,hashlib,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"referentiels/scripts")
+          from auditer_pactols_wallis_futuna_2026 import COG_SHA
+          t=Path(os.environ["RUNNER_TEMP"])
+          out=t/"cog2026";out.mkdir()
+          with zipfile.ZipFile(t/"cog_ensemble_2026_csv.zip") as z:
+              for name,digest in COG_SHA.items():
+                  matches=[i for i in z.infolist() if Path(i.filename).name==name]
+                  assert len(matches)==1,name
+                  raw=z.read(matches[0])
+                  assert hashlib.sha256(raw).hexdigest()==digest,name
+                  (out/name).write_bytes(raw)
+                  print("COG986",name,len(raw),digest)
+          PY
+      - name: Auditer le RDF deux fois et exiger un résultat identique
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_wallis_futuna_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-dir "$RUNNER_TEMP/cog2026" \
+              --sortie "$RUNNER_TEMP/wf-rdf-$n.json" > "$RUNNER_TEMP/wf-resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/wf-rdf-1.json" "$RUNNER_TEMP/wf-rdf-2.json"
+      - name: Imprimer les liens explicites avec leurs familles et les exclusions
+        run: |
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"wf-rdf-1.json").read_text())
+          assert d["schema"]=="adlfi.lieux.wallis-futuna.audit.pactols-cog2026.v1"
+          assert d["statut"]=="AUDIT_RDF_NON_VALIDANT"
+          assert {x["code_COG"] for x in d["lignes"]}=={"986","98611","98612","98613"}
+          assert d["bilan"]["communes"]==0
+          assert d["bilan"]["nouveaux_alignements_pactols"]==0
+          assert d["bilan"]["nouvelles_geometries"]==0
+          assert d["bilan"]["validations_autorisees_automatiquement"]==0
+          assert all(x["alignement_publie"] is False for x in d["lignes"])
+          assert {x["code_COG"] for x in d["anciens_codes_exclus_de_validation"]}=={"98607","98609"}
+          assert d["bilan"]["codes_avec_exactMatch"]==1
+          assert d["bilan"]["concepts_exactMatch"]==1
+          bycode={x["code_COG"]:x for x in d["lignes"]}
+          proof=bycode["986"]["preuves_RDF_exactMatch"]
+          assert len(proof)==1
+          assert proof[0]["ark"]=="26678/pcrtwFq5jKHO3k"
+          assert proof[0]["prefLabels_fr"]==["Wallis et Futuna"]
+          assert proof[0]["altLabels_fr"]==["Territoire des îles Wallis et Futuna"]
+          assert not proof[0]["deprecie"] and not proof[0]["remplace"]
+          assert proof[0]["exactMatch_INSEE_cibles"]==[{
+            "code":"986",
+            "famille":"collectiviteDOutreMer",
+            "uri":"http://id.insee.fr/geo/collectiviteDOutreMer/986"}]
+          assert all(bycode[c]["preuves_RDF_exactMatch"]==[]
+                     for c in ("98611","98612","98613"))
+          assert all(x["preuves_RDF_exactMatch"]==[]
+                     for x in d["anciens_codes_exclus_de_validation"])
+          assert d["candidats_lexicaux_non_valides"]==[]
+          assert d["homonymes_sans_contexte_qualifie"]==2
+          print("BILAN_RDF_WALLIS",json.dumps(d["bilan"],ensure_ascii=False))
+          print("PREUVES_RDF_WALLIS",json.dumps(d["lignes"],ensure_ascii=False))
+          print("ANCIENS_CODES_EXCLUS",json.dumps(d["anciens_codes_exclus_de_validation"],ensure_ascii=False))
+          print("CANDIDATS_LEXICAUX_NON_VALIDES",json.dumps(d["candidats_lexicaux_non_valides"][:20],ensure_ascii=False))
+          print("HOMONYMES_NON_QUALIFIES",d["homonymes_sans_contexte_qualifie"])
+          PY
+      - name: Archiver le rapport de recette hors des données publiques
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-wallis-futuna-pactols-cog2026-audit
+          path: ${{ runner.temp }}/wf-rdf-1.json
+          retention-days: 30
+          if-no-files-found: error
