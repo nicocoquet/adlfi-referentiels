@@ -32,7 +32,10 @@ def aire(geom, geod):
     if geom.geom_type in ("MultiPolygon", "GeometryCollection"):
         return sum(aire(part, geod) for part in geom.geoms)
     if geom.geom_type != "Polygon": return 0.0
-    value, _ = geod.geometry_area_perimeter(geom)
+    from shapely.geometry.polygon import orient
+    # GRS1980 : l’aire géodésique est signée ; les anneaux doivent être
+    # réorientés (enveloppe antihoraire, trous horaires) avant mesure.
+    value, _ = geod.geometry_area_perimeter(orient(geom, sign=1.0))
     if not math.isfinite(value): raise ValueError("Surface ellipsoïdale non finie")
     return abs(value)
 

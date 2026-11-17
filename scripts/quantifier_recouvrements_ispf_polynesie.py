@@ -23,7 +23,8 @@ def aire_geodesique(geom, geod):
             return sum(aire_geodesique(part, geod) for part in geom.geoms)
         if geom.geom_type != "Polygon":
             return 0.0
-        a, _ = geod.geometry_area_perimeter(geom)
+        from shapely.geometry.polygon import orient
+        a, _ = geod.geometry_area_perimeter(orient(geom, sign=1.0))
         if not math.isfinite(a):
             raise ValueError("Surface géodésique non finie")
         return abs(a)
