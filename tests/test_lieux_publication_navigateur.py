@@ -659,7 +659,7 @@ def main():
           timeout=60000)
         wf=page.locator("#detail").text_content()
         assert "Aucun épisode du code 98611 n’est documenté" in wf
-        assert "Leur codification COG propre ne débute qu’en 1985" in wf
+        assert "leur codification COG propre ne débute qu’en 1985" in wf
         set_year(1985)
         page.wait_for_function(
           "() => document.querySelector('#detail')?.textContent.includes('État COG de Wallis-et-Futuna au 1er janvier 1985')",
