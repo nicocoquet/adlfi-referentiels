@@ -1,0 +1,60 @@
+{
+  "schema": "adlfi.lieux.polynesie.etats_cog_public.v1",
+  "statut": "ETATS_COG_DOCUMENTAIRES_SANS_GEOMETRIES_NI_RELATIONS_ASSOCIEES",
+  "source_cog": "https://www.insee.fr/fr/information/8740222",
+  "source_recette": "https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44059455597",
+  "cog_sha256": {
+    "v_comer_2026.csv": "d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+    "v_commune_comer_2026.csv": "9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
+    "v_tom_depuis_1943.csv": "6814a3ddedfa186557f5f7a10ff0f4c521f72fd388bdd430318d3d0d59b426bd",
+    "v_commune_outremer_depuis_1943.csv": "d2e2d3b376540d5c5e624e1cdf3d6a1959f6f24d6763268eec67883fe82ce748",
+    "v_commune_2026.csv": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+    "v_commune_depuis_1943.csv": "08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee"
+  },
+  "start_year": 1943,
+  "end_year": 2026,
+  "dates": "Début inclusif, fin exclusive ; consultation au 1er janvier",
+  "communes_actuelles_2026": "98711|Anaa\n98712|Arue\n98713|Arutua\n98714|Bora-Bora\n98715|Faaa\n98716|Fakarava\n98717|Fangatau\n98718|Fatu-Hiva\n98719|Gambier\n98720|Hao\n98721|Hikueru\n98722|Hitiaa O Te Ra\n98723|Hiva-Oa\n98724|Huahine\n98725|Mahina\n98726|Makemo\n98727|Manihi\n98728|Maupiti\n98729|Moorea-Maiao\n98730|Napuka\n98731|Nuku-Hiva\n98732|Nukutavake\n98733|Paea\n98734|Papara\n98735|Papeete\n98736|Pirae\n98737|Pukapuka\n98738|Punaauia\n98739|Raivavae\n98740|Rangiroa\n98741|Rapa\n98742|Reao\n98743|Rimatara\n98744|Rurutu\n98745|Tahaa\n98746|Tahuata\n98747|Taiarapu-Est\n98748|Taiarapu-Ouest\n98749|Takaroa\n98750|Taputapuatea\n98751|Tatakoto\n98752|Teva I Uta\n98753|Tubuai\n98754|Tumaraa\n98755|Tureia\n98756|Ua-Huka\n98757|Ua-Pou\n98758|Uturoa",
+  "episodes_communes_COG": "98711|Anaa|1972-05-21|\n98712|Arue|1972-05-21|\n98713|Arutua|1972-05-21|\n98714|Bora-Bora|1972-05-21|\n98715|Faaa|1972-05-21|\n98716|Fakarava|1972-05-21|\n98717|Fangatau|1972-05-21|\n98718|Fatu-Hiva|1972-05-21|\n98719|Gambier|1972-05-21|\n98720|Hao|1972-05-21|\n98721|Hikueru|1972-05-21|\n98722|Hitiaa O Te Ra|1972-05-21|\n98723|Hiva-Oa|1972-05-21|\n98724|Huahine|1972-05-21|\n98725|Mahina|1972-05-21|\n98726|Makemo|1972-05-21|\n98727|Manihi|1972-05-21|\n98728|Maupiti|1972-05-21|\n98729|Moorea-Maiao|1972-05-21|\n98730|Napuka|1972-05-21|\n98731|Nuku-Hiva|1972-05-21|\n98732|Nukutavake|1972-05-21|\n98733|Paea|1972-05-21|\n98734|Papara|1972-05-21|\n98735|Papeete|1972-05-21|\n98736|Pirae|1972-05-21|\n98737|Pukapuka|1972-05-21|\n98738|Punaauia|1972-05-21|\n98739|Raivavae|1972-05-21|\n98740|Rangiroa|1972-05-21|\n98741|Rapa|1972-05-21|\n98742|Reao|1972-05-21|\n98743|Rimatara|1972-05-21|\n98744|Rurutu|1972-05-21|\n98745|Tahaa|1972-05-21|\n98746|Tahuata|1972-05-21|\n98747|Taiarapu-Est|1972-05-21|\n98748|Taiarapu-Ouest|1972-05-21|\n98749|Takaroa|1972-05-21|\n98750|Taputapuatea|1972-05-21|\n98751|Tatakoto|1972-05-21|\n98752|Teva I Uta|1972-05-21|\n98753|Tubuai|1972-05-21|\n98754|Tumaraa|1972-05-21|\n98755|Tureia|1972-05-21|\n98756|Ua-Huka|1972-05-21|\n98757|Ua-Pou|1972-05-21|\n98758|Uturoa|1972-05-21|",
+  "episode_territoire_COG": "987|Polynésie française|1972-05-21|",
+  "ancien_code_Clipperton_COG": {
+    "code": "98799",
+    "libelle": "Clipperton",
+    "debut_inclus": "1972-05-21",
+    "fin_exclue": "2007-02-23",
+    "code_actuel": false,
+    "statut": "HISTORIQUE_A_INSTRUIRE_HORS_48_COMMUNES"
+  },
+  "recette_COG": {
+    "nombre_communes": 48,
+    "nombre_episodes": 48,
+    "nombre_changements_code_libelle_ulterieurs": 0,
+    "premiere_attestation_COG": "1972-05-21",
+    "nombre_episodes_territoire": 1,
+    "anciens_codes_autres_a_qualifier": 1
+  },
+  "decoupage_ISPF": {
+    "source": "https://www.ispf.pf/ispf/referentiels",
+    "nombre_communes_avec_associees": 30,
+    "nombre_communes_associees": 98,
+    "nombre_communes_sans_associees": 18,
+    "nombre_unites_de_nomenclature_fine": 116,
+    "nombre_subdivisions_administratives": 5,
+    "correspondance_automatique_commune_ile": false,
+    "liste_codes_associes_incluse": false
+  },
+  "historique_juridique": {
+    "source_loi_1971": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000693681/",
+    "source_insee_codification": "https://www.insee.fr/fr/information/7929495",
+    "source_rapport_2026": "https://www.legifrance.gouv.fr/jorf/id/JORFARTI000054191111",
+    "communes_preexistantes_avant_1971": 4,
+    "communes_ajoutees_reforme": 44,
+    "creation_juridique_toutes_communes_deduite_1972": false
+  },
+  "alignements_pactols_2026_valides": 0,
+  "nouveaux_alignements_pactols": 0,
+  "contours_historiques_publies": 0,
+  "communes_associees_creees": 0,
+  "subdivisions_mises_dans_communes": 0,
+  "relations_historiques_inferrees": 0
+}
