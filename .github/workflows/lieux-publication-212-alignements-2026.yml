@@ -1,0 +1,80 @@
+name: Lieux — publier les 212 liens Pactols–COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
+      - 'docs/assets/lieux-outremer-search.js'
+      - 'recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json'
+      - 'recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv'
+      - 'scripts/publier_alignements_212_outremer_2026.py'
+      - 'tests/test_publier_alignements_212_outremer_2026.py'
+      - '.github/workflows/lieux-publication-212-alignements-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publication-212:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Valider la source RDF Frantiq épinglée
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Rejouer les 36 liens sur l'index 176 historique et vérifier les 212 publiés
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_decisions_nouvelle_caledonie_spm_mayotte_2026.py \
+            --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+            --index recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
+            --registre recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv \
+            --sortie "$RUNNER_TEMP/verification-rdf-36.json"
+          python3 scripts/publier_alignements_212_outremer_2026.py \
+            --socle recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
+            --registre recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv \
+            --verifier docs/data/lieux-outremer/recherche-2026.json
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          report=json.loads((Path(os.environ["RUNNER_TEMP"])/"verification-rdf-36.json").read_text())
+          assert report["bilan"]["exactMatch_valides_sur_source"]==36
+          assert report["bilan"]["Dembeni_exactMatch_retrouve"] is True
+          m=json.loads(Path("docs/data/manifest.json").read_text())["modules"]["lieux"]["recherche_cog_outremer_2026"]
+          assert m["relations_pactols_cog_validees_2026"]==212
+          assert m["ark_confirmes_lien_non_valide"]==0
+          assert m["relations_pactols_collectivites_2026"]==4
+          assert m["geometries_publiees"]==0
+          print("212_COMMUNES_CERTIFIEES_SANS_GEOMETRIES")
+          PY
+      - name: Tests du référentiel public et régressions
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_publier_alignements_212_outremer_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_auditer_couverture_pactols_cog_outremer_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_polynesie_publication_2026.py' -v
+          node tests/test_lieux_outremer_search.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preuve-publication-212-pactols-cog-2026
+          path: ${{ runner.temp }}/verification-rdf-36.json
+          retention-days: 30
+          if-no-files-found: error
