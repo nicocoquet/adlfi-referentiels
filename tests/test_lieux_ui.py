@@ -212,12 +212,13 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-polynesie-historique.js",
                 "../assets/lieux-polynesie-associees.js",
                 "../assets/lieux-corse-pactols.js",
-                "../assets/lieux-multiechelon.js?v=20261117-corse360",
+                "../assets/lieux-bfc-pactols.js",
+                "../assets/lieux-multiechelon.js?v=20261117-bfc3614",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
