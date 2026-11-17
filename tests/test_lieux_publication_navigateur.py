@@ -624,6 +624,60 @@ def main():
         assert "978 · Saint-Martin" in page.locator("#detail").text_content()
         assert "Collectivité d’outre-mer" in page.locator("#detail").text_content()
 
+        # Wallis-et-Futuna : trois CIR non communales, loi 1961 ≠ COG 1985.
+        page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A986&annee=1962&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Wallis-et-Futuna au 1er janvier 1962')",
+          timeout=60000)
+        wf=page.locator("#detail").text_content()
+        assert "Aucun épisode du code 986 n’est documenté" in wf
+        assert "98609 · Wallis-et-Futuna" in wf
+        assert "Trois circonscriptions territoriales prévues par la loi" in wf
+        assert "Aucune commune à Wallis-et-Futuna" in wf
+        assert "98607 du COG historique porte le libellé « Nouvelle-Calédonie »" in wf
+        assert "aucun alignement Pactols" in wf
+        page.locator("#search").fill("98609")
+        page.wait_for_function(
+          "() => [...document.querySelectorAll('#results button')].some(x => x.textContent.includes('Wallis-et-Futuna'))",
+          timeout=30000)
+        page.locator("#results button").filter(has_text="Wallis-et-Futuna").first.click()
+        assert "ref_cog=COMER%3ATERRITOIRE%3A986" in page.url
+        set_year(1985)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Wallis-et-Futuna au 1er janvier 1985')",
+          timeout=30000)
+        wf=page.locator("#detail").text_content()
+        assert "986 · Wallis-et-Futuna" in wf
+        assert "1985-01-01" in wf
+        assert "Alo (98611), Sigave (98612), Uvea (98613)" in wf
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACIR%3A98611&annee=1984&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Wallis-et-Futuna au 1er janvier 1984')",
+          timeout=60000)
+        wf=page.locator("#detail").text_content()
+        assert "Aucun épisode du code 98611 n’est documenté" in wf
+        assert "Leur codification COG propre ne débute qu’en 1985" in wf
+        set_year(1985)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Wallis-et-Futuna au 1er janvier 1985')",
+          timeout=30000)
+        wf=page.locator("#detail").text_content()
+        assert "98611 · Alo" in wf
+        assert "Circonscription territoriale (non commune)" in wf
+        assert "1985-01-01" in wf
+        assert "Aucune commune à Wallis-et-Futuna" in wf
+        assert "aucune assimilation des circonscriptions à des communes" in wf
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACIR%3A98613&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('98613 · Uvea')",
+          timeout=60000)
+        assert "Circonscription territoriale (non commune)" in page.locator("#detail").text_content()
+
         # La Réunion : même code Saint-Louis avant/après la division du 5 février 1965.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97414&annee=1965&niveau=commune",
                   wait_until="domcontentloaded")

@@ -13,6 +13,9 @@ on:
       - 'docs/assets/lieux-mayotte-historique.js'
       - 'docs/assets/lieux-saint-pierre-miquelon-historique.js'
       - 'docs/assets/lieux-antilles-collectivites-2007.js'
+      - 'docs/assets/lieux-wallis-futuna-historique.js'
+      - 'docs/data/lieux-wallis-futuna/**'
+      - 'tests/test_lieux_wallis_futuna_historique.js'
       - 'docs/data/lieux-antilles-collectivites-2007/**'
       - 'tests/test_lieux_antilles_collectivites_2007.js'
       - 'docs/data/lieux-saint-pierre-miquelon/**'
@@ -64,6 +67,8 @@ jobs:
         run: node tests/test_lieux_saint_pierre_miquelon_historique.js
       - name: Tester les transitions 2007 et les codes 977/978 (Node.js)
         run: node tests/test_lieux_antilles_collectivites_2007.js
+      - name: Tester les trois circonscriptions Wallis et les codes 98609/986
+        run: node tests/test_lieux_wallis_futuna_historique.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'

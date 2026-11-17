@@ -191,6 +191,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-mayotte-historique.js",
                 "../assets/lieux-saint-pierre-miquelon-historique.js",
                 "../assets/lieux-antilles-collectivites-2007.js",
+                "../assets/lieux-wallis-futuna-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -204,6 +205,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-mayotte-historique.js",
             "docs/assets/lieux-saint-pierre-miquelon-historique.js",
             "docs/assets/lieux-antilles-collectivites-2007.js",
+            "docs/assets/lieux-wallis-futuna-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -306,6 +308,34 @@ class LieuxUITests(unittest.TestCase):
         self.assertTrue(all(x["succession_juridique"]["identite_pactols_deduite"] is False for x in data["relations"]))
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
         self.assertEqual(data["nouveaux_contours_historiques"],0)
+
+    def test_wallis_futuna_trois_circonscriptions_jamais_communes(self):
+        m=self.manifest["modules"]["lieux"]["historique_circonscriptions_wallis_futuna"]
+        self.assertEqual(m["territoire_COG_2026"],"986")
+        self.assertEqual(m["ancien_code_territorial_documentaire"],"98609")
+        self.assertEqual(m["episode_98609"],["1961-07-31","1985-01-01"])
+        self.assertEqual(m["episode_986"],["1985-01-01",None])
+        self.assertEqual(m["circonscriptions_COG_2026"],["98611","98612","98613"])
+        self.assertEqual(m["nombre_circonscriptions"],3)
+        self.assertEqual(m["nombre_communes"],0)
+        self.assertEqual(m["loi_statutaire_circonscriptions"],"1961-07-30")
+        self.assertEqual(m["premieres_attestations_COG_circonscriptions"],"1985-01-01")
+        self.assertEqual(m["ancien_code_98607_entite_COG"],"Nouvelle-Calédonie")
+        self.assertIs(m["relation_98607_vers_986_inferree"],False)
+        self.assertEqual(m["nouvelle_relation_Pactols_validee"],0)
+        self.assertEqual(m["contours_historiques_publies"],0)
+        d=json.loads((ROOT/"docs/data/lieux-wallis-futuna/chronologie-cog-2026.json").read_text(encoding="utf-8"))
+        self.assertEqual(d["schema"],"adlfi.lieux.wallis-futuna.etats_cog_public.v1")
+        self.assertEqual(len(d["circonscriptions_2026"].splitlines()),3)
+        self.assertEqual(len(d["episodes_circonscriptions"].splitlines()),3)
+        self.assertEqual(d["episodes_territoire"],"986|Wallis-et-Futuna|1985-01-01|")
+        self.assertEqual(d["code_territorial_ancien_documente"],"98609|Wallis-et-Futuna|1961-07-31|1985-01-01")
+        self.assertEqual(d["ancien_code_contextuel_non_adopte"]["libelle"],"Nouvelle-Calédonie")
+        self.assertEqual(d["territoire_courant"]["communes"],0)
+        self.assertFalse(d["creation_circonscriptions_inferree_de_1985"])
+        self.assertFalse(d["succession_juridique_98609_986_inferree"])
+        self.assertEqual(d["nouveaux_alignements_pactols"],0)
+        self.assertEqual(d["contours_historiques_publies"],0)
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]

@@ -16,6 +16,7 @@ const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
 const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
 const antilles2007=window.AdlfiLieuxAntilles2007;
+const wallisHistorique=window.AdlfiLieuxWallisFutunaHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -177,8 +178,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -192,6 +193,7 @@ async function start(){
    loadJSON(ROOT+'lieux-mayotte/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-saint-pierre-miquelon/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json'),
+   loadJSON(ROOT+'lieux-wallis-futuna/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -208,6 +210,10 @@ async function start(){
  const variants=new Map(former.map(x=>[x.ark,x.champs]));
  const autresCOG=outremerSearch.creerIndex(indexOutremer);
  state.outremer=new Map(autresCOG.map(x=>[x.id,x]));
+  // 98609 est un ancien code documenté de Wallis-et-Futuna, non une commune
+  // ni une seconde autorité Pactols ; permettre sa recherche sans inférence.
+  const wf=state.outremer.get('COMER:TERRITOIRE:986');
+  if(wf)wf.champs=[...new Set([...wf.champs,'98609'])];
   state.guyane=guyaneHistorique.creer(indexGuyaneHistorique);
   state.martinique=martiniqueHistorique.creer(indexMartiniqueHistorique);
   state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
@@ -215,6 +221,7 @@ async function start(){
    state.mayotte=mayotteHistorique.creer(indexMayotteHistorique);
     state.spm=spmHistorique.creer(indexSPMHistorique);
      state.antilles2007=antilles2007.creer(indexAntilles2007);
+     state.wallis=wallisHistorique.creer(indexWallisHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -468,6 +475,10 @@ function focusSelection(){const x=state.selected;
   if((x.kind==='cog2026'&&x.code?.startsWith('975'))||
       (x.kind==='autre_cog2026'&&x.id==='COMER:TERRITOIRE:975')){
      state.map.fitBounds([[46.5,-57.0],[47.3,-55.5]],{padding:[24,24],animate:false});return;
+   }
+   if(x.kind==='autre_cog2026'&&
+        (x.id==='COMER:TERRITOIRE:986'||/^COMER:CIR:9861[123]$/.test(x.id))){
+     state.map.fitBounds([[-14.6,-178.6],[-12.9,-175.8]],{padding:[24,24],animate:false});return;
    }
    if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
@@ -774,6 +785,63 @@ function afficherTransitionAntilles2007(target,entry){
  warning.textContent='La succession juridique n’est pas une équivalence Pactols et ne valide ni transfert d’ARK ni contour historique. Le code à cinq positions ne crée pas une commune.';
  target.append(warning);
 }
+function afficherChronologieWallisFutuna(target,entry){
+ if(!state.wallis)return;
+ const y=year(),isCirc=entry.nature==='CIR';
+ const h=document.createElement('h3');
+ h.textContent='État COG de Wallis-et-Futuna au 1er janvier '+y;
+ target.append(h);
+ const cur=isCirc?state.wallis.etatCirconscription(entry.code,y):
+                     state.wallis.etatTerritoire(y);
+ if(cur){
+  const dl=document.createElement('dl');
+  ligne(dl,'Nature de l’autorité COG',isCirc?'Circonscription territoriale (non commune)':'Territoire d’outre-mer (non communal)');
+  ligne(dl,'Code et libellé COG',cur.code+' · '+(cur.label||entry.label));
+  ligne(dl,'Début de l’épisode code–libellé dans le COG',cur.start);
+  ligne(dl,'Fin documentaire',cur.end||'En cours dans le COG 2026');
+  target.append(dl);
+ }else{
+  const p=document.createElement('p');p.className='warning';
+  p.textContent='Aucun épisode du code '+entry.code+' n’est documenté au 1er janvier '+y+
+   '. Cette absence de code dans la série COG ne démontre pas que l’entité juridique ou le lieu géographique n’existait pas.';
+  target.append(p);
+ }
+ if(entry.id==='COMER:TERRITOIRE:986'){
+  const old=state.wallis.codeTerritoireHistorique(y);
+  if(old){
+    const dl=document.createElement('dl');
+    ligne(dl,'Ancienne codification documentée au 1er janvier',old.code+' · '+old.label);
+    ligne(dl,'Période du code historique 98609 dans le COG',old.start+' – '+old.end+' (fin exclusive)');
+    target.append(dl);
+  }
+ }
+ const legal=state.wallis.statutCirconscriptionsLegal(y);
+ if(legal){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Référence juridique au 1er janvier : '+legal+
+   '. Leur codification COG propre ne débute qu’en 1985 ; cette date ne constitue pas leur création.';
+  target.append(p);
+ }else if(y===1961){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='La loi du 29 juillet 1961 est postérieure au 1er janvier sélectionné : les trois circonscriptions seront attestées juridiquement à compter du 30 juillet 1961.';
+  target.append(p);
+ }
+ const dl=document.createElement('dl');
+ ligne(dl,'Statut communal','Aucune commune à Wallis-et-Futuna');
+ ligne(dl,'Circonscriptions dans le COG 2026','Alo (98611), Sigave (98612), Uvea (98613)');
+ target.append(dl);
+ for(const [label,url]of [
+   ['Insee : COG 2026, circonscriptions et territoires','https://www.insee.fr/fr/information/8740222'],
+   ['Insee : codification historique de Wallis-et-Futuna','https://www.insee.fr/fr/information/7929495'],
+   ['Légifrance : loi n° 61-814, articles 17 et 18','https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000684031']
+ ]){
+  const p=document.createElement('p'),a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;p.append(a);target.append(p);
+ }
+ const p=document.createElement('p');p.className='warning';
+ p.textContent='Le code 98607 du COG historique porte le libellé « Nouvelle-Calédonie » : il n’est pas repris comme autorité Wallis-et-Futuna ni relié par succession automatique à 986. Aucun contour historique, aucun alignement Pactols et aucune assimilation des circonscriptions à des communes ou à leurs royaumes coutumiers n’est publié.';
+ target.append(p);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -880,6 +948,9 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
     else if(entry.kind==='autre_cog2026'&&
       ['COMER:TERRITOIRE:977','COMER:TERRITOIRE:978','COMER:COM:97701','COMER:COM:97801'].includes(entry.id)){
       afficherTransitionAntilles2007(target,entry);
+    }else if(entry.kind==='autre_cog2026'&&
+      (entry.id==='COMER:TERRITOIRE:986'||/^COMER:CIR:9861[123]$/.test(entry.id))){
+      afficherChronologieWallisFutuna(target,entry);
     }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';

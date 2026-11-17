@@ -1,0 +1,124 @@
+name: Lieux — Wallis-et-Futuna, audit COG des trois circonscriptions
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_cog_wallis_futuna_2026.py'
+      - 'tests/test_auditer_cog_wallis_futuna_2026.py'
+      - 'recette/lieux/WALLIS-FUTUNA-COG-2026-RECETTE.md'
+      - '.github/workflows/lieux-wallis-futuna-cog-2026.yml'
+      - 'docs/data/lieux-wallis-futuna/**'
+      - 'docs/assets/lieux-wallis-futuna-historique.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_wallis_futuna_historique.js'
+      - 'scripts/verifier_index_public_wallis_futuna_2026.py'
+      - 'tests/test_lieux_ui.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-986:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: "Tests des catégories COG : circonscription, non commune"
+        run: python3 -m unittest discover -s tests -p 'test_auditer_cog_wallis_futuna_2026.py' -v
+      - name: Télécharger et contrôler six tables INSEE 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import hashlib,os,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          from auditer_cog_wallis_futuna_2026 import SHAS
+          t=Path(os.environ["RUNNER_TEMP"])
+          out=t/"cog2026";out.mkdir()
+          with zipfile.ZipFile(t/"cog_ensemble_2026_csv.zip") as z:
+              for name,digest in SHAS.items():
+                  members=[i for i in z.infolist() if Path(i.filename).name==name]
+                  assert len(members)==1,name
+                  m=members[0]
+                  assert 200<m.file_size<9_000_000,(name,m.file_size)
+                  buf=z.read(m)
+                  actual=hashlib.sha256(buf).hexdigest()
+                  assert actual==digest,(name,actual)
+                  (out/name).write_bytes(buf)
+                  print("COG_WALLIS_986",name,len(buf),actual)
+          PY
+      - name: Extraire deux fois les épisodes du territoire et des 3 CIR
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_cog_wallis_futuna_2026.py \
+              --sources "$RUNNER_TEMP/cog2026" \
+              --sortie "$RUNNER_TEMP/wallis-futuna-$n.json" > "$RUNNER_TEMP/wf-resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/wallis-futuna-1.json" "$RUNNER_TEMP/wallis-futuna-2.json"
+      - name: Afficher états exacts et vérifier absence de communes / ARK
+        run: |
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          report=json.loads((Path(os.environ["RUNNER_TEMP"])/"wallis-futuna-1.json").read_text())
+          assert report["schema"]=="adlfi.lieux.wallis-futuna.preinstruction.cog2026.v1"
+          assert report["territoire_2026"]["code"]=="986"
+          assert report["territoire_2026"]["nombre_communes"]==0
+          assert report["territoire_2026"]["nombre_circonscriptions"]==3
+          assert {r["code"] for r in report["circonscriptions_2026"]}=={"98611","98612","98613"}
+          assert all(r["nature_zonage_COG"]=="CIR" for r in report["circonscriptions_2026"])
+          assert report["distinctions"]["equivalence_98607_98609_986_inferree"] is False
+          assert report["bilan"]["nouveaux_alignements_Pactols"]==0
+          assert report["bilan"]["geometries_historiques"]==0
+          assert report["bilan"]["publication_docs"] is False
+          for key in ("episodes_circonscriptions_COG","episodes_territoire_COG",
+                      "anciens_codes_territoriaux_a_qualifier",
+                      "episodes_autres_zonages_de_codes_identiques_a_qualifier"):
+              print("ETATS_WF",key,json.dumps(report[key],ensure_ascii=False))
+          PY
+      - name: Certifier l'index historique public avec les 6 tables originales
+        run: |
+          node tests/test_lieux_wallis_futuna_historique.js
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          python3 scripts/verifier_index_public_wallis_futuna_2026.py \
+            --sources "$RUNNER_TEMP/cog2026" \
+            --public docs/data/lieux-wallis-futuna/chronologie-cog-2026.json
+      - name: Contrôler le maintien du nombre des communes et des alignements
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('docs/data/lieux-wallis-futuna/chronologie-cog-2026.json').read_text())
+          idx=json.loads(Path('docs/data/lieux-outremer/recherche-2026.json').read_text())
+          m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']
+          assert len(idx['pactols_valides'])==128
+          assert m['recherche_cog_outremer_2026']['communes']==212
+          assert m['recherche_cog_outremer_2026']['autres_entites']==21
+          assert set(idx['communes'])=={'971','972','973','974','975','976','987','988'}
+          assert {'COMER:CIR:98611','COMER:CIR:98612','COMER:CIR:98613',
+                  'COMER:TERRITOIRE:986'}<=set(x[0] for x in idx['autres'])
+          assert m['historique_circonscriptions_wallis_futuna']['nombre_communes']==0
+          assert m['historique_circonscriptions_wallis_futuna']['nombre_circonscriptions']==3
+          assert not any(code.startswith('986') for code in idx['pactols_valides'])
+          assert p['nouveaux_alignements_pactols']==0
+          assert p['contours_historiques_publies']==0
+          assert p['codes_communes_creees']==0
+          print('WALLIS_986 : 3 CIR, 0 commune, 128 exactMatch communaux conservés — OK')
+          PY
+      - name: Archiver rapport hors du site public
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-wallis-futuna-cog2026-preinstruction
+          path: ${{ runner.temp }}/wallis-futuna-1.json
+          retention-days: 30
+          if-no-files-found: error

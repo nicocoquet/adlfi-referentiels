@@ -1,0 +1,62 @@
+{
+  "schema": "adlfi.lieux.wallis-futuna.etats_cog_public.v1",
+  "statut": "ETATS_COG_DOCUMENTAIRES_CIRCONSCRIPTIONS_NON_COMMUNALES_SANS_GEOMETRIES",
+  "cog_source": "INSEE, Code officiel géographique 2026, v_tom_depuis_1943.csv et v_commune_outremer_depuis_1943.csv",
+  "source_recette": "https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44055036186",
+  "cog_sha256": {
+    "v_comer_2026.csv": "d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+    "v_commune_comer_2026.csv": "9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
+    "v_tom_depuis_1943.csv": "6814a3ddedfa186557f5f7a10ff0f4c521f72fd388bdd430318d3d0d59b426bd",
+    "v_commune_outremer_depuis_1943.csv": "d2e2d3b376540d5c5e624e1cdf3d6a1959f6f24d6763268eec67883fe82ce748",
+    "v_commune_2026.csv": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+    "v_commune_depuis_1943.csv": "08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee"
+  },
+  "start_year": 1943,
+  "end_year": 2026,
+  "dates": "Début inclusif et fin exclusive ; affichage au 1er janvier",
+  "territoire_courant": {
+    "code": "986",
+    "libelle": "Wallis-et-Futuna",
+    "type": "TERRITOIRE_COMER_NON_COMMUNAL",
+    "circonscriptions": 3,
+    "communes": 0
+  },
+  "circonscriptions_2026": "98611|Alo|CIR\n98612|Sigave|CIR\n98613|Uvea|CIR",
+  "episodes_circonscriptions": "98611|Alo|CIR|1985-01-01|\n98612|Sigave|CIR|1985-01-01|\n98613|Uvea|CIR|1985-01-01|",
+  "episodes_territoire": "986|Wallis-et-Futuna|1985-01-01|",
+  "code_territorial_ancien_documente": "98609|Wallis-et-Futuna|1961-07-31|1985-01-01",
+  "ancien_code_contextuel_non_adopte": {
+    "code": "98607",
+    "libelle": "Nouvelle-Calédonie",
+    "debut_cog": "1943-01-01",
+    "fin_exclue_cog": "1969-03-30",
+    "note": "Code historique de la Nouvelle-Calédonie mentionné par la notice de codification Insee comme contexte ancien de Wallis et Futuna ; pas une autorité Wallis-et-Futuna autonome ni un successeur inféré"
+  },
+  "loi_circonscriptions": {
+    "texte": "Loi n° 61-814 du 29 juillet 1961",
+    "articles": [
+      "17",
+      "18"
+    ],
+    "entree_en_vigueur": "1961-07-30",
+    "circonscriptions": [
+      "Uvea",
+      "Alo",
+      "Sigave"
+    ],
+    "personnalite_morale": true,
+    "lien": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000684031",
+    "debut_institutionnel_différent_date_premiere_attestation_COG": true
+  },
+  "note_insee_codification": "https://www.insee.fr/fr/information/7929495",
+  "famille_COG_distincte_statut_juridique": true,
+  "creation_circonscriptions_inferree_de_1985": false,
+  "succession_juridique_98609_986_inferree": false,
+  "lien_de_identite_98607_986_inferre": false,
+  "trois_circonscriptions_sont_les_3_royaumes_coutumiers": false,
+  "nouveaux_alignements_pactols": 0,
+  "contours_historiques_publies": 0,
+  "codes_communes_creees": 0,
+  "correspondances_pactols_2026_validees_pour_les_3_circonscriptions": 0,
+  "publication_autorites_pactols": false
+}
