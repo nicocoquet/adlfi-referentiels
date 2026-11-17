@@ -40,6 +40,20 @@ La bibliothèque `pyproj` **ne reconnaît aucun EPSG** (`CRS.to_epsg() = None`) 
 
 **Aucun contour ne sera adopté pour une représentation historique** sur la seule base de cette source.
 
+### Vérification externe de la référence géodésique (17 novembre 2026)
+
+La [documentation géodésique de l'IGN sur les systèmes de référence en France](https://fiches-geodesie.ign.fr/contenu/fichiers/documentation/SRCfrance.pdf) établit effectivement la correspondance historique **RGM04 / UTM 38 Sud → EPSG:4471**. La documentation de la [BD TOPO 3.4](https://geoservices.ign.fr/sites/default/files/2025-01/DC_BDTOPO_3-4.pdf) confirme la convention de projection des anciennes données de Mayotte. Ces documents établissent le **système attendu pour le produit**, **pas l'identité géodésique du WKT effectivement livré dans le RAR du miroir**.
+
+Le [catalogue officiel GEOFLA de l'IGN sur data.gouv.fr](https://www.data.gouv.fr/datasets/geofla-r) confirme la diffusion d'un produit GEOFLA pour les DROM et le remplacement de celui-ci par Admin Express. **Il n'a pas permis, dans cette recherche, d'obtenir une copie originale du millésime et du fichier exacts de décembre 2015 ni de contrôler son empreinte**. Le fichier du miroir n'est donc pas authentifié. Une piste plus ancienne, le code source public de l'[extension JOSM OpenData (2014)](https://josm.openstreetmap.de/changeset/30908/osm/applications/editors/josm/plugins/opendata/modules/fr.datagouvfr/src/org/openstreetmap/josm/plugins/opendata/modules/fr/datagouvfr/datasets/administration/GeoFlaHandler.java), mentionne des URL de téléchargements IGN pour **2014**, mais ne prouve pas l'authenticité du paquet **2015** et ne doit pas être substituée à celui-ci.
+
+### Mayotte : rupture géodésique également documentée par l'IGN
+
+D'après le [Service de géodésie de l'IGN, « La situation à Mayotte en 2024 »](https://geodesie.ign.fr/linformation-geodesique), les déformations et déplacements liés à la crise sismo-volcanique de 2018–2022 ont notamment conduit au **référentiel RGM23**, devenu légal en 2025. L'IGN diffuse une grille de transformation **RGM04–RGM23**. Ainsi, même si un futur contrôle confirme que les géométries 2015 étaient effectivement livrées en RGM04, la comparaison avec des géométries 2026 devra **documenter explicitement la réalisation géodésique, la chaîne de transformation et, le cas échéant, l'époque**.
+
+L'impact peut être faible au regard de la généralisation cartographique, mais sa faiblesse **ne peut pas être présumée en l'absence d'un calcul qualifié**. Le traitement actuel reste un **diagnostic de dessins géographiques non certifié**, sans prétention à mesurer le déplacement réel du territoire ni une modification administrative.
+
+Pour lever la réserve, obtenir **soit l'archive originale IGN GEOFLA 2015 D976**, soit un relevé de métadonnées IGN authentifiées permettant d'établir le datum du fichier précis et la transformation applicable à la référence 2026. Une simple correction manuelle du PRJ en `EPSG:4471` ne constitue **pas** une preuve.
+
 ## Mesures exploratoires
 
 L'audit complet est soumis à une CI indépendante ; les métriques ne seront intégrées qu'après réussite des validations.
