@@ -1,0 +1,99 @@
+name: Lieux — Polynésie française, 48 communes et historique COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_cog_polynesie_2026.py'
+      - 'tests/test_auditer_cog_polynesie_2026.py'
+      - 'recette/lieux/POLYNESIE-COG-HISTORIQUE-2026-RECETTE.md'
+      - '.github/workflows/lieux-polynesie-cog-2026.yml'
+      - 'docs/data/lieux-polynesie/**'
+      - 'docs/assets/lieux-polynesie-historique.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/data/manifest.json'
+      - 'docs/lieux/index.html'
+      - 'tests/test_lieux_polynesie_historique.js'
+      - 'tests/test_lieux_ui.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-987:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: "Tester les catégories COMER, les dates et les 48 communes"
+        run: python3 -m unittest discover -s tests -p 'test_auditer_cog_polynesie_2026.py' -v
+      - name: Récupérer l'archive du COG 2026 et contrôler six empreintes
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,hashlib,zipfile,sys
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          from auditer_cog_polynesie_2026 import SHAS
+          folder=Path(os.environ["RUNNER_TEMP"])
+          out=folder/"cog2026";out.mkdir()
+          with zipfile.ZipFile(folder/"cog_ensemble_2026_csv.zip") as z:
+              for name,expected in SHAS.items():
+                  matches=[m for m in z.infolist() if Path(m.filename).name==name]
+                  assert len(matches)==1,name
+                  data=z.read(matches[0])
+                  assert 200<len(data)<9_000_000,(name,len(data))
+                  actual=hashlib.sha256(data).hexdigest()
+                  assert actual==expected,(name,actual)
+                  (out/name).write_bytes(data)
+                  print("POLYNESIE_COG_SHA",name,len(data),actual)
+          PY
+      - name: Audit COG des 48 communes et des autres codes historiques, deux fois
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_cog_polynesie_2026.py \
+              --sources "$RUNNER_TEMP/cog2026" \
+              --index-public docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/polynesie-$n.json" > "$RUNNER_TEMP/rapport-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/polynesie-1.json" "$RUNNER_TEMP/polynesie-2.json"
+          cat "$RUNNER_TEMP/rapport-1.txt"
+      - name: Distinguer 48 communes COG des communes associées ISPF non codées ici
+        run: |
+          python3 - <<'PY'
+          import os,json,collections
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"polynesie-1.json").read_text())
+          assert d["schema"]=="adlfi.lieux.polynesie.audit.cog2026.v1"
+          assert d["statut"]=="RECETTE_DOCUMENTAIRE_NON_VALIDANTE"
+          assert d["rapport"]["communes_COG_2026"]==48
+          assert len(d["communes_2026"])==48
+          assert {x["code"] for x in d["communes_2026"]}=={
+              f"987{x}" for x in range(11,59)}
+          assert d["rapport"]["communes_associees_ISPF_a_documenter_separement"]==98
+          assert d["rapport"]["communes_avec_associees_ISPF"]==30
+          assert d["rapport"]["communes_sans_associees_ISPF"]==18
+          assert d["rapport"]["nouveaux_alignements_Pactols"]==0
+          assert d["rapport"]["nouveaux_contours_historiques"]==0
+          assert d["rapport"]["historique_des_communes_associees_COG_inferre"] is False
+          assert d["rapport"]["creation_de_toutes_les_communes_en_1972_inferree"] is False
+          assert d["rapport"]["publication_docs"] is False
+          assert all(x["nature_zonage_COG"]=="COM" for x in d["episodes_communes_COG"])
+          print("PERIODES_PAR_CODE",json.dumps(d["nombre_episodes_par_code"],ensure_ascii=False))
+          print("AUTRES_CODES_HISTORIQUES",json.dumps(d["autres_codes_historiques_a_instruire"],ensure_ascii=False))
+          print("POLYNESIE_BILAN",json.dumps(d["rapport"],ensure_ascii=False))
+          PY
+      - name: Archiver les épisodes historiques pour arbitrage
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-polynesie-cog2026-48-communes-preinstruction
+          path: ${{ runner.temp }}/polynesie-1.json
+          retention-days: 30
+          if-no-files-found: error
