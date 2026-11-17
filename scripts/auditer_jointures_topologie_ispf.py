@@ -12,8 +12,6 @@ import json
 import math
 from pathlib import Path
 from zipfile import ZipFile
-from shapely.geometry import shape
-from shapely.validation import explain_validity
 
 from inspecter_nomenclature_geographique_ispf import read_xlsx
 from qualifier_communes_associees_ispf import SHA as XLSX_SHA, rows, normaliser
@@ -56,6 +54,8 @@ def indexer(rows_data, key, width):
     return data, sorted(set(duplicates))
 
 def auditer(xlsx: Path, archive: Path):
+    from shapely.geometry import shape
+    from shapely.validation import explain_validity
     if sha256(xlsx.read_bytes()).hexdigest() != XLSX_SHA:
         raise ValueError("Empreinte XLSX ISPF différente")
     if sha256(archive.read_bytes()).hexdigest() != ZIP_SHA:
@@ -82,7 +82,7 @@ def auditer(xlsx: Path, archive: Path):
             geo, duplicates_geo = indexer([f["properties"] for f in features], field, width)
             missing = sorted(set(xls) - set(geo))
             extra = sorted(set(geo) - set(xls))
-            label_conflicts, parent_conflicts, invalid, empty = [], [], [], []
+            label_conflicts, label_details, parent_conflicts, invalid, empty = [], [], [], [], []
             geometry_types = Counter()
             for i, feat in enumerate(features):
                 props = feat.get("properties")
@@ -93,6 +93,7 @@ def auditer(xlsx: Path, archive: Path):
                     source = xls[ident]
                     if normaliser(str(props.get(label, ""))) != normaliser(source[label]):
                         label_conflicts.append(ident)
+                        label_details.append({"code": ident, "xlsx": source[label], "geojson": props.get(label)})
                     for parent in (("IDCom", 2), ("IDSub", None)):
                         name, digits = parent
                         if name in source and code(props.get(name), digits) != code(source[name], digits):
@@ -116,6 +117,7 @@ def auditer(xlsx: Path, archive: Path):
                 "codes_absents_du_geojson": missing, "codes_supplementaires_geojson": extra,
                 "doublons_geojson": duplicates_geo,
                 "divergences_libelles_normalises": sorted(set(label_conflicts)),
+                "details_divergences_libelles": label_details,
                 "divergences_rattachement": parent_conflicts,
                 "geometries_valides_ogc": len(features) - len(invalid) - len(empty),
                 "geometries_invalides": invalid, "geometries_vides": empty,
@@ -142,7 +144,7 @@ def main():
             "absents": data["codes_absents_du_geojson"],
             "extras": data["codes_supplementaires_geojson"],
             "doublons": data["doublons_geojson"],
-            "libelles": data["divergences_libelles_normalises"],
+            "libelles": data["details_divergences_libelles"],
             "parents": data["divergences_rattachement"],
             "valides": data["geometries_valides_ogc"],
             "invalides": data["geometries_invalides"],
