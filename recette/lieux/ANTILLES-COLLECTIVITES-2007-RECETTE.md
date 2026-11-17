@@ -13,7 +13,7 @@ Le **COG 2026 de l'Insee** documente deux anciennes communes du département de 
 
 Les nouveaux codes ne sont **pas des codes communaux** au sens où une nouvelle commune aurait été créée. L'[Insee, *Codification des collectivités et territoires français d'outre-mer*](https://www.insee.fr/fr/information/7929495) précise que **`97701` et `97801` sont des formats à cinq chiffres réservés aux applications qui en ont besoin**, et que les collectivités portent les codes `977` et `978` à compter du **23 février 2007**.
 
-La **loi organique n° 2007-223 du 21 février 2007**, [article 18, X et XI](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955), déclare explicitement que les nouvelles collectivités succèdent à leurs anciennes communes respectives **dans leurs droits et obligations**. L'article [LO6211-1](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006394020) et l'article [LO6311-1](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006394046) décrivent leur substitution à la commune et aux deux niveaux départemental et régional de Guadeloupe. La loi est entrée en vigueur le **22 février 2007** ; cette date **juridique** et la date de **codification Insee au 23 février** sont distinctes.
+La **loi organique n° 2007-223 du 21 février 2007**, [article 18, X et XI](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955), déclare explicitement que les nouvelles collectivités succèdent à leurs anciennes communes respectives **dans leurs droits et obligations**. L'article [LO6211-1](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006393813) et l'article [LO6311-1](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006394046) décrivent leur substitution à la commune et aux deux niveaux départemental et régional de Guadeloupe. La loi est entrée en vigueur le **22 février 2007** ; cette date **juridique** et la date de **codification Insee au 23 février** sont distinctes.
 
 Le COG ne prouve donc pas à lui seul la relation de succession, mais **le texte normatif la prouve**. Il faut exposer clairement les deux provenances.
 
@@ -40,4 +40,17 @@ Les 7 empreintes SHA-256 épinglées, la vérification des dates et codes, les t
 - **Aucune rétroprojection des codes 977/978 vers les anciennes communes**, ni affectation des nouveaux codes à l'échelon communal dans le filtre `Commune`.
 - Les **32 correspondances Pactols–COG 2026 de Guadeloupe** restent inchangées.
 
-**État initial :** préinstruction indépendante, sans modification des données publiées. Les épisodes COMER et les attributs précis des codes à cinq positions seront documentés après contrôle des résultats des CSV officiels.
+## Résultat de la confrontation officielle
+
+L'[audit COG/Loi n°44050874502](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44050874502) est **réussi** et reproductible. Les sept sources COG 2026 épinglées ont confirmé :
+
+| Ancienne commune (fin exclusive) | Collectivité COMER (début inclus) | Code à 5 positions (début inclus) | Nature du zonage |
+| --- | --- | --- | --- |
+| `97123` · 2007-02-23 | `977` · 2007-02-23 | `97701` · 2007-02-23 | `COM` (code applicatif, pas commune) |
+| `97127` · 2007-02-23 | `978` · 2007-02-23 | `97801` · 2007-02-23 | `COM` (code applicatif, pas commune) |
+
+Les deux collectivités disposent chacune d'un seul épisode COG historique depuis le 23 février 2007 sans date de fin. La loi organique contient deux **relations de succession des droits et obligations expressément attestées**. Les deux mouvements communaux n'ont en revanche **aucune destination `COM_AP`**.
+
+Ces états sont désormais intégrés à la frise du référentiel Lieux, avec les trois catégories de codes distinctes, un lien entre ancienne commune et collectivité successeure, et des tests anti-rétroprojection. La [note de provenance publique](../../docs/data/lieux-antilles-collectivites-2007/PROVENANCE.md) détaille la distinction entre la date de codification du 23 février et l'entrée en vigueur de la loi organique le 22 février.
+
+Les correspondances Pactols et les géométries historiques restent inchangées.
