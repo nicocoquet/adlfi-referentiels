@@ -26,3 +26,20 @@ Des tests complémentaires seront nécessaires pour :
 4. qualifier d'éventuels recouvrements à l'aide d'un fond de référence indépendant (GEO PF/DAF) et de la documentation du producteur.
 
 **Statut :** `RECETTE_NON_VALIDANTE`. Rapports et paires recensées dans un artefact CI hors `docs/`, aucun nouvel ARK, aucune autorité nouvelle, aucune modification de la carte publiée. Fusion uniquement après consultation des résultats effectifs de CI.
+
+
+## Premiers résultats effectifs de l'audit
+
+Exécution [n°44099406696](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44099406696), **réussie** sur le corpus ISPF épinglé :
+
+| Niveau | Objets | Contacts de frontière | Paires en recouvrement surfacique | Autres intersections sans aire |
+| --- | ---: | ---: | ---: | ---: |
+| Commune | 48 | 23 | **0** | 0 |
+| Unité fine `Comas` | 116 | 35 | **65** | 3 |
+| Île | 119 | 0 | **0** | 0 |
+
+Les **65 recouvrements entre unités fines** sont des **alertes de géométrie**, pas des erreurs administratives automatiquement établies. Les intersections recensées sont généralement de type `GeometryCollection`, mêlant une partie surfacique et des objets de dimension inférieure ; les causes ne peuvent pas être déduites du seul type géométrique. Trois autres paires `Comas` se touchent/intersectent sans aire plane positive, sans être classées par le moteur dans le seul prédicat `touches`.
+
+L'audit évolue pour distinguer désormais les recouvrements **entre unités fines d'une même commune** de ceux qui concernent **des communes parentes différentes**. Les paires individuelles et leurs codes sont conservés dans l'artefact de la CI. Il faudra ensuite contrôler les écarts avec une source géométrique indépendante et la précision de production, avant toute correction.
+
+Aucun contour publié ni corrigé, aucune validation historique inférée.
