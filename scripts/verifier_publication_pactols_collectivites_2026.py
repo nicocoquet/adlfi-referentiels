@@ -13,6 +13,7 @@ from auditer_pactols_collectivites_antilles_2007 import analyser_rdf as scan_ant
 from auditer_pactols_wallis_futuna_2026 import scan_rdf as scan_wallis
 from auditer_pactols_polynesie_2026 import analyser_rdf as scan_polynesie
 from auditer_cog_polynesie_2026 import read,sha
+from extraire_index_public_outremer_2026 import appliquer_validations_collectivites
 
 SOURCE_RDF_SHA="3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7"
 COG_SHAS={
@@ -129,8 +130,8 @@ def verifier(registre:Path,rdf:Path,cog:Path,socle:Path,public:Path,
  if (old.get("pactols_collectivites_valides") is not None or
      len(old["pactols_valides"])!=176 or len(old["autres"])!=21):
   raise ValueError("État antérieur 176 communes non retrouvé")
- expected={**old,"pactols_collectivites_valides":
-           {code:rows[code]["ark_pactols"] for code in sorted(rows)}}
+ expected=appliquer_validations_collectivites(
+     old,registre)
  actual=public.read_bytes()
  canonical=(json.dumps(expected,ensure_ascii=False,separators=(",",":"))+"\n").encode("utf-8")
  if actual!=canonical:
