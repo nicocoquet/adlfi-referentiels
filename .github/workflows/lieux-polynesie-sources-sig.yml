@@ -1,0 +1,49 @@
+name: Lieux — Polynésie, inventaire SIG documentaire
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/inventorier_sources_sig_polynesie.py'
+      - 'tests/test_inventorier_sources_sig_polynesie.py'
+      - 'recette/lieux/POLYNESIE-SOURCES-GEOMETRIES-2026.md'
+      - '.github/workflows/lieux-polynesie-sources-sig.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s tests -p 'test_inventorier_sources_sig_polynesie.py' -v
+      - name: Télécharger le ZIP GeoJSON ISPF de la plateforme data.gouv.fr
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 240 \
+            'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --output "$RUNNER_TEMP/ispf-geojson.zip"
+          test "$(stat -c%s "$RUNNER_TEMP/ispf-geojson.zip")" -gt 10000
+          sha256sum "$RUNNER_TEMP/ispf-geojson.zip"
+      - name: Inventorier sans extraction ni publication
+        run: |
+          python3 scripts/inventorier_sources_sig_polynesie.py \
+            --archive "$RUNNER_TEMP/ispf-geojson.zip" \
+            --url 'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --sortie "$RUNNER_TEMP/ispf-sig-inventaire-a.json"
+          python3 scripts/inventorier_sources_sig_polynesie.py \
+            --archive "$RUNNER_TEMP/ispf-geojson.zip" \
+            --url 'https://www.data.gouv.fr/api/1/datasets/r/f5ec5fb2-c173-4a94-bbd9-c12ec876a4e6' \
+            --sortie "$RUNNER_TEMP/ispf-sig-inventaire-b.json"
+          cmp "$RUNNER_TEMP/ispf-sig-inventaire-a.json" "$RUNNER_TEMP/ispf-sig-inventaire-b.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-ispf-archives-sig-inventaire
+          path: ${{ runner.temp }}/ispf-sig-inventaire-a.json
+          if-no-files-found: error
+          retention-days: 30
