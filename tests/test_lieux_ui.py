@@ -288,6 +288,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["episodes_collectivite_COG"],"975|Saint-Pierre-et-Miquelon|1985-06-15|")
         self.assertTrue(data["famille_COG_non_equivalente_au_statut_juridique"])
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["alignements_pactols_2026_valides"],48)
+        self.assertIs(data["alignements_uniquement_millesime_2026"],True)
+        self.assertIs(data["contour_tahaa_98745_non_homologue"],True)
         self.assertEqual(data["contours_historiques_publies"],0)
 
     def test_saint_barthelemy_saint_martin_2007_successions_distinctes_du_cog(self):
@@ -359,6 +362,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(m["Clipperton_ancien_code_COG"],"98799")
         self.assertEqual(m["Clipperton_date_fin_exclusive"],"2007-02-23")
         self.assertEqual(m["nombre_nouveaux_alignements_pactols"],0)
+        self.assertEqual(m["correspondances_pactols_2026_validees"],48)
+        self.assertIs(m["validation_identifiants_independante_geometries"],True)
+        self.assertEqual(m["codes_contours_audites_invalides"],["98745"])
         self.assertEqual(m["nombre_contours_historiques_publies"],0)
         self.assertEqual(m["nombre_communes_associees_creees_automatiquement"],0)
         data=json.loads((ROOT/"docs/data/lieux-polynesie/chronologie-cog-2026.json").read_text(encoding="utf-8"))
