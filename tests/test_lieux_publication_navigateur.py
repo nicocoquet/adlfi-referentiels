@@ -268,10 +268,10 @@ def main():
             has_text="Commune · COG 2026 · Mayotte · 97607"
         ).first.click()
         assert "26678/crtZcuFSJVYZU" in page.locator("#detail").text_content()
-        assert "la correspondance Pactols–COG demeure à valider" in page.locator("#detail").text_content()
+        assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
         assert page.locator("#detail").get_by_text(
             "Correspondance Pactols validée (2026)", exact=False
-        ).count()==0
+        ).count()==1
 
         page.locator("#search").fill("Acoua")
         page.locator("#results button").filter(
@@ -291,7 +291,7 @@ def main():
         assert "ne prouve pas que les communes n’existaient pas auparavant" in page.locator("#detail").text_content()
         assert "26678/crtZcuFSJVYZU" in page.locator("#detail").text_content()
         assert page.locator("#detail").get_by_text(
-            "Correspondance Pactols validée (2026)",exact=False).count()==0
+            "Correspondance Pactols validée (2026)",exact=False).count()==1
 
         set_year(2008)
         page.wait_for_function(
@@ -300,7 +300,7 @@ def main():
         text_ma=page.locator("#detail").text_content()
         assert "COMER · communes des collectivités et territoires d’outre-mer" in text_ma
         assert "2007-02-23 – 2011-03-31" in text_ma
-        assert "correspondance Pactols–COG non validée" in text_ma
+        assert "ne s’étend pas automatiquement aux périodes antérieures" in text_ma
 
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97601&annee=2011&niveau=commune",
                   wait_until="domcontentloaded")
