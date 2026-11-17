@@ -79,7 +79,7 @@ def analyser(folder:Path,public:Path)->dict:
  if any(r["COM"].startswith("987") for r in t["v_commune_depuis_1943.csv"]):
   raise ValueError("Commune historique DROM 987 inattendue")
  territo=[r for r in t["v_comer_2026.csv"] if r["COMER"]=="987"]
- if len(territto:=territo)!=1 or territto[0]["LIBELLE"]!="Polynésie française":
+ if len(territo)!=1 or territo[0]["LIBELLE"]!="Polynésie française":
   raise ValueError("Territoire COG 987 non conforme")
  hist=[episode(r,"COM_COMER","COMMUNE_HISTORIQUE_COMER")
    for r in t["v_commune_outremer_depuis_1943.csv"]
