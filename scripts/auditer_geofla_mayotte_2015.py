@@ -82,7 +82,7 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
             attrs=dict(zip(names,list(entry.record)))
             code,field=code_insee(attrs)
             if not code or code not in CODES or code in bycode:
-                raise ValueError("Code commune GEOFLA absent, hors des 17 codes 974 courants ou dupliqué : "+str(code))
+                raise ValueError("Code commune GEOFLA absent, hors des 17 codes 976 actuels ou dupliqué : "+str(code))
             source_fields[field]+=1
             original=shape(entry.shape.__geo_interface__)
             if original.is_empty or not original.is_valid or original.geom_type not in ("Polygon","MultiPolygon"):
@@ -121,7 +121,7 @@ def loader_2026(path:Path)->dict:
 
 def controler_partition(d:dict,edition:str):
     from shapely.ops import unary_union
-    if set(d)!=CODES:raise ValueError(edition+" : codes 971 incomplets")
+    if set(d)!=CODES:raise ValueError(edition+" : codes 976 incomplets")
     if any(g.is_empty or not g.is_valid or g.area<=0 for g in d.values()):
         raise ValueError(edition+" : géométrie invalide")
     u=unary_union(list(d.values()))
