@@ -33,14 +33,14 @@ class ValidationGuadeloupeTests(unittest.TestCase):
         actual=self.appliquer_lignes(self.records)
         self.assertEqual(actual,self.public)
         valid=actual["pactols_valides"]
-        self.assertEqual(len(valid),104)
+        self.assertEqual(len(valid),128)
         self.assertEqual(sum(x.startswith("971") for x in valid),32)
         self.assertEqual(sum(x.startswith("972") for x in valid),34)
         self.assertEqual(sum(x.startswith("973") for x in valid),22)
         self.assertEqual(sum(x.startswith("976") for x in valid),16)
         self.assertNotIn("97123",valid)
         self.assertNotIn("97127",valid)
-        self.assertEqual(set(actual["ark_confirmes_non_valides"]),{"97607","97407"})
+        self.assertEqual(set(actual["ark_confirmes_non_valides"]),{"97607"})
 
     def test_sept_desambiguations_guadeloupe(self):
         found={r["code_insee"] for r in self.records
