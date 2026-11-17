@@ -1,4 +1,4 @@
-name: Lieux — La Réunion, inventaire GEOFLA candidat 2015 (recette)
+name: Lieux — La Réunion GEOFLA 2015 / Etalab 2026 (recette)
 
 on:
   pull_request:
@@ -7,15 +7,17 @@ on:
       - 'recette/lieux/REUNION-GEOFLA-2015-2026-RECETTE.md'
       - 'scripts/auditer_geofla_reunion_2015.py'
       - 'tests/test_auditer_geofla_reunion_2015.py'
+      - 'scripts/auditer_geofla_reunion_2015.py'
+      - 'tests/test_auditer_geofla_reunion_2015.py'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  inventaire:
+  audit-geofla-reunion:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,7 +37,7 @@ jobs:
             --output "$RUNNER_TEMP/$ARCHIVE"
           test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -ge 5000
           test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -le 5000000
-          echo "COPY_REUNION_2015_SHA256=$(sha256sum "$RUNNER_TEMP/$ARCHIVE" | cut -d ' ' -f1)"
+          echo "6ab4183681f0d15472678f958ca7a6a2c4b95b1b3bc694f7aefe7ec4c67dfea2  $RUNNER_TEMP/$ARCHIVE" | sha256sum --check
           echo "COPY_REUNION_2015_BYTES=$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")"
           bsdtar -tf "$RUNNER_TEMP/$ARCHIVE" > "$RUNNER_TEMP/files.txt"
           python3 - <<'PY'
@@ -79,3 +81,82 @@ jobs:
                       counts=collections.Counter(str(row[names.index(candidate)]).strip()[:3] for row in sf.iterRecords())
                       print("SOURCE_PREFIX_COUNTS",candidate,dict(counts))
           PY
+      - name: Tester les partitions et les identifiants réunionnais
+        run: python3 -m unittest discover -s tests -p 'test_auditer_geofla_reunion_2015.py' -v
+      - name: Télécharger les deux géométries de référence Etalab 2026
+        run: |
+          set -euo pipefail
+          for size in 100m 50m; do
+            curl --fail --location --retry 3 --connect-timeout 20 --max-time 240 \
+              "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-$size.geojson.gz" \
+              --output "$RUNNER_TEMP/communes-$size.geojson.gz"
+          done
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+          echo "6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38  $RUNNER_TEMP/communes-50m.geojson.gz" | sha256sum --check
+      - name: Exécuter deux fois les métriques de géométrie 2015–2026
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_geofla_reunion_2015.py \
+              --dossier "$RUNNER_TEMP/geofla" \
+              --archive "$RUNNER_TEMP/GEOFLA_2-1_COMMUNE_SHP_RGR92UTM40S_D974_2015-12-01.rar" \
+              --reference100 "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --reference50 "$RUNNER_TEMP/communes-50m.geojson.gz" \
+              --sortie "$RUNNER_TEMP/rapport-$n.json" > "$RUNNER_TEMP/resume-$n.txt"
+          done
+          cmp "$RUNNER_TEMP/rapport-1.json" "$RUNNER_TEMP/rapport-2.json"
+          cat "$RUNNER_TEMP/resume-1.txt"
+      - name: Vérifier 24 codes, la projection et l'équation de surfaces
+        run: |
+          python3 - <<'PY'
+          import json,math,os
+          from pathlib import Path
+          report=json.loads((Path(os.environ["RUNNER_TEMP"])/"rapport-1.json").read_text())
+          assert report["schema"]=="adlfi.lieux.reunion.audit.geofla2015-etalab2026.v1"
+          assert report["statut"]=="AUDIT_NON_VALIDANT_SOURCE_TIERCE_NON_AUTHENTIFIEE"
+          source=report["sources"]["copie_2015"]
+          assert source["empreinte_sha256"]=="6ab4183681f0d15472678f958ca7a6a2c4b95b1b3bc694f7aefe7ec4c67dfea2"
+          assert source["identite_originale_IGN_authentifiee"] is False
+          assert source["metadonnees"]["crs_equivalent_epsg2975"] is True
+          assert source["metadonnees"]["crs_epsg_reconnu"]==2975
+          assert source["metadonnees"]["codes_champ"]=={"INSEE_COM":24}
+          assert report["communes_COG_2026"]==24
+          assert report["publication_docs"] is False
+          assert report["nouvelles_relations_Pactols"]==report["geometries_historiques_adoptees"]==0
+          for resolution in ("100m","50m"):
+              item=report["etats_2026_"+resolution]
+              assert item["communes"]==len(item["toutes_communes"])==24
+              assert {x["code"] for x in item["toutes_communes"]}=={f"974{i:02d}" for i in range(1,25)}
+              assert abs(item["cumul_ecarts_communaux_km2"]-
+                         item["ecart_emprise_exterieure_km2"]-
+                         2*item["ecart_entre_codes_interieur_unique_km2"])<.00001
+              assert all(math.isfinite(x["jaccard_pct"]) and 0<=x["jaccard_pct"]<=100
+                         for x in item["toutes_communes"])
+              for group in item["composantes_exterieures"].values():
+                  assert group["composantes_exportees"]<=7
+                  for component in group["plus_grandes"]:
+                      lon,lat=component["point_interieur_wgs84_lonlat"]
+                      assert 54.9<lon<56.1 and -21.6<lat<-20.6
+                      assert "geometry" not in component and "coordinates" not in component
+          main=report["etats_2026_100m"]
+          bycode={r["code"]:r for r in main["toutes_communes"]}
+          print("SAINT_LOUIS",json.dumps(bycode["97414"],ensure_ascii=False))
+          print("CILAOS",json.dumps(bycode["97424"],ensure_ascii=False))
+          print("BILAN_METRIQUES",json.dumps({
+              "100m_externe":main["ecart_emprise_exterieure_km2"],
+              "100m_interne":main["ecart_entre_codes_interieur_unique_km2"],
+              "100m_cumul":main["cumul_ecarts_communaux_km2"],
+              "50m_externe":report["etats_2026_50m"]["ecart_emprise_exterieure_km2"],
+              "50m_interne":report["etats_2026_50m"]["ecart_entre_codes_interieur_unique_km2"],
+              "generalisation_2026":report["difference_emprise_2026_100m_50m_km2"],
+              "principaux_ecarts":main["principaux_ecarts_communaux"][:8],
+              "composantes":main["composantes_exterieures"]
+          },ensure_ascii=False,indent=2))
+          PY
+      - name: Archiver le rapport numérique sans contours
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-reunion-geofla2015-vs-etalab2026-audit
+          path: ${{ runner.temp }}/rapport-1.json
+          retention-days: 30
+          if-no-files-found: error
