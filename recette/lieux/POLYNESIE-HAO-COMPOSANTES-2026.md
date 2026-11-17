@@ -52,3 +52,15 @@ La différence `GEO PF Hao 20200 - ISPF Ile 23` totalise **17 398 390,088 m²**,
 Les 649 autres composantes représentent environ **10,936 km²** de différence. Pour qualifier la nature géographique, il faudra mettre en regard les cinq premiers polygones avec une orthophotographie/production topographique géoréférencée, documentée par date, résolution et origine. Les noms et types sont pour l'instant **NON_QUALIFIES** ; aucune attribution toponymique automatique ne doit être introduite.
 
 La précision des coordonnées (sept décimales après arrondissement) résulte du format de rapport, **pas** d'une précision métrique garantie. Les données de la PR 87 sont un outil de localisation et de sélection des objets à examiner, non un certificat de délimitation administrative.
+
+
+## Sources institutionnelles à mobiliser pour qualifier les cinq surfaces
+
+Une vérification documentaire complémentaire identifie deux ressources officielles de la **Direction des affaires foncières** :
+
+1. [Cellule Topographie — Nos services](https://www.service-public.pf/daf/cellule-topo_nosservices/) : les cartes raster produites par la cellule sont géoréférencées en RGPF ; le service distingue les orthophotographies, les cartes récentes, les cartes historiques et les vues satellitaires. La page précise que les vecteurs de la **BD Carto** sont construits à partir de restitutions stéréoscopiques ou aériennes, avec des attributs complétés par des campagnes de terrain ; leur mise à jour moyenne peut se compter en années. Elle rappelle également que les spatio-cartes satellitaires peuvent être soumises à des restrictions contractuelles.
+2. [Cellule Topographie — Accueil](https://www.service-public.pf/daf/cadastre/cellule-topo_accueil/) : le géoportail **Te Fenua** permet la superposition d'imageries satellitaires et de cartes topographiques ; la Direction des affaires foncières distingue les données ouvertes, notamment certains rasters et mosaïques aériennes, des images satellitaires soumises à licence restrictive.
+
+Ces sources **attestent la disponibilité générale de fonds géographiques adaptés au contrôle**, et non l'existence d'une scène précisément datée, géoréférencée et librement diffusable sur Hao. Aucun millésime ou résolution de scène n'est donc attribué aux cinq composantes. Avant de les qualifier, rechercher un raster dont l'emprise recoupe leurs boîtes englobantes et relever : **producteur, date d'acquisition, résolution, système géodésique, droit de consultation et de reproduction**. Une consultation du portail n'autorise pas à republier ses images.
+
+Le fait que GEO PF porte `mode_acq=PVS` pour Hao prouve uniquement la valeur déclarée de ce champ, pas que la couche comparée aurait été dérivée de l'image consultée ensuite.
