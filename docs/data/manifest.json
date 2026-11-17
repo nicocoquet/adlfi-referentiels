@@ -177,6 +177,38 @@
         "contours_historiques_publies": 0,
         "communes_actuelles_creees": 0,
         "niveaux": "Ancienne commune / Collectivité / Code d'application"
+      },
+      "historique_circonscriptions_wallis_futuna": {
+        "statut": "états COG documentaires des circonscriptions sans géométries historiques",
+        "fichier": "data/lieux-wallis-futuna/chronologie-cog-2026.json",
+        "periode_annees": [
+          1943,
+          2026
+        ],
+        "territoire_COG_2026": "986",
+        "ancien_code_territorial_documentaire": "98609",
+        "episode_98609": [
+          "1961-07-31",
+          "1985-01-01"
+        ],
+        "episode_986": [
+          "1985-01-01",
+          null
+        ],
+        "circonscriptions_COG_2026": [
+          "98611",
+          "98612",
+          "98613"
+        ],
+        "premieres_attestations_COG_circonscriptions": "1985-01-01",
+        "loi_statutaire_circonscriptions": "1961-07-30",
+        "nombre_circonscriptions": 3,
+        "nombre_communes": 0,
+        "ancien_code_98607_entite_COG": "Nouvelle-Calédonie",
+        "relation_98607_vers_986_inferree": false,
+        "nouvelle_relation_Pactols_validee": 0,
+        "contours_historiques_publies": 0,
+        "niveau_territorial": "Circonscription / Territoire, distinct de Commune"
       }
     },
     "personnes": {
