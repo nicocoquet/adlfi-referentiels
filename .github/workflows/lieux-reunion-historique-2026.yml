@@ -1,0 +1,58 @@
+name: Lieux — La Réunion, états communaux COG et division de 1965
+
+on:
+  pull_request:
+    paths:
+      - 'docs/data/lieux-reunion/**'
+      - 'docs/assets/lieux-reunion-historique.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'scripts/verifier_index_public_reunion_2026.py'
+      - 'tests/test_lieux_reunion_historique.js'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-reunion-historique-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier-reunion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les 24 périodes et la division de 1965 (Node.js)
+        run: node tests/test_lieux_reunion_historique.js
+      - name: Vérifier le gabarit et l'absence de géométries historiques
+        run: python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Télécharger les trois tables officielles COG 2026 épinglées
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Comparer les 24 épisodes et les 25 lignes de mouvement à la source Insee
+        run: |
+          python3 scripts/verifier_index_public_reunion_2026.py \
+            --cog-dir "$RUNNER_TEMP/cog2026" \
+            --public docs/data/lieux-reunion/chronologie-cog-2026.json
+      - name: Vérifier invariants de publication
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('docs/data/lieux-reunion/chronologie-cog-2026.json').read_text())
+          m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']['historique_communes_reunion']
+          assert len(d['episodes'].splitlines())==m['periodes_COG']==24
+          assert m['lignes_mouvements_COG']==25
+          assert d['mouvement_division_1965']['date_effet']==m['division_Saint_Louis_Cilaos']=='1965-02-05'
+          assert m['correspondances_pactols_2026_conservees']==24
+          assert d['nouveaux_alignements_pactols']==0
+          assert d['contours_historiques_publies']==0
+          assert d['nouvelles_relations_successions_inferrees']==0
+          assert all(len(row.split('|'))==4 for row in d['episodes'].splitlines())
+          assert d['mouvement_division_1965']['contour_avant_1965'] is None
+          assert d['mouvement_division_1965']['contour_apres_1965'] is None
+          print('RÉUNION : 24 ÉPISODES, 25 MOUVEMENTS, 0 GÉOMÉTRIE HISTORIQUE — OK')
+          PY
