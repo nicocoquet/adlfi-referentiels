@@ -321,7 +321,7 @@ def main():
         assert "DROM · communes des départements et régions" in text_ma
         assert "2011-03-31 – en cours dans la source" in text_ma
         assert "976D · Département de Mayotte" in text_ma
-        assert "Aucun contour historique de Mayotte" in text_ma
+        assert "sans contour historique de Mayotte" in text_ma
 
         set_year(2026)
         page.wait_for_function(
