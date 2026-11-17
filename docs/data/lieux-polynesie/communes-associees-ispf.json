@@ -1,0 +1,22 @@
+{
+  "schema": "adlfi.lieux.polynesie.ispf.communes-associees.public.v1",
+  "statut": "AUTORITES_ISPF_2026_DOCUMENTAIRES_SANS_GEOMETRIE_NI_ARK",
+  "source": "https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx",
+  "sha256_source": "d84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6",
+  "source_edition_precise": null,
+  "reference_communes_cog": "2026-01-01",
+  "nature": "COMMUNE_ASSOCIEE_ISPF",
+  "format_lignes": "IDComas_ISPF|libelle_ISPF|code_parent_INSEE|IDSub_ISPF",
+  "communes_associees": "111|Anaa|98711|5\n112|Faaite|98711|5\n131|Apataki|98713|5\n132|Arutua|98713|5\n133|Kaukura|98713|5\n141|Anau|98714|2\n142|Faanui|98714|2\n143|Nunue|98714|2\n161|Fakarava|98716|5\n162|Kauehi|98716|5\n163|Niau|98716|5\n171|Fakahina|98717|5\n172|Fangatau|98717|5\n201|Amanu|98720|5\n202|Hao|98720|5\n203|Hereheretue|98720|5\n211|Hikueru|98721|5\n212|Marokau|98721|5\n221|Hitiaa|98722|1\n222|Mahaena|98722|1\n223|Papenoo|98722|1\n224|Tiarei|98722|1\n231|Atuona|98723|3\n232|Puamau|98723|3\n241|Faie|98724|2\n242|Fare|98724|2\n243|Fitii|98724|2\n244|Haapu|98724|2\n245|Maeva|98724|2\n246|Maroe|98724|2\n247|Parea|98724|2\n248|Tefarerii|98724|2\n261|Katiu|98726|5\n262|Makemo|98726|5\n263|Raroia|98726|5\n264|Taenga|98726|5\n271|Ahe|98727|5\n272|Manihi|98727|5\n291|Afareaitu|98729|1\n292|Haapiti|98729|1\n293|Maiao|98729|1\n294|Paopao|98729|1\n295|Papetoai|98729|1\n296|Teavaro|98729|1\n301|Napuka|98730|5\n302|Tepoto Nord|98730|5\n311|Hatiheu|98731|3\n312|Taiohae|98731|3\n313|Taipivai|98731|3\n321|Nukutavake|98732|5\n322|Vahitahi|98732|5\n323|Vairaatea|98732|5\n391|Anatonu|98739|4\n392|Rairua-Mahanatoa|98739|4\n393|Vaiuru|98739|4\n401|Makatea|98740|5\n402|Mataiva|98740|5\n403|Rangiroa|98740|5\n404|Tikehau|98740|5\n421|Pukarua|98742|5\n422|Reao|98742|5\n431|Amaru|98743|4\n432|Anapoto|98743|4\n433|Mutuaura|98743|4\n441|Avera (Rurutu)|98744|4\n442|Hauti|98744|4\n443|Moerai|98744|4\n451|Faaaha|98745|2\n452|Haamene|98745|2\n453|Hipu|98745|2\n454|Iripau|98745|2\n455|Niua|98745|2\n456|Ruutia|98745|2\n457|Tapuamu|98745|2\n458|Vaitoare|98745|2\n471|Afaahiti|98747|1\n472|Faaone|98747|1\n473|Pueu|98747|1\n474|Tautira|98747|1\n481|Teahupoo|98748|1\n482|Toahotu|98748|1\n483|Vairao|98748|1\n491|Takapoto|98749|5\n492|Takaroa|98749|5\n501|Avera (Taputapuatea)|98750|2\n502|Opoa|98750|2\n503|Puohine|98750|2\n521|Mataiea|98752|1\n522|Papeari|98752|1\n531|Mahu|98753|4\n532|Mataura|98753|4\n533|Taahuaia|98753|4\n541|Fetuna|98754|2\n542|Tehurui|98754|2\n543|Tevaitoa|98754|2\n544|Vaiaau|98754|2\n571|Hakahau|98757|3\n572|Hakamaii|98757|3",
+  "nombre_associees": 98,
+  "nombre_communes_parentes": 30,
+  "nombre_communes_sans_associees": 18,
+  "nombre_unites_conventionnelles_non_publiees": 18,
+  "nombre_communes_cog_conservees": 48,
+  "alignements_pactols_inferes": 0,
+  "geometries_publiques": 0,
+  "dates_creations_inferrees": 0,
+  "historique_retroprojete": false,
+  "exceptions_maria_CODGEO": 2,
+  "libelle_variante_ISPF_COG": "Faa'a / Faaa (98715)"
+}
