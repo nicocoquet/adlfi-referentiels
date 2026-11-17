@@ -14,10 +14,6 @@ import json
 from pathlib import Path
 from zipfile import ZipFile
 
-from shapely.geometry import shape
-from shapely.ops import unary_union
-from pyproj import CRS
-
 from comparer_contours_geopf_ispf import (
     aire, lire_source_geopf, XLSX_SHA, ISPF_GEO_SHA, GEO_PF_SHA
 )
@@ -54,6 +50,9 @@ def profiler_piece(ident, attributs, geom, contour, geod):
     }
 
 def auditer(xlsx, ispf_geojson, geopf):
+    from shapely.geometry import shape
+    from shapely.ops import unary_union
+    from pyproj import CRS
     sources = (
         ("xlsx", xlsx, XLSX_SHA),
         ("ispf_geojson", ispf_geojson, ISPF_GEO_SHA),
