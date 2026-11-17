@@ -736,7 +736,7 @@ def main():
         assert "26678/pcrtwFq5jKHO3k" not in wf
         assert "1985-01-01" in wf
         assert "Aucune commune à Wallis-et-Futuna" in wf
-        assert "aucune assimilation des circonscriptions à des communes" in wf
+        assert "aucune assimilation de celles-ci à des communes" in wf
 
         page.goto(base+"/lieux/?ref_cog=COMER%3ACIR%3A98613&annee=2026&niveau=commune",
                   wait_until="domcontentloaded")
