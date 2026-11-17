@@ -1,0 +1,50 @@
+name: Lieux — audit de couverture Pactols–COG outre-mer 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_couverture_pactols_cog_outremer_2026.py'
+      - 'tests/test_auditer_couverture_pactols_cog_outremer_2026.py'
+      - 'recette/lieux/COUVERTURE-PACTOLS-COG-OUTREMER-2026.md'
+      - '.github/workflows/lieux-couverture-pactols-cog-2026.yml'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'recette/lieux/*-VALIDATIONS-PACTOLS-COG-2026.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  couverture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests des registres et garde-fous
+        run: python3 -m unittest discover -s tests -p 'test_auditer_couverture_pactols_cog_outremer_2026.py' -v
+      - name: Générer deux rapports de couverture identiques
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_couverture_pactols_cog_outremer_2026.py \
+            --index docs/data/lieux-outremer/recherche-2026.json \
+            --registres recette/lieux --sortie "$RUNNER_TEMP/couverture-a.json"
+          python3 scripts/auditer_couverture_pactols_cog_outremer_2026.py \
+            --index docs/data/lieux-outremer/recherche-2026.json \
+            --registres recette/lieux --sortie "$RUNNER_TEMP/couverture-b.json"
+          cmp "$RUNNER_TEMP/couverture-a.json" "$RUNNER_TEMP/couverture-b.json"
+          python3 - "$RUNNER_TEMP/couverture-a.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['publication']=={'nouveaux_ark':0,'nouveaux_contours':0,'nouveaux_alignements':0}
+          assert r['totaux']['sans_alignement_communal']==36
+          assert r['ark_confirmes_non_valides']=={'97607':'26678/crtZcuFSJVYZU'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bilan-couverture-pactols-cog-outremer-2026
+          path: ${{ runner.temp }}/couverture-a.json
+          retention-days: 30
+          if-no-files-found: error
