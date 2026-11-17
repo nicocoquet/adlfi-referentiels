@@ -1,0 +1,24 @@
+name: Lieux — décision éditoriale Saint-Pierre 97502
+
+on:
+  pull_request:
+    paths:
+      - 'recette/lieux/SAINT-PIERRE-97502-DECISION*'
+      - 'tests/test_decision_saint_pierre_97502.py'
+      - '.github/workflows/lieux-saint-pierre-decision.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arbitrage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier l'exception unique et l'absence de publication implicite
+        run: python3 -m unittest discover -s tests -p 'test_decision_saint_pierre_97502.py' -v
