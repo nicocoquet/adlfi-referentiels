@@ -298,6 +298,18 @@
         "source_registre": "recette/lieux/CORSE-VALIDATIONS-PACTOLS-COG-2026.csv",
         "geometries_historiques_validees": 0,
         "retroprojections": 0
+      },
+      "pactols_bfc_2026": {
+        "statut": "index documentaire validé pour COG 2026 sans modification des états historiques",
+        "fichier": "data/lieux-chronologie/pactols-bfc-2026.json",
+        "communes": 3614,
+        "relations_validees": 3614,
+        "communes_a_instruire": 71,
+        "portee_COG": "2026-01-01",
+        "preuve": "skos:exactMatch RDF Pactols 22 juillet 2026",
+        "source_registre": "recette/lieux/BFC-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "geometries_historiques_validees": 0,
+        "retroprojections": 0
       }
     },
     "personnes": {
