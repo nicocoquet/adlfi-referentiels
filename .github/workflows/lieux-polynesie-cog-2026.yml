@@ -106,17 +106,20 @@ jobs:
           j=json.loads(Path('docs/data/lieux-outremer/recherche-2026.json').read_text())
           d=json.loads(Path('docs/data/lieux-polynesie/chronologie-cog-2026.json').read_text())
           m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']
-          assert len(j['pactols_valides'])==128
-          assert not any(code.startswith('987') for code in j['pactols_valides'])
+          assert len(j['pactols_valides'])==176
+          assert len([code for code in j['pactols_valides'] if code.startswith('987')])==48
           assert m['recherche_cog_outremer_2026']['communes']==212
           assert m['recherche_cog_outremer_2026']['autres_entites']==21
           assert m['historique_communes_polynesie']['communes_COG_2026']==48
           assert m['historique_communes_polynesie']['nombre_communes_associees_creees_automatiquement']==0
           assert d['nouveaux_alignements_pactols']==0
+          assert d['alignements_pactols_2026_valides']==48
+          assert d['alignements_uniquement_millesime_2026'] is True
+          assert d['contour_tahaa_98745_non_homologue'] is True
           assert d['contours_historiques_publies']==0
           assert d['communes_associees_creees']==0
           assert d['relations_historiques_inferrees']==0
-          print('POLYNESIE_COG_PUBLIC : 48 épisodes, 98 associées non inventées, 128 liens communaux inchangés')
+          print('POLYNESIE_COG_PUBLIC : 48 épisodes, 98 associées non inventées, 176 alignements communaux (48 Polynésie), contours inchangés')
           PY
       - name: Archiver les épisodes historiques pour arbitrage
         uses: actions/upload-artifact@v4
