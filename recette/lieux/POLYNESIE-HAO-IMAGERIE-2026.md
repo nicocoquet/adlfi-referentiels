@@ -34,3 +34,27 @@ Il ne télécharge aucune bande raster ni ne traite des pixels : une scène dont
 Un taux de nuages à l'échelle d'une tuile ne constitue pas une mesure de la nébulosité **au point** ; la période et la précision de la source GEO PF restent non établies. Une résolution nominale de 10 m ne peut pas homologuer une limite administrative submétrique. Pour une qualification éditoriale, il faudra inspecter des extraits géoréférencés, décrire les classes d'objets sur l'image et, si possible, vérifier sur un autre fond topographique daté de précision connue.
 
 **Statut : `RECETTE_NON_VALIDANTE`.** Résultats dans un artefact CI hors `docs/`, **aucune scène, image ou géométrie publiée**. Pas de correction d'autorité, de nom ou d'ARK.
+
+
+## Premiers résultats effectifs du catalogue STAC
+
+Le workflow spécialisé [n°44113440231](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44113440231) a interrogé avec succès les fenêtres annuelles **2022** et **2025**, sur la collection `sentinel-2-l2a` du catalogue Copernicus. Pour chacune, la réponse initiale comporte **100 objets** et un lien de **pagination** : les listes annuelles ne sont **pas exhaustives**, et il est interdit de déduire qu'une scène non listée n'existe pas.
+
+Exemple concret de scène renvoyée pour **2022**, dont le footprint inclut les **cinq points intérieurs** des différences GEO PF–ISPF de Hao :
+
+- Identifiant STAC : **`S2A_MSIL2A_20221226T193851_N0510_R056_T07KEV_20240715T211924`** ;
+- Plateforme : **Sentinel-2A**, produit **L2A** ;
+- Date d'acquisition UTC : **26 décembre 2022, 19:38:51** ;
+- Taux de nuages du produit/tuile : **3,53 %** — **pas** une mesure de nébulosité sur chacun des cinq points ;
+- Emprise affichée dans le catalogue : environ `[-141.0001901, -19.0809100, -139.9565173, -18.0857391]` (WGS84 lon/lat) ;
+- [Fiche STAC exacte du produit](https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l2a/items/S2A_MSIL2A_20221226T193851_N0510_R056_T07KEV_20240715T211924).
+
+La fiche contient une date de traitement de produit plus récente dans son identifiant, qui **ne doit pas être confondue avec la date d'acquisition**. Une autre scène du même jour (`T07KDV`) couvre la composante 5, mais la tuile `T07KEV` inclut déjà les cinq **points** de contrôle.
+
+Pour **2025**, la première page du catalogue renvoie des scènes de fin décembre dont certains taux de nuages atteignent **100 %**. Leur couverture géométrique ne garantit aucune information visuelle exploitable sur les points.
+
+Une **troisième fenêtre centrée sur la journée du 26 décembre 2022** est ajoutée au workflow pour vérifier la disponibilité précise de cette acquisition sans prétendre réaliser un inventaire annuel exhaustif.
+
+### Conclusion limitée
+
+Le catalogue fournit maintenant une **référence de produit Sentinel-2 datée et vérifiable**, dont l'emprise traverse les cinq secteurs étudiés. Il reste à contrôler la présence de pixels valides sur les **surfaces exactes**, la nébulosité locale, la qualité géométrique et la composition spectrale avant toute qualification comme récif, motu ou lagon. Il faudrait aussi établir si l'image GEO PF utilisait une acquisition plus ancienne ou un jeu de restitution dérivé ; la coïncidence de source institutionnelle et d'année ne prouve aucune généalogie.
