@@ -209,6 +209,28 @@
         "nouvelle_relation_Pactols_validee": 0,
         "contours_historiques_publies": 0,
         "niveau_territorial": "Circonscription / Territoire, distinct de Commune"
+      },
+      "historique_communes_polynesie": {
+        "statut": "48 épisodes communaux COG documentaires, aucune association ISPF ni géométrie historique ajoutée",
+        "fichier": "data/lieux-polynesie/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "communes_COG_2026": 48,
+        "episodes_COG_2026": 48,
+        "date_premier_episode_COG": "1972-05-21",
+        "date_creation_de_toutes_les_communes_inferree": false,
+        "communes_preexistantes_reforme_1971": 4,
+        "communes_ajoutees_reforme": 44,
+        "nombre_communes_associees_ISPF_a_instruire": 98,
+        "nombre_communes_avec_associees_ISPF": 30,
+        "nombre_communes_sans_associees_ISPF": 18,
+        "nombre_subdivisions_administratives": 5,
+        "Clipperton_ancien_code_COG": "98799",
+        "Clipperton_date_fin_exclusive": "2007-02-23",
+        "nombre_nouveaux_alignements_pactols": 0,
+        "nombre_contours_historiques_publies": 0,
+        "nombre_communes_associees_creees_automatiquement": 0,
+        "niveau_territorial": "Commune principale / collectivité, distinct des communes associées et subdivisions ISPF"
       }
     },
     "personnes": {
