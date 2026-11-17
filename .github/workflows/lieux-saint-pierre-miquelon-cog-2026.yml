@@ -1,0 +1,87 @@
+name: Lieux — Saint-Pierre-et-Miquelon, audit COG historique (2 communes)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_cog_saint_pierre_miquelon_2026.py'
+      - 'tests/test_auditer_cog_saint_pierre_miquelon_2026.py'
+      - 'recette/lieux/SAINT-PIERRE-MIQUELON-COG-2026-RECETTE.md'
+      - '.github/workflows/lieux-saint-pierre-miquelon-cog-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  saint-pierre-miquelon:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester le schéma documentaire et la distinction des statuts
+        run: python3 -m unittest discover -s tests -p 'test_auditer_cog_saint_pierre_miquelon_2026.py' -v
+      - name: Acquérir et contrôler six fichiers originaux du COG 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import hashlib,os,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,'scripts')
+          from auditer_cog_saint_pierre_miquelon_2026 import SHAS
+          temp=Path(os.environ["RUNNER_TEMP"])
+          out=temp/"cog2026";out.mkdir()
+          with zipfile.ZipFile(temp/"cog_ensemble_2026_csv.zip") as z:
+              for name,expected in SHAS.items():
+                  found=[i for i in z.infolist() if Path(i.filename).name==name]
+                  if len(found)!=1:raise ValueError("Fichier manquant ou dupliqué : "+name)
+                  i=found[0]
+                  if i.file_size<=0 or i.file_size>9_000_000:raise ValueError("Taille inattendue : "+name)
+                  buf=z.read(i)
+                  digest=hashlib.sha256(buf).hexdigest()
+                  if digest!=expected:raise ValueError(name+": SHA officiel incompatible : "+digest)
+                  (out/name).write_bytes(buf)
+                  print("COG2026",name,"bytes",len(buf),"sha256",digest)
+          PY
+      - name: Générer deux fois la préinstruction sans publication
+        run: |
+          python3 scripts/auditer_cog_saint_pierre_miquelon_2026.py \
+            --sources "$RUNNER_TEMP/cog2026" \
+            --sortie "$RUNNER_TEMP/spm-1.json" > "$RUNNER_TEMP/spm-resume.txt"
+          python3 scripts/auditer_cog_saint_pierre_miquelon_2026.py \
+            --sources "$RUNNER_TEMP/cog2026" \
+            --sortie "$RUNNER_TEMP/spm-2.json" > /dev/null
+          cmp "$RUNNER_TEMP/spm-1.json" "$RUNNER_TEMP/spm-2.json"
+      - name: Imprimer les codes, périodes communales et épisodes de la collectivité
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          p=Path(os.environ["RUNNER_TEMP"])/"spm-1.json"
+          data=json.loads(p.read_text())
+          assert data["schema"]=="adlfi.lieux.spm.audit.cog2026.v1"
+          assert data["statut"]=="PREINSTRUCTION_COG_NON_VALIDANTE"
+          assert len(data["communes_2026"])==2
+          assert {x["code"] for x in data["communes_2026"]}=={"97501","97502"}
+          assert all(x["transition_communes_inferree"] is False
+                     for x in data["periodes_juridiques_a_ne_pas_confondre"])
+          assert data["nouveaux_alignements_pactols"]==0
+          assert data["nouvelles_relations_successions_inferrees"]==0
+          assert data["geometries_historiques_adoptees"]==0
+          assert data["publication_docs"] is False
+          for key in ("collectivite_actuelle","episodes_collectivite_COG",
+                      "episodes_communes_COMER_COG","episodes_communes_DROM_COG"):
+              print(key,json.dumps(data[key],ensure_ascii=False))
+          PY
+      - name: Archiver uniquement le rapport de préinstruction, hors Pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-spm-cog2026-preinstruction
+          path: ${{ runner.temp }}/spm-1.json
+          retention-days: 30
+          if-no-files-found: error
