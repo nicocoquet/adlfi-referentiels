@@ -14,6 +14,7 @@ const martiniqueHistorique=window.AdlfiLieuxMartiniqueHistorique;
 const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
 const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
+const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -175,8 +176,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -188,6 +189,7 @@ async function start(){
    loadJSON(ROOT+'lieux-guadeloupe/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-mayotte/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-saint-pierre-miquelon/chronologie-cog-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -209,6 +211,7 @@ async function start(){
   state.guadeloupe=guadeloupeHistorique.creer(indexGuadeloupeHistorique);
    state.reunion=reunionHistorique.creer(indexReunionHistorique);
    state.mayotte=mayotteHistorique.creer(indexMayotteHistorique);
+    state.spm=spmHistorique.creer(indexSPMHistorique);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -459,7 +462,11 @@ function focusSelection(){const x=state.selected;
   if(x.kind==='cog2026'&&x.code?.startsWith('976')){
     state.map.fitBounds([[-13.1,44.95],[-12.55,45.35]],{padding:[24,24],animate:false});return;
   }
-  if(!['admin','commune'].includes(x.kind))return;
+  if((x.kind==='cog2026'&&x.code?.startsWith('975'))||
+      (x.kind==='autre_cog2026'&&x.id==='COMER:TERRITOIRE:975')){
+     state.map.fitBounds([[46.5,-57.0],[47.3,-55.5]],{padding:[24,24],animate:false});return;
+   }
+   if(!['admin','commune'].includes(x.kind))return;
  const key=x.kind==='admin'?x.year+'/'+x.level+'/'+x.code:'com:'+x.code;
  const layer=state.bounds.get(key);
  if(layer&&layer.getBounds().isValid()){state.map.fitBounds(layer.getBounds(),{padding:[25,25],maxZoom:x.kind==='commune'?12:10,animate:false})}
@@ -660,6 +667,51 @@ function afficherChronologieMayotte(target,code){
  warn.textContent='Les 34 périodes COG sont documentaires, sans contour historique de Mayotte. Le code institutionnel 976R ne désigne pas une commune. Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives.';
  target.append(warn);
 }
+function afficherChronologieSPM(target,entry){
+ if(!state.spm)return;
+ const y=year(),commune=entry.kind==='cog2026';
+ const h=document.createElement('h3');h.textContent='État COG de Saint-Pierre-et-Miquelon au 1er janvier '+y;target.append(h);
+ const ep=commune?state.spm.etatCommune(entry.code,y):state.spm.etatCollectivite(y);
+ if(ep){
+  const dl=document.createElement('dl');
+  ligne(dl,'Niveau documenté',commune?'Commune':'Collectivité territoriale');
+  ligne(dl,'Code et libellé COG',ep.code+' · '+ep.label);
+  ligne(dl,'Début du couple code–libellé COG',ep.start);
+  ligne(dl,'Fin documentaire',ep.end||'En cours dans le COG 2026');
+  ligne(dl,'Série documentaire COG',commune?
+     'Communes des collectivités et territoires d’outre-mer (COMER)':
+     'Collectivités et territoires d’outre-mer');
+  target.append(dl);
+ }else{
+  const p=document.createElement('p');p.className='warning';
+  p.textContent=commune?
+    'Aucun épisode communal n’est documenté pour ce code au 1er janvier '+y+
+    '. Sa première attestation dans la série COG consultée est le 21 juillet 1976, non sa date de création.':
+    'Aucun épisode du code territorial 975 n’est documenté au 1er janvier '+y+
+    '. Sa première attestation dans cette série COG est le 15 juin 1985, sans impliquer l’inexistence antérieure du territoire.';
+  target.append(p);
+ }
+ const statut=state.spm.statutJuridiqueAnnuel(y);
+ if(statut){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Statut institutionnel au 1er janvier (repère annuel fondé sur les textes) : '+statut+
+   '. La série COG COMER ne détermine pas le statut juridique historique.';target.append(p);
+ }
+ if([1976,1985,2003,2007].includes(y)){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Année de réforme : le curseur indique le 1er janvier, antérieurement à la loi promulguée cette année-là. Les changements de statut ne créent pas de nouvelles communes dans cet audit.';target.append(p);
+ }
+ for(const [label,href] of [
+  ['Source historique des codes : Insee, COG 2026','https://www.insee.fr/fr/information/8740222'],
+  ['Source des statuts : Insee, codification de Saint-Pierre-et-Miquelon','https://www.insee.fr/fr/information/7929495']
+ ]){
+   const p=document.createElement('p'),a=document.createElement('a');
+   a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;p.append(a);target.append(p);
+ }
+ const p=document.createElement('p');p.className='warning';
+ p.textContent='États COG documentaires seulement : aucun contour historique, aucun nouvel alignement Pactols, aucune succession inférée. Les géométries contemporaines ne sont pas rétroprojetées.';
+ target.append(p);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -757,6 +809,10 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
       afficherChronologieReunion(target,entry.code);
     }else if(entry.kind==='cog2026'&&entry.code.startsWith('976')){
       afficherChronologieMayotte(target,entry.code);
+    }else if(entry.kind==='cog2026'&&entry.code.startsWith('975')){
+      afficherChronologieSPM(target,entry);
+    }else if(entry.kind==='autre_cog2026'&&entry.id==='COMER:TERRITOIRE:975'){
+      afficherChronologieSPM(target,entry);
    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
