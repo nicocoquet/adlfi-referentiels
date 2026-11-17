@@ -34,12 +34,17 @@ def normaliser(s):
  s=unicodedata.normalize("NFKD",s.casefold())
  s="".join(c for c in s if not unicodedata.combining(c))
  return " ".join(re.findall(r"[a-z0-9]+",s))
+def mention_nom(label):
+ x=normaliser(label)
+ return "saint barthelemy" in x or "saint martin" in x
+
 def cible_lexicale(label):
  x=normaliser(label)
- # Les seules ressemblances non ambiguës sont des CANDIDATS, jamais des preuves.
- return "saint barthelemy" in x or (
-  "saint martin" in x and any(z in x for z in (
-   "guadeloupe","antilles","outre mer","collectivite","saint martin et")))
+ # Un libellé de Saint-Martin / Saint-Barthélemy sans précision antillaise
+ # est un homonyme trop ambigu. Même un contexte antillais ne valide rien.
+ return mention_nom(label) and any(z in x for z in (
+  "antilles","guadeloupe","collectivite d outre mer","iles du nord",
+  "saint barthelemy france", "saint martin france"))
 def verifier_cog(path):
  if empreinte(path)!=COG_SHA:raise ValueError("Table COMER 2026 COG non épinglée")
  with path.open(encoding="utf-8-sig",newline="") as f:
@@ -54,6 +59,7 @@ def verifier_cog(path):
 def analyser_rdf(path):
  explicit=collections.defaultdict(list)
  lexical=[]
+ homonymes_ecartes=0
  checked=0
  parser=ET.iterparse(path,events=("start","end"))
  _,root=next(parser)
@@ -87,9 +93,12 @@ def analyser_rdf(path):
    for c in matched:explicit[c].append(item)
    if not matched and any(cible_lexicale(v) for v in pref):
     lexical.append(item)
+  elif not matched and any(mention_nom(v) for v in pref):
+   homonymes_ecartes+=1
   el.clear();root.clear()
  return {"codes":{c:sorted(explicit[c],key=lambda x:x["ark"]) for c in CODE},
          "lexicaux_non_validants":sorted(lexical,key=lambda x:x["ark"]),
+         "homonymes_sans_contexte_antillais_ecartes":homonymes_ecartes,
          "concepts_examines":checked}
 
 def rapport(rdf,cog):
@@ -112,6 +121,7 @@ def rapport(rdf,cog):
   "codes_instruits":rows,
   "candidats_lexicaux_non_valides":d["lexicaux_non_validants"],
   "concepts_RDF_examines":d["concepts_examines"],
+  "homonymes_sans_contexte_antillais_ecartes":d["homonymes_sans_contexte_antillais_ecartes"],
   "bilan":{"codes_verifies":len(CODE),
    "liens_RDF_explicites":sum(x["nombre_concepts_exactMatch"] for x in rows),
    "codes_avec_exactMatch":sum(bool(x["nombre_concepts_exactMatch"]) for x in rows),
