@@ -1,0 +1,73 @@
+name: Lieux — PACA bilan 946 communes et 103 autorités pilotes
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_paca_pactols_cog_2026.py'
+      - 'tests/test_auditer_paca_pactols_cog_2026.py'
+      - 'recette/lieux/PACA-BILAN-PACTOLS-COG-2026.md'
+      - '.github/workflows/lieux-paca-audit-946-103-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-946:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester la distinction décisions éditoriales / candidats RDF
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_paca_pactols_cog_2026.py' -v
+      - name: Vérifier Pactols RDF épinglé
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Acquérir le COG Insee 2026
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Produire deux rapports PACA identiques
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_paca_pactols_cog_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --pilote docs/data/lieux.json \
+              --sortie "$RUNNER_TEMP/paca-audit-$n.json"
+          done
+          cmp "$RUNNER_TEMP/paca-audit-1.json" "$RUNNER_TEMP/paca-audit-2.json"
+          python3 - "$RUNNER_TEMP/paca-audit-1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding="utf-8"))
+          b=d["bilan"]
+          assert b["communes_COG_PACA_2026"]==946
+          assert b["pilote_valide_preexistant"]==103
+          assert len(d["communes"])==946
+          assert b["nouveaux_ARK_publies"]==0
+          assert b["geometries_ajoutees"]==0
+          assert b["relations_historiques_inferees"]==0
+          assert b["pilote_retrouve_par_exactMatch_RDF"]+b["pilote_non_retrouve_dans_RDF"]==103
+          print("PACA_946_103_CONTROLE_OK",json.dumps(b,ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-paca-946-cog-103-pactols-2026
+          path: ${{ runner.temp }}/paca-audit-1.json
+          retention-days: 30
+          if-no-files-found: error
