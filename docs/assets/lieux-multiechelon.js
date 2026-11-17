@@ -15,6 +15,7 @@ const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
 const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
 const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
+const antilles2007=window.AdlfiLieuxAntilles2007;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -176,8 +177,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -190,6 +191,7 @@ async function start(){
    loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-mayotte/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-saint-pierre-miquelon/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -212,6 +214,7 @@ async function start(){
    state.reunion=reunionHistorique.creer(indexReunionHistorique);
    state.mayotte=mayotteHistorique.creer(indexMayotteHistorique);
     state.spm=spmHistorique.creer(indexSPMHistorique);
+     state.antilles2007=antilles2007.creer(indexAntilles2007);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -733,6 +736,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    const note=document.createElement('p');note.className='warning';
    note.textContent='Cette ancienne commune est une autorité historique documentaire distincte. Le COG consulté ne fournit pas de code de destination dans la ligne MOD 30 ; aucune équivalence automatique avec une collectivité actuelle 977 ou 978, ni avec son concept Pactols, n’est déduite. Aucun contour historique n’est affiché.';
    target.append(note);
+   afficherTransitionAntilles2007(target,x);
    return;
  }
  if(x.kind==='cogHistoriqueGuyane'){
@@ -813,7 +817,11 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
       afficherChronologieSPM(target,entry);
     }else if(entry.kind==='autre_cog2026'&&entry.id==='COMER:TERRITOIRE:975'){
       afficherChronologieSPM(target,entry);
-   }else if(year()!==2026){
+   }
+    else if(entry.kind==='autre_cog2026'&&
+      ['COMER:TERRITOIRE:977','COMER:TERRITOIRE:978','COMER:COM:97701','COMER:COM:97801'].includes(entry.id)){
+      afficherTransitionAntilles2007(target,entry);
+    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
      target.append(p);
