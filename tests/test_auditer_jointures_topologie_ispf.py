@@ -2,11 +2,10 @@
 from __future__ import annotations
 import sys
 import unittest
+import importlib.util
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from auditer_jointures_topologie_ispf import code, indexer
-from shapely.geometry import Polygon
-from shapely.validation import explain_validity
 
 class TestJointuresISPF(unittest.TestCase):
     def test_codes_zero_padding(self):
@@ -24,7 +23,10 @@ class TestJointuresISPF(unittest.TestCase):
         self.assertEqual(len(found), 1)
         self.assertEqual(duplicates, ["111"])
 
+    @unittest.skipUnless(importlib.util.find_spec('shapely'), 'Shapely requis pour test topologique')
     def test_topologie_ogc_reconnait_auto_intersection(self):
+        from shapely.geometry import Polygon
+        from shapely.validation import explain_validity
         bowtie = Polygon([(0,0), (2,2), (0,2), (2,0), (0,0)])
         self.assertFalse(bowtie.is_valid)
         self.assertIn("intersect", explain_validity(bowtie).lower())
