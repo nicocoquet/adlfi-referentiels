@@ -30,7 +30,7 @@ def verifier(root=ROOT):
         decisions = list(reader)
     import hashlib
     if hashlib.sha256(csv_path.read_bytes()).hexdigest() != CSV_SHA:
-        raise ValueError("Registre PDL différent du CSV source PR 102")
+        raise ValueError("Registre PDL différent du CSV source PR 104")
     pub = json.loads(json_path.read_text(encoding="utf-8"))
     cog = json.loads(cog_path.read_text(encoding="utf-8"))
     man = json.loads(manifest_path.read_text(encoding="utf-8"))
