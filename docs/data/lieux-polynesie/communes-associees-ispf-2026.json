@@ -1,0 +1,1005 @@
+{
+  "anomalie_geo_ispf": {
+    "code_parent_cog": "98719",
+    "code_unite_non_subdivisee": "190",
+    "ligne_base_19000_absente": true,
+    "lignes_ISPF_Geo_ile_rattachee": 64,
+    "lignes_iles_rattachees_19001_19016": 16,
+    "nom_unite": "Gambier",
+    "nombre_iles_rattachees_annonce_dans_notice_ISPF": 63,
+    "traitement": "SIGNALER_SANS_RECLASSER_DES_LIGNES_SOURCE"
+  },
+  "communes_associees": [
+    {
+      "code_ispf": "111",
+      "commune_parent_cog": "98711",
+      "commune_parent_libelle_cog": "Anaa",
+      "libelle": "Anaa",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "112",
+      "commune_parent_cog": "98711",
+      "commune_parent_libelle_cog": "Anaa",
+      "libelle": "Faaite",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "131",
+      "commune_parent_cog": "98713",
+      "commune_parent_libelle_cog": "Arutua",
+      "libelle": "Apataki",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "132",
+      "commune_parent_cog": "98713",
+      "commune_parent_libelle_cog": "Arutua",
+      "libelle": "Arutua",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "133",
+      "commune_parent_cog": "98713",
+      "commune_parent_libelle_cog": "Arutua",
+      "libelle": "Kaukura",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "141",
+      "commune_parent_cog": "98714",
+      "commune_parent_libelle_cog": "Bora-Bora",
+      "libelle": "Anau",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "142",
+      "commune_parent_cog": "98714",
+      "commune_parent_libelle_cog": "Bora-Bora",
+      "libelle": "Faanui",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "143",
+      "commune_parent_cog": "98714",
+      "commune_parent_libelle_cog": "Bora-Bora",
+      "libelle": "Nunue",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "161",
+      "commune_parent_cog": "98716",
+      "commune_parent_libelle_cog": "Fakarava",
+      "libelle": "Fakarava",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "162",
+      "commune_parent_cog": "98716",
+      "commune_parent_libelle_cog": "Fakarava",
+      "libelle": "Kauehi",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "163",
+      "commune_parent_cog": "98716",
+      "commune_parent_libelle_cog": "Fakarava",
+      "libelle": "Niau",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "171",
+      "commune_parent_cog": "98717",
+      "commune_parent_libelle_cog": "Fangatau",
+      "libelle": "Fakahina",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "172",
+      "commune_parent_cog": "98717",
+      "commune_parent_libelle_cog": "Fangatau",
+      "libelle": "Fangatau",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "201",
+      "commune_parent_cog": "98720",
+      "commune_parent_libelle_cog": "Hao",
+      "libelle": "Amanu",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "202",
+      "commune_parent_cog": "98720",
+      "commune_parent_libelle_cog": "Hao",
+      "libelle": "Hao",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "203",
+      "commune_parent_cog": "98720",
+      "commune_parent_libelle_cog": "Hao",
+      "libelle": "Hereheretue",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "211",
+      "commune_parent_cog": "98721",
+      "commune_parent_libelle_cog": "Hikueru",
+      "libelle": "Hikueru",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "212",
+      "commune_parent_cog": "98721",
+      "commune_parent_libelle_cog": "Hikueru",
+      "libelle": "Marokau",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "221",
+      "commune_parent_cog": "98722",
+      "commune_parent_libelle_cog": "Hitiaa O Te Ra",
+      "libelle": "Hitiaa",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "222",
+      "commune_parent_cog": "98722",
+      "commune_parent_libelle_cog": "Hitiaa O Te Ra",
+      "libelle": "Mahaena",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "223",
+      "commune_parent_cog": "98722",
+      "commune_parent_libelle_cog": "Hitiaa O Te Ra",
+      "libelle": "Papenoo",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "224",
+      "commune_parent_cog": "98722",
+      "commune_parent_libelle_cog": "Hitiaa O Te Ra",
+      "libelle": "Tiarei",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "231",
+      "commune_parent_cog": "98723",
+      "commune_parent_libelle_cog": "Hiva-Oa",
+      "libelle": "Atuona",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "232",
+      "commune_parent_cog": "98723",
+      "commune_parent_libelle_cog": "Hiva-Oa",
+      "libelle": "Puamau",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "241",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Faie",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "242",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Fare",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "243",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Fitii",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "244",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Haapu",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "245",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Maeva",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "246",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Maroe",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "247",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Parea",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "248",
+      "commune_parent_cog": "98724",
+      "commune_parent_libelle_cog": "Huahine",
+      "libelle": "Tefarerii",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "261",
+      "commune_parent_cog": "98726",
+      "commune_parent_libelle_cog": "Makemo",
+      "libelle": "Katiu",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "262",
+      "commune_parent_cog": "98726",
+      "commune_parent_libelle_cog": "Makemo",
+      "libelle": "Makemo",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "263",
+      "commune_parent_cog": "98726",
+      "commune_parent_libelle_cog": "Makemo",
+      "libelle": "Raroia",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "264",
+      "commune_parent_cog": "98726",
+      "commune_parent_libelle_cog": "Makemo",
+      "libelle": "Taenga",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "271",
+      "commune_parent_cog": "98727",
+      "commune_parent_libelle_cog": "Manihi",
+      "libelle": "Ahe",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "272",
+      "commune_parent_cog": "98727",
+      "commune_parent_libelle_cog": "Manihi",
+      "libelle": "Manihi",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "291",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Afareaitu",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "292",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Haapiti",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "293",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Maiao",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "294",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Paopao",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "295",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Papetoai",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "296",
+      "commune_parent_cog": "98729",
+      "commune_parent_libelle_cog": "Moorea-Maiao",
+      "libelle": "Teavaro",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "301",
+      "commune_parent_cog": "98730",
+      "commune_parent_libelle_cog": "Napuka",
+      "libelle": "Napuka",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "302",
+      "commune_parent_cog": "98730",
+      "commune_parent_libelle_cog": "Napuka",
+      "libelle": "Tepoto Nord",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "311",
+      "commune_parent_cog": "98731",
+      "commune_parent_libelle_cog": "Nuku-Hiva",
+      "libelle": "Hatiheu",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "312",
+      "commune_parent_cog": "98731",
+      "commune_parent_libelle_cog": "Nuku-Hiva",
+      "libelle": "Taiohae",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "313",
+      "commune_parent_cog": "98731",
+      "commune_parent_libelle_cog": "Nuku-Hiva",
+      "libelle": "Taipivai",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "321",
+      "commune_parent_cog": "98732",
+      "commune_parent_libelle_cog": "Nukutavake",
+      "libelle": "Nukutavake",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "322",
+      "commune_parent_cog": "98732",
+      "commune_parent_libelle_cog": "Nukutavake",
+      "libelle": "Vahitahi",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "323",
+      "commune_parent_cog": "98732",
+      "commune_parent_libelle_cog": "Nukutavake",
+      "libelle": "Vairaatea",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "391",
+      "commune_parent_cog": "98739",
+      "commune_parent_libelle_cog": "Raivavae",
+      "libelle": "Anatonu",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "392",
+      "commune_parent_cog": "98739",
+      "commune_parent_libelle_cog": "Raivavae",
+      "libelle": "Rairua-Mahanatoa",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "393",
+      "commune_parent_cog": "98739",
+      "commune_parent_libelle_cog": "Raivavae",
+      "libelle": "Vaiuru",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "401",
+      "commune_parent_cog": "98740",
+      "commune_parent_libelle_cog": "Rangiroa",
+      "libelle": "Makatea",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "402",
+      "commune_parent_cog": "98740",
+      "commune_parent_libelle_cog": "Rangiroa",
+      "libelle": "Mataiva",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "403",
+      "commune_parent_cog": "98740",
+      "commune_parent_libelle_cog": "Rangiroa",
+      "libelle": "Rangiroa",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "404",
+      "commune_parent_cog": "98740",
+      "commune_parent_libelle_cog": "Rangiroa",
+      "libelle": "Tikehau",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "421",
+      "commune_parent_cog": "98742",
+      "commune_parent_libelle_cog": "Reao",
+      "libelle": "Pukarua",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "422",
+      "commune_parent_cog": "98742",
+      "commune_parent_libelle_cog": "Reao",
+      "libelle": "Reao",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "431",
+      "commune_parent_cog": "98743",
+      "commune_parent_libelle_cog": "Rimatara",
+      "libelle": "Amaru",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "432",
+      "commune_parent_cog": "98743",
+      "commune_parent_libelle_cog": "Rimatara",
+      "libelle": "Anapoto",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "433",
+      "commune_parent_cog": "98743",
+      "commune_parent_libelle_cog": "Rimatara",
+      "libelle": "Mutuaura",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "441",
+      "commune_parent_cog": "98744",
+      "commune_parent_libelle_cog": "Rurutu",
+      "libelle": "Avera (Rurutu)",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "442",
+      "commune_parent_cog": "98744",
+      "commune_parent_libelle_cog": "Rurutu",
+      "libelle": "Hauti",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "443",
+      "commune_parent_cog": "98744",
+      "commune_parent_libelle_cog": "Rurutu",
+      "libelle": "Moerai",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "451",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Faaaha",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "452",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Haamene",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "453",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Hipu",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "454",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Iripau",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "455",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Niua",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "456",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Ruutia",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "457",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Tapuamu",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "458",
+      "commune_parent_cog": "98745",
+      "commune_parent_libelle_cog": "Tahaa",
+      "libelle": "Vaitoare",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "471",
+      "commune_parent_cog": "98747",
+      "commune_parent_libelle_cog": "Taiarapu-Est",
+      "libelle": "Afaahiti",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "472",
+      "commune_parent_cog": "98747",
+      "commune_parent_libelle_cog": "Taiarapu-Est",
+      "libelle": "Faaone",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "473",
+      "commune_parent_cog": "98747",
+      "commune_parent_libelle_cog": "Taiarapu-Est",
+      "libelle": "Pueu",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "474",
+      "commune_parent_cog": "98747",
+      "commune_parent_libelle_cog": "Taiarapu-Est",
+      "libelle": "Tautira",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "481",
+      "commune_parent_cog": "98748",
+      "commune_parent_libelle_cog": "Taiarapu-Ouest",
+      "libelle": "Teahupoo",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "482",
+      "commune_parent_cog": "98748",
+      "commune_parent_libelle_cog": "Taiarapu-Ouest",
+      "libelle": "Toahotu",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "483",
+      "commune_parent_cog": "98748",
+      "commune_parent_libelle_cog": "Taiarapu-Ouest",
+      "libelle": "Vairao",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "491",
+      "commune_parent_cog": "98749",
+      "commune_parent_libelle_cog": "Takaroa",
+      "libelle": "Takapoto",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "492",
+      "commune_parent_cog": "98749",
+      "commune_parent_libelle_cog": "Takaroa",
+      "libelle": "Takaroa",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "501",
+      "commune_parent_cog": "98750",
+      "commune_parent_libelle_cog": "Taputapuatea",
+      "libelle": "Avera (Taputapuatea)",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "502",
+      "commune_parent_cog": "98750",
+      "commune_parent_libelle_cog": "Taputapuatea",
+      "libelle": "Opoa",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "503",
+      "commune_parent_cog": "98750",
+      "commune_parent_libelle_cog": "Taputapuatea",
+      "libelle": "Puohine",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "521",
+      "commune_parent_cog": "98752",
+      "commune_parent_libelle_cog": "Teva I Uta",
+      "libelle": "Mataiea",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "522",
+      "commune_parent_cog": "98752",
+      "commune_parent_libelle_cog": "Teva I Uta",
+      "libelle": "Papeari",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "531",
+      "commune_parent_cog": "98753",
+      "commune_parent_libelle_cog": "Tubuai",
+      "libelle": "Mahu",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "532",
+      "commune_parent_cog": "98753",
+      "commune_parent_libelle_cog": "Tubuai",
+      "libelle": "Mataura",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "533",
+      "commune_parent_cog": "98753",
+      "commune_parent_libelle_cog": "Tubuai",
+      "libelle": "Taahuaia",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "541",
+      "commune_parent_cog": "98754",
+      "commune_parent_libelle_cog": "Tumaraa",
+      "libelle": "Fetuna",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "542",
+      "commune_parent_cog": "98754",
+      "commune_parent_libelle_cog": "Tumaraa",
+      "libelle": "Tehurui",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "543",
+      "commune_parent_cog": "98754",
+      "commune_parent_libelle_cog": "Tumaraa",
+      "libelle": "Tevaitoa",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "544",
+      "commune_parent_cog": "98754",
+      "commune_parent_libelle_cog": "Tumaraa",
+      "libelle": "Vaiaau",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "571",
+      "commune_parent_cog": "98757",
+      "commune_parent_libelle_cog": "Ua-Pou",
+      "libelle": "Hakahau",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "572",
+      "commune_parent_cog": "98757",
+      "commune_parent_libelle_cog": "Ua-Pou",
+      "libelle": "Hakamaii",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    }
+  ],
+  "ecarts_libelles_48_parents_ISPF_COG": [],
+  "interdits": {
+    "code_ISPF_interprete_comme_code_INSEE": false,
+    "codes_ISPF_termines_par_zero_crees_comme_associees": false,
+    "ile_rattachee_creee_comme_commune_associee": false,
+    "retrospection_2022_sur_1943": false
+  },
+  "referentiel_parent_COG": "2026-01-01",
+  "schema": "adlfi.lieux.polynesie.associees_ispf_nomenclature.v1",
+  "source_ispf": {
+    "consultee_le": "2026-11-17",
+    "nom_feuille": "Commune associée",
+    "nom_feuille_controle": "Geo",
+    "sha256": "d84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6",
+    "url": "https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx"
+  },
+  "source_juridique_statistique_2022": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000046768003/2026-04-17",
+  "statistiques": {
+    "alignements_Pactols_collectivites_conserves": 4,
+    "alignements_Pactols_communes_conserves": 176,
+    "codes_geo_sans_ligne_de_base": [
+      "190"
+    ],
+    "communes_COG_parentes": 48,
+    "communes_associees": 98,
+    "communes_avec_associees": 30,
+    "communes_non_subdivisees": 18,
+    "fiches_communales_COG_remplacees": 0,
+    "geometries_nouvelles_publiees": 0,
+    "iles_rattachees_lignes_Geo": 64,
+    "lignes_geo_Gambier_190_toutes_IR": 16,
+    "lignes_geo_source": 179,
+    "nombre_iles_rattachees_notice_ISPF": 63,
+    "nouveaux_ARK_Pactols_crees": 0,
+    "subdivisions_ISPF": 5,
+    "unites_nomenclature_fine": 116,
+    "validite_historique_inferree": 0
+  },
+  "statut": "NOMENCLATURE_ISPF_CONSULTEE_2026-11-17_SANS_VALIDITE_HISTORIQUE_RETROPROJETEE",
+  "subdivisions": [
+    {
+      "code_ispf": "1",
+      "libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "2",
+      "libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "3",
+      "libelle": "Marquises"
+    },
+    {
+      "code_ispf": "4",
+      "libelle": "Australes"
+    },
+    {
+      "code_ispf": "5",
+      "libelle": "Tuamotu-Gambier"
+    }
+  ],
+  "unites_communes_non_subdivisees": [
+    {
+      "code_ispf": "120",
+      "commune_parent_cog": "98712",
+      "commune_parent_libelle_cog": "Arue",
+      "libelle": "Arue",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "150",
+      "commune_parent_cog": "98715",
+      "commune_parent_libelle_cog": "Faaa",
+      "libelle": "Faa'a",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "180",
+      "commune_parent_cog": "98718",
+      "commune_parent_libelle_cog": "Fatu-Hiva",
+      "libelle": "Fatu Hiva",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "190",
+      "commune_parent_cog": "98719",
+      "commune_parent_libelle_cog": "Gambier",
+      "libelle": "Gambier",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "250",
+      "commune_parent_cog": "98725",
+      "commune_parent_libelle_cog": "Mahina",
+      "libelle": "Mahina",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "280",
+      "commune_parent_cog": "98728",
+      "commune_parent_libelle_cog": "Maupiti",
+      "libelle": "Maupiti",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    },
+    {
+      "code_ispf": "330",
+      "commune_parent_cog": "98733",
+      "commune_parent_libelle_cog": "Paea",
+      "libelle": "Paea",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "340",
+      "commune_parent_cog": "98734",
+      "commune_parent_libelle_cog": "Papara",
+      "libelle": "Papara",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "350",
+      "commune_parent_cog": "98735",
+      "commune_parent_libelle_cog": "Papeete",
+      "libelle": "Papeete",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "360",
+      "commune_parent_cog": "98736",
+      "commune_parent_libelle_cog": "Pirae",
+      "libelle": "Pirae",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "370",
+      "commune_parent_cog": "98737",
+      "commune_parent_libelle_cog": "Pukapuka",
+      "libelle": "Pukapuka",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "380",
+      "commune_parent_cog": "98738",
+      "commune_parent_libelle_cog": "Punaauia",
+      "libelle": "Punaauia",
+      "subdivision_ispf": "1",
+      "subdivision_libelle": "Iles Du Vent"
+    },
+    {
+      "code_ispf": "410",
+      "commune_parent_cog": "98741",
+      "commune_parent_libelle_cog": "Rapa",
+      "libelle": "Rapa",
+      "subdivision_ispf": "4",
+      "subdivision_libelle": "Australes"
+    },
+    {
+      "code_ispf": "460",
+      "commune_parent_cog": "98746",
+      "commune_parent_libelle_cog": "Tahuata",
+      "libelle": "Tahuata",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "510",
+      "commune_parent_cog": "98751",
+      "commune_parent_libelle_cog": "Tatakoto",
+      "libelle": "Tatakoto",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "550",
+      "commune_parent_cog": "98755",
+      "commune_parent_libelle_cog": "Tureia",
+      "libelle": "Tureia",
+      "subdivision_ispf": "5",
+      "subdivision_libelle": "Tuamotu-Gambier"
+    },
+    {
+      "code_ispf": "560",
+      "commune_parent_cog": "98756",
+      "commune_parent_libelle_cog": "Ua-Huka",
+      "libelle": "Ua Huka",
+      "subdivision_ispf": "3",
+      "subdivision_libelle": "Marquises"
+    },
+    {
+      "code_ispf": "580",
+      "commune_parent_cog": "98758",
+      "commune_parent_libelle_cog": "Uturoa",
+      "libelle": "Uturoa",
+      "subdivision_ispf": "2",
+      "subdivision_libelle": "Iles Sous-Le-Vent"
+    }
+  ]
+}
