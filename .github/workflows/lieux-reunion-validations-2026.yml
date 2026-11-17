@@ -101,7 +101,7 @@ jobs:
           assert len(idx["ark_confirmes_non_valides"])==m["ark_confirmes_lien_non_valide"]==0
           assert idx["ark_confirmes_non_valides"]=={}
           assert idx["pactols_valides"]["97407"]=="26678/pcrtIKvRT9vwUl"
-           assert idx["pactols_valides"]["97607"]=="26678/crtZcuFSJVYZU"
+          assert idx["pactols_valides"]["97607"]=="26678/crtZcuFSJVYZU"
           assert m["geometries_publiees"]==m["identites_historiques_retroprojetees"]==0
           assert len(idx["pactols_valides"])==len(set(idx["pactols_valides"].values()))
           print("MANIFESTE 212 VALIDATIONS, DEMBENI INCLUSE — OK")
