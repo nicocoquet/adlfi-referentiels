@@ -84,6 +84,9 @@ jobs:
           assert d["contours_invalides"]==["98745","98805"]
           print("SOCLE_128_VALIDATIONS",len(d["pactols_valides"]))
           PY
+      - name: Manifeste 176 historique de la PR précédente
+        working-directory: referentiels
+        run: git show 54d515c55c3c13c0b6fbd2c61628ec8036bdbe6a:docs/data/manifest.json > "$RUNNER_TEMP/manifest-176.json"
       - name: Vérifier les 48 ARK contre le RDF et la reconstruction exacte de l'index 176
         working-directory: referentiels
         run: |
@@ -94,8 +97,8 @@ jobs:
               --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
               --cog-dir "$RUNNER_TEMP/cog2026" \
               --socle "$RUNNER_TEMP/socle-128.json" \
-              --public docs/data/lieux-outremer/recherche-2026.json \
-              --manifest docs/data/manifest.json \
+              --public recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
+              --manifest "$RUNNER_TEMP/manifest-176.json" \
               --chronologie docs/data/lieux-polynesie/chronologie-cog-2026.json > "$RUNNER_TEMP/polynesie-publication-$n.json"
           done
           cmp "$RUNNER_TEMP/polynesie-publication-1.json" "$RUNNER_TEMP/polynesie-publication-2.json"
