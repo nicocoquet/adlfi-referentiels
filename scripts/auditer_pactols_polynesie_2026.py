@@ -18,7 +18,7 @@ OWL="{http://www.w3.org/2002/07/owl#}"
 DCT="{http://purl.org/dc/terms/}"
 XML="{http://www.w3.org/XML/1998/namespace}"
 ARK=re.compile(r"^https?://ark\.frantiq\.fr/ark:/(26678/[A-Za-z0-9]+)$")
-INSEE=re.compile(r"^https?://id\.insee\.fr/geo/([^?#]+?)/(\d{3,6})/?$")
+INSEE=re.compile(r"^https?://id\.insee\.fr/geo/([^?#]+?)/([0-9A-Z]{3,6})/?$")
 RDF_SHA="3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7"
 RDF_COMMIT="69bf9697e24cefd645a69465bbd271702786285a"
 
