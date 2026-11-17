@@ -27,6 +27,69 @@ La division de **Saint-Louis (97414) en Saint-Louis (97414) et Cilaos (97424)**,
 
 ## Résultats
 
-**Inventaire source engagé.** Les métriques seront consignées ici uniquement lorsqu'elles auront été réellement exécutées et vérifiées par GitHub Actions.
+### Source candidate et contrôles de reproductibilité
+
+La [CI spatiale n°44021856933](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44021856933) est **réussie**, ainsi que la [CI générale n°44021857030](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44021857030). [Rapport JSON numérique de recette](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44021856933/artifacts/14301387552).
+
+- Archive candidate : **13 entrées**, **28 936 octets**, SHA-256 **`6ab4183681f0d15472678f958ca7a6a2c4b95b1b3bc694f7aefe7ec4c67dfea2`**, contrôlé au téléchargement.
+- Couche `COMMUNE.shp` : **24 objets**, 24 codes dans le champ attributaire `INSEE_COM`, distincts et concordants avec les codes `97401`–`97424`.
+- Une couche `LIMITE_COMMUNE.shp` est également présente ; **elle n'est pas adoptée comme preuve historique**.
+- Projection du fichier PRJ effectivement vérifiée : **RGR92 / UTM 40S, EPSG:2975**, WKT SHA-256 `9f2c2a2bcdc7af7b0f59407979ad01e295a2ab78afd1ca4bddfce145f838d355`.
+- Toutes les géométries considérées sont valides et sans recouvrement surfacique de partition supérieur à la tolérance de calcul. **Deux rapports JSON ont été comparés octet à octet** et sont identiques.
+
+### Décomposition mesurée des surfaces en EPSG:6933
+
+| Grandeur (en km²) | GEOFLA 2015 / Etalab 2026 100 m | GEOFLA 2015 / Etalab 2026 50 m |
+| --- | ---: | ---: |
+| Emprise des 24 communes en 2015 | 2 502,161250 | 2 502,161250 |
+| Emprise des 24 communes en 2026 | 2 503,416919 | 2 503,598017 |
+| **Différence symétrique d'emprise extérieure** | **7,196579** | **7,273004** |
+| Portion 2015 extérieure au dessin 2026 | 2,970455 | — |
+| Portion 2026 extérieure au dessin 2015 | 4,226124 | — |
+| **Différence de répartition intérieure unique entre codes** | **20,630913** | **20,640775** |
+| **Cumul des différences par commune** | **48,458405** | **48,554554** |
+
+Les chiffres satisfont l'équation `cumul des différences communales = différence extérieure + 2 × différence interne unique`, avec tolérance pour les arrondis décimaux des rapports.
+
+La **différence symétrique d'emprise** entre les deux généralisations 2026 (50 m et 100 m) est **2,527438 km²** : c'est une sensibilité à la méthode de représentation pour une même édition, **pas une évolution territoriale**.
+
+### Huit écarts communaux prioritaires, comparaison à 100 m
+
+| Code | Commune | Différence symétrique (km²) | Fraction extérieure de l'écart |
+| --- | --- | ---: | ---: |
+| 97410 | Saint-Benoît | 3,920987 | 14,468 % |
+| 97422 | Le Tampon | 3,564044 | 0 % |
+| 97408 | La Possession | 3,089160 | 15,689 % |
+| 97415 | Saint-Paul | 2,875816 | 19,781 % |
+| 97421 | Salazie | 2,594722 | 0 % |
+| 97403 | Entre-Deux | 2,496233 | 0 % |
+| 97412 | Saint-Joseph | 2,443816 | 25,615 % |
+| 97416 | Saint-Pierre | 2,349534 | 24,182 % |
+
+Une part notable de la discordance concerne **les lignes de séparation entre les codes**, plutôt que la seule emprise côtière. Dans le cas du Tampon, l'écart mesuré relève entièrement de la redistribution interne des dessins.
+
+### Examen ciblé Saint-Louis et Cilaos
+
+- **Saint-Louis (97414)** : différence symétrique totale **1,795780 km²** (dont **1,762410 km²** de dessin intérieur rattaché à un code différent), Jaccard **98,201940 %**.
+- **Cilaos (97424)** : différence symétrique totale **1,530492 km²**, **entièrement intérieure** à l'emprise commune des deux éditions, Jaccard **98,203430 %**.
+
+Ces métriques concernent les géométries **2015 et 2026**, lorsque la division du **5 février 1965** est déjà intervenue. **Elles ne mesurent donc pas la surface distraite de Saint-Louis lors de la création de Cilaos.** Une restitution de la limite antérieure à 1965 exige une source géographique plus ancienne et qualifiée.
+
+### Composantes extérieures principales (100 m)
+
+Les deux sens du différentiel extérieur comprennent chacun **156 composantes**. Exemples d'emplacements *intérieurs aux zones où les dessins diffèrent* (WGS84) :
+
+| Sens | Aire composante (km²) | Longitude | Latitude |
+| --- | ---: | ---: | ---: |
+| GEOFLA 2015 hors 2026 | 0,168446 | 55,270536 | –21,133357 |
+| GEOFLA 2015 hors 2026 | 0,134020 | 55,579678 | –20,895871 |
+| Etalab 2026 hors 2015 | 0,357559 | 55,702138 | –21,015279 |
+| Etalab 2026 hors 2015 | 0,355077 | 55,450152 | –20,874450 |
+
+Ces points ne sont ni des limites, ni des bornes de commune ; aucun polygone n'a été exporté.
+
+### Interprétation et réserve
+
+Le SHA-256 garantit la stabilité de la **copie effectivement téléchargée**, pas son authenticité comme source originale IGN. Les écarts peuvent dépendre de la méthode de généralisation, des tracés côtiers, des choix de représentation ou d'autres révisions cartographiques. **Aucun mouvement administratif nouveau n'est déduit de ces mesures.**
 
 **Aucun fichier dans `docs/` n'est modifié. Aucun alignement Pactols, contour historique ou lien de succession n'est créé.**
