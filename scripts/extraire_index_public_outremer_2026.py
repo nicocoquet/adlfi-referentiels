@@ -100,7 +100,72 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
     return data
 
 
-def construire(archive: Path, validations: list[Path] | None = None) -> bytes:
+def appliquer_validations_collectivites(data: dict, registre: Path) -> dict:
+    """Ajouter 4 ARK de collectivités sans les transformer en communes.
+
+    Les URI secondaires `commune/97701` et `commune/97801` restent des
+    preuves RDF archivées, pas des alignements de communes COG.
+    """
+    requis = (
+        "code_cog_2026", "libelle_COG_2026", "nature_autorite", "ark_pactols",
+        "prefLabel_fr_pactols", "uri_insee_exactMatch_collectivite",
+        "uri_secondaire_exactMatch_non_publiee", "predicat_source",
+        "concept_deprecie", "concept_remplace", "statut_validation",
+        "portee_COG", "source_rdf_sha256", "transfert_autres_echelons"
+    )
+    expected={
+        "977": "Saint-Barthélemy",
+        "978": "Saint-Martin",
+        "986": "Wallis-et-Futuna",
+        "987": "Polynésie française"
+    }
+    if "pactols_collectivites_valides" in data:
+        raise ValueError("Collectivités Pactols déjà publiées dans l'index source")
+    with Path(registre).open(encoding="utf-8-sig",newline="") as f:
+        reader=csv.DictReader(f, delimiter=";")
+        if tuple(reader.fieldnames or ())!=requis:
+            raise ValueError("Registre des collectivités : colonnes incompatibles")
+        rows=list(reader)
+    if len(rows)!=4 or {r["code_cog_2026"] for r in rows}!=set(expected):
+        raise ValueError("Quatre codes de collectivités distincts exigés")
+    if len(data["pactols_valides"])!=176:
+        raise ValueError("Les 176 alignements communaux doivent être stabilisés")
+    available={x[0]:x[1] for x in data["autres"]}
+    communeArks=set(data["pactols_valides"].values())
+    extra=set(data["ark_confirmes_non_valides"].values())
+    result={}
+    for row in rows:
+        code=row["code_cog_2026"];ark=row["ark_pactols"]
+        if (None in row or any(v is None for v in row.values()) or
+            row["libelle_COG_2026"]!=expected[code] or
+            available.get("COMER:TERRITOIRE:"+code)!=expected[code] or
+            row["nature_autorite"]!=
+              ("TERRITOIRE_COMER" if code=="986" else "COLLECTIVITE_OUTREMER") or
+            not re.fullmatch(r"26678/[A-Za-z0-9]+",ark) or
+            row["uri_insee_exactMatch_collectivite"]!=
+              "http://id.insee.fr/geo/collectiviteDOutreMer/"+code or
+            row["uri_secondaire_exactMatch_non_publiee"]!=(
+              "http://id.insee.fr/geo/commune/"+code+"01"
+              if code in ("977","978") else "") or
+            row["predicat_source"]!="skos:exactMatch" or
+            row["concept_deprecie"]!="non" or
+            row["concept_remplace"]!="non" or
+            row["statut_validation"]!="VALIDE_ADLFI_2026" or
+            row["portee_COG"]!="2026-01-01" or
+            row["source_rdf_sha256"]!=
+              "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7" or
+            row["transfert_autres_echelons"]!="interdit" or
+            ark in communeArks or ark in extra):
+            raise ValueError("Preuve de collectivité Pactols incomplète : "+code)
+        result[code]=ark
+    if len(set(result.values()))!=4:
+        raise ValueError("ARK réutilisé entre collectivités")
+    data["pactols_collectivites_valides"]=dict(sorted(result.items()))
+    return data
+
+
+def construire(archive: Path, validations: list[Path] | None = None,
+              validations_collectivites: Path | None = None) -> bytes:
     with ZipFile(archive) as z:
         def lire(nom):
             matched = [n for n in z.namelist() if Path(n).name == nom]
@@ -145,6 +210,8 @@ def construire(archive: Path, validations: list[Path] | None = None) -> bytes:
     if len(d["pactols_valides"]) != 16 or len(d["ark_confirmes_non_valides"]) != 2:
         raise ValueError("Socle éditorial source anormal")
     appliquer_validations(d,validations or [])
+    if validations_collectivites is not None:
+        appliquer_validations_collectivites(d,validations_collectivites)
     return (json.dumps(d, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
 
 
@@ -155,10 +222,12 @@ def main():
     p.add_argument("--sortie", type=Path, help="Fichier de recette à écrire hors docs/")
     p.add_argument("--validations", type=Path, action="append", default=[],
                    help="CSV d'alignements 2026 approuvés (option répétable)")
+    p.add_argument("--validations-collectivites", type=Path,
+                   help="CSV d'alignements des 4 collectivités, niveau distinct des communes")
     args = p.parse_args()
     if bool(args.verifier) == bool(args.sortie):
         p.error("Spécifier exactement --verifier ou --sortie")
-    payload = construire(args.artefact, args.validations)
+    payload = construire(args.artefact, args.validations, args.validations_collectivites)
     if args.verifier:
         if payload != args.verifier.read_bytes():
             raise ValueError("La publication COG diverge de l'artefact de recette")

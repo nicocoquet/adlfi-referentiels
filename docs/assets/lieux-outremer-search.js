@@ -62,6 +62,19 @@
     throw new Error('Décisions éditoriales ou diagnostics 2026 modifiés');
   if(new Set(Object.values(data.pactols_valides)).size!==176)
     throw new Error('Plusieurs communes partagent un ARK Pactols');
+  // Autorités de collectivités : niveau séparé des 176 communes COG.
+  const collect=data.pactols_collectivites_valides;
+  if(!collect||JSON.stringify(Object.keys(collect).sort())!==
+       JSON.stringify(['977','978','986','987'])||
+     collect['977']!=='26678/pcrtrGdtY56gmH'||
+     collect['978']!=='26678/pcrty5LooX8FgU'||
+     collect['986']!=='26678/pcrtwFq5jKHO3k'||
+     collect['987']!=='26678/pcrt4K8nLVxWOP'||
+     new Set(Object.values(collect)).size!==4||
+     Object.values(collect).some(x=>!ARK.test(x)||
+       Object.values(data.pactols_valides).includes(x)||
+       Object.values(data.ark_confirmes_non_valides).includes(x)))
+    throw new Error('Alignements des quatre collectivités COMER incompatibles');
   for(const [code,ark] of Object.entries({...data.pactols_valides,...data.ark_confirmes_non_valides})){
    if(!CHIFFRES.test(code)||!ARK.test(ark)||valid.includes(code)&&confirmed.includes(code))
     throw new Error('Identifiant Pactols mal attribué : '+code);
@@ -108,12 +121,15 @@
    if(!PARENTS[parentCode]||(type==='TERRITOIRE'&&code!==parentCode))
     throw new Error('Rattachement COMER inconnu : '+id);
    if(type==='TERRITOIRE')territoire++;
+   const arkCollectiviteValide=type==='TERRITOIRE'?
+     data.pactols_collectivites_valides[code]??null:null;
    entries.push({kind:'autre_cog2026',id,code,label:name,
      parent:type==='TERRITOIRE'?null:PARENTS[parentCode],
      parentCode:type==='TERRITOIRE'?null:parentCode,
      type:TYPES[type],nature:type,dateReference:'2026-01-01',
+     arkCollectiviteValide,
      geometriePubliee:false,
-     champs:[...new Set([name,code,PARENTS[parentCode],parentCode]
+     champs:[...new Set([name,code,PARENTS[parentCode],parentCode,arkCollectiviteValide]
        .map(normaliser).filter(Boolean))]});
   }
   if(territoire!==9||entries.length!==233)throw new Error('Collectivités COG incomplètes');

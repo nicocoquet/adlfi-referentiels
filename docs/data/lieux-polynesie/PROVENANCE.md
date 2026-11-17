@@ -44,7 +44,7 @@ La [PR n°71](https://github.com/nicocoquet/adlfi-referentiels/pull/71) a établ
 
 La publication des décisions éditoriales est documentée dans [`POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv`](../../../recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv) : chaque ligne comprend code et libellé de commune COG, ARK, URI INSEE `geo/commune`, prédicat `skos:exactMatch`, statut non déprécié et `VALIDE_ADLFI_2026`, portée **`2026-01-01`**.
 
-**Le module Lieux publie 176 alignements communaux ultramarins**, dont **48 pour la Polynésie française**. Le concept correspondant au territoire **`987`** (`26678/pcrt4K8nLVxWOP`, URI `collectiviteDOutreMer/987`) est **distinct** et ne figure pas dans ces 48 décisions. Le code historique **`98799` Clipperton** ne reçoit aucun ARK par cette publication.
+**Le module Lieux publie 176 alignements communaux ultramarins**, dont **48 pour la Polynésie française**. Le concept correspondant au territoire **`987`** (`26678/pcrt4K8nLVxWOP`, URI `collectiviteDOutreMer/987`) est **distinct** et ne figure pas dans ces 48 décisions. Il figure désormais dans le [registre séparé des quatre collectivités d’outre-mer](../../../recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv), validé **pour la collectivité au 1er janvier 2026**, sans modifier le total des 176 alignements communaux. Le code historique **`98799` Clipperton** ne reçoit aucun ARK par cette publication.
 
 L'alignement `98745` Tahaa → `26678/pcrteZcqWgVUaT` est **validé pour les identifiants seulement**. L'anomalie topologique du contour 2026 de Tahaa demeure signalée, sans contour adopté. Les **98 communes associées ISPF** n'ont reçu aucun identifiant de commune principale ni alignement déduit.
 

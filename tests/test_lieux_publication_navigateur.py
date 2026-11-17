@@ -591,6 +591,9 @@ def main():
         assert "ref_cog=COMER%3ATERRITOIRE%3A977" in page.url
         assert "977 · Saint-Barthélemy" in page.locator("#detail").text_content()
         assert "23 février 2007" in page.locator("#detail").text_content()
+        assert "Pactols validé pour la collectivité (2026)" in page.locator("#detail").text_content()
+        assert "26678/pcrtrGdtY56gmH" in page.locator("#detail").text_content()
+        assert "ne désigne ni ses communes anciennes" in page.locator("#detail").text_content()
 
         page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A97701&annee=2008&niveau=commune",
                   wait_until="domcontentloaded")
@@ -599,6 +602,7 @@ def main():
           timeout=60000)
         assert "Code d’application à cinq positions, pas une commune" in page.locator("#detail").text_content()
         assert "pas une nouvelle commune" in page.locator("#detail").text_content()
+        assert "26678/pcrtrGdtY56gmH" not in page.locator("#detail").text_content()
 
         page.goto(base+"/lieux/?ref_cog_historique_guadeloupe=97127&annee=2007&niveau=commune",
                   wait_until="domcontentloaded")
@@ -627,6 +631,8 @@ def main():
           timeout=30000)
         assert "978 · Saint-Martin" in page.locator("#detail").text_content()
         assert "Collectivité d’outre-mer" in page.locator("#detail").text_content()
+        assert "Pactols validé pour la collectivité (2026)" in page.locator("#detail").text_content()
+        assert "26678/pcrty5LooX8FgU" in page.locator("#detail").text_content()
 
         # Polynésie : 48 communes COG ; année 1972 avant première attestation
         # du 21 mai ; pas de 98 communes associées inventées depuis le COG.
@@ -660,6 +666,8 @@ def main():
           timeout=60000)
         pf=page.locator("#detail").text_content()
         assert "987 · Polynésie française" in pf
+        assert "Pactols validé pour la collectivité (2026)" in pf
+        assert "26678/pcrt4K8nLVxWOP" in pf
         assert "98799 Clipperton" in pf
         assert "Correspondance Pactols validée (2026)" not in pf
         assert "Il n’est pas une des 48 communes actuelles" in pf
@@ -692,7 +700,9 @@ def main():
         assert "Trois circonscriptions territoriales prévues par la loi" in wf
         assert "Aucune commune à Wallis-et-Futuna" in wf
         assert "98607 du COG historique porte le libellé « Nouvelle-Calédonie »" in wf
-        assert "aucun alignement Pactols" in wf
+        assert "aucune correspondance Pactols propre aux trois circonscriptions" in wf
+        assert "Pactols validé pour la collectivité (2026)" in wf
+        assert "26678/pcrtwFq5jKHO3k" in wf
         page.locator("#search").fill("98609")
         page.wait_for_function(
           "() => [...document.querySelectorAll('#results button')].some(x => x.textContent.includes('Wallis-et-Futuna'))",
@@ -723,9 +733,10 @@ def main():
         wf=page.locator("#detail").text_content()
         assert "98611 · Alo" in wf
         assert "Circonscription territoriale (non commune)" in wf
+        assert "26678/pcrtwFq5jKHO3k" not in wf
         assert "1985-01-01" in wf
         assert "Aucune commune à Wallis-et-Futuna" in wf
-        assert "aucune assimilation des circonscriptions à des communes" in wf
+        assert "aucune assimilation de celles-ci à des communes" in wf
 
         page.goto(base+"/lieux/?ref_cog=COMER%3ACIR%3A98613&annee=2026&niveau=commune",
                   wait_until="domcontentloaded")
@@ -733,6 +744,32 @@ def main():
           "() => document.querySelector('#detail')?.textContent.includes('98613 · Uvea')",
           timeout=60000)
         assert "Circonscription territoriale (non commune)" in page.locator("#detail").text_content()
+
+        # Recherche ARK : l'identifiant de la collectivité doit cibler le
+        # TERRITOIRE, pas le code de commune 97701/97801 ni une circonscription.
+        for code,ark in [
+            ("977","26678/pcrtrGdtY56gmH"),
+            ("978","26678/pcrty5LooX8FgU"),
+            ("986","26678/pcrtwFq5jKHO3k"),
+            ("987","26678/pcrt4K8nLVxWOP"),
+        ]:
+            page.locator("#search").fill(ark)
+            page.wait_for_function(
+              "() => [...document.querySelectorAll('#results button')].some(x => x.textContent.includes('Collectivité ou territoire'))",
+              timeout=30000)
+            page.locator("#results button").filter(
+                has_text="Collectivité ou territoire"
+            ).first.click()
+            assert "ref_cog=COMER%3ATERRITOIRE%3A"+code in page.url
+            assert ark in page.locator("#detail").text_content()
+            assert "Pactols validé pour la collectivité (2026)" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A97801&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('97801 · Saint-Martin')",
+            timeout=60000)
+        assert "26678/pcrty5LooX8FgU" not in page.locator("#detail").text_content()
 
         # La Réunion : même code Saint-Louis avant/après la division du 5 février 1965.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97414&annee=1965&niveau=commune",

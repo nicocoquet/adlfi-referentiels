@@ -17,7 +17,7 @@ from pathlib import Path
 from auditer_cog_polynesie_2026 import SHAS,read,sha
 from auditer_pactols_polynesie_2026 import (RDF_SHA,analyser_rdf,label_compatible,
                                              type_confusion)
-from extraire_index_public_outremer_2026 import appliquer_validations
+from extraire_index_public_outremer_2026 import appliquer_validations, appliquer_validations_collectivites
 
 COLS=["code_insee","libelle_COG_2026","ark_pactols","uri_insee",
       "predicat_source","concept_deprecie","statut_validation",
@@ -76,6 +76,11 @@ def verifier(registre:Path,rdf:Path,folder:Path,socle:Path,public:Path,
      or any(c in originals["pactols_valides"] for c in CODE)):
   raise ValueError("Socle antérieur aux 48 validations non conforme")
  expected=appliquer_validations(originals,[registre])
+ if "pactols_collectivites_valides" in published:
+  appliquer_validations_collectivites(
+    expected,
+    Path(__file__).resolve().parents[1]/
+    "recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv")
  expected_bytes=(json.dumps(expected,ensure_ascii=False,
                              separators=(",",":"))+"\n").encode("utf-8")
  actual_bytes=public.read_bytes()

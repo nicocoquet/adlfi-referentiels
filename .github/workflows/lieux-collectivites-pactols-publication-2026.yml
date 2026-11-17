@@ -1,0 +1,111 @@
+name: Lieux — publication Pactols des quatre collectivités 977 978 986 987
+
+on:
+  pull_request:
+    paths:
+      - 'recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv'
+      - 'recette/lieux/COLLECTIVITES-COMER-PUBLICATION-2026-RECETTE.md'
+      - 'scripts/verifier_publication_pactols_collectivites_2026.py'
+      - 'scripts/extraire_index_public_outremer_2026.py'
+      - 'scripts/verifier_publication_pactols_polynesie_2026.py'
+      - 'tests/test_validations_collectivites_pactols_2026.py'
+      - 'tests/test_extraire_index_collectivites_2026.py'
+      - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/manifest.json'
+      - 'docs/assets/lieux-outremer-search.js'
+      - '.github/workflows/lieux-collectivites-pactols-publication-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quatre-collectivites:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler statiquement les quatre ARK et les niveaux territoriaux
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_validations_collectivites_pactols_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_extraire_index_collectivites_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          node tests/test_lieux_outremer_search.js
+      - name: Vérifier le RDF Frantiq source figée du 22 juillet 2026
+        run: |
+          echo "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf" | sha256sum --check
+      - name: Contrôler les deux CSV COG 2026 des collectivités et de leur zonage
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://www.insee.fr/fr/statistiques/fichier/8740222/cog_ensemble_2026_csv.zip' \
+            --output "$RUNNER_TEMP/cog_ensemble_2026_csv.zip"
+          python3 - <<'PY'
+          import os,hashlib,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,"referentiels/scripts")
+          from verifier_publication_pactols_collectivites_2026 import COG_SHAS
+          p=Path(os.environ["RUNNER_TEMP"]);out=p/"cog2026";out.mkdir()
+          with zipfile.ZipFile(p/"cog_ensemble_2026_csv.zip") as z:
+              for name,digest in COG_SHAS.items():
+                  found=[x for x in z.infolist() if Path(x.filename).name==name]
+                  assert len(found)==1,name
+                  raw=z.read(found[0])
+                  h=hashlib.sha256(raw).hexdigest()
+                  assert h==digest,(name,h)
+                  (out/name).write_bytes(raw)
+                  print("COG2026_COLLECTIVITES",name,len(raw),h)
+          PY
+      - name: Reconstituer le socle publié PR 72 avant validation des collectivités
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          git show a7164bfb867076fd6e4ecaa86a6c5bd509eb45e1:docs/data/lieux-outremer/recherche-2026.json > "$RUNNER_TEMP/socle-176.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          base=json.loads((Path(os.environ["RUNNER_TEMP"])/"socle-176.json").read_text())
+          assert len(base["pactols_valides"])==176
+          assert "pactols_collectivites_valides" not in base
+          assert base["contours_invalides"]==["98745","98805"]
+          print("SOCLE_176_COMMUNES_DISTINCTES_DES_COLLECTIVITES — OK")
+          PY
+      - name: Certifier 4 concepts et 6 URI exactMatch RDF contre COG et index public
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/verifier_publication_pactols_collectivites_2026.py \
+              --registre recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026" \
+              --socle "$RUNNER_TEMP/socle-176.json" \
+              --public docs/data/lieux-outremer/recherche-2026.json \
+              --manifest docs/data/manifest.json > "$RUNNER_TEMP/collectivites-$n.json"
+          done
+          cmp "$RUNNER_TEMP/collectivites-1.json" "$RUNNER_TEMP/collectivites-2.json"
+          cat "$RUNNER_TEMP/collectivites-1.json"
+      - name: Archiver la preuve de publication sans géométries ni inférences
+        uses: actions/upload-artifact@v4
+        with:
+          name: adlfi-collectivites-977-978-986-987-pactols-2026
+          path: ${{ runner.temp }}/collectivites-1.json
+          retention-days: 30
+          if-no-files-found: error
