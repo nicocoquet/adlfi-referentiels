@@ -423,6 +423,8 @@ def main():
         )
         assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
         assert "1972-05-21" in page.locator("#detail").text_content()
+        assert "26678/pcrteZcqWgVUaT" in page.locator("#detail").text_content()
+        assert "contour national 2026 présente une anomalie topologique" in page.locator("#detail").text_content()
 
         # Guyane : états COG documentés indépendants des contours 2026.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97301&annee=1969",
@@ -638,13 +640,16 @@ def main():
         assert "Le curseur représente le 1er janvier 1972" in pf
         assert "98, réparties dans 30 des 48 communes" in pf
         assert "44 communes ajoutées à quatre communes préexistantes" in pf
-        assert "Aucune géométrie historique ni correspondance Pactols–COG n’est publiée" in pf
+        assert "Aucune géométrie historique n’est publiée" in pf
+        assert "correspondance Pactols–COG communale est validée pour le seul millésime 2026" in pf
+        assert "26678/pcrtwSlYRcWVFw" in pf
         set_year(1973)
         page.wait_for_function(
           "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 1973')",
           timeout=30000)
         pf=page.locator("#detail").text_content()
         assert "98711 · Anaa" in pf
+        assert "Correspondance Pactols validée (2026)" in pf
         assert "1972-05-21" in pf
         assert "Commune de Polynésie française" in pf
 
@@ -656,6 +661,7 @@ def main():
         pf=page.locator("#detail").text_content()
         assert "987 · Polynésie française" in pf
         assert "98799 Clipperton" in pf
+        assert "Correspondance Pactols validée (2026)" not in pf
         assert "Il n’est pas une des 48 communes actuelles" in pf
         set_year(2008)
         page.wait_for_function(
@@ -669,6 +675,8 @@ def main():
           timeout=60000)
         pf=page.locator("#detail").text_content()
         assert "Commune de Polynésie française" in pf
+        assert "26678/pcrtr90gKcAXiG" in pf
+        assert "Correspondance Pactols validée (2026)" in pf
         assert "ISPF" in pf
         assert "n’est pas la date de création de toutes les communes" in pf
 
