@@ -7,7 +7,6 @@ from __future__ import annotations
 import functools,http.server,threading
 from contextlib import contextmanager
 from pathlib import Path
-from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]/"docs"
 
@@ -24,6 +23,7 @@ def site():
         server.server_close()
 
 def main():
+    from playwright.sync_api import sync_playwright
     with site() as base,sync_playwright() as p:
         browser=p.chromium.launch(headless=True,args=["--no-sandbox"])
         page=browser.new_page(viewport={"width":1200,"height":850})
