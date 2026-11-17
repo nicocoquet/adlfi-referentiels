@@ -81,6 +81,8 @@ jobs:
           assert report['publication']=={'nouvelles_relations':0,'nouveaux_contours':0,'nouveaux_ARK':0}
           assert all(r['alignement_publie'] is False for r in report['communes_COG_2026'])
           assert all(r['decision_editoriale']=='NON_PRISE' for r in report['communes_COG_2026'])
+          special=next(r for r in report['communes_COG_2026'] if r['code_COG_2026']=='98809')
+          print('NC_98809_A_INSTRUIRE',json.dumps(special,ensure_ascii=False,sort_keys=True))
           print('NC_RDF_RESULTATS',json.dumps({
               'bilan':report['bilan'],
               'codes_avec_exactMatch':[
