@@ -1,0 +1,87 @@
+name: Lieux — Mayotte, inventaire GEOFLA candidat 2015 (recette)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_geofla_mayotte_2015.py'
+      - 'tests/test_auditer_geofla_mayotte_2015.py'
+      - 'recette/lieux/MAYOTTE-GEOFLA-2015-2026-RECETTE.md'
+      - '.github/workflows/lieux-mayotte-geofla-2015.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventaire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer libarchive et SIG
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libarchive-tools
+          python3 -m pip install --disable-pip-version-check 'pyshp==2.3.1' 'pyproj==3.7.2' 'shapely==2.1.2'
+      - name: Inventorier l'archive candidate GEOFLA Mayotte 2015
+        run: |
+          set -euo pipefail
+          ARCHIVE="GEOFLA_2-1_COMMUNE_SHP_RGM04UTM38S_D976_2015-12-01.rar"
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            "https://raw.githubusercontent.com/justinelliotmeyers/official_france_administrative_boundary_shapefile/master/$ARCHIVE" \
+            --output "$RUNNER_TEMP/$ARCHIVE"
+          test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -ge 5000
+          test "$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")" -le 5000000
+          echo "COPY_MAYOTTE_2015_SHA256=$(sha256sum "$RUNNER_TEMP/$ARCHIVE" | cut -d ' ' -f1)"
+          echo "COPY_MAYOTTE_2015_BYTES=$(stat -c %s "$RUNNER_TEMP/$ARCHIVE")"
+          bsdtar -tf "$RUNNER_TEMP/$ARCHIVE" > "$RUNNER_TEMP/files.txt"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path,PurePosixPath
+          entries=(Path(os.environ["RUNNER_TEMP"])/"files.txt").read_text().splitlines()
+          assert 4<=len(entries)<=100,len(entries)
+          for row in entries:
+              p=PurePosixPath(row)
+              assert not p.is_absolute() and ".." not in p.parts and "\\" not in row,row
+          print("ARCHIVE_ENTRIES",len(entries))
+          print("\n".join(entries))
+          PY
+          mkdir "$RUNNER_TEMP/geofla"
+          bsdtar -xf "$RUNNER_TEMP/$ARCHIVE" -C "$RUNNER_TEMP/geofla"
+      - name: Vérifier la couche communale, les codes et la projection WKT
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import collections,os,shapefile
+          from pyproj import CRS,Transformer
+          from shapely.geometry import shape
+          root=Path(os.environ["RUNNER_TEMP"])/"geofla"
+          shps=sorted(root.rglob("*.shp"))
+          print("SHAPEFILES",[str(p.relative_to(root)) for p in shps])
+          candidates=[p for p in shps if p.stem.upper()=="COMMUNE"]
+          assert len(candidates)==1,["Une couche COMMUNE unique est attendue",candidates]
+          shp=candidates[0]
+          crs=CRS.from_wkt(shp.with_suffix(".prj").read_text(errors="replace"))
+          print("SOURCE_CRS_EPSG",crs.to_epsg())
+          print("SOURCE_CRS_WKT",crs.to_wkt())
+          print("SOURCE_CRS_EQUIVALENT_4471",crs.equals(CRS.from_epsg(4471),ignore_axis_order=True))
+          loc=Transformer.from_crs(crs,"EPSG:4326",always_xy=True)
+          codes=[]
+          with shapefile.Reader(str(shp),encoding="latin-1") as sf:
+              names=[x[0] for x in sf.fields[1:]]
+              print("SOURCE_FIELDS",names)
+              print("SOURCE_RECORDS",len(sf))
+              for row in sf.iterShapeRecords():
+                  fields=dict(zip(names,row.record))
+                  codes.append(str(fields.get("INSEE_COM","")).strip())
+                  geom=shape(row.shape.__geo_interface__)
+                  assert geom.is_valid and not geom.is_empty
+                  c=geom.representative_point()
+                  lon,lat=loc.transform(c.x,c.y)
+                  assert 44.8<lon<45.5 and -13.2<lat<-12.4,(lon,lat)
+              print("SOURCE_CODES",sorted(codes))
+          assert len(codes)==17 and sorted(codes)==[f"976{i:02d}" for i in range(1,18)]
+          PY
