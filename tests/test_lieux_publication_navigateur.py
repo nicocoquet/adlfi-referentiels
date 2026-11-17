@@ -280,6 +280,58 @@ def main():
         assert "26678/pcrtZfYYjyoUIE" in page.locator("#detail").text_content()
         assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
 
+        # Mayotte : deux familles documentaires de part et d'autre du 31 mars 2011.
+        # Au 1er janvier 2007 : aucune observation dans les deux séries retenues.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97607&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Mayotte au 1er janvier 2007')",
+            timeout=60000)
+        assert "Aucun épisode de Mayotte n’est documenté" in page.locator("#detail").text_content()
+        assert "ne prouve pas que les communes n’existaient pas auparavant" in page.locator("#detail").text_content()
+        assert "26678/crtZcuFSJVYZU" in page.locator("#detail").text_content()
+        assert page.locator("#detail").get_by_text(
+            "Correspondance Pactols validée (2026)",exact=False).count()==0
+
+        set_year(2008)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Mayotte au 1er janvier 2008')",
+            timeout=30000)
+        text_ma=page.locator("#detail").text_content()
+        assert "COMER · communes des collectivités et territoires d’outre-mer" in text_ma
+        assert "2007-02-23 – 2011-03-31" in text_ma
+        assert "correspondance Pactols–COG non validée" in text_ma
+
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97601&annee=2011&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Mayotte au 1er janvier 2011')",
+            timeout=60000)
+        text_ma=page.locator("#detail").text_content()
+        assert "COMER · communes des collectivités" in text_ma
+        assert "avant le changement de statut effectif le 31 mars" in text_ma
+        assert "Correspondance Pactols validée (2026)" in text_ma
+        assert "26678/pcrtZfYYjyoUIE" in text_ma
+
+        set_year(2012)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Mayotte au 1er janvier 2012')",
+            timeout=30000)
+        text_ma=page.locator("#detail").text_content()
+        assert "DROM · communes des départements et régions" in text_ma
+        assert "2011-03-31 – en cours dans la source" in text_ma
+        assert "976D · Département de Mayotte" in text_ma
+        assert "Aucun contour historique de Mayotte" in text_ma
+
+        set_year(2026)
+        page.wait_for_function(
+            "() => document.querySelector('#detail')?.textContent.includes('État COG de Mayotte au 1er janvier 2026')",
+            timeout=30000)
+        text_ma=page.locator("#detail").text_content()
+        assert "976R · Département-Région de Mayotte" in text_ma
+        assert "Correspondance Pactols validée (2026)" in text_ma
+        assert "Les 16 correspondances Pactols approuvées pour 2026 ne sont pas rétroactives" in text_ma
+
         page.locator("#search").fill("Kerguelen")
         page.locator("#results button").filter(
             has_text="District · COG 2026"
