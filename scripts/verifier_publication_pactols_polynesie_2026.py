@@ -84,8 +84,7 @@ def verifier(registre:Path,rdf:Path,folder:Path,socle:Path,public:Path,
  if (len(published["pactols_valides"])!=176 or
       {c for c in published["pactols_valides"] if c.startswith("987")}!=CODE):
   raise ValueError("Compteur public Pactols Polynésie non conforme")
- if (published["pactols_valides"]!={**published["pactols_valides"]} or
-      published["contours_invalides"]!=["98745","98805"] or
+ if (published["contours_invalides"]!=["98745","98805"] or
       published["ark_confirmes_non_valides"]!=
        {"97607":"26678/crtZcuFSJVYZU"}):
   raise ValueError("Décisions antérieures ou anomalies de contour modifiées")
