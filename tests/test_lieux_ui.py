@@ -211,6 +211,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-antilles-collectivites-2007.js",
                 "../assets/lieux-wallis-futuna-historique.js",
                 "../assets/lieux-polynesie-historique.js",
+                "../assets/lieux-polynesie-associees.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -226,6 +227,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-antilles-collectivites-2007.js",
             "docs/assets/lieux-wallis-futuna-historique.js",
             "docs/assets/lieux-polynesie-historique.js",
+            "docs/assets/lieux-polynesie-associees.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -391,6 +393,36 @@ class LieuxUITests(unittest.TestCase):
         self.assertIs(data["alignements_uniquement_millesime_2026"],True)
         self.assertIs(data["contour_tahaa_98745_non_homologue"],True)
         self.assertEqual(data["communes_associees_creees"],0)
+
+    def test_ispf_polynesie_98_associees_hors_48_communes_cog(self):
+        m=self.manifest["modules"]["lieux"]["communes_associees_ispf_polynesie"]
+        self.assertEqual(m["communes_associees_ispf"],98)
+        self.assertEqual(m["communes_avec_associees"],30)
+        self.assertEqual(m["communes_non_subdivisees_ispf"],18)
+        self.assertEqual(m["codes_fins_ispf"],116)
+        self.assertEqual(m["subdivisions_ispf"],5)
+        self.assertEqual(m["source_sha256"],
+          "d84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6")
+        self.assertEqual(m["feuille_Geo_iles_rattachees"],64)
+        self.assertEqual(m["notice_ISPF_iles_rattachees"],63)
+        self.assertEqual(m["code_unite_non_subdivisee_sans_ligne_de_base_Geo"],"190")
+        self.assertEqual(m["nombre_iles_Gambier_lignes_Geo"],16)
+        self.assertEqual(m["double_homonyme_Avera"],["441","501"])
+        self.assertEqual(m["identifiants_INSEE_communes_associees_crees"],0)
+        self.assertEqual(m["nouveaux_ARK_pactols"],0)
+        self.assertEqual(m["nouvelles_geometries"],0)
+        self.assertEqual(m["validites_historiques_inferrees"],0)
+        d=json.loads((ROOT/"docs/data/lieux-polynesie/communes-associees-ispf-2026.json").read_text(encoding="utf-8"))
+        self.assertEqual(d["schema"],"adlfi.lieux.polynesie.associees_ispf_nomenclature.v1")
+        self.assertEqual(len(d["communes_associees"]),98)
+        self.assertEqual(len(d["unites_communes_non_subdivisees"]),18)
+        self.assertEqual(len(d["subdivisions"]),5)
+        self.assertEqual(d["ecarts_libelles_48_parents_ISPF_COG"],[])
+        self.assertEqual({x["commune_parent_cog"] for x in d["communes_associees"]}.__len__(),30)
+        self.assertEqual(d["statistiques"]["nouveaux_ARK_Pactols_crees"],0)
+        self.assertEqual(d["statistiques"]["geometries_nouvelles_publiees"],0)
+        self.assertEqual({r["code_ispf"]:r["commune_parent_cog"] for r in d["communes_associees"] if r["code_ispf"] in ("441","501")},
+           {"441":"98744","501":"98750"})
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]

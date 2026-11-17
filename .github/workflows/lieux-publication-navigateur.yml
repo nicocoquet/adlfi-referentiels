@@ -15,6 +15,8 @@ on:
       - 'docs/assets/lieux-antilles-collectivites-2007.js'
       - 'docs/assets/lieux-wallis-futuna-historique.js'
       - 'docs/assets/lieux-polynesie-historique.js'
+      - 'docs/assets/lieux-polynesie-associees.js'
+      - 'tests/test_lieux_polynesie_associees.js'
       - 'docs/data/lieux-polynesie/**'
       - 'tests/test_lieux_polynesie_historique.js'
       - 'docs/data/lieux-wallis-futuna/**'
@@ -74,6 +76,8 @@ jobs:
         run: node tests/test_lieux_wallis_futuna_historique.js
       - name: Tester les 48 épisodes COG de Polynésie et Clipperton 98799
         run: node tests/test_lieux_polynesie_historique.js
+      - name: Tester les 98 communes associées ISPF et leurs 30 parents COG
+        run: node tests/test_lieux_polynesie_associees.js
       - name: Installer Playwright et son navigateur Chromium
         run: |
           python3 -m pip install --disable-pip-version-check 'playwright==1.58.0'

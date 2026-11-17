@@ -49,3 +49,17 @@ La publication des décisions éditoriales est documentée dans [`POLYNESIE-VALI
 L'alignement `98745` Tahaa → `26678/pcrteZcqWgVUaT` est **validé pour les identifiants seulement**. L'anomalie topologique du contour 2026 de Tahaa demeure signalée, sans contour adopté. Les **98 communes associées ISPF** n'ont reçu aucun identifiant de commune principale ni alignement déduit.
 
 **0 contour historique, 0 commune associée créée, 0 succession automatique.** Les 212 communes et 21 autres entités COG de l'index demeurent inchangées.
+
+## Nomenclature ISPF — les 98 communes associées
+
+La [nomenclature officielle `Codes_geographiques_ce46ed21ee.xlsx`](https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx), SHA-256 `d84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6`, **consultée le 17 novembre 2026**, apporte une source supplémentaire qui **n'est pas millésimée juridiquement** comme le COG.
+
+Le fichier public [`communes-associees-ispf-2026.json`](communes-associees-ispf-2026.json) contient **98 communes associées distinctes** identifiées par leur code **ISPF à trois positions**, rattachées univoquement à **30 des 48 communes principales COG**. Le fichier contient aussi les **18 unités statistiques des communes non subdivisées** (codes ISPF terminés par `0`), sans créer de nouvelles autorités. La partition ISPF compte ainsi **116 unités**, contre **48 communes principales COG**, plus les cinq subdivisions administratives.
+
+Les **48 libellés de communes parentes** du classeur ont été contrôlés contre le COG 2026 : **aucun écart après normalisation typographique**. Les deux homonymes sont distingués par la source : **`441` Avera (Rurutu) → `98744` Rurutu** et **`501` Avera (Taputapuatea) → `98750` Taputapuatea**.
+
+Une précaution documentaire s'impose : la feuille `Geo` du même classeur contient **179 enregistrements**, dont **98 marqués `isComas`**, **17 `isCom`** et **64 `isIleRattachee`**. L'unité **`190` Gambier**, bien présente dans la feuille administrative des 116 unités, **n'a pas de ligne de base `19000`** dans la feuille géographique ; seules ses **16 îles rattachées `19001` à `19016`** y figurent. La [notice de l'ISPF](https://www.ispf.pf/ispf/referentiels) annonce pour sa part **63 îles rattachées**. **Nous conservons ce décalage comme anomalie de provenance**, sans inventer ni supprimer d'enregistrement et sans déduire de limite cartographique.
+
+Le module Lieux permet la recherche des **98 fiches de communes associées ISPF**, et propose le retour à la commune COG principale. Les 18 unités statistiques non subdivisées sont indiquées sur leurs fiches parentales, **sans être présentées comme communes associées**. La [nomenclature et son contrôle](../../../recette/lieux/POLYNESIE-ASSOCIEES-ISPF-2022-RECETTE.md) demeurent séparés de l'[arrêté sur le recensement 2022](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000046768003/2026-04-17), qui ne suffit pas à établir les dates de création de chaque commune associée.
+
+**Aucun nouvel ARK, aucune nouvelle commune COG, aucun contour, aucune période historique créée ou extrapolée.** Les **176 liens communaux** et **4 liens de collectivités** déjà validés demeurent inchangés.

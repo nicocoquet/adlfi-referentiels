@@ -688,6 +688,73 @@ def main():
         assert "ISPF" in pf
         assert "n’est pas la date de création de toutes les communes" in pf
 
+        # ISPF : les 98 communes associées ont une autorité à 3 chiffres,
+        # sans ARK / géométrie, reliée à une seule des 30 communes principales.
+        page.goto(base+"/lieux/?ref_ispf=111&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Commune associée de Polynésie française')",
+          timeout=60000)
+        isp=page.locator("#detail").text_content()
+        assert "111" in isp
+        assert "Anaa · 98711" in isp
+        assert "ARK Pactols propre à la commune associée" in isp
+        assert "Non validé" in isp
+        assert "Non publié et non homologué" in isp
+        assert "Le code à trois chiffres n’est pas un code INSEE communal à cinq chiffres" in isp
+        assert "ref_ispf=111" in page.url
+        page.locator("#detail").get_by_text(
+          "Consulter la commune principale Anaa (98711)"
+        ).click()
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Polynésie française · état au 1er janvier 2026')",
+          timeout=60000)
+        isp=page.locator("#detail").text_content()
+        assert "2 communes associées · nomenclature ISPF" in isp
+        assert "Faaite · ISPF 112" in isp
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98719&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Commune non subdivisée en communes associées')",
+          timeout=60000)
+        isp=page.locator("#detail").text_content()
+        assert "code de partition ISPF 190" in isp
+        assert "ne constitue pas une commune associée supplémentaire" in isp
+        assert "Commune de Polynésie française" in isp
+
+        # Deux homonymes Avera doivent rester rattachés à des parents différents.
+        page.goto(base+"/lieux/?ref_ispf=441&annee=2026&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Avera (Rurutu)')",
+          timeout=60000)
+        isp=page.locator("#detail").text_content()
+        assert "Avera (Rurutu)" in isp
+        assert "441" in isp
+        assert "Rurutu · 98744" in isp
+        assert "Avera homonyme distinct : 501 · Taputapuatea" in isp
+        page.locator("#search").fill("Avera")
+        page.wait_for_function(
+          "() => [...document.querySelectorAll('#results button')].filter(x => x.textContent.includes('Commune associée · ISPF')).length===2",
+          timeout=30000)
+        res=page.locator("#results button").filter(has_text="Commune associée · ISPF")
+        assert res.count()==2
+        res.filter(has_text="501").click()
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Avera (Taputapuatea)')",
+          timeout=30000)
+        isp=page.locator("#detail").text_content()
+        assert "501" in isp and "98750" in isp
+        assert "Avera homonyme distinct : 441 · Rurutu" in isp
+        assert "ref_ispf=501" in page.url
+        set_year(1972)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('ne certifie pas l’existence ou le périmètre')",
+          timeout=30000)
+        isp=page.locator("#detail").text_content()
+        assert "curseur indique 1972" in isp
+        assert "Historique juridique propreNon reconstruit" in isp
+
         # Wallis-et-Futuna : trois CIR non communales, loi 1961 ≠ COG 1985.
         page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A986&annee=1962&niveau=commune",
                   wait_until="domcontentloaded")

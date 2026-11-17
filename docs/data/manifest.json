@@ -254,6 +254,35 @@
           "98745"
         ],
         "correspondance_pactols_territoire_987_2026_validee": true
+      },
+      "communes_associees_ispf_polynesie": {
+        "statut": "98 communes associées ISPF documentées, source consultée le 17-11-2026 non millésimée juridiquement",
+        "fichier": "data/lieux-polynesie/communes-associees-ispf-2026.json",
+        "source_url": "https://www.ispf.pf/content/uploads/Codes_geographiques_ce46ed21ee.xlsx",
+        "source_sha256": "d84f9a69f2c64f744ee0719b01c4841953019d45a1fb29b8abb0db2f3f0176e6",
+        "consultation_source": "2026-11-17",
+        "reference_parent_COG": "2026-01-01",
+        "communes_parentes_COG_2026": 48,
+        "communes_avec_associees": 30,
+        "communes_associees_ispf": 98,
+        "communes_non_subdivisees_ispf": 18,
+        "codes_fins_ispf": 116,
+        "subdivisions_ispf": 5,
+        "niveaux": "Unité associée ISPF de 3 chiffres → Commune principale INSEE 987xx",
+        "identifiants_INSEE_communes_associees_crees": 0,
+        "nouveaux_ARK_pactols": 0,
+        "nouvelles_geometries": 0,
+        "validites_historiques_inferrees": 0,
+        "feuille_Geo_lignes": 179,
+        "feuille_Geo_iles_rattachees": 64,
+        "notice_ISPF_iles_rattachees": 63,
+        "code_unite_non_subdivisee_sans_ligne_de_base_Geo": "190",
+        "nombre_iles_Gambier_lignes_Geo": 16,
+        "double_homonyme_Avera": [
+          "441",
+          "501"
+        ],
+        "lien_anciennes_communes_inferes": 0
       }
     },
     "personnes": {
