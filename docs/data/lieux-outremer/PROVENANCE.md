@@ -24,3 +24,12 @@ L'index public conserve : les libellés et codes communaux, les **128 ARK Pactol
 La sélection d'une fiche COG 2026 affiche ses informations et, si approprié, le lien Pactols approuvé. Elle ne dessine pas automatiquement de limite communale. Lorsque le curseur est placé sur une année différente de 2026, la fiche **reste explicitement datée de 2026** et signale l'absence de qualification historique. La carte conserve les contours déjà qualifiés, limités à quatre régions pilotes pour les communes.
 
 Le sélecteur visible conserve **Région / Département / Commune**.
+
+
+## Couche géométrique DROM distincte (2026)
+
+L'index `recherche-2026.json` reste **sans polygones** ; une nouvelle couche `contours-communes-drom-2026.geojson` contient uniquement les **129 communes des cinq DROM** au COG 2026, à la généralisation 100 m de l'édition du 4 mai 2026.
+
+La source géométrique et les codes sont contrôlés avant publication par `scripts/publier_contours_drom_2026.py`. Les contours ne valident pas les ARK Pactols, et inversement. Pour les années anciennes, cette couche ne peut être affichée que comme **repère 2026 optionnel**.
+
+La Polynésie, la Nouvelle-Calédonie et Saint-Pierre-et-Miquelon restent hors de ce lot ; Tahaa (98745) et Dumbéa (98805) conservent leurs réserves topologiques.

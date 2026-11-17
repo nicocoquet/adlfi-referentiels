@@ -1,0 +1,97 @@
+name: Lieux — publier 129 contours communaux DROM 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_contours_drom_2026.py'
+      - 'docs/assets/lieux-drom-contours.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'docs/data/lieux-outremer/contours-communes-drom-2026.geojson'
+      - 'docs/data/lieux-outremer/PROVENANCE.md'
+      - 'tests/test_lieux_drom_contours_2026.js'
+      - 'tests/test_lieux_drom_contours_navigateur.py'
+      - 'tests/test_lieux_ui.py'
+      - 'recette/lieux/DROM-CONTOURS-2026-PUBLICATION.md'
+      - '.github/workflows/lieux-drom-contours-communes-2026.yml'
+permissions:
+  contents: write
+jobs:
+  construire-contours:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer Shapely pour vérification topologique
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.7
+      - name: Vérifier la source géographique Etalab 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  '"$RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Acquérir le COG 2026
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Extraire deux fois les 129 contours DROM
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_contours_drom_2026.py \
+              --geometries "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --index docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/drom-129-$n.geojson"
+          done
+          cmp "$RUNNER_TEMP/drom-129-1.geojson" "$RUNNER_TEMP/drom-129-2.geojson"
+          cp "$RUNNER_TEMP/drom-129-1.geojson" docs/data/lieux-outremer/contours-communes-drom-2026.geojson
+      - name: Vérifier la publication Node et Python
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Installer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier les cinq DROM et les non-régressions métropolitaines
+        working-directory: referentiels
+        run: |
+          python3 tests/test_lieux_drom_contours_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: contours-communaux-drom-129-2026
+          path: ${{ runner.temp }}/drom-129-1.geojson
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner la couche après réussite de la recette
+        working-directory: referentiels
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- docs/data/lieux-outremer/contours-communes-drom-2026.geojson
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'Lieux : publier 129 contours communaux DROM contrôlés pour 2026'
+            git push origin "HEAD:$HEAD_REF"
+          fi

@@ -22,6 +22,7 @@ const polynesieAssociees=window.AdlfiLieuxPolynesieAssociees;
 const corsePactols=window.AdlfiLieuxCorsePactols;
 const bfcPactols=window.AdlfiLieuxBFCPactols;
 const pdlPactols=window.AdlfiLieuxPDLPactols;
+const dromContours=window.AdlfiLieuxDromContours;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -33,6 +34,7 @@ let activeRequest=0;
 const ROOT='../data/';
 const layerData=new Map();
 let communeDataPromise=null;
+let drom2026Features=[];
 let timelineTimer=null;
 function year(){return Number($('year').value)}
 function level(){return $('level').value}
@@ -177,13 +179,21 @@ async function chargerCommunes2026(){
           throw new Error('Couche communale 2026 non datée : '+id);
         commun.regions[id].contours_2026=fc;
       }
-      return communes2026();
-    }).catch(e=>{communeDataPromise=null;throw e});
+      // L'index géométrique DROM est distinct des historiques et du RDF.
+      return loadJSON(ROOT+'lieux-outremer/contours-communes-drom-2026.geojson')
+        .then(drom=>{
+          drom2026Features=dromContours.verifier(drom,state.outremer);
+          for(const f of drom2026Features){
+            state.outremer.get(f.properties.ref_cog).geometriePubliee=true;
+          }
+          return communes2026();
+        });
+    }).catch(e=>{communeDataPromise=null;drom2026Features=[];throw e});
  }
  return communeDataPromise;
 }
 async function start(){
- if(!core || !corsePactols || !bfcPactols || !pdlPactols || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!core || !corsePactols || !bfcPactols || !pdlPactols || !dromContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -373,14 +383,20 @@ function geoLayer(features,{reference=false}={}){
    },
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
-      const key=p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
+      const drom=!!p.ref_cog&&p.zone==='drom';
+      const key=drom?'drom:'+p.code:
+        p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
       layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
-      layer.on('click',()=>choose(p.niveau==='commune'?{kind:'commune',code:p.code,zone:p.zone,year:year()}:{kind:'admin',code:p.code,level:p.niveau,year:p.annee}));
+      layer.on('click',()=>choose(drom?
+        {kind:'cog2026',id:p.ref_cog,code:p.code}:
+        p.niveau==='commune'?
+        {kind:'commune',code:p.code,zone:p.zone,year:year()}:
+        {kind:'admin',code:p.code,level:p.niveau,year:p.annee}));
    }}
  }).addTo(state.map);
 }
-function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}})))}
+function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features)}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
  refreshTimeline();
@@ -402,7 +418,7 @@ async function render(){
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
-    desc=features.length+' contours communaux 2026 sur les quatre régions pilotes. Les ARK corses validés pour 2026 ne constituent pas une validation des contours.';
+    desc=features.length+' contours communaux 2026 : quatre régions métropolitaines et 129 communes des cinq DROM. Les liens Pactols sont distincts des géométries.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
@@ -511,6 +527,10 @@ function search(){
 }
 function focusSelection(){const x=state.selected;
  if(!x||!state.map)return;
+ if(x.kind==='cog2026'&&year()===2026){
+  const contour=state.bounds.get('drom:'+x.code);
+  if(contour){state.map.fitBounds(contour.getBounds(),{padding:[24,24],animate:false});return;}
+ }
  if(x.kind==='associee_ispf'){
    // Simple vue sur l'archipel, sans contour ni position inventée.
    state.map.fitBounds([[-28,-161],[0,-131]],{padding:[24,24],animate:false});
@@ -1120,8 +1140,13 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    a.textContent='Source administrative : Insee, COG 2026';
    source.append(a);target.append(source);
    const note=document.createElement('p');note.className='warning';
-   if(entry.kind==='cog2026'){
-     note.textContent=entry.geomStatut==='PRESENTE_INVALIDE'?
+   if(entry.kind==='cog2026'&&entry.geometriePubliee){
+      note.className=year()===2026?'source':'warning';
+      note.textContent=year()===2026?
+        'Contour communal de référence 2026 affiché (Etalab/IGN, édition du 4 mai 2026, généralisation 100 m). Ce tracé ne valide aucun ARK Pactols.':
+        'Un contour de référence 2026 est publié, mais ne restitue pas les limites de '+year()+'. Il peut apparaître cette année-là uniquement comme repère contemporain explicitement daté.';
+    }else if(entry.kind==='cog2026'){
+      note.textContent=entry.geomStatut==='PRESENTE_INVALIDE'?
        'Le contour national 2026 présente une anomalie topologique : aucune géométrie de remplacement n’est adoptée ou affichée dans ce module.':
        'Un contour national 2026 est identifié, mais sa géométrie n’a pas encore été qualifiée pour publication dans ce module. Aucune limite de cette commune n’est affichée.';
    }else{
