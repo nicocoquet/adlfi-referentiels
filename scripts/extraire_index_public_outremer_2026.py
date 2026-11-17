@@ -93,6 +93,10 @@ def appliquer_validations(data: dict, fichiers: list[Path]) -> dict:
                 del non_valides[code]
             all_arks.add(ark)
             original_valides[code]=ark
+    # Ordre canonique : l'index est produit de manière stable quel que soit
+    # l'ordre des registres de décisions, sans changer les correspondances.
+    data["pactols_valides"]=dict(sorted(original_valides.items()))
+    data["ark_confirmes_non_valides"]=dict(sorted(non_valides.items()))
     return data
 
 
