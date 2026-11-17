@@ -10,11 +10,24 @@ from __future__ import annotations
 import argparse
 import collections
 import gzip
+import hashlib
 import json
 from pathlib import Path
 
 
-from publier_contours_drom_2026 import EXPECTED_SOURCE, SOURCE_URL, sha
+# Références de source identiques au lot DROM, sans dépendance à Shapely à l'import.
+EXPECTED_SOURCE = "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
+SOURCE_URL = ("https://etalab-datasets.geo.data.gouv.fr/"
+              "contours-administratifs/2026/geojson/communes-100m.geojson.gz")
+
+
+def sha(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
 
 SCHEMA = "adlfi.lieux.com.83-communes.2026.audit.v1"
 EXPECTED = {"975": 2, "987": 48, "988": 33}
