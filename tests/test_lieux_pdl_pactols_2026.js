@@ -23,7 +23,7 @@ assert.equal(cog.geometries_historiques.length,0);
 assert.throws(()=>loader.creer({...publication,millesime_cog:'2016-01-01'},cog),/incohérent/);
 assert.throws(()=>loader.creer({...publication,source_rdf_sha256:'incorrect'},cog),/incohérent/);
 assert.throws(()=>loader.creer({...publication,alignements_Pactols_COG_valides_2026:[
- ...publication.alignements_Pactols_COG_valides_2026.slice(0,3613),
+ ...publication.alignements_Pactols_COG_valides_2026.slice(0,1139),
  publication.alignements_Pactols_COG_valides_2026[0]
 ]},cog),/non justifié/);
 assert.throws(()=>loader.creer({...publication,alignements_Pactols_COG_valides_2026:[
@@ -31,7 +31,7 @@ assert.throws(()=>loader.creer({...publication,alignements_Pactols_COG_valides_2
  ...publication.alignements_Pactols_COG_valides_2026.slice(1)
 ]},cog),/non justifié/);
 assert.throws(()=>loader.creer({...publication,alignements_Pactols_COG_valides_2026:[
- {...publication.alignements_Pactols_COG_valides_2026[0],uri_insee:'http://id.insee.fr/geo/commune/25060'},
+ {...publication.alignements_Pactols_COG_valides_2026[0],uri_insee:'http://id.insee.fr/geo/commune/44066'},
  ...publication.alignements_Pactols_COG_valides_2026.slice(1)
 ]},cog),/non justifié/);
 assert.throws(()=>loader.creer({...publication,alignements_Pactols_COG_valides_2026:[
