@@ -15,6 +15,7 @@
  const normaliser=s=>String(s??'').normalize('NFKD')
     .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr')
     .replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+ const comparaisonNom=s=>normaliser(s).replace(/\s+/g,'');
  function creer(data,publicCOG){
   if(!data||data.schema!==SCHEMA||
      data.statut!=='NOMENCLATURE_ISPF_CONSULTEE_2026-11-17_SANS_VALIDITE_HISTORIQUE_RETROPROJETEE'||
@@ -87,7 +88,7 @@
   }
   for(const r of data.unites_communes_non_subdivisees){
    valider(r,false);
-   if(normaliser(r.libelle)!==normaliser(r.commune_parent_libelle_cog))
+   if(comparaisonNom(r.libelle)!==comparaisonNom(r.commune_parent_libelle_cog))
     throw Error('Code xx0 d’une commune entière non compatible : '+r.code_ispf);
    nonSub.set(r.commune_parent_cog,{code_ispf:r.code_ispf,label:r.libelle});
   }
