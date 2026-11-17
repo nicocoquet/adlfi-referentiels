@@ -1,6 +1,7 @@
 """Tests sans réseau du préflight Copernicus Hao."""
 import sys
 import unittest
+import importlib.util
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 from inventorier_imagerie_hao_stac import interroger, make_url, summarise_feature, auditer, POINTS
@@ -20,6 +21,7 @@ class TestCatalogueHao(unittest.TestCase):
         self.assertIn("datetime=",url)
         self.assertIn("sentinel-2-l2a",url)
 
+    @unittest.skipUnless(importlib.util.find_spec('shapely'), 'Shapely requis pour le contrôle de footprint')
     def test_empreinte_couvrant_cinq_points(self):
         geometry={"type":"Polygon","coordinates":[[
           [-141.1,-18.5],[-140.6,-18.5],[-140.6,-18.0],[-141.1,-18.0],[-141.1,-18.5]
