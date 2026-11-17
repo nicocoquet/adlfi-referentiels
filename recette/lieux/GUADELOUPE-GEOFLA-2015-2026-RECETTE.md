@@ -10,7 +10,7 @@ La comparaison cartographique porte **exclusivement sur les 32 codes 971 encore 
 
 ## Sources
 
-- Archive candidate **GEOFLA 2015** : `GEOFLA_2-1_COMMUNE_SHP_UTM20W84GUAD_D971_2015-12-01.rar`, localisée dans le [miroir documentaire GitHub justinelliotmeyers](https://github.com/justinelliotmeyers/official_france_administrative_boundary_shapefile). L'empreinte de la copie sera figée après la première acquisition vérifiée. **La présence dans ce dépôt tiers et la nomenclature ne suffisent pas à authentifier le fichier comme un original IGN.**
+- Archive candidate **GEOFLA 2015** : `GEOFLA_2-1_COMMUNE_SHP_UTM20W84GUAD_D971_2015-12-01.rar`, localisée dans le [miroir documentaire GitHub justinelliotmeyers](https://github.com/justinelliotmeyers/official_france_administrative_boundary_shapefile). L'empreinte de la copie acquise et contrôlée est désormais figée (voir ci-dessous). **La présence dans ce dépôt tiers et la nomenclature ne suffisent pas à authentifier le fichier comme un original IGN.**
 - [Contours administratifs Etalab 2026, data.gouv.fr](https://www.data.gouv.fr/datasets/contours-administratifs), généralisations 100 m et 50 m, issues des sources administratives nationales. Empreintes SHA-256 déjà figées dans le dépôt : respectivement `4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778` et `6db43cd98a7211516da64e91761100504ba3feeddc986ebe0d50f84df624cd38`.
 - Documentation produit [GEOFLA, IGN](https://geoservices.ign.fr/sites/default/files/2021-07/DC_GEOFLA_2-2.pdf) : produit cartographique généralisé destiné à des usages proches du 1:1 000 000, dernière édition documentée en 2016 ; ses limites et dates ne sont pas assimilables automatiquement à une délimitation juridique exacte.
 
@@ -24,7 +24,7 @@ La comparaison cartographique porte **exclusivement sur les 32 codes 971 encore 
 6. Localiser les principales divergences de contour par leur **aire, point intérieur représentatif et rectangle approximatif** en WGS84, sans exporter de polygone.
 7. Générer deux fois le rapport avec les mêmes sources et comparer les octets ; archiver uniquement les métriques et la provenance dans un artefact de CI.
 
-La CI spécialisée contrôle séparément les sources, les codes, la topologie et les métriques. Les résultats seront ajoutés à cette note une fois obtenus et la source candidate 2015 sera alors épinglée par SHA-256.
+La CI spécialisée contrôle séparément les sources, les codes, la topologie et les métriques. Les résultats obtenus figurent ci-dessous ; la copie candidate 2015 est épinglée par son SHA-256.
 
 ## Résultats mesurés dans la recette
 
