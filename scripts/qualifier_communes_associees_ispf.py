@@ -138,6 +138,18 @@ def qualifier(source:Path,index:Path)->dict:
   geo.append(r)
  if len(set(x["IDGeo"] for x in geo))!=len(geo):
   raise ValueError("CODGEO dupliqué")
+ # Exceptions exactes de codification des deux portions de l'île Maria.
+ if {(r["IDGeo"],r["IDComas"],r["IDIle"],r["Geo"])
+     for r in geo_code_exceptions}!={
+       ("43001","431","45","Maria (Australes) (partie Rimatara) (IR)"),
+       ("44001","441","45","Maria (Australes) (partie Rurutu) (IR)")}:
+  raise ValueError("Exceptions CODGEO nouvelles ou non documentées : "+
+        json.dumps(geo_code_exceptions,ensure_ascii=False))
+ variantes=[c for c in communes.values() if c["variantes_libelles"]]
+ if len(variantes)!=1 or variantes[0]["code_INSEE"]!="98715" or (
+      variantes[0]["nom_ISPF"]!="Faa'a" or variantes[0]["nom_COG_2026"]!="Faaa"):
+  raise ValueError("Différences de libellés ISPF–COG insuffisamment instruites : "+
+      json.dumps(variantes,ensure_ascii=False))
  return {
   "schema":"adlfi.lieux.polynesie.ispf.associees.audit.v1",
   "statut":"RECETTE_ISPF_NON_VALIDANTE",
@@ -147,6 +159,8 @@ def qualifier(source:Path,index:Path)->dict:
       "communes_ISPF_sans_associees":18,"unites_fines_ISPF":116,
       "communes_parentes_des_associees":30,"subdivisions_ISPF":5,
       "iles_ISPF_dans_classeur":119,"codes_geographiques_ISPF":179,
+      "exceptions_geo_IDComas_prefixe_Maria":2,
+      "divergences_libelles_communes_ISPF_COG":1,
       "alignements_Pactols_communaux_conserves":176,
       "alignements_Pactols_collectivites_conserves":4,
       "nouveaux_alignements_Pactols":0,"nouveaux_contours":0,
