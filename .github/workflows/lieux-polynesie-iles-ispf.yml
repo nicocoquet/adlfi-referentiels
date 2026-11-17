@@ -41,9 +41,11 @@ jobs:
         run: |
           python3 scripts/auditer_iles_ispf_polynesie.py \
             --rapport-ispf "$RUNNER_TEMP/ispf-associees-audit.json" \
+            --source-xlsx "$RUNNER_TEMP/ispf-codes.xlsx" \
             --sortie "$RUNNER_TEMP/ispf-iles-audit-a.json"
           python3 scripts/auditer_iles_ispf_polynesie.py \
             --rapport-ispf "$RUNNER_TEMP/ispf-associees-audit.json" \
+            --source-xlsx "$RUNNER_TEMP/ispf-codes.xlsx" \
             --sortie "$RUNNER_TEMP/ispf-iles-audit-b.json"
           cmp "$RUNNER_TEMP/ispf-iles-audit-a.json" "$RUNNER_TEMP/ispf-iles-audit-b.json"
           python3 - "$RUNNER_TEMP/ispf-iles-audit-a.json" <<'PY'
@@ -52,6 +54,8 @@ jobs:
           assert r['schema']=='adlfi.lieux.polynesie.ispf.iles.audit.v1'
           assert r['statut']=='RECETTE_GEOGRAPHIQUE_NON_VALIDANTE'
           assert r['comptages']['lignes_Geo']==179
+          assert r['comptages']['comparaison_exhaustive_feuille_Ile_Geo'] is True
+          assert r['comptages']['codes_iles_absents_de_Geo'] is not None
           assert r['comptages']['exceptions_prefixes_CODGEO']==2
           assert r['comptages']['nouvelles_geometries']==0
           assert r['comptages']['nouveaux_ARK']==0
