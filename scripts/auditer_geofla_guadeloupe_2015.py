@@ -77,7 +77,7 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
             attrs=dict(zip(names,list(entry.record)))
             code,field=code_insee(attrs)
             if not code or code not in CODES or code in bycode:
-                raise ValueError("Code commune GEOFLA absent, non 972 ou en doublon : "+str(code))
+                raise ValueError("Code commune GEOFLA absent, hors des 32 codes 971 en vigueur ou dupliqué : "+str(code))
             source_fields[field]+=1
             original=shape(entry.shape.__geo_interface__)
             if original.is_empty or not original.is_valid or original.geom_type not in ("Polygon","MultiPolygon"):
@@ -107,7 +107,7 @@ def loader_2015(dossier:Path)->tuple[dict,dict]:
 def loader_2026(path:Path)->dict:
     result=lire_geojson(path,CODES)
     if set(result)!=CODES or any(len(rows)!=1 for rows in result.values()):
-        raise ValueError("Contours Etalab : 34 codes absents ou dupliqués")
+        raise ValueError("Contours Etalab : 32 codes absents ou dupliqués")
     d={code:rows[0] for code,rows in result.items()}
     if any(g.is_empty or not g.is_valid or g.geom_type not in ("Polygon","MultiPolygon") for g in d.values()):
         raise ValueError("Géométrie 2026 invalide")
@@ -116,7 +116,7 @@ def loader_2026(path:Path)->dict:
 
 def controler_partition(d:dict,edition:str):
     from shapely.ops import unary_union
-    if set(d)!=CODES:raise ValueError(edition+" : codes 972 incomplets")
+    if set(d)!=CODES:raise ValueError(edition+" : codes 971 incomplets")
     if any(g.is_empty or not g.is_valid or g.area<=0 for g in d.values()):
         raise ValueError(edition+" : géométrie invalide")
     u=unary_union(list(d.values()))
