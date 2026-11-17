@@ -187,6 +187,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-guyane-historique.js",
                 "../assets/lieux-martinique-historique.js",
                 "../assets/lieux-guadeloupe-historique.js",
+                "../assets/lieux-reunion-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -196,6 +197,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
+            "docs/assets/lieux-reunion-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -210,6 +212,20 @@ class LieuxUITests(unittest.TestCase):
                     for tag, attrs in self.page.tags),
                 stylesheet,
             )
+
+    def test_reunion_historique_24_etats_et_division_1965_sans_geometrie(self):
+        reunion = self.manifest["modules"]["lieux"]["historique_communes_reunion"]
+        self.assertEqual(reunion["periodes_COG"], 24)
+        self.assertEqual(reunion["lignes_mouvements_COG"], 25)
+        self.assertEqual(reunion["division_Saint_Louis_Cilaos"], "1965-02-05")
+        self.assertEqual(reunion["correspondances_pactols_2026_conservees"], 24)
+        self.assertEqual(reunion["nouveaux_alignements_pactols"], 0)
+        self.assertEqual(reunion["contours_historiques_publies"], 0)
+        data=json.loads((ROOT/"docs/data/lieux-reunion/chronologie-cog-2026.json").read_text())
+        self.assertEqual(len(data["episodes"].splitlines()), 24)
+        self.assertEqual(data["mouvement_division_1965"]["codes_apres"], ["97414","97424"])
+        self.assertIsNone(data["mouvement_division_1965"]["contour_avant_1965"])
+        self.assertIsNone(data["mouvement_division_1965"]["contour_apres_1965"])
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]
