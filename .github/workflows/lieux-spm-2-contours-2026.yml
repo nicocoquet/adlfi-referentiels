@@ -1,0 +1,101 @@
+name: Lieux — publier les 2 contours de Saint-Pierre-et-Miquelon 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_contours_spm_2026.py'
+      - 'docs/assets/lieux-spm-contours.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'docs/data/lieux-outremer/contours-communes-spm-2026.geojson'
+      - 'docs/data/lieux-outremer/PROVENANCE.md'
+      - 'tests/test_lieux_spm_contours_2026.js'
+      - 'tests/test_publier_contours_spm_2026.py'
+      - 'tests/test_lieux_spm_contours_navigateur.py'
+      - 'tests/test_lieux_ui.py'
+      - 'recette/lieux/SPM-2-CONTOURS-2026-PUBLICATION.md'
+      - '.github/workflows/lieux-spm-2-contours-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publier-spm:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer Shapely pour les vérifications topologiques
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.7
+      - name: Télécharger et vérifier le GeoJSON Etalab du 4 mai 2026
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            --output "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  '"$RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum --check
+      - name: Générer deux fois les contours SPM et vérifier l'identité des fichiers
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_contours_spm_2026.py \
+              --geometries "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --sortie "$RUNNER_TEMP/spm-2-$n.geojson"
+          done
+          cmp "$RUNNER_TEMP/spm-2-1.geojson" "$RUNNER_TEMP/spm-2-2.geojson"
+          cp "$RUNNER_TEMP/spm-2-1.geojson" docs/data/lieux-outremer/contours-communes-spm-2026.geojson
+      - name: Vérifier les 2 contours, le COG et les non-régressions Python et Node
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_contours_spm_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+      - name: Installer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Tester les fiches SPM et non-régressions ultramarines/métropolitaines
+        working-directory: referentiels
+        run: |
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: contours-2026-saint-pierre-et-miquelon-2-communes
+          path: ${{ runner.temp }}/spm-2-1.geojson
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner le GeoJSON dans la seule branche de PR après vérification
+        working-directory: referentiels
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- docs/data/lieux-outremer/contours-communes-spm-2026.geojson
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'Lieux : versionner les 2 contours SPM 2026 contrôlés'
+            git push origin "HEAD:$HEAD_REF"
+          else
+            echo "Couche SPM déjà conforme à la source Etalab épinglée"
+          fi

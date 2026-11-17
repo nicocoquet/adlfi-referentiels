@@ -341,6 +341,23 @@
         "source_sha256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
         "associations_pactols_inferrees": 0,
         "geometries_historiques": 0
+      },
+      "contours_spm_2026": {
+        "statut": "repère cartographique COG 2026, validité topologique contrôlée, limite juridique non homologuée",
+        "fichier": "data/lieux-outremer/contours-communes-spm-2026.geojson",
+        "codes_cog": [
+          "97501",
+          "97502"
+        ],
+        "nombre_contours": 2,
+        "date_cog": "2026-01-01",
+        "edition_geometrie": "2026-05-04",
+        "generalisation_metres": 100,
+        "source": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz",
+        "source_sha256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+        "identites_pactols_inferees": 0,
+        "limites_juridiques_homologuees": false,
+        "geometries_historiques": 0
       }
     },
     "personnes": {
