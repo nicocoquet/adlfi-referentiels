@@ -56,6 +56,8 @@ Les deux codes historiques `98609` et `98607` ne portent **aucune déclaration e
 
 Le couple **`986` → `26678/pcrtwFq5jKHO3k`** satisfait les critères documentaires de cohérence entre collectivité COG courante, URI INSEE typée, concept Pactols unique et actif. Il est **proposé pour validation au 1er janvier 2026**, selon le modèle séparé des collectivités d'outre-mer institué dans la [PR n°68](https://github.com/nicocoquet/adlfi-referentiels/pull/68).
 
+Le couple est enregistré dans le [registre de proposition `WALLIS-FUTUNA-COLLECTIVITE-986-ALIGNEMENT-PROPOSE-2026.csv`](WALLIS-FUTUNA-COLLECTIVITE-986-ALIGNEMENT-PROPOSE-2026.csv), au statut **`PROPOSITION_A_VALIDER`**, avec les preuves RDF et le périmètre de validité.
+ 
 Ce statut n'est **pas** celui d'une relation déjà publiée. Aucun `exactMatch` ne sera attribué aux trois circonscriptions à partir de l'ARK du territoire, ni rétroactivement à `98609` ou `98607`. Le compteur public conserve **128 alignements communaux**, distincts des propositions de collectivités.
 
 Le contrôle CI de la PR vérifie désormais **l'ARK précis**, la famille de l'URI INSEE, les libellés Pactols, la non-dépréciation, l'absence de liens CIR et l'absence de correspondances vers les anciens codes.
