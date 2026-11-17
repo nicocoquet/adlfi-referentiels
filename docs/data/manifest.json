@@ -47,7 +47,20 @@
         "relations_pactols_cog_validees_reunion_2026": 24,
         "source_validations_reunion": "recette/lieux/REUNION-VALIDATIONS-PACTOLS-COG-2026.csv",
         "relations_pactols_cog_validees_polynesie_2026": 48,
-        "source_validations_polynesie": "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv"
+        "source_validations_polynesie": "recette/lieux/POLYNESIE-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "relations_pactols_collectivites_2026": 4,
+        "codes_collectivites_pactols_2026": [
+          "977",
+          "978",
+          "986",
+          "987"
+        ],
+        "source_validations_collectivites": "recette/lieux/COLLECTIVITES-COMER-VALIDATIONS-PACTOLS-COG-2026.csv",
+        "relations_pactols_collectivites_2026_distinctes_des_communes": true,
+        "alignements_codes_5_positions_97701_97801_inferes": 0,
+        "alignements_circonscriptions_98611_98612_98613_inferes": 0,
+        "alignements_communes_historiques_97123_97127_inferes": 0,
+        "retroprojection_identifiants_2026": false
       },
       "historique_communes_guyane": {
         "statut": "états COG documentaires publiés sans géométries historiques",
@@ -178,7 +191,8 @@
         "nouveaux_alignements_pactols": 0,
         "contours_historiques_publies": 0,
         "communes_actuelles_creees": 0,
-        "niveaux": "Ancienne commune / Collectivité / Code d'application"
+        "niveaux": "Ancienne commune / Collectivité / Code d'application",
+        "correspondances_pactols_collectivites_2026": 2
       },
       "historique_circonscriptions_wallis_futuna": {
         "statut": "états COG documentaires des circonscriptions sans géométries historiques",
@@ -210,7 +224,8 @@
         "relation_98607_vers_986_inferree": false,
         "nouvelle_relation_Pactols_validee": 0,
         "contours_historiques_publies": 0,
-        "niveau_territorial": "Circonscription / Territoire, distinct de Commune"
+        "niveau_territorial": "Circonscription / Territoire, distinct de Commune",
+        "correspondance_pactols_territoire_986_2026_validee": true
       },
       "historique_communes_polynesie": {
         "statut": "48 épisodes communaux COG documentaires, aucune association ISPF ni géométrie historique ajoutée",
@@ -237,7 +252,8 @@
         "validation_identifiants_independante_geometries": true,
         "codes_contours_audites_invalides": [
           "98745"
-        ]
+        ],
+        "correspondance_pactols_territoire_987_2026_validee": true
       }
     },
     "personnes": {
