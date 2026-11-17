@@ -13,10 +13,6 @@ import json
 import re
 from pathlib import Path
 
-import shapefile
-from pyproj import CRS, Transformer
-from shapely.geometry import shape
-from shapely.ops import transform, unary_union
 
 from auditer_geofla_guyane_2015 import lire_geojson
 
@@ -55,6 +51,10 @@ def code_insee(attributs:dict)->tuple[str|None,str|None]:
 
 
 def loader_2015(dossier:Path)->tuple[dict,dict]:
+    import shapefile
+    from pyproj import CRS, Transformer
+    from shapely.geometry import shape
+    from shapely.ops import transform
     shps=sorted(p for p in dossier.rglob("*") if p.is_file()
                 and p.suffix.lower()==".shp")
     communes=[p for p in shps if p.stem.upper()=="COMMUNE"]
@@ -115,6 +115,7 @@ def loader_2026(path:Path)->dict:
 
 
 def controler_partition(d:dict,edition:str):
+    from shapely.ops import unary_union
     if set(d)!=CODES:raise ValueError(edition+" : codes 972 incomplets")
     if any(g.is_empty or not g.is_valid or g.area<=0 for g in d.values()):
         raise ValueError(edition+" : géométrie invalide")
@@ -128,6 +129,7 @@ def controler_partition(d:dict,edition:str):
 
 
 def principales_composantes(g,vers_geo,seuil_km2:float=0.01,max_n:int=7)->dict:
+    from shapely.ops import transform
     """Points intérieurs et emprises approximatives, jamais les polygones."""
     def polygons(a):
         if a.is_empty:return []
@@ -207,6 +209,7 @@ def comparaison(a:dict,b:dict,edition:str,vers_geo)->dict:
 
 
 def evaluer(dossier:Path,archive:Path,reference100:Path,reference50:Path,sortie:Path)->dict:
+    from pyproj import Transformer
     if archive.name!=ARCHIVE_NAME:
         raise ValueError("Archive GEOFLA inattendue")
     if not archive.is_file() or not reference100.is_file() or not reference50.is_file():
