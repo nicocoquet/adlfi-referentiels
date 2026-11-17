@@ -413,14 +413,16 @@ def main():
         page.locator("#search").fill("Tahaa")
         page.locator("#results button").filter(has_text="Commune · COG 2026").first.click()
         assert "contour national 2026 présente une anomalie topologique" in page.locator("#detail").text_content()
-        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+        assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
+        assert "1972-05-21" in page.locator("#detail").text_content()
         page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A98745&annee=2015",
                   wait_until="domcontentloaded")
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('Tahaa')",
             timeout=60000
         )
-        assert "décrit exclusivement l’état COG 2026" in page.locator("#detail").text_content()
+        assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
+        assert "1972-05-21" in page.locator("#detail").text_content()
 
         # Guyane : états COG documentés indépendants des contours 2026.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97301&annee=1969",
