@@ -15,6 +15,7 @@ const guadeloupeHistorique=window.AdlfiLieuxGuadeloupeHistorique;
 const reunionHistorique=window.AdlfiLieuxReunionHistorique;
 const mayotteHistorique=window.AdlfiLieuxMayotteHistorique;
 const spmHistorique=window.AdlfiLieuxSaintPierreMiquelonHistorique;
+const antilles2007=window.AdlfiLieuxAntilles2007;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -176,8 +177,8 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique)throw Error('Moteur du référentiel communal absent');
- const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,...cogs]=await Promise.all([
+ if(!core || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007)throw Error('Moteur du référentiel communal absent');
+ const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
    loadJSON(ROOT+'lieux-historique/index-2026.json'),
@@ -190,6 +191,7 @@ async function start(){
    loadJSON(ROOT+'lieux-reunion/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-mayotte/chronologie-cog-2026.json'),
    loadJSON(ROOT+'lieux-saint-pierre-miquelon/chronologie-cog-2026.json'),
+   loadJSON(ROOT+'lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json'),
    ...ids.map(id=>loadJSON(ROOT+'lieux-chronologie/cog-'+id+'.json'))
  ]);
  if(pactols.autorites?.length!==103||pactols.totaux?.autorites_pactols!==103)
@@ -212,6 +214,7 @@ async function start(){
    state.reunion=reunionHistorique.creer(indexReunionHistorique);
    state.mayotte=mayotteHistorique.creer(indexMayotteHistorique);
     state.spm=spmHistorique.creer(indexSPMHistorique);
+     state.antilles2007=antilles2007.creer(indexAntilles2007);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
    .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex);
@@ -712,6 +715,65 @@ function afficherChronologieSPM(target,entry){
  p.textContent='États COG documentaires seulement : aucun contour historique, aucun nouvel alignement Pactols, aucune succession inférée. Les géométries contemporaines ne sont pas rétroprojetées.';
  target.append(p);
 }
+function afficherTransitionAntilles2007(target,entry){
+ if(!state.antilles2007)return;
+ const code=entry.code,rel=state.antilles2007.pourCode(code);
+ if(!rel)return;
+ const y=year(),episode=state.antilles2007.etat(code,y);
+ const title=document.createElement('h3');
+ title.textContent='Saint-Barthélemy et Saint-Martin · transition 2007 · état au 1er janvier '+y;
+ target.append(title);
+ if(episode){
+  const dl=document.createElement('dl');
+  ligne(dl,'Statut du code sélectionné',
+    episode.type==='ANCIENNE_COMMUNE'?'Ancienne commune de Guadeloupe':
+    episode.type==='COLLECTIVITE'?'Collectivité d’outre-mer':'Code d’application à cinq positions, pas une commune');
+  ligne(dl,'Identifiant et libellé actifs au 1er janvier',episode.code+' · '+episode.libelle);
+  ligne(dl,'Couple code–libellé documenté',episode.debut+' – '+(episode.fin||'en cours dans le COG 2026'));
+  target.append(dl);
+ }else{
+  const p=document.createElement('p');p.className='warning';
+  p.textContent='Aucun épisode de ce code ('+code+') n’est actif au 1er janvier '+y+
+    ' dans le COG historique. Ce résultat ne signifie pas que le territoire géographique n’existait pas.';
+  target.append(p);
+ }
+ if(y===2007){
+  const p=document.createElement('p');p.className='source';
+  p.textContent='Le curseur représente le 1er janvier 2007 : les communes 97123/97127 sont encore actives, et les collectivités 977/978 commencent le 23 février selon le COG.';
+  target.append(p);
+ }
+ const dl=document.createElement('dl');
+ ligne(dl,'Ancienne commune',rel.ancienne_commune.code+' · '+rel.ancienne_commune.libelle);
+ ligne(dl,'Collectivité successeure (en droit)',rel.collectivite.code+' · '+rel.collectivite.libelle);
+ ligne(dl,'Code à cinq positions',rel.code_cinq_positions.code+' · ce n’est pas une nouvelle commune');
+ ligne(dl,'Mouvement dans le COG','MOD 30 · 23 février 2007 ; COM_AP vide');
+ ligne(dl,'Fondement de la succession',rel.succession_juridique.source);
+ target.append(dl);
+ const p=document.createElement('p');p.className='source';
+ p.textContent='Le COG atteste la fin de l’ancien code communal, sans code de destination. La loi organique établit séparément la succession des droits et obligations par la nouvelle collectivité.';
+ target.append(p);
+ const refs=[
+  ['Insee : codification et codes à cinq positions','https://www.insee.fr/fr/information/7929495'],
+  ['Légifrance : article 18 de la loi organique n° 2007-223',rel.succession_juridique.source_legifrance],
+  ['Légifrance : '+rel.succession_juridique.fondement_CGCT,rel.succession_juridique.source_CGCT]
+ ];
+ for(const [label,url]of refs){
+  const item=document.createElement('p'),a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;
+  item.append(a);target.append(item);
+ }
+ const link=document.createElement('p'),a=document.createElement('a');
+ const estAncienne=code===rel.ancienne_commune.code;
+ a.href=estAncienne?
+  '?ref_cog='+encodeURIComponent('COMER:TERRITOIRE:'+rel.collectivite.code)+'&annee=2008&niveau=commune':
+  '?ref_cog_historique_guadeloupe='+rel.ancienne_commune.code+'&annee=2007&niveau=commune';
+ a.textContent=estAncienne?'Consulter la collectivité successeure ('+rel.collectivite.code+')':
+  'Consulter l’ancienne commune ('+rel.ancienne_commune.code+')';
+ link.append(a);target.append(link);
+ const warning=document.createElement('p');warning.className='warning';
+ warning.textContent='La succession juridique n’est pas une équivalence Pactols et ne valide ni transfert d’ARK ni contour historique. Le code à cinq positions ne crée pas une commune.';
+ target.append(warning);
+}
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
@@ -733,6 +795,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    const note=document.createElement('p');note.className='warning';
    note.textContent='Cette ancienne commune est une autorité historique documentaire distincte. Le COG consulté ne fournit pas de code de destination dans la ligne MOD 30 ; aucune équivalence automatique avec une collectivité actuelle 977 ou 978, ni avec son concept Pactols, n’est déduite. Aucun contour historique n’est affiché.';
    target.append(note);
+   afficherTransitionAntilles2007(target,x);
    return;
  }
  if(x.kind==='cogHistoriqueGuyane'){
@@ -813,7 +876,11 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
       afficherChronologieSPM(target,entry);
     }else if(entry.kind==='autre_cog2026'&&entry.id==='COMER:TERRITOIRE:975'){
       afficherChronologieSPM(target,entry);
-   }else if(year()!==2026){
+   }
+    else if(entry.kind==='autre_cog2026'&&
+      ['COMER:TERRITOIRE:977','COMER:TERRITOIRE:978','COMER:COM:97701','COMER:COM:97801'].includes(entry.id)){
+      afficherTransitionAntilles2007(target,entry);
+    }else if(year()!==2026){
      const p=document.createElement('p');p.className='warning';
      p.textContent='Le curseur indique '+year()+', mais cette fiche décrit exclusivement l’état COG 2026. Aucune équivalence rétroactive, succession ni limite géographique historique n’a été validée pour ce résultat.';
      target.append(p);

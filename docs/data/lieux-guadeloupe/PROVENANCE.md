@@ -44,6 +44,12 @@ Le COG des mouvements enregistre pour chacune une ligne du 23 février 2007 sous
 
 Le RDF **Pactols Lieux du 22 juillet 2026** étudié dans la recette ne cite **aucune URI INSEE explicite** pour les anciens codes `97123` et `97127`. Les deux fiches historiques sont donc **sans ARK Pactols aligné**. Elles sont recherchables par leur code et leur nom, avec un statut distinct des 32 communes actuelles.
 
+## Complément : succession institutionnelle établie par la loi organique de 2007
+
+Le **champ `COM_AP` du mouvement COG reste vide**, comme documenté ci-dessus. Néanmoins, les [paragraphes X et XI de l'article 18 de la loi organique n° 2007-223](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955) apportent une **autre preuve** : les collectivités `977` et `978` succèdent **en droit** respectivement aux anciennes communes `97123` et `97127` dans leurs droits et obligations.
+
+Ces deux successions, attestées **par le droit et non inférées d'un champ COG**, sont traitées dans [le module complémentaire des transitions de 2007](../lieux-antilles-collectivites-2007/PROVENANCE.md). Elles ne créent ni code `COM_AP` fictif, ni `skos:exactMatch` Pactols entre autorités historiques, ni continuité géométrique présumée.
+
 ## Invariants cartographiques et éditoriaux
 
 - Les **32 correspondances Pactols–COG approuvées pour le millésime 2026** restent inchangées ; aucune n'est prolongée rétroactivement.

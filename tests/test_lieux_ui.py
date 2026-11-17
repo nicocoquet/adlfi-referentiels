@@ -190,6 +190,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-reunion-historique.js",
                 "../assets/lieux-mayotte-historique.js",
                 "../assets/lieux-saint-pierre-miquelon-historique.js",
+                "../assets/lieux-antilles-collectivites-2007.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -202,6 +203,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-reunion-historique.js",
             "docs/assets/lieux-mayotte-historique.js",
             "docs/assets/lieux-saint-pierre-miquelon-historique.js",
+            "docs/assets/lieux-antilles-collectivites-2007.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):
@@ -278,6 +280,32 @@ class LieuxUITests(unittest.TestCase):
         self.assertTrue(data["famille_COG_non_equivalente_au_statut_juridique"])
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
         self.assertEqual(data["contours_historiques_publies"],0)
+
+    def test_saint_barthelemy_saint_martin_2007_successions_distinctes_du_cog(self):
+        m=self.manifest["modules"]["lieux"]["historique_collectivites_antilles_2007"]
+        self.assertEqual(m["anciens_codes_communes_971"],["97123","97127"])
+        self.assertEqual(m["codes_collectivites_2026"],["977","978"])
+        self.assertEqual(m["codes_application_cinq_positions_non_communaux"],["97701","97801"])
+        self.assertEqual(m["date_fin_communes_COG"],"2007-02-23")
+        self.assertEqual(m["date_debut_collectivites_COG"],"2007-02-23")
+        self.assertEqual(m["date_entree_vigueur_loi_organique"],"2007-02-22")
+        self.assertEqual(m["mouvements_COG_MOD30_sans_destination"],2)
+        self.assertEqual(m["successions_juridiques_attestees"],2)
+        self.assertEqual(m["nouveaux_alignements_pactols"],0)
+        self.assertEqual(m["communes_actuelles_creees"],0)
+        self.assertEqual(m["contours_historiques_publies"],0)
+        data=json.loads((ROOT/"docs/data/lieux-antilles-collectivites-2007/chronologie-cog-juridique-2026.json").read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],"adlfi.lieux.antilles2007.etats_cog_juridique_public.v1")
+        self.assertEqual(len(data["episodes_anciens"].splitlines()),2)
+        self.assertEqual(len(data["episodes_collectivites"].splitlines()),2)
+        self.assertEqual(len(data["episodes_codes_cinq_positions"].splitlines()),2)
+        self.assertEqual(data["relations_successions_juridiques_documentees"],2)
+        self.assertEqual(data["nouvelles_relations_successions_COG_inferrees"],0)
+        self.assertTrue(all(x["mouvement_COG"]["COM_AP"] is None for x in data["relations"]))
+        self.assertTrue(all(x["code_cinq_positions"]["type"]=="CODE_APPLICATION_5_POSITIONS_NON_COMMUNE" for x in data["relations"]))
+        self.assertTrue(all(x["succession_juridique"]["identite_pactols_deduite"] is False for x in data["relations"]))
+        self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["nouveaux_contours_historiques"],0)
 
     def test_module_manifest_and_homepage(self):
         lieu = self.manifest["modules"]["lieux"]

@@ -562,6 +562,68 @@ def main():
         assert "ref_cog_historique_guadeloupe=97127" in page.url
         assert "COM_AP" in page.locator("#detail").text_content()
 
+        # Saint-Barthélemy / Saint-Martin : succession expressément prévue par
+        # la loi, distincte du mouvement MOD 30 et des codes cinq positions.
+        page.goto(base+"/lieux/?ref_cog_historique_guadeloupe=97123&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('transition 2007 · état au 1er janvier 2007')",
+          timeout=60000)
+        text_2007=page.locator("#detail").text_content()
+        assert "Ancienne commune de Guadeloupe" in text_2007
+        assert "97123 · Saint-Barthélemy" in text_2007
+        assert "977 · Saint-Barthélemy" in text_2007
+        assert "97701 · ce n’est pas une nouvelle commune" in text_2007
+        assert "MOD 30 · 23 février 2007 ; COM_AP vide" in text_2007
+        assert "Loi organique n° 2007-223, article 18-X" in text_2007
+        assert "La succession juridique n’est pas une équivalence Pactols" in text_2007
+        assert page.locator("#detail").get_by_text(
+            "Correspondance Pactols validée (2026)",exact=False).count()==0
+        page.locator("#detail").get_by_text(
+            "Consulter la collectivité successeure (977)").click()
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Collectivité d’outre-mer') && document.querySelector('#detail')?.textContent.includes('état au 1er janvier 2008')",
+          timeout=60000)
+        assert "ref_cog=COMER%3ATERRITOIRE%3A977" in page.url
+        assert "977 · Saint-Barthélemy" in page.locator("#detail").text_content()
+        assert "23 février 2007" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog=COMER%3ACOM%3A97701&annee=2008&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('97701 · Saint-Barthélemy')",
+          timeout=60000)
+        assert "Code d’application à cinq positions, pas une commune" in page.locator("#detail").text_content()
+        assert "pas une nouvelle commune" in page.locator("#detail").text_content()
+
+        page.goto(base+"/lieux/?ref_cog_historique_guadeloupe=97127&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Loi organique n° 2007-223, article 18-XI')",
+          timeout=60000)
+        text_sm=page.locator("#detail").text_content()
+        assert "97127 · Saint-Martin" in text_sm
+        assert "978 · Saint-Martin" in text_sm
+        assert "97801 · ce n’est pas une nouvelle commune" in text_sm
+        assert "COM_AP vide" in text_sm
+        set_year(2008)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('transition 2007 · état au 1er janvier 2008')",
+          timeout=30000)
+        assert "Aucun épisode de ce code (97127) n’est actif" in page.locator("#detail").text_content()
+        page.goto(base+"/lieux/?ref_cog=COMER%3ATERRITOIRE%3A978&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('transition 2007 · état au 1er janvier 2007')",
+          timeout=60000)
+        assert "Aucun épisode de ce code (978) n’est actif" in page.locator("#detail").text_content()
+        set_year(2008)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('transition 2007 · état au 1er janvier 2008')",
+          timeout=30000)
+        assert "978 · Saint-Martin" in page.locator("#detail").text_content()
+        assert "Collectivité d’outre-mer" in page.locator("#detail").text_content()
+
         # La Réunion : même code Saint-Louis avant/après la division du 5 février 1965.
         page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97414&annee=1965&niveau=commune",
                   wait_until="domcontentloaded")

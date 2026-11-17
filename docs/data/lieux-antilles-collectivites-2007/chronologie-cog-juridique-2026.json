@@ -1,0 +1,98 @@
+{
+  "schema": "adlfi.lieux.antilles2007.etats_cog_juridique_public.v1",
+  "statut": "ETATS_COG_DOCUMENTAIRES_ET_SUCCESSIONS_JURIDIQUES_SANS_GEOMETRIES",
+  "cog_source": "Insee, COG 2026 ; communes 971, mouvements, collectivités 977/978, codes cinq positions",
+  "cog_sha256": {
+    "v_commune_depuis_1943.csv": "08c532ed8dade0a048aa4e1d72b8a25852a3aa05ce79c7911276031235d6eeee",
+    "v_mvt_commune_2026.csv": "8b339fad8232e97233af3fd9468715af845e2cf8b14cb67b24d9a301ef8645f1",
+    "v_commune_2026.csv": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+    "v_comer_2026.csv": "d1f08ba101abf50c0a5db5cf7b24a50397bf68706aa658e4027a4fb933f059ed",
+    "v_tom_depuis_1943.csv": "6814a3ddedfa186557f5f7a10ff0f4c521f72fd388bdd430318d3d0d59b426bd",
+    "v_commune_comer_2026.csv": "9ca82ec1104c9a2307ad368ab40e47afa801137845901ca844bb700dc8d7c9d8",
+    "v_commune_outremer_depuis_1943.csv": "d2e2d3b376540d5c5e624e1cdf3d6a1959f6f24d6763268eec67883fe82ce748"
+  },
+  "source_controle": "https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44050874502",
+  "source_codification_977_978": "https://www.insee.fr/fr/information/7929495",
+  "source_loi_succession": "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955",
+  "date_cog_reforme": "2007-02-23",
+  "date_entree_vigueur_loi_organique": "2007-02-22",
+  "dates": "Début inclusif / fin exclusive ; états au 1er janvier",
+  "start_year": 1943,
+  "end_year": 2026,
+  "episodes_anciens": "97123|Saint-Barthélemy|1946-03-21|2007-02-23\n97127|Saint-Martin|1946-03-21|2007-02-23",
+  "episodes_collectivites": "977|Saint-Barthélemy|2007-02-23|\n978|Saint-Martin|2007-02-23|",
+  "episodes_codes_cinq_positions": "97701|Saint-Barthélemy|COM|2007-02-23|\n97801|Saint-Martin|COM|2007-02-23|",
+  "relations": [
+    {
+      "ancienne_commune": {
+        "code": "97123",
+        "libelle": "Saint-Barthélemy",
+        "type": "COMMUNE",
+        "famille_COG": "DROM"
+      },
+      "collectivite": {
+        "code": "977",
+        "libelle": "Saint-Barthélemy",
+        "type": "COLLECTIVITE_OUTREMER"
+      },
+      "code_cinq_positions": {
+        "code": "97701",
+        "nature_zonage_COG": "COM",
+        "type": "CODE_APPLICATION_5_POSITIONS_NON_COMMUNE"
+      },
+      "mouvement_COG": {
+        "modalite": "30",
+        "date_effet": "2007-02-23",
+        "COM_AP": null
+      },
+      "succession_juridique": {
+        "type": "SUCCESSION_DROITS_ET_OBLIGATIONS",
+        "source": "Loi organique n° 2007-223, article 18-X",
+        "source_legifrance": "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955",
+        "fondement_CGCT": "LO6211-1",
+        "source_CGCT": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006393813",
+        "date_effet_relation_precise_deduite": null,
+        "identite_pactols_deduite": false
+      }
+    },
+    {
+      "ancienne_commune": {
+        "code": "97127",
+        "libelle": "Saint-Martin",
+        "type": "COMMUNE",
+        "famille_COG": "DROM"
+      },
+      "collectivite": {
+        "code": "978",
+        "libelle": "Saint-Martin",
+        "type": "COLLECTIVITE_OUTREMER"
+      },
+      "code_cinq_positions": {
+        "code": "97801",
+        "nature_zonage_COG": "COM",
+        "type": "CODE_APPLICATION_5_POSITIONS_NON_COMMUNE"
+      },
+      "mouvement_COG": {
+        "modalite": "30",
+        "date_effet": "2007-02-23",
+        "COM_AP": null
+      },
+      "succession_juridique": {
+        "type": "SUCCESSION_DROITS_ET_OBLIGATIONS",
+        "source": "Loi organique n° 2007-223, article 18-XI",
+        "source_legifrance": "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006399955",
+        "fondement_CGCT": "LO6311-1",
+        "source_CGCT": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006394046",
+        "date_effet_relation_precise_deduite": null,
+        "identite_pactols_deduite": false
+      }
+    }
+  ],
+  "correspondances_pactols_guadeloupe_2026_conservees": 32,
+  "nouveaux_alignements_pactols": 0,
+  "nouveaux_contours_historiques": 0,
+  "retroprojections_anciennes_communes": 0,
+  "nouvelles_relations_successions_COG_inferrees": 0,
+  "relations_successions_juridiques_documentees": 2,
+  "codes_communes_actuelles_creees": 0
+}
