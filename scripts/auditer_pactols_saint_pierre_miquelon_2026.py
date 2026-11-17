@@ -114,7 +114,11 @@ def rapport(rdf:Path,cog:Path)->dict:
     "preuve_exactMatch_dans_RDF":items,
     "statut":"ELIGIBLE_A_VALIDATION_EDITORIALE" if len(qualifies)==1 else (
        "A_INSTRUIRE" if items else "AUCUN_EXACTMATCH_ATTESTE"),
-    "nombre_exactMatch":len(items),"geometry_historique":None,
+    "nombre_exactMatch":len(items),
+    "alerte_confusion_ile_commune":code=="97502" and any(
+      normaliser(label).startswith("ile saint pierre")
+      for x in items for label in x["prefLabels_fr"]),
+    "geometry_historique":None,
     "decision_publication":"NON_PUBLIE"})
  return {
   "schema":"adlfi.lieux.spm.audit.pactols-cog2026.v1",
