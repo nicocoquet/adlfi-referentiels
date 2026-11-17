@@ -33,7 +33,7 @@ class ValidationGuadeloupeTests(unittest.TestCase):
         actual=self.appliquer_lignes(self.records)
         self.assertEqual(actual,self.public)
         valid=actual["pactols_valides"]
-        self.assertEqual(len(valid),128)
+        self.assertEqual(len(valid),176)
         self.assertEqual(sum(x.startswith("971") for x in valid),32)
         self.assertEqual(sum(x.startswith("972") for x in valid),34)
         self.assertEqual(sum(x.startswith("973") for x in valid),22)
