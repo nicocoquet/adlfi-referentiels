@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'scripts/inventorier_assets_hao_sentinel2.py'
+      - 'scripts/diagnostiquer_pixels_hao_l2a.py'
+      - 'tests/test_diagnostiquer_pixels_hao_l2a.py'
       - 'tests/test_inventorier_assets_hao_sentinel2.py'
       - 'recette/lieux/POLYNESIE-HAO-ASSETS-2026.md'
       - '.github/workflows/lieux-polynesie-hao-assets.yml'
@@ -22,9 +24,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Préparer dépendances de footprint
-        run: python3 -m pip install 'shapely==2.1.2'
+        run: python3 -m pip install 'shapely==2.1.2' 'rasterio==1.4.3'
       - name: Tests de non-régression STAC
-        run: python3 -m unittest discover -s tests -p 'test_inventorier_assets_hao_sentinel2.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_inventorier_assets_hao_sentinel2.py' -v
+          python3 -m unittest discover -s tests -p 'test_diagnostiquer_pixels_hao_l2a.py' -v
       - name: Lire métadonnées exactes du produit du 26 décembre 2022
         run: |
           set -euo pipefail
