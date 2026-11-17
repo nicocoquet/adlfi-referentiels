@@ -102,12 +102,12 @@ jobs:
           idx=json.loads(Path('docs/data/lieux-outremer/recherche-2026.json').read_text())
           m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']
           assert idx['communes']['975']=='97501|Miquelon-Langlade\n97502|Saint-Pierre'
-          assert len(idx['pactols_valides'])==128
+          assert len(idx['pactols_valides'])==176
           assert not [k for k in idx['pactols_valides'] if k.startswith('975')]
           assert not [k for k in idx['ark_confirmes_non_valides'] if k.startswith('975')]
           assert m['historique_communes_saint_pierre_miquelon']['episodes_communes_COMER']==2
           assert m['historique_communes_saint_pierre_miquelon']['episodes_collectivite_COG']==1
-          assert m['recherche_cog_outremer_2026']['relations_pactols_cog_validees_2026']==128
+          assert m['recherche_cog_outremer_2026']['relations_pactols_cog_validees_2026']==176
           assert d['contours_historiques_publies']==0
           assert d['nouveaux_alignements_pactols']==0
           assert d['identites_historiques_retroprojetees']==0
