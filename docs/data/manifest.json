@@ -72,6 +72,21 @@
         "nouveaux_alignements_pactols": 0,
         "contours_historiques_publies": 0,
         "niveau_territorial": "Commune"
+      },
+      "historique_communes_guadeloupe": {
+        "statut": "états COG documentaires publiés sans géométries historiques",
+        "fichier": "data/lieux-guadeloupe/chronologie-cog-2026.json",
+        "premiere_annee": 1943,
+        "derniere_annee": 2026,
+        "periodes_COG": 35,
+        "codes_historiques_distincts": 34,
+        "codes_historiques_non_courants": 2,
+        "communes_COG_2026": 32,
+        "correspondances_pactols_2026_conservees": 32,
+        "nouveaux_alignements_pactols": 0,
+        "contours_historiques_publies": 0,
+        "mouvements_2007_destinations_renseignees": 0,
+        "niveau_territorial": "Commune"
       }
     },
     "personnes": {

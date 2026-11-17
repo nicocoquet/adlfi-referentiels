@@ -155,6 +155,24 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["correspondances_pactols_validees_pour_2026"], 34)
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_guadeloupe_historique_35_etats_sans_geometrie(self):
+        p = ROOT / "docs/data/lieux-guadeloupe/chronologie-cog-2026.json"
+        data = json.loads(p.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"], "adlfi.lieux.guadeloupe.etats_cog_public.v1")
+        self.assertEqual(data["start_year"], 1943)
+        self.assertEqual(data["end_year"], 2026)
+        self.assertEqual(len(data["episodes"].splitlines()), 35)
+        self.assertEqual({x["code"] for x in data["anciens_codes"]},
+                         {"97123", "97127"})
+        self.assertEqual(data["correspondances_pactols_COG_2026_conservees"], 32)
+        self.assertEqual(data["nouveaux_alignements_pactols"], 0)
+        self.assertEqual(data["contours_historiques_publies"], 0)
+        self.assertEqual(data["nouvelles_relations_successions_inferrees"], 0)
+        self.assertTrue(all(x["destination_com_ap"] is None for x in data["anciens_codes"]))
+        self.assertTrue(all(x["ark_pactols_uri_insee_atteste"] is None
+                            for x in data["anciens_codes"]))
+        self.assertFalse(any("geometry" in x.lower() for x in data))
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
@@ -167,6 +185,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-outremer-search.js",
                 "../assets/lieux-guyane-historique.js",
                 "../assets/lieux-martinique-historique.js",
+                "../assets/lieux-guadeloupe-historique.js",
                 "../assets/lieux-multiechelon.js",
             ],
         )
@@ -175,6 +194,7 @@ class LieuxUITests(unittest.TestCase):
             "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
+            "docs/assets/lieux-guadeloupe-historique.js",
             "docs/assets/lieux-multiechelon.css",
             "docs/assets/lieux.css",
         ):

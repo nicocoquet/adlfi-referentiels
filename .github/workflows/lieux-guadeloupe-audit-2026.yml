@@ -9,6 +9,9 @@ on:
       - 'recette/lieux/GUADELOUPE-VALIDATIONS-PACTOLS-COG-2026.csv'
       - 'tests/test_validations_guadeloupe_pactols_2026.py'
       - 'docs/data/lieux-outremer/recherche-2026.json'
+      - 'docs/data/lieux-guadeloupe/**'
+      - 'docs/assets/lieux-guadeloupe-historique.js'
+      - 'scripts/verifier_index_public_guadeloupe_2026.py'
       - 'docs/data/manifest.json'
       - 'docs/assets/lieux-outremer-search.js'
       - '.github/workflows/lieux-guadeloupe-audit-2026.yml'
@@ -71,6 +74,12 @@ jobs:
               --sortie "$out" > "$RUNNER_TEMP/bilan-guadeloupe.json"
           done
           diff -qr "$RUNNER_TEMP/recette1" "$RUNNER_TEMP/recette2"
+      - name: Vérifier les 35 épisodes historiques publics depuis les sources COG
+        working-directory: referentiels
+        run: |
+          python3 scripts/verifier_index_public_guadeloupe_2026.py \
+            --audit "$RUNNER_TEMP/recette1/guadeloupe-32-communes-audit.json" \
+            --public docs/data/lieux-guadeloupe/chronologie-cog-2026.json
       - name: Contrôler les 32 communes et exposer toutes les preuves
         run: |
           python3 - <<'PY'

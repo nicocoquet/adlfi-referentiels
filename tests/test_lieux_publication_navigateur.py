@@ -404,6 +404,53 @@ def main():
             timeout=60000)
         assert "Aucun contour historique de Martinique n’est affiché" in page.locator("#detail").text_content()
 
+        # Guadeloupe : libellé du même code 97107 avant/après le 4 juin 1976.
+        page.goto(base+"/lieux/?ref_cog=DROM%3ACOM%3A97107&annee=1976&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Guadeloupe au 1er janvier 1976')",
+          timeout=60000)
+        text_g=page.locator("#detail").text_content()
+        assert "Capesterre-de-Guadeloupe" in text_g
+        assert "Correspondance Pactols validée (2026)" in text_g
+        assert "26678/pcrtIusOs61efG" in text_g
+        assert "Aucun contour historique de Guadeloupe n’est affiché" in text_g
+        set_year(1977)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('État COG de Guadeloupe au 1er janvier 1977')",
+          timeout=30000)
+        assert "Capesterre-Belle-Eau" in page.locator("#detail").text_content()
+        assert page.locator("#year").input_value()=="1977"
+
+        # Deux anciens codes documentaires, sans ARK ni code de destination COG.
+        page.goto(base+"/lieux/?ref_cog_historique_guadeloupe=97123&annee=2007&niveau=commune",
+                  wait_until="domcontentloaded")
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Saint-Barthélemy') && document.querySelector('#detail')?.textContent.includes('MOD 30')",
+          timeout=60000)
+        text_g=page.locator("#detail").text_content()
+        assert "Ancien code INSEE" in text_g
+        assert "Non renseigné dans le fichier des mouvements COG" in text_g
+        assert "Aucune dans l’export RDF Lieux" in text_g
+        assert "aucune équivalence automatique" in text_g
+        assert "Aucun contour historique de Guadeloupe n’est affiché" in text_g
+        assert "97123" in page.url
+        set_year(2008)
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Aucun épisode actif')",
+          timeout=30000)
+
+        page.locator("#search").fill("97127")
+        page.locator("#results button").filter(
+          has_text="Ancienne commune · Guadeloupe · 97127"
+        ).first.click()
+        assert page.locator("#year").input_value()=="2007"
+        page.wait_for_function(
+          "() => document.querySelector('#detail')?.textContent.includes('Saint-Martin')",
+          timeout=30000)
+        assert "ref_cog_historique_guadeloupe=97127" in page.url
+        assert "COM_AP" in page.locator("#detail").text_content()
+
         page.goto(base+"/lieux/chronologie/?region=bfc&annee=2015&code=25368",wait_until="domcontentloaded")
         page.wait_for_url(re.compile(r"/lieux/\?"),timeout=30000)
         page.wait_for_function(
