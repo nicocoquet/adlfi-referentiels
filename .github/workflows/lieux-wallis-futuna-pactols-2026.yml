@@ -87,6 +87,25 @@ jobs:
           assert d["bilan"]["validations_autorisees_automatiquement"]==0
           assert all(x["alignement_publie"] is False for x in d["lignes"])
           assert {x["code_COG"] for x in d["anciens_codes_exclus_de_validation"]}=={"98607","98609"}
+          assert d["bilan"]["codes_avec_exactMatch"]==1
+          assert d["bilan"]["concepts_exactMatch"]==1
+          bycode={x["code_COG"]:x for x in d["lignes"]}
+          proof=bycode["986"]["preuves_RDF_exactMatch"]
+          assert len(proof)==1
+          assert proof[0]["ark"]=="26678/pcrtwFq5jKHO3k"
+          assert proof[0]["prefLabels_fr"]==["Wallis et Futuna"]
+          assert proof[0]["altLabels_fr"]==["Territoire des îles Wallis et Futuna"]
+          assert not proof[0]["deprecie"] and not proof[0]["remplace"]
+          assert proof[0]["exactMatch_INSEE_cibles"]==[{
+            "code":"986",
+            "famille":"collectiviteDOutreMer",
+            "uri":"http://id.insee.fr/geo/collectiviteDOutreMer/986"}]
+          assert all(bycode[c]["preuves_RDF_exactMatch"]==[]
+                     for c in ("98611","98612","98613"))
+          assert all(x["preuves_RDF_exactMatch"]==[]
+                     for x in d["anciens_codes_exclus_de_validation"])
+          assert d["candidats_lexicaux_non_valides"]==[]
+          assert d["homonymes_sans_contexte_qualifie"]==2
           print("BILAN_RDF_WALLIS",json.dumps(d["bilan"],ensure_ascii=False))
           print("PREUVES_RDF_WALLIS",json.dumps(d["lignes"],ensure_ascii=False))
           print("ANCIENS_CODES_EXCLUS",json.dumps(d["anciens_codes_exclus_de_validation"],ensure_ascii=False))
