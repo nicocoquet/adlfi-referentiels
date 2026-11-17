@@ -31,4 +31,24 @@ Les ressemblances lexicales assorties de précisions géographiques sont recens�
 - Aucun `skos:exactMatch` historique n'est rétroprojeté, aucun ARK ne passe automatiquement d'une entité à l'autre.
 - Le rapport conserve **zéro alignement publié**, **zéro contour historique**, **zéro validation automatique**, quel que soit le résultat du RDF.
 
-Les éventuels résultats détaillés sont ajoutés ici **seulement après l'exécution sur les deux sources officielles**, et ne se déduisent pas des noms.
+## Résultats RDF Frantiq (17 novembre 2026)
+
+La [CI n°44052876958](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44052876958) a réussi la lecture du RDF officiel épinglé et la double exécution reproductible. **Deux concepts uniques** sont directement liés à **quatre URI INSEE** :
+
+| Collectivité COG | ARK Pactols | `skos:prefLabel` du concept | URI explicites `skos:exactMatch` |
+| --- | --- | --- | --- |
+| `977` Saint-Barthélemy | `26678/pcrtrGdtY56gmH` | Saint-Barthélemy (Antilles Françaises) | `http://id.insee.fr/geo/collectiviteDOutreMer/977` **et** `http://id.insee.fr/geo/commune/97701` |
+| `978` Saint-Martin | `26678/pcrty5LooX8FgU` | Saint-Martin (Antilles Françaises) | `http://id.insee.fr/geo/collectiviteDOutreMer/978` **et** `http://id.insee.fr/geo/commune/97801` |
+
+Le second concept présente également l'**`altLabel` français « Saint-Martin (Guadeloupe) »**, correspondant à une forme historique de localisation et non à une preuve d'identité avec l'ancienne commune `97127`.
+
+Les deux concepts sont **non dépréciés et non remplacés**. L'audit du RDF épinglé ne trouve **aucune URI `exactMatch` vers les anciennes communes `97123` et `97127`**.
+
+**Interprétation :** les URI `collectiviteDOutreMer/977` et `/978` constituent des preuves fortes en faveur de correspondances vers les **collectivités actuelles**. Les URI `commune/97701` et `commune/97801` existent effectivement dans Pactols, mais leurs suffixes sont des **codes applicatifs** selon l'Insee et ne permettent pas de réintroduire des communes inexistantes.
+
+Les correspondances `977` / `978` peuvent être **proposées à l'arbitrage éditorial** avec indication explicite de leur catégorie. Elles ne sont **pas encore homologuées ni publiées** dans cette PR.
+
+### Faux positifs lexicaux
+
+Le premier passage a recensé **18 ressemblances « Saint-Barthélemy »** correspondant à d'autres communes (Villers-Saint-Barthélemy, Saint-Barthélemy-d'Anjou, etc.). Ces résultats **ne sont pas des candidats antillais**. La recette a été corrigée pour les **écarter de la liste des candidats qualifiés** et les dénombrer séparément comme homonymes sans contexte antillais. Ce contrôle limite les alignements par ressemblance et est testé sur le RDF synthétique.
+
