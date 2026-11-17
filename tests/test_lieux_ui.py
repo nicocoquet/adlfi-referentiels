@@ -288,9 +288,6 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["episodes_collectivite_COG"],"975|Saint-Pierre-et-Miquelon|1985-06-15|")
         self.assertTrue(data["famille_COG_non_equivalente_au_statut_juridique"])
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
-        self.assertEqual(data["alignements_pactols_2026_valides"],48)
-        self.assertIs(data["alignements_uniquement_millesime_2026"],True)
-        self.assertIs(data["contour_tahaa_98745_non_homologue"],True)
         self.assertEqual(data["contours_historiques_publies"],0)
 
     def test_saint_barthelemy_saint_martin_2007_successions_distinctes_du_cog(self):
@@ -377,6 +374,9 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(data["decoupage_ISPF"]["nombre_unites_de_nomenclature_fine"],116)
         self.assertIs(data["historique_juridique"]["creation_juridique_toutes_communes_deduite_1972"],False)
         self.assertEqual(data["nouveaux_alignements_pactols"],0)
+        self.assertEqual(data["alignements_pactols_2026_valides"],48)
+        self.assertIs(data["alignements_uniquement_millesime_2026"],True)
+        self.assertIs(data["contour_tahaa_98745_non_homologue"],True)
         self.assertEqual(data["communes_associees_creees"],0)
 
     def test_module_manifest_and_homepage(self):
