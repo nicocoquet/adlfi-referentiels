@@ -272,7 +272,7 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(spm["identites_historiques_retroprojetees"],0)
         data=json.loads((ROOT/"docs/data/lieux-saint-pierre-miquelon/chronologie-cog-2026.json").read_text())
         self.assertEqual(data["schema"],"adlfi.lieux.spm.etats_cog_public.v1")
-        self.assertEqual(data["episodes_communes_COMER"].count("\\n"),1)
+        self.assertEqual(len(data["episodes_communes_COMER"].splitlines()),2)
         self.assertEqual(data["episodes_communes_DROM"],"")
         self.assertEqual(data["episodes_collectivite_COG"],"975|Saint-Pierre-et-Miquelon|1985-06-15|")
         self.assertTrue(data["famille_COG_non_equivalente_au_statut_juridique"])
