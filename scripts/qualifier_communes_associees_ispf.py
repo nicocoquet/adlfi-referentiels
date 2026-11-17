@@ -107,7 +107,8 @@ def qualifier(source:Path,index:Path)->dict:
   raise ValueError("Rattachements COG des 30 communes non univoques")
  avera=[x for x in assoc if normaliser(x["libelle"])=="avera"]
  if {(x["id_comas_ISPF"],x["code_commune_COG"]) for x in avera}!={("501","98750"),("441","98744")}:
-  raise ValueError("Les deux Avera homonymes ne sont pas distinctes")
+  raise ValueError("Les deux Avera homonymes ne sont pas distinctes : "+
+    json.dumps(avera,ensure_ascii=False))
  # L'île est un niveau parallèle, distinct de la commune associée.
  ile={r["IDIle"]:r["Ile"] for r in d["Ile"]}
  if len(ile)!=119:raise ValueError("Nombre de codes d'îles distinctes inattendu")
