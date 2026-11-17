@@ -101,7 +101,7 @@ jobs:
           p=json.loads(Path('docs/data/lieux-wallis-futuna/chronologie-cog-2026.json').read_text())
           idx=json.loads(Path('docs/data/lieux-outremer/recherche-2026.json').read_text())
           m=json.loads(Path('docs/data/manifest.json').read_text())['modules']['lieux']
-          assert len(idx['pactols_valides'])==176
+          assert len(idx['pactols_valides'])==212
           assert m['recherche_cog_outremer_2026']['communes']==212
           assert m['recherche_cog_outremer_2026']['autres_entites']==21
           assert set(idx['communes'])=={'971','972','973','974','975','976','987','988'}
@@ -113,7 +113,7 @@ jobs:
           assert p['nouveaux_alignements_pactols']==0
           assert p['contours_historiques_publies']==0
           assert p['codes_communes_creees']==0
-          print('WALLIS_986 : 3 CIR, 0 commune, 176 exactMatch communaux conservés — OK')
+          print('WALLIS_986 : 3 CIR, 0 commune, 212 exactMatch communaux conservés — OK')
           PY
       - name: Archiver rapport hors du site public
         uses: actions/upload-artifact@v4

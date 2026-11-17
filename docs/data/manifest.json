@@ -34,8 +34,8 @@
         "etat_cog": "2026-01-01",
         "communes": 212,
         "autres_entites": 21,
-        "relations_pactols_cog_validees_2026": 176,
-        "ark_confirmes_lien_non_valide": 1,
+        "relations_pactols_cog_validees_2026": 212,
+        "ark_confirmes_lien_non_valide": 0,
         "geometries_publiees": 0,
         "identites_historiques_retroprojetees": 0,
         "relations_pactols_cog_validees_guyane_2026": 22,
@@ -60,7 +60,11 @@
         "alignements_codes_5_positions_97701_97801_inferes": 0,
         "alignements_circonscriptions_98611_98612_98613_inferes": 0,
         "alignements_communes_historiques_97123_97127_inferes": 0,
-        "retroprojection_identifiants_2026": false
+        "retroprojection_identifiants_2026": false,
+        "relations_pactols_cog_validees_nouvelle_caledonie_2026": 33,
+        "relations_pactols_cog_validees_saint_pierre_miquelon_2026": 2,
+        "relations_pactols_cog_validees_mayotte_2026": 17,
+        "source_validations_nouveaux_2026": "recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv"
       },
       "historique_communes_guyane": {
         "statut": "états COG documentaires publiés sans géométries historiques",

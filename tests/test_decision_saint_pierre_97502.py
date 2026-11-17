@@ -26,11 +26,13 @@ class TestDecisionSaintPierre(unittest.TestCase):
         self.assertEqual(r["statut_validation"],"VALIDE_ADLFI_2026")
         self.assertEqual(r["portee_COG"],"2026-01-01")
         self.assertEqual(r["statut_libelle_pactols"],"CORRECTION_PREFLABEL_A_DEMANDER")
-        self.assertEqual(r["publication_site"],"EN_ATTENTE_RECETTE_PUBLICATION")
+        self.assertEqual(r["publication_site"],"EN_ATTENTE_RECETTE_PUBLICATION")  # État du registre initial, conservé historiquement
         public=json.loads(INDEX.read_text(encoding="utf-8"))
-        self.assertNotIn("97502",public["pactols_valides"])
-        self.assertNotIn("97501",public["pactols_valides"])
-        self.assertEqual(len(public["pactols_valides"]),176)
+        self.assertEqual(public["pactols_valides"]["97502"],"26678/pcrtYQmFfwxLq8")
+        self.assertEqual(public["pactols_valides"]["97501"],"26678/pcrtQAMzeGHldU")
+        self.assertEqual(len(public["pactols_valides"]),212)
+        ancien=json.loads((ROOT/"recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json").read_text(encoding="utf-8"))
+        self.assertNotIn("97502",ancien["pactols_valides"])
 
 if __name__=="__main__":
     unittest.main()

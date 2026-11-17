@@ -45,7 +45,7 @@ jobs:
         run: |
           python3 scripts/verifier_decisions_nouvelle_caledonie_spm_mayotte_2026.py \
             --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
-            --index docs/data/lieux-outremer/recherche-2026.json \
+            --index recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json \
             --registre recette/lieux/VALIDATIONS-NC-SPM-DEMBENI-2026.csv \
             --sortie "$RUNNER_TEMP/decisions-outremer.json"
       - uses: actions/upload-artifact@v4

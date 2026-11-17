@@ -12,7 +12,7 @@ class TestValidationsCollectivites(unittest.TestCase):
   rows=decisions(ROOT/SOURCE_CSV)
   self.assertEqual(set(rows),{"977","978","986","987"})
   self.assertEqual({r["ark_pactols"] for r in rows.values()},set(ARKS.values()))
-  data=json.loads((ROOT/"docs/data/lieux-outremer/recherche-2026.json").read_text(encoding="utf-8"))
+  data=json.loads((ROOT/"recette/lieux/SOCLE-PACTOLS-COG-OUTREMER-176-2026.json").read_text(encoding="utf-8"))
   communes=data["pactols_valides"]
   coll=data["pactols_collectivites_valides"]
   self.assertEqual(len(communes),176)
@@ -33,7 +33,7 @@ class TestValidationsCollectivites(unittest.TestCase):
    self.assertEqual(rows[code]["uri_secondaire_exactMatch_non_publiee"],"")
   manifest=json.loads((ROOT/"docs/data/manifest.json").read_text(encoding="utf-8"))["modules"]["lieux"]
   m=manifest["recherche_cog_outremer_2026"]
-  self.assertEqual(m["relations_pactols_cog_validees_2026"],176)
+  self.assertEqual(m["relations_pactols_cog_validees_2026"],212)
   self.assertEqual(m["relations_pactols_collectivites_2026"],4)
   self.assertTrue(m["relations_pactols_collectivites_2026_distinctes_des_communes"])
   self.assertEqual(m["alignements_codes_5_positions_97701_97801_inferes"],0)

@@ -37,7 +37,7 @@ assert.equal(a.entries.filter(e=>e.arkValide!==null).length,0);
 assert.ok(a.entries.every(e=>e.geometriePubliee===false));
 assert.ok(a.entries.every(e=>e.codeInseePropre===null));
 assert.ok(a.entries.every(e=>e.validiteHistoriqueEtablie===false));
-assert.equal(Object.keys(cog.pactols_valides).length,176);
+assert.equal(Object.keys(cog.pactols_valides).length,212);
 assert.equal(Object.keys(cog.pactols_collectivites_valides).length,4);
 const dup=()=>JSON.parse(JSON.stringify(d));
 let p=dup();p.communes_associees[0].commune_parent_cog='98712';

@@ -111,7 +111,7 @@ class LieuxUITests(unittest.TestCase):
                                   "987": 48, "988": 33})
         self.assertEqual(sum(counts.values()), 212)
         self.assertEqual(len(dataset["autres"]), 21)
-        self.assertEqual(len(dataset["pactols_valides"]), 176)
+        self.assertEqual(len(dataset["pactols_valides"]), 212)
         self.assertEqual(dataset["pactols_collectivites_valides"], {
             "977":"26678/pcrtrGdtY56gmH",
             "978":"26678/pcrty5LooX8FgU",
@@ -137,9 +137,8 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(dataset["pactols_valides"]["98745"],"26678/pcrteZcqWgVUaT")
         self.assertEqual(dataset["pactols_valides"]["98758"],"26678/pcrtRw9F7i5M8l")
         self.assertEqual(dataset["pactols_valides"]["97407"], "26678/pcrtIKvRT9vwUl")
-        self.assertEqual(dataset["ark_confirmes_non_valides"], {
-            "97607": "26678/crtZcuFSJVYZU",
-        })
+        self.assertEqual(dataset["ark_confirmes_non_valides"], {})
+        self.assertEqual(dataset["pactols_valides"]["97607"], "26678/crtZcuFSJVYZU")
         self.assertEqual(dataset["contours_invalides"], ["98745", "98805"])
         self.assertNotIn("geometry", str(dataset))
         self.assertIn("ref_cog", (ROOT / "docs/assets/lieux-multiechelon.js")
@@ -434,7 +433,7 @@ class LieuxUITests(unittest.TestCase):
         outremer = lieu["recherche_cog_outremer_2026"]
         self.assertEqual(outremer["communes"], 212)
         self.assertEqual(outremer["autres_entites"], 21)
-        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 176)
+        self.assertEqual(outremer["relations_pactols_cog_validees_2026"], 212)
         self.assertEqual(outremer["relations_pactols_collectivites_2026"], 4)
         self.assertEqual(outremer["codes_collectivites_pactols_2026"],["977","978","986","987"])
         self.assertEqual(outremer["source_validations_collectivites"],
@@ -451,7 +450,7 @@ class LieuxUITests(unittest.TestCase):
         self.assertEqual(outremer["relations_pactols_cog_validees_reunion_2026"], 24)
         self.assertEqual(outremer["relations_pactols_cog_validees_martinique_2026"], 34)
         self.assertEqual(outremer["relations_pactols_cog_validees_guyane_2026"], 22)
-        self.assertEqual(outremer["ark_confirmes_lien_non_valide"], 1)
+        self.assertEqual(outremer["ark_confirmes_lien_non_valide"], 0)
         self.assertEqual(outremer["geometries_publiees"], 0)
         self.assertEqual(outremer["identites_historiques_retroprojetees"], 0)
 

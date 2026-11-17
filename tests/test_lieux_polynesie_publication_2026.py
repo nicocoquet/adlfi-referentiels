@@ -14,9 +14,9 @@ class TestPublicationPolynesie(unittest.TestCase):
   self.assertEqual(len({r["ark_pactols"] for r in rows}),48)
   codes=dict(s.split("|") for s in public["communes"]["987"].splitlines())
   self.assertEqual(len(codes),48)
-  self.assertEqual(len(public["pactols_valides"]),176)
-  self.assertEqual(len(set(public["pactols_valides"].values())),176)
-  self.assertEqual(public["ark_confirmes_non_valides"],{"97607":"26678/crtZcuFSJVYZU"})
+  self.assertEqual(len(public["pactols_valides"]),212)
+  self.assertEqual(len(set(public["pactols_valides"].values())),212)
+  self.assertEqual(public["ark_confirmes_non_valides"],{})
   self.assertEqual(public["contours_invalides"],["98745","98805"])
   self.assertNotIn("98799",public["pactols_valides"])
   self.assertNotIn("987",public["pactols_valides"])
@@ -36,7 +36,7 @@ class TestPublicationPolynesie(unittest.TestCase):
   self.assertEqual(public["pactols_valides"]["98758"],"26678/pcrtRw9F7i5M8l")
   manifest=json.loads((ROOT/"docs/data/manifest.json").read_text(encoding="utf-8"))["modules"]["lieux"]
   outre=manifest["recherche_cog_outremer_2026"]
-  self.assertEqual(outre["relations_pactols_cog_validees_2026"],176)
+  self.assertEqual(outre["relations_pactols_cog_validees_2026"],212)
   self.assertEqual(outre["relations_pactols_cog_validees_polynesie_2026"],48)
   self.assertEqual(outre["geometries_publiees"],0)
   poly=json.loads((ROOT/"docs/data/lieux-polynesie/chronologie-cog-2026.json").read_text(encoding="utf-8"))
