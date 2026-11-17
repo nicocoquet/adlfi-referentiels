@@ -111,7 +111,7 @@ class LieuxUITests(unittest.TestCase):
                                   "987": 48, "988": 33})
         self.assertEqual(sum(counts.values()), 212)
         self.assertEqual(len(dataset["autres"]), 21)
-        self.assertEqual(len(dataset["pactols_valides"]), 104)
+        self.assertEqual(len(dataset["pactols_valides"]), 128)
         self.assertEqual(len([k for k in dataset["pactols_valides"] if k.startswith("971")]), 32)
         self.assertNotIn("97123", dataset["pactols_valides"])
         self.assertNotIn("97127", dataset["pactols_valides"])
