@@ -1,0 +1,1224 @@
+{
+  "bilan": {
+    "Etalab_invalides": {
+      "98745": "Self-intersection[-151.447423287671 -16.5649232876712]"
+    },
+    "GEO_PF_invalides": {},
+    "ISPF_invalides": {},
+    "codes_GEO_PF_hors_COG": [],
+    "communes_COG": 48,
+    "communes_ISPF": 48,
+    "nouveaux_ARK": 0,
+    "nouvelles_geometries_publiees": 0,
+    "parents_GEO_PF": 48,
+    "parents_GEO_PF_absents": [],
+    "unites_GEO_PF": 179
+  },
+  "communes": [
+    {
+      "code_COG": "98711",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 10.3464,
+        "intersection_sur_union": 0.782754
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 40.86828,
+        "intersection_sur_union": 0.480427
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 31.98313,
+        "intersection_sur_union": 0.589722
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Anaa",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 38.71212,
+      "surface_geopf_2022_km2": 46.19184,
+      "surface_ispf_2022_km2": 77.73452
+    },
+    {
+      "code_COG": "98712",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.08888,
+        "intersection_sur_union": 0.948148
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.13472,
+        "intersection_sur_union": 0.903608
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 1.39809,
+        "intersection_sur_union": 0.936431
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Arue",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 20.23998,
+      "surface_geopf_2022_km2": 20.67044,
+      "surface_ispf_2022_km2": 21.91794
+    },
+    {
+      "code_COG": "98713",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 9.24048,
+        "intersection_sur_union": 0.799832
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 9.43278,
+        "intersection_sur_union": 0.796488
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 3.2072,
+        "intersection_sur_union": 0.930816
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Arutua",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 38.42302,
+      "surface_geopf_2022_km2": 44.66394,
+      "surface_ispf_2022_km2": 44.84408
+    },
+    {
+      "code_COG": "98714",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.93103,
+        "intersection_sur_union": 0.928615
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 3.74758,
+        "intersection_sur_union": 0.9105
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 1.84363,
+        "intersection_sur_union": 0.955438
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Bora-Bora",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 39.14214,
+      "surface_geopf_2022_km2": 40.04555,
+      "surface_ispf_2022_km2": 40.85541
+    },
+    {
+      "code_COG": "98715",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.55234,
+        "intersection_sur_union": 0.98483
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.66074,
+        "intersection_sur_union": 0.98187
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.23555,
+        "intersection_sur_union": 0.993508
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Faaa",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 36.08535,
+      "surface_geopf_2022_km2": 36.18154,
+      "surface_ispf_2022_km2": 36.14466
+    },
+    {
+      "code_COG": "98716",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 16.09166,
+        "intersection_sur_union": 0.820826
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 34.46306,
+        "intersection_sur_union": 0.671747
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 22.44634,
+        "intersection_sur_union": 0.784981
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Fakarava",
+      "nb_unites_GEO_PF": 7,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 76.35282,
+      "surface_geopf_2022_km2": 87.17571,
+      "surface_ispf_2022_km2": 99.16268
+    },
+    {
+      "code_COG": "98717",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.94054,
+        "intersection_sur_union": 0.797008
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 15.67694,
+        "intersection_sur_union": 0.434678
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 13.75823,
+        "intersection_sur_union": 0.503867
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Fangatau",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 12.05647,
+      "surface_geopf_2022_km2": 13.97501,
+      "surface_ispf_2022_km2": 27.72857
+    },
+    {
+      "code_COG": "98718",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.6919,
+        "intersection_sur_union": 0.980162
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.77042,
+        "intersection_sur_union": 0.979242
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.13874,
+        "intersection_sur_union": 0.998359
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Fatu-Hiva",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 84.38155,
+      "surface_geopf_2022_km2": 84.49456,
+      "surface_ispf_2022_km2": 84.42416
+    },
+    {
+      "code_COG": "98719",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 10.01829,
+        "intersection_sur_union": 0.837045
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 49.2133,
+        "intersection_sur_union": 0.516406
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 42.17901,
+        "intersection_sur_union": 0.583981
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Gambier",
+      "nb_unites_GEO_PF": 16,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 53.3309,
+      "surface_geopf_2022_km2": 59.60833,
+      "surface_ispf_2022_km2": 100.98729
+    },
+    {
+      "code_COG": "98720",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 20.8377,
+        "intersection_sur_union": 0.701997
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 69.99217,
+        "intersection_sur_union": 0.3672
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 67.16482,
+        "intersection_sur_union": 0.422618
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Hao",
+      "nb_unites_GEO_PF": 12,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 52.37253,
+      "surface_geopf_2022_km2": 66.63876,
+      "surface_ispf_2022_km2": 98.84947
+    },
+    {
+      "code_COG": "98721",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 5.99436,
+        "intersection_sur_union": 0.715803
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 30.13202,
+        "intersection_sur_union": 0.347212
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 26.10943,
+        "intersection_sur_union": 0.434304
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Hikueru",
+      "nb_unites_GEO_PF": 5,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 16.08822,
+      "surface_geopf_2022_km2": 20.102,
+      "surface_ispf_2022_km2": 46.09762
+    },
+    {
+      "code_COG": "98722",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.02179,
+        "intersection_sur_union": 0.995321
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.07311,
+        "intersection_sur_union": 0.995087
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.34329,
+        "intersection_sur_union": 0.998425
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Hitiaa O Te Ra",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 217.9084,
+      "surface_geopf_2022_km2": 217.81339,
+      "surface_ispf_2022_km2": 217.83235
+    },
+    {
+      "code_COG": "98723",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 4.78707,
+        "intersection_sur_union": 0.985219
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 8.06042,
+        "intersection_sur_union": 0.975303
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 3.95821,
+        "intersection_sur_union": 0.987807
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Hiva-Oa",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 321.1472,
+      "surface_geopf_2022_km2": 321.77799,
+      "surface_ispf_2022_km2": 323.52977
+    },
+    {
+      "code_COG": "98724",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.18255,
+        "intersection_sur_union": 0.971226
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.44453,
+        "intersection_sur_union": 0.967761
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.32134,
+        "intersection_sur_union": 0.995708
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Huahine",
+      "nb_unites_GEO_PF": 8,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 74.64881,
+      "surface_geopf_2022_km2": 74.87293,
+      "surface_ispf_2022_km2": 74.55897
+    },
+    {
+      "code_COG": "98725",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.50989,
+        "intersection_sur_union": 0.990191
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.53763,
+        "intersection_sur_union": 0.989658
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.18968,
+        "intersection_sur_union": 0.996341
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Mahina",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 51.70243,
+      "surface_geopf_2022_km2": 51.74974,
+      "surface_ispf_2022_km2": 51.73109
+    },
+    {
+      "code_COG": "98726",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 22.57436,
+        "intersection_sur_union": 0.700253
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 98.16379,
+        "intersection_sur_union": 0.352746
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 82.86073,
+        "intersection_sur_union": 0.454856
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Makemo",
+      "nb_unites_GEO_PF": 11,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 56.03689,
+      "surface_geopf_2022_km2": 72.01154,
+      "surface_ispf_2022_km2": 149.12333
+    },
+    {
+      "code_COG": "98727",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 7.37222,
+        "intersection_sur_union": 0.725337
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 8.11253,
+        "intersection_sur_union": 0.69332
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 2.6544,
+        "intersection_sur_union": 0.900627
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Manihi",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 20.16707,
+      "surface_geopf_2022_km2": 26.14264,
+      "surface_ispf_2022_km2": 24.62597
+    },
+    {
+      "code_COG": "98728",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.23157,
+        "intersection_sur_union": 0.891025
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 13.19938,
+        "intersection_sur_union": 0.58078
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 12.05201,
+        "intersection_sur_union": 0.617372
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Maupiti",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 18.77592,
+      "surface_geopf_2022_km2": 19.94807,
+      "surface_ispf_2022_km2": 30.99588
+    },
+    {
+      "code_COG": "98729",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.52094,
+        "intersection_sur_union": 0.989607
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.56702,
+        "intersection_sur_union": 0.989295
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.3589,
+        "intersection_sur_union": 0.99754
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Moorea-Maiao",
+      "nb_unites_GEO_PF": 6,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 145.45684,
+      "surface_geopf_2022_km2": 145.70199,
+      "surface_ispf_2022_km2": 145.73466
+    },
+    {
+      "code_COG": "98730",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.40307,
+        "intersection_sur_union": 0.842043
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 6.50752,
+        "intersection_sur_union": 0.545562
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 5.80246,
+        "intersection_sur_union": 0.594834
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Napuka",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 7.82729,
+      "surface_geopf_2022_km2": 8.53485,
+      "surface_ispf_2022_km2": 14.30504
+    },
+    {
+      "code_COG": "98731",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 5.35276,
+        "intersection_sur_union": 0.986091
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 11.06776,
+        "intersection_sur_union": 0.971658
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 6.99816,
+        "intersection_sur_union": 0.981992
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Nuku-Hiva",
+      "nb_unites_GEO_PF": 7,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 382.00876,
+      "surface_geopf_2022_km2": 382.31048,
+      "surface_ispf_2022_km2": 387.9359
+    },
+    {
+      "code_COG": "98732",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.1291,
+        "intersection_sur_union": 0.909879
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 7.83567,
+        "intersection_sur_union": 0.588308
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 7.3167,
+        "intersection_sur_union": 0.616604
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Nukutavake",
+      "nb_unites_GEO_PF": 5,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 11.65349,
+      "surface_geopf_2022_km2": 12.27462,
+      "surface_ispf_2022_km2": 18.57653
+    },
+    {
+      "code_COG": "98733",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.45945,
+        "intersection_sur_union": 0.992636
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.56271,
+        "intersection_sur_union": 0.99099
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.23388,
+        "intersection_sur_union": 0.996245
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Paea",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 62.16739,
+      "surface_geopf_2022_km2": 62.16034,
+      "surface_ispf_2022_km2": 62.17833
+    },
+    {
+      "code_COG": "98734",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.65848,
+        "intersection_sur_union": 0.9929
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.89358,
+        "intersection_sur_union": 0.990368
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.44039,
+        "intersection_sur_union": 0.99524
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Papara",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 92.42444,
+      "surface_geopf_2022_km2": 92.39891,
+      "surface_ispf_2022_km2": 92.21583
+    },
+    {
+      "code_COG": "98735",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.41526,
+        "intersection_sur_union": 0.976637
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.44722,
+        "intersection_sur_union": 0.974803
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.1539,
+        "intersection_sur_union": 0.991293
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Papeete",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 17.49362,
+      "surface_geopf_2022_km2": 17.6404,
+      "surface_ispf_2022_km2": 17.55681
+    },
+    {
+      "code_COG": "98736",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.41979,
+        "intersection_sur_union": 0.987572
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.456,
+        "intersection_sur_union": 0.986498
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.16476,
+        "intersection_sur_union": 0.995103
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Pirae",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 33.54814,
+      "surface_geopf_2022_km2": 33.58993,
+      "surface_ispf_2022_km2": 33.54195
+    },
+    {
+      "code_COG": "98737",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.36616,
+        "intersection_sur_union": 0.78766
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 8.98137,
+        "intersection_sur_union": 0.369006
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 8.06566,
+        "intersection_sur_union": 0.434616
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Pukapuka",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 5.26077,
+      "surface_geopf_2022_km2": 6.24071,
+      "surface_ispf_2022_km2": 14.22524
+    },
+    {
+      "code_COG": "98738",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.69717,
+        "intersection_sur_union": 0.991132
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.78353,
+        "intersection_sur_union": 0.990046
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.25501,
+        "intersection_sur_union": 0.996747
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Punaauia",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 78.3192,
+      "surface_geopf_2022_km2": 78.21682,
+      "surface_ispf_2022_km2": 78.3261
+    },
+    {
+      "code_COG": "98739",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.32116,
+        "intersection_sur_union": 0.926621
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.26344,
+        "intersection_sur_union": 0.929592
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.06355,
+        "intersection_sur_union": 0.996415
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Raivavae",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 16.96198,
+      "surface_geopf_2022_km2": 17.72627,
+      "surface_ispf_2022_km2": 17.66361
+    },
+    {
+      "code_COG": "98740",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 18.02828,
+        "intersection_sur_union": 0.864405
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 36.9844,
+        "intersection_sur_union": 0.735518
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 29.04644,
+        "intersection_sur_union": 0.793954
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Rangiroa",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 118.84025,
+      "surface_geopf_2022_km2": 129.04542,
+      "surface_ispf_2022_km2": 123.85004
+    },
+    {
+      "code_COG": "98741",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.55722,
+        "intersection_sur_union": 0.959971
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.66697,
+        "intersection_sur_union": 0.957282
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.16579,
+        "intersection_sur_union": 0.995696
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Rapa",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 37.87443,
+      "surface_geopf_2022_km2": 38.37387,
+      "surface_ispf_2022_km2": 38.50325
+    },
+    {
+      "code_COG": "98742",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 3.64426,
+        "intersection_sur_union": 0.797681
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 17.35874,
+        "intersection_sur_union": 0.429927
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 15.64122,
+        "intersection_sur_union": 0.494191
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Reao",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 14.85845,
+      "surface_geopf_2022_km2": 17.52225,
+      "surface_ispf_2022_km2": 28.68285
+    },
+    {
+      "code_COG": "98743",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.27591,
+        "intersection_sur_union": 0.968059
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.60875,
+        "intersection_sur_union": 0.932169
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.34048,
+        "intersection_sur_union": 0.961963
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Rimatara",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 8.38918,
+      "surface_geopf_2022_km2": 8.61103,
+      "surface_ispf_2022_km2": 8.95094
+    },
+    {
+      "code_COG": "98744",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.46297,
+        "intersection_sur_union": 0.986565
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.72505,
+        "intersection_sur_union": 0.979129
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.30408,
+        "intersection_sur_union": 0.991215
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Rurutu",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 34.14311,
+      "surface_geopf_2022_km2": 34.31425,
+      "surface_ispf_2022_km2": 34.6099
+    },
+    {
+      "code_COG": "98745",
+      "etalab_topologie": "Self-intersection[-151.447423287671 -16.5649232876712]",
+      "etalab_vs_geopf": null,
+      "etalab_vs_ispf": null,
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.93869,
+        "intersection_sur_union": 0.989702
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tahaa",
+      "nb_unites_GEO_PF": 8,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": null,
+      "surface_geopf_2022_km2": 91.0805,
+      "surface_ispf_2022_km2": 90.28543
+    },
+    {
+      "code_COG": "98746",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.88617,
+        "intersection_sur_union": 0.973073
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.8862,
+        "intersection_sur_union": 0.973073
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.0008,
+        "intersection_sur_union": 0.999988
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tahuata",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 68.92012,
+      "surface_geopf_2022_km2": 69.28932,
+      "surface_ispf_2022_km2": 69.2892
+    },
+    {
+      "code_COG": "98747",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.87738,
+        "intersection_sur_union": 0.99141
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.59267,
+        "intersection_sur_union": 0.988169
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 1.14122,
+        "intersection_sur_union": 0.994775
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Taiarapu-Est",
+      "nb_unites_GEO_PF": 5,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 217.60604,
+      "surface_geopf_2022_km2": 217.60538,
+      "surface_ispf_2022_km2": 218.09047
+    },
+    {
+      "code_COG": "98748",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.20309,
+        "intersection_sur_union": 0.988484
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.21605,
+        "intersection_sur_union": 0.98836
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.16563,
+        "intersection_sur_union": 0.998406
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Taiarapu-Ouest",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 103.88585,
+      "surface_geopf_2022_km2": 103.84523,
+      "surface_ispf_2022_km2": 103.84732
+    },
+    {
+      "code_COG": "98749",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 5.41851,
+        "intersection_sur_union": 0.840052
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 6.64545,
+        "intersection_sur_union": 0.804483
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 3.1834,
+        "intersection_sur_union": 0.906561
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Takaroa",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 29.35614,
+      "surface_geopf_2022_km2": 32.97862,
+      "surface_ispf_2022_km2": 31.97666
+    },
+    {
+      "code_COG": "98750",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.35766,
+        "intersection_sur_union": 0.984016
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.66608,
+        "intersection_sur_union": 0.980385
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.60982,
+        "intersection_sur_union": 0.992784
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Taputapuatea",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 84.15964,
+      "surface_geopf_2022_km2": 84.35571,
+      "surface_ispf_2022_km2": 84.05567
+    },
+    {
+      "code_COG": "98751",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.36566,
+        "intersection_sur_union": 0.818412
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 5.75617,
+        "intersection_sur_union": 0.523326
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 4.7964,
+        "intersection_sur_union": 0.603455
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tatakoto",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 6.33819,
+      "surface_geopf_2022_km2": 7.33749,
+      "surface_ispf_2022_km2": 12.05705
+    },
+    {
+      "code_COG": "98752",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.83989,
+        "intersection_sur_union": 0.992995
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 1.09519,
+        "intersection_sur_union": 0.990876
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.48429,
+        "intersection_sur_union": 0.995956
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Teva I Uta",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 119.46459,
+      "surface_geopf_2022_km2": 119.49592,
+      "surface_ispf_2022_km2": 119.5113
+    },
+    {
+      "code_COG": "98753",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.48975,
+        "intersection_sur_union": 0.989279
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.48704,
+        "intersection_sur_union": 0.989338
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.00376,
+        "intersection_sur_union": 0.999917
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tubuai",
+      "nb_unites_GEO_PF": 3,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 45.3149,
+      "surface_geopf_2022_km2": 45.5565,
+      "surface_ispf_2022_km2": 45.5535
+    },
+    {
+      "code_COG": "98754",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 1.59433,
+        "intersection_sur_union": 0.977947
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.09818,
+        "intersection_sur_union": 0.971061
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.7887,
+        "intersection_sur_union": 0.989061
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tumaraa",
+      "nb_unites_GEO_PF": 4,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 71.25073,
+      "surface_geopf_2022_km2": 71.74601,
+      "surface_ispf_2022_km2": 71.65908
+    },
+    {
+      "code_COG": "98755",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 4.92108,
+        "intersection_sur_union": 0.828302
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 45.35143,
+        "intersection_sur_union": 0.355291
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 43.091,
+        "intersection_sur_union": 0.387439
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Tureia",
+      "nb_unites_GEO_PF": 5,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 25.06892,
+      "surface_geopf_2022_km2": 27.3326,
+      "surface_ispf_2022_km2": 70.2676
+    },
+    {
+      "code_COG": "98756",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.00444,
+        "intersection_sur_union": 0.976923
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.00466,
+        "intersection_sur_union": 0.976921
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.0066,
+        "intersection_sur_union": 0.999923
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Ua-Huka",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 85.79113,
+      "surface_geopf_2022_km2": 85.92339,
+      "surface_ispf_2022_km2": 85.92334
+    },
+    {
+      "code_COG": "98757",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 2.18441,
+        "intersection_sur_union": 0.979518
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 2.18432,
+        "intersection_sur_union": 0.979518
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.00779,
+        "intersection_sur_union": 0.999926
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Ua-Pou",
+      "nb_unites_GEO_PF": 2,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 105.45945,
+      "surface_geopf_2022_km2": 105.65111,
+      "surface_ispf_2022_km2": 105.6512
+    },
+    {
+      "code_COG": "98758",
+      "etalab_topologie": "VALIDE",
+      "etalab_vs_geopf": {
+        "difference_symetrique_km2": 0.53692,
+        "intersection_sur_union": 0.966933
+      },
+      "etalab_vs_ispf": {
+        "difference_symetrique_km2": 0.5841,
+        "intersection_sur_union": 0.964034
+      },
+      "geopf_topologie": "VALIDE",
+      "geopf_vs_ispf": {
+        "difference_symetrique_km2": 0.08962,
+        "intersection_sur_union": 0.994394
+      },
+      "ispf_topologie": "VALIDE",
+      "libelle_COG": "Uturoa",
+      "nb_unites_GEO_PF": 1,
+      "publication": "NON_PUBLIE",
+      "qualification_juridique": "NON_EFFECTUEE",
+      "surface_etalab_2026_km2": 15.97534,
+      "surface_geopf_2022_km2": 15.96241,
+      "surface_ispf_2022_km2": 15.92188
+    }
+  ],
+  "limites": "Écarts 2022-2026 et généralisations, non preuve d'un changement administratif ni d'un tracé juridiquement homologué. Les communes associées et îles rattachées restent des unités distinctes.",
+  "provenance": {
+    "ETALAB_SHA256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+    "GEO_PF_CRS": "EPSG:4687",
+    "GEO_PF_SHA256": "29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b",
+    "ISPF_CRS": "EPSG:4687",
+    "ISPF_SHA256": "8da21b8912a9df8db95036ce24f782a3172bf89698c11049e954a69a45dedc7e",
+    "calcul_surface": "EPSG:6933, km2 ; diagnostic uniquement"
+  },
+  "schema": "adlfi.lieux.pf.comparaison_geometrique_2022_2026.v1",
+  "statut": "RECETTE_SPATIALE_NON_VALIDANTE"
+}
