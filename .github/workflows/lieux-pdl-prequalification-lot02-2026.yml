@@ -1,0 +1,78 @@
+name: Lieux PDL — préqualification 54 collisions restantes
+on:
+  pull_request:
+    paths:
+      - 'scripts/prequalifier_pdl_lot02_2026.py'
+      - 'tests/test_prequalifier_pdl_lot02_2026.py'
+      - 'recette/lieux/PDL-LOT02-PREQUALIFICATION-2026.md'
+      - '.github/workflows/lieux-pdl-prequalification-lot02-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prequalification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier la couverture publiée actuelle
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_prequalifier_pdl_lot02_2026.py' -v
+      - name: Contrôler les sources RDF et COG
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Générer deux recettes identiques et exclure toute validation automatique
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/prequalifier_pdl_lot02_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-officiel "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --chronologie docs/data/lieux-chronologie/cog-pdl.json \
+              --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
+              --chemille docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json \
+              --sortie "$RUNNER_TEMP/pdl-lot02-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-lot02-1.json" "$RUNNER_TEMP/pdl-lot02-2.json"
+          python3 - "$RUNNER_TEMP/pdl-lot02-1.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          assert x["restants"]==54
+          assert x["repartition_initiale"]=={
+           "CREATIONS_SUCCESSIVES":3,"STATUT_HISTORIQUE_EXPLICITE":2,
+           "UN_LIBELLE_COMPATIBLE":49}
+          assert sum(x["groupes"].values())==54
+          assert x["liens_publies_avant_recette"]==1149
+          assert x["nouveaux_alignements"]==x["geometries_nouvelles"]==x["successions_inferees"]==0
+          assert len({r["code_COG_2026"] for r in x["dossiers"]})==54
+          assert all(r["ark_retenu"] is None and r["decision_editoriale"]=="NON_PRISE" and
+                     r["publication"]=="NON_PUBLIE" for r in x["dossiers"])
+          print("PDL_LOT02_REPRODUCTIBLE_SANS_PUBLICATION")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdl-lot02-54-collisions-2026
+          path: ${{ runner.temp }}/pdl-lot02-1.json
+          retention-days: 30
+          if-no-files-found: error
