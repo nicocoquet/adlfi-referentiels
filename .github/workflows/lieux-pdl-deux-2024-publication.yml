@@ -1,0 +1,101 @@
+name: "Lieux PDL — publier Ingrandes et Essarts (1217)"
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_pdl_deux_mouvements_2024_2026.py'
+      - 'recette/lieux/PDL-INGRANDES-WIKIDATA-2024.json'
+      - 'recette/lieux/PDL-INGRANDES-ESSARTS-PUBLICATION-2026.md'
+      - 'docs/data/lieux-chronologie/pactols-pdl-deux-mouvements-2024-2026.json'
+      - 'docs/assets/lieux-pdl-deux-2024.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - 'tests/test_publier_pdl_deux_mouvements_2024.py'
+      - 'tests/test_lieux_pdl_deux_2024.js'
+      - 'tests/test_lieux_pdl_deux_2024_navigateur.py'
+      - '.github/workflows/lieux-pdl-deux-2024-publication.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier la provenance Pactols et le COG versionné
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 - <<'PY'
+          import json
+          x=json.load(open("docs/data/lieux-chronologie/cog-pdl.json"))
+          assert x["region"]=="pdl" and x["millesime_cog"]==2026
+          assert sum(p["typecom"]=="COM" and p["debut_inclus"]<="2026-01-01" and
+                     (p["fin_exclue"] is None or p["fin_exclue"]>"2026-01-01")
+                     for p in x["periodes_com"])==1228
+          PY
+      - name: Régénérer deux publications déterministes et comparer au JSON Git
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_pdl_deux_mouvements_2024_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --publications-dir docs/data/lieux-chronologie \
+              --wikidata recette/lieux/PDL-INGRANDES-WIKIDATA-2024.json \
+              --sortie "$RUNNER_TEMP/pdl-2024-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-2024-1.json" "$RUNNER_TEMP/pdl-2024-2.json"
+          cmp "$RUNNER_TEMP/pdl-2024-1.json" docs/data/lieux-chronologie/pactols-pdl-deux-mouvements-2024-2026.json
+      - name: Tester identités, fiches JS et régressions
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_pdl_deux_mouvements_2024.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          node tests/test_lieux_pdl_deux_2024.js
+          node tests/test_lieux_pdl_trois_collisions_2026.js
+          node tests/test_lieux_pdl_17_wikidata_p374_2026.js
+          node tests/test_lieux_pdl_lot02_45_2026.js
+          node tests/test_lieux_pdl_oree_mod50_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+      - name: Installer Chromium
+        working-directory: referentiels
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier les fiches PDL 2024 et les non-régressions Chromium
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_pdl_deux_2024_navigateur.py
+          python3 tests/test_lieux_pdl_trois_collisions_navigateur.py
+          python3 tests/test_lieux_pdl_17_wikidata_p374_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preuve-1217-pdl-2024
+          path: ${{ runner.temp }}/pdl-2024-1.json
+          retention-days: 30
+          if-no-files-found: error
