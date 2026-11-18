@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'scripts/auditer_pdl_ark_multiples_2026.py'
+      - 'scripts/qualifier_pdl_ark_multiples_2026.py'
       - '.github/workflows/lieux-pdl-ark-multiples-2026.yml'
       - 'recette/lieux/PDL-ARK-MULTIPLES-2026.md'
   workflow_dispatch:
@@ -46,6 +47,13 @@ jobs:
               --sortie "$RUNNER_TEMP/pdl-ark-multiples-$i.json"
           done
           cmp "$RUNNER_TEMP/pdl-ark-multiples-1.json" "$RUNNER_TEMP/pdl-ark-multiples-2.json"
+          for i in 1 2; do
+            python3 scripts/qualifier_pdl_ark_multiples_2026.py \
+              --audit "$RUNNER_TEMP/pdl-ark-multiples-1.json" \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --sortie "$RUNNER_TEMP/pdl-ark-triage-$i.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-ark-triage-1.json" "$RUNNER_TEMP/pdl-ark-triage-2.json"
           python3 - "$RUNNER_TEMP/pdl-ark-multiples-1.json" <<'PY'
           import json,sys
           r=json.load(open(sys.argv[1]))
@@ -55,10 +63,17 @@ jobs:
           assert r["bilan"]["nouvelles_geometries"]==0
           assert len({x["code_COG_2026"] for x in r["communes"]})==60
           assert all(x["ark_retenu"] is None and x["decision_editoriale"]=="NON_PRISE" for x in r["communes"])
+          t=json.load(open(sys.argv[1].replace("pdl-ark-multiples-1","pdl-ark-triage-1")))
+          assert len(t["communes"])==60
+          assert all(x["decision_editoriale"]=="NON_PRISE" and x["publication"]=="NON_PUBLIE" for x in t["communes"])
+          assert sum(t["bilan"]["groupes"].values())==60
+          assert t["bilan"]["validations"]==0
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: recette-pdl-60-ark-multiples-2026
-          path: ${{ runner.temp }}/pdl-ark-multiples-1.json
+          path: |
+            ${{ runner.temp }}/pdl-ark-multiples-1.json
+            ${{ runner.temp }}/pdl-ark-triage-1.json
           retention-days: 30
           if-no-files-found: error
