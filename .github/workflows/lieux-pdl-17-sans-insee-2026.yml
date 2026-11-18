@@ -7,6 +7,7 @@ on:
       - 'tests/test_croiser_pdl_17_wikidata_p374_2026.py'
       - 'tests/test_prequalifier_pdl_17_sans_insee_2026.py'
       - 'recette/lieux/PDL-17-SANS-INSEE-PREQUALIFICATION-2026.md'
+      - 'recette/lieux/PDL-17-WIKIDATA-P374-2026.json'
       - '.github/workflows/lieux-pdl-17-sans-insee-2026.yml'
   workflow_dispatch:
 permissions:
@@ -110,6 +111,16 @@ jobs:
           assert x["couverture_PDL_avant"]==1195
           assert x["nouvelles_validations"]==x["geometries_nouvelles"]==x["liens_historiques_inferes"]==0
           assert len({r["qid"] for r in x["dossiers"]})==17
+          frozen=json.load(open("recette/lieux/PDL-17-WIKIDATA-P374-2026.json"))
+          bycode={r["code_insee_2026"]:r for r in frozen["dossiers"]}
+          assert len(bycode)==17
+          for row in x["dossiers"]:
+              expected=bycode[row["code_COG_2026"]]
+              assert row["qid"]==expected["qid_wikidata"]
+              assert row["Wikidata_lastrevid"]==expected["revision_wikidata"]
+              assert row["insee_P374_actifs_2026"]==expected["insee_P374_actif_2026"]
+              assert row["dates_P571"]==expected["P571_creation"]
+          assert x["groupes"]=={"P374_CONCORDE_COG_2026":17}
           assert all(isinstance(r["Wikidata_lastrevid"],int) and r["Wikidata_lastrevid"]>0
              and r["publication"]=="NON_PUBLIE" and r["decision_editoriale"]=="NON_PRISE"
              for r in x["dossiers"])
