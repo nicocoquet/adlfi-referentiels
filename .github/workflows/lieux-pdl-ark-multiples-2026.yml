@@ -1,0 +1,88 @@
+name: Lieux PDL — recette des 60 codes à ARK multiples
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pdl_ark_multiples_2026.py'
+      - 'scripts/qualifier_pdl_ark_multiples_2026.py'
+      - 'tests/test_qualifier_pdl_ark_multiples_2026.py'
+      - 'tests/test_pdl_lot01_cinq_ark_2026.py'
+      - 'recette/lieux/PDL-LOT01-CINQ-ARK-2026.csv'
+      - 'recette/lieux/PDL-LOT01-CINQ-ARK-2026.md'
+      - '.github/workflows/lieux-pdl-ark-multiples-2026.yml'
+      - 'recette/lieux/PDL-ARK-MULTIPLES-2026.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recette:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester la distinction des libellés historiques
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_qualifier_pdl_ark_multiples_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_pdl_lot01_cinq_ark_2026.py' -v
+      - name: Vérifier RDF et télécharger COG officiels
+        working-directory: referentiels
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Exécuter deux recettes reproductibles
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for i in 1 2; do
+            python3 scripts/auditer_pdl_ark_multiples_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --chronologie docs/data/lieux-chronologie/cog-pdl.json \
+              --sortie "$RUNNER_TEMP/pdl-ark-multiples-$i.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-ark-multiples-1.json" "$RUNNER_TEMP/pdl-ark-multiples-2.json"
+          for i in 1 2; do
+            python3 scripts/qualifier_pdl_ark_multiples_2026.py \
+              --audit "$RUNNER_TEMP/pdl-ark-multiples-1.json" \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --sortie "$RUNNER_TEMP/pdl-ark-triage-$i.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-ark-triage-1.json" "$RUNNER_TEMP/pdl-ark-triage-2.json"
+          python3 - "$RUNNER_TEMP/pdl-ark-multiples-1.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r["bilan"]["codes_ARK_multiples"]==60
+          assert r["bilan"]["nouveaux_alignements"]==0
+          assert r["bilan"]["liens_historiques_inferes"]==0
+          assert r["bilan"]["nouvelles_geometries"]==0
+          assert len({x["code_COG_2026"] for x in r["communes"]})==60
+          assert all(x["ark_retenu"] is None and x["decision_editoriale"]=="NON_PRISE" for x in r["communes"])
+          t=json.load(open(sys.argv[1].replace("pdl-ark-multiples-1","pdl-ark-triage-1")))
+          assert len(t["communes"])==60
+          assert all(x["decision_editoriale"]=="NON_PRISE" and x["publication"]=="NON_PUBLIE" for x in t["communes"])
+          assert sum(t["bilan"]["groupes"].values())==60
+          assert t["bilan"]["validations"]==0
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recette-pdl-60-ark-multiples-2026
+          path: |
+            ${{ runner.temp }}/pdl-ark-multiples-1.json
+            ${{ runner.temp }}/pdl-ark-triage-1.json
+          retention-days: 30
+          if-no-files-found: error
