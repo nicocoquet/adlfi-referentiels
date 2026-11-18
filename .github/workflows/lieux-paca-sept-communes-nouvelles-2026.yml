@@ -1,0 +1,98 @@
+name: Lieux - PACA sept communes nouvelles Pactols 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_paca_sept_communes_nouvelles_2026.py'
+      - 'tests/test_publier_paca_sept_communes_nouvelles_2026.py'
+      - 'tests/test_lieux_paca_sept_communes_nouvelles_2026.js'
+      - 'tests/test_lieux_paca_sept_communes_nouvelles_navigateur.py'
+      - 'docs/assets/lieux-paca-communes-nouvelles.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-paca-sept-communes-nouvelles-2026.yml'
+permissions:
+  contents: write
+jobs:
+  publier-sept:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les sept preuves et l'exclusion des anciennes communes
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_paca_sept_communes_nouvelles_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Double génération du JSON depuis la recette Pactols et COG
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_paca_sept_communes_nouvelles_2026.py \
+              --audit recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json \
+              --pilote docs/data/lieux.json \
+              --complement docs/data/lieux-chronologie/pactols-paca-2026.json \
+              --renommages docs/data/lieux-chronologie/pactols-paca-renommages-2026.json \
+              --cog docs/data/lieux-chronologie/cog-paca.json \
+              --sortie "$RUNNER_TEMP/paca-sept-$n.json"
+          done
+          cmp "$RUNNER_TEMP/paca-sept-1.json" "$RUNNER_TEMP/paca-sept-2.json"
+          cp "$RUNNER_TEMP/paca-sept-1.json" docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json
+      - name: Contrôler les index Node et les non-régressions
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_paca_sept_communes_nouvelles_2026.js
+          node tests/test_lieux_paca_deux_renommages_2026.js
+          node tests/test_lieux_paca_pactols_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_nc_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_pf_28_contours_2026.js
+      - name: Préparer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier les communes actuelles et historiques en navigateur
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_paca_sept_communes_nouvelles_navigateur.py
+          python3 tests/test_lieux_paca_deux_renommages_navigateur.py
+          python3 tests/test_lieux_paca_pactols_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_nc_contours_navigateur.py
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-sept-communes-nouvelles-2026
+          path: ${{ runner.temp }}/paca-sept-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner le JSON uniquement après succès de tous les tests
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PACA : enregistrer sept alignements de communes nouvelles'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
