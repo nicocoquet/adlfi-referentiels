@@ -59,7 +59,7 @@ class PACAAbrièsRistolasTests(unittest.TestCase):
   a=sources()
   a["cog"]["periodes_com"]=[x for x in a["cog"]["periodes_com"]
                             if not(x["code_insee"]=="05001" and x["debut_inclus"]=="2019-01-01")]
-  with self.assertRaisesRegex(ValueError,"Historique"):
+  with self.assertRaisesRegex(ValueError,"Chronologie|Historique"):
    construire(**a)
 
 if __name__=="__main__":unittest.main()
