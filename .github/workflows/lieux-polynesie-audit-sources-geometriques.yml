@@ -1,0 +1,46 @@
+name: Lieux - Polynesie audit comparatif ISPF GEO PF 2022 et Etalab 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_sources_geometriques_polynesie_2022_2026.py'
+      - '.github/workflows/lieux-polynesie-audit-sources-geometriques.yml'
+jobs:
+  inventaire-non-publiant:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install --disable-pip-version-check pyshp shapely==2.0.7
+      - name: Acquerir les trois archives officielles
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://static.data.gouv.fr/resources/limites-geographiques-administratives/20220610-202135/shapefiles.zip' \
+            -o /tmp/pf-ispf-shapefiles-2022.zip
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://static.data.gouv.fr/resources/geographie-administrative-de-la-polynesie-francaise/20220228-205331/loc-commune-associee.zip' \
+            -o /tmp/pf-geopf-communes-associees-2022.zip
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o /tmp/pf-etalab-communes-2026.geojson.gz
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  /tmp/pf-etalab-communes-2026.geojson.gz' | sha256sum -c -
+      - name: Inventaire sans publication et generation deterministe
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_sources_geometriques_polynesie_2022_2026.py \
+              --ispf-zip /tmp/pf-ispf-shapefiles-2022.zip \
+              --geopf-zip /tmp/pf-geopf-communes-associees-2022.zip \
+              --etalab /tmp/pf-etalab-communes-2026.geojson.gz \
+              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --sortie /tmp/pf-audit-$n.json
+          cmp /tmp/pf-audit-1.json /tmp/pf-audit-2.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-pf-inventaire-geometries-2022-vs-2026
+          path: /tmp/pf-audit-1.json
+          retention-days: 30
+          if-no-files-found: error
