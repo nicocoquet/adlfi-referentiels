@@ -563,6 +563,22 @@
         "exceptions_2026_restantes": 33,
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2026_wikidata_p374": {
+        "statut": "17 communes nouvelles PDL reliées par Pactols skos:exactMatch Wikidata, puis Wikidata P374 code INSEE COG 2026, sans exactMatch INSEE direct dans Pactols",
+        "fichier": "data/lieux-chronologie/pactols-pdl-wikidata-p374-2026.json",
+        "source_registre": "recette/lieux/PDL-17-WIKIDATA-P374-PUBLICATION-2026.md",
+        "source_qualification": "recette/lieux/PDL-17-WIKIDATA-P374-2026.json",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "nombre_Wikidata_revisions_verifiees": 17,
+        "nouveaux_alignements": 17,
+        "liens_PDL_2026_au_total": 1212,
+        "communes_COG_2026": 1228,
+        "exceptions_2026_restantes": 16,
+        "portee_COG": "2026-01-01",
+        "exactMatch_INSEE_direct_pactols": 0,
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
