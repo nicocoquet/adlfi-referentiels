@@ -36,7 +36,8 @@ INSEE=re.compile(r"^https?://id\.insee\.fr/geo/([^/?#]+)/([^/?#]+)/?$",re.I)
 
 def noms_compatibles(label:str,nom:str)->bool:
     x=norm(label);y=norm(nom)
-    return x==y or x.startswith(y+" ")
+    return x==y or (label.strip().casefold().startswith(nom.strip().casefold()+" (")
+                    and label.strip().endswith(")"))
 
 def completer_concepts(rdf:Path)->dict:
     out={}
