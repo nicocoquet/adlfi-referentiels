@@ -83,7 +83,7 @@ def preflight_etalab(path: Path, index: dict) -> dict:
     if len(expected) != 48:
         raise ValueError("48 communes COG attendues")
     raw = path.read_bytes()
-    collection = json.loads(gzip.decompress(raw) if raw[:2] == b"\\x1f\\x8b" else raw)
+    collection = json.loads(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     geoms = {}
     for f in collection["features"]:
         code = str((f.get("properties") or {}).get("code") or "")
@@ -105,7 +105,7 @@ def preflight_etalab(path: Path, index: dict) -> dict:
         "date_cog": "2026-01-01", "edition_geometrie": "2026-05-04",
         "sha256": ETALAB_SHA, "codes_cog": sorted(expected),
         "communes_COG": 48, "geometries_presentes": len(geoms),
-        "geometries_valides_GE0S": 48 - len(invalid), "anomalies": invalid,
+        "geometries_valides_GEOS": 48 - len(invalid), "anomalies": invalid,
         "lien_Pactols_infere": 0, "contour_historique_infere": 0,
     }
 
@@ -121,7 +121,7 @@ def main() -> None:
         raise ValueError("Sortie neuve strictement hors docs/")
     index = json.loads(args.index_cog.read_text(encoding="utf-8"))
     rapport = {
-        "schema": "adlfi.lieux.pf.inventaire_isfp_geopf.2022_2026.v1",
+        "schema": "adlfi.lieux.pf.inventaire_ispf_geopf.2022_2026.v1",
         "statut": "AUDIT_NON_PUBLIANT_SANS_ALIGNEMENT_GEOMETRIQUE",
         "sources_territoriales": [
             inventaire_zip(args.ispf_zip, ISPF_URL, "ISPF-2022"),
@@ -132,7 +132,7 @@ def main() -> None:
         "nouveaux_ARK": 0, "nouvelles_geometries_publiees": 0,
     }
     args.sortie.parent.mkdir(parents=True, exist_ok=True)
-    args.sortie.write_text(json.dumps(rapport, indent=2, ensure_ascii=False, sort_keys=True) + "\\n", encoding="utf-8")
+    args.sortie.write_text(json.dumps(rapport, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
     print("PF_AUDIT_NON_PUBLIANT", json.dumps({
         "shapefiles": [x["nombre_couches_shp"] for x in rapport["sources_territoriales"]],
         "sha256_archives": [x["sha256"] for x in rapport["sources_territoriales"]],
