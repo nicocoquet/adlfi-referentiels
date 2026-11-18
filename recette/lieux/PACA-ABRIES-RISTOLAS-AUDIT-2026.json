@@ -1,0 +1,322 @@
+{
+  "administratif": {
+    "ancienne_commune_code_conserve": "Abriès",
+    "ancienne_commune_rapprochee": "Ristolas",
+    "code_COG_2026": "05001",
+    "debut_identite_commune_nouvelle": "2019-01-01",
+    "evenements_MOD32": [
+      {
+        "code_apres": "05001",
+        "code_avant": "05120",
+        "date_effet": "2019-01-01",
+        "id": "cog:07a4307440a245155bfb47ec",
+        "libelle_apres": "Abriès-Ristolas",
+        "libelle_avant": "Ristolas",
+        "mod": "32",
+        "typecom_apres": "COM",
+        "typecom_avant": "COM"
+      },
+      {
+        "code_apres": "05001",
+        "code_avant": "05001",
+        "date_effet": "2019-01-01",
+        "id": "cog:653ec8411edf2d27344cd278",
+        "libelle_apres": "Abriès",
+        "libelle_avant": "Abriès",
+        "mod": "32",
+        "typecom_apres": "COMD",
+        "typecom_avant": "COM"
+      },
+      {
+        "code_apres": "05001",
+        "code_avant": "05001",
+        "date_effet": "2019-01-01",
+        "id": "cog:7e57b92f1d618a287c96032a",
+        "libelle_apres": "Abriès-Ristolas",
+        "libelle_avant": "Abriès",
+        "mod": "32",
+        "typecom_apres": "COM",
+        "typecom_avant": "COM"
+      }
+    ],
+    "nom_COG_2026": "Abriès-Ristolas",
+    "sources_officielles": {
+      "arrete_creation_2018": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000038316958",
+      "insee_2026": "https://www.insee.fr/fr/metadonnees/geographie/commune/05001-abries-ristolas",
+      "insee_commune_deleguee": "https://www.insee.fr/fr/metadonnees/geographie/commune-deleguee/05001-abries"
+    }
+  },
+  "bilan": {
+    "ancienne_commune_ARK_distincte": true,
+    "communes_PACA_alignees_avant": 945,
+    "concepts_RDF_examines": 50556,
+    "exactMatch_INSEE_nouveau": 0,
+    "geometries_ajoutees": 0,
+    "nouveaux_ARK_valides": 0,
+    "prefLabel_actuel_unique": true,
+    "relations_historiques_inferees": 0
+  },
+  "decision": "À instruire : l'unicité lexicale et la légalité COG ne suffisent pas, seules, à établir une identité Pactols–COG.",
+  "rdf": {
+    "alignement_INSEE_du_concept_actuel": "AUCUN",
+    "autres_concepts_lexicaux": [
+      {
+        "ark_pactols": "26678/pcrt2YWpB2NDPZ",
+        "dct_relations": {
+          "isReplacedBy": [],
+          "replaces": [],
+          "source": [],
+          "spatial": []
+        },
+        "deprecated": false,
+        "exactMatch_INSEE": [
+          "http://id.insee.fr/geo/commune/05120"
+        ],
+        "motifs_reperage_lexical": [
+          "Ristolas"
+        ],
+        "owl_sameAs": [],
+        "rdf_type": [
+          "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "skos_literals": {
+          "altLabel": [],
+          "changeNote": [],
+          "definition": [
+            {
+              "datatype": null,
+              "lang": "fr",
+              "value": "Ristolas est une commune française située dans le département des Hautes-Alpes en région Provence-Alpes-Côte d'Azur. (Wikipédia)"
+            }
+          ],
+          "editorialNote": [],
+          "hiddenLabel": [],
+          "historyNote": [],
+          "notation": [],
+          "prefLabel": [
+            {
+              "datatype": null,
+              "lang": "de",
+              "value": "Ristolas"
+            },
+            {
+              "datatype": null,
+              "lang": "en",
+              "value": "Ristolas"
+            },
+            {
+              "datatype": null,
+              "lang": "es",
+              "value": "Ristolas"
+            },
+            {
+              "datatype": null,
+              "lang": "fr",
+              "value": "Ristolas"
+            },
+            {
+              "datatype": null,
+              "lang": "it",
+              "value": "Ristolas"
+            },
+            {
+              "datatype": null,
+              "lang": "nl",
+              "value": "Ristolas"
+            }
+          ],
+          "scopeNote": []
+        },
+        "skos_relations": {
+          "broadMatch": [],
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrthvHLIWAcHD"
+          ],
+          "closeMatch": [],
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-CGHRG302-B",
+            "http://fr.dbpedia.org/page/Ristolas",
+            "http://id.insee.fr/geo/commune/05120",
+            "https://fr.wikipedia.org/wiki/Ristolas",
+            "https://sws.geonames.org/6425621/",
+            "https://www.wikidata.org/wiki/Q624317"
+          ],
+          "inScheme": [
+            "https://ark.frantiq.fr/ark:/26678/th17"
+          ],
+          "narrowMatch": [],
+          "narrower": [],
+          "related": [],
+          "relatedMatch": []
+        }
+      }
+    ],
+    "concept_actuel": {
+      "ark_pactols": "26678/pcrtm96gvvfnwmggc9z0wrxn",
+      "dct_relations": {
+        "isReplacedBy": [],
+        "replaces": [],
+        "source": [],
+        "spatial": []
+      },
+      "deprecated": false,
+      "exactMatch_INSEE": [],
+      "motifs_reperage_lexical": [
+        "Abriès-Ristolas"
+      ],
+      "owl_sameAs": [],
+      "rdf_type": [
+        "http://www.w3.org/2004/02/skos/core#Concept"
+      ],
+      "skos_literals": {
+        "altLabel": [],
+        "changeNote": [],
+        "definition": [
+          {
+            "datatype": null,
+            "lang": "fr",
+            "value": "Abriès-Ristolas est une commune nouvelle française résultant de la fusion — au 1er janvier 2019 — des communes d'Abriès et Ristolas, située dans le département des Hautes-Alpes, en région Provence-Alpes-Côte d'Azur. (Wikipédia)"
+          }
+        ],
+        "editorialNote": [],
+        "hiddenLabel": [],
+        "historyNote": [],
+        "notation": [],
+        "prefLabel": [
+          {
+            "datatype": null,
+            "lang": "fr",
+            "value": "Abriès-Ristolas"
+          }
+        ],
+        "scopeNote": []
+      },
+      "skos_relations": {
+        "broadMatch": [],
+        "broader": [
+          "https://ark.frantiq.fr/ark:/26678/pcrthvHLIWAcHD"
+        ],
+        "closeMatch": [],
+        "exactMatch": [
+          "https://www.wikidata.org/wiki/Q57664391"
+        ],
+        "inScheme": [
+          "https://ark.frantiq.fr/ark:/26678/th17"
+        ],
+        "narrowMatch": [],
+        "narrower": [],
+        "related": [],
+        "relatedMatch": []
+      }
+    },
+    "concept_ancienne_commune": {
+      "ark_pactols": "26678/pcrtGQ7nGPZN7K",
+      "dct_relations": {
+        "isReplacedBy": [],
+        "replaces": [],
+        "source": [],
+        "spatial": []
+      },
+      "deprecated": false,
+      "exactMatch_INSEE": [
+        "http://id.insee.fr/geo/commune/05001"
+      ],
+      "motifs_reperage_lexical": [
+        "Abriès"
+      ],
+      "owl_sameAs": [],
+      "rdf_type": [
+        "http://www.w3.org/2004/02/skos/core#Concept"
+      ],
+      "skos_literals": {
+        "altLabel": [],
+        "changeNote": [],
+        "definition": [
+          {
+            "datatype": null,
+            "lang": "fr",
+            "value": "Abriès est une commune française située dans le département des Hautes-Alpes en région Provence-Alpes-Côte d'Azur. (Wikipédia)"
+          }
+        ],
+        "editorialNote": [],
+        "hiddenLabel": [],
+        "historyNote": [],
+        "notation": [],
+        "prefLabel": [
+          {
+            "datatype": null,
+            "lang": "de",
+            "value": "Abriès"
+          },
+          {
+            "datatype": null,
+            "lang": "en",
+            "value": "Abriès"
+          },
+          {
+            "datatype": null,
+            "lang": "es",
+            "value": "Abriès"
+          },
+          {
+            "datatype": null,
+            "lang": "fr",
+            "value": "Abriès"
+          },
+          {
+            "datatype": null,
+            "lang": "it",
+            "value": "Abriès"
+          },
+          {
+            "datatype": null,
+            "lang": "nl",
+            "value": "Abriès"
+          }
+        ],
+        "scopeNote": []
+      },
+      "skos_relations": {
+        "broadMatch": [],
+        "broader": [
+          "https://ark.frantiq.fr/ark:/26678/pcrthvHLIWAcHD"
+        ],
+        "closeMatch": [],
+        "exactMatch": [
+          "http://data.loterre.fr/ark:/67375/D63-HJQ0SBD4-M",
+          "http://fr.dbpedia.org/page/Abri%C3%A8s",
+          "http://fr.dbpedia.org/page/Abriès",
+          "http://id.insee.fr/geo/commune/05001",
+          "https://catalogue.bnf.fr/ark:/12148/cb120915676",
+          "https://fr.wikipedia.org/wiki/Abri%C3%A8s",
+          "https://fr.wikipedia.org/wiki/Abriès",
+          "https://sws.geonames.org/6455349/",
+          "https://www.wikidata.org/wiki/Q331508"
+        ],
+        "inScheme": [
+          "https://ark.frantiq.fr/ark:/26678/th17"
+        ],
+        "narrowMatch": [],
+        "narrower": [],
+        "related": [],
+        "relatedMatch": []
+      }
+    },
+    "concepts_RDF_examines": 50556,
+    "concordance_liberte_ARK": "NE_PAS_CONFONDRE_LES_IDENTITES",
+    "nombre_concepts_prefLabel_fr_Abriès_Ristolas": 1
+  },
+  "schema": "adlfi.lieux.paca.abries_ristolas.2026.audit.v1",
+  "sources": {
+    "COG": {
+      "fichier": "docs/data/lieux-chronologie/cog-paca.json",
+      "millesime": "2026-01-01"
+    },
+    "pactols_RDF": {
+      "commit": "69bf9697e24cefd645a69465bbd271702786285a",
+      "sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7"
+    },
+    "publication_preexistante": "docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json"
+  },
+  "statut": "RECETTE_NON_VALIDANTE"
+}
