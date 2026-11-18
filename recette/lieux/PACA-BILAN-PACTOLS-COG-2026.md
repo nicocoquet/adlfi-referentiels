@@ -58,3 +58,18 @@ La [PR n°119](https://github.com/nicocoquet/adlfi-referentiels/pull/119) a ache
 Registre : `recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv` (SHA-256 `647ba3e1fdfd80199b854b512f12269379edaf910f47e34b7f53650ce2844925`), avec preuves individuelles et provenance. Rapport : `recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json` (SHA-256 `a1d032da4c06a69c7d77ec8b6d28977856cc1e22bec1260d5d8e8550303c5a22`).
 
 La [PR n°120](https://github.com/nicocoquet/adlfi-referentiels/pull/120) porte la **publication complémentaire de 832 alignements**, dans un index distinct des 103 autorités du pilote et des chronologies COG. Le potentiel consolidé est donc **935 identités Pactols–COG de communes PACA au millésime 2026**. Le sens du lien est strictement documentaire : un exactMatch explicite univoque vers l'URI INSEE courante ; **aucune identité historique, succession COG ou géométrie ancienne n'en découle**. La liste des 11 exceptions est conservée séparément.
+
+
+## Qualification des trois changements de dénomination — 18 novembre 2026
+
+L'[audit RDF documenté dans la PR n°121](https://github.com/nicocoquet/adlfi-referentiels/pull/121) est fusionné. Son registre `recette/lieux/PACA-TROIS-RENOMMAGES-RDF-2026.json` confronte, pour trois cas, les mouvements COG de type **MOD10** (code INSEE inchangé), les **décrets de changement de nom** et le contenu intégral des concepts du snapshot RDF Pactols du 22 juillet 2026. Il identifie aussi les homonymes, qui ne sont pas retenus sur le seul libellé.
+
+| Code | Nom officiel COG 2026 | Date d'effet | Concept Pactols examiné | Décision |
+| --- | --- | --- | --- | --- |
+| `05127` | Rousset-Serre-Ponçon | 2025-01-01 | `26678/pcrtla4EHGDgDd` | `exactMatch` INSEE explicite vers 05127, décret 2024-863 : admissible pour **2026 seulement** |
+| `83052` | Esparron-de-Pallières | 2026-01-01 | `26678/pcrt7B7bs9P5g2` | `exactMatch` INSEE explicite vers 83052, décret 2025-815, nouveau nom en variante Pactols : admissible pour **2026 seulement** |
+| `04045` | Céreste-en-Luberon | 2024-01-01 | `26678/pcrtHxveTzUMik` | Concept à libellé actualisé, mais `exactMatch` INSEE vers l'**UUID** `3cb419d3-63ba-4e7c-be42-2640cf521de8` : **validation suspendue** jusqu'à résolution officielle de l'UUID |
+
+Les deux liens à URI INSEE codée sont proposés par la [PR n°122](https://github.com/nicocoquet/adlfi-referentiels/pull/122), dans un **index autonome**, complémentaire des 103 validations éditoriales et 832 correspondances qualifiées du pilote étendu : **937/946** communes PACA seraient ainsi pourvues d'une correspondance Pactols–COG au millésime **2026**, avec **9 exceptions maintenues**. La source RDF de ces deux concepts contient d'autres `exactMatch` vers des référentiels non-INSEE (Wikidata, Géonames, etc.), ce qui ne constitue pas une concurrence de codes INSEE. Le contrôle exige une seule URI INSEE correspondant au code de la commune.
+
+Aucune identité historique, aucun ancien contour et aucune succession communale ne sont ajoutés par ces décisions. Pour Céreste, le libellé et l'ancienne variante rendent l'identité plausible, **mais aucune correspondance UUID→code n'est fabriquée**. La documentation RDF de l'Insee précise que ses anciennes ressources de géographie fondées sur des politiques d'URI historiques sont obsolètes ; cette limite interdit de traiter un UUID non résolu comme un code COG prouvé.
