@@ -5,6 +5,9 @@ on:
       - 'scripts/auditer_pdl_ark_multiples_2026.py'
       - 'scripts/qualifier_pdl_ark_multiples_2026.py'
       - 'tests/test_qualifier_pdl_ark_multiples_2026.py'
+      - 'tests/test_pdl_lot01_cinq_ark_2026.py'
+      - 'recette/lieux/PDL-LOT01-CINQ-ARK-2026.csv'
+      - 'recette/lieux/PDL-LOT01-CINQ-ARK-2026.md'
       - '.github/workflows/lieux-pdl-ark-multiples-2026.yml'
       - 'recette/lieux/PDL-ARK-MULTIPLES-2026.md'
   workflow_dispatch:
@@ -33,7 +36,9 @@ jobs:
           python-version: '3.12'
       - name: Tester la distinction des libellés historiques
         working-directory: referentiels
-        run: python3 -m unittest discover -s tests -p 'test_qualifier_pdl_ark_multiples_2026.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_qualifier_pdl_ark_multiples_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_pdl_lot01_cinq_ark_2026.py' -v
       - name: Vérifier RDF et télécharger COG officiels
         working-directory: referentiels
         run: |
