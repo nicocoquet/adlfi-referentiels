@@ -527,6 +527,23 @@
         "portee_COG": "2026-01-01",
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2026_lot02_communes_nouvelles": {
+        "statut": "45 communes nouvelles PDL validées au COG 2026 ; les ARK des anciennes communes demeurent distincts et non rétroprojetés",
+        "fichier": "data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json",
+        "source_registre": "recette/lieux/PDL-LOT02-45-COMMUNES-NOUVELLES-2026.md",
+        "source_qualification": "recette/lieux/PDL-LOT02-PREQUALIFICATION-2026.md",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "nouveaux_alignements": 45,
+        "liens_PDL_2026_au_total": 1194,
+        "communes_COG_2026": 1228,
+        "exceptions_2026_restantes": 34,
+        "collisions_ARK_restantes": 9,
+        "divergences_restantes": 24,
+        "cas_Rives_du_Fougerais_non_resolu": "85292",
+        "portee_COG": "2026-01-01",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
