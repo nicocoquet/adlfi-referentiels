@@ -56,6 +56,11 @@ let pf2026Features=[];
 let timelineTimer=null;
 function year(){return Number($('year').value)}
 function level(){return $('level').value}
+function refreshToolLabels(){
+ const z=$('zoom'),l=$('level');
+ if(z&&$('zoom-current'))$('zoom-current').textContent=z.selectedOptions[0]?.textContent||'';
+ if(l&&$('level-current'))$('level-current').textContent=l.selectedOptions[0]?.textContent||'';
+}
 function refreshTimeline(){
  const y=year();
  $('year-label').textContent=String(y);
@@ -371,8 +376,8 @@ async function start(){
   state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
   frame();
  }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible : la recherche et les fiches restent accessibles.'}
- $('zoom').addEventListener('change',()=>{frame();updateUrl()});
- $('level').addEventListener('change',()=>{state.selected=null;render()});
+ $('zoom').addEventListener('change',()=>{refreshToolLabels();$('zoom-tool').open=false;frame();updateUrl()});
+ $('level').addEventListener('change',()=>{state.selected=null;$('level-tool').open=false;render()});
  $('year').addEventListener('input',()=>{
    refreshTimeline();
    if(timelineTimer!==null)clearTimeout(timelineTimer);
@@ -382,8 +387,9 @@ async function start(){
  $('reference').addEventListener('change',render);
  $('reset').addEventListener('click',frame);
  $('search').addEventListener('input',search);
+ $('search-tool').addEventListener('toggle',()=>{if($('search-tool').open)$('search').focus()});
  $('search').addEventListener('keydown',e=>{
-   if(e.key==='Escape')hideResults();
+   if(e.key==='Escape'){hideResults();$('search-tool').open=false;$('search-tool').querySelector('summary')?.focus();}
    else if(e.key==='Enter'&&!$('results').hidden){
       const a=$('results').querySelector('button');if(a)a.click();
    }
@@ -450,6 +456,7 @@ function geoLayer(features,{reference=false}={}){
 function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features,nc2026Features,pf2026Features)}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
+ refreshToolLabels();
  refreshTimeline();
  const sequence=++activeRequest;
  const y=year(),l=level(),current=state.selected;
@@ -565,7 +572,7 @@ function search(){
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
          ark:h.kind==='pactols'?h.ark:null};
      }
-     hideResults();render().then(focusSelection);
+     hideResults();$('search-tool').open=false;render().then(focusSelection);
    });
    li.append(btn);ul.append(li);
  }
@@ -1110,6 +1117,18 @@ function afficherDetailAssocieeISPF(target,entry){
  }
 }
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
+ target.hidden=!x;
+ if(x){
+  const close=document.createElement('button');
+  close.type='button';close.className='detail-close';
+  close.textContent='Fermer';
+  close.setAttribute('aria-label','Fermer la fiche du lieu');
+  close.addEventListener('click',()=>{
+    state.selected=null;detail();updateUrl();
+    $('map').focus({preventScroll:true});
+  });
+  target.append(close);
+ }
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':x?.kind==='associee_ispf'?'Commune associée · ISPF':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
  if(x.kind==='associee_ispf'){
