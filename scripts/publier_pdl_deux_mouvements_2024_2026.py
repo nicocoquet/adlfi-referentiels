@@ -58,8 +58,8 @@ def publier(rdf:Path,cog:dict,pubs:list[dict],wiki:dict)->dict:
  current_ing=ing_lex[0]
  current_ess=next(x for x in ess_exp if x["ark"]==ARK_ESS)
  for x,expected in ((current_ing,names[CODE_ING]),(current_ess,names[CODE_ESS])):
-  if x["prefLabels_fr"]!=[expected] or x["deprecie"] or x["remplace"] or
-     extra[x["ark"]]["remplacements_explicites"]:
+  if (x["prefLabels_fr"]!=[expected] or x["deprecie"] or x["remplace"] or
+      extra[x["ark"]]["remplacements_explicites"]):
    raise ValueError("Concept 2026 remplacé ou libellé incertain : "+x["ark"])
  def insee(ark):
   return sorted(u for u in extra[ark]["exactMatch_tous"] if
@@ -98,9 +98,9 @@ def publier(rdf:Path,cog:dict,pubs:list[dict],wiki:dict)->dict:
   periods=sorted((p for p in cog["periodes_com"] if
        p["typecom"]=="COM" and p["code_insee"]==code),
        key=lambda p:p["debut_inclus"])
-  if len(periods)!=3 or periods[-2]["libelle"]!=old or
-     periods[-2]["fin_exclue"]!="2024-01-01" or
-     periods[-1]["libelle"]!=names[code]:
+  if (len(periods)!=3 or periods[-2]["libelle"]!=old or
+      periods[-2]["fin_exclue"]!="2024-01-01" or
+      periods[-1]["libelle"]!=names[code]):
    raise ValueError("Périodes COG 2024 non corroborées : "+code)
  require_cog(CODE_ING,"Ingrandes-Le Fresne sur Loire","32")
  require_cog(CODE_ESS,"Essarts en Bocage","21")
