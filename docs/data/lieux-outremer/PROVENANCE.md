@@ -51,3 +51,16 @@ La couche autonome `contours-communes-nc-2026.geojson` rassemble **32 des 33 com
 Les 32 géométries sont des **repères cartographiques contemporains** : validité topologique vérifiée, mais aucune homologation juridique des limites ni restitution historique. Les alignements Pactols–COG demeurent indépendants de cette couche. Pour les millésimes antérieurs, l'affichage facultatif du repère 2026 est distinct des limites historiques non qualifiées.
 
 Recette : `scripts/preparer_contours_nouvelle_caledonie_2026.py` ; vérification de la reproductibilité, contrôles Node.js, Chromium et non-régressions en CI. Suivi : issue #105 et PR #113.
+
+
+## Polynésie française — lot de 28 contours cartographiques de référence 2026
+
+Le fichier autonome `contours-communes-pf-28-2026.geojson` contient **28 des 48 communes COG au 1er janvier 2026**, sélectionnées dans la couche Etalab du 4 mai 2026, généralisation 100 m. Les sources Etalab et les rapports d'audit sont contrôlés par empreinte SHA-256, sans correction ni géométrie déduite. Les codes et noms sont confrontés à l'index COG publié. Les géométries retenues sont topologiquement valides selon GEOS.
+
+**Critères de sélection éditoriaux et reproductibles :** IoU (intersection/union) ≥ 0,95 entre les références territoriales ISPF et GEO PF diffusées en 2022, ≥ 0,90 entre Etalab et ISPF, et ≥ 0,90 entre Etalab et GEO PF, sans anomalie topologique dans Etalab. La liste des 28 codes est figée dans le générateur ; toute variation des sources, du résultat de comparaison ou de la liste bloque la génération.
+
+Cette convergence **ne certifie pas juridiquement** les limites en 2026 : le producteur Etalab déclare réutiliser les sources GEO PF pour les îles polynésiennes, et les jeux territoriaux diffusés en 2022 ne documentent pas une date de validité juridique exhaustive des contours. Ces surfaces restent donc des **repères cartographiques contemporains d'édition 2026**, pas des restitutions historiques ni des périmètres homologués. Aucun nouvel ARK Pactols n'en découle.
+
+**20 contours restent exclus et à instruire**, dont Tahaa (`98745`), auto-intersectant dans la source Etalab, et les atolls présentant des divergences importantes entre fonds. La recherche COG et les alignements Pactols déjà validés demeurent disponibles pour ces communes sans limite géographique affichée.
+
+Rapports sources : `recette/lieux/PF-COMPARAISON-GEOMETRIQUE-2022-2026.json` et `recette/lieux/PF-DIAGNOSTIC-ANNEAUX-2022.json`. Dossiers de suivi : #114 et #105. Les années antérieures à 2026 n'utilisent le tracé que comme repère de 2026 facultatif et explicitement daté.

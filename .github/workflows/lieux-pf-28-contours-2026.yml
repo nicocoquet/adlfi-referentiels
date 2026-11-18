@@ -1,0 +1,102 @@
+name: Lieux - publier en recette les 28 contours Polynesie 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/preparer_contours_polynesie_28_2026.py'
+      - 'tests/test_preparer_contours_polynesie_28_2026.py'
+      - 'tests/test_lieux_pf_28_contours_2026.js'
+      - 'tests/test_lieux_pf_28_contours_navigateur.py'
+      - 'tests/test_lieux_publication_navigateur.py'
+      - 'docs/assets/lieux-pf-contours.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'docs/data/lieux-outremer/contours-communes-pf-28-2026.geojson'
+      - 'docs/data/lieux-outremer/PROVENANCE.md'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-pf-28-contours-2026.yml'
+permissions:
+  contents: write
+jobs:
+  recette:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer le moteur géométrique
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.7
+      - name: Exécuter les tests du lot et du schéma
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_preparer_contours_polynesie_28_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Télécharger et vérifier la source Etalab 2026
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o "$RUNNER_TEMP/communes-2026.geojson.gz"
+          echo "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  $RUNNER_TEMP/communes-2026.geojson.gz" | sha256sum -c -
+      - name: Double génération du lot 28, sans anomalie ni rétroprojection
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/preparer_contours_polynesie_28_2026.py \
+              --geometries "$RUNNER_TEMP/communes-2026.geojson.gz" \
+              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --comparaison recette/lieux/PF-COMPARAISON-GEOMETRIQUE-2022-2026.json \
+              --sortie "$RUNNER_TEMP/pf-28-$n.geojson"
+          done
+          cmp "$RUNNER_TEMP/pf-28-1.geojson" "$RUNNER_TEMP/pf-28-2.geojson"
+          cp "$RUNNER_TEMP/pf-28-1.geojson" docs/data/lieux-outremer/contours-communes-pf-28-2026.geojson
+      - name: Vérifier sources, navigation statique et non-régressions Node
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_pf_28_contours_2026.js
+          node tests/test_lieux_nc_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+      - name: Préparer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier les fiches et les non-régressions en navigation réelle
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_pf_28_contours_navigateur.py
+          python3 tests/test_lieux_nc_contours_navigateur.py
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: contours-pf-28-2026-recette
+          path: ${{ runner.temp }}/pf-28-1.geojson
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner après recette dans la branche uniquement
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- docs/data/lieux-outremer/contours-communes-pf-28-2026.geojson
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PF : versionner les 28 contours communaux 2026 après recette'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi

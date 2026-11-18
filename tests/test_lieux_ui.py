@@ -217,12 +217,13 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-drom-contours.js",
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-nc32",
+                "../assets/lieux-pf-contours.js",
+                "../assets/lieux-multiechelon.js?v=20261118-pf28",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
