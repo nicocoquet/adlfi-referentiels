@@ -1,0 +1,170 @@
+{
+  "bilan": {
+    "dossiers": 3,
+    "geometries_modifiees": 0,
+    "liens_PDL_deja_publies": 1140,
+    "nouveaux_ARK_publies": 0,
+    "preuves_officielles_positives": 3,
+    "retrocessions_historiques_inferees": 0
+  },
+  "dossiers": [
+    {
+      "ARK_Pactols": "26678/pcrt99dzcmxdhR",
+      "URI_INSEE_code_COG": "http://id.insee.fr/geo/commune/44066",
+      "code_COG_2026": "44066",
+      "date_effet_evenement_COG": "2023-01-01",
+      "nom_COG_2026": "Grandchamp-des-Fontaines",
+      "portee_chronologique": "2026_SEULEMENT",
+      "provenance_reponse": {
+        "content_type": "application/rdf+xml;charset=UTF-8",
+        "fichier": "INSEE-UUID-PDL-44066.rdf",
+        "octets": 3269,
+        "reponse_url": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F493ed29c-e150-4c2e-9880-f94d7002f1f5%3E",
+        "requete": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F493ed29c-e150-4c2e-9880-f94d7002f1f5%3E",
+        "sha256": "2a74630bb7d7e13460a47e8d8e93cdbb963ced97ddfee9c86a1ab2274648a93f",
+        "status_http": 200
+      },
+      "publication": "AUCUNE",
+      "rdf_insee": {
+        "assertions_code_2026_concordantes": true,
+        "codeINSEE": [
+          "44066"
+        ],
+        "dates_metadonnees": {
+          "created": [
+            "2023-01-05T17:29:26.687233"
+          ],
+          "modified": [
+            "2025-02-13T12:56:30.315315"
+          ]
+        },
+        "nom_officiel_dans_RDF": [
+          "Grandchamp-des-Fontaines"
+        ],
+        "nombre_noeuds_RDF": 3,
+        "octets_corps_RDF": 3269,
+        "owl_sameAs": [
+          "http://id.insee.fr/geo/commune/44066"
+        ],
+        "sha256_du_corps_RDF": "2a74630bb7d7e13460a47e8d8e93cdbb963ced97ddfee9c86a1ab2274648a93f",
+        "sujet_URI_UUID": "http://id.insee.fr/geo/commune/493ed29c-e150-4c2e-9880-f94d7002f1f5",
+        "type_RDF": [
+          "http://rdf.insee.fr/def/geo#Commune"
+        ]
+      },
+      "skos_exactMatch_Pactols_URI_UUID": "http://id.insee.fr/geo/commune/493ed29c-e150-4c2e-9880-f94d7002f1f5",
+      "type_evenement_COG": "RENOMMAGE_CODE_CONSERVE",
+      "validation_documentaire_possible_2026": true,
+      "validation_editoriale_prononcee": false
+    },
+    {
+      "ARK_Pactols": "26678/pcrtsn4IGEserS",
+      "URI_INSEE_code_COG": "http://id.insee.fr/geo/commune/85165",
+      "code_COG_2026": "85165",
+      "date_effet_evenement_COG": "2024-01-01",
+      "nom_COG_2026": "L'Oie",
+      "portee_chronologique": "2026_SEULEMENT",
+      "provenance_reponse": {
+        "content_type": "application/rdf+xml;charset=UTF-8",
+        "fichier": "INSEE-UUID-PDL-85165.rdf",
+        "octets": 3229,
+        "reponse_url": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2Fc518cde7-3eed-4d8a-add5-d603a502dace%3E",
+        "requete": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2Fc518cde7-3eed-4d8a-add5-d603a502dace%3E",
+        "sha256": "82756c6fe552045c995b33d4e565b21dff065ced4d5dc552fb4fcc50a4b531e7",
+        "status_http": 200
+      },
+      "publication": "AUCUNE",
+      "rdf_insee": {
+        "assertions_code_2026_concordantes": true,
+        "codeINSEE": [
+          "85165"
+        ],
+        "dates_metadonnees": {
+          "created": [
+            "2024-01-30T17:51:56.207524"
+          ],
+          "modified": [
+            "2025-02-13T12:56:30.315315"
+          ]
+        },
+        "nom_officiel_dans_RDF": [
+          "L'Oie"
+        ],
+        "nombre_noeuds_RDF": 3,
+        "octets_corps_RDF": 3229,
+        "owl_sameAs": [
+          "http://id.insee.fr/geo/commune/85165"
+        ],
+        "sha256_du_corps_RDF": "82756c6fe552045c995b33d4e565b21dff065ced4d5dc552fb4fcc50a4b531e7",
+        "sujet_URI_UUID": "http://id.insee.fr/geo/commune/c518cde7-3eed-4d8a-add5-d603a502dace",
+        "type_RDF": [
+          "http://rdf.insee.fr/def/geo#Commune"
+        ]
+      },
+      "skos_exactMatch_Pactols_URI_UUID": "http://id.insee.fr/geo/commune/c518cde7-3eed-4d8a-add5-d603a502dace",
+      "type_evenement_COG": "RETABLISSEMENT_APRES_DEFUSION",
+      "validation_documentaire_possible_2026": true,
+      "validation_editoriale_prononcee": false
+    },
+    {
+      "ARK_Pactols": "26678/pcrt3AUfSktjqj",
+      "URI_INSEE_code_COG": "http://id.insee.fr/geo/commune/85212",
+      "code_COG_2026": "85212",
+      "date_effet_evenement_COG": "2024-01-01",
+      "nom_COG_2026": "Sainte-Florence",
+      "portee_chronologique": "2026_SEULEMENT",
+      "provenance_reponse": {
+        "content_type": "application/rdf+xml;charset=UTF-8",
+        "fichier": "INSEE-UUID-PDL-85212.rdf",
+        "octets": 3251,
+        "reponse_url": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F80c14c7d-5f43-4927-8877-3031578366a5%3E",
+        "requete": "https://rdf.insee.fr/sparql?query=describe%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F80c14c7d-5f43-4927-8877-3031578366a5%3E",
+        "sha256": "cfff49e3a18ed56e5ea9aefd5a2265d504f839338dfdfdc4082549c10d73af9e",
+        "status_http": 200
+      },
+      "publication": "AUCUNE",
+      "rdf_insee": {
+        "assertions_code_2026_concordantes": true,
+        "codeINSEE": [
+          "85212"
+        ],
+        "dates_metadonnees": {
+          "created": [
+            "2024-01-30T17:51:56.207524"
+          ],
+          "modified": [
+            "2025-02-13T12:56:30.315315"
+          ]
+        },
+        "nom_officiel_dans_RDF": [
+          "Sainte-Florence"
+        ],
+        "nombre_noeuds_RDF": 3,
+        "octets_corps_RDF": 3251,
+        "owl_sameAs": [
+          "http://id.insee.fr/geo/commune/85212"
+        ],
+        "sha256_du_corps_RDF": "cfff49e3a18ed56e5ea9aefd5a2265d504f839338dfdfdc4082549c10d73af9e",
+        "sujet_URI_UUID": "http://id.insee.fr/geo/commune/80c14c7d-5f43-4927-8877-3031578366a5",
+        "type_RDF": [
+          "http://rdf.insee.fr/def/geo#Commune"
+        ]
+      },
+      "skos_exactMatch_Pactols_URI_UUID": "http://id.insee.fr/geo/commune/80c14c7d-5f43-4927-8877-3031578366a5",
+      "type_evenement_COG": "RETABLISSEMENT_APRES_DEFUSION",
+      "validation_documentaire_possible_2026": true,
+      "validation_editoriale_prononcee": false
+    }
+  ],
+  "limites": [
+    "La confirmation de l'URI UUID par l'Insee est une preuve de code, pas une attribution rétroactive de l'ARK aux périodes antérieures.",
+    "L'Oie et Sainte-Florence ont été rétablies comme COM en 2024 après une période COMD : ne pas écraser les épisodes antérieurs.",
+    "Un renommage à code constant ne constitue pas une fusion.",
+    "La source RDF de l'Insee est expérimentale ; chaque réponse est conservée par empreinte et assertions."
+  ],
+  "schema": "adlfi.lieux.pdl.trois_uuid_insee.2026.audit.v1",
+  "source_COG": "docs/data/lieux-chronologie/cog-pdl.json",
+  "source_INSEE_provenance": "provenance.json",
+  "source_Pactols": "recette/lieux/PDL-QUATRE-SANS-EXACTMATCH-RDF-2026.json",
+  "statut": "RECETTE_NON_PUBLIANTE"
+}
