@@ -1,7 +1,7 @@
 """Tests synthétiques de la recette néo-calédonienne : pas de publication implicite."""
 import importlib.util
 from pathlib import Path
-import pytest
+import unittest
 from shapely.geometry import Polygon, mapping
 
 SPEC = importlib.util.spec_from_file_location(
@@ -36,17 +36,17 @@ def test_32_valides_et_dumbea_exclue():
 def test_source_modifiee_refusee():
     source, index = fixtures()
     source["features"].pop()
-    with pytest.raises(ValueError, match="incomplète"):
+    with unittest.TestCase().assertRaisesRegex(ValueError, "incomplète"):
         nc.preparer(source, index)
 
 def test_anomalie_disparue_impose_nouvel_examen():
     source, index = fixtures()
     source["features"][4]["geometry"] = source["features"][3]["geometry"]
-    with pytest.raises(ValueError, match="nouvelle instruction"):
+    with unittest.TestCase().assertRaisesRegex(ValueError, "nouvelle instruction"):
         nc.preparer(source, index)
 
 def test_index_altere_refuse():
     source, index = fixtures()
     index["contours_invalides"] = []
-    with pytest.raises(ValueError, match="Signalements"):
+    with unittest.TestCase().assertRaisesRegex(ValueError, "Signalements"):
         nc.preparer(source, index)
