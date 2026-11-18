@@ -16,7 +16,7 @@ from shapely.validation import explain_validity
 
 SOURCE_SHA256 = "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778"
 SOURCE_URL = "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz"
-COMPARAISON_SHA256 = "49724c979baa2cbedf0612b677b7c273757f8ba58749933e9b1a06a27398f52"
+COMPARAISON_SHA256 = "49724c979baa2c2bedf0612b677b7c273757f8ba58749933e9b1a06a27398f52"
 SCHEMA = "adlfi.lieux.contours.polynesie-2026.v1"
 EXPECTED = ("98714","98715","98718","98722","98723","98724","98725","98729",
             "98731","98733","98734","98735","98736","98738","98739","98741",
