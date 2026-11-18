@@ -41,6 +41,10 @@ def publier(audit:dict, pilote:dict, complet:dict, cog:dict)->dict:
     if (len(pilot)!=103 or len(pilot_codes)!=103 or len(pilot_arks)!=103 or
         pilote.get("totaux",{}).get("autorites_pactols")!=103):
         raise ValueError("Le pilote PACA de 103 correspondances a changé")
+    pilot_map={x["correspondances"][0]["code_insee"]:x["ark_pactols"] for x in pilot}
+    cog_pilot_map={x["code_insee"]:x["ark_pactols"] for x in cog["alignements_Pactols_COG_valides_2026"]}
+    if pilot_map!=cog_pilot_map or len(cog_pilot_map)!=103:
+        raise ValueError("Les 103 identités éditoriales du pilote divergent du COG public")
     complement=complet.get("alignements_Pactols_COG_valides_2026",[])
     codes832={x["code_insee"] for x in complement}
     arks832={x["ark_pactols"] for x in complement}
@@ -50,7 +54,8 @@ def publier(audit:dict, pilote:dict, complet:dict, cog:dict)->dict:
         or complet.get("communes_a_instruire")!=11
         or pilot_codes & codes832 or pilot_arks & arks832):
         raise ValueError("832 compléments PACA ou 103 validations du pilote modifiés")
-    if (set(SOURCES_PACA)|{EXCEPTION_UUID}) & (pilot_codes|codes832):
+    if ((set(SOURCES_PACA)|{EXCEPTION_UUID}) & (pilot_codes|codes832)
+        or {x[0] for x in SOURCES_PACA.values()} & (pilot_arks|arks832)):
         raise ValueError("Un renommage se trouve déjà dans l'index public")
     uuid=dossier[EXCEPTION_UUID]
     if (uuid["ARK_directement_assertes_vers_code_2026"]!=[] or
@@ -82,7 +87,8 @@ def publier(audit:dict, pilote:dict, complet:dict, cog:dict)->dict:
         uri="http://id.insee.fr/geo/commune/"+code
         french=[x["texte"] for x in p["prefLabel"] if x["lang"]=="fr"]
         if (french!=[old_label] or p["owl_deprecated"] or p["dct_isReplacedBy"]
-            or uri not in p["exactMatch"] or len(p["exactMatch_INSEE"])!=1
+            or sorted(x for x in p["exactMatch"] if x.lower().startswith(("http://id.insee.fr/geo/","https://id.insee.fr/geo/"))) != [uri]
+            or len(p["exactMatch_INSEE"])!=1
             or p["exactMatch_INSEE"][0]["est_UUID"]
             or p["exactMatch_INSEE"][0]["identifiant"]!=code
             or p["exactMatch_INSEE"][0]["famille"]!="commune"
