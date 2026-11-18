@@ -26,7 +26,7 @@ def anciennes_denom(cog: dict, code: str, libelle: str) -> list[dict]:
         {"debut": p["debut_inclus"], "fin": p["fin_exclue"],
          "libelle": p["libelle"], "typecom": p["typecom"]}
         for p in cog["periodes_com"] if p["code_insee"] == code and
-        p["typecom"] == "COM" and norm(p["libelle"]) == norm(libelle)
+        p["typecom"] == "COM" and label_compatible(p["libelle"], libelle)
     ), key=lambda p: p["debut"])
 
 def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
@@ -74,7 +74,13 @@ def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
     ]
     if not reasons:
         raise ValueError("La règle d'audit initiale aurait dû accepter " + code)
-    if p["deprecie"] or p["remplace"] or extra["remplacements_explicites"]:
+    anciens_attestes = [x for x in anciens if x["episodes"] and
+                       all(e["fin"] is not None and e["fin"] <= "2026-01-01"
+                           for e in x["episodes"])]
+    if (len(anciens_attestes) == 1 and not alts_compatibles and
+        reasons == ["PREFLABEL_NON_CONCORDANT"]):
+        groupe = "PREFLABEL_HISTORIQUE_COG"
+    elif p["deprecie"] or p["remplace"] or extra["remplacements_explicites"]:
         groupe = "STATUT_OU_REMPLACEMENT"
     elif autres or len(p["codes_communaux_cites"]) != 1:
         groupe = "URI_OU_CODES_CONCURRENTS"
@@ -111,6 +117,8 @@ def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
             if x["code_insee"] == code and x["typecom"] == "COM"
         ), key=lambda r: r["debut"]),
         "prefLabels_anciens_eventuels": anciens,
+        "prefLabels_anciens_attestes_COG": anciens_attestes,
+        "candidats_lexicaux_sans_exactMatch_courant": row["candidats_lexicaux_non_validants"],
         "altLabel_pouvant_designER_2026": bool(alts_compatibles),
         "motifs": sorted(set(reasons)),
         "groupe_instruction": groupe,
@@ -188,6 +196,8 @@ def main():
             "groupe":row["groupe_instruction"],"motifs":row["motifs"],
             "uri_insee":row["insee_exactMatch_completes"],
             "episodes_COG":row["episodes_COG_meme_code"],
+            "anciens_attestes":row["prefLabels_anciens_attestes_COG"],
+            "candidats_lexicaux":row["candidats_lexicaux_sans_exactMatch_courant"],
         },ensure_ascii=False,sort_keys=True))
 if __name__=="__main__":
     main()
