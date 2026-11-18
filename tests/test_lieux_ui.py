@@ -214,6 +214,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-corse-pactols.js",
                 "../assets/lieux-bfc-pactols.js",
                 "../assets/lieux-pdl-pactols.js",
+                "../assets/lieux-pdl-uuid-resolus.js",
                 "../assets/lieux-paca-pactols.js",
                 "../assets/lieux-paca-renommages.js?v=20261118-paca938",
                 "../assets/lieux-paca-communes-nouvelles.js",
@@ -222,12 +223,12 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-paca946",
+                "../assets/lieux-multiechelon.js?v=20261118-pdl1143",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
@@ -499,6 +500,20 @@ class LieuxUITests(unittest.TestCase):
         self.assertIsNone(data["alignements_Pactols_COG_valides_2026"][0]["uri_insee_exactMatch_direct_pactols"])
         self.assertEqual(data["alignements_Pactols_COG_valides_2026"][0]["ark_pactols"],"26678/pcrtm96gvvfnwmggc9z0wrxn")
         self.assertIn("lieux-paca-abries-ristolas.js",self.html)
+
+
+    def test_pdl_uuid_proofs_are_versioned_before_browser(self):
+        path=ROOT/"docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json"
+        self.assertTrue(path.is_file(), "Le JSON des trois preuves UUID doit être présent avant Chromium")
+        data=json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],"adlfi.lieux.pactols.pdl.trois_uuid_resolus.2026.public.v1")
+        self.assertEqual(data["total_alignements_PDL_2026"],1143)
+        self.assertEqual(data["communes_a_instruire"],85)
+        self.assertEqual([r["code_insee"] for r in data["alignements_Pactols_COG_valides_2026"]],
+                         ["44066","85165","85212"])
+        self.assertTrue(all(r["nature_validation"]=="INSEE_RDF_UUID_codeINSEE_owl_sameAs"
+                         for r in data["alignements_Pactols_COG_valides_2026"]))
+        self.assertIn("lieux-pdl-uuid-resolus.js",self.html)
 
 
 
