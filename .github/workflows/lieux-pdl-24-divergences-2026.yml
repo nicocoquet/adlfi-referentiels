@@ -1,0 +1,99 @@
+name: Lieux PDL — qualifier les 24 divergences Pactols–COG
+on:
+  pull_request:
+    paths:
+      - 'scripts/qualifier_pdl_24_divergences_2026.py'
+      - 'tests/test_qualifier_pdl_24_divergences_2026.py'
+      - 'recette/lieux/PDL-24-DIVERGENCES-2026.md'
+      - 'recette/lieux/PDL-24-DIVERGENCES-NOMINATIF-2026.json'
+      - '.github/workflows/lieux-pdl-24-divergences-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  instruction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les règles et les 1194 correspondances existantes
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_qualifier_pdl_24_divergences_2026.py' -v
+      - name: Vérifier le RDF et les sources COG 2026 versionnées
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for slug,n in (("pdl",1228),("corse",360),("bfc",3685)):
+              x=json.loads(Path("docs/data/lieux-chronologie/cog-"+slug+".json").read_text())
+              assert x["region"]==slug and x["millesime_cog"]==2026
+              assert sum(p["typecom"]=="COM" and p["debut_inclus"]<="2026-01-01" and
+                         (p["fin_exclue"] is None or p["fin_exclue"]>"2026-01-01")
+                         for p in x["periodes_com"])==n
+          PY
+      - name: Générer deux dossiers identiques sans aucune publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/qualifier_pdl_24_divergences_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --corse docs/data/lieux-chronologie/cog-corse.json \
+              --bfc docs/data/lieux-chronologie/cog-bfc.json \
+              --chronologie docs/data/lieux-chronologie/cog-pdl.json \
+              --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
+              --chemille docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json \
+              --lot02 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json \
+              --sortie "$RUNNER_TEMP/pdl-24-divergences-$n.json" \
+              --registre-nominatif "$RUNNER_TEMP/pdl-24-nominatif-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-24-divergences-1.json" "$RUNNER_TEMP/pdl-24-divergences-2.json"
+          cmp "$RUNNER_TEMP/pdl-24-nominatif-1.json" "$RUNNER_TEMP/pdl-24-nominatif-2.json"
+          cmp "$RUNNER_TEMP/pdl-24-nominatif-1.json" recette/lieux/PDL-24-DIVERGENCES-NOMINATIF-2026.json
+          python3 - "$RUNNER_TEMP/pdl-24-divergences-1.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          assert x["nombre_dossiers"]==len(x["dossiers"])==24
+          assert sum(x["groupes"].values())==24
+          assert x["groupes"]=={"PREFLABEL_HISTORIQUE_COG":24}
+          assert x["motifs"]=={"PREFLABEL_NON_CONCORDANT":24}
+          assert x["communes_avec_candidat_lexical"]==19
+          assert x["types_URI_candidats_lexicaux"]=={
+           "AUCUN_EXACTMATCH_INSEE":17,"URI_INSEE_AUTRE_CODE_OU_TYPE":2}
+          assert x["sources"]["mode_COG"]=="COG_2026_DERIVES_VERSIONNES_SANS_NOUVEAU_TELECHARGEMENT"
+          assert x["publication_PDL_2026_existante"]==1194
+          assert x["exception_PDL_existantes"]==34
+          assert x["nouvelles_validations"]==x["geometries"]==x["liens_historiques_inferes"]==0
+          assert len({r["code_COG_2026"] for r in x["dossiers"]})==24
+          assert all(r["ark_retenu"] is None and r["decision_editoriale"]=="NON_PRISE"
+                     and r["publication"]=="NON_PUBLIE" and r["motifs"] for r in x["dossiers"])
+          print("PDL_24_DIVERGENCES_REPRODUCTIBLE_SANS_VALIDATION")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdl-24-divergences-2026-recette
+          path: |
+            ${{ runner.temp }}/pdl-24-divergences-1.json
+            ${{ runner.temp }}/pdl-24-nominatif-1.json
+          retention-days: 30
+          if-no-files-found: error
