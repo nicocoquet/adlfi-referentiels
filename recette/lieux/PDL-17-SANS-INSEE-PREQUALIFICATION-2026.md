@@ -29,3 +29,15 @@ Les cas avec des identifiants d’autres référentiels ou des relations descrip
 La concordance géographique et chronologique établie par les sources institutionnelles sera intégrée à chaque décision. **Le but est un ensemble d’alignements défendables, pas une couverture artificielle de 100 %.**
 
 Après les 17 dossiers, restent notamment les 5 autorités courantes non retrouvées, les 9 collisions historiques et Rives-du-Fougerais. La reprise de l’interface graphique du module Lieux est prévue après cette phase de consolidation régionale, selon les propositions de l’éditeur.
+
+## Première recette réussie : triangulation Pactols–Wikidata–COG
+
+La [première exécution spécialisée](https://github.com/nicocoquet/adlfi-referentiels/actions/runs/44355246615) a réussi la double génération et constaté que **chacun des 17 concepts Pactols possède un `skos:exactMatch` vers un élément Wikidata distinct**, ainsi qu'un `skos:broader` territorial et, dans 16 cas, une description textuelle de la commune nouvelle (les notes sont souvent créditées Wikipédia, elles sont donc seulement informatives et non des sources administratives autonomes).
+
+Chacun des 17 candidats est **le seul concept Pactols possédant ce `prefLabel` normalisé** dans le RDF épinglé, et chacun est confronté à une création COG `MOD32` datée exactement comme son épisode communal actuel.
+
+La [page Wikidata d'Ancenis-Saint-Géréon (Q57208924)](https://www.wikidata.org/wiki/Q57208924), par exemple, indique le code INSEE `44003`, et celle de [Bellevigne-les-Châteaux (Q58839998)](https://www.wikidata.org/wiki/Q58839998) le code `49060`. Les fiches [Wikidata de Vimartin-sur-Orthe (Q104586158)](https://www.wikidata.org/wiki/Q104586158) et [Insee de la commune](https://www.insee.fr/fr/metadonnees/geographie/commune/53249-vimartin-sur-orthe) permettent le même rapprochement `53249`.
+
+**Nouvelle étape nécessaire :** extraire et qualifier **les 17 valeurs de la propriété Wikidata `P374` (code de commune INSEE)**. Le script `scripts/croiser_pdl_17_wikidata_p374_2026.py` interroge l'API Wikidata pour les QID explicitement cités dans Pactols, tient compte des qualificatifs de dates (`P580`/`P582`) et des déclarations dépréciées, puis consigne les `lastrevid` de provenance. Une **seule acquisition** alimente deux générations locales comparées octet à octet. Un résultat absent ou contradictoire ne sera pas promu en publication.
+
+Ce recoupement constitue une **chaîne probatoire indirecte** : `Pactols skos:exactMatch Wikidata → Wikidata P374 code INSEE → COG 2026`. Il **ne crée ni ne prétend découvrir dans Pactols un exactMatch direct vers l'Insee**. Même lorsque toutes les propriétés concordent, la décision éditoriale et la publication devront intervenir dans une PR séparée.
