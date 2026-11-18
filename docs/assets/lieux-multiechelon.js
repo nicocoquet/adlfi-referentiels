@@ -25,6 +25,7 @@ const pdlPactols=window.AdlfiLieuxPDLPactols;
 const pdlUUIDResolus=window.AdlfiLieuxPDLUUIDResolus;
 const pdlNouvellesLot01=window.AdlfiLieuxPDLNouvellesLot01;
 const pdlChemille=window.AdlfiLieuxPDLChemille;
+const pdlNouvellesLot02=window.AdlfiLieuxPDLNouvellesLot02;
 const pacaPactols=window.AdlfiLieuxPACAPactols;
 const pacaRenommages=window.AdlfiLieuxPACARenommages;
 const pacaNouvelles=window.AdlfiLieuxPACANouvelles;
@@ -214,7 +215,7 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -258,6 +259,8 @@ async function start(){
  state.pdlNouvellesLot01=pdlNouvellesLot01.creer(pdlLot01Publication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus);
  const pdlChemillePublication=await loadJSON(ROOT+'lieux-chronologie/pactols-pdl-chemille-2026.json');
  state.pdlChemille=pdlChemille.creer(pdlChemillePublication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus,state.pdlNouvellesLot01);
+ const pdlLot02Publication=await loadJSON(ROOT+'lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json');
+ state.pdlNouvellesLot02=pdlNouvellesLot02.creer(pdlLot02Publication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus,state.pdlNouvellesLot01,state.pdlChemille);
  // PACA : complément de 832 liens, sans duplication des 103 autorités du pilote.
  const pacaPublication=await loadJSON(ROOT+'lieux-chronologie/pactols-paca-2026.json');
  state.pacaPactols=pacaPactols.creer(pacaPublication,commun.regions.paca.cog);
@@ -288,7 +291,7 @@ async function start(){
      state.associees=polynesieAssociees.creer(indexPolynesieAssociees,indexOutremer);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pdlNouvellesLot02.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -1267,7 +1270,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code) ||
    (x.zone==='corse'?state.corsePactols?.byCode.get(x.code):
     x.zone==='bfc'?state.bfcPactols?.byCode.get(x.code):
-    x.zone==='pdl'?(state.pdlPactols?.byCode.get(x.code)||state.pdlUUIDResolus?.byCode.get(x.code)||state.pdlNouvellesLot01?.byCode.get(x.code)||state.pdlChemille?.byCode.get(x.code)):
+    x.zone==='pdl'?(state.pdlPactols?.byCode.get(x.code)||state.pdlUUIDResolus?.byCode.get(x.code)||state.pdlNouvellesLot01?.byCode.get(x.code)||state.pdlChemille?.byCode.get(x.code)||state.pdlNouvellesLot02?.byCode.get(x.code)):
     x.zone==='paca'?(state.pacaPactols?.byCode.get(x.code)||state.pacaRenommages?.byCode.get(x.code)||state.pacaNouvelles?.byCode.get(x.code)||state.pacaAbriesRistolas?.byCode.get(x.code)):null);
  const h=document.createElement('h2');h.textContent=stateCom.etat?.libelle||x.code;target.append(h);
  const dl=document.createElement('dl');ligne(dl,'Code INSEE',x.code);ligne(dl,'État administratif',`1er janvier ${year()}`);ligne(dl,'Zone du corpus',nomZones[x.zone]);
@@ -1278,6 +1281,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  const note=document.createElement('p');note.className=align?'source':'warning';
  if(align?.nature_validation==='INSEE_RDF_UUID_codeINSEE_owl_sameAs'){
    note.textContent='Correspondance Pactols–COG validée pour 2026 : l’exactMatch Pactols renvoie à une URI UUID de l’Insee, dont le code officiel a été confirmé par geo:codeINSEE et owl:sameAs dans le RDF de l’Insee. Ce lien ne valide pas automatiquement les identités communales antérieures.';
+ }else if(align?.source_registre==='recette/lieux/PDL-LOT02-45-COMMUNES-NOUVELLES-2026.md'){
+   note.textContent='Correspondance Pactols–COG validée pour 2026 : commune nouvelle attestée au '+align.date_evenement_COG+' par le COG de l’Insee. Le concept Pactols de l’ancienne commune (« '+align.libelle_ancienne_commune+' »), devenue déléguée, reste distinct : son code INSEE conservé n’implique ni équivalence entre ARK ni rétroprojection historique.';
  }else if(align?.source_registre==='recette/lieux/PDL-CHEMILLE-49092-2026.md'){
    note.textContent='Correspondance Pactols–COG validée pour 2026 : Chemillé-en-Anjou est créée le 15 décembre 2015, en remplacement de Chemillé-Melay (créée en 2013). Les ARK Pactols de Chemillé et Chemillé-Melay sont conservés séparément, sans équivalence ni identification rétroactive.';
  }else if(align?.nature_evenement_COG==='MOD32_CREATION_COMMUNE_NOUVELLE'){
