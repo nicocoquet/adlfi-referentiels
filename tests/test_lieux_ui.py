@@ -215,12 +215,12 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-bfc-pactols.js",
                 "../assets/lieux-pdl-pactols.js",
                 "../assets/lieux-paca-pactols.js",
-                "../assets/lieux-paca-renommages.js",
+                "../assets/lieux-paca-renommages.js?v=20261118-paca938",
                 "../assets/lieux-drom-contours.js",
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-paca937",
+                "../assets/lieux-multiechelon.js?v=20261118-paca938",
             ],
         )
         for path in (

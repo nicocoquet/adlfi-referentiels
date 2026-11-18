@@ -1,8 +1,9 @@
-"""Chromium : les deux renommages PACA et l'exception UUID Céreste 04045."""
+"""Chromium : les trois renommages PACA, Céreste UUID et Abriès réservée."""
 from __future__ import annotations
 from test_lieux_corse_pactols_navigateur import serveur
 
 CASES=[
+    ("04045","26678/pcrtHxveTzUMik","Céreste-en-Luberon"),
     ("05127","26678/pcrtla4EHGDgDd","Rousset-Serre-Ponçon"),
     ("83052","26678/pcrt7B7bs9P5g2","Esparron-de-Pallières"),
 ]
@@ -39,16 +40,16 @@ def main():
             timeout=30000)
         detail=page.locator('#detail').text_content()
         assert '26678/pcrt7B7bs9P5g2' in detail and '2026 seulement' in detail,detail
-        page.goto(url+'/lieux/?region=paca&code=04045&annee=2026&niveau=commune',
+        page.goto(url+'/lieux/?region=paca&code=05001&annee=2026&niveau=commune',
                   wait_until='domcontentloaded',timeout=45000)
         page.wait_for_function(
-            "() => document.querySelector('#detail')?.textContent.includes('04045')",
+            "() => document.querySelector('#detail')?.textContent.includes('05001')",
             timeout=60000)
-        cereste=page.locator('#detail').text_content()
-        assert 'Aucun alignement Pactols individuellement validé' in cereste,cereste
-        assert '26678/pcrtHxveTzUMik' not in cereste
+        abries=page.locator('#detail').text_content()
+        assert 'Aucun alignement Pactols individuellement validé' in abries,abries
+        assert '26678/pcrtGQ7nGPZN7K' not in abries
         assert not errors,errors
-        print('PACA_937_NAVIGATEUR_OK — Rousset, Esparron 2026 et 1975, Céreste UUID réservée')
+        print('PACA_938_NAVIGATEUR_OK — Céreste UUID prouvé, Rousset, Esparron, Abriès non validée')
         browser.close()
 
 if __name__=='__main__':
