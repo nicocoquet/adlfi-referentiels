@@ -109,8 +109,10 @@ def main():
     a=p.parse_args()
     if a.sortie.exists() or "docs" in a.sortie.resolve().parts:
         raise ValueError("Sortie de recette neuve, hors docs/")
-    if sha256(a.geometries)!=SOURCE_SHA256 or sha256(a.comparaison)!=COMPARAISON_SHA256:
-        raise ValueError("Source ou rapport comparatif modifié")
+    if sha256(a.geometries)!=SOURCE_SHA256:
+        raise ValueError("Archive Etalab : SHA-256 différent : "+sha256(a.geometries))
+    if sha256(a.comparaison)!=COMPARAISON_SHA256:
+        raise ValueError("Rapport comparatif : SHA-256 différent : "+sha256(a.comparaison))
     raw=a.geometries.read_bytes()
     source=json.loads(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     index=json.loads(a.index_cog.read_text(encoding="utf-8"))
