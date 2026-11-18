@@ -1,0 +1,95 @@
+name: Lieux - PACA preflight 832 exactMatch INSEE en 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/preparer_paca_exactmatch_832_2026.py'
+      - 'tests/test_preparer_paca_exactmatch_832_2026.py'
+      - '.github/workflows/lieux-paca-832-preflight-2026.yml'
+permissions:
+  contents: write
+jobs:
+  preflight-832:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          path: referentiels
+          persist-credentials: true
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester le préflight strict des URI, dont UUID
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_preparer_paca_exactmatch_832_2026.py' -v
+      - name: Verifier le RDF Pactols épinglé
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum -c -
+      - name: Acquerir et verifier le COG INSEE 2026
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/paca-cog2026"
+      - name: Double préflight PACA du RDF complet
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/preparer_paca_exactmatch_832_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/paca-cog2026/v_commune_2026.csv" \
+              --pilote docs/data/lieux.json \
+              --sortie-csv "$RUNNER_TEMP/PACA-CANDIDATS-CONTROLES-$n.csv" \
+              --sortie-bilan "$RUNNER_TEMP/PACA-PREFLIGHT-EXACTMATCH-$n.json"
+          done
+          cmp "$RUNNER_TEMP/PACA-CANDIDATS-CONTROLES-1.csv" "$RUNNER_TEMP/PACA-CANDIDATS-CONTROLES-2.csv"
+          cmp "$RUNNER_TEMP/PACA-PREFLIGHT-EXACTMATCH-1.json" "$RUNNER_TEMP/PACA-PREFLIGHT-EXACTMATCH-2.json"
+          python3 - "$RUNNER_TEMP/PACA-PREFLIGHT-EXACTMATCH-1.json" <<'PY'
+          import json,sys
+          doc=json.load(open(sys.argv[1],encoding='utf-8'))
+          b=doc['bilan']
+          assert b['communes_COG_PACA_2026']==946
+          assert b['pilotage_editeur_conserve']==103
+          assert b['candidats_eligibles_avant_preflight']==832
+          assert b['candidats_conformes_apres_preflight']+b['candidats_mis_en_quarantaine_URI']==832
+          assert b['exceptions_paca_hors_pilote']==11
+          assert b['nouvelles_relations_publiees']==0
+          assert b['geometries_modifiees']==0 and b['relations_historiques_inferees']==0
+          assert len(doc['pilotage_valide_2026'])==103
+          print('PACA_EXACTMATCH_URI_PREFLIGHT_OK',json.dumps(b,ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-exactmatch-832-preflight-2026
+          path: |
+            ${{ runner.temp }}/PACA-CANDIDATS-CONTROLES-1.csv
+            ${{ runner.temp }}/PACA-PREFLIGHT-EXACTMATCH-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Conserver les registres sous recette sans modifier docs
+        working-directory: referentiels
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/PACA-CANDIDATS-CONTROLES-1.csv" recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv
+          cp "$RUNNER_TEMP/PACA-PREFLIGHT-EXACTMATCH-1.json" recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json
+          git add -- recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PACA : conserver les candidats exhaustivement qualifiés'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
