@@ -2,7 +2,6 @@
 import importlib.util
 from pathlib import Path
 import unittest
-from shapely.geometry import Polygon, mapping
 
 SPEC = importlib.util.spec_from_file_location(
     "nc", Path(__file__).resolve().parents[1] / "scripts/preparer_contours_nouvelle_caledonie_2026.py")
@@ -10,6 +9,7 @@ nc = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(nc)
 
 def fixtures():
+    from shapely.geometry import Polygon, mapping
     lines = [f"988{i:02d}|Commune {i}" for i in range(1, 34)]
     source = {"type": "FeatureCollection", "features": []}
     for i in range(1, 34):
@@ -25,6 +25,7 @@ def fixtures():
     return source, index
 
 
+@unittest.skipUnless(importlib.util.find_spec("shapely"), "Shapely vérifié dans la CI géométrique spécialisée")
 class NouvelleCaledonieTests(unittest.TestCase):
     def test_32_valides_et_dumbea_exclue(self):
         source, index = fixtures()
