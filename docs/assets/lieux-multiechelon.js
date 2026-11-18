@@ -28,6 +28,7 @@ const pdlChemille=window.AdlfiLieuxPDLChemille;
 const pdlNouvellesLot02=window.AdlfiLieuxPDLNouvellesLot02;
 const pdlOreeMod50=window.AdlfiLieuxPDLOreeMod50;
 const pdlWikidataP374=window.AdlfiLieuxPDLWikidataP374;
+const pdlTroisCollisions=window.AdlfiLieuxPDLTroisCollisions;
 const pacaPactols=window.AdlfiLieuxPACAPactols;
 const pacaRenommages=window.AdlfiLieuxPACARenommages;
 const pacaNouvelles=window.AdlfiLieuxPACANouvelles;
@@ -217,7 +218,7 @@ async function chargerCommunes2026(){
  return communeDataPromise;
 }
 async function start(){
- if(!core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -267,6 +268,8 @@ async function start(){
  state.pdlOreeMod50=pdlOreeMod50.creer(pdlOreePublication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus,state.pdlNouvellesLot01,state.pdlChemille,state.pdlNouvellesLot02);
  const pdlWikidataPublication=await loadJSON(ROOT+'lieux-chronologie/pactols-pdl-wikidata-p374-2026.json');
  state.pdlWikidataP374=pdlWikidataP374.creer(pdlWikidataPublication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus,state.pdlNouvellesLot01,state.pdlChemille,state.pdlNouvellesLot02,state.pdlOreeMod50);
+ const pdlTroisPublication=await loadJSON(ROOT+'lieux-chronologie/pactols-pdl-trois-collisions-2026.json');
+ state.pdlTroisCollisions=pdlTroisCollisions.creer(pdlTroisPublication,commun.regions.pdl.cog,state.pdlPactols,state.pdlUUIDResolus,state.pdlNouvellesLot01,state.pdlChemille,state.pdlNouvellesLot02,state.pdlOreeMod50,state.pdlWikidataP374);
  // PACA : complément de 832 liens, sans duplication des 103 autorités du pilote.
  const pacaPublication=await loadJSON(ROOT+'lieux-chronologie/pactols-paca-2026.json');
  state.pacaPactols=pacaPactols.creer(pacaPublication,commun.regions.paca.cog);
@@ -297,7 +300,7 @@ async function start(){
      state.associees=polynesieAssociees.creer(indexPolynesieAssociees,indexOutremer);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pdlNouvellesLot02.index,state.pdlOreeMod50.index,state.pdlWikidataP374.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pdlNouvellesLot02.index,state.pdlOreeMod50.index,state.pdlWikidataP374.index,state.pdlTroisCollisions.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -1276,7 +1279,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code) ||
    (x.zone==='corse'?state.corsePactols?.byCode.get(x.code):
     x.zone==='bfc'?state.bfcPactols?.byCode.get(x.code):
-    x.zone==='pdl'?(state.pdlPactols?.byCode.get(x.code)||state.pdlUUIDResolus?.byCode.get(x.code)||state.pdlNouvellesLot01?.byCode.get(x.code)||state.pdlChemille?.byCode.get(x.code)||state.pdlNouvellesLot02?.byCode.get(x.code)||state.pdlOreeMod50?.byCode.get(x.code)||state.pdlWikidataP374?.byCode.get(x.code)):
+    x.zone==='pdl'?(state.pdlPactols?.byCode.get(x.code)||state.pdlUUIDResolus?.byCode.get(x.code)||state.pdlNouvellesLot01?.byCode.get(x.code)||state.pdlChemille?.byCode.get(x.code)||state.pdlNouvellesLot02?.byCode.get(x.code)||state.pdlOreeMod50?.byCode.get(x.code)||state.pdlWikidataP374?.byCode.get(x.code)||state.pdlTroisCollisions?.byCode.get(x.code)):
     x.zone==='paca'?(state.pacaPactols?.byCode.get(x.code)||state.pacaRenommages?.byCode.get(x.code)||state.pacaNouvelles?.byCode.get(x.code)||state.pacaAbriesRistolas?.byCode.get(x.code)):null);
  const h=document.createElement('h2');h.textContent=stateCom.etat?.libelle||x.code;target.append(h);
  const dl=document.createElement('dl');ligne(dl,'Code INSEE',x.code);ligne(dl,'État administratif',`1er janvier ${year()}`);ligne(dl,'Zone du corpus',nomZones[x.zone]);
@@ -1289,6 +1292,8 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    note.textContent='Correspondance Pactols–COG validée pour 2026 : l’exactMatch Pactols renvoie à une URI UUID de l’Insee, dont le code officiel a été confirmé par geo:codeINSEE et owl:sameAs dans le RDF de l’Insee. Ce lien ne valide pas automatiquement les identités communales antérieures.';
  }else if(align?.source_registre==='recette/lieux/PDL-17-WIKIDATA-P374-PUBLICATION-2026.md'){
    note.textContent='Correspondance Pactols–COG validée uniquement pour 2026 par une chaîne de preuves explicites : skos:exactMatch de Pactols vers Wikidata '+align.qid_Wikidata+' ; propriété Wikidata P374 vers le code INSEE '+align.code_insee+' ; création de commune nouvelle attestée au '+align.date_creation_COG+' dans le COG. Pactols ne fournit pas directement d’exactMatch INSEE pour cet ARK. Le concept Pactols de l’ancienne commune (« '+align.libelle_ancienne_commune+' ») reste distinct, sans rétroprojection historique.';
+ }else if(align?.source_registre==='recette/lieux/PDL-TROIS-COLLISIONS-2026.md'){
+   note.textContent='Correspondance Pactols–COG validée pour 2026 : commune nouvelle créée le '+align.date_evenement_COG+'. Le concept de l’ancienne commune (« '+align.libelle_ancienne_commune+' »), devenue commune déléguée, possède un ARK distinct. Aucun ancien ARK n’est promu ni rétroprojeté.';
  }else if(align?.source_registre==='recette/lieux/PDL-OREE-ANJOU-MOD50-2026.md'){
    note.textContent='Alignement documentaire Pactols–COG validé pour 2026 : l’ARK Orée d’Anjou renvoie au code INSEE 49069 pour la période 2015–2024. Le COG enregistre au 1er janvier 2025 un transfert de chef-lieu (MOD50), d’où le code actuel 49126. Pactols ne contient pas directement ce dernier code pour cet ARK. L’ancienne commune de Drain conserve un ARK distinct ; aucune continuité historique supplémentaire n’est inférée.';
  }else if(align?.source_registre==='recette/lieux/PDL-LOT02-45-COMMUNES-NOUVELLES-2026.md'){
