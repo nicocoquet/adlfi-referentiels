@@ -95,11 +95,11 @@ def main():
     if sha256(a.geometries) != SOURCE_SHA256:
         raise ValueError("SHA-256 de la source Etalab incorrect")
     raw = a.geometries.read_bytes()
-    source = json.loads(gzip.decompress(raw) if raw[:2] == b"\\x1f\\x8b" else raw)
+    source = json.loads(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     index = json.loads(a.index_cog.read_text(encoding="utf-8"))
     output = preparer(source, index)
     a.sortie.parent.mkdir(parents=True, exist_ok=True)
-    a.sortie.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\\n", encoding="utf-8")
+    a.sortie.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(json.dumps({"contours": 32, "exclu": EXCLUSION,
                       "sha256": sha256(a.sortie), "octets": a.sortie.stat().st_size},
                      ensure_ascii=False, sort_keys=True))
