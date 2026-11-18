@@ -241,11 +241,21 @@ def main():
         )
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
         page.locator("#year").press("End")
-        page.wait_for_function(
-          "() => document.querySelector('#year-label')?.textContent === '2026' && "
-          "document.querySelector('#map-status')?.textContent.includes('contours communaux 2026')",
-          timeout=60000
-        )
+        try:
+            page.wait_for_function(
+              "() => document.querySelector('#year-label')?.textContent === '2026' && "
+              "document.querySelector('#map-status')?.textContent.includes('contours communaux 2026')",
+              timeout=60000
+            )
+        except Exception:
+            print("DIAGNOSTIC_COMMUNES_2026", page.evaluate("""() => ({
+                annee: document.querySelector('#year-label')?.textContent,
+                niveau: document.querySelector('#level')?.value,
+                statut: document.querySelector('#map-status')?.textContent,
+                fiche: document.querySelector('#detail')?.textContent?.slice(0,400),
+                canevas: document.querySelectorAll('.leaflet-overlay-pane canvas').length
+            })"""), "PAGEERRORS", failures, flush=True)
+            raise
         assert page.locator("#year").input_value()=="2026"
         inspecter_contours(page,100,"lieux-communes-2026")
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1

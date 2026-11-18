@@ -358,6 +358,24 @@
         "identites_pactols_inferees": 0,
         "limites_juridiques_homologuees": false,
         "geometries_historiques": 0
+      },
+      "contours_nouvelle_caledonie_2026": {
+        "statut": "repère cartographique communal COG 2026, contrôlé topologiquement, sans homologation juridique",
+        "fichier": "data/lieux-outremer/contours-communes-nc-2026.geojson",
+        "nombre_contours": 32,
+        "communes_COG": 33,
+        "exclusion_topologique": [
+          "98805"
+        ],
+        "date_cog": "2026-01-01",
+        "edition_geometrie": "2026-05-04",
+        "generalisation_metres": 100,
+        "source": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz",
+        "source_sha256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+        "identites_pactols_inferees": 0,
+        "limites_juridiques_homologuees": false,
+        "geometries_historiques": 0,
+        "note_Poya": "98827, ne pas inférer de province unique"
       }
     },
     "personnes": {
