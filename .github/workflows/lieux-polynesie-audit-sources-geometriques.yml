@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'scripts/auditer_sources_geometriques_polynesie_2022_2026.py'
+      - 'scripts/comparer_geometries_polynesie_2022_2026.py'
       - '.github/workflows/lieux-polynesie-audit-sources-geometriques.yml'
 jobs:
   inventaire-non-publiant:
@@ -13,7 +14,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 -m pip install --disable-pip-version-check pyshp shapely==2.0.7
+      - run: python3 -m pip install --disable-pip-version-check pyshp shapely==2.0.7 pyproj==3.7.2
       - name: Acquerir les trois archives officielles
         run: |
           set -euo pipefail
@@ -39,9 +40,23 @@ jobs:
               --sortie /tmp/pf-audit-$n.json
           done
           cmp /tmp/pf-audit-1.json /tmp/pf-audit-2.json
+      - name: Comparer les géométries par code COG, sans validation implicite
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/comparer_geometries_polynesie_2022_2026.py \
+              --ispf-zip /tmp/pf-ispf-shapefiles-2022.zip \
+              --geopf-zip /tmp/pf-geopf-communes-associees-2022.zip \
+              --etalab /tmp/pf-etalab-communes-2026.geojson.gz \
+              --index-cog docs/data/lieux-outremer/recherche-2026.json \
+              --sortie /tmp/pf-comparaison-$n.json
+          done
+          cmp /tmp/pf-comparaison-1.json /tmp/pf-comparaison-2.json
       - uses: actions/upload-artifact@v4
         with:
           name: lieux-pf-inventaire-geometries-2022-vs-2026
-          path: /tmp/pf-audit-1.json
+          path: |
+            /tmp/pf-audit-1.json
+            /tmp/pf-comparaison-1.json
           retention-days: 30
           if-no-files-found: error
