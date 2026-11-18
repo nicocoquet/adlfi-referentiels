@@ -16,3 +16,9 @@ Tous les autres cas sont placés en `INSTRUCTION_COMPLEMENTAIRE`, avec la liste 
 **Aucun lien, aucune géométrie, aucune relation historique inférée** par cette recette. Rapports JSON reproductibles dans les artefacts GitHub Actions. La prochaine PR de publication, si le rapport est favorable, pourra porter sur un lot homogène sans refaire l'instruction des trois créations successives ni des deux cas à statuts historiques ambigus.
 
 La refonte de l'interface graphique du référentiel Lieux est prévue **après la consolidation Pays de la Loire**, sur la base des idées qui seront transmises par l'éditeur ; aucun arbitrage d'interface n'est effectué ici.
+
+## Résultat de la première recette
+
+La CI spécialisée (exécution 44341936729) a classé **45 dossiers en `CANDIDAT_LOT02_A_VERIFIER`**, c'est-à-dire sans anomalie détectée par les règles conservatrices, et **9 en `INSTRUCTION_COMPLEMENTAIRE`**. Ces 45 cas restent des **candidats**, pas des validations. La nouvelle exécution journalise désormais les 54 dossiers, y compris les quatre cas supplémentaires qui ne satisfont pas les critères en dehors des trois créations successives et des deux intitulés historiques.
+
+Un éventuel lot de publication devra reproduire à partir des sources RDF/COG les 45 dossiers proposés, vérifier les doubles identifiants avant et après fusion, et conserver les 9 exclusions en instruction.
