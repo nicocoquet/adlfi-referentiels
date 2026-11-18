@@ -1,0 +1,137 @@
+name: Lieux PDL — qualifier 17 concepts sans URI INSEE
+on:
+  pull_request:
+    paths:
+      - 'scripts/prequalifier_pdl_17_sans_insee_2026.py'
+      - 'scripts/croiser_pdl_17_wikidata_p374_2026.py'
+      - 'tests/test_croiser_pdl_17_wikidata_p374_2026.py'
+      - 'tests/test_prequalifier_pdl_17_sans_insee_2026.py'
+      - 'recette/lieux/PDL-17-SANS-INSEE-PREQUALIFICATION-2026.md'
+      - 'recette/lieux/PDL-17-WIKIDATA-P374-2026.json'
+      - '.github/workflows/lieux-pdl-17-sans-insee-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  instruction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester les 1195 liens et la sélection des 17 candidats
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_prequalifier_pdl_17_sans_insee_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_croiser_pdl_17_wikidata_p374_2026.py' -v
+      - name: Vérifier les sources RDF épinglées et le COG versionné
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path("docs/data/lieux-chronologie/cog-pdl.json").read_text())
+          assert p["region"]=="pdl" and p["millesime_cog"]==2026
+          assert sum(x["typecom"]=="COM" and x["debut_inclus"]<="2026-01-01" and
+                     (x["fin_exclue"] is None or x["fin_exclue"]>"2026-01-01")
+                     for x in p["periodes_com"])==1228
+          PY
+      - name: Générer deux recettes reproductibles sans publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/prequalifier_pdl_17_sans_insee_2026.py \
+              --registre recette/lieux/PDL-24-DIVERGENCES-NOMINATIF-2026.json \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
+              --chemille docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json \
+              --lot02 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json \
+              --oree docs/data/lieux-chronologie/pactols-pdl-oree-anjou-mod50-2026.json \
+              --sortie "$RUNNER_TEMP/pdl-17-sans-insee-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-17-sans-insee-1.json" "$RUNNER_TEMP/pdl-17-sans-insee-2.json"
+          python3 - "$RUNNER_TEMP/pdl-17-sans-insee-1.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          assert x["nombre_candidats_sans_URI_INSEE"]==17
+          assert len(x["dossiers"])==17
+          assert len({x["code_insee"] for x in x["dossiers"]})==17
+          assert len({x["ark_candidat"] for x in x["dossiers"]})==17
+          assert sum(x["groupes"].values())==17
+          assert x["nombre_alignements_publies_precedemment"]==1195
+          assert x["communes_restant_a_instruire"]==33
+          assert x["nouveaux_alignements"]==x["geometries"]==x["successions_inferees"]==0
+          assert all(r["decision_editoriale"]=="NON_PRISE" and
+                     r["publication"]=="NON_PUBLIE" and
+                     not any("id.insee.fr/geo/" in uri
+                         for uri in r["rdf"]["exactMatch_tous"])
+                     for r in x["dossiers"])
+          print("PDL_17_SANS_INSEE_REPRODUCTIBLE_SANS_PUBLICATION")
+          PY
+      - name: Acquérir et contrôler les 17 éléments Wikidata par leurs révisions
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 scripts/croiser_pdl_17_wikidata_p374_2026.py \
+            --audit "$RUNNER_TEMP/pdl-17-sans-insee-1.json" \
+            --snapshot "$RUNNER_TEMP/pdl-17-wikidata-brut.json" \
+            --acquerir
+          for n in 1 2; do
+            python3 scripts/croiser_pdl_17_wikidata_p374_2026.py \
+              --audit "$RUNNER_TEMP/pdl-17-sans-insee-1.json" \
+              --snapshot "$RUNNER_TEMP/pdl-17-wikidata-brut.json" \
+              --sortie "$RUNNER_TEMP/pdl-17-wikidata-qualification-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-17-wikidata-qualification-1.json" "$RUNNER_TEMP/pdl-17-wikidata-qualification-2.json"
+          python3 - "$RUNNER_TEMP/pdl-17-wikidata-qualification-1.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          assert x["nombre_ARK"]==len(x["dossiers"])==17
+          assert x["couverture_PDL_avant"]==1195
+          assert x["nouvelles_validations"]==x["geometries_nouvelles"]==x["liens_historiques_inferes"]==0
+          assert len({r["qid"] for r in x["dossiers"]})==17
+          frozen=json.load(open("recette/lieux/PDL-17-WIKIDATA-P374-2026.json"))
+          bycode={r["code_insee_2026"]:r for r in frozen["dossiers"]}
+          assert len(bycode)==17
+          for row in x["dossiers"]:
+              expected=bycode[row["code_COG_2026"]]
+              assert row["qid"]==expected["qid_wikidata"]
+              assert row["Wikidata_lastrevid"]==expected["revision_wikidata"]
+              assert row["insee_P374_actifs_2026"]==expected["insee_P374_actif_2026"]
+              assert row["dates_P571"]==expected["P571_creation"]
+          assert x["groupes"]=={"P374_CONCORDE_COG_2026":17}
+          assert all(isinstance(r["Wikidata_lastrevid"],int) and r["Wikidata_lastrevid"]>0
+             and r["publication"]=="NON_PUBLIE" and r["decision_editoriale"]=="NON_PRISE"
+             for r in x["dossiers"])
+          print("PDL_17_WIKIDATA_P374_QUALIFICATION_NON_VALIDANTE",x["groupes"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdl-17-sans-insee-probatoire-2026
+          path: |
+            ${{ runner.temp }}/pdl-17-sans-insee-1.json
+            ${{ runner.temp }}/pdl-17-wikidata-brut.json
+            ${{ runner.temp }}/pdl-17-wikidata-qualification-1.json
+          retention-days: 30
+          if-no-files-found: error
