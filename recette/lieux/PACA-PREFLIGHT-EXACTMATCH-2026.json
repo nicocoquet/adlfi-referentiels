@@ -1,0 +1,753 @@
+{
+  "bilan": {
+    "candidats_conformes_apres_preflight": 832,
+    "candidats_eligibles_avant_preflight": 832,
+    "candidats_mis_en_quarantaine_URI": 0,
+    "communes_COG_PACA_2026": 946,
+    "exceptions_paca_hors_pilote": 11,
+    "geometries_modifiees": 0,
+    "nouvelles_relations_publiees": 0,
+    "pilotage_editeur_conserve": 103,
+    "pilote_devoluy_multiple_ARK": 1,
+    "relations_historiques_inferees": 0
+  },
+  "date_COG": "2026-01-01",
+  "exceptions_cog_pactols": [
+    {
+      "ark_candidats": [
+        "26678/pcrtC1Vi7jqzBS",
+        "26678/pcrtDcVUj2Mdw9"
+      ],
+      "code_insee": "04033",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Ubaye-Serre-Ponçon",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [],
+      "code_insee": "04045",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Céreste-en-Luberon",
+      "statut": "SANS_EXACTMATCH"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtjDzQ2Y9N5o",
+        "26678/pcrtjMIYKdPaHG"
+      ],
+      "code_insee": "04120",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Val d'Oronaye",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtGQ7nGPZN7K"
+      ],
+      "code_insee": "05001",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Abriès-Ristolas",
+      "statut": "A_INSTRUIRE_LIBELLE_STATUT_OU_URI"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtAUevxwngAh",
+        "26678/pcrteug78RKN9a"
+      ],
+      "code_insee": "05024",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Valdoule",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtFGmyycRjcC",
+        "26678/pcrtp9Ljm1lvVd"
+      ],
+      "code_insee": "05039",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Aubessagne",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtKc33Ttmi9L",
+        "26678/pcrtYB42tOKsY7"
+      ],
+      "code_insee": "05053",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Garde-Colombe",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrt2BsRDBxggr",
+        "26678/pcrt6KSOx6bX7u"
+      ],
+      "code_insee": "05101",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Vallouise-Pelvoux",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrth0vgSHba4G",
+        "26678/pcrtjKbaVOnEjn"
+      ],
+      "code_insee": "05118",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Val Buëch-Méouge",
+      "statut": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrtla4EHGDgDd"
+      ],
+      "code_insee": "05127",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Rousset-Serre-Ponçon",
+      "statut": "A_INSTRUIRE_LIBELLE_STATUT_OU_URI"
+    },
+    {
+      "ark_candidats": [
+        "26678/pcrt7B7bs9P5g2"
+      ],
+      "code_insee": "83052",
+      "decision": "A_INSTRUIRE_SANS_PUBLICATION",
+      "libelle_COG_2026": "Esparron-de-Pallières",
+      "statut": "A_INSTRUIRE_LIBELLE_STATUT_OU_URI"
+    }
+  ],
+  "limites": [
+    "L'exactMatch univoque vers le COG 2026 fonde uniquement une correspondance 2026.",
+    "Le contrôle exhaustif des URI INSEE protège des UUID non reconnus et des URI concurrentes.",
+    "La classification stricte peut exclure des ARK éditorialement validés (cas Dévoluy) : validation du pilote conservée.",
+    "Aucun concept de lieu, mouvement COG ancien ou contour historique n'est généré."
+  ],
+  "pilotage_valide_2026": [
+    {
+      "ark_pactols": "26678/pcrt3pvNQUYc80",
+      "code_insee": "04004",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtKRz1I0qXAj",
+      "code_insee": "04034",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt6NwAjeGWrS",
+      "code_insee": "04039",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtTuoQDv72jF",
+      "code_insee": "04063",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtVDyMZYcQOT",
+      "code_insee": "04070",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt04w9FadYt3",
+      "code_insee": "04072",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtnSq340T1TW",
+      "code_insee": "04088",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtnZGhUY9A0A",
+      "code_insee": "04090",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtxrk8Zfr25L",
+      "code_insee": "04094",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtBJH6Y4UUHV",
+      "code_insee": "04104",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtlup50T8TOo",
+      "code_insee": "04111",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtyp7udwikMa",
+      "code_insee": "04112",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt8nuE0LWfDN",
+      "code_insee": "04115",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt1jeGHU0bYv",
+      "code_insee": "04116",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtIQ1tsbdZQy",
+      "code_insee": "04130",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtDIOdjDZ591",
+      "code_insee": "04135",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt3SgckbFhPZ",
+      "code_insee": "04144",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtFZaTLVEWcF",
+      "code_insee": "04149",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtccsTDIyASs",
+      "code_insee": "04152",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtWQQ94q3j4n",
+      "code_insee": "04166",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtgyMnv1radG",
+      "code_insee": "04179",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtCpHeG4H9uK",
+      "code_insee": "04184",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtJOhaU6ZvO0",
+      "code_insee": "04189",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtd6BilxFy3G",
+      "code_insee": "04190",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrttpxnuloGrg",
+      "code_insee": "04206",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtEyohSHV6QV",
+      "code_insee": "05008",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtFWwelHXly2",
+      "code_insee": "05016",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtqRSsArYSvg",
+      "code_insee": "05046",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtc0mvOyf7SS",
+      "code_insee": "05061",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtNsHeZyR3A5",
+      "code_insee": "05070",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt9rvvW8Owmx",
+      "code_insee": "05095",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtSeD2WMEIYA",
+      "code_insee": "05139",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "A_INSTRUIRE_PLUSIEURS_ARK"
+    },
+    {
+      "ark_pactols": "26678/pcrtPcj8yz5cdM",
+      "code_insee": "05152",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtg78ho1aFjY",
+      "code_insee": "05166",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtjJFLIftzIK",
+      "code_insee": "05172",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtD12duBekzn",
+      "code_insee": "06001",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt63hcQfWGpY",
+      "code_insee": "06004",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtOmRpFNshKr",
+      "code_insee": "06023",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtu7tnmpG8wm",
+      "code_insee": "06027",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtzLY3k0KuOO",
+      "code_insee": "06054",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt4DtQq4Fz65",
+      "code_insee": "06068",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtaveQOswPTT",
+      "code_insee": "06069",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtLjA85w5xrQ",
+      "code_insee": "06075",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtL1tPHUmmgv",
+      "code_insee": "06122",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtIBiyStjdmE",
+      "code_insee": "06149",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtnN5cy7FuyM",
+      "code_insee": "06153",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtVWd4qEv6l2",
+      "code_insee": "06162",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtaqNtT7o2Sc",
+      "code_insee": "06163",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtbE3vzlaX0O",
+      "code_insee": "13001",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtaN2ugWtO7i",
+      "code_insee": "13002",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtliYsR97seb",
+      "code_insee": "13004",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtyn1DKFPBR7",
+      "code_insee": "13005",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtMPptrPy60f",
+      "code_insee": "13007",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtjh9cavbqmj",
+      "code_insee": "13013",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtWtB8ll4BRS",
+      "code_insee": "13035",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtK7siD8rXTM",
+      "code_insee": "13039",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt81snOA5qz7",
+      "code_insee": "13047",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtubOMSASQ1e",
+      "code_insee": "13058",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtaY7gqYzHc3",
+      "code_insee": "13065",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrticayz3SAqZ",
+      "code_insee": "13074",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtuVpD7K1lzu",
+      "code_insee": "13082",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtahFV71YNZh",
+      "code_insee": "13100",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtmweinBqLFY",
+      "code_insee": "13103",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtFHQ3WkwYIE",
+      "code_insee": "13114",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt6LgMSwvuv0",
+      "code_insee": "13118",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtjubeAEzerr",
+      "code_insee": "83002",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtKfvv6696rT",
+      "code_insee": "83016",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt9UTTpk1ddT",
+      "code_insee": "83023",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt34WzPsXyzX",
+      "code_insee": "83035",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtLqT2MlZmMJ",
+      "code_insee": "83044",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtqXQdSfMEaj",
+      "code_insee": "83050",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt0n6LM8FOju",
+      "code_insee": "83053",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtAs1gmlWk3e",
+      "code_insee": "83059",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtf7kqWDJiK5",
+      "code_insee": "83061",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtHtDzH0oM8t",
+      "code_insee": "83072",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtgMgV9Rhqn6",
+      "code_insee": "83084",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrthNsyzlF5bA",
+      "code_insee": "83086",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt935maKZfi3",
+      "code_insee": "83089",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt1HywsVy1mi",
+      "code_insee": "83090",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtgwaQpOPAZX",
+      "code_insee": "83096",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt0aTQhgFP8S",
+      "code_insee": "83112",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtRVSsUB4LHT",
+      "code_insee": "83116",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtql5UJS3p5U",
+      "code_insee": "83119",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtcld7ihOBBw",
+      "code_insee": "83121",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtHOiqmv6Eqi",
+      "code_insee": "83123",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt5iyapsZGYg",
+      "code_insee": "83127",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtWBlmq6Pffb",
+      "code_insee": "83131",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtbjA0ZStKDH",
+      "code_insee": "83137",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrta7xcYMuWFF",
+      "code_insee": "83141",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtQs4BJHvwvB",
+      "code_insee": "84007",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt112K2j0K5A",
+      "code_insee": "84019",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt7SOJqZIuKk",
+      "code_insee": "84035",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtVLDFnBLxEl",
+      "code_insee": "84043",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrt90anSinlO2",
+      "code_insee": "84049",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtavlAY6Lrt0",
+      "code_insee": "84075",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtnssnKihEzv",
+      "code_insee": "84079",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtT6pyqXyD0l",
+      "code_insee": "84087",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtpmr8FUAYFZ",
+      "code_insee": "84091",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtnkrBrM2TQw",
+      "code_insee": "84105",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtn4S3jPf7pG",
+      "code_insee": "84113",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtDE2ZcSBXcb",
+      "code_insee": "84129",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtVI8FuafJOQ",
+      "code_insee": "84132",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    },
+    {
+      "ark_pactols": "26678/pcrtFJTJDDUT97",
+      "code_insee": "84137",
+      "decision": "CONSERVEE_VALIDATION_EDITEUR_2026",
+      "eligibilite_RDF": "ELIGIBLE_SELON_REGLE"
+    }
+  ],
+  "quarantaines_URI_INSEE": [],
+  "schema": "adlfi.lieux.paca.exactmatch.preflight.2026.v1",
+  "source_COG_sha256": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+  "source_RDF_commit": "69bf9697e24cefd645a69465bbd271702786285a",
+  "source_RDF_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+  "statut": "PRE_PUBLICATION_SEULEMENT"
+}
