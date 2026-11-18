@@ -1,0 +1,69 @@
+name: Lieux - Polynesie diagnostic des anneaux et filiation des sources
+on:
+  pull_request:
+    paths:
+      - 'scripts/diagnostiquer_anneaux_polynesie.py'
+      - 'tests/test_diagnostiquer_anneaux_polynesie.py'
+      - '.github/workflows/lieux-pf-diagnostic-anneaux.yml'
+permissions:
+  contents: write
+jobs:
+  audit:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Préparer bibliothèques géométriques
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.7 pyshp pyproj==3.7.2
+      - name: Tester la simulation sans altération
+        run: python3 -m unittest discover -s tests -p 'test_diagnostiquer_anneaux_polynesie.py' -v
+      - name: Télécharger les références territoriales de 2022 et vérifier leur intégrité
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://static.data.gouv.fr/resources/limites-geographiques-administratives/20220610-202135/shapefiles.zip' \
+            -o /tmp/ispf-2022.zip
+          curl -fLsS --retry 3 --max-time 240 \
+            'https://static.data.gouv.fr/resources/geographie-administrative-de-la-polynesie-francaise/20220228-205331/loc-commune-associee.zip' \
+            -o /tmp/geopf-2022.zip
+          echo '8da21b8912a9df8db95036ce24f782a3172bf89698c11049e954a69a45dedc7e  /tmp/ispf-2022.zip' | sha256sum -c -
+          echo '29230c18487385f84ca480e9b2c921ea389f848663a4a9574e77b9cbbf40db7b  /tmp/geopf-2022.zip' | sha256sum -c -
+      - name: Double calcul des anneaux et des recouvrements
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/diagnostiquer_anneaux_polynesie.py \
+              --ispf-zip /tmp/ispf-2022.zip \
+              --geopf-zip /tmp/geopf-2022.zip \
+              --comparaison recette/lieux/PF-COMPARAISON-GEOMETRIQUE-2022-2026.json \
+              --sortie /tmp/pf-anneaux-$n.json
+          done
+          cmp /tmp/pf-anneaux-1.json /tmp/pf-anneaux-2.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-pf-diagnostic-anneaux-2022
+          path: /tmp/pf-anneaux-1.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Versionner le rapport de recette uniquement
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp /tmp/pf-anneaux-1.json recette/lieux/PF-DIAGNOSTIC-ANNEAUX-2022.json
+          git add -- recette/lieux/PF-DIAGNOSTIC-ANNEAUX-2022.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PF : tracer les anneaux intérieurs par commune, audit non validant'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
