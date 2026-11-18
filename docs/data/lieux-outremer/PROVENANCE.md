@@ -40,3 +40,14 @@ La Polynésie, la Nouvelle-Calédonie et Saint-Pierre-et-Miquelon restent hors d
 La couche cartographique autonome `contours-communes-spm-2026.geojson` fournit **Miquelon-Langlade (97501)** et **Saint-Pierre (97502)**, datés du COG au 1er janvier 2026, géométries Etalab du 4 mai 2026, généralisation 100 m. Ces tracés ont subi un contrôle de validité topologique sans réparation et sont indépendants des deux correspondances Pactols déjà approuvées.
 
 Il ne s'agit pas de limites juridiquement homologuées ni de restitutions historiques ; hors de 2026, elles ne peuvent apparaître que comme repères contemporains facultatifs. Les géométries de Polynésie et de Nouvelle-Calédonie restent à instruire.
+
+
+## Nouvelle-Calédonie : 32 contours communaux de référence 2026
+
+La couche autonome `contours-communes-nc-2026.geojson` rassemble **32 des 33 communes COG 2026** de Nouvelle-Calédonie. Elle provient de l'édition Etalab du **4 mai 2026**, généralisation **100 m** (SHA-256 de l'archive : `4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778`). Codes et libellés sont confrontés à `recherche-2026.json`.
+
+**Dumbéa (98805)** est explicitement exclue : son multipolygone national est auto-intersectant dans cette édition. Aucune réparation géométrique ni limite de remplacement n'est inférée. **Poya (98827)** reste une commune unique, dont le contour ne présume aucun rattachement provincial exclusif.
+
+Les 32 géométries sont des **repères cartographiques contemporains** : validité topologique vérifiée, mais aucune homologation juridique des limites ni restitution historique. Les alignements Pactols–COG demeurent indépendants de cette couche. Pour les millésimes antérieurs, l'affichage facultatif du repère 2026 est distinct des limites historiques non qualifiées.
+
+Recette : `scripts/preparer_contours_nouvelle_caledonie_2026.py` ; vérification de la reproductibilité, contrôles Node.js, Chromium et non-régressions en CI. Suivi : issue #105 et PR #113.
