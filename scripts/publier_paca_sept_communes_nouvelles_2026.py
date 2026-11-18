@@ -90,7 +90,7 @@ def produire(audit,pilote,complement,renommages,cog):
    "code_insee":code,"libelle_COG_2026":name,"ark_pactols":ark,
    "libelle_pactols":name,"uri_insee":uri,"predicat_source":"skos:exactMatch",
    "date_creation_commune_nouvelle":date,
-   "code_ancienne_commune_porgant":code,
+   "code_ancienne_commune_porteuse":code,
    "libelle_ancienne_commune_porteuse":ctx["ancienne_commune_porteuse_code"],
    "ark_ancienne_commune_distinct":pold["ark_pactols"],
    "sources_anciennes_communes":ctx["communes_sources"],
@@ -101,8 +101,8 @@ def produire(audit,pilote,complement,renommages,cog):
    "type_validation":"prefLabel_commune_nouvelle_exactMatch_INSEE_unique_historyNote_COG_MOD32",
    "portee_chronologique":"2026_SEULEMENT",
   })
- if len(new)!=7 or len(old_arks)!=8 or len(set(old_arks))!=8 or
-    any(a in arks for a in old_arks):
+ if (len(new)!=7 or len(old_arks)!=8 or len(set(old_arks))!=8 or
+     any(a in arks for a in old_arks)):
   raise ValueError("Nombre d'identités anciennes / nouvelles erroné")
  if set(x["code_insee"] for x in new)!=set(EXPECTED):
   raise ValueError("Les sept communes ne sont pas celles du lot validé")
