@@ -84,6 +84,8 @@ jobs:
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
                 commit -m 'Lieux : versionner les 32 contours NC 2026 contrôlés'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
             git push origin "HEAD:$HEAD_REF"
           else
             echo "GeoJSON NC déjà conforme à la source épinglée"
