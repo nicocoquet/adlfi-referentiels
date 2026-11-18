@@ -311,6 +311,26 @@
         "geometries_historiques_validees": 0,
         "retroprojections": 0
       },
+      "pactols_pdl_2026_uuid_resolus": {
+        "statut": "3 alignements Pactols–COG 2026 supplémentaires, chacun fondé sur résolution explicite d'une URI INSEE UUID par codeINSEE et owl:sameAs",
+        "fichier": "data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json",
+        "source_audit": "recette/lieux/PDL-TROIS-UUID-INSEE-RESOLUTIONS-2026.json",
+        "liens_UUID_resolus": 3,
+        "liens_PDL_2026_au_total": 1143,
+        "communes_COG_2026": 1228,
+        "exceptions_2026_restantes": 85,
+        "codes_resolus": [
+          "44066",
+          "85165",
+          "85212"
+        ],
+        "source_officielle": "https://rdf.insee.fr/",
+        "code_Rives_du_Fougerais_non_publie": "85292",
+        "portee_COG": "2026-01-01",
+        "preuves": "skos:exactMatch Pactols vers l'URI UUID INSEE puis geo:codeINSEE et owl:sameAs depuis cette URI dans le RDF INSEE",
+        "geometries_historiques_validees": 0,
+        "retroprojections": 0
+      },
       "pactols_pdl_2026": {
         "statut": "index documentaire validé pour le COG 2026, indépendamment des états anciens",
         "fichier": "data/lieux-chronologie/pactols-pdl-2026.json",
