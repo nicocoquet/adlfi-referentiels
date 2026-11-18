@@ -5,6 +5,7 @@ on:
       - 'scripts/qualifier_pdl_24_divergences_2026.py'
       - 'tests/test_qualifier_pdl_24_divergences_2026.py'
       - 'recette/lieux/PDL-24-DIVERGENCES-2026.md'
+      - 'recette/lieux/PDL-24-DIVERGENCES-NOMINATIF-2026.json'
       - '.github/workflows/lieux-pdl-24-divergences-2026.yml'
   workflow_dispatch:
 permissions:
@@ -63,9 +64,12 @@ jobs:
               --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
               --chemille docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json \
               --lot02 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json \
-              --sortie "$RUNNER_TEMP/pdl-24-divergences-$n.json"
+              --sortie "$RUNNER_TEMP/pdl-24-divergences-$n.json" \
+              --registre-nominatif "$RUNNER_TEMP/pdl-24-nominatif-$n.json"
           done
           cmp "$RUNNER_TEMP/pdl-24-divergences-1.json" "$RUNNER_TEMP/pdl-24-divergences-2.json"
+          cmp "$RUNNER_TEMP/pdl-24-nominatif-1.json" "$RUNNER_TEMP/pdl-24-nominatif-2.json"
+          cmp "$RUNNER_TEMP/pdl-24-nominatif-1.json" recette/lieux/PDL-24-DIVERGENCES-NOMINATIF-2026.json
           python3 - "$RUNNER_TEMP/pdl-24-divergences-1.json" <<'PY'
           import json,sys
           x=json.load(open(sys.argv[1]))
@@ -74,6 +78,8 @@ jobs:
           assert x["groupes"]=={"PREFLABEL_HISTORIQUE_COG":24}
           assert x["motifs"]=={"PREFLABEL_NON_CONCORDANT":24}
           assert x["communes_avec_candidat_lexical"]==19
+          assert x["types_URI_candidats_lexicaux"]=={
+           "AUCUN_EXACTMATCH_INSEE":17,"URI_INSEE_AUTRE_CODE_OU_TYPE":2}
           assert x["sources"]["mode_COG"]=="COG_2026_DERIVES_VERSIONNES_SANS_NOUVEAU_TELECHARGEMENT"
           assert x["publication_PDL_2026_existante"]==1194
           assert x["exception_PDL_existantes"]==34
@@ -86,6 +92,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: pdl-24-divergences-2026-recette
-          path: ${{ runner.temp }}/pdl-24-divergences-1.json
+          path: |
+            ${{ runner.temp }}/pdl-24-divergences-1.json
+            ${{ runner.temp }}/pdl-24-nominatif-1.json
           retention-days: 30
           if-no-files-found: error
