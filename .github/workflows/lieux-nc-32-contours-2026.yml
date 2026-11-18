@@ -1,0 +1,31 @@
+name: Lieux - recette 32 contours Nouvelle-Caledonie 2026
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/preparer_contours_nouvelle_caledonie_2026.py'
+      - 'tests/test_preparer_contours_nouvelle_caledonie_2026.py'
+      - '.github/workflows/lieux-nc-32-contours-2026.yml'
+jobs:
+  recette:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install shapely pytest
+      - run: python -m pytest -q tests/test_preparer_contours_nouvelle_caledonie_2026.py
+      - name: Acquisition source géographique figée
+        run: |
+          curl -fLsS --retry 3 'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' -o /tmp/communes-2026.geojson.gz
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  /tmp/communes-2026.geojson.gz' | sha256sum -c -
+      - name: Double extraction reproductible sans publication
+        run: |
+          python scripts/preparer_contours_nouvelle_caledonie_2026.py --geometries /tmp/communes-2026.geojson.gz --index-cog docs/data/lieux-outremer/recherche-2026.json --sortie /tmp/nc-premier.geojson
+          python scripts/preparer_contours_nouvelle_caledonie_2026.py --geometries /tmp/communes-2026.geojson.gz --index-cog docs/data/lieux-outremer/recherche-2026.json --sortie /tmp/nc-second.geojson
+          cmp /tmp/nc-premier.geojson /tmp/nc-second.geojson
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recette-nc-32-geojson-2026
+          path: /tmp/nc-premier.geojson
