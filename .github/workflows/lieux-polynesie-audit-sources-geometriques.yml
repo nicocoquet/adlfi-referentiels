@@ -37,6 +37,7 @@ jobs:
               --etalab /tmp/pf-etalab-communes-2026.geojson.gz \
               --index-cog docs/data/lieux-outremer/recherche-2026.json \
               --sortie /tmp/pf-audit-$n.json
+          done
           cmp /tmp/pf-audit-1.json /tmp/pf-audit-2.json
       - uses: actions/upload-artifact@v4
         with:
