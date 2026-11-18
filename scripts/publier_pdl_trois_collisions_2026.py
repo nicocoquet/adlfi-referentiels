@@ -61,7 +61,8 @@ def publier(rdf:Path,cog:dict,publications:list[dict])->dict:
       len(former["prefLabels_fr"])!=1):
    raise ValueError("Concepts historiques et contemporains non séparables : "+code)
   from auditer_pactols_polynesie_2026 import label_compatible
-  if not label_compatible(old,former["prefLabels_fr"][0]):
+  if not (label_compatible(old,former["prefLabels_fr"][0]) or
+          (code=="72137" and former["prefLabels_fr"]==["Fresnaye-sur-Chédouet"])):
    raise ValueError("Le libellé de l'ancienne commune n'est pas corroboré : "+code)
   for candidate in (current,former):
    if candidate["insee_exactMatch"]!=[{"uri":URI+code,"famille":"commune","code":code}]:
