@@ -486,6 +486,27 @@
         "geometries_historiques": 0,
         "limites_juridiques_homologuees": false,
         "filiation_source": "Etalab réutilise la géographie territoriale GEO PF pour les îles polynésiennes ; concordance non indépendante"
+      },
+      "pactols_pdl_2026_lot01_communes_nouvelles": {
+        "statut": "Cinq communes nouvelles validées pour le millésime 2026, distinctes des anciennes communes dont le code COG a été conservé",
+        "fichier": "data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json",
+        "source_registre": "recette/lieux/PDL-LOT01-CINQ-ARK-2026.csv",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "nouveaux_alignements": 5,
+        "liens_PDL_2026_au_total": 1148,
+        "communes_COG_2026": 1228,
+        "exceptions_2026_restantes": 80,
+        "codes": [
+          "44005",
+          "44021",
+          "44029",
+          "44087",
+          "44163"
+        ],
+        "portee_COG": "2026-01-01",
+        "preuve": "Deux ARK exactMatch vers le même code INSEE, ARK contemporain déterminé par prefLabel et transition COG MOD32 (ancienne COM devenue COMD)",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
