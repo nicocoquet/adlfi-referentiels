@@ -53,11 +53,16 @@ jobs:
           python3 - "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-1.json" <<'PY'
           import json,sys
           doc=json.load(open(sys.argv[1],encoding='utf-8'))
-          assert doc['schema']=='adlfi.lieux.paca.huit_communes_nouvelles.audit.v1'
-          assert doc['bilan']['communes_nouvelles_examinees']==8
-          assert doc['bilan']['concepts_candidats']==15
-          assert doc['bilan']['nouveaux_ARK_valides_2026']==0
-          assert all(not x['nouvel_ARK_valide_2026'] for x in doc['dossiers'])
+          assert doc['schema']=='adlfi.lieux.paca.communes_nouvelles.8.exactmatch.2026.audit.v1'
+          assert doc['bilan']['communes_nouvelles_a_instruire']==8
+          assert doc['bilan']['ARK_vers_codes_contemporains']==15
+          assert doc['bilan']['nouvelles_validations_2026']==0
+          assert doc['bilan']['classes_de_recette']=={
+            'CANDIDAT_IDENTITE_COMMUNE_NOUVELLE_SELON_LIBELLE':7,
+            'IDENTITE_ANCIENNE_COMMUNE_PORTEUSE_CODE':8,
+          }
+          assert all(x['decision_editoriale']=='NON_PRISE' and x['publication']=='AUCUNE'
+                     for x in doc['dossiers'])
           print('PACA_HUIT_COMMUNES_NOUVELLES_RDF_OK')
           PY
       - uses: actions/upload-artifact@v4
