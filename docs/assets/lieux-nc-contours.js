@@ -6,12 +6,12 @@
  if(root)root.AdlfiLieuxNCContours=api;
 }(typeof window!=='undefined'?window:null,function(){
  'use strict';
- const SCHEMA='adlfi.lieux.contours.nouvelle-caledonie-2026.recette.v1';
+ const SCHEMA='adlfi.lieux.contours.nouvelle-caledonie-2026.v1';
  const SOURCE='4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778';
  function verifier(fc,entites){
   const p=fc?.provenance;
   if(fc?.type!=='FeatureCollection'||fc.features?.length!==32||
-    p?.schema!==SCHEMA||p?.statut!=='recette_non_publiee'||
+    p?.schema!==SCHEMA||p?.statut!=='contours_cartographiques_reference_2026'||
     p.cog_ref!=='2026-01-01'||p.edition_geometrie!=='2026-05-04'||
     p.generalisation_m!==100||p.sha256_source_geometrique!==SOURCE||
     p.nombre_contours!==32||p.exclusion?.code!=='98805'||
