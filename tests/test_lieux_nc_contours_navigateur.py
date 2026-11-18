@@ -10,7 +10,7 @@ def main():
         errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         code='98827'  # Poya, commune sur deux provinces ; son contour ne fixe aucune province.
-        page.goto(url+'/lieux/?ref_cog=COMER:COM:'+code+
+        page.goto(url+'/lieux/?zoom=caledonie&ref_cog=COMER:COM:'+code+
                   '&annee=2026&niveau=commune',wait_until='domcontentloaded',timeout=45000)
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('32 communes de Nouvelle-Calédonie')",
@@ -18,6 +18,7 @@ def main():
         page.wait_for_function(
             "(code) => document.querySelector('#detail')?.textContent.includes(code)",
             arg=code,timeout=30000)
+        assert page.locator('#zoom').input_value()=='caledonie'
         detail=page.locator('#detail').text_content()
         assert 'Poya' in detail and 'Contour communal de référence 2026 affiché' in detail,detail
         assert 'non homologué comme limite juridique' in detail,detail
