@@ -323,6 +323,21 @@
         "geometries_historiques_validees": 0,
         "retroprojections": 0
       },
+      "pactols_paca_2026_communes_nouvelles": {
+        "statut": "Sept identités Pactols de communes nouvelles, prouvées pour COG 2026 par prefLabel, exactMatch INSEE unique, historyNote Pactols et MOD32 COG",
+        "fichier": "data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json",
+        "nouvelles_validations": 7,
+        "pilotage_editeur_conserve": 103,
+        "complements_exactMatch_conserves": 832,
+        "renommages_conserves": 3,
+        "total_PACA_2026": 945,
+        "communes_COG_2026": 946,
+        "exception_non_resolue": "Abriès-Ristolas 05001 ; seul ARK RDF du code actuel correspond à Abriès ancienne commune",
+        "source_audit": "recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json",
+        "nouveaux_ARK_d_anciennes_communes_promus": 0,
+        "relations_historiques_inferees": 0,
+        "geometries_modifiees": 0
+      },
       "pactols_paca_2026_renommages": {
         "statut": "Trois identités Pactols–COG 2026 qualifiées : deux exactMatch INSEE vers code courant et Céreste avec UUID résolu par l'Insee",
         "fichier": "data/lieux-chronologie/pactols-paca-renommages-2026.json",
