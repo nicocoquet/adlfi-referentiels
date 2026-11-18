@@ -41,7 +41,7 @@ class PACAPublicationTests(unittest.TestCase):
     def test_ark_concurrent_ou_code_du_pilote_refuses(self):
         a,b,c,d=sources()
         a[1]["ark_pactols"]=a[0]["ark_pactols"]
-        with self.assertRaisesRegex(ValueError,"inadmissible|collision|dupliqué"):
+        with self.assertRaisesRegex(ValueError,"non admissible|inadmissible|collision|dupliqué"):
             construire(a,b,c,d)
         a,b,c,d=sources()
         a[0]["code_insee"]="05139"
