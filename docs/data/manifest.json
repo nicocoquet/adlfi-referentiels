@@ -324,19 +324,22 @@
         "retroprojections": 0
       },
       "pactols_paca_2026_renommages": {
-        "statut": "Deux exactMatch Pactols explicites vers les codes COG 05127 et 83052, qualifiés par décrets de changement de nom",
+        "statut": "Trois identités Pactols–COG 2026 qualifiées : deux exactMatch INSEE vers code courant et Céreste avec UUID résolu par l'Insee",
         "fichier": "data/lieux-chronologie/pactols-paca-renommages-2026.json",
-        "communes_validees_par_preuve_expresse": 2,
-        "liens_PACA_2026_au_total": 937,
+        "communes_validees_par_preuve_expresse": 3,
+        "liens_PACA_2026_au_total": 938,
         "pilotage_editeur_conserve": 103,
         "complements_exactMatch_conserves": 832,
-        "communes_a_instruire": 9,
+        "communes_a_instruire": 8,
         "portee_COG": "2026-01-01",
-        "preuve": "skos:exactMatch au code Insee en cours, événement MOD10 COG et décret de renommage",
+        "preuve": "skos:exactMatch Insee code ou UUID résolu par igeo:codeINSEE, événement MOD10 COG et décret",
         "source_audit": "recette/lieux/PACA-TROIS-RENOMMAGES-RDF-2026.json",
-        "reserve": "Céreste-en-Luberon 04045, ARK 26678/pcrtHxveTzUMik, URI INSEE UUID à résoudre",
+        "reserve": "Huit communes nouvelles à instruire : Abriès-Ristolas et sept fusions avec ARK concurrents",
         "geometries_modifiees": 0,
-        "retroprojections_historiques": 0
+        "retroprojections_historiques": 0,
+        "preuve_Cereste_UUID": "recette/lieux/PACA-CERESTE-UUID-INSEE-AUDIT-2026.json",
+        "URI_Cereste_Insee": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+        "code_Cereste_Insee_resolu": "04045"
       },
       "pactols_paca_2026_complement": {
         "statut": "832 correspondances Pactols–COG validées par règle de preuve RDF au COG 2026, complémentaires des 103 validations éditoriales du pilote",
