@@ -7,6 +7,7 @@ from auditer_pactols_cog_regions_prioritaires_2026 import sha
 from auditer_pactols_polynesie_2026 import RDF_SHA,analyser_rdf
 from qualifier_pdl_ark_multiples_2026 import completer_rdf
 from auditer_pdl_ingrandes_essarts_2024 import PUBS
+from prequalifier_pdl_17_sans_insee_2026 import analyser_concepts
 
 SCHEMA="adlfi.lieux.pactols.pdl.2024-ingrandes-essarts.2026.public.v1"
 SOURCE="recette/lieux/PDL-INGRANDES-ESSARTS-PUBLICATION-2026.md"
@@ -55,6 +56,13 @@ def publier(rdf:Path,cog:dict,pubs:list[dict],wiki:dict)->dict:
      len(ess_exp)!=2 or {x["ark"] for x in ess_exp}!={ARK_ESS,ARK_ESS_OLD} or
      scan["lexicaux_sans_exactMatch_987"].get(CODE_ESS)):
   raise ValueError("Les anciens et nouveaux concepts Pactols ont changé")
+ # Ne pas confondre la commune 2016 et celle de 2024 : les libellés
+ # normalisés sont homographes, mais la définition et la création diffèrent.
+ concepts,_homonymes=analyser_concepts(rdf,names)
+ for ark in (ARK_ING,ARK_ESS):
+  concept=concepts.get(ark)
+  if not concept or concept["deprecated"] or concept["isReplacedBy"]:
+   raise ValueError("ARK contemporain absent, déprécié ou remplacé : "+ark)
  current_ing=ing_lex[0]
  current_ess=next(x for x in ess_exp if x["ark"]==ARK_ESS)
  for x,expected in ((current_ing,names[CODE_ING]),(current_ess,names[CODE_ESS])):
