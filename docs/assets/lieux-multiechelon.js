@@ -24,6 +24,7 @@ const bfcPactols=window.AdlfiLieuxBFCPactols;
 const pdlPactols=window.AdlfiLieuxPDLPactols;
 const dromContours=window.AdlfiLieuxDromContours;
 const spmContours=window.AdlfiLieuxSPMContours;
+const ncContours=window.AdlfiLieuxNCContours;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
@@ -37,6 +38,7 @@ const layerData=new Map();
 let communeDataPromise=null;
 let drom2026Features=[];
 let spm2026Features=[];
+let nc2026Features=[];
 let timelineTimer=null;
 function year(){return Number($('year').value)}
 function level(){return $('level').value}
@@ -184,22 +186,24 @@ async function chargerCommunes2026(){
       // Géométries contemporaines DROM et SPM indépendantes des ARK et des épisodes COG.
       return Promise.all([
         loadJSON(ROOT+'lieux-outremer/contours-communes-drom-2026.geojson'),
-        loadJSON(ROOT+'lieux-outremer/contours-communes-spm-2026.geojson')
-      ]).then(([drom,spm])=>{
+        loadJSON(ROOT+'lieux-outremer/contours-communes-spm-2026.geojson'),
+        loadJSON(ROOT+'lieux-outremer/contours-communes-nc-2026.geojson')
+      ]).then(([drom,spm,nc])=>{
         const featuresDROM=dromContours.verifier(drom,state.outremer);
         const featuresSPM=spmContours.verifier(spm,state.outremer);
-        drom2026Features=featuresDROM;spm2026Features=featuresSPM;
-        for(const f of [...featuresDROM,...featuresSPM]){
+        const featuresNC=ncContours.verifier(nc,state.outremer);
+        drom2026Features=featuresDROM;spm2026Features=featuresSPM;nc2026Features=featuresNC;
+        for(const f of [...featuresDROM,...featuresSPM,...featuresNC]){
           state.outremer.get(f.properties.ref_cog).geometriePubliee=true;
         }
         return communes2026();
       });
-    }).catch(e=>{communeDataPromise=null;drom2026Features=[];spm2026Features=[];throw e});
+    }).catch(e=>{communeDataPromise=null;drom2026Features=[];spm2026Features=[];nc2026Features=[];throw e});
  }
  return communeDataPromise;
 }
 async function start(){
- if(!core || !corsePactols || !bfcPactols || !pdlPactols || !dromContours || !spmContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!core || !corsePactols || !bfcPactols || !pdlPactols || !dromContours || !spmContours || !ncContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -389,7 +393,7 @@ function geoLayer(features,{reference=false}={}){
    },
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
-      const outremer=!!p.ref_cog&&['drom','spm'].includes(p.zone);
+      const outremer=!!p.ref_cog&&['drom','spm','nouvelle-caledonie'].includes(p.zone);
       const key=outremer?p.zone+':'+p.code:
         p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
@@ -402,7 +406,7 @@ function geoLayer(features,{reference=false}={}){
    }}
  }).addTo(state.map);
 }
-function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features)}
+function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features,nc2026Features)}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
  refreshTimeline();
@@ -424,7 +428,7 @@ async function render(){
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026();
-    desc=features.length+' contours communaux 2026 : quatre régions métropolitaines et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon. Les liens Pactols sont distincts des géométries.';
+    desc=features.length+' contours communaux 2026 : quatre régions métropolitaines et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue). Les liens Pactols sont distincts des géométries.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
@@ -534,7 +538,7 @@ function search(){
 function focusSelection(){const x=state.selected;
  if(!x||!state.map)return;
  if(x.kind==='cog2026'&&year()===2026){
-  const contour=state.bounds.get((x.code?.startsWith('975')?'spm:':'drom:')+x.code);
+  const contour=state.bounds.get((x.code?.startsWith('975')?'spm:':x.code?.startsWith('988')?'nouvelle-caledonie:':'drom:')+x.code);
   if(contour){state.map.fitBounds(contour.getBounds(),{padding:[24,24],animate:false});return;}
  }
  if(x.kind==='associee_ispf'){
@@ -1149,7 +1153,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
    if(entry.kind==='cog2026'&&entry.geometriePubliee){
       note.className=year()===2026?'source':'warning';
       note.textContent=year()===2026?
-        (entry.code.startsWith('975')?
+        (entry.code.startsWith('975')||entry.code.startsWith('988')?
          'Contour communal de référence 2026 affiché (Etalab, édition du 4 mai 2026, généralisation 100 m). Tracé cartographique non homologué comme limite juridique ; aucun ARK Pactols n’en est déduit.':
          'Contour communal de référence 2026 affiché (Etalab/IGN, édition du 4 mai 2026, généralisation 100 m). Ce tracé ne valide aucun ARK Pactols.'):
         'Un contour de référence 2026 est publié, mais ne restitue pas les limites de '+year()+'. Il peut apparaître cette année-là uniquement comme repère contemporain explicitement daté.';
