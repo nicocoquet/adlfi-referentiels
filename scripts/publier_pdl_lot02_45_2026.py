@@ -24,7 +24,7 @@ def publier(rdf:Path,cog_source:Path,chronologie:dict,
     previous=[a for r in publications for a in r["alignements_Pactols_COG_valides_2026"]]
     usedcodes={a["code_insee"] for a in previous}
     usedarks={a["ark_pactols"] for a in previous}
-    if len(previous)!=len(usedcodes)!=len(usedarks):
+    if len(previous)!=len(usedcodes) or len(previous)!=len(usedarks):
         raise ValueError("Publications précédentes comportant des doublons")
     if len(previous)!=1149:
         raise ValueError("1149 alignements antérieurs requis")
