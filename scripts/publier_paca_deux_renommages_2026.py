@@ -82,7 +82,7 @@ def publier(audit:dict, pilote:dict, complet:dict, cog:dict)->dict:
         uri="http://id.insee.fr/geo/commune/"+code
         french=[x["texte"] for x in p["prefLabel"] if x["lang"]=="fr"]
         if (french!=[old_label] or p["owl_deprecated"] or p["dct_isReplacedBy"]
-            or p["exactMatch"]!=[uri] or len(p["exactMatch_INSEE"])!=1
+            or uri not in p["exactMatch"] or len(p["exactMatch_INSEE"])!=1
             or p["exactMatch_INSEE"][0]["est_UUID"]
             or p["exactMatch_INSEE"][0]["identifiant"]!=code
             or p["exactMatch_INSEE"][0]["famille"]!="commune"
