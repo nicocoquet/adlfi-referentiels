@@ -1,4 +1,4 @@
-name: Lieux PDL — Ingrandes et Essarts : événements 2024 MOD32/MOD21
+name: "Lieux PDL — Ingrandes et Essarts : événements 2024 MOD32/MOD21"
 on:
   pull_request:
     paths:
