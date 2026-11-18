@@ -45,3 +45,16 @@ Important : les nombres 934 et 103 ne s'additionnent pas. Les correspondances re
 **Dévoluy (05139)** est un dossier particulier : l'autorité `26678/pcrtSeD2WMEIYA` a déjà été approuvée dans les 103 décisions du pilote et est toujours citée par exactMatch ; le même code est aussi revendiqué par `26678/pcrt2XYqgMPgx5`. Il ne faut ni supprimer la validation éditoriale antérieure ni publier le second ARK comme une identité supplémentaire sans arbitrage. Ce cas explique pourquoi **934 éligibles par la règle automatique** ne signifie pas exactement **103 validations du pilote + 832 nouveaux éligibles** : seuls 102 des 103 pilotes sont dans la sous-catégorie éligible, le 103e étant Dévoluy.
 
 Les **11 dossiers hors pilote** sont exclus de l'extension proposée. Leurs codes sont 04033, 04045, 04120, 05001, 05024, 05039, 05053, 05101, 05118, 05127 et 83052.
+
+
+## Consolidation complémentaire — 18 novembre 2026
+
+La [PR n°119](https://github.com/nicocoquet/adlfi-referentiels/pull/119) a achevé le **préflight exhaustif de toutes les URI INSEE** du snapshot Pactols, y compris les UUID et URI concurrentes initialement omises par le parseur :
+- **832/832** nouveaux candidats PACA conformes après contrôle ; **0 mise en quarantaine** ;
+- les **103 décisions éditoriales du pilote** restent valides, sans réinterprétation des anciens codes ni des 1 116 épisodes COG ;
+- **11 codes** restent exclus de l'enrichissement et à instruire, dont les sept communes nouvelles avec plusieurs ARK, trois divergences de libellé ou de statut, et Céreste-en-Luberon sans exactMatch reconnu ;
+- **Dévoluy (05139)** conserve la validation `26678/pcrtSeD2WMEIYA` du pilote, malgré la concurrence RDF d'un autre ARK.
+
+Registre : `recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv` (SHA-256 `647ba3e1fdfd80199b854b512f12269379edaf910f47e34b7f53650ce2844925`), avec preuves individuelles et provenance. Rapport : `recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json` (SHA-256 `a1d032da4c06a69c7d77ec8b6d28977856cc1e22bec1260d5d8e8550303c5a22`).
+
+La [PR n°120](https://github.com/nicocoquet/adlfi-referentiels/pull/120) porte la **publication complémentaire de 832 alignements**, dans un index distinct des 103 autorités du pilote et des chronologies COG. Le potentiel consolidé est donc **935 identités Pactols–COG de communes PACA au millésime 2026**. Le sens du lien est strictement documentaire : un exactMatch explicite univoque vers l'URI INSEE courante ; **aucune identité historique, succession COG ou géométrie ancienne n'en découle**. La liste des 11 exceptions est conservée séparément.

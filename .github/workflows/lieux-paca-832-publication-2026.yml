@@ -1,0 +1,94 @@
+name: Lieux - publier 832 correspondances Pactols PACA 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_alignements_pactols_paca_2026.py'
+      - 'tests/test_publier_alignements_pactols_paca_2026.py'
+      - 'tests/test_lieux_paca_pactols_2026.js'
+      - 'tests/test_lieux_paca_pactols_navigateur.py'
+      - 'docs/assets/lieux-paca-pactols.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/lieux-chronologie/pactols-paca-2026.json'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-paca-832-publication-2026.yml'
+permissions:
+  contents: write
+jobs:
+  publier-832:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester l'isolement du COG et les 832 correspondances
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_alignements_pactols_paca_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Générer deux index PACA identiques depuis le registre validé
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_alignements_pactols_paca_2026.py \
+              --registre recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv \
+              --preflight recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json \
+              --pilote docs/data/lieux.json \
+              --cog docs/data/lieux-chronologie/cog-paca.json \
+              --sortie "$RUNNER_TEMP/pactols-paca-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pactols-paca-1.json" "$RUNNER_TEMP/pactols-paca-2.json"
+          cp "$RUNNER_TEMP/pactols-paca-1.json" docs/data/lieux-chronologie/pactols-paca-2026.json
+      - name: Contrôler l'index et les autres régions (Node)
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_paca_pactols_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_nc_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_pf_28_contours_2026.js
+      - name: Installer Chromium pour la recette intégrée
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Tester la recherche, les fiches et la chronologie 2026
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_paca_pactols_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_nc_contours_navigateur.py
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+          python3 tests/test_lieux_pf_28_contours_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-pactols-832-complement-2026
+          path: ${{ runner.temp }}/pactols-paca-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner le nouveau JSON uniquement après tous les tests
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add -- docs/data/lieux-chronologie/pactols-paca-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PACA : versionner les 832 liens Pactols validés en 2026'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi

@@ -323,6 +323,23 @@
         "geometries_historiques_validees": 0,
         "retroprojections": 0
       },
+      "pactols_paca_2026_complement": {
+        "statut": "832 correspondances Pactols–COG validées par règle de preuve RDF au COG 2026, complémentaires des 103 validations éditoriales du pilote",
+        "fichier": "data/lieux-chronologie/pactols-paca-2026.json",
+        "relations_complementaires_validees": 832,
+        "relations_du_pilote_conservees": 103,
+        "relations_PACA_2026_au_total": 935,
+        "communes_COG_2026": 946,
+        "communes_a_instruire": 11,
+        "portee_COG": "2026-01-01",
+        "preuve": "skos:exactMatch explicite unique vers l'URI INSEE de code COG, contrôle exhaustif des URI concurrentes du concept",
+        "source_registre": "recette/lieux/PACA-CANDIDATS-EXACTMATCH-2026.csv",
+        "sha256_registre": "647ba3e1fdfd80199b854b512f12269379edaf910f47e34b7f53650ce2844925",
+        "source_preflight": "recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json",
+        "geometries_historiques_validees": 0,
+        "retroprojections": 0,
+        "exception_pilote": "Dévoluy (05139), ARK éditorial conservé malgré concurrence du RDF"
+      },
       "contours_drom_2026": {
         "statut": "couche communale 2026, contrôle topologique indépendant",
         "fichier": "data/lieux-outremer/contours-communes-drom-2026.geojson",
