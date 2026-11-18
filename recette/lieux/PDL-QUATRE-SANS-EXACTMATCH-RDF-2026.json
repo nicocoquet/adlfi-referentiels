@@ -1,0 +1,744 @@
+{
+  "bilan": {
+    "alignements_PDL_2026_conserves": 1140,
+    "communes_COG_PDL_2026": 1228,
+    "concepts_RDF_examines": 50556,
+    "exceptions_PDL_2026_conservees": 88,
+    "geometries_modifiees": 0,
+    "identites_historiques_inferrees": 0,
+    "nouveaux_ARK_valides": 0,
+    "quatre_cas_sans_exactMatch": 4
+  },
+  "dossiers": [
+    {
+      "ancienne_identite_ou_denomination": "Grandchamps-des-Fontaines",
+      "ark_lexical_signalé_audit_precedent": "26678/pcrt99dzcmxdhR",
+      "candidats_Pactols": [
+        {
+          "altLabel": [
+            {
+              "lang": "fr",
+              "texte": "Grandchamps-des-Fontaines"
+            },
+            {
+              "lang": "de",
+              "texte": "Grandchamps-des-Fontaines"
+            },
+            {
+              "lang": "en",
+              "texte": "Grandchamps-des-Fontaines"
+            },
+            {
+              "lang": "es",
+              "texte": "Grandchamps-des-Fontaines"
+            },
+            {
+              "lang": "it",
+              "texte": "Grandchamps-des-Fontaines"
+            },
+            {
+              "lang": "nl",
+              "texte": "Grandchamps-des-Fontaines"
+            }
+          ],
+          "ark_pactols": "26678/pcrt99dzcmxdhR",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrt838rXVo1E0"
+          ],
+          "definition": [
+            {
+              "lang": "fr",
+              "texte": "Commune de l'Ouest de la France (graphiée Grandchamps-des-Fontaines jusqu'au 31 décembre 2022), située dans le département de la Loire-Atlantique, en région Pays de la Loire. (Wikipédia)"
+            }
+          ],
+          "deprecated": false,
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-PTMH25C0-5",
+            "http://fr.dbpedia.org/page/Grandchamps-des-Fontaines",
+            "http://id.insee.fr/geo/commune/493ed29c-e150-4c2e-9880-f94d7002f1f5",
+            "http://www.wikidata.org/entity/Q658368",
+            "https://catalogue.bnf.fr/ark:/12148/cb15260235n",
+            "https://fr.wikipedia.org/wiki/Grandchamps-des-Fontaines",
+            "https://sws.geonames.org/6616809/"
+          ],
+          "exactMatch_INSEE": [
+            "http://id.insee.fr/geo/commune/493ed29c-e150-4c2e-9880-f94d7002f1f5"
+          ],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [
+              "Grandchamp-des-Fontaines",
+              "Grandchamps-des-Fontaines"
+            ],
+            "85165": [],
+            "85212": [],
+            "85292": []
+          },
+          "notes": [
+            {
+              "texte": "2024-06-03 : correction des libellés et de leurs traductions, ajout d'une définition et correction de l'alignement Insee suite à la mise à jour Lieux France fournie par l'Inist.",
+              "type": "historyNote"
+            }
+          ],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Grandchamp-des-Fontaines"
+            },
+            {
+              "lang": "en",
+              "texte": "Grandchamp-des-Fontaines"
+            },
+            {
+              "lang": "es",
+              "texte": "Grandchamp-des-Fontaines"
+            },
+            {
+              "lang": "fr",
+              "texte": "Grandchamp-des-Fontaines"
+            },
+            {
+              "lang": "it",
+              "texte": "Grandchamp-des-Fontaines"
+            },
+            {
+              "lang": "nl",
+              "texte": "Grandchamp-des-Fontaines"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        }
+      ],
+      "code_COG_2026": "44066",
+      "date_effet": "2023-01-01",
+      "decision_editoriale": "NON_PRISE",
+      "evenements_COG": [
+        {
+          "code_apres": "44066",
+          "code_avant": "44066",
+          "date_effet": "2023-01-01",
+          "id": "cog:a686c8ee070b0e3263065406",
+          "libelle_apres": "Grandchamp-des-Fontaines",
+          "libelle_avant": "Grandchamps-des-Fontaines",
+          "mod": "10",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        }
+      ],
+      "mode_COG": "10",
+      "nom_COG_2026": "Grandchamp-des-Fontaines",
+      "nombre_de_candidats": 1,
+      "periode_actuelle_COM": {
+        "code_insee": "44066",
+        "debut_inclus": "2023-01-01",
+        "fin_exclue": null,
+        "libelle": "Grandchamp-des-Fontaines",
+        "typecom": "COM"
+      },
+      "periode_anterieure_COM": {
+        "code_insee": "44066",
+        "debut_inclus": "1943-01-01",
+        "fin_exclue": "2023-01-01",
+        "libelle": "Grandchamps-des-Fontaines",
+        "typecom": "COM"
+      },
+      "publication": "AUCUNE",
+      "type_transition": "RENOMMAGE_CODE_CONSERVE",
+      "url_fiche_officielle_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/44066-grandchamp-des-fontaines"
+    },
+    {
+      "ancienne_identite_ou_denomination": "L'Oie",
+      "ark_lexical_signalé_audit_precedent": "26678/pcrtsn4IGEserS",
+      "candidats_Pactols": [
+        {
+          "altLabel": [],
+          "ark_pactols": "26678/pcrtsn4IGEserS",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrt0PrU3oVWxo"
+          ],
+          "definition": [
+            {
+              "lang": "fr",
+              "texte": "Commune française située dans le département de la Vendée en région Pays de la Loire. Du 1er janvier 2016 au 31 décembre 2023, elle est l'une des quatre communes déléguées d'Essarts en Bocage. Le 1er janvier 2024, la commune est rétablie avec celle voisine de Sainte-Florence. (Wikipédia)"
+            }
+          ],
+          "deprecated": false,
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-PT4NQFN2-W",
+            "http://fr.dbpedia.org/page/L%27Oie",
+            "http://id.insee.fr/geo/commune/c518cde7-3eed-4d8a-add5-d603a502dace",
+            "http://www.wikidata.org/entity/Q1420272",
+            "https://catalogue.bnf.fr/ark:/12148/cb152782918",
+            "https://fr.wikipedia.org/wiki/L%27Oie",
+            "https://sws.geonames.org/2997885/"
+          ],
+          "exactMatch_INSEE": [
+            "http://id.insee.fr/geo/commune/c518cde7-3eed-4d8a-add5-d603a502dace"
+          ],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [],
+            "85165": [
+              "L'Oie"
+            ],
+            "85212": [],
+            "85292": []
+          },
+          "notes": [
+            {
+              "texte": "2024-06-03 : modification de la définition et de l'alignement Insee suite à la mise à jour des Lieux France fournie par l'Inist.",
+              "type": "historyNote"
+            }
+          ],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "L'Oie"
+            },
+            {
+              "lang": "en",
+              "texte": "L'Oie"
+            },
+            {
+              "lang": "es",
+              "texte": "L'Oie"
+            },
+            {
+              "lang": "fr",
+              "texte": "L'Oie"
+            },
+            {
+              "lang": "it",
+              "texte": "L'Oie"
+            },
+            {
+              "lang": "nl",
+              "texte": "L'Oie"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        }
+      ],
+      "code_COG_2026": "85165",
+      "date_effet": "2024-01-01",
+      "decision_editoriale": "NON_PRISE",
+      "evenements_COG": [
+        {
+          "code_apres": "85165",
+          "code_avant": "85084",
+          "date_effet": "2024-01-01",
+          "id": "cog:f438a3f78fe425bbfbf94e0f",
+          "libelle_apres": "L'Oie",
+          "libelle_avant": "Essarts en Bocage",
+          "mod": "21",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        },
+        {
+          "code_apres": "85165",
+          "code_avant": "85165",
+          "date_effet": "2024-01-01",
+          "id": "cog:ff374e2845b5684cfef64b11",
+          "libelle_apres": "L'Oie",
+          "libelle_avant": "L'Oie",
+          "mod": "21",
+          "typecom_apres": "COM",
+          "typecom_avant": "COMD"
+        }
+      ],
+      "mode_COG": "21",
+      "nom_COG_2026": "L'Oie",
+      "nombre_de_candidats": 1,
+      "periode_actuelle_COM": {
+        "code_insee": "85165",
+        "debut_inclus": "2024-01-01",
+        "fin_exclue": null,
+        "libelle": "L'Oie",
+        "typecom": "COM"
+      },
+      "periode_anterieure_COM": {
+        "code_insee": "85165",
+        "debut_inclus": "1943-01-01",
+        "fin_exclue": "2016-01-01",
+        "libelle": "L'Oie",
+        "typecom": "COM"
+      },
+      "publication": "AUCUNE",
+      "type_transition": "RETABLISSEMENT_APRES_DEFUSION",
+      "url_fiche_officielle_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/85165-loie"
+    },
+    {
+      "ancienne_identite_ou_denomination": "Sainte-Florence",
+      "ark_lexical_signalé_audit_precedent": null,
+      "candidats_Pactols": [
+        {
+          "altLabel": [
+            {
+              "lang": "de",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            },
+            {
+              "lang": "it",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Sainte-Florence (85)"
+            },
+            {
+              "lang": "en",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            },
+            {
+              "lang": "es",
+              "texte": "Sainte-Florence (Essarts en Bocage)"
+            }
+          ],
+          "ark_pactols": "26678/pcrt3AUfSktjqj",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrt0PrU3oVWxo"
+          ],
+          "definition": [],
+          "deprecated": false,
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-HB0TS1FM-S",
+            "http://fr.dbpedia.org/page/Sainte-Florence_(Vend%C3%A9e)",
+            "http://id.insee.fr/geo/commune/80c14c7d-5f43-4927-8877-3031578366a5",
+            "http://www.wikidata.org/entity/Q1420560",
+            "https://catalogue.bnf.fr/ark:/12148/cb152783352",
+            "https://fr.wikipedia.org/wiki/Sainte-Florence_(Vend%C3%A9e)",
+            "https://sws.geonames.org/2980604/"
+          ],
+          "exactMatch_INSEE": [
+            "http://id.insee.fr/geo/commune/80c14c7d-5f43-4927-8877-3031578366a5"
+          ],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [],
+            "85165": [],
+            "85212": [
+              "Sainte-Florence (85)",
+              "Sainte-Florence (Essarts en Bocage)",
+              "Sainte-Florence (Vendée)"
+            ],
+            "85292": []
+          },
+          "notes": [
+            {
+              "texte": "Commune française située dans le département de la Vendée en région Pays de la Loire. Célèbre carrefour et relais de poste des Quatre-Chemins-de-l'Oie (entre Nantes-Bordeaux et Paris-Les Sables-d'Olonne), elle est l'une des quatre communes déléguées d'Essarts en Bocage du 1er janvier 2016 au 31 décembre 2023. Le 1er janvier 2024, la commune est rétablie avec celle voisine de L'Oie. (Wikipédia)",
+              "type": "historyNote"
+            }
+          ],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Sainte-Florence (Vendée)"
+            },
+            {
+              "lang": "en",
+              "texte": "Sainte-Florence (Vendée)"
+            },
+            {
+              "lang": "es",
+              "texte": "Sainte-Florence (Vendée)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Sainte-Florence (Vendée)"
+            },
+            {
+              "lang": "it",
+              "texte": "Sainte-Florence (Vendée)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Sainte-Florence (Vendée)"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        },
+        {
+          "altLabel": [
+            {
+              "lang": "fr",
+              "texte": "Sainte Florence (Gironde)"
+            },
+            {
+              "lang": "en",
+              "texte": "Sainte Florence (Gironde)"
+            },
+            {
+              "lang": "es",
+              "texte": "Sainte Florence (Gironde)"
+            },
+            {
+              "lang": "de",
+              "texte": "Sainte Florence (Gironde)"
+            },
+            {
+              "lang": "it",
+              "texte": "Sainte Florence (Gironde)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Sainte Florence (Gironde)"
+            }
+          ],
+          "ark_pactols": "26678/pcrtLJZ6AmK459",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtKtBbr2Qrj4"
+          ],
+          "definition": [
+            {
+              "lang": "fr",
+              "texte": "Sainte-Florence est une commune du Sud-Ouest de la France, située dans le département de la Gironde (région Nouvelle-Aquitaine). (Wikipédia)"
+            }
+          ],
+          "deprecated": false,
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-PTC002ZG-C",
+            "http://fr.dbpedia.org/page/Sainte-Florence_(Gironde)",
+            "http://id.insee.fr/geo/commune/33401",
+            "http://www.wikidata.org/entity/Q187611",
+            "https://catalogue.bnf.fr/ark:/12148/cb15256450b",
+            "https://fr.wikipedia.org/wiki/Sainte-Florence_(Gironde)",
+            "https://sws.geonames.org/6432390/"
+          ],
+          "exactMatch_INSEE": [
+            "http://id.insee.fr/geo/commune/33401"
+          ],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [],
+            "85165": [],
+            "85212": [
+              "Sainte Florence (Gironde)",
+              "Sainte-Florence (Gironde)"
+            ],
+            "85292": []
+          },
+          "notes": [],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Sainte-Florence (Gironde)"
+            },
+            {
+              "lang": "en",
+              "texte": "Sainte-Florence (Gironde)"
+            },
+            {
+              "lang": "es",
+              "texte": "Sainte-Florence (Gironde)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Sainte-Florence (Gironde)"
+            },
+            {
+              "lang": "it",
+              "texte": "Sainte-Florence (Gironde)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Sainte-Florence (Gironde)"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        }
+      ],
+      "code_COG_2026": "85212",
+      "date_effet": "2024-01-01",
+      "decision_editoriale": "NON_PRISE",
+      "evenements_COG": [
+        {
+          "code_apres": "85212",
+          "code_avant": "85212",
+          "date_effet": "2024-01-01",
+          "id": "cog:bac2201bd1becd47fd68c38a",
+          "libelle_apres": "Sainte-Florence",
+          "libelle_avant": "Sainte-Florence",
+          "mod": "21",
+          "typecom_apres": "COM",
+          "typecom_avant": "COMD"
+        },
+        {
+          "code_apres": "85212",
+          "code_avant": "85084",
+          "date_effet": "2024-01-01",
+          "id": "cog:bba1c40f169a356dbd5dabf6",
+          "libelle_apres": "Sainte-Florence",
+          "libelle_avant": "Essarts en Bocage",
+          "mod": "21",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        }
+      ],
+      "mode_COG": "21",
+      "nom_COG_2026": "Sainte-Florence",
+      "nombre_de_candidats": 2,
+      "periode_actuelle_COM": {
+        "code_insee": "85212",
+        "debut_inclus": "2024-01-01",
+        "fin_exclue": null,
+        "libelle": "Sainte-Florence",
+        "typecom": "COM"
+      },
+      "periode_anterieure_COM": {
+        "code_insee": "85212",
+        "debut_inclus": "1943-01-01",
+        "fin_exclue": "2016-01-01",
+        "libelle": "Sainte-Florence",
+        "typecom": "COM"
+      },
+      "publication": "AUCUNE",
+      "type_transition": "RETABLISSEMENT_APRES_DEFUSION",
+      "url_fiche_officielle_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/85212-sainte-florence"
+    },
+    {
+      "ancienne_identite_ou_denomination": "Thouarsais-Bouildroux",
+      "ark_lexical_signalé_audit_precedent": "26678/pcrtjr01c5sg25ngf5hq8898",
+      "candidats_Pactols": [
+        {
+          "altLabel": [],
+          "ark_pactols": "26678/pcrtRm3hz8YCOM",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtjr01c5sg25ngf5hq8898"
+          ],
+          "definition": [
+            {
+              "lang": "fr",
+              "texte": "Commune du département du Vendée, en région Pays de la Loire, fusionnée le 1er janvier 2024 avec Cezais et Saint-Sulpice-en-Pareds pour former la nouvelle commune de Rives-du-Fougerais."
+            }
+          ],
+          "deprecated": false,
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-BV4WR0BK-R",
+            "http://fr.dbpedia.org/page/Thouarsais-Bouildroux",
+            "http://id.insee.fr/geo/communeDeleguee/ef312e8c-b172-40ed-b169-8bf72e16ba8b",
+            "http://www.wikidata.org/entity/Q1414638",
+            "https://catalogue.bnf.fr/ark:/12148/cb15278412p",
+            "https://fr.wikipedia.org/wiki/Thouarsais-Bouildroux",
+            "https://sws.geonames.org/6445245/"
+          ],
+          "exactMatch_INSEE": [
+            "http://id.insee.fr/geo/communeDeleguee/ef312e8c-b172-40ed-b169-8bf72e16ba8b"
+          ],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [],
+            "85165": [],
+            "85212": [],
+            "85292": [
+              "Thouarsais-Bouildroux"
+            ]
+          },
+          "notes": [
+            {
+              "texte": "2024-06-03 : Déplacement en TS de Rives-du-Fougerais suite à la mise à jour des Lieux France fournie par l'Inist.",
+              "type": "historyNote"
+            }
+          ],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Thouarsais-Bouildroux"
+            },
+            {
+              "lang": "en",
+              "texte": "Thouarsais-Bouildroux"
+            },
+            {
+              "lang": "es",
+              "texte": "Thouarsais-Bouildroux"
+            },
+            {
+              "lang": "fr",
+              "texte": "Thouarsais-Bouildroux"
+            },
+            {
+              "lang": "it",
+              "texte": "Thouarsais-Bouildroux"
+            },
+            {
+              "lang": "nl",
+              "texte": "Thouarsais-Bouildroux"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        },
+        {
+          "altLabel": [
+            {
+              "lang": "fr",
+              "texte": "85041 (code Insee)"
+            },
+            {
+              "lang": "fr",
+              "texte": "85410 (code postal)"
+            }
+          ],
+          "ark_pactols": "26678/pcrtjr01c5sg25ngf5hq8898",
+          "broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtkMftXuORUf"
+          ],
+          "definition": [
+            {
+              "lang": "fr",
+              "texte": "Commune nouvelle française du département du Vendée, en région Pays de la Loire, créée le 1er janvier 2024 par la fusion des communes de Cezais, Saint-Sulpice-en-Pareds et Thouarsais-Bouildroux. Son chef-lieu est Thouarsais-Bouildroux. (Wikipédia)"
+            }
+          ],
+          "deprecated": false,
+          "exactMatch": [],
+          "exactMatch_INSEE": [],
+          "isReplacedBy": [],
+          "labels_correspondant_a": {
+            "44066": [],
+            "85165": [],
+            "85212": [],
+            "85292": [
+              "Rives-du-Fougerais"
+            ]
+          },
+          "notes": [],
+          "owl_sameAs": [],
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Rives-du-Fougerais"
+            },
+            {
+              "lang": "en",
+              "texte": "Rives-du-Fougerais"
+            },
+            {
+              "lang": "es",
+              "texte": "Rives-du-Fougerais"
+            },
+            {
+              "lang": "fr",
+              "texte": "Rives-du-Fougerais"
+            },
+            {
+              "lang": "it",
+              "texte": "Rives-du-Fougerais"
+            },
+            {
+              "lang": "nl",
+              "texte": "Rives-du-Fougerais"
+            }
+          ],
+          "related": [],
+          "replaces": []
+        }
+      ],
+      "code_COG_2026": "85292",
+      "date_effet": "2024-01-01",
+      "decision_editoriale": "NON_PRISE",
+      "evenements_COG": [
+        {
+          "code_apres": "85292",
+          "code_avant": "85292",
+          "date_effet": "2024-01-01",
+          "id": "cog:45fc84f5f550fc5d05a13b2a",
+          "libelle_apres": "Thouarsais-Bouildroux",
+          "libelle_avant": "Thouarsais-Bouildroux",
+          "mod": "32",
+          "typecom_apres": "COMD",
+          "typecom_avant": "COM"
+        },
+        {
+          "code_apres": "85292",
+          "code_avant": "85041",
+          "date_effet": "2024-01-01",
+          "id": "cog:478e20c9ab0dc120b3f89dac",
+          "libelle_apres": "Rives-du-Fougerais",
+          "libelle_avant": "Cezais",
+          "mod": "32",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        },
+        {
+          "code_apres": "85292",
+          "code_avant": "85271",
+          "date_effet": "2024-01-01",
+          "id": "cog:82c3323763fbb795ecab5ed6",
+          "libelle_apres": "Rives-du-Fougerais",
+          "libelle_avant": "Saint-Sulpice-en-Pareds",
+          "mod": "32",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        },
+        {
+          "code_apres": "85292",
+          "code_avant": "85292",
+          "date_effet": "2024-01-01",
+          "id": "cog:a8a3e04e6bdfab971371627a",
+          "libelle_apres": "Rives-du-Fougerais",
+          "libelle_avant": "Thouarsais-Bouildroux",
+          "mod": "32",
+          "typecom_apres": "COM",
+          "typecom_avant": "COM"
+        }
+      ],
+      "mode_COG": "32",
+      "nom_COG_2026": "Rives-du-Fougerais",
+      "nombre_de_candidats": 2,
+      "periode_actuelle_COM": {
+        "code_insee": "85292",
+        "debut_inclus": "2024-01-01",
+        "fin_exclue": null,
+        "libelle": "Rives-du-Fougerais",
+        "typecom": "COM"
+      },
+      "periode_anterieure_COM": {
+        "code_insee": "85292",
+        "debut_inclus": "1943-01-01",
+        "fin_exclue": "2024-01-01",
+        "libelle": "Thouarsais-Bouildroux",
+        "typecom": "COM"
+      },
+      "publication": "AUCUNE",
+      "type_transition": "CREATION_COMMUNE_NOUVELLE",
+      "url_fiche_officielle_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/85292-rives-du-fougerais"
+    }
+  ],
+  "limites": [
+    "Un lien lexical vers un concept Pactols, même unique, n'est pas une validation de correspondance COG.",
+    "Le cas des communes rétablies après défusion exige une décision temporelle : rétablissement ne signifie pas automatiquement conservation d'une autorité ontologique.",
+    "Les noms identiques à plusieurs époques ne prouvent pas un exactMatch vers l'identité 2026.",
+    "Aucune géométrie ancienne ni relation de succession d'ARK n'est inférée."
+  ],
+  "schema": "adlfi.lieux.pdl.quatre_sans_exactmatch.2026.audit.v1",
+  "sources": {
+    "cog": {
+      "fichier": "docs/data/lieux-chronologie/cog-pdl.json",
+      "millesime": "2026-01-01"
+    },
+    "pactols": {
+      "commit": "69bf9697e24cefd645a69465bbd271702786285a",
+      "sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+      "url": "https://github.com/frantiq/PACTOLS/tree/69bf9697e24cefd645a69465bbd271702786285a"
+    },
+    "publication_PDL_existante": "docs/data/lieux-chronologie/pactols-pdl-2026.json"
+  },
+  "statut": "RECETTE_NON_VALIDANTE"
+}
