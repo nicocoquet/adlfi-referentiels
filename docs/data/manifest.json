@@ -591,6 +591,20 @@
         "portee_COG": "2026-01-01",
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2024_ingrandes_essarts": {
+        "statut": "Ingrandes-le-Fresne-sur-Loire (création 2024 MOD32) et Essarts-en-Bocage (rétablissement 2024 MOD21) alignés au COG 2026, portées temporelles explicitées",
+        "fichier": "data/lieux-chronologie/pactols-pdl-deux-mouvements-2024-2026.json",
+        "source_registre": "recette/lieux/PDL-INGRANDES-ESSARTS-PUBLICATION-2026.md",
+        "source_qualification": "recette/lieux/PDL-INGRANDES-ESSARTS-2024.md",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "source_Wikidata_revision": "https://www.wikidata.org/w/index.php?title=Q123475717&oldid=2309862185",
+        "nouveaux_alignements": 2,
+        "liens_PDL_2026_au_total": 1217,
+        "exceptions_2026_restantes": 11,
+        "uuid_insee_ingrandes_resolue": false,
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {

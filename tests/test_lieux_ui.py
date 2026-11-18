@@ -221,6 +221,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-pdl-oree-mod50.js",
                 "../assets/lieux-pdl-wikidata-p374.js",
                 "../assets/lieux-pdl-trois-collisions.js",
+                "../assets/lieux-pdl-deux-2024.js",
                 "../assets/lieux-paca-pactols.js",
                 "../assets/lieux-paca-renommages.js?v=20261118-paca938",
                 "../assets/lieux-paca-communes-nouvelles.js",
@@ -229,12 +230,12 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-pdl1215",
+                "../assets/lieux-multiechelon.js?v=20261118-pdl1217",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
