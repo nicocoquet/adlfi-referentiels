@@ -48,6 +48,15 @@ def completer_rdf(rdf: Path, attendus: set[str]) -> dict:
         raise ValueError("ARK absents du RDF : "+repr(sorted(absents)))
     return preuves
 
+def libelle_contemporain_compatible(nom_cog: str, libelle: str) -> bool:
+    """Un qualificatif administratif historique ne vaut pas identité COM 2026."""
+    if not label_compatible(nom_cog, libelle):
+        return False
+    historique = ("ancienne commune", "commune déléguée",
+                  "commune deleguee", "commune associée",
+                  "commune associee", "ancien territoire")
+    return not any(terme in libelle.casefold() for terme in historique)
+
 def qualifier(audit: dict, rdf: Path) -> dict:
     lignes = audit["communes"]
     if len(lignes) != 60 or len({x["code_COG_2026"] for x in lignes}) != 60:
@@ -67,7 +76,7 @@ def qualifier(audit: dict, rdf: Path) -> dict:
                       if "id.insee.fr/geo/" in u
                       and u not in {v["uri"] for v in candidat["insee_exactMatch"]}]
             candidat_compatible = (
-                any(label_compatible(nom, lab) for lab in candidat["prefLabels_fr"])
+                any(libelle_contemporain_compatible(nom, lab) for lab in candidat["prefLabels_fr"])
                 and not candidat["deprecie"] and not candidat["remplace"]
             )
             candidats.append({
@@ -75,6 +84,9 @@ def qualifier(audit: dict, rdf: Path) -> dict:
                 "altLabels_fr": candidat["altLabels_fr"],
                 "deprecie": candidat["deprecie"], "remplace": candidat["remplace"],
                 "compatibilite_libelle_sans_validation": candidat_compatible,
+            "intitule_statut_historique": any(
+                "ancienne commune" in l.casefold() or "commune déléguée" in l.casefold()
+                for l in candidat["prefLabels_fr"]),
                 "insee_exactMatch_codes": candidat["insee_exactMatch"],
                 "insee_exactMatch_non_codes": autres,
                 "autres_preuves_RDF": complements[ark],
@@ -82,6 +94,8 @@ def qualifier(audit: dict, rdf: Path) -> dict:
         compatibles = [c for c in candidats if c["compatibilite_libelle_sans_validation"]]
         if len(episodes) > 1:
             groupe = "CREATIONS_SUCCESSIVES"
+        elif any(c["intitule_statut_historique"] for c in candidats):
+            groupe = "STATUT_HISTORIQUE_EXPLICITE"
         elif len(compatibles) > 1:
             groupe = "PLUSIEURS_LIBELLES_COMPATIBLES"
         elif not compatibles:
@@ -100,9 +114,10 @@ def qualifier(audit: dict, rdf: Path) -> dict:
             "publication": "NON_PUBLIE",
         })
     priorites = {"CREATIONS_SUCCESSIVES": 0,
-                 "PLUSIEURS_LIBELLES_COMPATIBLES": 1,
-                 "AUCUN_LIBELLE_COMPATIBLE": 2,
-                 "UN_LIBELLE_COMPATIBLE": 3}
+                 "STATUT_HISTORIQUE_EXPLICITE": 1,
+                 "PLUSIEURS_LIBELLES_COMPATIBLES": 2,
+                 "AUCUN_LIBELLE_COMPATIBLE": 3,
+                 "UN_LIBELLE_COMPATIBLE": 4}
     resultats.sort(key=lambda x: (priorites[x["groupe_instruction"]],
                                    x["code_COG_2026"]))
     compte = collections.Counter(x["groupe_instruction"] for x in resultats)
