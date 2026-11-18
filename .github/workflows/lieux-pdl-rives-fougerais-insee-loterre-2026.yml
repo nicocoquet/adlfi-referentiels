@@ -1,0 +1,76 @@
+name: Lieux - PDL Rives-du-Fougerais 85292 versus code 85041
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pdl_rives_fougerais_loterre_2026.py'
+      - 'tests/test_auditer_pdl_rives_fougerais_loterre_2026.py'
+      - '.github/workflows/lieux-pdl-rives-fougerais-insee-loterre-2026.yml'
+permissions:
+  contents: write
+jobs:
+  audit-sources:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests de séparation Rives/Cezais et INSEE/Loterre/Pactols
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_auditer_pdl_rives_fougerais_loterre_2026.py' -v
+      - name: Acquérir l'URI INSEE citée par Loterre
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_pdl_rives_fougerais_loterre_2026.py \
+            --collecter "$RUNNER_TEMP/PDL-RIVES-UUID-INSEE.rdf"
+      - name: Double audit sur les sources officielles figées
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pdl_rives_fougerais_loterre_2026.py \
+              --source "$RUNNER_TEMP/PDL-RIVES-UUID-INSEE.rdf" \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --recette recette/lieux/PDL-QUATRE-SANS-EXACTMATCH-RDF-2026.json \
+              --publication docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --sortie "$RUNNER_TEMP/PDL-RIVES-LOTERRE-AUDIT-$n.json"
+          done
+          cmp "$RUNNER_TEMP/PDL-RIVES-LOTERRE-AUDIT-1.json" "$RUNNER_TEMP/PDL-RIVES-LOTERRE-AUDIT-2.json"
+          python3 - "$RUNNER_TEMP/PDL-RIVES-LOTERRE-AUDIT-1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d['schema']=='adlfi.lieux.pdl.rives_fougerais.insee_loterre.2026.audit.v1'
+          assert d['anomalie_source']['code_chez_Pactols_et_Loterre']=='85041'
+          assert d['identite_COG']['code_courant']=='85292'
+          assert d['conclusion']['nouveaux_ARK_valides']==0
+          assert not d['lien_Loterre_non_Pactols']['lien_Pactols_vers_Loterre_atteste']
+          print('PDL_RIVES_AUDIT_NON_VALIDANT_OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-pdl-rives-loterre-insee-rdf-2026
+          path: |
+            ${{ runner.temp }}/PDL-RIVES-UUID-INSEE.rdf
+            ${{ runner.temp }}/PDL-RIVES-LOTERRE-AUDIT-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Versionner l'audit hors du site après réussite
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/PDL-RIVES-LOTERRE-AUDIT-1.json" recette/lieux/PDL-RIVES-FOUGERAIS-LOTERRE-INSEE-2026.json
+          git add -- recette/lieux/PDL-RIVES-FOUGERAIS-LOTERRE-INSEE-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PDL : conserver la résolution officielle de l’URI Rives-du-Fougerais'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
