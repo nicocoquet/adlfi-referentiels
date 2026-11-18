@@ -24,16 +24,16 @@
      doc.source_rdf_sha256!==RDF_SHA||
      doc.source_audit!=='recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json'||
      doc.liens_communes_nouvelles_ajoutes!==7||doc.pilote_valide_conserve!==103||
-     doc.complements_conserves!==832||doc.renommages_conserves!==2||
-     doc.alignements_total_PACA_2026!==944||doc.communes_a_instruire!==2||
-     JSON.stringify(doc.exceptions_restantes)!=='["04045","05001"]'||
+     doc.complements_conserves!==832||doc.renommages_conserves!==3||
+     doc.alignements_total_PACA_2026!==945||doc.communes_a_instruire!==1||
+     JSON.stringify(doc.exceptions_restantes)!=='["05001"]'||
      doc.nouvelles_geometries!==0||doc.identites_historiques_inferees!==0||
      doc.alignements_Pactols_COG_valides_2026?.length!==7||
      doc.ARK_anciens_concepts_non_promus?.length!==8||
      cog?.region!=='paca'||cog.geometries_historiques?.length!==0||
      cog.alignements_Pactols_COG_valides_2026?.length!==103||
      pilote?.autorites?.length!==103||complement?.byCode?.size!==832||
-     renommages?.byCode?.size!==2)
+     renommages?.byCode?.size!==3)
     throw Error('Publication des sept communes nouvelles PACA non conforme');
   const current=new Map();
   for(const p of cog.periodes_com){
@@ -50,7 +50,7 @@
      throw Error('Doublon de correspondance PACA');
     coded.add(o.code_insee);used.add(o.ark_pactols);
   }
-  if(coded.size!==937||used.size!==937)throw Error('937 validations précédentes altérées');
+  if(coded.size!==938||used.size!==938)throw Error('937 validations précédentes altérées');
   const historic=new Set(doc.ARK_anciens_concepts_non_promus);
   if(historic.size!==8||[...historic].some(ark=>used.has(ark)))
    throw Error('Concepts historiques des communes porteuses modifiés');
@@ -78,7 +78,7 @@
    byCode.set(code,a);
   }
   if(byCode.size!==7||Object.keys(CODES).some(c=>!byCode.has(c))||
-     coded.has('04045')||coded.has('05001')||byCode.has('04045')||byCode.has('05001'))
+     !coded.has('04045')||coded.has('05001')||byCode.has('04045')||byCode.has('05001'))
     throw Error('Lot 7 ou réserves PACA invalides');
   const index=[...byCode.values()].map(x=>({
     kind:'pactols',id:'pactols:'+x.ark_pactols,zone:'paca',
