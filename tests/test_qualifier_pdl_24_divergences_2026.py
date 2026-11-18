@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from qualifier_pdl_24_divergences_2026 import (
-    SCHEMA, PUBLICATIONS, analyser_dossier
+    SCHEMA, PUBLICATIONS, analyser_dossier, anciennes_denom
 )
 class DivergencesPDLTests(unittest.TestCase):
     @classmethod
@@ -24,10 +24,21 @@ class DivergencesPDLTests(unittest.TestCase):
     def test_schema_ne_publie_pas(self):
         self.assertIn("recette",SCHEMA)
         self.assertIn("24-divergences",SCHEMA)
+    def test_ancien_nom_avec_qualificatif_geographique(self):
+        cog={"periodes_com":[
+            {"code_insee":"49126","libelle":"Drain","typecom":"COM",
+             "debut_inclus":"1943-01-01","fin_exclue":"2015-12-15"},
+            {"code_insee":"49126","libelle":"Orée d'Anjou","typecom":"COM",
+             "debut_inclus":"2025-01-01","fin_exclue":None}
+        ]}
+        old=anciennes_denom(cog,"49126","Drain (Maine-et-Loire)")
+        self.assertEqual(len(old),1)
+        self.assertEqual(old[0]["fin"],"2015-12-15")
     def test_statut_deprecie_ne_peut_etre_publie(self):
         code="49000"
         record={
           "code":code,"nom":"Commune-exemple","departement":"49",
+          "candidats_lexicaux_non_validants":[],
           "preuves_RDF_exactMatch":[{
              "ark":"26678/pcrt123","prefLabels_fr":["Commune-exemple"],
              "altLabels_fr":[],"codes_communaux_cites":[code],
