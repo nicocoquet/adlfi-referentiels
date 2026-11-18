@@ -1,0 +1,85 @@
+name: Lieux - PACA correspondance éditoriale Abriès-Ristolas 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_paca_abries_ristolas_editorial_2026.py'
+      - 'tests/test_publier_paca_abries_ristolas_editorial_2026.py'
+      - 'tests/test_lieux_paca_abries_ristolas_editorial_2026.js'
+      - 'tests/test_lieux_paca_abries_ristolas_editorial_navigateur.py'
+      - 'docs/assets/lieux-paca-abries-ristolas.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/lieux-chronologie/pactols-paca-abries-ristolas-2026.json'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - 'tests/test_lieux_paca_sept_communes_nouvelles_navigateur.py'
+      - 'tests/test_lieux_paca_deux_renommages_navigateur.py'
+      - '.github/workflows/lieux-paca-abries-ristolas-editorial-2026.yml'
+permissions:
+  contents: read
+jobs:
+  valider:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier la preuve indirecte et l'identité de 2019
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_paca_abries_ristolas_editorial_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Génération reproductible et comparaison au JSON public versionné
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_paca_abries_ristolas_editorial_2026.py \
+              --audit recette/lieux/PACA-ABRIES-RISTOLAS-AUDIT-2026.json \
+              --pilote docs/data/lieux.json \
+              --complement docs/data/lieux-chronologie/pactols-paca-2026.json \
+              --renommages docs/data/lieux-chronologie/pactols-paca-renommages-2026.json \
+              --nouvelles docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json \
+              --cog docs/data/lieux-chronologie/cog-paca.json \
+              --sortie "$RUNNER_TEMP/paca-abries-ristolas-$n.json"
+          done
+          cmp "$RUNNER_TEMP/paca-abries-ristolas-1.json" "$RUNNER_TEMP/paca-abries-ristolas-2.json"
+          cmp "$RUNNER_TEMP/paca-abries-ristolas-1.json" docs/data/lieux-chronologie/pactols-paca-abries-ristolas-2026.json
+      - name: Vérifier les index et non-régressions Node
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_paca_abries_ristolas_editorial_2026.js
+          node tests/test_lieux_paca_sept_communes_nouvelles_2026.js
+          node tests/test_lieux_paca_deux_renommages_2026.js
+          node tests/test_lieux_paca_pactols_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_nc_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_pf_28_contours_2026.js
+      - name: Installer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier recherche, fiches, sources et chronologie au navigateur
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_paca_abries_ristolas_editorial_navigateur.py
+          python3 tests/test_lieux_paca_sept_communes_nouvelles_navigateur.py
+          python3 tests/test_lieux_paca_deux_renommages_navigateur.py
+          python3 tests/test_lieux_paca_pactols_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_nc_contours_navigateur.py
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-abries-ristolas-editorial-2026
+          path: ${{ runner.temp }}/paca-abries-ristolas-1.json
+          retention-days: 30
+          if-no-files-found: error

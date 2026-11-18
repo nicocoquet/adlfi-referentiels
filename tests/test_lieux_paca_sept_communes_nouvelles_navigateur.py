@@ -1,4 +1,4 @@
-"""Chromium : sept communes nouvelles 2026, ancien code et Abriès non promue."""
+"""Chromium : sept communes nouvelles 2026, ancien Abriès exclu mais nouvelle validée indirectement."""
 from test_lieux_corse_pactols_navigateur import serveur
 CASES=[
  ("04033","26678/pcrtDcVUj2Mdw9","Ubaye-Serre-Ponçon"),
@@ -28,7 +28,8 @@ def main():
      wait_until='domcontentloaded',timeout=45000)
   page.wait_for_function("() => document.querySelector('#detail')?.textContent.includes('05001')",timeout=30000)
   detail=page.locator('#detail').text_content()
-  assert 'Aucun alignement Pactols individuellement validé' in detail,detail
+  assert '26678/pcrtm96gvvfnwmggc9z0wrxn' in detail,detail
+  assert 'convergence entre Pactols, Wikidata et le COG officiel' in detail,detail
   assert '26678/pcrtGQ7nGPZN7K' not in detail
   page.goto(url+'/lieux/?region=paca&code=04045&annee=2026&niveau=commune',
      wait_until='domcontentloaded',timeout=45000)
@@ -39,6 +40,6 @@ def main():
   detail=page.locator('#detail').text_content()
   assert '2026 seulement' in detail
   assert not errors,errors
-  print('PACA_945_NAVIGATEUR_OK — sept communes nouvelles, Abriès réservée, Céreste conservée')
+  print('PACA_946_NAVIGATEUR_RETRO_OK — sept communes nouvelles, Abriès-Ristolas distincte, Céreste conservée')
   browser.close()
 if __name__=='__main__':main()

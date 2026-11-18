@@ -323,6 +323,23 @@
         "geometries_historiques_validees": 0,
         "retroprojections": 0
       },
+      "pactols_paca_2026_abries_ristolas": {
+        "statut": "Abriès-Ristolas (05001) : correspondance Pactols–COG validée par convergence éditoriale indirecte, et non par un exactMatch Pactols–INSEE direct",
+        "fichier": "data/lieux-chronologie/pactols-paca-abries-ristolas-2026.json",
+        "nombre_de_validations_editoriales_indirectes": 1,
+        "source_Pactols": "26678/pcrtm96gvvfnwmggc9z0wrxn",
+        "source_exactMatch_intermediaire": "https://www.wikidata.org/wiki/Q57664391",
+        "source_Wikidata_revision": "https://www.wikidata.org/w/index.php?title=Q57664391&oldid=2563106214",
+        "source_INSEE_officielle": "https://www.insee.fr/fr/metadonnees/geographie/commune/05001-abries-ristolas",
+        "source_preuve_RDF": "recette/lieux/PACA-ABRIES-RISTOLAS-AUDIT-2026.json",
+        "preuve": "skos:exactMatch Pactols vers Wikidata P374=05001 ; nom, date et création commune nouvelle corroborés par l'INSEE et le COG MOD32",
+        "liens_PACA_2026_au_total": 946,
+        "communes_COG_PACA_2026": 946,
+        "ARK_ancienne_Abriès_non_promu": "26678/pcrtGQ7nGPZN7K",
+        "portee_COG": "2026-01-01",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
+      },
       "pactols_paca_2026_communes_nouvelles": {
         "statut": "Sept identités Pactols de communes nouvelles, prouvées pour COG 2026 par prefLabel, exactMatch INSEE unique, historyNote Pactols et MOD32 COG",
         "fichier": "data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json",

@@ -1,4 +1,4 @@
-"""Chromium : les trois renommages PACA, Céreste UUID et Abriès réservée."""
+"""Chromium : les trois renommages PACA, Céreste UUID et Abriès-Ristolas distincte."""
 from __future__ import annotations
 from test_lieux_corse_pactols_navigateur import serveur
 
@@ -46,10 +46,11 @@ def main():
             "() => document.querySelector('#detail')?.textContent.includes('05001')",
             timeout=60000)
         abries=page.locator('#detail').text_content()
-        assert 'Aucun alignement Pactols individuellement validé' in abries,abries
+        assert '26678/pcrtm96gvvfnwmggc9z0wrxn' in abries,abries
+        assert 'convergence entre Pactols, Wikidata et le COG officiel' in abries,abries
         assert '26678/pcrtGQ7nGPZN7K' not in abries
         assert not errors,errors
-        print('PACA_938_NAVIGATEUR_OK — Céreste UUID prouvé, Rousset, Esparron, Abriès non validée')
+        print('PACA_946_NAVIGATEUR_RENOMMAGES_OK — Céreste, Rousset, Esparron, Abriès-Ristolas indirecte')
         browser.close()
 
 if __name__=='__main__':
