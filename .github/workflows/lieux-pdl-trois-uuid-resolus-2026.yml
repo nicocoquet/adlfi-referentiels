@@ -1,0 +1,79 @@
+name: Lieux - PDL publier trois UUID Insee résolus 2026
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_pdl_trois_uuid_resolus_2026.py'
+      - 'tests/test_publier_pdl_trois_uuid_resolus_2026.py'
+      - 'tests/test_lieux_pdl_trois_uuid_resolus_2026.js'
+      - 'tests/test_lieux_pdl_trois_uuid_resolus_navigateur.py'
+      - 'tests/test_lieux_pdl_pactols_navigateur.py'
+      - 'docs/assets/lieux-pdl-uuid-resolus.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-pdl-trois-uuid-resolus-2026.yml'
+permissions:
+  contents: read
+jobs:
+  publier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier les trois preuves officielles et les événements COG
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_pdl_trois_uuid_resolus_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Régénérer deux JSON identiques et les comparer au fichier versionné
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_pdl_trois_uuid_resolus_2026.py \
+              --audit recette/lieux/PDL-TROIS-UUID-INSEE-RESOLUTIONS-2026.json \
+              --previous docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --preflight recette/lieux/PDL-QUATRE-SANS-EXACTMATCH-RDF-2026.json \
+              --sortie "$RUNNER_TEMP/pdl-uuid-pub-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-uuid-pub-1.json" "$RUNNER_TEMP/pdl-uuid-pub-2.json"
+          cmp "$RUNNER_TEMP/pdl-uuid-pub-1.json" docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json
+      - name: Contrôler les index et non-régressions territoriales
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_pdl_trois_uuid_resolus_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_paca_abries_ristolas_editorial_2026.js
+          node tests/test_lieux_paca_sept_communes_nouvelles_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_nc_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_pf_28_contours_2026.js
+      - name: Installer Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier fiches 2026, anciennes situations et recherche
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_pdl_trois_uuid_resolus_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_paca_abries_ristolas_editorial_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_nc_contours_navigateur.py
+          python3 tests/test_lieux_spm_contours_navigateur.py
+          python3 tests/test_lieux_drom_contours_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-pdl-trois-uuid-resolus-2026
+          path: ${{ runner.temp }}/pdl-uuid-pub-1.json
+          retention-days: 30
+          if-no-files-found: error

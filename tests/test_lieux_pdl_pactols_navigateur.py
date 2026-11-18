@@ -1,4 +1,4 @@
-"""Test Chromium PDL : recherche ARK, fiche 2026, 1975, exception 44066."""
+"""Test Chromium PDL : recherche ARK, fiche 2026, 1975, UUID 44066 prouvé."""
 from __future__ import annotations
 from test_lieux_corse_pactols_navigateur import serveur
 
@@ -43,10 +43,10 @@ def main():
             "() => document.querySelector('#detail')?.textContent.includes('44066')",
             timeout=60000)
         neg=page.locator('#detail').text_content()
-        assert 'Aucun alignement Pactols individuellement validé' in neg,neg
-        assert '26678/pcrt99dzcmxdhR' not in neg
+        assert '26678/pcrt99dzcmxdhR' in neg,neg
+        assert 'geo:codeINSEE et owl:sameAs' in neg,neg
         assert not errs,errs
-        print('PDL_1140_NAVIGATEUR_OK — ARK recherché et affiché en 2026, pas de rétroprojection, exception 44066')
+        print('PDL_1140_NAVIGATEUR_OK — ARK recherché et affiché en 2026, pas de rétroprojection, UUID 44066 prouvé')
         browser.close()
 
 
