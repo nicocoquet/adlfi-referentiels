@@ -230,7 +230,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-pdl1217",
+                "../assets/lieux-multiechelon.js?v=20261118-interface1",
             ],
         )
         for path in (
