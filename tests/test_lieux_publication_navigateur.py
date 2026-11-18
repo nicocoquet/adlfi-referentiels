@@ -271,6 +271,7 @@ def main():
             timeout=30000)
         assert "Contour communal de référence cartographique Etalab 2026 affiché" in page.locator("#detail").text_content()
         assert "fonds territoriaux diffusés en 2022" in page.locator("#detail").text_content()
+        assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
         assert page.locator("#level").input_value()=="commune"
         assert "ref_cog=COMER%3ACOM%3A98735" in page.url
 
