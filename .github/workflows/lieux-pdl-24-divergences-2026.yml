@@ -33,12 +33,21 @@ jobs:
       - name: Tester les règles et les 1194 correspondances existantes
         working-directory: referentiels
         run: python3 -m unittest discover -s tests -p 'test_qualifier_pdl_24_divergences_2026.py' -v
-      - name: Vérifier RDF Pactols et acquérir le COG INSEE
+      - name: Vérifier le RDF et les sources COG 2026 versionnées
         working-directory: referentiels
         run: |
           set -euo pipefail
           echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
-          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for slug,n in (("pdl",1228),("corse",360),("bfc",3685)):
+              x=json.loads(Path("docs/data/lieux-chronologie/cog-"+slug+".json").read_text())
+              assert x["region"]==slug and x["millesime_cog"]==2026
+              assert sum(p["typecom"]=="COM" and p["debut_inclus"]<="2026-01-01" and
+                         (p["fin_exclue"] is None or p["fin_exclue"]>"2026-01-01")
+                         for p in x["periodes_com"])==n
+          PY
       - name: Générer deux dossiers identiques sans aucune publication
         working-directory: referentiels
         run: |
@@ -46,7 +55,8 @@ jobs:
           for n in 1 2; do
             python3 scripts/qualifier_pdl_24_divergences_2026.py \
               --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
-              --cog-officiel "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --corse docs/data/lieux-chronologie/cog-corse.json \
+              --bfc docs/data/lieux-chronologie/cog-bfc.json \
               --chronologie docs/data/lieux-chronologie/cog-pdl.json \
               --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
               --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
@@ -61,6 +71,10 @@ jobs:
           x=json.load(open(sys.argv[1]))
           assert x["nombre_dossiers"]==len(x["dossiers"])==24
           assert sum(x["groupes"].values())==24
+          assert x["groupes"]=={"PREFLABEL_HISTORIQUE_COG":24}
+          assert x["motifs"]=={"PREFLABEL_NON_CONCORDANT":24}
+          assert x["communes_avec_candidat_lexical"]==19
+          assert x["sources"]["mode_COG"]=="COG_2026_DERIVES_VERSIONNES_SANS_NOUVEAU_TELECHARGEMENT"
           assert x["publication_PDL_2026_existante"]==1194
           assert x["exception_PDL_existantes"]==34
           assert x["nouvelles_validations"]==x["geometries"]==x["liens_historiques_inferes"]==0
