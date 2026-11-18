@@ -1,0 +1,109 @@
+name: Lieux PDL — Orée d'Anjou transfert MOD50 (1195)
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_pdl_oree_anjou_mod50_2026.py'
+      - 'recette/lieux/PDL-OREE-ANJOU-MOD50-2026.md'
+      - 'docs/data/lieux-chronologie/pactols-pdl-oree-anjou-mod50-2026.json'
+      - 'docs/assets/lieux-pdl-oree-mod50.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - 'tests/test_publier_pdl_oree_mod50_2026.py'
+      - 'tests/test_lieux_pdl_oree_mod50_2026.js'
+      - 'tests/test_lieux_pdl_oree_mod50_navigateur.py'
+      - '.github/workflows/lieux-pdl-oree-mod50-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publication:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrôler le RDF et le COG 2026 déjà versionné
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path("docs/data/lieux-chronologie/cog-pdl.json").read_text())
+          assert p["region"]=="pdl" and p["millesime_cog"]==2026
+          assert sum(z["typecom"]=="COM" and z["debut_inclus"]<="2026-01-01" and
+                     (z["fin_exclue"] is None or z["fin_exclue"]>"2026-01-01")
+                     for z in p["periodes_com"])==1228
+          PY
+      - name: Deux productions déterministes et comparaison avec la publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/publier_pdl_oree_anjou_mod50_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
+              --chemille docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json \
+              --lot02 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot02-2026.json \
+              --sortie "$RUNNER_TEMP/pdl-oree-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-oree-1.json" "$RUNNER_TEMP/pdl-oree-2.json"
+          cmp "$RUNNER_TEMP/pdl-oree-1.json" docs/data/lieux-chronologie/pactols-pdl-oree-anjou-mod50-2026.json
+      - name: Tests documentaires, API navigateur et non-régressions
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_pdl_oree_mod50_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          node tests/test_lieux_pdl_oree_mod50_2026.js
+          node tests/test_lieux_pdl_lot02_45_2026.js
+          node tests/test_lieux_pdl_chemille_2026.js
+          node tests/test_lieux_pdl_lot01_cinq_ark_2026.js
+          node tests/test_lieux_pdl_trois_uuid_resolus_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_paca_sept_communes_nouvelles_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+      - name: Installer Chromium
+        working-directory: referentiels
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Fiches PDL et contrôles régionaux Chromium
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_pdl_oree_mod50_navigateur.py
+          python3 tests/test_lieux_pdl_lot02_45_navigateur.py
+          python3 tests/test_lieux_pdl_chemille_navigateur.py
+          python3 tests/test_lieux_pdl_lot01_cinq_ark_navigateur.py
+          python3 tests/test_lieux_pdl_trois_uuid_resolus_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preuve-oree-mod50-pdl-1195
+          path: ${{ runner.temp }}/pdl-oree-1.json
+          retention-days: 30
+          if-no-files-found: error
