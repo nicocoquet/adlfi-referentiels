@@ -36,7 +36,7 @@ assert.throws(()=>lot.creer(wrong2,cog,base,uuid),/non prouvée/);
 const ui=fs.readFileSync(path.join(__dirname,'../docs/assets/lieux-multiechelon.js'),'utf8');
 assert.ok(ui.includes('state.pdlNouvellesLot01.index'));
 assert.ok(ui.includes('state.pdlNouvellesLot01?.byCode.get(x.code)'));
-assert.ok(ui.includes('l’ancienne commune, devenue commune déléguée'));
+assert.ok(ui.includes('L’ancienne commune, devenue commune déléguée'));
 const manifest=read('docs/data/manifest.json').modules.lieux.pactols_pdl_2026_lot01_communes_nouvelles;
 assert.equal(manifest.liens_PDL_2026_au_total,1148);
 assert.equal(manifest.exceptions_2026_restantes,80);
