@@ -24,29 +24,32 @@ def fixtures():
              "contours_invalides": ["98745", "98805"], "communes": {"988": "\n".join(lines)}}
     return source, index
 
-def test_32_valides_et_dumbea_exclue():
-    source, index = fixtures()
-    output = nc.preparer(source, index)
-    codes = [f["properties"]["code"] for f in output["features"]]
-    assert len(codes) == 32 and "98805" not in codes
-    assert output["provenance"]["exclusion"]["code"] == "98805"
-    assert all(f["properties"]["ark_pactols"] is None for f in output["features"])
-    assert all(f["properties"]["limite_juridique_homologuee"] is False for f in output["features"])
 
-def test_source_modifiee_refusee():
-    source, index = fixtures()
-    source["features"].pop()
-    with unittest.TestCase().assertRaisesRegex(ValueError, "incomplète"):
-        nc.preparer(source, index)
-
-def test_anomalie_disparue_impose_nouvel_examen():
-    source, index = fixtures()
-    source["features"][4]["geometry"] = source["features"][3]["geometry"]
-    with unittest.TestCase().assertRaisesRegex(ValueError, "nouvelle instruction"):
-        nc.preparer(source, index)
-
-def test_index_altere_refuse():
-    source, index = fixtures()
-    index["contours_invalides"] = []
-    with unittest.TestCase().assertRaisesRegex(ValueError, "Signalements"):
-        nc.preparer(source, index)
+class NouvelleCaledonieTests(unittest.TestCase):
+    def test_32_valides_et_dumbea_exclue(self):
+        source, index = fixtures()
+        output = nc.preparer(source, index)
+        codes = [f["properties"]["code"] for f in output["features"]]
+        assert len(codes) == 32 and "98805" not in codes
+        assert output["provenance"]["exclusion"]["code"] == "98805"
+        assert all(f["properties"]["ark_pactols"] is None for f in output["features"])
+        assert all(f["properties"]["limite_juridique_homologuee"] is False for f in output["features"])
+    
+    def test_source_modifiee_refusee(self):
+        source, index = fixtures()
+        source["features"].pop()
+        with self.assertRaisesRegex(ValueError, "incomplète"):
+            nc.preparer(source, index)
+    
+    def test_anomalie_disparue_impose_nouvel_examen(self):
+        source, index = fixtures()
+        source["features"][4]["geometry"] = source["features"][3]["geometry"]
+        with self.assertRaisesRegex(ValueError, "nouvelle instruction"):
+            nc.preparer(source, index)
+    
+    def test_index_altere_refuse(self):
+        source, index = fixtures()
+        index["contours_invalides"] = []
+        with self.assertRaisesRegex(ValueError, "Signalements"):
+            nc.preparer(source, index)
+    
