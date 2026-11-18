@@ -15,7 +15,7 @@ SOURCE_SHA256 = "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b377
 SOURCE_URL = "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz"
 EXCLUSION = "98805"
 EXPECTED = 33
-SCHEMA = "adlfi.lieux.contours.nouvelle-caledonie-2026.recette.v1"
+SCHEMA = "adlfi.lieux.contours.nouvelle-caledonie-2026.v1"
 
 def sha256(path):
     h = hashlib.sha256()
@@ -73,7 +73,7 @@ def preparer(source, index):
     if len(features) != 32:
         raise ValueError("32 contours attendus")
     return {"type": "FeatureCollection", "features": features, "provenance": {
-        "schema": SCHEMA, "statut": "recette_non_publiee",
+        "schema": SCHEMA, "statut": "contours_cartographiques_reference_2026",
         "source_geometrique": SOURCE_URL, "sha256_source_geometrique": SOURCE_SHA256,
         "cog_ref": "2026-01-01", "edition_geometrie": "2026-05-04",
         "generalisation_m": 100, "nombre_contours": 32,
