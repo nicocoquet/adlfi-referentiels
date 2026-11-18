@@ -41,17 +41,17 @@ def main():
             "() => document.querySelector('#detail')?.textContent.includes('26678/pcrtSeD2WMEIYA')",
             timeout=60000)
         assert '26678/pcrt2XYqgMPgx5' not in page.locator('#detail').text_content()
-        # Ubaye-Serre-Ponçon : deux ARK concurrents, aucune validation inférée.
+        # Ubaye-Serre-Ponçon : seul l'ARK explicitement attribué à la commune nouvelle est validé.
         page.goto(url+'/lieux/?region=paca&code=04033&annee=2026&niveau=commune',
                   wait_until='domcontentloaded',timeout=45000)
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('04033')",
             timeout=60000)
         negative=page.locator('#detail').text_content()
-        assert 'Aucun alignement Pactols individuellement validé' in negative,negative
+        assert '26678/pcrtDcVUj2Mdw9' in negative and '2026 seulement' in negative,negative
         assert '26678/pcrtC1Vi7jqzBS' not in negative
         assert not errors,errors
-        print('PACA_935_NAVIGATEUR_OK — nouveau code, ancien Dévoluy, année 1975, exception 04033')
+        print('PACA_945_NAVIGATEUR_REGRESSION_OK — nouveau code, ancien Dévoluy, année 1975, Ubaye validée')
         browser.close()
 
 if __name__=='__main__':
