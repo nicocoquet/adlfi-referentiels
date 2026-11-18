@@ -1,0 +1,76 @@
+name: Lieux PDL — neuf collisions historiques Pactols–COG (recette)
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pdl_neuf_collisions_historiques_2026.py'
+      - 'tests/test_auditer_pdl_neuf_collisions_historiques_2026.py'
+      - 'recette/lieux/PDL-NEUF-COLLISIONS-HISTORIQUES-2026.md'
+      - '.github/workflows/lieux-pdl-neuf-collisions-historiques-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auditer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester le socle des neuf dossiers et 1212 alignements
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_auditer_pdl_neuf_collisions_historiques_2026.py' -v
+      - name: Vérifier RDF et chronologie COG versionnée
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Reproduire deux fois l'audit des neuf collisions, sans publication
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pdl_neuf_collisions_historiques_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --data-dir docs/data/lieux-chronologie \
+              --sortie "$RUNNER_TEMP/pdl-neuf-collisions-$n.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-neuf-collisions-1.json" "$RUNNER_TEMP/pdl-neuf-collisions-2.json"
+          python3 - "$RUNNER_TEMP/pdl-neuf-collisions-1.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          expected={"49018","49160","49176","49244","53161","53255","72137","72176","85084"}
+          assert x["nombre_dossiers"]==len(x["dossiers"])==9
+          assert {r["code_COG_2026"] for r in x["dossiers"]}==expected
+          assert sum(x["groupes"].values())==9
+          assert x["couverture_PDL_avant"]==1212
+          assert x["communes_PDL_COG_2026"]==1228
+          assert x["validations"]==x["geometries_nouvelles"]==x["liens_historiques_inferes"]==0
+          assert all(r["alignement_ARK_2026"] is None and
+                     r["decision_editoriale"]=="NON_PRISE" and
+                     r["publication"]=="NON_PUBLIE" and
+                     len(r["candidats_ARK_exactMatch"])>=2 for r in x["dossiers"])
+          print("PDL_NEUF_COLLISIONS_REPRODUCTIBLE_SANS_PUBLICATION")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recette-pdl-neuf-collisions-2026
+          path: ${{ runner.temp }}/pdl-neuf-collisions-1.json
+          retention-days: 30
+          if-no-files-found: error
