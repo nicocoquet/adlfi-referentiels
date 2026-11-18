@@ -477,6 +477,18 @@ class LieuxUITests(unittest.TestCase):
             self.assertIn(excerpt, self.html)
 
 
+    def test_paca_sept_communes_nouvelles_file_is_versioned(self):
+        path=ROOT/"docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json"
+        self.assertTrue(path.is_file(), "Le fichier des sept communes nouvelles doit être versionné avant Chromium")
+        data=json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],"adlfi.lieux.pactols.paca.sept_communes_nouvelles.2026.public.v1")
+        self.assertEqual(data["alignements_total_PACA_2026"],945)
+        self.assertEqual(data["exceptions_restantes"],["05001"])
+        self.assertEqual(len(data["alignements_Pactols_COG_valides_2026"]),7)
+        self.assertNotIn("05001",{x["code_insee"] for x in data["alignements_Pactols_COG_valides_2026"]})
+        self.assertIn("lieux-paca-communes-nouvelles.js",self.html)
+
+
 
 if __name__ == "__main__":
     unittest.main()
