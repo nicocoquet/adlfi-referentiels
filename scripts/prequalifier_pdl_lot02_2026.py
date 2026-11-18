@@ -130,11 +130,11 @@ def main():
     a.sortie.parent.mkdir(parents=True,exist_ok=True)
     a.sortie.write_text(json.dumps(d,sort_keys=True,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print("PDL_LOT02_BILAN",json.dumps(d["groupes"],sort_keys=True))
-    for line in d["dossiers"][:20]:
+    for line in d["dossiers"]:
         print("PDL_LOT02_DOSSIER",json.dumps({
             "code":line["code_COG_2026"],"nom":line["nom_COG_2026"],
             "date":line["date_creation_MOD32"],"ark":line["ark_candidat_2026"],
-            "ancienne":line["libelle_historique"],"etat":line["statut_prequalification"],
+            "ancienne":line["libelle_historique"],"ark_ancienne":line["ark_historique_distinct"],"etat":line["statut_prequalification"],
             "motifs":line["motifs_controle"]},sort_keys=True,ensure_ascii=False))
 if __name__=="__main__":
     main()
