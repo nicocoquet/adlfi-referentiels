@@ -376,6 +376,29 @@
         "limites_juridiques_homologuees": false,
         "geometries_historiques": 0,
         "note_Poya": "98827, ne pas inférer de province unique"
+      },
+      "contours_polynesie_2026_lot_28": {
+        "statut": "28 géométries de référence cartographique du lot polynésien Etalab 2026, sans homologation juridique",
+        "fichier": "data/lieux-outremer/contours-communes-pf-28-2026.geojson",
+        "date_cog": "2026-01-01",
+        "edition_geometrie": "2026-05-04",
+        "generalisation_metres": 100,
+        "communes_COG_2026": 48,
+        "nombre_contours": 28,
+        "geometries_a_instruire": 20,
+        "exception_topologique": "98745 Tahaa",
+        "seuils_iou": {
+          "ISPF_GEO_PF": 0.95,
+          "Etalab_ISPF": 0.9,
+          "Etalab_GEO_PF": 0.9
+        },
+        "source": "https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz",
+        "source_sha256": "4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778",
+        "audit_sha256": "49724c979baa2cbedf0612b677b7c273757f8ba58749933e9b1a06a27398f52",
+        "nouveaux_ARK_inferes": 0,
+        "geometries_historiques": 0,
+        "limites_juridiques_homologuees": false,
+        "filiation_source": "Etalab réutilise la géographie territoriale GEO PF pour les îles polynésiennes ; concordance non indépendante"
       }
     },
     "personnes": {
