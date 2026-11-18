@@ -30,6 +30,29 @@ class WikidataP374Tests(unittest.TestCase):
                               self.claim("22222")]}}
         self.assertEqual([x["code"] for x in p374_qualifies(d) if x["actif_2026"]],["22222"])
 
+    def test_registre_wikidata_17_codes_et_revisions(self):
+        import json
+        evidence=json.loads((ROOT/"recette/lieux/PDL-17-WIKIDATA-P374-2026.json").read_text(encoding="utf8"))
+        cog=json.loads((ROOT/"docs/data/lieux-chronologie/cog-pdl.json").read_text(encoding="utf8"))
+        rows=evidence["dossiers"]
+        self.assertEqual(evidence["nombre_dossiers"],17)
+        self.assertEqual(evidence["identifiants_P374_concordants"],17)
+        self.assertEqual(evidence["nouveaux_alignements"],0)
+        self.assertEqual(len({r["code_insee_2026"] for r in rows}),17)
+        self.assertEqual(len({r["qid_wikidata"] for r in rows}),17)
+        for r in rows:
+            self.assertEqual(r["insee_P374_actif_2026"],[r["code_insee_2026"]])
+            self.assertEqual(r["P31_instances"],["Q484170"])
+            self.assertEqual(len(r["P571_creation"]),1)
+            self.assertTrue(r["revision_wikidata"]>0)
+            self.assertEqual(r["publication"],"NON_PUBLIE")
+            x=[p for p in cog["periodes_com"] if
+                p["code_insee"]==r["code_insee_2026"] and
+                p["typecom"]=="COM" and
+                p["debut_inclus"]<="2026-01-01" and
+                (p["fin_exclue"] is None or p["fin_exclue"]>"2026-01-01")]
+            self.assertEqual(len(x),1)
+            self.assertEqual(x[0]["debut_inclus"],r["P571_creation"][0])
     def test_schema_non_validant(self):
         self.assertIn("prequalification",SCHEMA)
         source={"schema":"adlfi.lieux.pdl.17-ark-sans-insee.prequalification.2026.v1",
