@@ -1,0 +1,696 @@
+{
+  "bilan": {
+    "ARK_directs_vers_codes_2026": 2,
+    "concepts_RDF_examines": 50556,
+    "geometries_historiques_inferrees": 0,
+    "index_public_modifie": false,
+    "nouveaux_ARK_valides": 0,
+    "renommages_officiels_controles": 3
+  },
+  "dossiers": [
+    {
+      "ARK_directement_assertes_vers_code_2026": [],
+      "code_COG": "04045",
+      "code_conserve": true,
+      "concepts_pactols_a_examiner": [
+        {
+          "altLabel": [
+            {
+              "lang": "fr",
+              "texte": "Céreste"
+            },
+            {
+              "lang": "de",
+              "texte": "Céreste"
+            },
+            {
+              "lang": "en",
+              "texte": "Céreste"
+            },
+            {
+              "lang": "es",
+              "texte": "Céreste"
+            },
+            {
+              "lang": "it",
+              "texte": "Céreste"
+            },
+            {
+              "lang": "nl",
+              "texte": "Céreste"
+            }
+          ],
+          "ark": "26678/pcrtHxveTzUMik",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-MSFKBVH6-R",
+            "http://fr.dbpedia.org/page/C%C3%A9reste",
+            "http://fr.dbpedia.org/page/Céreste",
+            "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "https://fr.wikipedia.org/wiki/C%C3%A9reste",
+            "https://fr.wikipedia.org/wiki/Céreste",
+            "https://sws.geonames.org/6446591/",
+            "https://www.wikidata.org/wiki/Q865855"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": true,
+              "famille": "commune",
+              "identifiant": "3cb419d3-63ba-4e7c-be42-2640cf521de8",
+              "uri": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "ALT_LIBELLE_ANCIEN_EXACT",
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME",
+            "PREF_LIBELLE_NOUVEAU_EXACT"
+          ],
+          "notes": [
+            {
+              "texte": "2024-06-03 : correction des libellés et de leurs traductions, de l'alignement Insee suite à la mise à jour des Lieux France fournie par l'Inist.",
+              "type": "historyNote"
+            }
+          ],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Céreste-en-Luberon"
+            },
+            {
+              "lang": "en",
+              "texte": "Céreste-en-Luberon"
+            },
+            {
+              "lang": "es",
+              "texte": "Céreste-en-Luberon"
+            },
+            {
+              "lang": "fr",
+              "texte": "Céreste-en-Luberon"
+            },
+            {
+              "lang": "it",
+              "texte": "Céreste-en-Luberon"
+            },
+            {
+              "lang": "nl",
+              "texte": "Céreste-en-Luberon"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtqBdX4vGn5j"
+          ],
+          "skos_related": []
+        }
+      ],
+      "date_effet": "2024-01-01",
+      "decret": "2023-959",
+      "decret_url": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000048226832",
+      "id_evenement_COG": "cog:82dcbc2c3e4336f10dd64f23",
+      "nature_COG": "MOD10_RENOMMAGE_CODE_CONSERVE",
+      "nom_2026": "Céreste-en-Luberon",
+      "nom_ancien": "Céreste",
+      "nombre_candidats": 1,
+      "nouvelle_validation_2026": false,
+      "qualification": "COG_RENOMMAGE_CONFIRME_PACTOLS_A_INSTRUIRE"
+    },
+    {
+      "ARK_directement_assertes_vers_code_2026": [
+        "26678/pcrtla4EHGDgDd"
+      ],
+      "code_COG": "05127",
+      "code_conserve": true,
+      "concepts_pactols_a_examiner": [
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtFbp0Xe1mKT",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-K7LTQCCQ-G",
+            "http://fr.dbpedia.org/page/Rousset-les-Vignes",
+            "http://id.insee.fr/geo/commune/26285",
+            "http://www.wikidata.org/entity/Q638689",
+            "https://catalogue.bnf.fr/ark:/12148/cb152531456",
+            "https://fr.wikipedia.org/wiki/Rousset-les-Vignes"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "26285",
+              "uri": "http://id.insee.fr/geo/commune/26285"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [
+            {
+              "texte": "Rousset devient Rousset-les-Vignes [date d'effet : 1958-10-03]. (Insee)",
+              "type": "historyNote"
+            }
+          ],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Rousset-les-Vignes"
+            },
+            {
+              "lang": "en",
+              "texte": "Rousset-les-Vignes"
+            },
+            {
+              "lang": "es",
+              "texte": "Rousset-les-Vignes"
+            },
+            {
+              "lang": "fr",
+              "texte": "Rousset-les-Vignes"
+            },
+            {
+              "lang": "it",
+              "texte": "Rousset-les-Vignes"
+            },
+            {
+              "lang": "nl",
+              "texte": "Rousset-les-Vignes"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtKgdLgiLWKX"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtMegd9Q3kaM",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-BQBF55G6-7",
+            "http://fr.dbpedia.org/page/Rousset_(Bouches-du-Rhône)",
+            "http://id.insee.fr/geo/commune/13087",
+            "https://catalogue.bnf.fr/ark:/12148/cb15247369h",
+            "https://fr.wikipedia.org/wiki/Rousset_(Bouches-du-Rhône)",
+            "https://sws.geonames.org/6615881/",
+            "https://www.wikidata.org/wiki/Q640803"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "13087",
+              "uri": "http://id.insee.fr/geo/commune/13087"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            },
+            {
+              "lang": "en",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            },
+            {
+              "lang": "es",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            },
+            {
+              "lang": "it",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Rousset (Bouches-du-Rhône)"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtVqtsfM4Yn0"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtla4EHGDgDd",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-ZBJ6J37R-2",
+            "http://fr.dbpedia.org/page/Rousset_(Hautes-Alpes)",
+            "http://id.insee.fr/geo/commune/05127",
+            "http://www.wikidata.org/entity/Q938936",
+            "https://fr.wikipedia.org/wiki/Rousset_(Hautes-Alpes)",
+            "https://sws.geonames.org/6453562/"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "05127",
+              "uri": "http://id.insee.fr/geo/commune/05127"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "EXACTMATCH_INSEE_CODE_COURANT",
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Rousset (Hautes-Alpes)"
+            },
+            {
+              "lang": "en",
+              "texte": "Rousset (Hautes-Alpes)"
+            },
+            {
+              "lang": "es",
+              "texte": "Rousset (Hautes-Alpes)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Rousset (Hautes-Alpes)"
+            },
+            {
+              "lang": "it",
+              "texte": "Rousset (Hautes-Alpes)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Rousset (Hautes-Alpes)"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrthvHLIWAcHD"
+          ],
+          "skos_related": []
+        }
+      ],
+      "date_effet": "2025-01-01",
+      "decret": "2024-863",
+      "decret_url": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000050085315",
+      "id_evenement_COG": "cog:bf05f9e60c73c71b8e7c1fd2",
+      "nature_COG": "MOD10_RENOMMAGE_CODE_CONSERVE",
+      "nom_2026": "Rousset-Serre-Ponçon",
+      "nom_ancien": "Rousset",
+      "nombre_candidats": 3,
+      "nouvelle_validation_2026": false,
+      "qualification": "COG_RENOMMAGE_CONFIRME_PACTOLS_A_INSTRUIRE"
+    },
+    {
+      "ARK_directement_assertes_vers_code_2026": [
+        "26678/pcrt7B7bs9P5g2"
+      ],
+      "code_COG": "83052",
+      "code_conserve": true,
+      "concepts_pactols_a_examiner": [
+        {
+          "altLabel": [
+            {
+              "lang": "fr",
+              "texte": "Esparron-de-Pallières"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron-de-Pallières"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron-de-Pallières"
+            },
+            {
+              "lang": "de",
+              "texte": "Esparron-de-Pallières"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron-de-Pallières"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron-de-Pallières"
+            }
+          ],
+          "ark": "26678/pcrt7B7bs9P5g2",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-Q6ZRVFM9-V",
+            "http://fr.dbpedia.org/page/Esparron_(Var)",
+            "http://id.insee.fr/geo/commune/83052",
+            "http://www.wikidata.org/entity/Q1149951",
+            "https://catalogue.bnf.fr/ark:/12148/cb15277879t",
+            "https://fr.wikipedia.org/wiki/Esparron_(Var)",
+            "https://sws.geonames.org/6613522/"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "83052",
+              "uri": "http://id.insee.fr/geo/commune/83052"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "ALT_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME",
+            "ALT_LIBELLE_NOUVEAU_EXACT",
+            "EXACTMATCH_INSEE_CODE_COURANT",
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Esparron (Var)"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron (Var)"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron (Var)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Esparron (Var)"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron (Var)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron (Var)"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtVacUtHvsRG"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtB2cTfAZtVv",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-TPFDVKJ4-N",
+            "http://fr.dbpedia.org/page/Esparron_(Haute-Garonne)",
+            "http://id.insee.fr/geo/commune/31172",
+            "http://www.wikidata.org/entity/Q1344807",
+            "https://catalogue.bnf.fr/ark:/12148/cb15255168b",
+            "https://fr.wikipedia.org/wiki/Esparron_(Haute-Garonne)",
+            "https://sws.geonames.org/6431550/"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "31172",
+              "uri": "http://id.insee.fr/geo/commune/31172"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Esparron (Haute-Garonne)"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron (Haute-Garonne)"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron (Haute-Garonne)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Esparron (Haute-Garonne)"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron (Haute-Garonne)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron (Haute-Garonne)"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtuypZKBFvoa"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtFoJp7FEtlt",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-HR9P1T8Q-M",
+            "http://fr.dbpedia.org/page/Esparron-de-Verdon",
+            "http://id.insee.fr/geo/commune/04081",
+            "https://fr.wikipedia.org/wiki/Esparron-de-Verdon",
+            "https://sws.geonames.org/6446611/",
+            "https://www.wikidata.org/wiki/Q454547"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "04081",
+              "uri": "http://id.insee.fr/geo/commune/04081"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [
+            {
+              "texte": "Esparron-de-Verdon fusionne avec Albiosc (fusion association) [date d'effet : 1973-04-15]. Albiosc est rattachée à Esparron-de-Verdon (fusion association) [date d'effet : 1973-04-15]. (Insee)",
+              "type": "historyNote"
+            }
+          ],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Esparron-de-Verdon"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron-de-Verdon"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron-de-Verdon"
+            },
+            {
+              "lang": "fr",
+              "texte": "Esparron-de-Verdon"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron-de-Verdon"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron-de-Verdon"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrtqBdX4vGn5j"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtLPXfXL67A7",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-NG41TZXQ-H",
+            "http://id.insee.fr/geo/commune/04082",
+            "https://sws.geonames.org/3019708/"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "04082",
+              "uri": "http://id.insee.fr/geo/commune/04082"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [
+            {
+              "texte": "Bayons fusionne avec Astoin, Esparron-la-Bâtie et Reynier (fusion association) [date d'effet : 1973-04-01]. Esparron-la-Bâtie est rattachée à Bayons (fusion association) [date d'effet : 1973-04-01]. (Insee)",
+              "type": "historyNote"
+            }
+          ],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Esparron-la-Bâtie"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron-la-Bâtie"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron-la-Bâtie"
+            },
+            {
+              "lang": "fr",
+              "texte": "Esparron-la-Bâtie"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron-la-Bâtie"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron-la-Bâtie"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrt6iuSi27vP7"
+          ],
+          "skos_related": []
+        },
+        {
+          "altLabel": [],
+          "ark": "26678/pcrtkLQxOiXaOj",
+          "dct_isReplacedBy": [],
+          "dct_replaces": [],
+          "decision_editoriale": "NON_PRISE",
+          "exactMatch": [
+            "http://data.loterre.fr/ark:/67375/D63-JCCV9KD1-S",
+            "http://fr.dbpedia.org/page/Esparron_(Hautes-Alpes)",
+            "http://id.insee.fr/geo/commune/05049",
+            "http://www.wikidata.org/entity/Q1017786",
+            "https://fr.wikipedia.org/wiki/Esparron_(Hautes-Alpes)",
+            "https://sws.geonames.org/6615722/"
+          ],
+          "exactMatch_INSEE": [
+            {
+              "est_UUID": false,
+              "famille": "commune",
+              "identifiant": "05049",
+              "uri": "http://id.insee.fr/geo/commune/05049"
+            }
+          ],
+          "identification_commune_2026": "A_INSTRUIRE",
+          "motifs_de_recuperation": [
+            "PREF_LIBELLE_ANCIEN_AVEC_QUALIFICATIF_OU_HOMONYME"
+          ],
+          "notes": [],
+          "owl_deprecated": false,
+          "prefLabel": [
+            {
+              "lang": "de",
+              "texte": "Esparron (Hautes-Alpes)"
+            },
+            {
+              "lang": "en",
+              "texte": "Esparron (Hautes-Alpes)"
+            },
+            {
+              "lang": "es",
+              "texte": "Esparron (Hautes-Alpes)"
+            },
+            {
+              "lang": "fr",
+              "texte": "Esparron (Hautes-Alpes)"
+            },
+            {
+              "lang": "it",
+              "texte": "Esparron (Hautes-Alpes)"
+            },
+            {
+              "lang": "nl",
+              "texte": "Esparron (Hautes-Alpes)"
+            }
+          ],
+          "skos_broader": [
+            "https://ark.frantiq.fr/ark:/26678/pcrthvHLIWAcHD"
+          ],
+          "skos_related": []
+        }
+      ],
+      "date_effet": "2026-01-01",
+      "decret": "2025-815",
+      "decret_url": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000052097266",
+      "id_evenement_COG": "cog:2a8bd8e6fba9664302eb6eaf",
+      "nature_COG": "MOD10_RENOMMAGE_CODE_CONSERVE",
+      "nom_2026": "Esparron-de-Pallières",
+      "nom_ancien": "Esparron",
+      "nombre_candidats": 5,
+      "nouvelle_validation_2026": false,
+      "qualification": "COG_RENOMMAGE_CONFIRME_PACTOLS_A_INSTRUIRE"
+    }
+  ],
+  "limites": [
+    "Un changement de dénomination avec code constant ne prouve pas l'identité ontologique d'un concept Pactols.",
+    "Les correspondances lexicales et les éventuels exactMatch UUID sont des pistes, jamais des preuves de code COG 2026.",
+    "Les homonymes sont conservés explicitement pour éviter une correspondance sur le seul nom.",
+    "Le millésime 2026 est distinct des anciennes périodes COG, sans rétroprojection d'ARK."
+  ],
+  "schema": "adlfi.lieux.paca.renommages.rdf2026.recette.v1",
+  "sources": {
+    "cog": {
+      "fichier": "docs/data/lieux-chronologie/cog-paca.json",
+      "millésime": "2026-01-01"
+    },
+    "decrets": "Légifrance, texte authentique indiqué dans chaque dossier",
+    "pactols": {
+      "commit": "69bf9697e24cefd645a69465bbd271702786285a",
+      "fichier": "Pactols_Lieux_th17_20260722.rdf",
+      "sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7"
+    }
+  },
+  "statut": "RECETTE_NON_VALIDANTE"
+}
