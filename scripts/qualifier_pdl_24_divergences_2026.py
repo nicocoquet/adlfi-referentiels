@@ -72,6 +72,34 @@ def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
         for pref in p["prefLabels_fr"]
         if norm(pref) != norm(label)
     ]
+    candidats_lexicaux = []
+    for possible in row["candidats_lexicaux_non_validants"]:
+        c_ark = possible["ark"]
+        full = complement[c_ark]
+        links = [u for u in full["exactMatch_tous"]
+                 if u.startswith(INSEE_PREFIXES)]
+        if uri in links:
+            state = "URI_INSEE_COURANTE_POTENTIELLE_A_VERIFIER"
+        elif links:
+            state = ("URI_INSEE_UUID_A_RESoudre"
+                     if any(re.search(r"/[a-f0-9]{8}-[a-f0-9-]{27,36}$", u, re.I)
+                            for u in links)
+                     else "URI_INSEE_AUTRE_CODE_OU_TYPE")
+        else:
+            state = "AUCUN_EXACTMATCH_INSEE"
+        candidats_lexicaux.append({
+            "ark": c_ark, "prefLabels_fr": possible["prefLabels_fr"],
+            "exactMatch_INSEE_parsees": possible["exactMatch_INSEE"],
+            "exactMatch_INSEE_completes": links,
+            "autres_exactMatch": [u for u in full["exactMatch_tous"]
+                                  if u not in links],
+            "remplacements_explicites": full["remplacements_explicites"],
+            "definitions": full["definitions"],
+            "notes_portee": full["notes_portee"],
+            "situation_URI_INSEE": state,
+            "decision_editoriale": "NON_PRISE"
+        })
+    candidats_lexicaux.sort(key=lambda p:p["ark"])
     if not reasons:
         raise ValueError("La règle d'audit initiale aurait dû accepter " + code)
     anciens_attestes = [x for x in anciens if x["episodes"] and
@@ -118,7 +146,7 @@ def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
         ), key=lambda r: r["debut"]),
         "prefLabels_anciens_eventuels": anciens,
         "prefLabels_anciens_attestes_COG": anciens_attestes,
-        "candidats_lexicaux_sans_exactMatch_courant": row["candidats_lexicaux_non_validants"],
+        "candidats_lexicaux_sans_exactMatch_courant": candidats_lexicaux,
         "altLabel_pouvant_designER_2026": bool(alts_compatibles),
         "motifs": sorted(set(reasons)),
         "groupe_instruction": groupe,
@@ -144,12 +172,19 @@ def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
     if any(r["code"] in codes for r in subset):
         raise ValueError("Des divergences sont déjà publiées dans les 1194")
     complements = completer_rdf(rdf, {
-        p["ark"] for r in subset for p in r["preuves_RDF_exactMatch"]
+        p["ark"] for r in subset
+        for p in (r["preuves_RDF_exactMatch"] + r["candidats_lexicaux_non_validants"])
     })
     dossiers = [analyser_dossier(r, complements, chronologie) for r in subset]
     dossiers.sort(key=lambda r: (r["groupe_instruction"], r["code_COG_2026"]))
     counts = collections.Counter(x["groupe_instruction"] for x in dossiers)
     motifs = collections.Counter(m for x in dossiers for m in x["motifs"])
+    types_candidats = collections.Counter(
+        p["situation_URI_INSEE"] for row in dossiers
+        for p in row["candidats_lexicaux_sans_exactMatch_courant"]
+    )
+    noms_courants_candidats = sum(bool(r["candidats_lexicaux_sans_exactMatch_courant"])
+                                 for r in dossiers)
     return {
         "schema": SCHEMA, "statut": "RECETTE_NON_VALIDANTE",
         "sources": {"pactols_sha256": RDF_SHA,
@@ -160,6 +195,8 @@ def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
         "liens_historiques_inferes": 0,
         "groupes": dict(sorted(counts.items())),
         "motifs": dict(sorted(motifs.items())),
+        "communes_avec_candidat_lexical": noms_courants_candidats,
+        "types_URI_candidats_lexicaux": dict(sorted(types_candidats.items())),
         "dossiers": dossiers,
         "regles": [
             "Une altLabel concordante ne valide pas un concept.",
@@ -188,6 +225,9 @@ def main():
           json.dumps(d["groupes"],ensure_ascii=False,sort_keys=True))
     print("PDL_24_DIVERGENCES_MOTIFS",
           json.dumps(d["motifs"],ensure_ascii=False,sort_keys=True))
+    print("PDL_24_CANDIDATS_LEXICAUX",json.dumps({
+        "communes":d["communes_avec_candidat_lexical"],
+        "types_URI":d["types_URI_candidats_lexicaux"]},sort_keys=True))
     for row in d["dossiers"]:
         print("PDL_24_DIVERGENCE",json.dumps({
             "code":row["code_COG_2026"],"nom":row["nom_COG_2026"],
