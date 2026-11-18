@@ -33,6 +33,15 @@ def site_local():
 
 
 
+
+def outil(page, selector):
+    """Ouvre le panneau avant une interaction Playwright avec un contrôle."""
+    parent = {"#zoom": "#zoom-tool", "#level": "#level-tool",
+              "#search": "#search-tool"}.get(selector)
+    if parent:
+        page.locator(parent).evaluate("(element) => { element.open = true; }")
+    return page.locator(selector)
+
 def inspecter_contours(page, attendu, capture):
     details=page.evaluate("""() => {
       const map=document.getElementById('map');
@@ -71,10 +80,19 @@ def main():
           "() => document.querySelector('#map-status')?.textContent.includes('18 contours régionaux')",
           timeout=60000
         )
+        assert page.locator(".map-tool").count()==3
+        assert page.locator(".map-tool[open]").count()==0
+        assert page.locator("#detail").is_hidden()
+        assert page.locator("#map").bounding_box()["width"] > 0.90 * 1400
+        page.locator("#zoom-tool summary").click()
+        assert page.locator("#zoom-tool").get_attribute("open") is not None
+        page.locator("#level-tool summary").click()
+        assert page.locator("#zoom-tool").get_attribute("open") is None
+        assert page.locator("#level-tool").get_attribute("open") is not None
         assert page.locator("#year").input_value()=="2026"
         assert page.locator("#year").get_attribute("type")=="range"
         assert page.locator("#year-label").text_content()=="2026"
-        assert page.locator("#level").input_value()=="region"
+        assert outil(page, "#level").input_value()=="region"
         assert page.evaluate("typeof L")=="object"
         assert page.locator(".leaflet-tile-pane").count()==1
         assert "Repère cartographique" not in page.locator("#map-status").text_content()
@@ -84,11 +102,11 @@ def main():
         page.locator("#reference").check()
 
         # DROM géographiquement visibles : cadrage sans changement d'année ou d'échelon.
-        page.locator("#zoom").select_option("indien")
+        outil(page, "#zoom").select_option("indien")
         assert page.locator("#year").input_value()=="2026"
-        assert page.locator("#level").input_value()=="region"
+        assert outil(page, "#level").input_value()=="region"
         inspecter_contours(page,100,"lieux-region-mayotte-reunion-2026")
-        page.locator("#search").fill("Mayotte")
+        outil(page, "#search").fill("Mayotte")
         page.locator("#results button").filter(has_text="Région · COG 2026 · 06").first.click()
         page.wait_for_function(
           "() => document.querySelector('#detail')?.textContent.includes('4 mai 2026')",
@@ -96,16 +114,16 @@ def main():
         )
         assert "06" in page.locator("#detail").text_content()
         assert "976R" in page.locator("#detail").text_content()
-        page.locator("#level").select_option("departement")
+        outil(page, "#level").select_option("departement")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('101 contours départementaux')",
           timeout=30000
         )
         inspecter_contours(page,100,"lieux-departements-drom-2026")
-        page.locator("#zoom").select_option("metropole")
+        outil(page, "#zoom").select_option("metropole")
         inspecter_contours(page,100,"lieux-departements-2026")
 
-        page.locator("#level").select_option("region")
+        outil(page, "#level").select_option("region")
         page.locator("#year").evaluate("(el) => {el.value='2016';el.dispatchEvent(new Event('change',{bubbles:true}));}")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
@@ -124,7 +142,7 @@ def main():
             "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2019')",
             timeout=30000)
         inspecter_contours(page,100,"lieux-regions-2019")
-        page.locator("#search").fill("Bretagne")
+        outil(page, "#search").fill("Bretagne")
         page.locator("#results button").filter(has_text="Région · COG 2019 · 53").click()
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('Millésime 2019')",
@@ -139,7 +157,7 @@ def main():
             timeout=30000)
         inspecter_contours(page,100,"lieux-regions-2020")
         assert "Repère cartographique" not in page.locator("#map-status").text_content()
-        page.locator("#search").fill("Bretagne")
+        outil(page, "#search").fill("Bretagne")
         page.locator("#results button").filter(has_text="Région · COG 2020 · 53").first.click()
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('2020-11-20')",
@@ -149,7 +167,7 @@ def main():
             "() => document.querySelector('#map-status')?.textContent.includes('COG au 1er janvier 2025')",
             timeout=30000)
         inspecter_contours(page,100,"lieux-regions-2025")
-        page.locator("#level").select_option("departement")
+        outil(page, "#level").select_option("departement")
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('101 contours départementaux')",
             timeout=30000)
@@ -165,26 +183,26 @@ def main():
             timeout=30000)
         inspecter_contours(page,100,"lieux-departements-2017")
         assert "Repère cartographique" not in page.locator("#map-status").text_content()
-        page.locator("#search").fill("Côtes-d'Armor")
+        outil(page, "#search").fill("Côtes-d'Armor")
         page.locator("#results button").filter(has_text="Département · COG 2017 · 22").first.click()
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('2017-06-19')",
             timeout=30000)
-        page.locator("#level").select_option("region")
+        outil(page, "#level").select_option("region")
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('18 contours régionaux')",
             timeout=30000)
         inspecter_contours(page,100,"lieux-regions-2017")
-        page.locator("#level").select_option("region")
+        outil(page, "#level").select_option("region")
         set_year(2016)
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
             timeout=30000)
         inspecter_contours(page,100,"lieux-regions-2016-reprise")
 
-        page.locator("#zoom").select_option("bfc")
+        outil(page, "#zoom").select_option("bfc")
         assert page.locator("#year").input_value()=="2016"
-        assert page.locator("#level").input_value()=="region"
+        assert outil(page, "#level").input_value()=="region"
         # Navigation clavier native du curseur : plus de boutons annexes.
         page.locator("#year").focus()
         page.locator("#year").press("ArrowLeft")
@@ -206,7 +224,7 @@ def main():
           "() => document.querySelector('#map-status')?.textContent.includes('22 contours régionaux')",
           timeout=30000
         )
-        page.locator("#level").select_option("departement")
+        outil(page, "#level").select_option("departement")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('96 contours départementaux')",
           timeout=30000
@@ -214,7 +232,7 @@ def main():
 
         inspecter_contours(page,100,"lieux-departements-2015")
 
-        page.locator("#search").fill("Bourgogne")
+        outil(page, "#search").fill("Bourgogne")
         page.locator("#results button").first.wait_for(timeout=15000)
         page.locator("#results button").first.click()
         page.wait_for_function(
@@ -222,14 +240,14 @@ def main():
           timeout=30000
         )
 
-        page.locator("#search").fill("26678/pcrt3pvNQUYc80")
+        outil(page, "#search").fill("26678/pcrt3pvNQUYc80")
         page.locator("#results button").first.wait_for(timeout=15000)
         page.locator("#results button").first.click()
         page.wait_for_function(
           "() => document.querySelector('#detail')?.textContent.includes('Correspondance Pactols')",
           timeout=30000
         )
-        assert page.locator("#level").input_value()=="commune"
+        assert outil(page, "#level").input_value()=="commune"
         assert page.locator("#detail").get_by_text("2026 seulement",exact=False).count()>=1
 
         # La frise doit conserver la commune sélectionnée quand la date change.
@@ -262,7 +280,7 @@ def main():
 
         # Recette nationale COG 2026 : fiches indépendantes de Pactols,
         # aucun contour inventé pour les communes d'outre-mer.
-        page.locator("#search").fill("Papeete")
+        outil(page, "#search").fill("Papeete")
         page.locator("#results button").filter(
             has_text="Commune · COG 2026 · Polynésie française · 98735"
         ).first.click()
@@ -272,10 +290,10 @@ def main():
         assert "Contour communal de référence cartographique Etalab 2026 affiché" in page.locator("#detail").text_content()
         assert "fonds territoriaux diffusés en 2022" in page.locator("#detail").text_content()
         assert "Correspondance Pactols validée (2026)" in page.locator("#detail").text_content()
-        assert page.locator("#level").input_value()=="commune"
+        assert outil(page, "#level").input_value()=="commune"
         assert "ref_cog=COMER%3ACOM%3A98735" in page.url
 
-        page.locator("#search").fill("Dembeni")
+        outil(page, "#search").fill("Dembeni")
         page.locator("#results button").filter(
             has_text="Commune · COG 2026 · Mayotte · 97607"
         ).first.click()
@@ -285,7 +303,7 @@ def main():
             "Correspondance Pactols validée (2026)", exact=False
         ).count()==1
 
-        page.locator("#search").fill("Acoua")
+        outil(page, "#search").fill("Acoua")
         page.locator("#results button").filter(
             has_text="Commune · COG 2026 · Mayotte · 97601"
         ).first.click()
@@ -403,15 +421,15 @@ def main():
         assert "1985-06-15" in t
         assert "Aucune limite de cette commune n’est affichée" not in t
 
-        page.locator("#search").fill("Kerguelen")
+        outil(page, "#search").fill("Kerguelen")
         page.locator("#results button").filter(
             has_text="District · COG 2026"
         ).first.click()
         assert "Archipel des Kerguelen" in page.locator("#detail").text_content()
         assert "n’est pas une commune dans le sélecteur territorial" in page.locator("#detail").text_content()
-        assert page.locator("#level").input_value()=="commune"
+        assert outil(page, "#level").input_value()=="commune"
 
-        page.locator("#search").fill("Île des Faisans")
+        outil(page, "#search").fill("Île des Faisans")
         page.locator("#results button").filter(
             has_text="Condominium · COG 2026"
         ).first.click()
@@ -422,7 +440,7 @@ def main():
         page.locator("#year").evaluate(
             "(el) => {el.value='2015';el.dispatchEvent(new Event('change',{bubbles:true}));}"
         )
-        page.locator("#search").fill("Tahaa")
+        outil(page, "#search").fill("Tahaa")
         page.locator("#results button").filter(has_text="Commune · COG 2026").first.click()
         assert "contour national 2026 présente une anomalie topologique" in page.locator("#detail").text_content()
         assert "Polynésie française · état au 1er janvier 2015" in page.locator("#detail").text_content()
@@ -455,7 +473,7 @@ def main():
         assert "Régina" in page.locator("#detail").text_content()
 
         # Recherche : les quatre autorités anciennes ont leurs propres codes/ARK.
-        page.locator("#search").fill("Approuague (chef-lieu Régina)")
+        outil(page, "#search").fill("Approuague (chef-lieu Régina)")
         page.locator("#results button").filter(
             has_text="Commune historique · Guyane · 97351"
         ).first.click()
@@ -567,7 +585,7 @@ def main():
           "() => document.querySelector('#detail')?.textContent.includes('Aucun épisode actif')",
           timeout=30000)
 
-        page.locator("#search").fill("97127")
+        outil(page, "#search").fill("97127")
         page.locator("#results button").filter(
           has_text="Ancienne commune · Guadeloupe · 97127"
         ).first.click()
@@ -745,7 +763,7 @@ def main():
         assert "441" in isp
         assert "Rurutu · 98744" in isp
         assert "Avera homonyme distinct : 501 · Taputapuatea" in isp
-        page.locator("#search").fill("Avera")
+        outil(page, "#search").fill("Avera")
         page.wait_for_function(
           "() => [...document.querySelectorAll('#results button')].filter(x => x.textContent.includes('Commune associée · ISPF')).length===2",
           timeout=30000)
@@ -782,7 +800,7 @@ def main():
         assert "aucune correspondance Pactols propre aux trois circonscriptions" in wf
         assert "Pactols validé pour la collectivité (2026)" in wf
         assert "26678/pcrtwFq5jKHO3k" in wf
-        page.locator("#search").fill("98609")
+        outil(page, "#search").fill("98609")
         page.wait_for_function(
           "() => [...document.querySelectorAll('#results button')].some(x => x.textContent.includes('Wallis-et-Futuna'))",
           timeout=30000)
@@ -832,7 +850,7 @@ def main():
             ("986","26678/pcrtwFq5jKHO3k"),
             ("987","26678/pcrt4K8nLVxWOP"),
         ]:
-            page.locator("#search").fill(ark)
+            outil(page, "#search").fill(ark)
             page.wait_for_function(
               "() => [...document.querySelectorAll('#results button')].some(x => x.textContent.includes('Collectivité ou territoire'))",
               timeout=30000)
@@ -894,10 +912,10 @@ def main():
           "() => document.querySelector('#detail')?.textContent.includes('25368')",
           timeout=60000
         )
-        assert page.locator("#zoom").input_value()=="bfc"
+        assert outil(page, "#zoom").input_value()=="bfc"
         assert page.locator("#year").input_value()=="2015"
         assert page.locator("#year-label").text_content()=="2015"
-        assert page.locator("#level").input_value()=="commune"
+        assert outil(page, "#level").input_value()=="commune"
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('contours communaux 2026 (et NON 2015)')",
           timeout=60000
