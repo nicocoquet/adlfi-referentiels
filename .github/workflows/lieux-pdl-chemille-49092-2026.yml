@@ -1,0 +1,97 @@
+name: Lieux PDL — Chemillé 49092 publication (1149)
+on:
+  pull_request:
+    paths:
+      - 'scripts/publier_pdl_chemille_49092_2026.py'
+      - 'tests/test_publier_pdl_chemille_49092_2026.py'
+      - 'tests/test_lieux_pdl_chemille_2026.js'
+      - 'tests/test_lieux_pdl_chemille_navigateur.py'
+      - 'recette/lieux/PDL-CHEMILLE-49092-2026.md'
+      - 'docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json'
+      - 'docs/assets/lieux-pdl-chemille-2026.js'
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/lieux/index.html'
+      - 'docs/data/manifest.json'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-pdl-chemille-49092-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier les sources épinglées Pactols / COG 2026
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Regénérer deux JSON identiques et comparer au fichier versionné
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for i in 1 2; do
+            python3 scripts/publier_pdl_chemille_49092_2026.py \
+              --cog docs/data/lieux-chronologie/cog-pdl.json \
+              --base docs/data/lieux-chronologie/pactols-pdl-2026.json \
+              --uuid docs/data/lieux-chronologie/pactols-pdl-uuid-resolus-2026.json \
+              --lot01 docs/data/lieux-chronologie/pactols-pdl-communes-nouvelles-lot01-2026.json \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog-officiel "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --sortie "$RUNNER_TEMP/pdl-chemille-$i.json"
+          done
+          cmp "$RUNNER_TEMP/pdl-chemille-1.json" "$RUNNER_TEMP/pdl-chemille-2.json"
+          cmp "$RUNNER_TEMP/pdl-chemille-1.json" docs/data/lieux-chronologie/pactols-pdl-chemille-2026.json
+      - name: Tester fiches, index et non-régressions
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_publier_pdl_chemille_49092_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+          node tests/test_lieux_pdl_chemille_2026.js
+          node tests/test_lieux_pdl_lot01_cinq_ark_2026.js
+          node tests/test_lieux_pdl_trois_uuid_resolus_2026.js
+          node tests/test_lieux_pdl_pactols_2026.js
+          node tests/test_lieux_paca_sept_communes_nouvelles_2026.js
+          node tests/test_lieux_corse_pactols_2026.js
+          node tests/test_lieux_bfc_pactols_2026.js
+          node tests/test_lieux_drom_contours_2026.js
+          node tests/test_lieux_spm_contours_2026.js
+      - name: Installer Chromium
+        working-directory: referentiels
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Contrôler les fiches en navigateur
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_pdl_chemille_navigateur.py
+          python3 tests/test_lieux_pdl_lot01_cinq_ark_navigateur.py
+          python3 tests/test_lieux_pdl_trois_uuid_resolus_navigateur.py
+          python3 tests/test_lieux_paca_sept_communes_nouvelles_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preuve-chemille-49092-pdl-1149
+          path: ${{ runner.temp }}/pdl-chemille-1.json
+          retention-days: 30
+          if-no-files-found: error
