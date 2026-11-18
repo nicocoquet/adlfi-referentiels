@@ -1,0 +1,64 @@
+name: Lieux - resolution UUID INSEE Cereste 04045
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_insee_uuid_cereste_2026.py'
+      - 'tests/test_auditer_insee_uuid_cereste_2026.py'
+      - '.github/workflows/lieux-paca-cereste-insee-uuid.yml'
+permissions:
+  contents: write
+jobs:
+  resoudre-insee-uuid:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester la valeur probatoire du code INSEE
+        run: python3 -m unittest discover -s tests -p 'test_auditer_insee_uuid_cereste_2026.py' -v
+      - name: Interroger exclusivement les services officiels Insee
+        run: |
+          set -euo pipefail
+          python3 scripts/auditer_insee_uuid_cereste_2026.py \
+            --sortie "$RUNNER_TEMP/CERESTE-UUID-INSEE-AUDIT-2026.json"
+          python3 - "$RUNNER_TEMP/CERESTE-UUID-INSEE-AUDIT-2026.json" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert a['schema']=='adlfi.lieux.paca.cereste.uuid-insee.audit.v1'
+          assert a['code_COG_2026_officiel']=='04045'
+          assert a['nouvel_ARK_publie'] is False
+          assert a['nouvel_etat_historique'] is False
+          if a['preuve_par_triplet_insee']:
+              assert a['decision_documentaire']=='URI_UUID_CONFIRME_COG_04045_PAR_TRIPLET_INSEE'
+          else:
+              assert a['decision_documentaire']=='CORRESPONDANCE_UUID_CODE_NON_DEMONTREE'
+          print("CERESTE_UUID_AUDIT_NON_PUBLIANT_OK",a['decision_documentaire'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-cereste-uuid-officiel-2026
+          path: ${{ runner.temp }}/CERESTE-UUID-INSEE-AUDIT-2026.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Conserver la recette sans modifier les index publics
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/CERESTE-UUID-INSEE-AUDIT-2026.json" \
+            recette/lieux/PACA-CERESTE-UUID-INSEE-AUDIT-2026.json
+          git add -- recette/lieux/PACA-CERESTE-UUID-INSEE-AUDIT-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PACA : tracer le resultat du dereferencement UUID Insee'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi

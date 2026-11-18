@@ -1,0 +1,175 @@
+{
+  "appels_dereferencement": [
+    {
+      "codeINSEE_du_sujet_UUID": [
+        "04045"
+      ],
+      "content_type": "application/rdf+xml;charset=UTF-8",
+      "corps_extrait": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rdf:RDF\n\txmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n\txmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n\txmlns:rdf4j=\"http://rdf4j.org/schema/rdf4j#\"\n\txmlns:sesame=\"http://www.openrdf.org/schema/sesame#\"\n\txmlns:owl=\"http://www.w3.org/2002/07/owl#\"\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\"\n\txmlns:fn=\"http://www.w3.org/2005/xpath-functions#\">\n\n<rdf:Description rdf:about=\"http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8\">\n\t<rdf:type rdf:resource=\"http://rdf.insee.fr/def/geo#Commune\"/>\n\t<owl:sameAs rdf:resource=\"http://id.insee.fr/geo/commune/04045\"/>\n\t<codeINSEE xmlns=\"http://rdf.insee.fr/def/geo#\">04045</codeINSEE>\n\t<nom xmlns=\"http://rdf.insee.fr/def/geo#\">Céreste-en-Luberon</nom>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/arrondissement/51dcbc6e-5c97-4472-b597-68aee9904dc9\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/aireDAttractionDesVilles2020/44303ede-b046-495c-bab5-607b2544a330\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/zoneDEmploi2020/e5302077-6df2-47d9-9456-178098613d8d\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/bassinDeVie2022/1ef93e76-8fde-4ab8-8302-5af65fa8317f\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/intercommunalite/252715f1-5a45-4f32-8e09-f7616068672d\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/canton/c5594105-e325-409b-9ec3-7ba6068e59ce\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/cantonOuVille/294a43ce-cbaf-45eb-ab66-73f40752f917\"/>\n\t<subdivisionDirecteDe xmlns=\"http://rdf.insee.fr/def/geo#\" rdf:resource=\"http://id.insee.fr/geo/collectiviteTerritorialeAyantLesCompetencesDepartementales/63544a78-02cb-40f4-92cf-bdabfb018ab2\"/>\n\t<modified xmlns=\"http://purl.org/dc/terms/\" rdf:datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">2024-01-30T17:51:56.207524</modified>\n\t<created xmlns=\"http://",
+      "octets_lus": 2952,
+      "preuve_directe_code_04045": true,
+      "sha256_du_corps_lu": "85e8c632826814196014749619e1a11c29263beb3d290706a0bed1570a4d8f89",
+      "status": 200,
+      "tronque": false,
+      "url": "https://rdf.insee.fr/sparql?query=describe<http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8>"
+    }
+  ],
+  "appels_sparql": [
+    {
+      "analyse_erreur": "Expecting value: line 1 column 1 (char 0)",
+      "content_type": "text/html; charset=UTF-8",
+      "corps_extrait": "<!doctype html>\n<html lang=\"fr\">\n    <head>\n        <meta charset=\"utf-8\" />\n        <link rel=\"icon\" href=\"/sparql/insee-logo.jpg\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n        <meta name=\"theme-color\" content=\"#000000\" />\n        <link href=\"/sparql/yasgui.css\" rel=\"stylesheet\" type=\"text/css\" />\n        <script src=\"/sparql/yasgui.min.js\"></script>\n\n        <meta name=\"description\" content=\"Web site created using create-react-app\" />\n        <link rel=\"apple-touch-icon\" href=\"/logo192.png\" />\n        <!--\n      manifest.json provides metadata used",
+      "octets_lus": 1672,
+      "sha256_du_corps_lu": "e94f06cb76a092aaaaac40466dc598c20c23501711ed8f6538008243486629e7",
+      "status": 200,
+      "tronque": false,
+      "url": "https://rdf.insee.fr/sparql/?query=SELECT+%3Fs+%3Fp+%3Fo+WHERE+%7B+VALUES+%3Fs+%7B+%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F3cb419d3-63ba-4e7c-be42-2640cf521de8%3E+%3Chttps%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F3cb419d3-63ba-4e7c-be42-2640cf521de8%3E+%7D+%3Fs+%3Fp+%3Fo+%7D+LIMIT+200&format=application%2Fsparql-results%2Bjson"
+    },
+    {
+      "content_type": "application/sparql-results+json;charset=UTF-8",
+      "octets_lus": 6747,
+      "preuve": {
+        "nombre_triples": 16,
+        "preuve_directe_code_04045": true,
+        "triples": [
+          {
+            "lang": null,
+            "o": "http://rdf.insee.fr/def/geo#Commune",
+            "p": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/commune/04045",
+            "p": "http://www.w3.org/2002/07/owl#sameAs",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "04045",
+            "p": "http://rdf.insee.fr/def/geo#codeINSEE",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          },
+          {
+            "lang": null,
+            "o": "Céreste-en-Luberon",
+            "p": "http://rdf.insee.fr/def/geo#nom",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/arrondissement/51dcbc6e-5c97-4472-b597-68aee9904dc9",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/aireDAttractionDesVilles2020/44303ede-b046-495c-bab5-607b2544a330",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/zoneDEmploi2020/e5302077-6df2-47d9-9456-178098613d8d",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/bassinDeVie2022/1ef93e76-8fde-4ab8-8302-5af65fa8317f",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/intercommunalite/252715f1-5a45-4f32-8e09-f7616068672d",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/canton/c5594105-e325-409b-9ec3-7ba6068e59ce",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/cantonOuVille/294a43ce-cbaf-45eb-ab66-73f40752f917",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "http://id.insee.fr/geo/collectiviteTerritorialeAyantLesCompetencesDepartementales/63544a78-02cb-40f4-92cf-bdabfb018ab2",
+            "p": "http://rdf.insee.fr/def/geo#subdivisionDirecteDe",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "uri"
+          },
+          {
+            "lang": null,
+            "o": "2024-01-30T17:51:56.207524",
+            "p": "http://purl.org/dc/terms/modified",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          },
+          {
+            "lang": null,
+            "o": "2024-01-30T17:51:56.207524",
+            "p": "http://purl.org/dc/terms/created",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          },
+          {
+            "lang": null,
+            "o": "0",
+            "p": "http://rdf.insee.fr/def/geo#codeArticle",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          },
+          {
+            "lang": null,
+            "o": "Céreste-en-Luberon",
+            "p": "http://rdf.insee.fr/def/geo#nomSansArticle",
+            "s": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8",
+            "type": "literal"
+          }
+        ],
+        "valeurs_codeINSEE": [
+          "04045"
+        ]
+      },
+      "sha256_du_corps_lu": "f6ab56071413a438a872e4d5bcc7ba8e65a5a08b899151dd2d38ad93adf4780b",
+      "status": 200,
+      "tronque": false,
+      "url": "https://rdf.insee.fr/sparql?query=SELECT+%3Fs+%3Fp+%3Fo+WHERE+%7B+VALUES+%3Fs+%7B+%3Chttp%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F3cb419d3-63ba-4e7c-be42-2640cf521de8%3E+%3Chttps%3A%2F%2Fid.insee.fr%2Fgeo%2Fcommune%2F3cb419d3-63ba-4e7c-be42-2640cf521de8%3E+%7D+%3Fs+%3Fp+%3Fo+%7D+LIMIT+200&format=application%2Fsparql-results%2Bjson"
+    }
+  ],
+  "code_COG_2026_officiel": "04045",
+  "decision_documentaire": "URI_UUID_CONFIRME_COG_04045_PAR_TRIPLET_INSEE",
+  "libelle_COG_2026_officiel": "Céreste-en-Luberon",
+  "limites": "Une erreur réseau ou l'absence de triples ne prouvent pas l'inexistence du lien. Ne pas déduire l'identité UUID à partir du nom ou du site Wikidata.",
+  "nouvel_ARK_publie": false,
+  "nouvel_etat_historique": false,
+  "preuve_par_triplet_insee": true,
+  "schema": "adlfi.lieux.paca.cereste.uuid-insee.audit.v1",
+  "sources": {
+    "endpoint": "https://rdf.insee.fr/sparql/",
+    "insee_cog": "https://www.insee.fr/fr/metadonnees/geographie/commune/04045-cereste-en-luberon",
+    "pactols": "26678/pcrtHxveTzUMik",
+    "rdf_complet": "https://static.insee.fr/metadonnees/geo/cog.zip",
+    "rdf_pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+    "uri_canonique": "http://id.insee.fr/geo/commune/3cb419d3-63ba-4e7c-be42-2640cf521de8"
+  },
+  "statut": "AUDIT_NON_PUBLIANT"
+}
