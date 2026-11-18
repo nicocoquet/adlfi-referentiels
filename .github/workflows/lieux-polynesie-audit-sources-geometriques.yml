@@ -5,12 +5,18 @@ on:
       - 'scripts/auditer_sources_geometriques_polynesie_2022_2026.py'
       - 'scripts/comparer_geometries_polynesie_2022_2026.py'
       - '.github/workflows/lieux-polynesie-audit-sources-geometriques.yml'
+permissions:
+  contents: write
 jobs:
   inventaire-non-publiant:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -60,3 +66,20 @@ jobs:
             /tmp/pf-comparaison-1.json
           retention-days: 30
           if-no-files-found: error
+      - name: Versionner les deux rapports de recette hors docs, apres succes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp /tmp/pf-audit-1.json recette/lieux/PF-INVENTAIRE-GEOMETRIQUE-2022-2026.json
+          cp /tmp/pf-comparaison-1.json recette/lieux/PF-COMPARAISON-GEOMETRIQUE-2022-2026.json
+          git add -- recette/lieux/PF-INVENTAIRE-GEOMETRIQUE-2022-2026.json \
+                     recette/lieux/PF-COMPARAISON-GEOMETRIQUE-2022-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'Lieux PF : versionner les inventaires ISPF GEO PF et comparaisons de surfaces'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
