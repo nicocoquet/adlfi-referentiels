@@ -7,7 +7,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from auditer_pactols_polynesie_2026 import (
-    ARK, RDF, SKOS, DCT, label_compatible,
+    ARK, RDF, SKOS, DCT,
 )
 
 SCHEMA = "adlfi.lieux.pdl.ark-multiples.triage.2026.v1"
@@ -49,13 +49,15 @@ def completer_rdf(rdf: Path, attendus: set[str]) -> dict:
     return preuves
 
 def libelle_contemporain_compatible(nom_cog: str, libelle: str) -> bool:
-    """Un qualificatif administratif historique ne vaut pas identité COM 2026."""
-    if not label_compatible(nom_cog, libelle):
-        return False
+    """Comparaison conservatrice : préserver la ponctuation distinctive des épisodes."""
     historique = ("ancienne commune", "commune déléguée",
                   "commune deleguee", "commune associée",
                   "commune associee", "ancien territoire")
-    return not any(terme in libelle.casefold() for terme in historique)
+    if any(terme in libelle.casefold() for terme in historique):
+        return False
+    # Un géoqualificatif n'est admis que si le libellé de base est exact.
+    base = libelle.partition(" (")[0]
+    return base.strip().casefold() == nom_cog.strip().casefold()
 
 def qualifier(audit: dict, rdf: Path) -> dict:
     lignes = audit["communes"]
