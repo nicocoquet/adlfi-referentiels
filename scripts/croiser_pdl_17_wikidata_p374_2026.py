@@ -47,7 +47,7 @@ def acquerir(qids:list[str],sortie:Path)->str:
         raise ValueError("Fichier de preuve Wikidata hors docs, non existant")
     params=urllib.parse.urlencode({
        "action":"wbgetentities","ids":"|".join(sorted(qids)),
-       "props":"claims|labels","languages":"fr|en","format":"json",
+       "props":"info|claims|labels","languages":"fr|en","format":"json",
        "redirects":"no"
     })
     url=API+"?"+params
@@ -64,8 +64,9 @@ def acquerir(qids:list[str],sortie:Path)->str:
             entities=data.get("entities")
             if not isinstance(entities,dict) or set(entities)!=set(qids):
                 raise ValueError("17 entités Wikidata non retournées")
-            if any("missing" in x or "lastrevid" not in x for x in entities.values()):
-                raise ValueError("Une entité Wikidata est absente")
+            invalid={q:{"missing":e.get("missing"),"lastrevid":e.get("lastrevid")} for q,e in entities.items() if "missing" in e or "lastrevid" not in e}
+            if invalid:
+                raise ValueError("Entités Wikidata sans révision : "+repr(invalid))
             sortie.parent.mkdir(parents=True,exist_ok=True)
             sortie.write_bytes(raw)
             checksum=hashlib.sha256(raw).hexdigest()
