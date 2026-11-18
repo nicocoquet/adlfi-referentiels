@@ -20,7 +20,7 @@ ARKS={
  "05101":"26678/pcrt2BsRDBxggr",
  "05118":"26678/pcrtjKbaVOnEjn",
 }
-RESERVES=("04045","05001")
+RESERVES=("05001",)
 def produire(audit,pilote,complement,renommages,cog):
  if (audit.get("schema")!=AUDIT_SCHEMA or audit.get("bilan",{}).get("communes_nouvelles_a_instruire")!=8
    or audit.get("bilan",{}).get("ARK_vers_codes_contemporains")!=15
@@ -32,9 +32,9 @@ def produire(audit,pilote,complement,renommages,cog):
  if (len(pilote.get("autorites",[]))!=103 or
   complement.get("schema")!="adlfi.lieux.pactols.paca.complement.2026.public.v1" or
   len(complement.get("alignements_Pactols_COG_valides_2026",[]))!=832 or
-  renommages.get("schema")!="adlfi.lieux.pactols.paca.renommages.2026.public.v1" or
-  len(renommages.get("alignements_Pactols_COG_valides_2026",[]))!=2 or
-  renommages.get("total_alignements_PACA_2026")!=937):
+  renommages.get("schema")!="adlfi.lieux.pactols.paca.renommages.2026.public.v2" or
+  len(renommages.get("alignements_Pactols_COG_valides_2026",[]))!=3 or
+  renommages.get("total_alignements_PACA_2026")!=938):
   raise ValueError("937 liens PACA précédents différents")
  previous={}
  arks=set()
@@ -47,7 +47,7 @@ def produire(audit,pilote,complement,renommages,cog):
    code=row["code_insee"];ark=row["ark_pactols"]
    if code in previous or ark in arks:raise ValueError("Doublon avec un alignement publié")
    previous[code]=ark;arks.add(ark)
- if len(previous)!=937 or any(c in previous for c in (*EXPECTED,*RESERVES)):
+ if len(previous)!=938 or any(c in previous for c in (*EXPECTED,*RESERVES)):
   raise ValueError("Réserves ou alignements précédents modifiés")
  dossiers={x["code_COG_2026"]:x for x in audit["dossiers"]}
  if set(dossiers)!=set(CASES):raise ValueError("Huit dossiers incomplets")
@@ -112,8 +112,8 @@ def produire(audit,pilote,complement,renommages,cog):
   "source_audit":"recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json",
   "liens_communes_nouvelles_ajoutes":7,
   "pilote_valide_conserve":103,"complements_conserves":832,
-  "renommages_conserves":2,"alignements_total_PACA_2026":944,
-  "communes_a_instruire":2,"exceptions_restantes":["04045","05001"],
+  "renommages_conserves":3,"alignements_total_PACA_2026":945,
+  "communes_a_instruire":1,"exceptions_restantes":["05001"],
   "ARK_anciens_concepts_non_promus":sorted(old_arks),
   "nouvelles_geometries":0,"identites_historiques_inferees":0,
   "alignements_Pactols_COG_valides_2026":sorted(new,key=lambda x:x["code_insee"])
@@ -131,6 +131,6 @@ def main():
  a.sortie.parent.mkdir(parents=True,exist_ok=True)
  a.sortie.write_text(json.dumps(result,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")
  print("PACA_SEPT_COMMUNES_NOUVELLES_PREPAREES",json.dumps({
-  "nouvelles_validations":7,"total":944,"exceptions":result["exceptions_restantes"],
+  "nouvelles_validations":7,"total":945,"exceptions":result["exceptions_restantes"],
   "SHA256":hashlib.sha256(a.sortie.read_bytes()).hexdigest()},ensure_ascii=False,sort_keys=True))
 if __name__=="__main__":main()
