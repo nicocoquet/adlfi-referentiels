@@ -579,6 +579,18 @@
         "exactMatch_INSEE_direct_pactols": 0,
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2026_trois_collisions": {
+        "statut": "Trois communes nouvelles PDL (Mauges-sur-Loire, Sainte-Suzanne-et-Chammes, Villeneuve-en-Perseigne) alignées par ARK Pactols distincts des anciennes communes",
+        "fichier": "data/lieux-chronologie/pactols-pdl-trois-collisions-2026.json",
+        "source_registre": "recette/lieux/PDL-TROIS-COLLISIONS-2026.md",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "nouveaux_alignements": 3,
+        "liens_PDL_2026_au_total": 1215,
+        "exceptions_2026_restantes": 13,
+        "portee_COG": "2026-01-01",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
