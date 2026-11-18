@@ -216,16 +216,17 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-pdl-pactols.js",
                 "../assets/lieux-paca-pactols.js",
                 "../assets/lieux-paca-renommages.js?v=20261118-paca938",
+                "../assets/lieux-paca-communes-nouvelles.js",
                 "../assets/lieux-drom-contours.js",
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-paca938",
+                "../assets/lieux-multiechelon.js?v=20261118-paca945",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
@@ -474,6 +475,18 @@ class LieuxUITests(unittest.TestCase):
             "Situation administrative au 1er janvier",
         ):
             self.assertIn(excerpt, self.html)
+
+
+    def test_paca_sept_communes_nouvelles_file_is_versioned(self):
+        path=ROOT/"docs/data/lieux-chronologie/pactols-paca-communes-nouvelles-2026.json"
+        self.assertTrue(path.is_file(), "Le fichier des sept communes nouvelles doit être versionné avant Chromium")
+        data=json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],"adlfi.lieux.pactols.paca.sept_communes_nouvelles.2026.public.v1")
+        self.assertEqual(data["alignements_total_PACA_2026"],945)
+        self.assertEqual(data["exceptions_restantes"],["05001"])
+        self.assertEqual(len(data["alignements_Pactols_COG_valides_2026"]),7)
+        self.assertNotIn("05001",{x["code_insee"] for x in data["alignements_Pactols_COG_valides_2026"]})
+        self.assertIn("lieux-paca-communes-nouvelles.js",self.html)
 
 
 
