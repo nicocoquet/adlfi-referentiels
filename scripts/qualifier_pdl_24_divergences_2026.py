@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""Recette non validante des 24 divergences Pactols–COG en Pays de la Loire (2026)."""
+from __future__ import annotations
+import argparse
+import collections
+import json
+import re
+from pathlib import Path
+from auditer_pactols_cog_regions_prioritaires_2026 import audit
+from auditer_pactols_polynesie_2026 import RDF_SHA, label_compatible, norm
+from qualifier_pdl_ark_multiples_2026 import completer_rdf
+
+SCHEMA = "adlfi.lieux.pdl.24-divergences.2026.recette.v1"
+PUBLICATIONS = (
+    "pactols-pdl-2026.json",
+    "pactols-pdl-uuid-resolus-2026.json",
+    "pactols-pdl-communes-nouvelles-lot01-2026.json",
+    "pactols-pdl-chemille-2026.json",
+    "pactols-pdl-communes-nouvelles-lot02-2026.json",
+)
+URI_PREFIX = "http://id.insee.fr/geo/commune/"
+INSEE_PREFIXES = ("http://id.insee.fr/geo/", "https://id.insee.fr/geo/")
+
+def anciennes_denom(cog: dict, code: str, libelle: str) -> list[dict]:
+    return sorted((
+        {"debut": p["debut_inclus"], "fin": p["fin_exclue"],
+         "libelle": p["libelle"], "typecom": p["typecom"]}
+        for p in cog["periodes_com"] if p["code_insee"] == code and
+        p["typecom"] == "COM" and norm(p["libelle"]) == norm(libelle)
+    ), key=lambda p: p["debut"])
+
+def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
+    code = row["code"]
+    label = row["nom"]
+    hits = row["preuves_RDF_exactMatch"]
+    if len(hits) != 1:
+        raise ValueError("Un seul concept RDF attendu pour la divergence : " + code)
+    p = hits[0]
+    ark = p["ark"]
+    extra = complement[ark]
+    reasons = []
+    if p["deprecie"]:
+        reasons.append("CONCEPT_DEPRECIE")
+    if p["remplace"] or extra["remplacements_explicites"]:
+        reasons.append("CONCEPT_REMPLACE")
+    if p["risque_ile_atoll_autre_type"]:
+        reasons.append("PREFIXE_TYPE_GEOGRAPHIQUE_A_QUALIFIER")
+    if len(p["prefLabels_fr"]) != 1:
+        reasons.append("PREFLABEL_NON_UNIVOQUE")
+    if not any(label_compatible(label, x) for x in p["prefLabels_fr"]):
+        reasons.append("PREFLABEL_NON_CONCORDANT")
+    if len(p["codes_communaux_cites"]) != 1:
+        reasons.append("ARK_ASSOCIE_A_PLUSIEURS_CODES_COG")
+    uri = URI_PREFIX + code
+    insee = sorted(u for u in extra["exactMatch_tous"]
+                   if u.startswith(INSEE_PREFIXES))
+    autres = [u for u in insee if u != uri]
+    if uri not in insee:
+        reasons.append("URI_INSEE_COURANTE_ABSENTE_DU_RDF")
+    if autres:
+        if any(re.search(r"/[a-f0-9]{8}-[a-f0-9-]{27,36}$", u, re.I) for u in autres):
+            reasons.append("URI_INSEE_UUID_SUPPLEMENTAIRE")
+        reasons.append("AUTRE_URI_INSEE_SUPPLEMENTAIRE")
+    if any(x["famille"] != "commune" or x["code"] != code
+           for x in p["insee_exactMatch"]):
+        reasons.append("AUTRE_CODE_INSEE_INTERPRETABLE")
+    # Une altLabel ou un ancien libellé concordants sont des indices, jamais des preuves.
+    alts_compatibles = [x for x in p["altLabels_fr"]
+                        if label_compatible(label, x)]
+    anciens = [
+        {"libelle": pref, "episodes": anciennes_denom(cog, code, pref)}
+        for pref in p["prefLabels_fr"]
+        if norm(pref) != norm(label)
+    ]
+    if not reasons:
+        raise ValueError("La règle d'audit initiale aurait dû accepter " + code)
+    if p["deprecie"] or p["remplace"] or extra["remplacements_explicites"]:
+        groupe = "STATUT_OU_REMPLACEMENT"
+    elif autres or len(p["codes_communaux_cites"]) != 1:
+        groupe = "URI_OU_CODES_CONCURRENTS"
+    elif p["risque_ile_atoll_autre_type"]:
+        groupe = "TYPE_GEOGRAPHIQUE_A_VERIFIER"
+    elif "PREFLABEL_NON_CONCORDANT" in reasons:
+        groupe = "LIBELLE_NON_CONCORDANT"
+    else:
+        groupe = "STRUCTURE_RDF_ATYPIQUE"
+    return {
+        "code_COG_2026": code, "nom_COG_2026": label,
+        "departement": row["departement"], "ark_pactols": ark,
+        "prefLabels_fr": p["prefLabels_fr"],
+        "altLabels_fr": p["altLabels_fr"],
+        "altLabels_compatibles": alts_compatibles,
+        "codes_communaux_cites": p["codes_communaux_cites"],
+        "insee_exactMatch_parsees": p["insee_exactMatch"],
+        "insee_exactMatch_completes": insee,
+        "autres_exactMatch_non_INSEE": [
+            x for x in extra["exactMatch_tous"] if x not in insee
+        ],
+        "rdf": {
+            "deprecie": p["deprecie"], "remplace": p["remplace"],
+            "remplacements": extra["remplacements_explicites"],
+            "definitions": extra["definitions"],
+            "notes_histoire": extra["notes_histoire"],
+            "notes_portee": extra["notes_portee"],
+            "notes": extra["notes"],
+        },
+        "episodes_COG_meme_code": sorted((
+            {"libelle": x["libelle"], "debut": x["debut_inclus"],
+             "fin": x["fin_exclue"]}
+            for x in cog["periodes_com"]
+            if x["code_insee"] == code and x["typecom"] == "COM"
+        ), key=lambda r: r["debut"]),
+        "prefLabels_anciens_eventuels": anciens,
+        "altLabel_pouvant_designER_2026": bool(alts_compatibles),
+        "motifs": sorted(set(reasons)),
+        "groupe_instruction": groupe,
+        "ark_retenu": None, "decision_editoriale": "NON_PRISE",
+        "publication": "NON_PUBLIE",
+    }
+
+def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
+            publications: list[dict]) -> dict:
+    published = [a for p in publications
+                 for a in p["alignements_Pactols_COG_valides_2026"]]
+    codes = {a["code_insee"] for a in published}
+    arks = {a["ark_pactols"] for a in published}
+    if len(published) != 1194 or len(codes) != 1194 or len(arks) != 1194:
+        raise ValueError("La publication PDL doit compter 1 194 correspondances uniques")
+    a = audit(rdf, cog_courant)
+    if a["pactols"]["sha256"] != RDF_SHA or a["regions"]["52"]["communes_COG_2026"] != 1228:
+        raise ValueError("Source RDF/COG inattendue")
+    subset = [r for r in a["communes"] if r["region"] == "52" and
+              r["etat"] == "A_INSTRUIRE_LIBELLE_STATUT_OU_URI"]
+    if len(subset) != 24 or len({r["code"] for r in subset}) != 24:
+        raise ValueError("La catégorie de divergence doit compter exactement 24 codes")
+    if any(r["code"] in codes for r in subset):
+        raise ValueError("Des divergences sont déjà publiées dans les 1194")
+    complements = completer_rdf(rdf, {
+        p["ark"] for r in subset for p in r["preuves_RDF_exactMatch"]
+    })
+    dossiers = [analyser_dossier(r, complements, chronologie) for r in subset]
+    dossiers.sort(key=lambda r: (r["groupe_instruction"], r["code_COG_2026"]))
+    counts = collections.Counter(x["groupe_instruction"] for x in dossiers)
+    motifs = collections.Counter(m for x in dossiers for m in x["motifs"])
+    return {
+        "schema": SCHEMA, "statut": "RECETTE_NON_VALIDANTE",
+        "sources": {"pactols_sha256": RDF_SHA,
+                    "cog_sha256": a["cog"]["sha256"]},
+        "nombre_dossiers": 24, "publication_PDL_2026_existante": 1194,
+        "exception_PDL_existantes": 34,
+        "nouvelles_validations": 0, "geometries": 0,
+        "liens_historiques_inferes": 0,
+        "groupes": dict(sorted(counts.items())),
+        "motifs": dict(sorted(motifs.items())),
+        "dossiers": dossiers,
+        "regles": [
+            "Une altLabel concordante ne valide pas un concept.",
+            "Une URI INSEE supplémentaire impose l'instruction de sa portée.",
+            "Une concordance avec un ancien libellé COG n'établit pas une succession ARK.",
+            "Aucun dossier n'est publié depuis ce rapport de recette.",
+        ],
+    }
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    for n in ("rdf","cog-officiel","chronologie","base","uuid","lot01",
+              "chemille","lot02","sortie"):
+        p.add_argument("--"+n, type=Path, required=True)
+    args = p.parse_args()
+    if args.sortie.exists() or "docs" in args.sortie.resolve().parts:
+        raise ValueError("Sortie de recette non existante, hors docs")
+    read = lambda f: json.loads(f.read_text(encoding="utf-8"))
+    d = rapport(args.rdf,args.cog_officiel,read(args.chronologie),
+                [read(args.base),read(args.uuid),read(args.lot01),
+                 read(args.chemille),read(args.lot02)])
+    args.sortie.parent.mkdir(parents=True,exist_ok=True)
+    args.sortie.write_text(json.dumps(d,ensure_ascii=False,sort_keys=True,indent=2)+"\n",
+                           encoding="utf-8")
+    print("PDL_24_DIVERGENCES_GROUPES",
+          json.dumps(d["groupes"],ensure_ascii=False,sort_keys=True))
+    print("PDL_24_DIVERGENCES_MOTIFS",
+          json.dumps(d["motifs"],ensure_ascii=False,sort_keys=True))
+    for row in d["dossiers"]:
+        print("PDL_24_DIVERGENCE",json.dumps({
+            "code":row["code_COG_2026"],"nom":row["nom_COG_2026"],
+            "ark":row["ark_pactols"],"pref":row["prefLabels_fr"],
+            "alt_cog":row["altLabels_compatibles"],
+            "groupe":row["groupe_instruction"],"motifs":row["motifs"],
+            "uri_insee":row["insee_exactMatch_completes"],
+            "episodes_COG":row["episodes_COG_meme_code"],
+        },ensure_ascii=False,sort_keys=True))
+if __name__=="__main__":
+    main()
