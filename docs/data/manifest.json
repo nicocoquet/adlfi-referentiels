@@ -323,6 +323,21 @@
         "geometries_historiques_validees": 0,
         "retroprojections": 0
       },
+      "pactols_paca_2026_renommages": {
+        "statut": "Deux exactMatch Pactols explicites vers les codes COG 05127 et 83052, qualifiés par décrets de changement de nom",
+        "fichier": "data/lieux-chronologie/pactols-paca-renommages-2026.json",
+        "communes_validees_par_preuve_expresse": 2,
+        "liens_PACA_2026_au_total": 937,
+        "pilotage_editeur_conserve": 103,
+        "complements_exactMatch_conserves": 832,
+        "communes_a_instruire": 9,
+        "portee_COG": "2026-01-01",
+        "preuve": "skos:exactMatch au code Insee en cours, événement MOD10 COG et décret de renommage",
+        "source_audit": "recette/lieux/PACA-TROIS-RENOMMAGES-RDF-2026.json",
+        "reserve": "Céreste-en-Luberon 04045, ARK 26678/pcrtHxveTzUMik, URI INSEE UUID à résoudre",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
+      },
       "pactols_paca_2026_complement": {
         "statut": "832 correspondances Pactols–COG validées par règle de preuve RDF au COG 2026, complémentaires des 103 validations éditoriales du pilote",
         "fichier": "data/lieux-chronologie/pactols-paca-2026.json",
