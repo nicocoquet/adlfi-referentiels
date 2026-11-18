@@ -1,0 +1,63 @@
+{
+  "anomalie_source": {
+    "ancien_lieu_85041": "Cezais",
+    "code_COG_officiel": "85292",
+    "code_INSEE_85041_dans_variante_Pactols": true,
+    "code_chez_Pactols_et_Loterre": "85041",
+    "concept_Loterre": "http://data.loterre.fr/ark:/67375/D63-G704CG2Q-F",
+    "concept_Pactols": "26678/pcrtjr01c5sg25ngf5hq8898",
+    "exactMatch_Pactols_INSEE_absent": true,
+    "source_INSEE_Cezais": "https://www.insee.fr/fr/metadonnees/geographie/commune-deleguee/85041-cezais",
+    "source_Loterre": "https://loterre.istex.fr/D63/fr/page/-G704CG2Q-F?clang=fr"
+  },
+  "conclusion": {
+    "code_COG_85292_resolu_par_UUID_Loterre": true,
+    "code_source_85041_contre_preuve_officielle": true,
+    "geometries": 0,
+    "nouveaux_ARK_valides": 0,
+    "publications": 0,
+    "relations_historiques_inferees": 0,
+    "validation_editeur_Pactols_2026": "A_INSTRUIRE"
+  },
+  "identite_COG": {
+    "code_courant": "85292",
+    "communes_origine": [
+      "85041",
+      "85271",
+      "85292"
+    ],
+    "date_effet": "2024-01-01",
+    "nom_courant": "Rives-du-Fougerais",
+    "source_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/85292-rives-du-fougerais",
+    "source_arrete": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000048728237"
+  },
+  "lien_Loterre_non_Pactols": {
+    "cible_Wikidata": "https://www.wikidata.org/wiki/Q123475897",
+    "lien_Pactols_vers_Loterre_atteste": false,
+    "objet_INSEE_UUID": "http://id.insee.fr/geo/commune/ce20d8e4-bed6-4207-9f1e-ca4909a6bcbd",
+    "predicat": "skos:exactMatch",
+    "sujet_Loterre": "http://data.loterre.fr/ark:/67375/D63-G704CG2Q-F"
+  },
+  "limites": "Loterre ne fournit pas, par sa seule similitude de nom, un exactMatch pour le concept Pactols : ne pas fabriquer un alignement entre les deux thésaurus. La variante 85041 doit être corrigée à la source.",
+  "reponse_RDF_INSEE": {
+    "code_85041_affirme_par_INSEE": false,
+    "geo_codeINSEE": [
+      "85292"
+    ],
+    "geo_nom": [
+      "Rives-du-Fougerais"
+    ],
+    "identite_85292_confirmee_OFFICIELLEMENT": true,
+    "octets": 3871,
+    "owl_sameAs": [
+      "http://id.insee.fr/geo/commune/85292"
+    ],
+    "rdf_type": [
+      "http://rdf.insee.fr/def/geo#Commune"
+    ],
+    "sha256_corps_RDF": "3611930397d37273c42b91a604476fb321296a7e469e2dc18612e3f1f44afc4d",
+    "sujet_UUID": "http://id.insee.fr/geo/commune/ce20d8e4-bed6-4207-9f1e-ca4909a6bcbd"
+  },
+  "schema": "adlfi.lieux.pdl.rives_fougerais.insee_loterre.2026.audit.v1",
+  "statut": "RECETTE_NON_VALIDANTE"
+}
