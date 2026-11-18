@@ -118,7 +118,7 @@ def construire(ispf_zip, geopf_zip, etalab_file, cog_file):
         for c, parts in groups.items()
     }
     raw = etalab_file.read_bytes()
-    fcoll = json.loads(gzip.decompress(raw) if raw[:2] == b"\\x1f\\x8b" else raw)
+    fcoll = json.loads(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     to_equal_area = Transformer.from_crs("EPSG:4326","EPSG:6933",always_xy=True)
     etalab = {}
     etalab_invalid = {}
@@ -164,7 +164,7 @@ def construire(ispf_zip, geopf_zip, etalab_file, cog_file):
             "unites_GEO_PF":len(geopf_rows),"parents_GEO_PF":len(groups),
             "parents_GEO_PF_absents":sorted(set(expected)-set(groups)),
             "codes_GEO_PF_hors_COG":sorted(set(outside)),
-            "ISP_F_invalides":ispf_invalid,"GEO_PF_invalides":dict(geofp_invalid),
+            "ISPF_invalides":ispf_invalid,"GEO_PF_invalides":dict(geofp_invalid),
             "Etalab_invalides":etalab_invalid,
             "nouveaux_ARK":0,"nouvelles_geometries_publiees":0,
         },
@@ -181,7 +181,7 @@ def main():
         raise ValueError("Sortie neuve hors docs/")
     report = construire(a.ispf_zip,a.geopf_zip,a.etalab,a.index_cog)
     a.sortie.parent.mkdir(parents=True,exist_ok=True)
-    a.sortie.write_text(json.dumps(report,ensure_ascii=False,sort_keys=True,indent=2)+"\\n",encoding="utf-8")
+    a.sortie.write_text(json.dumps(report,ensure_ascii=False,sort_keys=True,indent=2)+"\n",encoding="utf-8")
     ranked = sorted((x for x in report["communes"] if x["etalab_vs_ispf"]),
                     key=lambda x:x["etalab_vs_ispf"]["intersection_sur_union"])
     print("PF_COMPARAISON_SOURCES",json.dumps({
