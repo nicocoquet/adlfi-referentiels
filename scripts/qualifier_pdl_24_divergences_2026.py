@@ -264,6 +264,47 @@ def rapport(rdf: Path, cog_courant: Path | None, chronologie: dict,
         ],
     }
 
+def registre_nominatif(d: dict) -> dict:
+    """Projection stable à conserver dans Git, tandis que le rapport probatoire
+    complet et ses notes RDF restent dans l'artefact de recette."""
+    dossiers = []
+    for row in sorted(d["dossiers"],key=lambda x:x["code_COG_2026"]):
+        anciens = row["prefLabels_anciens_attestes_COG"]
+        if len(anciens) != 1 or len(anciens[0]["episodes"]) != 1:
+            raise ValueError("Ancien épisode COG non univoque : "+row["code_COG_2026"])
+        old = anciens[0]
+        candidates = row["candidats_lexicaux_sans_exactMatch_courant"]
+        if len(candidates)>1:
+            raise ValueError("Plusieurs candidats contemporains : "+row["code_COG_2026"])
+        dossiers.append({
+            "code_insee":row["code_COG_2026"],
+            "libelle_COG_2026":row["nom_COG_2026"],
+            "ark_concept_historique":row["ark_pactols"],
+            "prefLabel_historique":old["libelle"],
+            "fin_dernier_episode_COM_historique":old["episodes"][0]["fin"],
+            "candidat_actuel":({
+                "ark":candidates[0]["ark"],
+                "prefLabels_fr":candidates[0]["prefLabels_fr"],
+                "situation_URI_INSEE":candidates[0]["situation_URI_INSEE"],
+                "exactMatch_INSEE":candidates[0]["exactMatch_INSEE_completes"],
+            } if candidates else None),
+            "decision_editoriale":"NON_PRISE",
+            "publication":"NON_PUBLIE",
+        })
+    if len(dossiers) != 24:
+        raise ValueError("Registre nominatif différent de 24 dossiers")
+    return {
+        "schema":"adlfi.lieux.pdl.24-divergences.2026.registre-non-validant.v1",
+        "statut":"RECETTE_NON_VALIDANTE",
+        "source_RDF_Pactols_sha256":RDF_SHA,
+        "source_COG": "trois_COG_2026_derives_versionnes",
+        "nombre_dossiers":24,
+        "communes_avec_candidat":sum(bool(r["candidat_actuel"]) for r in dossiers),
+        "communes_sans_candidat":sum(not r["candidat_actuel"] for r in dossiers),
+        "nouvelles_validations":0,
+        "dossiers":dossiers
+    }
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     for n in ("rdf","chronologie","base","uuid","lot01",
@@ -272,6 +313,7 @@ def main():
     p.add_argument("--cog-officiel",type=Path)
     p.add_argument("--corse",type=Path)
     p.add_argument("--bfc",type=Path)
+    p.add_argument("--registre-nominatif",type=Path)
     args = p.parse_args()
     if args.sortie.exists() or "docs" in args.sortie.resolve().parts:
         raise ValueError("Sortie de recette non existante, hors docs")
@@ -286,6 +328,13 @@ def main():
     args.sortie.parent.mkdir(parents=True,exist_ok=True)
     args.sortie.write_text(json.dumps(d,ensure_ascii=False,sort_keys=True,indent=2)+"\n",
                            encoding="utf-8")
+    if args.registre_nominatif:
+        if args.registre_nominatif.exists():
+            raise ValueError("Ne pas écraser un registre nominatif")
+        args.registre_nominatif.parent.mkdir(parents=True,exist_ok=True)
+        args.registre_nominatif.write_text(json.dumps(registre_nominatif(d),
+              ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",
+              encoding="utf-8")
     print("PDL_24_DIVERGENCES_GROUPES",
           json.dumps(d["groupes"],ensure_ascii=False,sort_keys=True))
     print("PDL_24_DIVERGENCES_MOTIFS",
