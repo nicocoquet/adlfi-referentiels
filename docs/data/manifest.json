@@ -544,6 +544,25 @@
         "portee_COG": "2026-01-01",
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2026_oree_mod50": {
+        "statut": "Orée d'Anjou : alignement Pactols vers 49126 validé par changement de code COG MOD50 de 49069 (transfert de chef-lieu 2025)",
+        "fichier": "data/lieux-chronologie/pactols-pdl-oree-anjou-mod50-2026.json",
+        "source_registre": "recette/lieux/PDL-OREE-ANJOU-MOD50-2026.md",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "source_INSEE": "https://www.insee.fr/fr/information/8377252",
+        "code_ancien": "49069",
+        "code_actuel": "49126",
+        "nature_mouvement": "MOD50_TRANSFERT_CHEF_LIEU",
+        "date_mouvement": "2025-01-01",
+        "ark_valide": "26678/pcrtS50omR9Tb5",
+        "ark_Drain_historique_exclu": "26678/pcrtlzVsRTHJSP",
+        "ark_Les_Hauts_d_Anjou_2016_exclu": "26678/pcrtJmNskrfHiK",
+        "nouveaux_alignements": 1,
+        "liens_PDL_2026_au_total": 1195,
+        "exceptions_2026_restantes": 33,
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
