@@ -65,8 +65,10 @@ def publier(propositions:list[dict], cdata:dict, previous:dict, uuid:dict,
                             (next(x for x in hits if x["ark"]==old),past)):
             if (p["prefLabels_fr"]!=[expected] or p["deprecie"] or p["remplace"] or
                 p["insee_exactMatch"]!=[{"code":code,"famille":"commune","uri":URI+code}] or
-                sorted(supplements[p["ark"]]["exactMatch_tous"]) != [URI+code]):
-                raise ValueError("Preuve Pactols ambiguë : "+p["ark"])
+                sorted(u for u in supplements[p["ark"]]["exactMatch_tous"]
+                       if u.startswith(("http://id.insee.fr/geo/",
+                                        "https://id.insee.fr/geo/"))) != [URI+code]):
+                raise ValueError("Preuve Pactols ambiguë : "+p["ark"]+" "+repr({"prefLabels":p["prefLabels_fr"],"insee":p["insee_exactMatch"],"status":(p["deprecie"],p["remplace"]),"exact_INSEE":sorted(u for u in supplements[p["ark"]]["exactMatch_tous"] if "id.insee.fr/geo/" in u)}))
         moves=cdata["lignes_mouvements_cog"]
         if (not any(m["date_effet"]==date and m["mod"]=="32" and
                     m["code_apres"]==code and m["libelle_apres"]==name and
