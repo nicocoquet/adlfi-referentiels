@@ -507,6 +507,26 @@
         "preuve": "Deux ARK exactMatch vers le même code INSEE, ARK contemporain déterminé par prefLabel et transition COG MOD32 (ancienne COM devenue COMD)",
         "geometries_modifiees": 0,
         "retroprojections_historiques": 0
+      },
+      "pactols_pdl_2026_chemille": {
+        "statut": "Chemillé-en-Anjou (49092) : identité 2026 validée, distincte de Chemillé avant 2013 et Chemillé-Melay 2013–2015",
+        "fichier": "data/lieux-chronologie/pactols-pdl-chemille-2026.json",
+        "source_registre": "recette/lieux/PDL-CHEMILLE-49092-2026.md",
+        "source_RDF_Pactols_sha256": "3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7",
+        "source_INSEE": "https://www.insee.fr/fr/metadonnees/geographie/commune/49092-chemille-en-anjou",
+        "nouveaux_alignements": 1,
+        "liens_PDL_2026_au_total": 1149,
+        "exceptions_2026_restantes": 79,
+        "code": "49092",
+        "ark_valide": "26678/pcrtzDf0WnnRyr",
+        "arks_historiques_non_promus": [
+          "26678/pcrtL5GRFXn3Zs",
+          "26678/pcrtWU8rdgPSSH"
+        ],
+        "date_evenement_COG": "2015-12-15",
+        "portee_COG": "2026-01-01",
+        "geometries_modifiees": 0,
+        "retroprojections_historiques": 0
       }
     },
     "personnes": {
