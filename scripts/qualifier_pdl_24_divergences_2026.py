@@ -6,8 +6,8 @@ import collections
 import json
 import re
 from pathlib import Path
-from auditer_pactols_cog_regions_prioritaires_2026 import audit
-from auditer_pactols_polynesie_2026 import RDF_SHA, label_compatible, norm
+from auditer_pactols_cog_regions_prioritaires_2026 import audit, sha, qualifier
+from auditer_pactols_polynesie_2026 import RDF_SHA, label_compatible, norm, analyser_rdf
 from qualifier_pdl_ark_multiples_2026 import completer_rdf
 
 SCHEMA = "adlfi.lieux.pdl.24-divergences.2026.recette.v1"
@@ -154,15 +154,72 @@ def analyser_dossier(row: dict, complement: dict, cog: dict) -> dict:
         "publication": "NON_PUBLIE",
     }
 
-def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
-            publications: list[dict]) -> dict:
+def audit_depuis_cog_versionne(rdf: Path, pdl: dict, corse: dict,
+                               bfc: dict) -> dict:
+    """Recette basée sur les trois éditions COG publiées et déjà contrôlées.
+
+    Ce mode est un contrôle de reproductibilité des dérivés COG, NON une
+    nouvelle vérification du SHA-256 des fichiers CSV officiels en ligne.
+    """
+    if sha(rdf) != RDF_SHA:
+        raise ValueError("Le RDF Pactols ne correspond pas au SHA épinglé")
+    regions = (
+        ("52", "pdl", pdl, 1228),
+        ("94", "corse", corse, 360),
+        ("27", "bfc", bfc, 3685),
+    )
+    names, rows_data, stats = {}, {}, {}
+    for code_region,slug,data,expected in regions:
+        if data.get("region") != slug or data.get("millesime_cog") != 2026:
+            raise ValueError("Édition COG dérivée inattendue : " + slug)
+        current = [p for p in data["periodes_com"]
+                   if p["typecom"] == "COM" and
+                   p["debut_inclus"] <= "2026-01-01" and
+                   (p["fin_exclue"] is None or p["fin_exclue"] > "2026-01-01")]
+        if len(current) != expected:
+            raise ValueError("Effectif régional COG inattendu : " + slug)
+        for p in current:
+            code = p["code_insee"]
+            if code in names:
+                raise ValueError("Code COG dupliqué entre régions : " + code)
+            names[code] = p["libelle"]
+            rows_data[code] = (code_region,p["libelle"])
+        stats[code_region] = {"communes_COG_2026": expected}
+    if len(names) != 5273:
+        raise ValueError("Régions COG versionnées incomplètes")
+    scanned = analyser_rdf(rdf,names)
+    rows = []
+    for code,(region,nom) in sorted(rows_data.items()):
+        hits = scanned["explicites"][code]
+        rows.append({
+            "code": code,"nom": nom,"region": region,"departement": code[:2],
+            "etat": qualifier(code,nom,hits),
+            "preuves_RDF_exactMatch":hits,
+            "candidats_lexicaux_non_validants":
+              scanned["lexicaux_sans_exactMatch_987"].get(code,[]),
+        })
+    counts = collections.Counter(r["etat"] for r in rows if r["region"]=="52")
+    if counts != {"ELIGIBLE_SELON_REGLE":1140,
+                  "A_INSTRUIRE_PLUSIEURS_ARK":60,
+                  "A_INSTRUIRE_LIBELLE_STATUT_OU_URI":24,
+                  "SANS_EXACTMATCH":4}:
+        raise ValueError("La répartition PDL diffère de l'audit officiel initial : "+str(counts))
+    return {"pactols":{"sha256":RDF_SHA},
+            "cog":{"sha256":"7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+                   "mode":"COG_2026_DERIVES_VERSIONNES_SANS_NOUVEAU_TELECHARGEMENT"},
+            "regions":stats,"communes":rows}
+
+def rapport(rdf: Path, cog_courant: Path | None, chronologie: dict,
+            publications: list[dict], corse: dict | None = None,
+            bfc: dict | None = None) -> dict:
     published = [a for p in publications
                  for a in p["alignements_Pactols_COG_valides_2026"]]
     codes = {a["code_insee"] for a in published}
     arks = {a["ark_pactols"] for a in published}
     if len(published) != 1194 or len(codes) != 1194 or len(arks) != 1194:
         raise ValueError("La publication PDL doit compter 1 194 correspondances uniques")
-    a = audit(rdf, cog_courant)
+    a = (audit(rdf,cog_courant) if cog_courant is not None else
+         audit_depuis_cog_versionne(rdf,chronologie,corse,bfc))
     if a["pactols"]["sha256"] != RDF_SHA or a["regions"]["52"]["communes_COG_2026"] != 1228:
         raise ValueError("Source RDF/COG inattendue")
     subset = [r for r in a["communes"] if r["region"] == "52" and
@@ -188,7 +245,8 @@ def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
     return {
         "schema": SCHEMA, "statut": "RECETTE_NON_VALIDANTE",
         "sources": {"pactols_sha256": RDF_SHA,
-                    "cog_sha256": a["cog"]["sha256"]},
+                    "cog_sha256": a["cog"]["sha256"],
+                    "mode_COG": a["cog"].get("mode","CSV_OFFICIEL_SHA_VERIFIE")},
         "nombre_dossiers": 24, "publication_PDL_2026_existante": 1194,
         "exception_PDL_existantes": 34,
         "nouvelles_validations": 0, "geometries": 0,
@@ -208,16 +266,23 @@ def rapport(rdf: Path, cog_courant: Path, chronologie: dict,
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for n in ("rdf","cog-officiel","chronologie","base","uuid","lot01",
+    for n in ("rdf","chronologie","base","uuid","lot01",
               "chemille","lot02","sortie"):
         p.add_argument("--"+n, type=Path, required=True)
+    p.add_argument("--cog-officiel",type=Path)
+    p.add_argument("--corse",type=Path)
+    p.add_argument("--bfc",type=Path)
     args = p.parse_args()
     if args.sortie.exists() or "docs" in args.sortie.resolve().parts:
         raise ValueError("Sortie de recette non existante, hors docs")
     read = lambda f: json.loads(f.read_text(encoding="utf-8"))
+    if args.cog_officiel is None and (args.corse is None or args.bfc is None):
+        raise ValueError("Le mode COG versionné exige --corse et --bfc")
     d = rapport(args.rdf,args.cog_officiel,read(args.chronologie),
                 [read(args.base),read(args.uuid),read(args.lot01),
-                 read(args.chemille),read(args.lot02)])
+                 read(args.chemille),read(args.lot02)],
+                read(args.corse) if args.corse else None,
+                read(args.bfc) if args.bfc else None)
     args.sortie.parent.mkdir(parents=True,exist_ok=True)
     args.sortie.write_text(json.dumps(d,ensure_ascii=False,sort_keys=True,indent=2)+"\n",
                            encoding="utf-8")
