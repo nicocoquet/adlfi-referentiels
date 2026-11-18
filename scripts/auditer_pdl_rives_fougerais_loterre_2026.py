@@ -95,7 +95,7 @@ def instruction(cog:dict,ref:dict,published:dict,xml:bytes):
  new=next(x for x in item["candidats_Pactols"] if x["ark_pactols"]==NEW_ARK)
  old=next(x for x in item["candidats_Pactols"] if x["ark_pactols"]==OLD_ARK)
  if (new["exactMatch"]!=[] or new["exactMatch_INSEE"]!=[] or
-     new["prefLabel"]!=[{"texte":"Rives-du-Fougerais","lang":"fr"}] or
+     [x["texte"] for x in new["prefLabel"] if x["lang"]=="fr"]!=["Rives-du-Fougerais"] or
      not any(x["texte"]=="85041 (code Insee)" for x in new["altLabel"]) or
      new["deprecated"] or old["prefLabel"][0]["texte"]!="Thouarsais-Bouildroux"):
   raise ValueError("Concept Pactols ou code parasitaire modifié")
