@@ -1,0 +1,84 @@
+name: Lieux - PACA huit communes nouvelles audit RDF
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_paca_huit_communes_nouvelles_2026.py'
+      - 'tests/test_auditer_paca_huit_communes_nouvelles_2026.py'
+      - '.github/workflows/lieux-paca-huit-communes-nouvelles-2026.yml'
+permissions:
+  contents: write
+jobs:
+  huit-communes:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          path: referentiels
+          persist-credentials: true
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier l'historique du COG et les candidats
+        working-directory: referentiels
+        run: python3 -m unittest discover -s tests -p 'test_auditer_paca_huit_communes_nouvelles_2026.py' -v
+      - name: Empreinte RDF Pactols figée
+        run: |
+          set -euo pipefail
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum -c -
+      - name: Double audit de quinze ARK et des huit communes nouvelles
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_paca_huit_communes_nouvelles_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog docs/data/lieux-chronologie/cog-paca.json \
+              --preflight recette/lieux/PACA-PREFLIGHT-EXACTMATCH-2026.json \
+              --sortie "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-$n.json"
+          done
+          cmp "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-1.json" "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-2.json"
+          python3 - "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-1.json" <<'PY'
+          import json,sys
+          doc=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert doc['schema']=='adlfi.lieux.paca.huit_communes_nouvelles.audit.v1'
+          assert doc['bilan']['communes_nouvelles_examinees']==8
+          assert doc['bilan']['concepts_candidats']==15
+          assert doc['bilan']['nouveaux_ARK_valides_2026']==0
+          assert all(not x['nouvel_ARK_valide_2026'] for x in doc['dossiers'])
+          print('PACA_HUIT_COMMUNES_NOUVELLES_RDF_OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lieux-paca-huit-communes-nouvelles-rdf
+          path: ${{ runner.temp }}/PACA-HUIT-COMMUNES-NOUVELLES-1.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Conserver uniquement le rapport d'audit hors site
+        working-directory: referentiels
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/PACA-HUIT-COMMUNES-NOUVELLES-1.json" recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json
+          git add -- recette/lieux/PACA-HUIT-COMMUNES-NOUVELLES-RDF-2026.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux PACA : qualifier les quinze ARK des huit communes nouvelles'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
