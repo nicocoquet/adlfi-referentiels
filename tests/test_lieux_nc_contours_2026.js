@@ -27,5 +27,5 @@ assert.throws(()=>validate.verifier(historical,index),/non conforme/);
 const map=fs.readFileSync(path.join(ROOT,'docs/assets/lieux-multiechelon.js'),'utf8');
 assert.ok(map.includes("nc2026Features"));
 assert.ok(map.includes("'nouvelle-caledonie:'"));
-assert.ok(map.includes("['drom','spm','nouvelle-caledonie']"));
+assert.ok(map.includes("['drom','spm','nouvelle-caledonie','polynesie']"));
 console.log('NC_32_INDEX_OK — 32 contours, Dumbéa exclue, 0 nouvel ARK ou contour historique');
