@@ -80,7 +80,7 @@ def main():
           "() => document.querySelector('#map-status')?.textContent.includes('18 contours régionaux')",
           timeout=60000
         )
-        assert page.locator(".map-tool").count()==3
+        assert page.locator(".map-tool").count()==4
         assert page.locator(".map-tool[open]").count()==0
         assert page.locator("#detail").is_hidden()
         assert page.locator("#map").bounding_box()["width"] > 0.90 * 1400
