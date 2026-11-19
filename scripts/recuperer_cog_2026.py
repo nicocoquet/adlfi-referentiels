@@ -63,41 +63,30 @@ def api_mirror_data(data):
   result[name].append(url)
  return result
 
-def obtenir(sortie,allow_mirror=True,fichiers=None):
- required=set(EXPECTED) if fichiers is None else set(fichiers)
- if not required or not required.issubset(EXPECTED):
-  raise ValueError('Sélection de sources COG inconnue ou vide')
+def obtenir(sortie,allow_mirror=True):
  target=Path(sortie)
  target.mkdir(parents=True,exist_ok=True)
  found={};sources={};errors=[]
  def collect(rows,origin):
   for name,raw in rows.items():
-   if name not in required:continue
-   if not valid(name,raw):
+   if name not in EXPECTED or not valid(name,raw):
     raise ValueError("Contrôle SHA-256 échoué pour "+name+" depuis "+origin)
    if name not in found:found[name]=raw;sources[name]=origin
- # Pour un seul fichier, privilégier d'abord le CSV direct plutôt que l'archive complète.
- if len(required)==1:
-  name=next(iter(required))
-  try:collect({name:get(ROOT+name)},ROOT+name)
-  except (urllib.error.URLError,OSError,ValueError) as e:
-   errors.append(name+': '+str(e)[:190])
- if not found:
-  try:
-   collect(from_zip(get(BUNDLE)),BUNDLE)
-  except (urllib.error.URLError,OSError,ValueError,zipfile.BadZipFile) as e:
-   errors.append("archive_Insee: "+str(e)[:190])
- for name in sorted(required):
+ try:
+  collect(from_zip(get(BUNDLE)),BUNDLE)
+ except (urllib.error.URLError,OSError,ValueError,zipfile.BadZipFile) as e:
+  errors.append("archive_Insee: "+str(e)[:190])
+ for name in EXPECTED:
   if name in found:continue
   try:
    data=get(ROOT+name)
    collect({name:data},ROOT+name)
   except (urllib.error.URLError,OSError,ValueError) as e:
    errors.append(name+": "+str(e)[:190])
- if allow_mirror and required.difference(found):
+ if allow_mirror and len(found)<3:
   try:
    res=api_mirror_data(get(DATAGOUV))
-   for name in sorted(required):
+   for name in EXPECTED:
     if name in found:continue
     for url in res.get(name,[]):
      try:
@@ -109,7 +98,7 @@ def obtenir(sortie,allow_mirror=True,fichiers=None):
       errors.append("miroir "+name+": "+str(e)[:150])
   except (urllib.error.URLError,OSError,ValueError) as e:
    errors.append("métadonnées data.gouv.fr: "+str(e)[:190])
- missing=sorted(required-set(found))
+ missing=sorted(set(EXPECTED)-set(found))
  if missing:
   raise RuntimeError("Sources COG 2026 indisponibles ou non conformes SHA-256 : "+",".join(missing)+" ; "+str(errors))
  # Aucune écriture avant contrôle complet : refuse les vieux contenus.
@@ -130,7 +119,5 @@ def obtenir(sortie,allow_mirror=True,fichiers=None):
 if __name__=="__main__":
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument("--sortie",required=True,type=Path)
- p.add_argument("--communes-seulement",action="store_true",
-                help="Acquérir seulement v_commune_2026.csv après contrôle SHA-256")
  a=p.parse_args()
- print(json.dumps(obtenir(a.sortie,fichiers={'v_commune_2026.csv'} if a.communes_seulement else None),ensure_ascii=False,indent=2))
+ print(json.dumps(obtenir(a.sortie),ensure_ascii=False,indent=2))
