@@ -103,7 +103,7 @@ class TestRegionMetropolitaine(unittest.TestCase):
                         clear=True):
             with patch.object(acquisition, "get", return_value=raw) as download:
                 result = acquisition.collecter(self.root / "cog")
-                self.assertEqual(set(result["fichiers"]), {"v_commune_2026.csv"})
+                self.assertEqual(result["fichier"], "v_commune_2026.csv")
                 self.assertEqual((self.root / "cog" / "v_commune_2026.csv").read_bytes(), raw)
                 self.assertEqual(download.call_count, 1)
         with self.assertRaises(KeyError):
