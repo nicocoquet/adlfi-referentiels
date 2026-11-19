@@ -37,7 +37,7 @@ def site_local():
 def outil(page, selector):
     """Ouvre le panneau avant une interaction Playwright avec un contrôle."""
     parent = {"#zoom": "#zoom-tool", "#level": "#level-tool",
-              "#search": "#search-tool"}.get(selector)
+              "#year": "#year-tool", "#search": "#search-tool"}.get(selector)
     if parent:
         page.locator(parent).evaluate("(element) => { element.open = true; }")
     return page.locator(selector)
@@ -204,8 +204,8 @@ def main():
         assert page.locator("#year").input_value()=="2016"
         assert outil(page, "#level").input_value()=="region"
         # Navigation clavier native du curseur : plus de boutons annexes.
-        page.locator("#year").focus()
-        page.locator("#year").press("ArrowLeft")
+        outil(page, "#year").focus()
+        outil(page, "#year").press("ArrowLeft")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('22 contours régionaux')",
           timeout=30000
@@ -213,13 +213,13 @@ def main():
         assert page.locator("#year").input_value()=="2015"
         assert page.locator("#year-label").text_content()=="2015"
         inspecter_contours(page,100,"lieux-regions-2015")
-        page.locator("#year").press("ArrowRight")
+        outil(page, "#year").press("ArrowRight")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('13 contours régionaux')",
           timeout=30000
         )
         assert page.locator("#year-label").text_content()=="2016"
-        page.locator("#year").press("ArrowLeft")
+        outil(page, "#year").press("ArrowLeft")
         page.wait_for_function(
           "() => document.querySelector('#map-status')?.textContent.includes('22 contours régionaux')",
           timeout=30000
@@ -251,14 +251,14 @@ def main():
         assert page.locator("#detail").get_by_text("2026 seulement",exact=False).count()>=1
 
         # La frise doit conserver la commune sélectionnée quand la date change.
-        page.locator("#year").focus()
-        page.locator("#year").press("ArrowRight")
+        outil(page, "#year").focus()
+        outil(page, "#year").press("ArrowRight")
         page.wait_for_function(
           "() => document.querySelector('#year-label')?.textContent === '2016'",
           timeout=30000
         )
         assert page.locator("#detail").get_by_text("Correspondance Pactols",exact=False).count()>=1
-        page.locator("#year").press("End")
+        outil(page, "#year").press("End")
         try:
             page.wait_for_function(
               "() => document.querySelector('#year-label')?.textContent === '2026' && "
