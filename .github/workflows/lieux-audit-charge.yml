@@ -1,0 +1,33 @@
+name: Lieux — audit de charge des contours 2026
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/auditer_charge_carte_lieux.py'
+      - 'tests/test_lieux_audit_charge.py'
+      - '.github/workflows/lieux-audit-charge.yml'
+      - 'docs/data/lieux-chronologie/contours-2026-*.geojson'
+      - 'docs/data/lieux-outremer/contours-communes-*.geojson'
+
+permissions:
+  contents: read
+
+jobs:
+  mesure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests unitaires de mesure
+        run: python -m unittest discover -s tests -p 'test_lieux_audit_charge.py' -v
+      - name: Mesurer les huit couches communales 2026
+        run: python scripts/auditer_charge_carte_lieux.py --sortie "${RUNNER_TEMP}/lieux-charge-2026.json"
+      - name: Archiver le rapport sans publication web
+        uses: actions/upload-artifact@v4
+        with:
+          name: lieux-audit-charge-2026
+          path: ${{ runner.temp }}/lieux-charge-2026.json
+          if-no-files-found: error
