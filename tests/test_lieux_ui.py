@@ -193,8 +193,10 @@ class LieuxUITests(unittest.TestCase):
 
     def test_limites_communales_et_survol_distinct_des_reperes(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
-        self.assertIn("commune?1.8:1.15", js)
-        self.assertIn("commune?.14:.10", js)
+        self.assertIn("const communeWeight=z<=6?.4:z<=8?.9:z<=10?1.35:1.8", js)
+        self.assertIn("const communeFill=z<=6?.04:z<=8?.09:.14", js)
+        self.assertIn("state.map.on('zoomend'", js)
+        self.assertIn("state.layer.setStyle(f=>displayStyle(f,false))", js)
         self.assertIn("layer.on('mouseover'", js)
         self.assertIn("fillOpacity:.42", js)
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
