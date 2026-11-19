@@ -205,6 +205,14 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
 
+    def test_cadrages_saint_martin_et_saint_barthelemy(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("'saint-martin':[[18.04,-63.17],[18.15,-62.96]]", js)
+        self.assertIn("'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]]", js)
+        self.assertIn("'saint-martin':'saint-martin','saint-barthelemy':'saint-barthelemy'", js)
+        self.assertIn('<option value="saint-martin">Saint-Martin</option>', self.html)
+        self.assertIn('<option value="saint-barthelemy">Saint-Barthélemy</option>', self.html)
+
     def test_fond_nautique_echelle_et_molette(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
         self.assertIn("scrollWheelZoom:true", js)
