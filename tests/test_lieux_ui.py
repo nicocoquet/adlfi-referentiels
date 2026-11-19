@@ -191,6 +191,15 @@ class LieuxUITests(unittest.TestCase):
                             for x in data["anciens_codes"]))
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_limites_communales_et_survol_distinct_des_reperes(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("commune?1.8:1.15", js)
+        self.assertIn("commune?.14:.10", js)
+        self.assertIn("layer.on('mouseover'", js)
+        self.assertIn("fillOpacity:.42", js)
+        self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
+        self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
+
     def test_fond_nautique_echelle_et_molette(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
         self.assertIn("scrollWheelZoom:true", js)
