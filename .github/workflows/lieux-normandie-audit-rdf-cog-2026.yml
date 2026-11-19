@@ -1,0 +1,82 @@
+name: Lieux — audit Normandie Pactols–COG 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/auditer_pactols_cog_region_metropolitaine_2026.py'
+      - 'tests/test_auditer_pactols_cog_region_metropolitaine_2026.py'
+      - 'scripts/recuperer_cog_communes_2026.py'
+      - '.github/workflows/lieux-normandie-audit-rdf-cog-2026.yml'
+      - 'recette/lieux/NORMANDIE-PREFLIGHT-PACTOLS-COG-2026.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  normandie:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests de non-régression du préflight normand
+        working-directory: referentiels
+        run: |
+          python3 -m unittest discover -s tests -p 'test_auditer_pactols_cog_region_metropolitaine_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_auditer_pactols_cog_regions_prioritaires_2026.py' -v
+      - name: Vérifier le RDF Pactols épinglé
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
+      - name: Acquérir le COG Insee 2026 à SHA contrôlé
+        working-directory: referentiels
+        run: python3 scripts/recuperer_cog_communes_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Audit Normandie déterministe sur le COG et le RDF
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            python3 scripts/auditer_pactols_cog_region_metropolitaine_2026.py \
+              --region 28 \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --cog "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --sortie "$RUNNER_TEMP/audit-normandie-$n.json"
+          done
+          cmp "$RUNNER_TEMP/audit-normandie-1.json" "$RUNNER_TEMP/audit-normandie-2.json"
+          python3 - "$RUNNER_TEMP/audit-normandie-1.json" <<'PY'
+          import json, sys
+          report=json.load(open(sys.argv[1], encoding="utf-8"))
+          assert report["schema"] == "adlfi.lieux.audit-pactols-cog-region-2026.v1"
+          assert report["code_region_COG_2026"] == "28"
+          assert report["region"] == "Normandie"
+          assert len(report["communes"]) == report["bilan"]["communes_COG_2026"]
+          assert report["bilan"]["nouveaux_alignements_valides"] == 0
+          assert report["bilan"]["nouvelles_geometries"] == 0
+          assert report["bilan"]["retroprojections_historiques"] == 0
+          assert all(x["decision_editoriale"] == "NON_PRISE" for x in report["communes"])
+          print("NORMANDIE_BILAN", json.dumps(report["bilan"], ensure_ascii=False, sort_keys=True))
+          print("NORMANDIE_A_INSTRUIRE", json.dumps([
+            {"code":r["code"],"nom":r["nom"],"statut":r["statut_candidat"]}
+            for r in report["communes"] if r["statut_candidat"] != "ELIGIBLE_SELON_REGLE"
+          ][:30], ensure_ascii=False, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-normandie-pactols-cog-2026
+          path: ${{ runner.temp }}/audit-normandie-1.json
+          retention-days: 30
+          if-no-files-found: error
