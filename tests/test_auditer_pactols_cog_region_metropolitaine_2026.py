@@ -96,18 +96,19 @@ class TestRegionMetropolitaine(unittest.TestCase):
     def test_acquisition_communes_seulement_sans_sources_historiques(self):
         import hashlib
         from unittest.mock import patch
-        import recuperer_cog_2026 as acquisition
+        import recuperer_cog_communes_2026 as acquisition
         raw = b"TYPECOM,COM,LIBELLE,REG,DEP\\nCOM,14001,Commune,28,14\\n"
         with patch.dict(acquisition.EXPECTED,
                         {"v_commune_2026.csv": hashlib.sha256(raw).hexdigest()},
                         clear=True):
             with patch.object(acquisition, "get", return_value=raw) as download:
-                result = acquisition.obtenir(self.root / "cog", fichiers={"v_commune_2026.csv"})
+                result = acquisition.collecter(self.root / "cog")
                 self.assertEqual(set(result["fichiers"]), {"v_commune_2026.csv"})
                 self.assertEqual((self.root / "cog" / "v_commune_2026.csv").read_bytes(), raw)
                 self.assertEqual(download.call_count, 1)
-        with self.assertRaisesRegex(ValueError, "inconnue"):
-            acquisition.obtenir(self.root / "cog2", fichiers={"un_fichier_inconnu.csv"})
+        with self.assertRaises(KeyError):
+                with patch.dict(acquisition.EXPECTED, {}, clear=True):
+                    acquisition.collecter(self.root / "cog2")
 
     def test_sorties_hors_docs_et_sans_ecrasement(self):
         out = self.root / "rapport.json"
