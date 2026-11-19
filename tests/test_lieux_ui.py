@@ -191,6 +191,16 @@ class LieuxUITests(unittest.TestCase):
                             for x in data["anciens_codes"]))
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_fond_nautique_echelle_et_molette(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("scrollWheelZoom:true", js)
+        self.assertIn("https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png", js)
+        self.assertIn("L.control.layers(null", js)
+        self.assertIn("Afficher OpenSeaMap (informations nautiques)", js)
+        self.assertIn("L.control.scale({position:'bottomleft',imperial:false,metric:true", js)
+        self.assertIn("const seaMode=L.layerGroup([seaMarks])", js)
+        self.assertIn("osmTiles.addTo(state.map)", js)
+
     def test_chronologie_dans_menu_annee_et_recherche_renommee(self):
         html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
