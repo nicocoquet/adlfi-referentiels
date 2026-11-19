@@ -205,6 +205,15 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
 
+    def test_chevrons_menus_et_groupes_geographiques(self):
+        css = (ROOT / "docs/assets/lieux-multiechelon.css").read_text(encoding="utf-8")
+        self.assertIn('content:"⏵"', css)
+        self.assertIn('content:"⏷"', css)
+        self.assertIn('.map-tool[open] > summary::after{content:"⏷"}', css)
+        self.assertIn('.zone-group[open]>summary::before{content:"⏷"}', css)
+        self.assertIn('display:flex;align-items:center;justify-content:flex-start;gap:8px', css)
+        self.assertIn('.zone-count{margin-left:auto;', css)
+
     def test_cadrages_saint_martin_et_saint_barthelemy(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
         self.assertIn("'saint-martin':[[18.04,-63.17],[18.15,-62.96]]", js)
