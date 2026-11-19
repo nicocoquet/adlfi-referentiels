@@ -37,7 +37,8 @@ def main():
         assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/26678/pcrtgs2LLPYow2"]').count()==1
         assert page.locator(".leaflet-overlay-pane canvas").count()==1
 
-        page.locator("#search").fill("26678/pcrtgs2LLPYow2")
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+        page.locator('#search').fill("26678/pcrtgs2LLPYow2")
         page.wait_for_function("() => !document.querySelector('#results')?.hidden")
         hits=page.locator("#results").text_content()
         assert "Afa" in hits and "Pactols validé en 2026" in hits,hits
