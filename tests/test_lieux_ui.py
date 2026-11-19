@@ -191,6 +191,19 @@ class LieuxUITests(unittest.TestCase):
                             for x in data["anciens_codes"]))
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_arborescence_zoom_et_vignettes_svg_sans_geometrie_inventee(self):
+        html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertEqual(html.count('class="zone-group"'), 5)
+        self.assertEqual(html.count('class="zone-choice"'), 26)
+        for key in ("auvergne-rhone-alpes", "pdl", "guadeloupe",
+                    "saint-martin", "taaf", "clipperton"):
+            self.assertIn('data-zone="' + key + '"', html)
+        self.assertIn("zonesSvg(geometry)", js)
+        self.assertIn("await layerFor(2026,'region')", js)
+        self.assertIn("btn.disabled=true", js)
+        self.assertNotIn("M10 12 L27 7 L39 19", html)
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
