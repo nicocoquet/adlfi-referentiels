@@ -18,11 +18,13 @@ def main():
         assert "Chemillé-Melay" in d and "sans équivalence ni identification rétroactive" in d,d
         assert all(old not in d for old in OLD),d
         assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ARK+'"]').count()==1
-        page.locator("#search").fill(ARK)
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+        page.locator('#search').fill(ARK)
         page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=12000)
         assert "Pactols validé en 2026" in page.locator("#results").text_content()
         for old in OLD:
-            page.locator("#search").fill(old)
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+            page.locator('#search').fill(old)
             page.wait_for_timeout(300)
             result=page.locator("#results").text_content()
             assert "Pactols validé en 2026" not in result or "49092" not in result,(old,result)
