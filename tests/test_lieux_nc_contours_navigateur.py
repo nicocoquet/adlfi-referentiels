@@ -23,6 +23,7 @@ def main():
         assert 'Poya' in detail and 'Contour communal de référence 2026 affiché' in detail,detail
         assert 'non homologué comme limite juridique' in detail,detail
         assert page.locator('.leaflet-overlay-pane canvas').count()==1
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
         page.locator('#search').fill('Poya')
         page.wait_for_function("() => !document.querySelector('#results')?.hidden")
         assert '98827' in page.locator('#results').text_content()
