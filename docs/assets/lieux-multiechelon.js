@@ -454,7 +454,7 @@ async function start(){
   });
   const seaMode=L.layerGroup([seaMarks]);
   const fondControl=L.control.layers(null,{
-    'OpenStreetMap + OpenSeaMap (nautique)':seaMode
+    'Afficher OpenSeaMap (informations nautiques)':seaMode
   },{position:'topright',collapsed:false});
   fondControl.addTo(state.map);
   // La couche nautique est optionnelle ; elle ne remplace pas OSM.
