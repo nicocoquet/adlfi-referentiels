@@ -521,12 +521,13 @@ function geoLayer(features,{reference=false}={}){
  if(!state.map)return null;
  return L.geoJSON({type:'FeatureCollection',features},{renderer:state.renderer,interactive:!reference,
    style:f=>{
-      const communeRepere=reference&&f.properties?.niveau==='commune';
-      return {color:reference?'#354e59':color(f.properties.niveau||'commune'),
-        weight:reference?(communeRepere?.55:1.4):1.15,
-        opacity:reference?(communeRepere?.60:.95):.9,
+      const commune=f.properties?.niveau==='commune';
+      const communeRepere=reference&&commune;
+      return {color:reference?'#354e59':commune?'#345b69':color(f.properties.niveau||'commune'),
+        weight:reference?(communeRepere?.75:1.4):commune?1.8:1.15,
+        opacity:reference?(communeRepere?.70:.95):commune?1:.9,
         fillColor:reference?'#c7ccd0':'#5d9cab',
-        fillOpacity:reference?0:.10,
+        fillOpacity:reference?0:commune?.14:.10,
         dashArray:reference?(communeRepere?'2,5':'5,5'):null};
    },
    onEachFeature(f,layer){if(!reference){
@@ -536,6 +537,16 @@ function geoLayer(features,{reference=false}={}){
         p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
       layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
+      if(p.niveau==='commune'){
+        // Mise en évidence uniquement au survol, sans modifier les limites
+        // ni les repères historiques en pointillés.
+        layer.on('mouseover',()=>{
+          layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
+            fillColor:'#2e809a',fillOpacity:.42});
+          layer.bringToFront();
+        });
+        layer.on('mouseout',()=>state.layer?.resetStyle(layer));
+      }
       layer.on('click',()=>choose(outremer?
         {kind:'cog2026',id:p.ref_cog,code:p.code}:
         p.niveau==='commune'?
