@@ -548,16 +548,15 @@ function geoLayer(features,{reference=false}={}){
         p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
       layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
-      if(p.niveau==='commune'){
-        // Mise en évidence uniquement au survol, sans modifier les limites
-        // ni les repères historiques en pointillés.
-        layer.on('mouseover',()=>{
-          layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
-            fillColor:'#2e809a',fillOpacity:.42});
-          layer.bringToFront();
-        });
-        layer.on('mouseout',()=>state.layer?.resetStyle(layer));
-      }
+      // Même survol pour toutes les géométries interactives : communes,
+      // départements, régions et futurs arrondissements municipaux.
+      // Les contours de référence non interactifs restent inchangés.
+      layer.on('mouseover',()=>{
+        layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
+          fillColor:'#2e809a',fillOpacity:.42});
+        layer.bringToFront();
+      });
+      layer.on('mouseout',()=>state.layer?.resetStyle(layer));
       layer.on('click',()=>choose(outremer?
         {kind:'cog2026',id:p.ref_cog,code:p.code}:
         p.niveau==='commune'?
