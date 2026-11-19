@@ -5,7 +5,7 @@ on:
     paths:
       - 'scripts/auditer_pactols_cog_region_metropolitaine_2026.py'
       - 'tests/test_auditer_pactols_cog_region_metropolitaine_2026.py'
-      - 'scripts/recuperer_cog_2026.py'
+      - 'scripts/recuperer_cog_communes_2026.py'
       - '.github/workflows/lieux-normandie-audit-rdf-cog-2026.yml'
       - 'recette/lieux/NORMANDIE-PREFLIGHT-PACTOLS-COG-2026.md'
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
           echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum --check
       - name: Acquérir le COG Insee 2026 à SHA contrôlé
         working-directory: referentiels
-        run: python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026" --communes-seulement
+        run: python3 scripts/recuperer_cog_communes_2026.py --sortie "$RUNNER_TEMP/cog2026"
       - name: Audit Normandie déterministe sur le COG et le RDF
         working-directory: referentiels
         run: |
