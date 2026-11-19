@@ -88,7 +88,7 @@ class LieuxUITests(unittest.TestCase):
         self.assertNotIn('class="notice-intro"', self.html)
         self.assertNotIn('class="hint"', self.html)
         self.assertNotIn('class="lieux-timeline-actions"', self.html)
-        self.assertEqual(self.html.count('class="control"'), 3)
+        self.assertEqual(self.html.count('class="control"'), 2)  # échelon et recherche ; zoom/année ont leurs panneaux dédiés
         self.assertIn('class="visually-hidden"', self.html)
         for expected in ("Zoom sur", "Échelon territorial",
                          "Rechercher un nom, un code INSEE ou un ARK Pactols"):
