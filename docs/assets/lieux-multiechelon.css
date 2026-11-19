@@ -180,3 +180,23 @@
   width:auto;max-height:min(68vh,580px);padding:8px;
  }
 }
+
+/* La chronologie appartient au menu compact Année : l'espace de la carte est libéré. */
+.lieux-multiechelon #year-tool .map-tool-panel--year{
+ width:min(355px,calc(100vw - 48px));
+ padding:12px 14px;
+}
+.lieux-multiechelon #year-tool .lieux-timeline{
+ display:block;position:static;width:100%;min-width:0;max-width:none;
+ margin:0;padding:5px 2px;border:0;background:transparent;box-shadow:none;
+}
+.lieux-multiechelon #year-tool .lieux-timeline-heading{gap:8px}
+.lieux-multiechelon #year-tool #year{width:100%;cursor:pointer}
+@media(max-width:700px){
+ .lieux-multiechelon .controls{
+  grid-template-columns:repeat(4,minmax(0,1fr)) auto;
+ }
+ .lieux-multiechelon #year-tool .map-tool-panel--year{
+  width:auto;max-width:none;
+ }
+}
