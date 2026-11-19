@@ -143,3 +143,40 @@
   .lieux-multiechelon .map-tool > summary{font-size:10px}
   .lieux-multiechelon .map{min-height:410px}
 }
+
+/* Navigation géographique en cinq ensembles, vignettes SVG calculées à partir
+   des géométries 2026 : aucune silhouette arbitraire n'est affichée. */
+.lieux-multiechelon #zoom-tool .map-tool-panel--zones{
+ width:min(370px,calc(100vw - 48px));
+ padding:10px;max-height:min(75vh,650px);overflow:auto;
+}
+.lieux-multiechelon .zone-help{margin:4px 6px 12px;font-size:12px;color:#526e7c;line-height:1.5}
+.lieux-multiechelon .zone-tree{display:flex;flex-direction:column;gap:4px}
+.lieux-multiechelon .zone-group{border-bottom:1px solid #e3ebee;padding:0 0 4px}
+.lieux-multiechelon .zone-group>summary{
+ cursor:pointer;list-style:none;padding:10px 8px;font-size:13px;font-weight:700;
+ display:flex;justify-content:space-between;gap:12px;border-radius:6px;color:#264f60;
+}
+.lieux-multiechelon .zone-group>summary::-webkit-details-marker{display:none}
+.lieux-multiechelon .zone-group>summary::before{content:"▸";margin-right:4px}
+.lieux-multiechelon .zone-group[open]>summary::before{content:"▾"}
+.lieux-multiechelon .zone-count{font-size:11px;color:#687e89;font-weight:500}
+.lieux-multiechelon .zone-items{display:flex;flex-direction:column;gap:2px;padding:0 2px 8px 8px}
+.lieux-multiechelon .zone-choice{
+ display:flex;align-items:center;text-align:left;gap:12px;width:100%;
+ padding:5px 8px;border:0;border-radius:7px;background:transparent;
+ color:#2a4957;font-size:12px;line-height:1.4;cursor:pointer;
+}
+.lieux-multiechelon .zone-choice:hover:not(:disabled){background:#eaf3f5}
+.lieux-multiechelon .zone-choice:focus-visible{outline:2px solid #ce8c5f;outline-offset:1px}
+.lieux-multiechelon .zone-choice:disabled{opacity:.55;cursor:not-allowed}
+.lieux-multiechelon .zone-thumbnail{
+ display:flex;flex:none;align-items:center;justify-content:center;
+ width:42px;height:42px;border:1px solid #d7e4e8;border-radius:5px;background:#f5f9fa;
+}
+.lieux-multiechelon .zone-thumbnail svg{width:36px;height:36px;overflow:visible}
+@media(max-width:700px){
+ .lieux-multiechelon #zoom-tool .map-tool-panel--zones{
+  width:auto;max-height:min(68vh,580px);padding:8px;
+ }
+}
