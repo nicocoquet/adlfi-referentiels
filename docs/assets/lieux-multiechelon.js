@@ -425,6 +425,10 @@ async function start(){
   state.map=L.map('map',{scrollWheelZoom:true,preferCanvas:true}).setView([46.5,2.2],6);
   state.map.options.wheelDebounceTime=60;
   state.renderer=L.canvas();
+  state.map.on('zoomend',()=>{
+    if(level()==='commune'&&state.layer)
+      state.layer.setStyle(f=>displayStyle(f,false));
+  });
   const osmTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
     attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'});
   let erreursTuiles=0;
@@ -517,19 +521,26 @@ function frame(){
 }
 function destroy(){if(state.map){if(state.layer)state.map.removeLayer(state.layer);if(state.reference)state.map.removeLayer(state.reference)}state.layer=null;state.reference=null;state.bounds.clear()}
 function color(l){return l==='region'?'#286e83':l==='departement'?'#597f8c':'#8d9ca6'}
+function displayStyle(f,reference=false){
+ const commune=f.properties?.niveau==='commune';
+ const communeRepere=reference&&commune;
+ // Éviter l'effet de masse des milliers de communes à l'échelle nationale :
+ // les contours deviennent progressivement plus lisibles au zoom local.
+ const z=state.map?.getZoom()??6;
+ const communeWeight=z<=6?.4:z<=8?.9:z<=10?1.35:1.8;
+ const communeOpacity=z<=6?.52:z<=8?.8:1;
+ const communeFill=z<=6?.04:z<=8?.09:.14;
+ return {color:reference?'#354e59':commune?'#345b69':color(f.properties.niveau||'commune'),
+   weight:reference?(communeRepere?.75:1.4):commune?communeWeight:1.15,
+   opacity:reference?(communeRepere?.70:.95):commune?communeOpacity:.9,
+   fillColor:reference?'#c7ccd0':'#5d9cab',
+   fillOpacity:reference?0:commune?communeFill:.10,
+   dashArray:reference?(communeRepere?'2,5':'5,5'):null};
+}
 function geoLayer(features,{reference=false}={}){
  if(!state.map)return null;
  return L.geoJSON({type:'FeatureCollection',features},{renderer:state.renderer,interactive:!reference,
-   style:f=>{
-      const commune=f.properties?.niveau==='commune';
-      const communeRepere=reference&&commune;
-      return {color:reference?'#354e59':commune?'#345b69':color(f.properties.niveau||'commune'),
-        weight:reference?(communeRepere?.75:1.4):commune?1.8:1.15,
-        opacity:reference?(communeRepere?.70:.95):commune?1:.9,
-        fillColor:reference?'#c7ccd0':'#5d9cab',
-        fillOpacity:reference?0:commune?.14:.10,
-        dashArray:reference?(communeRepere?'2,5':'5,5'):null};
-   },
+   style:f=>displayStyle(f,reference),
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
       const outremer=!!p.ref_cog&&['drom','spm','nouvelle-caledonie','polynesie'].includes(p.zone);
