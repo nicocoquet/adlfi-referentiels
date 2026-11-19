@@ -43,7 +43,7 @@ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const label={region:'Région',departement:'Département',commune:'Commune'};
 const ids=['paca','corse','pdl','bfc'];
 const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
-const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],'saint-martin':[[18.04,-63.17],[18.15,-62.96]],'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
 
 // Cadrages documentés par les contours régionaux 2026 (COG / Etalab-IGN).
 const zonesRegion2026={
@@ -54,7 +54,7 @@ const zonesRegion2026={
  guadeloupe:'01',martinique:'02',guyane:'03',reunion:'04',mayotte:'06'
 };
 const zonesVuesExistantes={spm:'atlantique',taaf:'taaf',
- 'saint-martin':'antilles','saint-barthelemy':'antilles',
+ 'saint-martin':'saint-martin','saint-barthelemy':'saint-barthelemy',
  polynesie:'pacifique',caledonie:'caledonie','wallis-futuna':'pacifique'};
 let contoursRegions2026=null;
 let zoneChoisieLibelle=null;
@@ -548,16 +548,15 @@ function geoLayer(features,{reference=false}={}){
         p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
       layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
-      if(p.niveau==='commune'){
-        // Mise en évidence uniquement au survol, sans modifier les limites
-        // ni les repères historiques en pointillés.
-        layer.on('mouseover',()=>{
-          layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
-            fillColor:'#2e809a',fillOpacity:.42});
-          layer.bringToFront();
-        });
-        layer.on('mouseout',()=>state.layer?.resetStyle(layer));
-      }
+      // Même survol pour toutes les géométries interactives : communes,
+      // départements, régions et futurs arrondissements municipaux.
+      // Les contours de référence non interactifs restent inchangés.
+      layer.on('mouseover',()=>{
+        layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
+          fillColor:'#2e809a',fillOpacity:.42});
+        layer.bringToFront();
+      });
+      layer.on('mouseout',()=>state.layer?.resetStyle(layer));
       layer.on('click',()=>choose(outremer?
         {kind:'cog2026',id:p.ref_cog,code:p.code}:
         p.niveau==='commune'?

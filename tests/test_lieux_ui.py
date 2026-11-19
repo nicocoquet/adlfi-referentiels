@@ -198,9 +198,29 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("state.map.on('zoomend'", js)
         self.assertIn("state.layer.setStyle(f=>displayStyle(f,false))", js)
         self.assertIn("layer.on('mouseover'", js)
+        self.assertNotIn("if(p.niveau==='commune'){", js)
+        self.assertIn("interactive:!reference", js)
+        self.assertIn("départements, régions et futurs arrondissements municipaux", js)
         self.assertIn("fillOpacity:.42", js)
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
+
+    def test_chevrons_menus_et_groupes_geographiques(self):
+        css = (ROOT / "docs/assets/lieux-multiechelon.css").read_text(encoding="utf-8")
+        self.assertIn('content:"⏵"', css)
+        self.assertIn('content:"⏷"', css)
+        self.assertIn('.map-tool[open] > summary::after{content:"⏷"}', css)
+        self.assertIn('.zone-group[open]>summary::before{content:"⏷"}', css)
+        self.assertIn('display:flex;align-items:center;justify-content:flex-start;gap:8px', css)
+        self.assertIn('.zone-count{margin-left:auto;', css)
+
+    def test_cadrages_saint_martin_et_saint_barthelemy(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("'saint-martin':[[18.04,-63.17],[18.15,-62.96]]", js)
+        self.assertIn("'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]]", js)
+        self.assertIn("'saint-martin':'saint-martin','saint-barthelemy':'saint-barthelemy'", js)
+        self.assertIn('<option value="saint-martin">Saint-Martin</option>', self.html)
+        self.assertIn('<option value="saint-barthelemy">Saint-Barthélemy</option>', self.html)
 
     def test_fond_nautique_echelle_et_molette(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")

@@ -63,10 +63,11 @@
 .lieux-multiechelon .map-tool > summary{list-style:none}
 .lieux-multiechelon .map-tool > summary::-webkit-details-marker{display:none}
 .lieux-multiechelon .map-tool > summary::after{
-  content:"⌄";color:#587987;font-size:16px;line-height:1;
-  margin-left:2px;transition:transform .12s;
+  content:"⏵";color:#587987;font-size:16px;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;flex:none;margin-left:2px;align-self:center;
 }
-.lieux-multiechelon .map-tool[open] > summary::after{transform:rotate(180deg)}
+.lieux-multiechelon .map-tool[open] > summary::after{content:"⏷"}
 .lieux-multiechelon .map-tool > summary:hover,
 .lieux-multiechelon .map-reset:hover{background:#f1f8fa;border-color:#7daab6}
 .lieux-multiechelon .map-tool > summary:focus-visible,
@@ -155,12 +156,12 @@
 .lieux-multiechelon .zone-group{border-bottom:1px solid #e3ebee;padding:0 0 4px}
 .lieux-multiechelon .zone-group>summary{
  cursor:pointer;list-style:none;padding:10px 8px;font-size:13px;font-weight:700;
- display:flex;justify-content:space-between;gap:12px;border-radius:6px;color:#264f60;
+ display:flex;align-items:center;justify-content:flex-start;gap:8px;border-radius:6px;color:#264f60;
 }
 .lieux-multiechelon .zone-group>summary::-webkit-details-marker{display:none}
-.lieux-multiechelon .zone-group>summary::before{content:"▸";margin-right:4px}
-.lieux-multiechelon .zone-group[open]>summary::before{content:"▾"}
-.lieux-multiechelon .zone-count{font-size:11px;color:#687e89;font-weight:500}
+.lieux-multiechelon .zone-group>summary::before{content:"⏵";font-size:15px;line-height:1;display:inline-flex;align-items:center;justify-content:center;width:16px;flex:none;align-self:center}
+.lieux-multiechelon .zone-group[open]>summary::before{content:"⏷"}
+.lieux-multiechelon .zone-count{margin-left:auto;font-size:11px;color:#687e89;font-weight:500}
 .lieux-multiechelon .zone-items{display:flex;flex-direction:column;gap:2px;padding:0 2px 8px 8px}
 .lieux-multiechelon .zone-choice{
  display:flex;align-items:center;text-align:left;gap:12px;width:100%;
