@@ -36,16 +36,7 @@
 </div>
 
 <main class="page-content lieux-content lieux-multiechelon" id="contenu">
-<section class="lieux-timeline" aria-label="Navigation chronologique">
-  <div class="lieux-timeline-heading">
-    <label for="year">Situation administrative au 1er janvier</label>
-    <output id="year-label" for="year" aria-live="off">2026</output>
-  </div>
-  <input id="year" type="range" min="1943" max="2026" step="1" value="2026"
-         aria-describedby="year-description">
-  <div class="lieux-timeline-bounds" aria-hidden="true"><span>1943</span><span>2026</span></div>
-  <span id="year-description" class="visually-hidden">Choisissez une année de 1943 à 2026 avec le curseur ou les flèches du clavier. Les contours historiques ne sont pas disponibles pour toutes les années et tous les échelons.</span>
-</section>
+
 <div class="layout">
 <section class="map-card" aria-label="Carte interactive du référentiel"><div class="map-head"><div><strong id="map-title">Régions · 2026</strong><small id="map-subtitle">Fond actuel OpenStreetMap · contours administratifs datés</small></div></div><section class="controls" aria-label="Navigation du référentiel">
   <details class="map-tool" id="zoom-tool" name="lieux-navigation">
@@ -103,9 +94,22 @@
     <summary><span class="map-tool-title">Échelon territorial</span><span class="map-tool-value" id="level-current" aria-hidden="true">Région</span></summary>
     <div class="map-tool-panel"><div class="control"><label for="level">Choisir un échelon</label><select id="level"><option value="region">Région</option><option value="departement">Département</option><option value="commune">Commune</option></select></div></div>
   </details>
+  <details class="map-tool" id="year-tool" name="lieux-navigation">
+    <summary><span class="map-tool-title">Année</span><span class="map-tool-value" id="year-current" aria-hidden="true">2026</span></summary>
+    <div class="map-tool-panel map-tool-panel--year"><section class="lieux-timeline" aria-label="Navigation chronologique">
+  <div class="lieux-timeline-heading">
+    <label for="year">Situation administrative au 1er janvier</label>
+    <output id="year-label" for="year" aria-live="off">2026</output>
+  </div>
+  <input id="year" type="range" min="1943" max="2026" step="1" value="2026"
+         aria-describedby="year-description">
+  <div class="lieux-timeline-bounds" aria-hidden="true"><span>1943</span><span>2026</span></div>
+  <span id="year-description" class="visually-hidden">Choisissez une année de 1943 à 2026 avec le curseur ou les flèches du clavier. Les contours historiques ne sont pas disponibles pour toutes les années et tous les échelons.</span>
+</section></div>
+  </details>
   <details class="map-tool" id="search-tool" name="lieux-navigation">
-    <summary><span class="map-tool-title">Recherche</span></summary>
-    <div class="map-tool-panel"><div class="control"><label for="search">Rechercher un nom, un code INSEE ou un ARK Pactols</label><div class="search-wrap"><input type="search" id="search" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" placeholder="Ex. Charny, Bourgogne, 49069, 26678/…" autocomplete="off" aria-controls="results"><ul id="results" class="results" role="listbox" hidden aria-label="Résultats de recherche"></ul></div></div></div>
+    <summary><span class="map-tool-title">Rechercher</span></summary>
+    <div class="map-tool-panel"><div class="control"><label for="search">Rechercher un nom, un code INSEE ou un ARK Pactols</label><div class="search-wrap"><input type="search" id="search" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" placeholder="Recherche un nom de lieu, un code INSEE, un ARK Pactols..." autocomplete="off" aria-controls="results"><ul id="results" class="results" role="listbox" hidden aria-label="Résultats de recherche"></ul></div></div></div>
   </details>
   <button type="button" id="reset" class="map-reset" aria-label="Recentrer la carte">Recentrer</button>
 </section>
