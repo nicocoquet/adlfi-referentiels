@@ -57,14 +57,15 @@ const zonesVuesExistantes={spm:'atlantique',taaf:'taaf',
  'saint-martin':'antilles','saint-barthelemy':'antilles',
  polynesie:'pacifique',caledonie:'caledonie','wallis-futuna':'pacifique'};
 let contoursRegions2026=null;
+let zoneChoisieLibelle=null;
 function zonesSvg(geometry){
  const polygons=geometry.type==='Polygon'?[geometry.coordinates]:
   geometry.type==='MultiPolygon'?geometry.coordinates:[];
  const rings=polygons.flatMap(poly=>poly.slice(0,1));
  const pts=rings.flat().filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
  if(!pts.length)return null;
- const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);
- const minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
+ let minx=Infinity,maxx=-Infinity,miny=Infinity,maxy=-Infinity;
+ for(const p of pts){minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1]);}
  const spanx=Math.max(maxx-minx,.001),spany=Math.max(maxy-miny,.001);
  const scale=Math.min(38/spanx,38/spany),ox=(48-spanx*scale)/2,oy=(48-spany*scale)/2;
  return rings.map(ring=>{
@@ -111,7 +112,8 @@ async function initZoneTree(){
    if(views[key])$('zoom').value=key;
    else if(zonesVuesExistantes[key])$('zoom').value=zonesVuesExistantes[key];
    else $('zoom').value='metropole';
-   $('zoom-current').textContent=btn.textContent.trim();
+   zoneChoisieLibelle=btn.textContent.trim();
+   refreshToolLabels();
    $('zoom-tool').open=false;
    updateUrl();
   });
@@ -131,7 +133,7 @@ function year(){return Number($('year').value)}
 function level(){return $('level').value}
 function refreshToolLabels(){
  const z=$('zoom'),l=$('level');
- if(z&&$('zoom-current'))$('zoom-current').textContent=z.selectedOptions[0]?.textContent||'';
+ if(z&&$('zoom-current'))$('zoom-current').textContent=zoneChoisieLibelle||z.selectedOptions[0]?.textContent||'';
  if(l&&$('level-current'))$('level-current').textContent=l.selectedOptions[0]?.textContent||'';
 }
 function refreshTimeline(){
@@ -449,7 +451,7 @@ async function start(){
   state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
   frame();
  }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible : la recherche et les fiches restent accessibles.'}
- $('zoom').addEventListener('change',()=>{refreshToolLabels();$('zoom-tool').open=false;frame();updateUrl()});
+ $('zoom').addEventListener('change',()=>{zoneChoisieLibelle=null;refreshToolLabels();$('zoom-tool').open=false;frame();updateUrl()});
  $('level').addEventListener('change',()=>{state.selected=null;$('level-tool').open=false;render()});
  $('year').addEventListener('input',()=>{
    refreshTimeline();
