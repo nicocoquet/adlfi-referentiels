@@ -23,6 +23,7 @@ def main():
   assert 'sans' not in d or 'Pactols ne fournit pas d’exactMatch INSEE direct' in d,d
   assert '26678/pcrtGQ7nGPZN7K' not in d,d
   assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ark+'"]').count()==1
+  page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
   page.locator('#search').fill(ark)
   page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=15000)
   found=page.locator('#results').text_content()
