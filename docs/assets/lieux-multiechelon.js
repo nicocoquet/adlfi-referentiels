@@ -138,6 +138,7 @@ function refreshToolLabels(){
 }
 function refreshTimeline(){
  const y=year();
+ if($('year-current'))$('year-current').textContent=String(y);
  $('year-label').textContent=String(y);
  $('year-label').value=String(y);
  $('year').setAttribute('aria-valuetext','Situation administrative au 1er janvier '+y);
