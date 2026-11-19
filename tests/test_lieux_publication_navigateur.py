@@ -84,9 +84,9 @@ def main():
         assert page.locator(".map-tool[open]").count()==0
         assert page.locator("#detail").is_hidden()
         assert page.locator("#map").bounding_box()["width"] > 0.90 * 1400
-        page.locator("#zoom-tool summary").click()
+        page.locator("#zoom-tool > summary").click()
         assert page.locator("#zoom-tool").get_attribute("open") is not None
-        page.locator("#level-tool summary").click()
+        page.locator("#level-tool > summary").click()
         assert page.locator("#zoom-tool").get_attribute("open") is None
         assert page.locator("#level-tool").get_attribute("open") is not None
         assert page.locator("#year").input_value()=="2026"
