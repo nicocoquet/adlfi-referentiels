@@ -422,7 +422,8 @@ async function start(){
    if(found){state.selected={kind:'commune',code:found.code,zone:found.zone,year:year(),ark};
      $('level').value='commune';$('year').value='2026';}}
  if(window.L){
-  state.map=L.map('map',{scrollWheelZoom:false,preferCanvas:true}).setView([46.5,2.2],6);
+  state.map=L.map('map',{scrollWheelZoom:true,preferCanvas:true}).setView([46.5,2.2],6);
+  state.map.options.wheelDebounceTime=60;
   state.renderer=L.canvas();
   const osmTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
     attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'});
@@ -445,6 +446,19 @@ async function start(){
     }
   });
   osmTiles.addTo(state.map);
+  // OpenSeaMap publie une surcouche transparente de signalisation nautique.
+  // Le fond OSM reste visible dans les deux modes.
+  const seaMarks=L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',{
+    maxZoom:18,opacity:1,
+    attribution:'Données nautiques : © <a href="https://openseamap.org/" target="_blank" rel="noopener noreferrer">OpenSeaMap</a> (CC BY-SA 2.0)'
+  });
+  const seaMode=L.layerGroup([seaMarks]);
+  const fondControl=L.control.layers(null,{
+    'OpenStreetMap + OpenSeaMap (nautique)':seaMode
+  },{position:'topright',collapsed:false});
+  fondControl.addTo(state.map);
+  // La couche nautique est optionnelle ; elle ne remplace pas OSM.
+  L.control.scale({position:'bottomleft',imperial:false,metric:true,maxWidth:150}).addTo(state.map);
   // La carte partage une grille responsive avec le panneau des fiches.
   // Recalculer la taille après le premier affichage évite un fond incomplet
   // lorsque la disposition CSS est stabilisée après l'initialisation.
