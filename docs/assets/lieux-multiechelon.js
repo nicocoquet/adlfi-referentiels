@@ -44,6 +44,81 @@ const label={region:'Région',departement:'Département',commune:'Commune'};
 const ids=['paca','corse','pdl','bfc'];
 const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
 const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+
+// Cadrages documentés par les contours régionaux 2026 (COG / Etalab-IGN).
+const zonesRegion2026={
+ 'auvergne-rhone-alpes':'84',bfc:'27',bretagne:'53',
+ 'centre-val-de-loire':'24',corse:'94','grand-est':'44',
+ 'hauts-de-france':'32','ile-de-france':'11',normandie:'28',
+ 'nouvelle-aquitaine':'75',occitanie:'76',pdl:'52',paca:'93',
+ guadeloupe:'01',martinique:'02',guyane:'03',reunion:'04',mayotte:'06'
+};
+const zonesVuesExistantes={spm:'atlantique',taaf:'taaf',
+ 'saint-martin':'antilles','saint-barthelemy':'antilles',
+ polynesie:'pacifique',caledonie:'caledonie','wallis-futuna':'pacifique'};
+let contoursRegions2026=null;
+let zoneChoisieLibelle=null;
+function zonesSvg(geometry){
+ const polygons=geometry.type==='Polygon'?[geometry.coordinates]:
+  geometry.type==='MultiPolygon'?geometry.coordinates:[];
+ const rings=polygons.flatMap(poly=>poly.slice(0,1));
+ const pts=rings.flat().filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+ if(!pts.length)return null;
+ let minx=Infinity,maxx=-Infinity,miny=Infinity,maxy=-Infinity;
+ for(const p of pts){minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1]);}
+ const spanx=Math.max(maxx-minx,.001),spany=Math.max(maxy-miny,.001);
+ const scale=Math.min(38/spanx,38/spany),ox=(48-spanx*scale)/2,oy=(48-spany*scale)/2;
+ return rings.map(ring=>{
+  const step=Math.max(1,Math.floor(ring.length/450));
+  const sampled=ring.filter((_,i)=>i%step===0);
+  return sampled.map((p,i)=>(i?'L':'M')+(ox+(p[0]-minx)*scale).toFixed(2)+' '+(48-oy-(p[1]-miny)*scale).toFixed(2)).join(' ')+' Z';
+ }).join(' ');
+}
+async function initZoneTree(){
+ const root=$('zoom-tool');if(!root)return;
+ try{
+  const fc=await layerFor(2026,'region');
+  contoursRegions2026=new Map(fc.map(f=>[f.properties.code,f]));
+  for(const btn of root.querySelectorAll('.zone-choice')){
+   const f=contoursRegions2026.get(zonesRegion2026[btn.dataset.zone]);
+   const path=f&&zonesSvg(f.geometry);
+   if(path){
+    const svg=btn.querySelector('svg');
+    svg.replaceChildren();
+    const shape=document.createElementNS('http://www.w3.org/2000/svg','path');
+    shape.setAttribute('d',path);shape.setAttribute('fill','#d7e9ec');
+    shape.setAttribute('stroke','#537f8d');shape.setAttribute('stroke-width','1.3');
+    svg.append(shape);
+   }
+  }
+ }catch(err){console.warn('Vignettes régionales indisponibles :',err);}
+ for(const btn of root.querySelectorAll('.zone-choice')){
+  const key=btn.dataset.zone;
+  if(!zonesRegion2026[key]&&!zonesVuesExistantes[key]){
+   btn.disabled=true;
+   btn.title='Cadrage individuel à qualifier avant publication';
+   continue;
+  }
+  btn.addEventListener('click',()=>{
+   const feature=contoursRegions2026?.get(zonesRegion2026[key]);
+   if(feature&&state.map){
+    state.map.fitBounds(L.geoJSON(feature).getBounds(),{padding:[22,22],animate:false});
+   }else if(zonesVuesExistantes[key]&&state.map){
+    const v=views[zonesVuesExistantes[key]];
+    if(v)state.map.fitBounds(v,{padding:[16,16],animate:false});
+   }
+   // Conserver la valeur du sélecteur historique uniquement pour les zones
+   // déjà prises en charge : ne pas substituer un territoire à une autre autorité.
+   if(views[key])$('zoom').value=key;
+   else if(zonesVuesExistantes[key])$('zoom').value=zonesVuesExistantes[key];
+   else $('zoom').value='metropole';
+   zoneChoisieLibelle=btn.textContent.trim();
+   refreshToolLabels();
+   $('zoom-tool').open=false;
+   updateUrl();
+  });
+ }
+}
 const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false, renderer:null};
 let activeRequest=0;
 const ROOT='../data/';
@@ -56,8 +131,14 @@ let pf2026Features=[];
 let timelineTimer=null;
 function year(){return Number($('year').value)}
 function level(){return $('level').value}
+function refreshToolLabels(){
+ const z=$('zoom'),l=$('level');
+ if(z&&$('zoom-current'))$('zoom-current').textContent=zoneChoisieLibelle||z.selectedOptions[0]?.textContent||'';
+ if(l&&$('level-current'))$('level-current').textContent=l.selectedOptions[0]?.textContent||'';
+}
 function refreshTimeline(){
  const y=year();
+ if($('year-current'))$('year-current').textContent=String(y);
  $('year-label').textContent=String(y);
  $('year-label').value=String(y);
  $('year').setAttribute('aria-valuetext','Situation administrative au 1er janvier '+y);
@@ -341,8 +422,13 @@ async function start(){
    if(found){state.selected={kind:'commune',code:found.code,zone:found.zone,year:year(),ark};
      $('level').value='commune';$('year').value='2026';}}
  if(window.L){
-  state.map=L.map('map',{scrollWheelZoom:false,preferCanvas:true}).setView([46.5,2.2],6);
+  state.map=L.map('map',{scrollWheelZoom:true,preferCanvas:true}).setView([46.5,2.2],6);
+  state.map.options.wheelDebounceTime=60;
   state.renderer=L.canvas();
+  state.map.on('zoomend',()=>{
+    if(level()==='commune'&&state.layer)
+      state.layer.setStyle(f=>displayStyle(f,false));
+  });
   const osmTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
     attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'});
   let erreursTuiles=0;
@@ -364,6 +450,19 @@ async function start(){
     }
   });
   osmTiles.addTo(state.map);
+  // OpenSeaMap publie une surcouche transparente de signalisation nautique.
+  // Le fond OSM reste visible dans les deux modes.
+  const seaMarks=L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',{
+    maxZoom:18,opacity:1,
+    attribution:'Données nautiques : © <a href="https://openseamap.org/" target="_blank" rel="noopener noreferrer">OpenSeaMap</a> (CC BY-SA 2.0)'
+  });
+  const seaMode=L.layerGroup([seaMarks]);
+  const fondControl=L.control.layers(null,{
+    'Afficher OpenSeaMap (informations nautiques)':seaMode
+  },{position:'topright',collapsed:false});
+  fondControl.addTo(state.map);
+  // La couche nautique est optionnelle ; elle ne remplace pas OSM.
+  L.control.scale({position:'bottomleft',imperial:false,metric:true,maxWidth:150}).addTo(state.map);
   // La carte partage une grille responsive avec le panneau des fiches.
   // Recalculer la taille après le premier affichage évite un fond incomplet
   // lorsque la disposition CSS est stabilisée après l'initialisation.
@@ -371,8 +470,8 @@ async function start(){
   state.map.attributionControl.addAttribution('Surcouches : IGN GEOFLA / Insee COG / référentiel AdlFI');
   frame();
  }else{state.noMap=true;$('map-status').textContent='Leaflet indisponible : la recherche et les fiches restent accessibles.'}
- $('zoom').addEventListener('change',()=>{frame();updateUrl()});
- $('level').addEventListener('change',()=>{state.selected=null;render()});
+ $('zoom').addEventListener('change',()=>{zoneChoisieLibelle=null;refreshToolLabels();$('zoom-tool').open=false;frame();updateUrl()});
+ $('level').addEventListener('change',()=>{state.selected=null;$('level-tool').open=false;render()});
  $('year').addEventListener('input',()=>{
    refreshTimeline();
    if(timelineTimer!==null)clearTimeout(timelineTimer);
@@ -382,13 +481,15 @@ async function start(){
  $('reference').addEventListener('change',render);
  $('reset').addEventListener('click',frame);
  $('search').addEventListener('input',search);
+ $('search-tool').addEventListener('toggle',()=>{if($('search-tool').open)$('search').focus()});
  $('search').addEventListener('keydown',e=>{
-   if(e.key==='Escape')hideResults();
+   if(e.key==='Escape'){hideResults();$('search-tool').open=false;$('search-tool').querySelector('summary')?.focus();}
    else if(e.key==='Enter'&&!$('results').hidden){
       const a=$('results').querySelector('button');if(a)a.click();
    }
  });
  await render();
+ await initZoneTree();
  if(state.selected)focusSelection();
 }
 function updateUrl(){
@@ -420,18 +521,26 @@ function frame(){
 }
 function destroy(){if(state.map){if(state.layer)state.map.removeLayer(state.layer);if(state.reference)state.map.removeLayer(state.reference)}state.layer=null;state.reference=null;state.bounds.clear()}
 function color(l){return l==='region'?'#286e83':l==='departement'?'#597f8c':'#8d9ca6'}
+function displayStyle(f,reference=false){
+ const commune=f.properties?.niveau==='commune';
+ const communeRepere=reference&&commune;
+ // Éviter l'effet de masse des milliers de communes à l'échelle nationale :
+ // les contours deviennent progressivement plus lisibles au zoom local.
+ const z=state.map?.getZoom()??6;
+ const communeWeight=z<=6?.4:z<=8?.9:z<=10?1.35:1.8;
+ const communeOpacity=z<=6?.52:z<=8?.8:1;
+ const communeFill=z<=6?.04:z<=8?.09:.14;
+ return {color:reference?'#354e59':commune?'#345b69':color(f.properties.niveau||'commune'),
+   weight:reference?(communeRepere?.75:1.4):commune?communeWeight:1.15,
+   opacity:reference?(communeRepere?.70:.95):commune?communeOpacity:.9,
+   fillColor:reference?'#c7ccd0':'#5d9cab',
+   fillOpacity:reference?0:commune?communeFill:.10,
+   dashArray:reference?(communeRepere?'2,5':'5,5'):null};
+}
 function geoLayer(features,{reference=false}={}){
  if(!state.map)return null;
  return L.geoJSON({type:'FeatureCollection',features},{renderer:state.renderer,interactive:!reference,
-   style:f=>{
-      const communeRepere=reference&&f.properties?.niveau==='commune';
-      return {color:reference?'#354e59':color(f.properties.niveau||'commune'),
-        weight:reference?(communeRepere?.55:1.4):1.15,
-        opacity:reference?(communeRepere?.60:.95):.9,
-        fillColor:reference?'#c7ccd0':'#5d9cab',
-        fillOpacity:reference?0:.10,
-        dashArray:reference?(communeRepere?'2,5':'5,5'):null};
-   },
+   style:f=>displayStyle(f,reference),
    onEachFeature(f,layer){if(!reference){
       const p=f.properties;
       const outremer=!!p.ref_cog&&['drom','spm','nouvelle-caledonie','polynesie'].includes(p.zone);
@@ -439,6 +548,16 @@ function geoLayer(features,{reference=false}={}){
         p.niveau==='commune'?'com:'+p.code:p.annee+'/'+p.niveau+'/'+p.code;
       state.bounds.set(key,layer);
       layer.bindTooltip(escape(p.nom)+' · '+escape(p.code));
+      if(p.niveau==='commune'){
+        // Mise en évidence uniquement au survol, sans modifier les limites
+        // ni les repères historiques en pointillés.
+        layer.on('mouseover',()=>{
+          layer.setStyle({color:'#123e53',weight:2.8,opacity:1,
+            fillColor:'#2e809a',fillOpacity:.42});
+          layer.bringToFront();
+        });
+        layer.on('mouseout',()=>state.layer?.resetStyle(layer));
+      }
       layer.on('click',()=>choose(outremer?
         {kind:'cog2026',id:p.ref_cog,code:p.code}:
         p.niveau==='commune'?
@@ -450,6 +569,7 @@ function geoLayer(features,{reference=false}={}){
 function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features,nc2026Features,pf2026Features)}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
+ refreshToolLabels();
  refreshTimeline();
  const sequence=++activeRequest;
  const y=year(),l=level(),current=state.selected;
@@ -565,7 +685,7 @@ function search(){
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
          ark:h.kind==='pactols'?h.ark:null};
      }
-     hideResults();render().then(focusSelection);
+     hideResults();$('search-tool').open=false;render().then(focusSelection);
    });
    li.append(btn);ul.append(li);
  }
@@ -1110,6 +1230,18 @@ function afficherDetailAssocieeISPF(target,entry){
  }
 }
 function detail(){const target=$('detail');target.replaceChildren();const x=state.selected;
+ target.hidden=!x;
+ if(x){
+  const close=document.createElement('button');
+  close.type='button';close.className='detail-close';
+  close.textContent='Fermer';
+  close.setAttribute('aria-label','Fermer la fiche du lieu');
+  close.addEventListener('click',()=>{
+    state.selected=null;detail();updateUrl();
+    $('map').focus({preventScroll:true});
+  });
+  target.append(close);
+ }
  const kicker=document.createElement('div');kicker.className='kicker';kicker.textContent=x?.kind==='commune'?'Référentiel communal COG / Pactols':x?.kind==='admin'?'Référentiel administratif IGN–COG':x?.kind==='cog2026'?'Commune COG · 2026':x?.kind==='cogHistoriqueGuyane'?'Commune historique · Guyane':x?.kind==='cogHistoriqueGuadeloupe'?'Commune historique · Guadeloupe':x?.kind==='autre_cog2026'?'Entité administrative COG · 2026':x?.kind==='associee_ispf'?'Commune associée · ISPF':'Fiche du référentiel';target.append(kicker);
  if(!x){const h=document.createElement('h2'),p=document.createElement('p');h.textContent='Sélectionnez un territoire ou une commune';p.textContent='Utilisez la recherche ou cliquez sur les contours affichés. La recherche conserve les états COG et les correspondances Pactols existantes.';target.append(h,p);return}
  if(x.kind==='associee_ispf'){

@@ -22,6 +22,7 @@ def main():
         assert 'fonds territoriaux diffusés en 2022' in detail,detail
         assert 'ni restitution historique' in detail.lower(),detail
         assert page.locator('.leaflet-overlay-pane canvas').count()==1
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
         page.locator('#search').fill('Papeete')
         page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=10000)
         assert '98735' in page.locator('#results').text_content()

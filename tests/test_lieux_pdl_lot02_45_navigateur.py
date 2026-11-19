@@ -24,10 +24,12 @@ def main():
             assert "ancienne commune" in detail and "déléguée" in detail,detail
             assert old not in detail,detail
             assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ark+'"]').count()==1
-            page.locator("#search").fill(ark)
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+            page.locator('#search').fill(ark)
             page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=15000)
             assert "Pactols validé en 2026" in page.locator("#results").text_content()
-            page.locator("#search").fill(old)
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+            page.locator('#search').fill(old)
             page.wait_for_timeout(350)
             hits=page.locator("#results").text_content()
             assert "Pactols validé en 2026" not in hits or code not in hits,(code,hits)

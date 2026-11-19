@@ -19,3 +19,184 @@
 
 
 @media(max-width:780px){.lieux-timeline{padding:14px}.lieux-timeline-heading output{font-size:21px}}
+
+
+/* Interface cartographique prioritaire — navigation compacte, phase 1.
+   Conserve tous les identifiants JS et les sources cartographiques existantes. */
+.lieux-content.lieux-multiechelon{
+  max-width:none;
+  width:100%;
+  padding:12px clamp(12px,1.7vw,28px) 32px;
+}
+.lieux-multiechelon .layout{display:block;position:relative;min-width:0}
+.lieux-multiechelon .map-card{position:relative;min-width:0;overflow:hidden}
+.lieux-multiechelon .map{
+  width:100%;
+  height:clamp(540px,calc(100dvh - 310px),950px);
+  min-height:540px;
+}
+.lieux-multiechelon .map-head{
+  position:absolute;
+  height:1px;width:1px;overflow:hidden;
+  padding:0;border:0;margin:-1px;clip-path:inset(50%);white-space:nowrap;
+}
+.lieux-multiechelon .controls{
+  position:absolute;
+  top:14px;left:14px;
+  display:flex;flex-wrap:nowrap;align-items:flex-start;
+  width:auto;max-width:calc(100% - 28px);
+  padding:0;margin:0;gap:8px;
+  z-index:1200;
+  border:0;background:transparent;box-shadow:none;
+}
+.lieux-multiechelon .map-tool{position:relative;min-width:0}
+.lieux-multiechelon .map-tool > summary,
+.lieux-multiechelon .map-reset{
+  display:flex;align-items:center;gap:9px;
+  min-height:43px;padding:8px 12px;
+  border:1px solid #bdced5;border-radius:8px;
+  background:rgba(255,255,255,.97);
+  color:#23495d;font-size:12px;font-weight:700;
+  box-shadow:0 3px 12px #081e2b26;
+  cursor:pointer;
+}
+.lieux-multiechelon .map-tool > summary{list-style:none}
+.lieux-multiechelon .map-tool > summary::-webkit-details-marker{display:none}
+.lieux-multiechelon .map-tool > summary::after{
+  content:"⌄";color:#587987;font-size:16px;line-height:1;
+  margin-left:2px;transition:transform .12s;
+}
+.lieux-multiechelon .map-tool[open] > summary::after{transform:rotate(180deg)}
+.lieux-multiechelon .map-tool > summary:hover,
+.lieux-multiechelon .map-reset:hover{background:#f1f8fa;border-color:#7daab6}
+.lieux-multiechelon .map-tool > summary:focus-visible,
+.lieux-multiechelon .map-reset:focus-visible{
+  outline:3px solid #ce8c5f;outline-offset:3px;
+}
+.lieux-multiechelon .map-tool-value{
+  display:inline-block;max-width:150px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;font-size:11px;font-weight:500;color:#526e7c;
+}
+.lieux-multiechelon .map-tool-panel{
+  position:absolute;top:calc(100% + 7px);left:0;
+  width:300px;max-width:calc(100vw - 48px);
+  padding:15px;background:#fff;border:1px solid #ccdee2;border-radius:10px;
+  box-shadow:0 10px 35px #071f2c36;
+}
+.lieux-multiechelon #search-tool .map-tool-panel{right:0;left:auto;width:385px}
+.lieux-multiechelon .map-tool-panel .control{display:flex;flex-direction:column;gap:8px}
+.lieux-multiechelon .map-tool-panel .control label{font-size:12px;line-height:1.45}
+.lieux-multiechelon .map-tool-panel .search-wrap{width:100%}
+.lieux-multiechelon .results{z-index:1300;max-height:min(45vh,350px)}
+.lieux-multiechelon .map-reset{white-space:nowrap;font-weight:650}
+.lieux-multiechelon .map-card .leaflet-top.leaflet-left{top:60px}
+.lieux-multiechelon .detail{
+  position:absolute;right:15px;top:70px;z-index:1100;
+  width:min(410px,calc(100% - 30px));max-height:calc(100% - 85px);
+  min-height:0;overflow-y:auto;padding:18px 20px;
+  box-shadow:0 10px 42px #071f2b45;
+}
+.lieux-multiechelon .detail[hidden]{display:none!important}
+.lieux-multiechelon .detail-close{
+  display:block;float:right;margin:-5px -6px 8px 10px;
+  border:1px solid #cbdde1;background:#f8fbfc;
+  color:#345a6b;border-radius:6px;padding:7px 10px;
+  font-size:12px;font-weight:650;
+}
+.lieux-multiechelon .detail-close:hover{background:#eaf3f5}
+@media(max-width:990px){
+  .lieux-multiechelon .map-tool-value{display:none}
+  .lieux-multiechelon .map{height:clamp(510px,68dvh,760px);min-height:510px}
+  .lieux-multiechelon .detail{width:min(370px,calc(100% - 26px))}
+}
+@media(max-width:700px){
+  .lieux-content.lieux-multiechelon{padding:9px 9px 26px}
+  .lieux-multiechelon .controls{
+    position:relative;top:auto;left:auto;right:auto;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;
+    gap:5px;width:100%;max-width:none;
+    padding:8px;background:#f9fbfc;border-bottom:1px solid #dce7ea;
+  }
+  .lieux-multiechelon .map-tool{position:static}
+  .lieux-multiechelon .map-tool > summary,
+  .lieux-multiechelon .map-reset{
+    justify-content:center;gap:4px;padding:8px 5px;
+    min-height:39px;font-size:11px;box-shadow:none;
+  }
+  .lieux-multiechelon .map-tool > summary::after{font-size:12px}
+  .lieux-multiechelon .map-tool-panel,
+  .lieux-multiechelon #search-tool .map-tool-panel{
+    position:absolute;top:calc(100% + 1px);left:8px;right:8px;
+    width:auto;max-width:none;
+  }
+  .lieux-multiechelon .map-reset{font-size:0;padding:8px;min-width:36px}
+  .lieux-multiechelon .map-reset::after{content:"⌖";font-size:19px;line-height:1}
+  .lieux-multiechelon .map{height:clamp(440px,68dvh,730px);min-height:440px}
+  .lieux-multiechelon .map-card .leaflet-top.leaflet-left{top:8px}
+  .lieux-multiechelon .detail{
+    top:auto;bottom:10px;left:10px;right:10px;
+    width:auto;max-height:55vh;padding:14px 16px;
+  }
+  .lieux-multiechelon .lieux-timeline{padding:12px}
+}
+@media(max-width:405px){
+  .lieux-multiechelon .map-tool > summary{font-size:10px}
+  .lieux-multiechelon .map{min-height:410px}
+}
+
+/* Navigation géographique en cinq ensembles, vignettes SVG calculées à partir
+   des géométries 2026 : aucune silhouette arbitraire n'est affichée. */
+.lieux-multiechelon #zoom-tool .map-tool-panel--zones{
+ width:min(370px,calc(100vw - 48px));
+ padding:10px;max-height:min(75vh,650px);overflow:auto;
+}
+.lieux-multiechelon .zone-help{margin:4px 6px 12px;font-size:12px;color:#526e7c;line-height:1.5}
+.lieux-multiechelon .zone-tree{display:flex;flex-direction:column;gap:4px}
+.lieux-multiechelon .zone-group{border-bottom:1px solid #e3ebee;padding:0 0 4px}
+.lieux-multiechelon .zone-group>summary{
+ cursor:pointer;list-style:none;padding:10px 8px;font-size:13px;font-weight:700;
+ display:flex;justify-content:space-between;gap:12px;border-radius:6px;color:#264f60;
+}
+.lieux-multiechelon .zone-group>summary::-webkit-details-marker{display:none}
+.lieux-multiechelon .zone-group>summary::before{content:"▸";margin-right:4px}
+.lieux-multiechelon .zone-group[open]>summary::before{content:"▾"}
+.lieux-multiechelon .zone-count{font-size:11px;color:#687e89;font-weight:500}
+.lieux-multiechelon .zone-items{display:flex;flex-direction:column;gap:2px;padding:0 2px 8px 8px}
+.lieux-multiechelon .zone-choice{
+ display:flex;align-items:center;text-align:left;gap:12px;width:100%;
+ padding:5px 8px;border:0;border-radius:7px;background:transparent;
+ color:#2a4957;font-size:12px;line-height:1.4;cursor:pointer;
+}
+.lieux-multiechelon .zone-choice:hover:not(:disabled){background:#eaf3f5}
+.lieux-multiechelon .zone-choice:focus-visible{outline:2px solid #ce8c5f;outline-offset:1px}
+.lieux-multiechelon .zone-choice:disabled{opacity:.55;cursor:not-allowed}
+.lieux-multiechelon .zone-thumbnail{
+ display:flex;flex:none;align-items:center;justify-content:center;
+ width:42px;height:42px;border:1px solid #d7e4e8;border-radius:5px;background:#f5f9fa;
+}
+.lieux-multiechelon .zone-thumbnail svg{width:36px;height:36px;overflow:visible}
+@media(max-width:700px){
+ .lieux-multiechelon #zoom-tool .map-tool-panel--zones{
+  width:auto;max-height:min(68vh,580px);padding:8px;
+ }
+}
+
+/* La chronologie appartient au menu compact Année : l'espace de la carte est libéré. */
+.lieux-multiechelon #year-tool .map-tool-panel--year{
+ width:min(355px,calc(100vw - 48px));
+ padding:12px 14px;
+}
+.lieux-multiechelon #year-tool .lieux-timeline{
+ display:block;position:static;width:100%;min-width:0;max-width:none;
+ margin:0;padding:5px 2px;border:0;background:transparent;box-shadow:none;
+}
+.lieux-multiechelon #year-tool .lieux-timeline-heading{gap:8px}
+.lieux-multiechelon #year-tool #year{width:100%;cursor:pointer}
+@media(max-width:700px){
+ .lieux-multiechelon .controls{
+  grid-template-columns:repeat(4,minmax(0,1fr)) auto;
+ }
+ .lieux-multiechelon #year-tool .map-tool-panel--year{
+  width:auto;max-width:none;
+ }
+}

@@ -24,9 +24,11 @@ def main():
             assert "Wikidata" in detail and "P374" in detail and qid in detail,detail
             assert "Pactols ne fournit pas directement" in detail,detail
             assert ancien not in detail,detail
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
             page.locator('#search').fill(ark)
             page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=15000)
             assert "Pactols validé en 2026" in page.locator('#results').text_content()
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
             page.locator('#search').fill(ancien)
             page.wait_for_timeout(350)
             hits=page.locator('#results').text_content()

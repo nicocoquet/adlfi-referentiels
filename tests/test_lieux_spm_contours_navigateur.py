@@ -31,6 +31,7 @@ def main():
             assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ark+'"]').count()==1
             assert page.locator('.leaflet-overlay-pane canvas').count()==1
 
+            page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
             page.locator('#search').fill(code)
             page.wait_for_function("() => !document.querySelector('#results')?.hidden")
             hits=page.locator('#results').text_content()

@@ -17,10 +17,12 @@ def main():
         assert "Orée d'Anjou" in detail and "MOD50" in detail,detail
         assert "49069" in detail and "49126" in detail,detail
         assert HISTORICAL not in detail,detail
-        page.locator("#search").fill(ARK)
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+        page.locator('#search').fill(ARK)
         page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=15000)
         assert "Pactols validé en 2026" in page.locator("#results").text_content()
-        page.locator("#search").fill(HISTORICAL)
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
+        page.locator('#search').fill(HISTORICAL)
         page.wait_for_timeout(350)
         hits=page.locator("#results").text_content()
         assert "Pactols validé en 2026" not in hits or "49126" not in hits

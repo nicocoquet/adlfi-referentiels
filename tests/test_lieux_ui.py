@@ -88,7 +88,7 @@ class LieuxUITests(unittest.TestCase):
         self.assertNotIn('class="notice-intro"', self.html)
         self.assertNotIn('class="hint"', self.html)
         self.assertNotIn('class="lieux-timeline-actions"', self.html)
-        self.assertEqual(self.html.count('class="control"'), 3)
+        self.assertEqual(self.html.count('class="control"'), 2)  # échelon et recherche ; zoom/année ont leurs panneaux dédiés
         self.assertIn('class="visually-hidden"', self.html)
         for expected in ("Zoom sur", "Échelon territorial",
                          "Rechercher un nom, un code INSEE ou un ARK Pactols"):
@@ -191,6 +191,51 @@ class LieuxUITests(unittest.TestCase):
                             for x in data["anciens_codes"]))
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_limites_communales_et_survol_distinct_des_reperes(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("const communeWeight=z<=6?.4:z<=8?.9:z<=10?1.35:1.8", js)
+        self.assertIn("const communeFill=z<=6?.04:z<=8?.09:.14", js)
+        self.assertIn("state.map.on('zoomend'", js)
+        self.assertIn("state.layer.setStyle(f=>displayStyle(f,false))", js)
+        self.assertIn("layer.on('mouseover'", js)
+        self.assertIn("fillOpacity:.42", js)
+        self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
+        self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
+
+    def test_fond_nautique_echelle_et_molette(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn("scrollWheelZoom:true", js)
+        self.assertIn("https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png", js)
+        self.assertIn("L.control.layers(null", js)
+        self.assertIn("Afficher OpenSeaMap (informations nautiques)", js)
+        self.assertIn("L.control.scale({position:'bottomleft',imperial:false,metric:true", js)
+        self.assertIn("const seaMode=L.layerGroup([seaMarks])", js)
+        self.assertIn("osmTiles.addTo(state.map)", js)
+
+    def test_chronologie_dans_menu_annee_et_recherche_renommee(self):
+        html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn('id="year-tool" name="lieux-navigation"', html)
+        self.assertIn('id="year-current"', html)
+        self.assertIn('<span class="map-tool-title">Année</span>', html)
+        self.assertIn('<span class="map-tool-title">Rechercher</span>', html)
+        self.assertIn('placeholder="Recherche un nom de lieu, un code INSEE, un ARK Pactols..."', html)
+        self.assertEqual(html.count('id="year"'), 1)
+        self.assertIn("if($('year-current'))$('year-current').textContent=String(y)", js)
+
+    def test_arborescence_zoom_et_vignettes_svg_sans_geometrie_inventee(self):
+        html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertEqual(html.count('class="zone-group"'), 5)
+        self.assertEqual(html.count('class="zone-choice"'), 26)
+        for key in ("auvergne-rhone-alpes", "pdl", "guadeloupe",
+                    "saint-martin", "taaf", "clipperton"):
+            self.assertIn('data-zone="' + key + '"', html)
+        self.assertIn("zonesSvg(geometry)", js)
+        self.assertIn("await layerFor(2026,'region')", js)
+        self.assertIn("btn.disabled=true", js)
+        self.assertNotIn("M10 12 L27 7 L39 19", html)
+
     def test_external_leaflet_pinned_and_local_assets_ordered(self):
         scripts = [attrs["src"] for tag, attrs in self.page.tags
                    if tag == "script" and "src" in attrs]
@@ -230,7 +275,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-pdl1217",
+                "../assets/lieux-multiechelon.js?v=20261118-interface1",
             ],
         )
         for path in (

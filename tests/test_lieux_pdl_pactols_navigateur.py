@@ -28,6 +28,7 @@ def main():
         detail=page.locator('#detail').text_content()
         assert 'Correspondance Pactols–COG' in detail and '2026 seulement' in detail,detail
         assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ark+'"]').count()==1
+        page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
         page.locator('#search').fill(ark)
         page.wait_for_function("() => !document.querySelector('#results')?.hidden")
         hits=page.locator('#results').text_content()
