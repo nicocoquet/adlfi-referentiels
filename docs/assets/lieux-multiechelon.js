@@ -44,6 +44,79 @@ const label={region:'Région',departement:'Département',commune:'Commune'};
 const ids=['paca','corse','pdl','bfc'];
 const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
 const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+
+// Cadrages documentés par les contours régionaux 2026 (COG / Etalab-IGN).
+const zonesRegion2026={
+ 'auvergne-rhone-alpes':'84',bfc:'27',bretagne:'53',
+ 'centre-val-de-loire':'24',corse:'94','grand-est':'44',
+ 'hauts-de-france':'32','ile-de-france':'11',normandie:'28',
+ 'nouvelle-aquitaine':'75',occitanie:'76',pdl:'52',paca:'93',
+ guadeloupe:'01',martinique:'02',guyane:'03',reunion:'04',mayotte:'06'
+};
+const zonesVuesExistantes={spm:'atlantique',taaf:'taaf',
+ 'saint-martin':'antilles','saint-barthelemy':'antilles',
+ polynesie:'pacifique',caledonie:'caledonie','wallis-futuna':'pacifique'};
+let contoursRegions2026=null;
+function zonesSvg(geometry){
+ const polygons=geometry.type==='Polygon'?[geometry.coordinates]:
+  geometry.type==='MultiPolygon'?geometry.coordinates:[];
+ const rings=polygons.flatMap(poly=>poly.slice(0,1));
+ const pts=rings.flat().filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+ if(!pts.length)return null;
+ const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);
+ const minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
+ const spanx=Math.max(maxx-minx,.001),spany=Math.max(maxy-miny,.001);
+ const scale=Math.min(38/spanx,38/spany),ox=(48-spanx*scale)/2,oy=(48-spany*scale)/2;
+ return rings.map(ring=>{
+  const step=Math.max(1,Math.floor(ring.length/450));
+  const sampled=ring.filter((_,i)=>i%step===0);
+  return sampled.map((p,i)=>(i?'L':'M')+(ox+(p[0]-minx)*scale).toFixed(2)+' '+(48-oy-(p[1]-miny)*scale).toFixed(2)).join(' ')+' Z';
+ }).join(' ');
+}
+async function initZoneTree(){
+ const root=$('zoom-tool');if(!root)return;
+ try{
+  const fc=await layerFor(2026,'region');
+  contoursRegions2026=new Map(fc.map(f=>[f.properties.code,f]));
+  for(const btn of root.querySelectorAll('.zone-choice')){
+   const f=contoursRegions2026.get(zonesRegion2026[btn.dataset.zone]);
+   const path=f&&zonesSvg(f.geometry);
+   if(path){
+    const svg=btn.querySelector('svg');
+    svg.replaceChildren();
+    const shape=document.createElementNS('http://www.w3.org/2000/svg','path');
+    shape.setAttribute('d',path);shape.setAttribute('fill','#d7e9ec');
+    shape.setAttribute('stroke','#537f8d');shape.setAttribute('stroke-width','1.3');
+    svg.append(shape);
+   }
+  }
+ }catch(err){console.warn('Vignettes régionales indisponibles :',err);}
+ for(const btn of root.querySelectorAll('.zone-choice')){
+  const key=btn.dataset.zone;
+  if(!zonesRegion2026[key]&&!zonesVuesExistantes[key]){
+   btn.disabled=true;
+   btn.title='Cadrage individuel à qualifier avant publication';
+   continue;
+  }
+  btn.addEventListener('click',()=>{
+   const feature=contoursRegions2026?.get(zonesRegion2026[key]);
+   if(feature&&state.map){
+    state.map.fitBounds(L.geoJSON(feature).getBounds(),{padding:[22,22],animate:false});
+   }else if(zonesVuesExistantes[key]&&state.map){
+    const v=views[zonesVuesExistantes[key]];
+    if(v)state.map.fitBounds(v,{padding:[16,16],animate:false});
+   }
+   // Conserver la valeur du sélecteur historique uniquement pour les zones
+   // déjà prises en charge : ne pas substituer un territoire à une autre autorité.
+   if(views[key])$('zoom').value=key;
+   else if(zonesVuesExistantes[key])$('zoom').value=zonesVuesExistantes[key];
+   else $('zoom').value='metropole';
+   $('zoom-current').textContent=btn.textContent.trim();
+   $('zoom-tool').open=false;
+   updateUrl();
+  });
+ }
+}
 const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false, renderer:null};
 let activeRequest=0;
 const ROOT='../data/';
@@ -395,6 +468,7 @@ async function start(){
    }
  });
  await render();
+ await initZoneTree();
  if(state.selected)focusSelection();
 }
 function updateUrl(){
