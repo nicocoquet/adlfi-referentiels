@@ -191,6 +191,17 @@ class LieuxUITests(unittest.TestCase):
                             for x in data["anciens_codes"]))
         self.assertFalse(any("geometry" in x.lower() for x in data))
 
+    def test_chronologie_dans_menu_annee_et_recherche_renommee(self):
+        html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        self.assertIn('id="year-tool" name="lieux-navigation"', html)
+        self.assertIn('id="year-current"', html)
+        self.assertIn('<span class="map-tool-title">Année</span>', html)
+        self.assertIn('<span class="map-tool-title">Rechercher</span>', html)
+        self.assertIn('placeholder="Recherche un nom de lieu, un code INSEE, un ARK Pactols..."', html)
+        self.assertEqual(html.count('id="year"'), 1)
+        self.assertIn("if($('year-current'))$('year-current').textContent=String(y)", js)
+
     def test_arborescence_zoom_et_vignettes_svg_sans_geometrie_inventee(self):
         html = (ROOT / "docs/lieux/index.html").read_text(encoding="utf-8")
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
