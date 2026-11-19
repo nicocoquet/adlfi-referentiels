@@ -29,6 +29,7 @@ def main():
    assert 'geo:codeINSEE et owl:sameAs' in detail,detail
    assert 'ne valide pas automatiquement les identités communales antérieures' in detail,detail
    assert page.locator('#detail a[href="https://ark.frantiq.fr/ark:/'+ark+'"]').count()==1
+   page.locator('#search-tool').evaluate("(el) => { el.open = true; }")
    page.locator('#search').fill(ark)
    page.wait_for_function("() => !document.querySelector('#results')?.hidden",timeout=15000)
    hits=page.locator('#results').text_content()
