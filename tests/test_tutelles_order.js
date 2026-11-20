@@ -15,6 +15,7 @@ const instrumented = source.replace(/\}\)\(\);\s*$/, `
     logo: tutelleLogoOrder,
     getTutelles: laboratoryTutelles,
     card: laboratoryCard,
+    parent: parentBlock,
     setData: (relations, authorities) => { relsById = relations; recordById = authorities; }
   };
 })();
@@ -75,8 +76,8 @@ assert.match(html,/class="attachments"/,
   'Les tutelles utilisent désormais les mêmes cartouches de relations que les autres autorités');
 assert.match(html,/data-detail="ORG-0004"/,
   'Le CNRS est une relation consultable et non un simple logo');
-assert.match(html,/data-detail="ORG-0023"/,
-  'Le ministère de la Culture est consultable');
+assert.match(api.parent(lab,false),/data-detail="ORG-0023"/,
+  'Le ministère de la Culture est consultable dans la fiche complète');
 assert.doesNotMatch(html,/class="lab-logo-band"/,
   'Aucun bandeau de logos des tutelles ne doit être généré');
 const texts=[...html.matchAll(/<span class="attachment-names">[\s\S]*?<strong>([^<]+)<\/strong>/g)]
