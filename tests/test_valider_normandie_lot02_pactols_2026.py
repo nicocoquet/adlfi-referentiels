@@ -81,6 +81,24 @@ def registre_lot01():
 
 
 class Lot02Validations(unittest.TestCase):
+    def test_registre_public_2026_restant_inactif(self):
+        path=ROOT/"docs/data/lieux-chronologie/pactols-normandie-lot02-2026.json"
+        data=json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["schema"],m.SCHEMA)
+        self.assertEqual(data["nombre_communes"],7)
+        self.assertEqual(data["communes_lot02_suspendues"],3)
+        self.assertFalse(data["active_dans_interface"])
+        self.assertFalse(data["couverture_region_entiere"])
+        self.assertEqual(data["nouvelles_geometries"],0)
+        self.assertEqual(data["liens_historiques_inferes"],0)
+        codes=[a["code_insee"] for a in data["alignements_Pactols_COG_valides_2026"]]
+        self.assertEqual(codes,sorted(m.VALIDATIONS))
+        self.assertFalse(set(codes)&set(m.EXCEPTIONS))
+        self.assertEqual({e["code_insee"] for e in data["exceptions_non_validees"]},set(m.EXCEPTIONS))
+        self.assertEqual(
+            next(a for a in data["alignements_Pactols_COG_valides_2026"]
+                 if a["code_insee"]=="14654")["preuve_creation_RDF"]["longueur_note_complete"],3184)
+
     def test_sept_validees_et_trois_suspendues(self):
         data=m.construire(rapport_synthetique(),notes_synthetiques(),registre_lot01())
         self.assertEqual(data["nombre_communes"],7)
