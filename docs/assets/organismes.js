@@ -35,6 +35,31 @@
   let data,records,recordById,relsById;
   let childrenById=new Map();
   let federalLinksById=new Map();
+  let canonicalByLegacy=new Map();
+  let legacyByCanonical=new Map();
+
+  // Ces correspondances identifient une correction éditoriale, pas une succession.
+  function indexIdentityAliases(aliases=[]){
+    canonicalByLegacy=new Map();
+    legacyByCanonical=new Map();
+    for(const item of aliases){
+      if(!item || typeof item.from!=='string' || typeof item.to!=='string'
+        || item.from===item.to || !recordById.has(item.to)
+        || recordById.has(item.from))continue;
+      canonicalByLegacy.set(item.from,item.to);
+      if(!legacyByCanonical.has(item.to))legacyByCanonical.set(item.to,[]);
+      legacyByCanonical.get(item.to).push(item.from);
+    }
+  }
+  function resolveIdentityAlias(id){
+    let canonical=id;
+    const visited=new Set();
+    while(canonicalByLegacy.has(canonical) && !visited.has(canonical)){
+      visited.add(canonical);
+      canonical=canonicalByLegacy.get(canonical);
+    }
+    return visited.has(canonical)?id:canonical;
+  }
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
@@ -406,7 +431,7 @@
     return natural(v);
   };
   const searchText=r=>[
-    r.id,r.names.preferred,r.names.acronym,r.names.other_acronyms.join(' '),r.names.historical_free_text,
+    r.id,...(legacyByCanonical.get(r.id)||[]),r.names.preferred,r.names.acronym,r.names.other_acronyms.join(' '),r.names.historical_free_text,
     ...r.names.history.flatMap(h=>[h.label,h.acronym]),r.geography.cities_label,
     country(r.geography.institutional_country_iso2),r.classification.bsr,r.classification.type,
     r.identifiers.rnsr,r.identifiers.lab,r.identifiers.ror,r.website
@@ -470,6 +495,7 @@
   function relationLabel(rel){const peer=recordById.get(rel.target)||recordById.get(rel.source);return peer?.names.preferred||rel.target;}
   function updateHash(fragment){if(location.protocol==='http:'||location.protocol==='https:')history.replaceState(null,'',location.pathname+fragment);}
   function details(id,shouldUpdateHash=true){
+    id=resolveIdentityAlias(id);
     const r=recordById.get(id);if(!r)return;
     const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&VALID_STATES.has(x.validation||'')&&x.type!=='affiliation_federale');
     const byType=Object.groupBy?Object.groupBy(verified,x=>x.type||'relation'):verified.reduce((a,x)=>{(a[x.type||'relation'] ||= []).push(x);return a},{});
@@ -552,6 +578,7 @@
   }
   function init(d){
     data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
+    indexIdentityAliases(d.aliases||[]);
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
     indexServiceChildren(d.relations);
@@ -574,7 +601,9 @@
       if(e.target===$('#details'))$('#details').close();
     });
     $('#details').addEventListener('close',()=>{if(location.hash)updateHash('')});
-    render();const id=decodeURIComponent(location.hash.replace('#',''));if(recordById.has(id))details(id,false);
+    render();const id=decodeURIComponent(location.hash.replace('#',''));
+    const canonical=resolveIdentityAlias(id);
+    if(recordById.has(canonical))details(canonical,canonical!==id);
   }
   fetch('../data/organismes.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(init).catch(err=>{$('#cards').innerHTML='<p class="empty">Impossible de charger les données. Lancer le site avec <code>python3 -m http.server 8000</code> depuis le dossier racine. '+esc(err.message)+'</p>'});
 })();
