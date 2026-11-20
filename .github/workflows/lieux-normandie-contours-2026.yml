@@ -39,7 +39,7 @@ jobs:
             --connect-timeout 20 --max-time 240 \
             'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
             -o "$RUNNER_TEMP/communes-100m.geojson.gz"
-          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  '="$RUNNER_TEMP/communes-100m.geojson.gz" | sed 's/  =/  /' | sha256sum -c -
+          printf '%s  %s\n' '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778' "$RUNNER_TEMP/communes-100m.geojson.gz" | sha256sum -c -
       - name: Deux extractions indépendantes et vérifications COG
         run: |
           set -euo pipefail
@@ -66,7 +66,6 @@ jobs:
           report=json.loads((root/"rapport-normandie-recette.json").read_text())
           assert report["nombre_communes_cog"]==2644
           assert report["nombre_contours"]==2644
-          assert report["nouvelles_geometries"] if False else True
           assert report["active_dans_interface"] is False
           assert report["geometries_historiques"]==0
           assert report["correspondances_Pactols_ajoutees"]==0
@@ -74,7 +73,7 @@ jobs:
           assert not cog["alignements_Pactols_COG_valides_2026"]
           assert not cog["geometries_historiques"]
           assert len(geo["features"])==2644
-          assert {f["properties"]["code"] for f in geo["features"]} == {f["properties"]["code"] for f in geo["features"]}
+          assert len({f["properties"]["code"] for f in geo["features"]})==2644
           assert not any(f["properties"].get("ark_pactols_valide_2026") for f in geo["features"])
           print("NORMANDIE_OFFICIEL_2026",json.dumps({
             "communes":report["nombre_communes_cog"],
