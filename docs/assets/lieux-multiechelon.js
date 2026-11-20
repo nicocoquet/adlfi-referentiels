@@ -122,8 +122,11 @@ async function initZoneTree(){
 const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false, renderer:null};
 let activeRequest=0;
 const ROOT='../data/';
+const communeVue=window.AdlfiLieuxCommunesVue;
 const layerData=new Map();
-let communeDataPromise=null;
+const communeDataPromises=new Map();
+let outremerDataPromise=null;
+let lastCommunesViewKey=null;
 let drom2026Features=[];
 let spm2026Features=[];
 let nc2026Features=[];
@@ -268,39 +271,65 @@ async function layerFor(y,l){
  }
  return layerData.get(key);
 }
-async function chargerCommunes2026(){
- if(!communeDataPromise){
-  communeDataPromise=Promise.all(ids.map(id=>loadJSON(ROOT+'lieux-chronologie/contours-2026-'+id+'.geojson')))
-    .then(arr=>{
-      for(let i=0;i<ids.length;i++){
-        const id=ids[i],fc=arr[i];
-        if(fc.type!=='FeatureCollection'||fc.provenance?.millesime!==2026)
-          throw new Error('Couche communale 2026 non datée : '+id);
-        commun.regions[id].contours_2026=fc;
-      }
-      // Géométries contemporaines DROM et SPM indépendantes des ARK et des épisodes COG.
-      return Promise.all([
-        loadJSON(ROOT+'lieux-outremer/contours-communes-drom-2026.geojson'),
-        loadJSON(ROOT+'lieux-outremer/contours-communes-spm-2026.geojson'),
-        loadJSON(ROOT+'lieux-outremer/contours-communes-nc-2026.geojson'),
-        loadJSON(ROOT+'lieux-outremer/contours-communes-pf-28-2026.geojson')
-      ]).then(([drom,spm,nc,pf])=>{
-        const featuresDROM=dromContours.verifier(drom,state.outremer);
-        const featuresSPM=spmContours.verifier(spm,state.outremer);
-        const featuresNC=ncContours.verifier(nc,state.outremer);
-        const featuresPF=pfContours.verifier(pf,state.outremer);
-        drom2026Features=featuresDROM;spm2026Features=featuresSPM;nc2026Features=featuresNC;pf2026Features=featuresPF;
-        for(const f of [...featuresDROM,...featuresSPM,...featuresNC,...featuresPF]){
-          state.outremer.get(f.properties.ref_cog).geometriePubliee=true;
-        }
-        return communes2026();
-      });
-    }).catch(e=>{communeDataPromise=null;drom2026Features=[];spm2026Features=[];nc2026Features=[];pf2026Features=[];throw e});
+// Charger uniquement les régions qui croisent la vue, avec promesses réutilisées.
+// Les cadrages sont des emprises de requête, pas des limites COG.
+function zonesCommunesVisibles(){
+ if(!state.map)return ids;
+ const bounds=state.map.getBounds();
+ const vue=[[bounds.getSouth(),bounds.getWest()],[bounds.getNorth(),bounds.getEast()]];
+ const candidates=communeVue.zonesPourVue(vue,state.map.getZoom(),
+   Object.fromEntries(ids.map(id=>[id,views[id]])));
+ // Une fiche sélectionnée hors de l'emprise doit rester localisable par recherche.
+ if(state.selected?.kind==='commune'&&ids.includes(state.selected.zone)&&
+    !candidates.includes(state.selected.zone))candidates.push(state.selected.zone);
+ return candidates;
+}
+function chargerRegionCommune(id){
+ if(!ids.includes(id))throw Error('Source communale non enregistrée : '+id);
+ if(!communeDataPromises.has(id)){
+  const promise=loadJSON(ROOT+'lieux-chronologie/contours-2026-'+id+'.geojson')
+    .then(fc=>{
+      if(fc.type!=='FeatureCollection'||fc.provenance?.millesime!==2026||
+         !Array.isArray(fc.features))
+        throw new Error('Couche communale 2026 non datée : '+id);
+      commun.regions[id].contours_2026=fc;
+      return fc;
+    }).catch(err=>{communeDataPromises.delete(id);throw err});
+  communeDataPromises.set(id,promise);
  }
- return communeDataPromise;
+ return communeDataPromises.get(id);
+}
+function chargerOutremerCommunes(){
+ if(!outremerDataPromise){
+  outremerDataPromise=Promise.all([
+    loadJSON(ROOT+'lieux-outremer/contours-communes-drom-2026.geojson'),
+    loadJSON(ROOT+'lieux-outremer/contours-communes-spm-2026.geojson'),
+    loadJSON(ROOT+'lieux-outremer/contours-communes-nc-2026.geojson'),
+    loadJSON(ROOT+'lieux-outremer/contours-communes-pf-28-2026.geojson')
+  ]).then(([drom,spm,nc,pf])=>{
+    const featuresDROM=dromContours.verifier(drom,state.outremer);
+    const featuresSPM=spmContours.verifier(spm,state.outremer);
+    const featuresNC=ncContours.verifier(nc,state.outremer);
+    const featuresPF=pfContours.verifier(pf,state.outremer);
+    drom2026Features=featuresDROM;spm2026Features=featuresSPM;
+    nc2026Features=featuresNC;pf2026Features=featuresPF;
+    for(const f of [...featuresDROM,...featuresSPM,...featuresNC,...featuresPF])
+      state.outremer.get(f.properties.ref_cog).geometriePubliee=true;
+    return true;
+  }).catch(err=>{
+    outremerDataPromise=null;
+    drom2026Features=[];spm2026Features=[];nc2026Features=[];pf2026Features=[];
+    throw err;
+  });
+ }
+ return outremerDataPromise;
+}
+async function chargerCommunes2026(zones=ids){
+ await Promise.all([...zones.map(chargerRegionCommune),chargerOutremerCommunes()]);
+ return communes2026(zones);
 }
 async function start(){
- if(!core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!communeVue || !core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -428,6 +457,11 @@ async function start(){
   state.map.on('zoomend',()=>{
     if(level()==='commune'&&state.layer)
       state.layer.setStyle(f=>displayStyle(f,false));
+  });
+  state.map.on('moveend',()=>{
+    if(level()!=='commune'||(year()!==2026&&!$('reference').checked))return;
+    const next=communeVue.cle(zonesCommunesVisibles());
+    if(next!==lastCommunesViewKey)render();
   });
   const osmTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
     attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a>'});
@@ -565,13 +599,16 @@ function geoLayer(features,{reference=false}={}){
    }}
  }).addTo(state.map);
 }
-function communes2026(){return ids.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features,nc2026Features,pf2026Features)}
+function communes2026(zones=ids){return zones.flatMap(id=>commun.regions[id].contours_2026.features.map(f=>({type:'Feature',geometry:f.geometry,properties:{...f.properties,code:f.properties.code||f.properties.code_insee,nom:f.properties.nom||f.properties.libelle,zone:id,niveau:'commune',annee:2026}}))).concat(drom2026Features,spm2026Features,nc2026Features,pf2026Features)}
 function showEmpty(title,message){$('map-status').textContent=title+'. '+message;}
 async function render(){
  refreshToolLabels();
  refreshTimeline();
  const sequence=++activeRequest;
  const y=year(),l=level(),current=state.selected;
+ const zones=(l==='commune'&&(y===2026||$('reference').checked))?
+   zonesCommunesVisibles():null;
+ lastCommunesViewKey=zones===null?null:communeVue.cle(zones);
  $('map-title').textContent=(label[l]||l)+' · état au 1er janvier '+y;
  $('map-subtitle').textContent='Fond OSM contemporain · état administratif '+y;
  $('map-status').textContent='Chargement de la couche et des fiches du référentiel…';
@@ -587,8 +624,11 @@ async function render(){
           ' et contours Etalab/IGN du millésime '+y+' (100 m, réparations topologiques documentées).'):
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
-    features=await chargerCommunes2026();
-    desc=features.length+' contours communaux 2026 : quatre régions métropolitaines et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue) et 28 communes de Polynésie (20 contours restant à qualifier). Les liens Pactols sont distincts des géométries.';
+    features=await chargerCommunes2026(zones);
+    desc=features.length+' contours communaux 2026 chargés : '+
+      (zones.length?zones.map(id=>nomZones[id]).join(', '):
+       'aucune des quatre régions métropolitaines cartographiées dans la vue actuelle')+
+      ' et 191 contours ultramarins publiés. Au zoom national, les quatre régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
@@ -599,7 +639,7 @@ async function render(){
   // distinct, daté et NON assimilé à l'état COG de l'année sélectionnée.
   if(!features.length&&$('reference').checked){
     if(l==='commune'&&y!==2026){
-      references=await chargerCommunes2026();
+      references=await chargerCommunes2026(zones);
       desc+=' Repère cartographique affiché : contours communaux 2026 (et NON '+y+'). Ce tracé contemporain ne représente pas les limites historiques.';
     }else if(l==='region'||l==='departement'){
       const refYear=y<2015?2015:[...ANNEES_DISPONIBLES].filter(v=>v<=y).at(-1);
@@ -683,6 +723,12 @@ function search(){
        $('level').value='commune';
        state.selected={kind:'commune',code:h.code,zone:h.zone,year:year(),
          ark:h.kind==='pactols'?h.ark:null};
+     }
+     // En navigation régionale à la demande, une commune trouvée hors de la
+     // vue active doit pouvoir charger sa géométrie avant le zoom sur sa fiche.
+     if(state.selected?.kind==='commune'&&views[state.selected.zone]&&state.map&&
+        !state.bounds.has('com:'+state.selected.code)){
+       state.map.fitBounds(views[state.selected.zone],{padding:[22,22],animate:false});
      }
      hideResults();$('search-tool').open=false;render().then(focusSelection);
    });
