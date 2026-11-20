@@ -31,7 +31,11 @@ def main():
         status=page.locator('#map-status').text_content()
         assert 'Pays de la Loire' in status,status
         assert count('pdl')==1,seen
-        assert count('paca')==0 and count('bfc')==0 and count('corse')==0,seen
+        # Avec une grande fenêtre, le cadre du PDL peut aussi recouper BFC :
+        # une seconde couche limitrophe est alors attendue, pas une erreur.
+        assert count('paca')==0 and count('corse')==0,seen
+        assert count('bfc') in (0,1),seen
+        bfc_initial=count('bfc')
 
         # Passer d'une région métropolitaine à une autre ne télécharge que la
         # couche demandée ; les mêmes fichiers ne sont pas rechargés au retour.
@@ -40,7 +44,7 @@ def main():
             "() => document.querySelector('#map-status')?.textContent.includes('Corse')",
             timeout=60000)
         assert count('corse')==1,seen
-        assert count('paca')==0 and count('bfc')==0,seen
+        assert count('paca')==0 and count('bfc')==bfc_initial,seen
         select('pdl')
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('Pays de la Loire')",
