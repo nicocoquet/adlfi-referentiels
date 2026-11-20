@@ -205,6 +205,24 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
 
+    def test_chargement_regional_progressif_des_contours_2026(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        module = (ROOT / "docs/assets/lieux-communes-vue.js").read_text(encoding="utf-8")
+        self.assertIn("AdlfiLieuxCommunesVue", module)
+        self.assertIn("const ZOOM_REDUCTION=7", module)
+        self.assertIn("zonesCommunesVisibles()", js)
+        self.assertIn("zones.map(chargerRegionCommune)", js)
+        self.assertIn("communeDataPromises=new Map()", js)
+        self.assertIn("state.map.on('moveend'", js)
+        self.assertIn("lastCommunesViewKey", js)
+        self.assertIn("references=await chargerCommunes2026(zones)", js)
+        self.assertIn("chargerOutremerCommunes()", js)
+        self.assertIn('lieux-communes-vue.js', self.html)
+        self.assertLess(self.html.index('lieux-communes-vue.js'),
+                        self.html.index('lieux-multiechelon.js'))
+        self.assertIn("2026", js)
+        self.assertIn("pas des géométries administratives", module)
+
     def test_chevrons_menus_et_groupes_geographiques(self):
         css = (ROOT / "docs/assets/lieux-multiechelon.css").read_text(encoding="utf-8")
         self.assertIn('content:"⏵"', css)
@@ -295,12 +313,13 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-spm-contours.js",
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
-                "../assets/lieux-multiechelon.js?v=20261118-interface1",
+                "../assets/lieux-communes-vue.js?v=20261120-v1",
+                "../assets/lieux-multiechelon.js?v=20261120-communes-vue1",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-communes-vue.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
