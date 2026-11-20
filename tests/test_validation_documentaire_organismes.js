@@ -23,14 +23,15 @@ const ctx={fetch:()=>({then(){return this;},catch(){return this;}}),URL};
 vm.runInNewContext(src.replace(/\}\)\(\);\s*$/,inject),ctx,{filename:'organismes.js'});
 const api=ctx.__validationTest;
 api.setup(data);
-assert.equal(api.count(),670,'Pas de modification de visibilité du JSON 1.49');
-const prototype=data.authorities.find(x=>x.id==='ORG-0001');
+assert.equal(api.count(),682,'Catalogue 1.50 avec qualification documentaire explicite');
+const prototype=data.authorities.find(x=>x.id==='ORG-0747');
 assert.ok(prototype);
 const draft={...prototype,validation:{status:'a_verifier',established:false}};
 const established={...prototype,validation:{status:'valide',established:true}};
 assert.match(api.card(draft),/class="editorial-state">À vérifier<\/span>/);
 assert.doesNotMatch(api.card(established),/class="editorial-state">À vérifier<\/span>/);
-assert.doesNotMatch(api.card(prototype),/class="editorial-state">À vérifier<\/span>/,
+const older={...prototype};delete older.validation;
+assert.doesNotMatch(api.card(older),/class="editorial-state">À vérifier<\/span>/,
   'Rétrocompatibilité : ancien JSON sans validation explicite');
 assert.match(src,/Qualification documentaire à vérifier : certains attributs/);
 assert.match(src,/Validation documentaire/);
