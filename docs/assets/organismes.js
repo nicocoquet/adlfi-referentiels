@@ -34,6 +34,7 @@
   facets.forEach(f=>state.selected[f.key]=new Set());
   let data,records,recordById,relsById;
   let childrenById=new Map();
+  let federalLinksById=new Map();
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
@@ -130,6 +131,51 @@
   return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s) dans la fiche</span>`:''}</div>`;
 }
 
+
+  // Les affiliations fédérales sont des liens entre autorités, et non des tutelles
+  // ou des rattachements de service. Elles se lisent dans les deux sens.
+  function indexFederalAffiliations(relations){
+    federalLinksById=new Map();
+    for(const rel of relations){
+      if(rel.type!=='affiliation_federale'||!VALID_STATES.has(rel.validation||'')
+        ||rel.source===rel.target
+        ||!recordById.has(rel.source)||!recordById.has(rel.target)
+        ||recordById.get(rel.target).kind!=='ORG')continue;
+      for(const [id,other,direction] of [
+        [rel.source,rel.target,'federation'],
+        [rel.target,rel.source,'membre']
+      ]){
+        if(!federalLinksById.has(id))federalLinksById.set(id,[]);
+        federalLinksById.get(id).push({other,direction,relation:rel});
+      }
+    }
+  }
+  function federalAffiliationBlock(r,compact=false){
+    const entries=(federalLinksById.get(r.id)||[])
+      .filter(item=>recordById.has(item.other))
+      .sort((a,b)=>collator.compare(recordById.get(a.other).names.preferred,
+        recordById.get(b.other).names.preferred));
+    if(!entries.length)return '';
+    const group=(direction,title,caption)=>{
+      const items=entries.filter(item=>item.direction===direction);
+      if(!items.length)return '';
+      const shown=items.slice(0,compact?2:10);
+      const html=shown.map(item=>{
+        const peer=recordById.get(item.other),rel=item.relation;
+        // La présence d'une borne ne prouve pas, à elle seule, une affiliation actuelle.
+        const period=rel.start&&rel.end
+          ?' · Période documentée : '+esc(rel.start)+' – '+esc(rel.end)
+          :rel.start?' · Début documenté : '+esc(rel.start)
+          :rel.end?' · Fin documentée : '+esc(rel.end)
+          :' · Dates non documentées';
+        const inner=`<span class="parent-visual">${parentVisual(peer)}</span><span class="attachment-names"><span class="attachment-caption">${esc(caption)}${period}</span><strong>${esc(peer.names.preferred)}</strong></span>`;
+        return `<button type="button" class="attachment-item attachment-link" data-detail="${esc(peer.id)}" aria-label="Consulter la fiche de ${esc(peer.names.preferred)}">${inner}</button>`;
+      }).join('');
+      return `<div class="children-block"><p class="children-label">${esc(title)}</p><div class="attachments">${html}</div>${items.length>shown.length?`<p class="detail-desc">+ ${items.length-shown.length} autre(s) affiliation(s) dans la fiche</p>`:''}</div>`;
+    };
+    return group('federation','Affiliation fédérale','Affilié à')
+      +group('membre','Organisations affiliées','Organisation affiliée');
+  }
 
   function indexServiceChildren(relations){
   childrenById=new Map();
@@ -309,6 +355,7 @@
     </div>
     ${parentBlock(r,true)}
     ${childrenBlock(r,true)}
+    ${federalAffiliationBlock(r,true)}
     ${evolutionBlock(r,true)}
     <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
   </article>`;
@@ -424,7 +471,7 @@
   function updateHash(fragment){if(location.protocol==='http:'||location.protocol==='https:')history.replaceState(null,'',location.pathname+fragment);}
   function details(id,shouldUpdateHash=true){
     const r=recordById.get(id);if(!r)return;
-    const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&['valide','validee','validée'].includes(x.validation||''));
+    const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&VALID_STATES.has(x.validation||'')&&x.type!=='affiliation_federale');
     const byType=Object.groupBy?Object.groupBy(verified,x=>x.type||'relation'):verified.reduce((a,x)=>{(a[x.type||'relation'] ||= []).push(x);return a},{});
     const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${(type==='tutelle'?[...items].sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))):items).map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'fin non documentée')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
     const historicalForms={denominations:[],organes:[],variantes:[],nonValidees:[]};
@@ -487,6 +534,7 @@
     ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination</h3>${varianteHist}</section>`:''}
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
     <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section>${childrenBlock(r)?`<section class="detail-block"><h3>Services rattachés</h3>${childrenBlock(r)}</section>`:''}<section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
+    ${federalAffiliationBlock(r)?`<section class="detail-block"><h3>Affiliations fédérales</h3>${federalAffiliationBlock(r)}</section>`:''}
     ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
     <section class="detail-block"><h3>Affiliations documentées</h3><dl class="detail-dl">${row('Libellés sources liés',esc(r.usage.affiliations_linked))}${row('Dont correspondances validées',esc(r.usage.affiliations_validated))}</dl><p class="detail-desc" style="margin-top:7px">Ces nombres décrivent les rapprochements du référentiel, non le nombre de notices archéologiques publiées.</p></section>
     </div>`;
@@ -507,6 +555,7 @@
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
     indexServiceChildren(d.relations);
+    indexFederalAffiliations(d.relations);
 
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
     $('#toggle-filters').addEventListener('click',e=>{const panel=$('.filter-panel');const open=panel.classList.toggle('mobile-filters-open');e.target.setAttribute('aria-expanded',String(open));e.target.textContent=open?'Masquer':'Afficher';});
