@@ -21,7 +21,17 @@ Suivi : [#152](https://github.com/nicocoquet/adlfi-referentiels/issues/152). Le 
 
 Le générateur refuse toute source dont le SHA diffère, un doublon de code, un rattachement COG 2026 incompatible, une géométrie vide ou non polygonale, un anneau ouvert, une coordonnée non finie ou incohérente avec l'emprise normande, et toute différence entre les 2 644 codes du COG courant et les 2 644 contours. **Une géométrie manquante bloque la publication plutôt que d'être fabriquée à partir d'une autre année.**
 
-La CI produit deux jeux indépendants et les compare octet à octet, puis archive les résultats pour examen. Les scripts peuvent ensuite être utilisés pour versionner les deux données dans `docs/data/lieux-chronologie/` avec leurs empreintes, une fois le contrôle terminé.
+La CI produit deux jeux indépendants et les compare octet à octet, puis archive les résultats pour examen. Elle utilise également **GEOS/Shapely 2.1.2** pour certifier la validité de chacun des 2 644 contours et vérifier l'absence de modification géométrique non documentée. Les scripts peuvent ensuite être utilisés pour versionner les deux données dans `docs/data/lieux-chronologie/` avec leurs empreintes, une fois le contrôle terminé.
+
+## Correction topologique unique : Cahagnes (Calvados, 14120)
+
+L'audit GEOS des 2 644 géométries de l'export officiel a identifié **un seul polygone source invalide** : Cahagnes (`14120`). Son anneau extérieur de 65 sommets passe deux fois par le point `[-0.7694,49.0457]` (indices 14 et 26), provoquant une **auto-intersection de type contact tangent d'anneau**.
+
+La recette extrait deux anneaux en conservant strictement les coordonnées et les segments existants, puis représente cette géométrie comme un `MultiPolygon` à deux parties. Le correctif est **ciblé exclusivement sur le code 14120** et refuse de s'appliquer si la source Etalab change. Il ne lisse, ne déplace et n'interpole aucun sommet.
+
+La preuve par GEOS vérifie, entre la géométrie source et le `MultiPolygon` corrigé : **différence symétrique d'aire nulle, aire identique et emprise identique**. Le contrôle interdit toute altération des autres 2 643 géométries et exige que les 2 644 géométries finales soient toutes valides et non vides.
+
+L'effectif final attendu devient **2 629 `Polygon` et 15 `MultiPolygon`**, pour **98 484 positions** (un point de fermeture supplémentaire). Les métadonnées de provenance consignent explicitement cette réparation, de sorte que l'export n'est jamais présenté comme un clone octet pour octet de la source brute.
 
 ## Règles à préserver lors de l'intégration au site
 
@@ -36,6 +46,6 @@ La CI produit deux jeux indépendants et les compare octet à octet, puis archiv
 - **Bourgvallées (50546)** possède au moins deux créations COG, en 2016 puis en 2019 ; l'identité du concept Pactols de 2016 n'est pas reportée sur la géométrie 2026.
 - **Breteuil (27112)** et **Isigny-sur-Mer (14342)** restent sans alignement 2026 validé, en raison des collisions de concepts et références externes décrites dans le lot 02.
 - **Port-Bail-sur-Mer (50412)** reste aussi à instruire et ne doit pas hériter de l'ARK de Portbail.
-- Les géométries officielles simplifiées nécessiteront un contrôle de validité topologique et une recette navigateur avant exposition au public.
+- Le contrôle local d'auto-intersection/validité de toutes les géométries est ajouté à la CI. Il faudra également une **recette de rendu Chromium** et un contrôle des relations spatiales entre polygones voisins avant exposition au public.
 
 **Statut de cette tranche : recette de données.** Aucune augmentation de couverture cartographique publique ne doit être annoncée avant une PR d'activation distincte et la vérification de GitHub Pages.
