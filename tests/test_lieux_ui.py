@@ -205,6 +205,25 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
 
+    def test_chargement_regional_progressif_des_contours_2026(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        module = (ROOT / "docs/assets/lieux-communes-vue.js").read_text(encoding="utf-8")
+        self.assertIn("AdlfiLieuxCommunesVue", module)
+        self.assertIn("const ZOOM_REDUCTION=7", module)
+        self.assertIn("zonesCommunesVisibles()", js)
+        self.assertIn("zones.map(chargerRegionCommune)", js)
+        self.assertIn("communeDataPromises=new Map()", js)
+        self.assertIn("state.map.on('moveend'", js)
+        self.assertIn("lastCommunesViewKey", js)
+        self.assertIn("references=await chargerCommunes2026(zones)", js)
+        self.assertIn("chargerOutremerCommunes()", js)
+        self.assertIn('lieux-communes-vue.js', self.html)
+        self.assertLess(self.html.index('lieux-communes-vue.js'),
+                        self.html.index('lieux-multiechelon.js'))
+        self.assertIn("2026", js)
+        self.assertIn("ne sont pas", module if "ne sont pas" in module else
+                      "les emprises ne sont pas des géométries")
+
     def test_chevrons_menus_et_groupes_geographiques(self):
         css = (ROOT / "docs/assets/lieux-multiechelon.css").read_text(encoding="utf-8")
         self.assertIn('content:"⏵"', css)
