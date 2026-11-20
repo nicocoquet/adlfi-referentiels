@@ -173,6 +173,10 @@ def authority_validation(row: dict, ident: str) -> dict:
     Un statut absent ou inconnu constitue une erreur de saisie.
     """
     raw=value(row, 'statut_validation')
+    if raw is None:
+        # Les classeurs minimaux et les imports anciens peuvent omettre ce champ.
+        # Ne jamais les considérer pour autant comme validés.
+        return {'status':'non_renseigne', 'established':False}
     validated=raw in ('valide','validee','validée')
     if not validated and raw != 'a_verifier':
         raise ValueError(f'Statut de validation absent ou inconnu pour {ident}: {raw!r}')
