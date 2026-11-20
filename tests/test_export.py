@@ -14,6 +14,8 @@ SOURCES = {
         '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51',
     'AdlFI_referentiel_1-49_20261111_Historique_consolide.xlsx':
         '41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642',
+    'AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx':
+        '2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4',
 }
 
 
@@ -37,11 +39,11 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertIn(name, SOURCES)
         self.assertEqual(self.d['provenance']['source_sha256'], SOURCES[name])
         services = [a for a in self.authorities.values() if a['kind'] == 'SER']
-        self.assertEqual(len(services), 174)
+        self.assertEqual(len(services), 195)
         inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
         explicit = [a for a in services if a['classification']['sector_origin']['method'] == 'explicit']
         self.assertEqual(len(inherited), 2)
-        self.assertEqual(len(explicit), 172)
+        self.assertEqual(len(explicit), 193)
         self.assertEqual(
             {a['id'] for a in inherited}, {'SER-0116', 'SER-0149'})
         for a in inherited:
@@ -53,10 +55,10 @@ class TestReferentielOrganismes(unittest.TestCase):
             self.assertEqual(a['classification']['sector_origin']['field'], 'Services.secteur_institutionnel')
             self.assertFalse(a['quality']['sector_unresolved'])
         self.assertEqual(self.d['totals']['service_sector_unresolved_ids'], [])
-        self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 2, 'public': 172})
+        self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 4, 'public': 191})
         visible = [a for a in self.authorities.values() if a['presentation']['visible']]
-        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 396)
-        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 195)
+        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 443)
+        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 227)
         self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 0)
         scp = self.authorities['ORG-0292']
         self.assertEqual(scp['classification']['bsr'], 'PRIV')
@@ -101,7 +103,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         if is_149:
             self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0093.jpg').is_file())
             self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0675.jpg').is_file())
-        self.assertIsNone(old['website'])
+        self.assertEqual(old['website'], 'https://www.archeologie.alsace/')
         self.assertEqual(new['website'], 'https://www.archeologie.alsace/')
         rels = {r['id']: r for r in self.d['relations']}
         self.assertEqual(
@@ -213,7 +215,8 @@ class TestReferentielOrganismes(unittest.TestCase):
                          'assets/organismes/SER-0083.jpg')
         self.assertEqual(self.authorities['SER-0155']['presentation']['media']['logo'],
                          'assets/organismes/SER-0155.jpg')
-        self.assertIsNone(self.authorities['ORG-0242']['presentation']['media']['logo'])
+        self.assertEqual(self.authorities['ORG-0242']['presentation']['media']['logo'],
+                         'assets/organismes/ORG-0242.jpg')
 
     def test_laboratory_cards_keep_the_standard_grid(self):
         # Les laboratoires ne doivent pas occuper les deux colonnes :
@@ -258,9 +261,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 655)
-        self.assertEqual(self.d['totals']['services'], 174)
-        self.assertEqual(len(self.d['relations']), 531)
+        self.assertEqual(self.d['totals']['organismes'], 725)
+        self.assertEqual(self.d['totals']['services'], 195)
+        self.assertEqual(len(self.d['relations']), 586)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
@@ -289,7 +292,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         }
         relations = {(r['source'], r['target'], r['type'], r['validation'])
                      for r in self.d['relations']}
-        self.assertEqual(self.d['totals']['authorities'], 829)
+        self.assertEqual(self.d['totals']['authorities'], 920)
         for service, tutelle in expected.items():
             self.assertIn(service, self.authorities)
             self.assertIn(tutelle, self.authorities)

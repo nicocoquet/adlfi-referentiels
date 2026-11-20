@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données publiées depuis le maître 1.49 du 11 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données publiées depuis le maître enrichi du 20 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -24,7 +24,7 @@ docs/                        # fichiers publiés par GitHub Pages
   assets/
     site.css
     organismes.js
-    organismes/               # médias uniques des autorités : ORG-XXXX-logo.svg,
+    organismes/               # médias uniques des autorités : ORG-XXXX.jpg,
                                # ORG-XXXX-illustration.webp, SER-XXXX-logo.svg...
   data/organismes.json        # JSON généré pour l'interface
   data/manifest.json          # état des modules et format des exports
@@ -83,7 +83,7 @@ Ce prototype ne nécessite ni MkDocs, ni construction JavaScript : le serveur pu
 - Les relations non validées ne sont jamais affichées comme des rattachements certains.
 - `pays_iso2` désigne le **pays de rattachement institutionnel**, `ville_reference` les villes déclarées ; **ne pas géocoder** un nom de ville libre sans identifiant vérifié.
 - Les libellés institutionnels suivent les conventions éditoriales AdlFI, distinctes des formes juridiques littérales.
-- Tous les médias des autorités (y compris les logos utilisés dans les bandeaux de tutelles) sont déposés **une seule fois** dans `docs/assets/organismes/`, avec les suffixes `-logo` et `-illustration`. Voir `docs/assets/GUIDE-IMAGES.md`.
+- Les logos d'autorités sont déposés **une seule fois** dans `docs/assets/organismes/`, sous le nom canonique `ORG-XXXX.jpg` ou `SER-XXXX.jpg`. Les tutelles et rattachements sont représentés par des liens de fiches, non par un bandeau de logos. Voir `docs/assets/GUIDE-IMAGES.md`.
 - Les images doivent être ajoutées après vérification des droits et des crédits. Aucune image commerciale ou institutionnelle n'est récupérée automatiquement.
 - La licence des données et les mentions légales du site restent à déterminer avant une publication de production.
 
@@ -91,13 +91,13 @@ Ce prototype ne nécessite ni MkDocs, ni construction JavaScript : le serveur pu
 
 L'explorateur présente les liens de succession entre autorités **distinctes**, sans réattribuer ni fusionner leurs affiliations historiques.
 
-- Types affichés dans la première version : `succession_institutionnelle` (ORG) et `succession_service` (SER).
+- Types représentés : `succession_institutionnelle`, `succession_service`, `succession`, `fusion_constitutive`, `scission_constitutive`, `succession_partielle` et `filiation_partielle`. Les fusions et filiations partielles ne valent pas succession juridique totale.
 - Les relations doivent être au statut `valide` ; celles à vérifier demeurent dans le JSON mais ne sont pas présentées comme établies.
 - Les relations sont lisibles dans les deux sens : « Structure ayant succédé » et « Structure antérieure ».
 - Les deux premiers liens éventuels figurent dans les cartouches ; la fiche détaillée présente toutes les relations éligibles avec leur date et la navigation vers les autorités du catalogue.
 - Le cartouche reste dans la grille à deux colonnes, même après un filtrage.
 - Une autorité exclue du catalogue reste identifiable par son nom mais ne déclenche pas une navigation vers une fiche publique.
-- Les autres types historiques (`fusion_constitutive`, `scission_constitutive`, `succession_partielle`, `filiation_partielle`) sont conservés dans les données mais nécessitent une rédaction et une visualisation propres ; ils ne sont pas assimilés à une succession simple.
+- Les fusions et filiations sont restituées dans les deux sens, y compris de SER vers ORG, en conservant le type exact de relation.
 
 Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et porte le SHA-256 du classeur source.
 
@@ -105,10 +105,10 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
 
-Dans la publication issue du maître **1.49 du 11 novembre 2026** : **829 autorités** (655 ORG et 174 SER), **591 fiches visibles**, 238 autorités conservées hors catalogue ; les **174 SER** ont un secteur résolu (**172 publics**, **2 privés**). Deux secteurs sont hérités de rattachements validés et 172 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
+Dans la publication issue du maître **consolidé du 20 novembre 2026** : **920 autorités** (725 ORG et 195 SER), **670 fiches visibles**, 250 autorités conservées hors catalogue et **586 relations** ; les **195 SER** ont un secteur résolu (**191 publics**, **4 privés**). Deux secteurs sont hérités de rattachements validés et 193 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
-## Héritage de l'échelon institutionnel des services (en prépublication)
+## Héritage de l'échelon institutionnel des services
 
 L'exporteur résout `classification.level` pour les SER à partir d'un champ explicite
 facultatif `Services.echelon_institutionnel` (si présent) ou de relations validées
@@ -143,7 +143,7 @@ Une ORG possédant un échelon explicite conserve désormais une trace
 La facette affiche un échelon dès lors qu'il est documenté ; elle ne masque
 plus les catégories d'ORG initialement exclues par type.
 
-**Décision appliquée au maître 1.49 :** l'ORG nationale Inrap (`ORG-0008`) possède l'échelon institutionnel `national` et le périmètre de compétence `national`. Ses huit directions interrégionales (`SER-0168` à `SER-0175`) héritent de l'échelon institutionnel **national**, mais leurs périmètres de compétence explicitement documentés sont **régionaux ou interrégionaux**. Le JSON publié comporte neuf périmètres renseignés (Inrap + huit directions) ; les 820 autres autorités n'ont pas encore ce champ renseigné. L'explorateur affiche la compétence lorsqu'elle existe, **sans l'assimiler à la facette Échelon institutionnel**. Aucun maître XLSX n'est modifié par l'exporteur et aucun rattachement d'affiliation XML n'est créé.
+**Décision appliquée au maître 1.49 :** l'ORG nationale Inrap (`ORG-0008`) possède l'échelon institutionnel `national` et le périmètre de compétence `national`. Ses huit directions interrégionales (`SER-0168` à `SER-0175`) héritent de l'échelon institutionnel **national**, mais leurs périmètres de compétence explicitement documentés sont **régionaux ou interrégionaux**. Le JSON publié comporte treize périmètres renseignés (Inrap, ses huit directions et quatre SER complémentaires) ; 907 autorités n'ont pas encore ce champ renseigné. L'explorateur affiche la compétence lorsqu'elle existe, **sans l'assimiler à la facette Échelon institutionnel**. Aucun maître XLSX n'est modifié par l'exporteur et aucun rattachement d'affiliation XML n'est créé.
 
 ## Développement futur
 
