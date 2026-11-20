@@ -33,7 +33,7 @@ def main():
         open_search('20001')
         assert '20001' in first(),('Code historique explicite : '+first())
         open_search('26678/pcrtgs2LLPYow2')
-        assert 'Pactols validé pour 2026' in first(),('ARK explicite : '+first())
+        assert 'valable pour 2026 seulement' in first(),('ARK explicite : '+first())
 
         page.goto(url+'/lieux/?zoom=corse&niveau=commune&annee=1975',
                   wait_until='domcontentloaded',timeout=45000)
