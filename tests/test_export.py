@@ -16,6 +16,8 @@ SOURCES = {
         '41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642',
     'AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx':
         '2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4',
+    'AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx':
+        '6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668',
 }
 
 
@@ -34,16 +36,16 @@ class TestReferentielOrganismes(unittest.TestCase):
                          sum(not x['presentation']['visible'] for x in self.authorities.values()))
 
     def test_published_sector_resolution(self):
-        # La publication 1.49 conserve le même secteur institutionnel des SER.
+        # Les secteurs des SER restent tous résolus après migration 1.50.
         name = self.d['provenance']['source_filename']
         self.assertIn(name, SOURCES)
         self.assertEqual(self.d['provenance']['source_sha256'], SOURCES[name])
         services = [a for a in self.authorities.values() if a['kind'] == 'SER']
-        self.assertEqual(len(services), 195)
+        self.assertEqual(len(services), 200)
         inherited = [a for a in services if a['classification']['sector_origin']['method'] == 'inherited']
         explicit = [a for a in services if a['classification']['sector_origin']['method'] == 'explicit']
         self.assertEqual(len(inherited), 2)
-        self.assertEqual(len(explicit), 193)
+        self.assertEqual(len(explicit), 198)
         self.assertEqual(
             {a['id'] for a in inherited}, {'SER-0116', 'SER-0149'})
         for a in inherited:
@@ -55,10 +57,10 @@ class TestReferentielOrganismes(unittest.TestCase):
             self.assertEqual(a['classification']['sector_origin']['field'], 'Services.secteur_institutionnel')
             self.assertFalse(a['quality']['sector_unresolved'])
         self.assertEqual(self.d['totals']['service_sector_unresolved_ids'], [])
-        self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 4, 'public': 191})
+        self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 3, 'public': 197})
         visible = [a for a in self.authorities.values() if a['presentation']['visible']]
-        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 443)
-        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 227)
+        self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 452)
+        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 230)
         self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 0)
         scp = self.authorities['ORG-0292']
         self.assertEqual(scp['classification']['bsr'], 'PRIV')
@@ -92,7 +94,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            'AdlFI_referentiel_1-49_')
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
@@ -198,8 +200,21 @@ class TestReferentielOrganismes(unittest.TestCase):
         canonical = {'assets/organismes/' + p.name for p in files}
         self.assertGreaterEqual(len(canonical), 397)
         ids = set(self.authorities)
+        # Un ancien JPEG peut subsister pour préserver une URL directe, mais
+        # seulement si son identifiant est un alias explicite et les deux
+        # JPEG sont strictement identiques (aucun autre orphelin accepté).
+        from hashlib import sha256
+        aliases = {a['from']: a['to'] for a in self.d.get('aliases', [])}
         for ref in canonical:
-            self.assertIn(Path(ref).stem, ids, f'Logo orphelin : {ref}')
+            ident = Path(ref).stem
+            if ident in ids:
+                continue
+            self.assertIn(ident, aliases, f'Logo orphelin : {ref}')
+            target = folder / (aliases[ident] + '.jpg')
+            self.assertTrue(target.is_file(), f'Logo canonique manquant pour {ident}')
+            self.assertEqual(sha256((folder / (ident + '.jpg')).read_bytes()).digest(),
+                             sha256(target.read_bytes()).digest(),
+                             f'Logo ancien divergent de son canonique : {ident}')
         for ident, record in self.authorities.items():
             media = record['presentation']['media']
             self.assertIsNone(media['image'])
@@ -261,9 +276,9 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 725)
-        self.assertEqual(self.d['totals']['services'], 195)
-        self.assertEqual(len(self.d['relations']), 586)
+        self.assertEqual(self.d['totals']['organismes'], 734)
+        self.assertEqual(self.d['totals']['services'], 200)
+        self.assertEqual(len(self.d['relations']), 594)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
@@ -292,7 +307,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         }
         relations = {(r['source'], r['target'], r['type'], r['validation'])
                      for r in self.d['relations']}
-        self.assertEqual(self.d['totals']['authorities'], 920)
+        self.assertEqual(self.d['totals']['authorities'], 934)
         for service, tutelle in expected.items():
             self.assertIn(service, self.authorities)
             self.assertIn(tutelle, self.authorities)
