@@ -13,14 +13,18 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   contours-normandie:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -104,3 +108,23 @@ jobs:
           path: ${{ runner.temp }}/normandie-recette-1/
           retention-days: 30
           if-no-files-found: error
+      - name: Versionner le COG et les contours 2026 après preuve GEOS
+        if: github.event_name == 'pull_request'
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/normandie-recette-1/cog-normandie.json" \
+             docs/data/lieux-chronologie/cog-normandie.json
+          cp "$RUNNER_TEMP/normandie-recette-1/contours-2026-normandie.geojson" \
+             docs/data/lieux-chronologie/contours-2026-normandie.geojson
+          git add -- docs/data/lieux-chronologie/cog-normandie.json \
+                     docs/data/lieux-chronologie/contours-2026-normandie.geojson
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Lieux Normandie : données COG et 2644 contours 2026 certifiés GEOS'
+            git fetch origin "$HEAD_REF"
+            git rebase "origin/$HEAD_REF"
+            git push origin "HEAD:$HEAD_REF"
+          fi
