@@ -61,10 +61,16 @@ def main():
             "() => !document.querySelector('#results')?.hidden && document.querySelector('#results')?.textContent.includes('Afa')",
             timeout=20000)
         # Le résultat exact en tête est une commune corse.
+        print('DIAGNOSTIC_RECHERCHE_CHAMP',page.locator('#results button').first.text_content(),flush=True)
         page.locator('#results button').first.click()
+        page.wait_for_timeout(1600)
+        print('DIAGNOSTIC_RECHERCHE_ETAT',
+              page.locator('#map-status').text_content(),
+              page.locator('#detail').text_content()[:900],
+              'ERREURS',errors,flush=True)
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('26678/pcrtgs2LLPYow2')",
-            timeout=60000)
+            timeout=15000)
         assert 'Corse' in page.locator('#map-status').text_content()
         assert count('corse')==1,seen
 
