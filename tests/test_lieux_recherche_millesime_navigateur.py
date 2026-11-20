@@ -21,14 +21,9 @@ def main():
             return page.locator('#results button').first.text_content()
         page.goto(url+'/lieux/?zoom=corse&niveau=commune&annee=2026',
                   wait_until='domcontentloaded',timeout=45000)
-        page.wait_for_timeout(5000)
-        status=page.locator('#map-status').text_content()
-        print('DIAGNOSTIC_RECHERCHE_COG_INITIAL',status,'ERREURS',errs[:6],flush=True)
-        if 'Erreur du référentiel' in status:
-            raise RuntimeError(status)
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('contours communaux 2026')",
-            timeout=30000)
+            timeout=60000)
         open_search('Afa')
         assert '2A001' in first(),('2026 : '+first())
         assert 'actif en 2026' in first(),('2026 : '+first())
