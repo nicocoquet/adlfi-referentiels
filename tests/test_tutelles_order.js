@@ -27,7 +27,7 @@ const api = context.__test;
 
 const authority = (id, label, logo=true) => ({
   id, names:{preferred:label},
-  presentation:{media:{image:null,logo:logo ? `assets/organismes/${id}.jpg` : null}}
+  presentation:{visible:true,media:{image:null,logo:logo ? `assets/organismes/${id}.jpg` : null}}
 });
 const ministry = authority('ORG-0023','Ministère de la Culture');
 const cnrs = authority('ORG-0004','Centre national de la recherche scientifique');
@@ -53,7 +53,7 @@ const lab = {
   classification:{type:'laboratoire'}, identifiers:{lab:'UMR 9999'},
   geography:{cities_label:'Paris',institutional_country_iso2:'FR'},
   website:null, activity:{active:true}, usage:{affiliations_linked:4},
-  presentation:{media:{image:null,logo:null}}
+  presentation:{visible:true,media:{image:null,logo:null}}
 };
 const authorities = new Map(items.map(x=>[x.id,x]));
 const relationships = [
@@ -70,7 +70,7 @@ assert.equal(api.getTutelles(lab).map(x=>x.id).join(','),
   'ORG-0022,ORG-0004,ORG-0399,ORG-0023',
   'Les relations validées sont triées et les doublons/relations non établies exclus');
 const html=api.card(lab);
-assert.match(html,/class="authority-card laboratory-card"/);
+assert.match(html,/class="authority-card laboratory-card/);
 assert.match(html,/class="attachments"/,
   'Les tutelles utilisent désormais les mêmes cartouches de relations que les autres autorités');
 assert.match(html,/data-detail="ORG-0004"/,
