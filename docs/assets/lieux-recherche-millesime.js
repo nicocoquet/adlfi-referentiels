@@ -24,7 +24,7 @@
     if(p.typecom!=='COM')continue;
     if(typeof p.code_insee!=='string'||!p.debut_inclus||
        (p.fin_exclue&&p.fin_exclue<=p.debut_inclus))
-     throw Error('Intervalle communal mal formé : '+zone);
+     throw Error('Intervalle communal mal formé : '+zone+' '+JSON.stringify({code:p.code_insee,debut:p.debut_inclus,fin:p.fin_exclue}));
     const key=zone+':'+p.code_insee;
     if(!result.has(key))result.set(key,[]);
     result.get(key).push({start:p.debut_inclus,end:p.fin_exclue||null});
