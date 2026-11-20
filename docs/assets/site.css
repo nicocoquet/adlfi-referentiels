@@ -292,3 +292,6 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
 .detail-brand{width:112px;height:112px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;border:1px solid #dfe9eb;border-radius:10px}
 .detail-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:3px;background:#fff}
 @media(max-width:600px){.detail-head-inner{grid-template-columns:minmax(0,1fr) 82px;gap:12px}.detail-brand{width:82px;height:82px}.detail-head-copy h2{font-size:21px;margin-right:10px}.detail-brand-logo{padding:2px}}
+
+/* Fiches contextuelles : visibles par leurs relations, sans cartouche dans les résultats. */
+.detail-context-note{font-size:11.5px;line-height:1.5;color:#5b7380;margin:9px 0 0;max-width:590px}
