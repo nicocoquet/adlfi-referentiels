@@ -53,7 +53,7 @@ CASES = {
     "27467": {
         "nom": "Pont-Audemer", "date": "2018-01-01",
         "ancienne": "Pont-Audemer", "cas_homonyme": True,
-        "actuel": None,
+        "actuel": "26678/pcrttaqrTGrSS9",
         "candidats": ["26678/pcrttaqrTGrSS9", "26678/pcrtFmM1SUxsz6"],
         "ancien": "26678/pcrtFmM1SUxsz6",
     },
@@ -145,9 +145,21 @@ def classer(code: str, ark: str, details: dict) -> str:
     if details["owl_deprecated"] or details["dct_isReplacedBy"]:
         return "A_INSTRUIRE_CONCEPT_REMPLACE"
     if spec.get("cas_homonyme"):
-        return ("ANCIENNE_COMMUNE_DELEGUEE_IDENTIFIEE"
-                if ark == spec["ancien"]
-                else "HOMONYMIE_PERSISTANTE_A_INSTRUIRE")
+        # Même libellé et même code, mais identifiants Wikidata indépendants :
+        # Q367667 = ancienne commune ; Q47067820 = commune actuelle.
+        # La définition doit également distinguer l'identité.
+        definitions = [n["texte"].casefold() for n in details["notes"]
+                       if n["type"] == "definition"]
+        if ark == spec["ancien"]:
+            if ("http://www.wikidata.org/entity/Q367667" in details["exactMatch"]
+                    and any("ancienne commune" in d for d in definitions)):
+                return "ANCIENNE_COMMUNE_DELEGUEE_IDENTIFIEE"
+            return "HOMONYMIE_PERSISTANTE_A_INSTRUIRE"
+        if (ark == spec["actuel"] and
+                "http://www.wikidata.org/entity/Q47067820" in details["exactMatch"]
+                and any("pont-audemer est une commune française" in d for d in definitions)):
+            return "CANDIDAT_COMMUNE_NOUVELLE_2026_A_ARBITRER"
+        return "HOMONYMIE_PERSISTANTE_A_INSTRUIRE"
     if ark == spec["ancien"]:
         return "IDENTITE_ANCIENNE_COMMUNE_A_PRESERVER"
     if ark == spec["actuel"]:
@@ -200,9 +212,10 @@ def produire(rdf: Path) -> dict:
             "date_creation_INSEE": spec["date"],
             "ancienne_commune_porteuse_code": spec["ancienne"],
             "source_INSEE": INSEE_DOSSIER + code,
-            "statut": ("INDECIDABLE_ARK_COMMUNE_ACTUELLE"
-                       if spec.get("cas_homonyme") or spec["actuel"] is None
-                       else "CANDIDAT_EDITION_2026_SANS_PUBLICATION"),
+            "statut": ("CANDIDAT_EDITION_2026_SANS_PUBLICATION"
+                       if any(c["classification"] == "CANDIDAT_COMMUNE_NOUVELLE_2026_A_ARBITRER"
+                              for c in candidates)
+                       else "INDECIDABLE_ARK_COMMUNE_ACTUELLE"),
             "candidats_Pactols": candidates,
             "decision_editoriale": "NON_PRISE",
             "nouveaux_alignements_publies": 0,
@@ -234,7 +247,7 @@ def produire(rdf: Path) -> dict:
             "La qualification des ARK en concept de commune nouvelle n'est pas une validation éditoriale.",
             "Un même code INSEE avant et après la création ne prouve pas une identité persistante.",
             "Les notices AdlFI sont indexées avec un thésaurus actuel ; l'année d'opération ne prouve pas la validité historique d'un ARK.",
-            "À Pont-Audemer, le libellé identique de la commune ancienne et de la commune nouvelle ne suffit pas à arbitrer le concept générique.",
+            "À Pont-Audemer, le concept actuel n'est candidat que grâce aux URI Wikidata distinctes et aux définitions RDF, corroborées par le COG 2018 ; le seul libellé ne suffit pas.",
             "Le concept Portbail, seul concept RDF exactMatch au code 50412, ne doit pas représenter automatiquement Port-Bail-sur-Mer.",
             "Les dates INSEE sont des attestations documentées, non déduites du RDF.",
             "Aucun contour ni nouvelle association Pactols–COG n'est publié par ce rapport.",
