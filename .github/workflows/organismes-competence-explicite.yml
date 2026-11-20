@@ -8,6 +8,7 @@ on:
       - 'tests/test_organismes_competence_ui.py'
       - 'tests/test_organismes_competence_navigateur.py'
       - 'tests/test_organismes_logos_navigateur.py'
+      - 'tests/test_organismes_fiches_contextuelles_navigateur.py'
       - 'docs/assets/site.css'
       - '.github/workflows/organismes-competence-explicite.yml'
   workflow_dispatch:
@@ -38,3 +39,5 @@ jobs:
         run: python3 tests/test_organismes_competence_navigateur.py
       - name: Vérifier les logos des cartouches et des fiches dans Chromium
         run: python3 tests/test_organismes_logos_navigateur.py
+      - name: Vérifier les fiches institutionnelles hors catalogue dans Chromium
+        run: python3 tests/test_organismes_fiches_contextuelles_navigateur.py
