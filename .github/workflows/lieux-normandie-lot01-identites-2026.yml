@@ -54,8 +54,8 @@ jobs:
           d=json.load(open(sys.argv[1],encoding='utf8'))
           b=d['bilan']
           assert b['dossiers']==10 and b['candidats_Pactols']==19
-          assert b['codes_avec_candidat_distinct_commune_actuelle']==8
-          assert b['codes_sans_arbitrage_identite_actuelle']==2
+          assert b['codes_avec_candidat_distinct_commune_actuelle']==9
+          assert b['codes_sans_arbitrage_identite_actuelle']==1
           assert b['nouvelles_validations_publiees']==0
           assert b['limites_historiques_inferrees']==0
           assert all(x['decision_editoriale']=='NON_PRISE' for x in d['dossiers'])
