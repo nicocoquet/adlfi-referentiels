@@ -42,6 +42,28 @@
     },
     "locations": {
       "type": "array"
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Correspondances techniques d'anciens identifiants vers les autorités canoniques, indépendantes des successions historiques.",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "pattern": "^(ORG|SER)-[0-9]{4}$"
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^(ORG|SER)-[0-9]{4}$"
+          }
+        }
+      }
     }
   },
   "$defs": {
