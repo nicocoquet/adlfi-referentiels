@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/preparer_lieux_normandie_2026.py'
       - 'tests/test_preparer_lieux_normandie_2026.py'
+      - 'tests/controle_contours_normandie_2026.py'
       - 'docs/data/lieux-chronologie/cog-normandie.json'
       - 'docs/data/lieux-chronologie/contours-2026-normandie.geojson'
       - 'recette/lieux/NORMANDIE-COG-CONTOURS-2026.md'
@@ -74,6 +75,10 @@ jobs:
           assert not cog["geometries_historiques"]
           assert len(geo["features"])==2644
           assert len({f["properties"]["code"] for f in geo["features"]})==2644
+          assert report["points_geojson"]==98484
+          assert report["types_geometriques"]=={"Polygon":2629,"MultiPolygon":15}
+          assert [r["code"] for r in report["reparations_topologiques"]]==["14120"]
+          assert [r["code"] for r in geo["provenance"]["reparations_topologiques"]]==["14120"]
           assert not any(f["properties"].get("ark_pactols_valide_2026") for f in geo["features"])
           print("NORMANDIE_OFFICIEL_2026",json.dumps({
             "communes":report["nombre_communes_cog"],
@@ -86,6 +91,13 @@ jobs:
             "sha_cog":report["sorties"]["sha256_cog"]
           },ensure_ascii=False,sort_keys=True))
           PY
+      - name: Certifier les 2644 géométries avec GEOS et la réparation de Cahagnes
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check shapely==2.1.2
+          python3 tests/controle_contours_normandie_2026.py \
+            --source "$RUNNER_TEMP/communes-100m.geojson.gz" \
+            --geo "$RUNNER_TEMP/normandie-recette-1/contours-2026-normandie.geojson"
       - uses: actions/upload-artifact@v4
         with:
           name: normandie-cog-et-contours-2026-recette
