@@ -222,6 +222,18 @@ class LieuxUITests(unittest.TestCase):
         self.assertLess(self.html.index('lieux-normandie-pactols.js'),
                         self.html.index('lieux-multiechelon.js'))
 
+    def test_recherche_homonymes_selon_millesime_COG(self):
+        js=(ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        helper=(ROOT / "docs/assets/lieux-recherche-millesime.js").read_text(encoding="utf-8")
+        self.assertIn("rechercheMillesime.preparer(commun.regions,ids)",js)
+        self.assertIn("rechercheMillesime.trier(",js)
+        self.assertIn("rechercheMillesime.etat(",js)
+        self.assertIn("'historique'?' · non actif au 1er janvier '",js)
+        self.assertIn("const date=String(annee)+'-01-01'",helper)
+        self.assertIn('lieux-recherche-millesime.js',self.html)
+        self.assertLess(self.html.index('lieux-recherche-millesime.js'),
+                        self.html.index('lieux-multiechelon.js'))
+
     def test_chargement_regional_progressif_des_contours_2026(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
         module = (ROOT / "docs/assets/lieux-communes-vue.js").read_text(encoding="utf-8")
@@ -300,6 +312,7 @@ class LieuxUITests(unittest.TestCase):
                 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
                 "../assets/lieux-chronologie-core.js",
                 "../assets/lieux-search.js",
+                "../assets/lieux-recherche-millesime.js?v=20261120-v1",
                 "../assets/lieux-outremer-search.js",
                 "../assets/lieux-guyane-historique.js",
                 "../assets/lieux-martinique-historique.js",
@@ -332,12 +345,12 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
                 "../assets/lieux-communes-vue.js?v=20261120-v1",
-                "../assets/lieux-multiechelon.js?v=20261120-normandie-v1",
+                "../assets/lieux-multiechelon.js?v=20261120-recherche-millesime1",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-communes-vue.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-normandie-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-recherche-millesime.js", "docs/assets/lieux-communes-vue.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-normandie-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
