@@ -92,6 +92,42 @@ def verifier_geometrie(geometry:dict):
     return points
 
 
+
+def reparer_cahagnes(geo_feature:dict)->dict:
+    """Réparation non interpolante du seul anneau qui se touche (COG 14120).
+
+    La source Etalab 2026/100m est figée par SHA-256. Sur le polygone de
+    Cahagnes, le sommet (-0.7694,49.0457) apparaît deux fois dans l'anneau.
+    Séparer ce chemin à ses deux occurrences conserve exactement ses arêtes,
+    son aire et son emprise, sans recourir à un buffer ni à une généralisation.
+    Toute variation de la géométrie source bloque le processus.
+    """
+    if geo_feature["properties"]["code"]!="14120":
+        raise ValueError("La réparation est réservée à Cahagnes (14120)")
+    raw=geo_feature["geometry"]
+    if raw.get("type")!="Polygon" or len(raw.get("coordinates",[]))!=1:
+        raise ValueError("Cahagnes : anneau source de type inattendu")
+    ring=raw["coordinates"][0]
+    p=[-0.7694,49.0457]
+    if len(ring)!=65 or ring[0]!=ring[-1] or ring[14]!=p or ring[26]!=p:
+        raise ValueError("Cahagnes : géométrie Etalab différente de la recette contrôlée")
+    if sum(v==p for v in ring)!=2:
+        raise ValueError("Cahagnes : sommet de contact non univoque")
+    petit=ring[14:27]
+    grand=ring[:15]+ring[27:]
+    if len(petit)!=13 or len(grand)!=53 or petit[0]!=petit[-1] or grand[0]!=grand[-1]:
+        raise ValueError("Cahagnes : séparation du contour incohérente")
+    geo_feature["geometry"]={"type":"MultiPolygon","coordinates":[[petit],[grand]]}
+    geo_feature["properties"]["reparation_topologique"]="séparation d'un anneau auto-tangent au sommet [-0.7694,49.0457]"
+    return {
+        "code":"14120","nom":"Cahagnes",
+        "origine":"Etalab 2026/100m","type_avant":"Polygon","type_apres":"MultiPolygon",
+        "sommet_de_contact":p,"indices_source":[14,26],
+        "anneaux_apres":2,"interpolation":False,"lissage":False,
+        "preuve_attendue":"aire et différence symétrique nulles, testées avec GEOS/Shapely",
+    }
+
+
 def construire(communes:Path,historique:Path,mouvements:Path,
                contours:Path,paca:Path,sortie:Path)->dict:
     if sha(contours)!=SOURCE_SHA:
@@ -124,6 +160,7 @@ def construire(communes:Path,historique:Path,mouvements:Path,
     seen=set()
     points=0
     types={}
+    reparations=[]
     for f in geo["features"]:
         p=f["properties"]
         code=p.get("code")
@@ -133,11 +170,16 @@ def construire(communes:Path,historique:Path,mouvements:Path,
         seen.add(code)
         p["nom"]=codes[code] # libellé officiel du COG ; non la graphie d'Etalab
         p["statut"]="contour_COG_2026_sans_validation_ARK_inferree"
+        if code=="14120":
+            reparations.append(reparer_cahagnes(f))
         points+=verifier_geometrie(f["geometry"])
         t=f["geometry"]["type"]
         types[t]=types.get(t,0)+1
     if seen!=set(codes):
         raise ValueError("Couverture géométrique normande non exhaustive")
+    if len(reparations)!=1 or reparations[0]["code"]!="14120":
+        raise ValueError("Contrôle des réparations topologiques incomplet")
+    geo["provenance"]["reparations_topologiques"]=reparations
     geo["provenance"]["libelles"]="Insee COG 2026, TYPECOM=COM, REG=28"
     geo["provenance"]["sha256_COG_communes"]=base.COG_SHA256["communes"]
     path_geo.write_text(
@@ -154,6 +196,7 @@ def construire(communes:Path,historique:Path,mouvements:Path,
         "nombre_observations_COMA_COMD":len(cog["observations_COMA_COMD_2026"]),
         "points_geojson":points,
         "types_geometriques":dict(sorted(types.items())),
+        "reparations_topologiques":reparations,
         "correspondances_Pactols_ajoutees":0,
         "geometries_historiques":0,
         "active_dans_interface":False,
