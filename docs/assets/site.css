@@ -58,7 +58,7 @@
 .lab-layout{display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;align-items:start}
 .lab-visual{width:112px;aspect-ratio:1;border:1px solid #dfe9eb;border-radius:12px;overflow:hidden;background:#eef5f6;display:flex;align-items:center;justify-content:center}
 .lab-image{width:100%;height:100%;object-fit:cover;display:block}
-.lab-primary-logo{width:100%;height:100%;object-fit:contain;padding:14px;background:#fff;display:block}
+.lab-primary-logo{width:100%;height:100%;object-fit:contain;padding:3px;background:#fff;display:block}
 .lab-image-placeholder{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;color:#88a5ab;text-align:center;padding:12px}
 .lab-image-placeholder svg{width:41px;height:41px}
 .lab-image-placeholder small{font-size:10px;line-height:1.3;max-width:100px}
@@ -283,3 +283,12 @@ button.evolution-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px
   object-fit:cover;
   object-position:center bottom;
 }
+
+/* Identité visuelle : logo plus grand dans les cartouches ; logo de la fiche à droite du titre. */
+.detail-head-inner{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:18px;align-items:center}
+.detail-head-inner:not(:has(.detail-brand)){grid-template-columns:minmax(0,1fr)}
+.detail-head-copy{min-width:0}
+.detail-head-copy h2{overflow-wrap:anywhere}
+.detail-brand{width:112px;height:112px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;border:1px solid #dfe9eb;border-radius:10px}
+.detail-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:3px;background:#fff}
+@media(max-width:600px){.detail-head-inner{grid-template-columns:minmax(0,1fr) 82px;gap:12px}.detail-brand{width:82px;height:82px}.detail-head-copy h2{font-size:21px;margin-right:10px}.detail-brand-logo{padding:2px}}
