@@ -34,3 +34,5 @@ jobs:
         run: node tests/test_tutelles_order.js
       - name: Vérifier les successions et liens entre autorités
         run: node tests/test_evolution.js
+      - name: Vérifier les filiations historiques et les tutelles temporelles
+        run: node tests/test_relations_historiques.js
