@@ -42,3 +42,5 @@ jobs:
         run: node tests/test_organismes_fiches_contextuelles.js
       - name: Vérifier les affiliations fédérales réciproques
         run: node tests/test_affiliations_federales.js
+      - name: Vérifier les alias d'identifiants anciens
+        run: node tests/test_aliases_organismes.js
