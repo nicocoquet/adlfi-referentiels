@@ -1,0 +1,62 @@
+"""Rendre la compétence territoriale documentée sans la confondre avec l'échelon."""
+import json
+from pathlib import Path
+import unittest
+
+ROOT=Path(__file__).resolve().parents[1]
+
+
+class OrganismesCompetenceUI(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.d=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
+        cls.org={r['id']:r for r in cls.d['authorities']}
+        cls.js=(ROOT/'docs/assets/organismes.js').read_text(encoding='utf-8')
+        cls.readme=(ROOT/'README.md').read_text(encoding='utf-8')
+
+    def test_provenance_et_effectifs_maitre_149(self):
+        self.assertEqual(self.d['provenance']['source_filename'],
+            'AdlFI_referentiel_1-49_20261111_Historique_consolide.xlsx')
+        self.assertEqual(self.d['totals']['authorities'],829)
+        self.assertEqual(self.d['totals']['organismes'],655)
+        self.assertEqual(self.d['totals']['services'],174)
+        self.assertEqual(self.d['totals']['catalog_included'],591)
+        self.assertIn('829 autorités',self.readme)
+        self.assertIn('maître 1.49',self.readme)
+
+    def test_neuf_perimetres_explicitement_renseignes(self):
+        explicit={r['id']:r for r in self.d['authorities']
+                  if r['classification'].get('territorial_competence')}
+        self.assertEqual(set(explicit),{'ORG-0008'}|
+                         {f'SER-{i:04d}' for i in range(168,176)})
+        self.assertEqual(explicit['ORG-0008']['classification']['level'],'national')
+        self.assertEqual(explicit['ORG-0008']['classification']['territorial_competence'],'national')
+        for i in range(168,176):
+            r=explicit[f'SER-{i:04d}']
+            self.assertEqual(r['classification']['level'],'national')
+            self.assertIn(r['classification']['territorial_competence'],
+                          ('regional','interregional'))
+        self.assertEqual(sum(x['classification'].get('territorial_competence') is None
+                             for x in self.d['authorities']),820)
+
+    def test_fiche_et_csv_distincts_sans_fausse_facette(self):
+        self.assertIn("row('Échelon institutionnel'",self.js)
+        self.assertIn("row('Périmètre de compétence'",self.js)
+        self.assertIn("r.classification.territorial_competence?row",self.js)
+        self.assertIn("'Échelon institutionnel','Périmètre de compétence','Actif'",self.js)
+        self.assertIn("x.classification.level,x.classification.territorial_competence",self.js)
+        self.assertIn("interregional:'Interrégional'",self.js)
+        self.assertNotIn("key:'competence'",self.js)
+        self.assertIn("facette Échelon institutionnel",self.readme)
+
+    def test_secteur_et_categorie_reste_distincts(self):
+        services=[a for a in self.d['authorities'] if a['kind']=='SER']
+        self.assertEqual(len(services),174)
+        self.assertEqual({key:sum(x['classification']['sector']==key for x in services)
+                          for key in ('public','prive')},{'public':172,'prive':2})
+        self.assertEqual(self.org['ORG-0292']['classification']['sector'],'public')
+        self.assertEqual(self.org['ORG-0292']['classification']['bsr'],'PRIV')
+
+
+if __name__=='__main__':
+    unittest.main()
