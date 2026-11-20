@@ -625,10 +625,13 @@ async function render(){
        ' · IGN GEOFLA '+geo.edition_IGN[String(y)]+', généralisation à 100 m (affichage seulement).');
   }else if(l==='commune'&&y===2026){
     features=await chargerCommunes2026(zones);
+    // Conserver la formulation détaillée des quatre familles ultramarines :
+    // elle fait partie du contrat d'information et de non-régression publique.
     desc=features.length+' contours communaux 2026 chargés : '+
-      (zones.length?zones.map(id=>nomZones[id]).join(', '):
-       'aucune des quatre régions métropolitaines cartographiées dans la vue actuelle')+
-      ' et 191 contours ultramarins publiés. Au zoom national, les quatre régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
+      (zones.length===ids.length?'quatre régions métropolitaines':
+       zones.length?zones.map(id=>nomZones[id]).join(', '):
+       'aucune région métropolitaine publiée dans la vue actuelle')+
+      ' et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue) et 28 communes de Polynésie (20 contours restant à qualifier). Au zoom national, les quatre régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
