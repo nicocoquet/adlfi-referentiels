@@ -79,6 +79,10 @@ assert.match(api.parent(chrono),/Rattachement historique ou non actuel/);
 assert.deepEqual([...api.tutelles(newLab,'2026-11-20').map(e=>e.id)],['ORG-0004'],
   'Tutelles anciennes, futures et éteintes exclues du cartouche actuel');
 assert.equal(api.currentAuthority(futureUniv,'2026-11-20'),false);
+const unknown=authority('ORG-0900','Statut incertain');
+unknown.activity.active=null;
+assert.equal(api.currentAuthority(unknown,'2026-11-20'),false,
+  'Activité inconnue : ne pas présumer une tutelle actuelle');
 assert.equal(api.currentRelation({start:'2027'},'2026-11-20'),false);
 assert.equal(api.currentRelation({end:'2020'},'2026-11-20'),false);
 assert.equal(api.currentRelation({start:'2026-01',end:'2026-12'},'2026-11-20'),true);
