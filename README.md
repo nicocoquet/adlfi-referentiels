@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données réelles du maître 1.40 du 10 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données publiées depuis le maître 1.49 du 11 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -105,7 +105,7 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
 
-Dans le maître 1.40 : **819 autorités** (653 ORG et 166 SER), **614 fiches visibles** ; sur les 166 SER, **164 sont publics** et **2 privés**. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
+Dans la publication issue du maître **1.49 du 11 novembre 2026** : **829 autorités** (655 ORG et 174 SER), **591 fiches visibles**, 238 autorités conservées hors catalogue ; les **174 SER** ont un secteur résolu (**172 publics**, **2 privés**). Deux secteurs sont hérités de rattachements validés et 172 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
 ## Héritage de l'échelon institutionnel des services (en prépublication)
@@ -129,8 +129,7 @@ La facette, la fiche et le CSV utilisent la même valeur calculée.
 uniquement dans `Services.echelon_institutionnel`. Le champ facultatif
 `perimetre_competence` est exporté séparément sous
 `classification.territorial_competence` et **n'est jamais hérité** de l'ORG.
-Dans le maître 1.46, ces colonnes nouvelles n'existent pas encore : leur
-absence est acceptée sans modification des valeurs sources.
+Le maître 1.49 et le JSON de publication contiennent désormais des valeurs explicites pour ces champs. Elles restent facultatives : l'absence de renseignement n'autorise aucune inférence sur l'étendue de compétence.
 
 Le vocabulaire de `perimetre_competence` est contrôlé : `national`,
 `interregional`, `regional`, `departemental`, `intercommunal`, `communal`,
@@ -144,13 +143,7 @@ Une ORG possédant un échelon explicite conserve désormais une trace
 La facette affiche un échelon dès lors qu'il est documenté ; elle ne masque
 plus les catégories d'ORG initialement exclues par type.
 
-**Point éditorial ouvert :** l'ORG nationale Inrap (`ORG-0008`) a
-`echelon_territorial` vide dans le maître 1.46. Les huit directions Inrap
-restent donc sans échelon hérité tant qu'une source explicite et une convention
-de schéma cohérente n'auront pas été validées. Le champ historique
-`echelon_territorial` doit être distingué de l'éventuel futur
-`echelon_institutionnel` plus général. Aucun maître XLSX n'est modifié par
-l'exporteur et aucun rattachement d'affiliation XML n'est créé.
+**Décision appliquée au maître 1.49 :** l'ORG nationale Inrap (`ORG-0008`) possède l'échelon institutionnel `national` et le périmètre de compétence `national`. Ses huit directions interrégionales (`SER-0168` à `SER-0175`) héritent de l'échelon institutionnel **national**, mais leurs périmètres de compétence explicitement documentés sont **régionaux ou interrégionaux**. Le JSON publié comporte neuf périmètres renseignés (Inrap + huit directions) ; les 820 autres autorités n'ont pas encore ce champ renseigné. L'explorateur affiche la compétence lorsqu'elle existe, **sans l'assimiler à la facette Échelon institutionnel**. Aucun maître XLSX n'est modifié par l'exporteur et aucun rattachement d'affiliation XML n'est créé.
 
 ## Développement futur
 
