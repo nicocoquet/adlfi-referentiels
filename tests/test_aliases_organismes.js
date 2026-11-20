@@ -10,7 +10,11 @@ const published=JSON.parse(fs.readFileSync(path.join(root,'docs/data/organismes.
 const inject=[
   '  globalThis.__aliasTest={',
   '    setup:d=>{records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));',
-  '      indexIdentityAliases(d.aliases||[]);},',
+  '      relsById=new Map();(d.relations||[]).forEach(x=>{',
+  '        if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});',
+  '      indexIdentityAliases(d.aliases||[]);',
+  '      indexServiceChildren(d.relations||[]);indexEvolutions(d.relations||[]);',
+  '      indexFederalAffiliations(d.relations||[]);},',
   '    resolve:resolveIdentityAlias,search:searchText,card:card,',
   '    aliases:()=>canonicalByLegacy,visible:()=>baseRecords().length',
   '  };',
