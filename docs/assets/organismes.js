@@ -33,6 +33,7 @@
   ];
   facets.forEach(f=>state.selected[f.key]=new Set());
   let data,records,recordById,relsById;
+  let childrenById=new Map();
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
@@ -124,6 +125,36 @@
   return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s) dans la fiche</span>`:''}</div>`;
 }
 
+
+  function indexServiceChildren(relations){
+  childrenById=new Map();
+  for(const rel of relations){
+    if(rel.type!=='rattachement_service'||!VALID_STATES.has(rel.validation||'')
+       ||!recordById.has(rel.source)||!recordById.has(rel.target)
+       ||recordById.get(rel.source).kind!=='SER')continue;
+    if(!childrenById.has(rel.target))childrenById.set(rel.target,[]);
+    childrenById.get(rel.target).push(rel);
+  }
+}
+  function childrenBlock(r,compact=false){
+  const links=(childrenById.get(r.id)||[])
+    .sort((a,b)=>Number(currentRattachement(recordById.get(b.source),r,b))
+      -Number(currentRattachement(recordById.get(a.source),r,a))
+      ||collator.compare(recordById.get(a.source).names.preferred,recordById.get(b.source).names.preferred));
+  if(!links.length)return '';
+  const shown=links.slice(0,compact?2:10);
+  const display=shown.map(rel=>{
+    const child=recordById.get(rel.source);
+    const current=currentRattachement(child,r,rel);
+    const type=current?'Service rattaché':'Service historiquement rattaché ou statut actuel indéterminé';
+    const date=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'début non documenté'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
+    const inner=`<span class="parent-visual">${parentVisual(child)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${date}</span><strong>${esc(child.names.preferred)}</strong></span>`;
+    return child.presentation?.visible
+      ?`<button type="button" class="attachment-item attachment-link" data-detail="${esc(child.id)}" aria-label="Consulter la fiche de ${esc(child.names.preferred)}">${inner}</button>`
+      :`<div class="attachment-item">${inner}</div>`;
+  }).join('');
+  return `<div class="children-block"><p class="children-label">Services liés</p><div class="attachments">${display}${links.length>shown.length?`<span class="attachment-extra">+ ${links.length-shown.length} autre(s) service(s) dans la fiche</span>`:''}</div></div>`;
+}
 
   // Cartouche éditorial des laboratoires : uniquement les tutelles validées
   // sans date de fin, jamais les relations proposées ou historiques.
@@ -275,6 +306,7 @@
       </div>
     </div>
     ${parentBlock(r,true)}
+    ${childrenBlock(r,true)}
     ${evolutionBlock(r,true)}
     <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
   </article>`;
@@ -443,7 +475,7 @@
     ${organeHist?`<section class="detail-block"><h3>Désignations historiques d’organes</h3><p class="detail-desc">Ces appellations concernent un organe de l’autorité (par exemple son assemblée délibérante), et non un changement d’identité juridique de l’autorité elle-même.</p>${organeHist}</section>`:''}
     ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination</h3>${varianteHist}</section>`:''}
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
-    <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section><section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
+    <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section>${childrenBlock(r)?`<section class="detail-block"><h3>Services rattachés</h3>${childrenBlock(r)}</section>`:''}<section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
     ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
     <section class="detail-block"><h3>Affiliations documentées</h3><dl class="detail-dl">${row('Libellés sources liés',esc(r.usage.affiliations_linked))}${row('Dont correspondances validées',esc(r.usage.affiliations_validated))}</dl><p class="detail-desc" style="margin-top:7px">Ces nombres décrivent les rapprochements du référentiel, non le nombre de notices archéologiques publiées.</p></section>
     </div>`;
@@ -463,6 +495,7 @@
     data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
+    indexServiceChildren(d.relations);
 
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
     $('#toggle-filters').addEventListener('click',e=>{const panel=$('.filter-panel');const open=panel.classList.toggle('mobile-filters-open');e.target.setAttribute('aria-expanded',String(open));e.target.textContent=open?'Masquer':'Afficher';});
