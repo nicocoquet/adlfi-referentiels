@@ -24,6 +24,9 @@
 .attachment-link:focus-visible{outline:3px solid #74b6c1;outline-offset:2px}
 .attachment-link .attachment-names strong{color:var(--teal)}
 .laboratory-card>.attachments{margin-top:14px}
+.children-block{margin-top:12px;border-top:1px solid #e6ecee;padding-top:8px}
+.children-label{margin:0 0 7px;font-size:10px;text-transform:uppercase;letter-spacing:.035em;color:#6c858e;font-weight:650}
+.detail-block .children-block{margin-top:0;border:0;padding:0}
 .laboratory-card .attachment-item{flex-basis:165px}
 .laboratory-card .lab-foot{margin-top:auto}
 .parent-visual{display:flex;width:43px;height:43px;flex:none;align-items:center;justify-content:center;background:#f0f5f5;border:1px solid #e1e9e9;border-radius:6px;overflow:hidden}
