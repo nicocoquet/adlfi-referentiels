@@ -41,9 +41,10 @@ const pfContours=window.AdlfiLieuxPFContours;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
-const ids=['paca','corse','pdl','bfc'];
-const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
-const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],'saint-martin':[[18.04,-63.17],[18.15,-62.96]],'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+const idsNational=['paca','corse','pdl','bfc'];
+const ids=[...idsNational,'normandie'];
+const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté',normandie:'Normandie'};
+const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],normandie:[[48.05,-2.10],[50.25,2.05]],antilles:[[1,-64],[18.5,-51]],'saint-martin':[[18.04,-63.17],[18.15,-62.96]],'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
 
 // Cadrages documentés par les contours régionaux 2026 (COG / Etalab-IGN).
 const zonesRegion2026={
@@ -274,11 +275,14 @@ async function layerFor(y,l){
 // Charger uniquement les régions qui croisent la vue, avec promesses réutilisées.
 // Les cadrages sont des emprises de requête, pas des limites COG.
 function zonesCommunesVisibles(){
- if(!state.map)return ids;
+ if(!state.map)return idsNational.slice();
  const bounds=state.map.getBounds();
  const vue=[[bounds.getSouth(),bounds.getWest()],[bounds.getNorth(),bounds.getEast()]];
- const candidates=communeVue.zonesPourVue(vue,state.map.getZoom(),
-   Object.fromEntries(ids.map(id=>[id,views[id]])));
+ // Au zoom national, maintenir strictement les 6410 contours publiés
+ // avant l'arrivée de Normandie ; sa couche n'est chargée qu'au zoom local.
+ const candidates=state.map.getZoom()<communeVue.ZOOM_REDUCTION?
+   idsNational.slice():communeVue.zonesPourVue(vue,state.map.getZoom(),
+     Object.fromEntries(ids.map(id=>[id,views[id]])));
  // Une fiche sélectionnée hors de l'emprise doit rester localisable par recherche.
  if(state.selected?.kind==='commune'&&ids.includes(state.selected.zone)&&
     !candidates.includes(state.selected.zone))candidates.push(state.selected.zone);
@@ -628,7 +632,8 @@ async function render(){
     // Conserver la formulation détaillée des quatre familles ultramarines :
     // elle fait partie du contrat d'information et de non-régression publique.
     desc=features.length+' contours communaux 2026 chargés : '+
-      (zones.length===ids.length?'quatre régions métropolitaines':
+      (zones.length===idsNational.length&&idsNational.every(id=>zones.includes(id))?
+       'quatre régions métropolitaines':
        zones.length?zones.map(id=>nomZones[id]).join(', '):
        'aucune région métropolitaine publiée dans la vue actuelle')+
       ' et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue) et 28 communes de Polynésie (20 contours restant à qualifier). Au zoom national, les quatre régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
