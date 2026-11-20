@@ -44,7 +44,9 @@ def main():
             "() => document.querySelector('#map-status')?.textContent.includes('Corse')",
             timeout=60000)
         assert count('corse')==1,seen
-        assert count('paca')==0 and count('bfc')==bfc_initial,seen
+        assert count('bfc')==bfc_initial,seen
+        # La Corse peut recouper le cadre PACA avec un écran très large :
+        # les régions limitrophes dans la fenêtre ne doivent pas être masquées.
         select('pdl')
         page.wait_for_function(
             "() => document.querySelector('#map-status')?.textContent.includes('Pays de la Loire')",
