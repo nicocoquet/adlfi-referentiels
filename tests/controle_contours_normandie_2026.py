@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import collections
 import gzip
+import hashlib
 import json
 from pathlib import Path
 
@@ -21,8 +22,7 @@ GEO_SOURCE_SHA="4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778
 
 
 def analyser(source:Path,sortie:Path)->dict:
-    from preparer_lieux_normandie_2026 import sha
-    if sha(source)!=GEO_SOURCE_SHA:
+    if hashlib.sha256(source.read_bytes()).hexdigest()!=GEO_SOURCE_SHA:
         raise ValueError("Source Etalab non conforme")
     with gzip.open(source,"rt",encoding="utf-8") as h:
         raw=json.load(h)
@@ -35,8 +35,9 @@ def analyser(source:Path,sortie:Path)->dict:
     codes=[f["properties"]["code"] for f in features]
     if len(set(codes))!=EXPECTED:
         raise ValueError("Code COG dupliqué")
+    selected=set(codes)
     sources={f["properties"]["code"]:f for f in raw["features"]
-             if f.get("properties",{}).get("code") in set(codes)}
+             if f.get("properties",{}).get("code") in selected}
     if len(sources)!=EXPECTED:
         raise ValueError("Source Etalab dépourvue de contours normands")
     repaired=final["provenance"].get("reparations_topologiques")
