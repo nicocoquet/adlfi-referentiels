@@ -705,7 +705,7 @@ function search(){
      const situation=rechercheMillesime.etat(h,year(),state.periodesRecherche);
      const qualif=situation==='actif'?' · actif en '+year():
        situation==='historique'?' · non actif au 1er janvier '+year()+' (historique)':'';
-     sub.textContent=`${h.kind==='pactols'?'Pactols validé pour 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`+qualif;
+     sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026 (valable pour 2026 seulement)':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`+qualif;
    }
    btn.append(heading,sub);
    btn.addEventListener('click',()=>{
