@@ -1,0 +1,44 @@
+name: Lieux — chargement communal par vue, recette Chromium
+
+on:
+  pull_request:
+    paths:
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/assets/lieux-communes-vue.js'
+      - 'docs/lieux/index.html'
+      - 'tests/test_lieux_communes_vue.js'
+      - 'tests/test_lieux_chargement_progressif_navigateur.py'
+      - 'tests/test_lieux_ui.py'
+      - 'recette/lieux/CHARGEMENT-PROGRESSIF-COMMUNES-2026.md'
+      - '.github/workflows/lieux-chargement-progressif-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chargement-regional:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrats de cadrage, sources et interface
+        run: |
+          set -euo pipefail
+          node tests/test_lieux_communes_vue.js
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Installer Chromium pour la navigation intégrée
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier la navigation, le cache et les fiches existantes
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_chargement_progressif_navigateur.py
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_paca_pactols_navigateur.py
