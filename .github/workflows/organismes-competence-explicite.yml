@@ -9,6 +9,8 @@ on:
       - 'tests/test_organismes_competence_navigateur.py'
       - 'tests/test_organismes_logos_navigateur.py'
       - 'tests/test_organismes_fiches_contextuelles_navigateur.py'
+      - 'tests/test_organismes_150_navigateur.py'
+      - 'docs/data/organismes.json'
       - 'docs/assets/site.css'
       - '.github/workflows/organismes-competence-explicite.yml'
   workflow_dispatch:
@@ -41,3 +43,5 @@ jobs:
         run: python3 tests/test_organismes_logos_navigateur.py
       - name: Vérifier les fiches institutionnelles hors catalogue dans Chromium
         run: python3 tests/test_organismes_fiches_contextuelles_navigateur.py
+      - name: Vérifier le parcours complet des nouvelles autorités du maître 1.50
+        run: python3 tests/test_organismes_150_navigateur.py
