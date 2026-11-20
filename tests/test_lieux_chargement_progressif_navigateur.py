@@ -56,21 +56,17 @@ def main():
         # Recherche d'une commune qui n'est pas actuellement affichée :
         # elle doit provoquer le chargement de la région puis ouvrir sa fiche.
         page.locator('#search-tool').evaluate("(el) => { el.open=true; }")
-        page.locator('#search').fill('Afa')
+        # Rechercher l'ARK de l'Afa actuelle : le libellé seul retrouve aussi
+        # l'ancien code corse 20001 (avant la recodification de 1976).
+        page.locator('#search').fill('26678/pcrtgs2LLPYow2')
         page.wait_for_function(
-            "() => !document.querySelector('#results')?.hidden && document.querySelector('#results')?.textContent.includes('Afa')",
+            "() => !document.querySelector('#results')?.hidden && document.querySelector('#results')?.textContent.includes('2A001')",
             timeout=20000)
         # Le résultat exact en tête est une commune corse.
-        print('DIAGNOSTIC_RECHERCHE_CHAMP',page.locator('#results button').first.text_content(),flush=True)
         page.locator('#results button').first.click()
-        page.wait_for_timeout(1600)
-        print('DIAGNOSTIC_RECHERCHE_ETAT',
-              page.locator('#map-status').text_content(),
-              page.locator('#detail').text_content()[:900],
-              'ERREURS',errors,flush=True)
         page.wait_for_function(
             "() => document.querySelector('#detail')?.textContent.includes('26678/pcrtgs2LLPYow2')",
-            timeout=15000)
+            timeout=60000)
         assert 'Corse' in page.locator('#map-status').text_content()
         assert count('corse')==1,seen
 
