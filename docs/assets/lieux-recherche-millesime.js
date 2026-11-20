@@ -23,8 +23,12 @@
    for(const p of cog.periodes_com){
     if(p.typecom!=='COM')continue;
     if(typeof p.code_insee!=='string'||!p.debut_inclus||
-       (p.fin_exclue&&p.fin_exclue<=p.debut_inclus))
-     throw Error('Intervalle communal mal formé : '+zone+' '+JSON.stringify({code:p.code_insee,debut:p.debut_inclus,fin:p.fin_exclue}));
+       (p.fin_exclue&&p.fin_exclue<p.debut_inclus))
+     throw Error('Intervalle communal COG invalide : '+zone+' '+p.code_insee);
+    // Le COG contient des épisodes de durée nulle, notamment PDL 44225
+    // [2018-01-01, 2018-01-01[. Ils restent dans le fichier source,
+    // mais n'ont aucun jour d'activité à indexer dans la recherche.
+    if(p.fin_exclue===p.debut_inclus)continue;
     const key=zone+':'+p.code_insee;
     if(!result.has(key))result.set(key,[]);
     result.get(key).push({start:p.debut_inclus,end:p.fin_exclue||null});
