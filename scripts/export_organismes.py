@@ -164,6 +164,25 @@ def collect_identity_aliases(rows: list[dict], existing_ids: set[str]) -> list[d
         aliases.append({'from': retired, 'to': canonical})
     return aliases
 
+
+def authority_validation(row: dict, ident: str) -> dict:
+    """La présence au catalogue ne vaut pas validation institutionnelle.
+
+    Le maître contient de nombreuses autorités publiées avec a_verifier :
+    elles restent indexables, mais leur qualification doit être explicite.
+    Un statut absent ou inconnu constitue une erreur de saisie.
+    """
+    raw=value(row, 'statut_validation')
+    if raw is None:
+        # Les classeurs minimaux et les imports anciens peuvent omettre ce champ.
+        # Ne jamais les considérer pour autant comme validés.
+        return {'status':'non_renseigne', 'established':False}
+    validated=raw in ('valide','validee','validée')
+    if not validated and raw != 'a_verifier':
+        raise ValueError(f'Statut de validation absent ou inconnu pour {ident}: {raw!r}')
+    return {'status':raw, 'established':validated}
+
+
 def build(source: Path):
     sh=parse_workbook(source)
     names={}
@@ -261,6 +280,7 @@ def build(source: Path):
             if catalog is None:
                 raise ValueError(f'Affichage catalogue invalide pour {ident}: {catalog_raw!r}')
             rec={'id':ident,'kind':kind,
+                'validation':authority_validation(r,ident),
                 'presentation':{'catalog':catalog,'visible':catalog=='inclure','media':media_for(ident)},
                 'names':{'preferred':label,'acronym':acronym,'other_acronyms':split_sigles(value(r,'autres_acronymes')),
                          'historical_free_text':value(r,'anciennes_denominations') if kind=='ORG' else None,

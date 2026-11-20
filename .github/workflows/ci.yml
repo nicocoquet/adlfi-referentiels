@@ -44,3 +44,5 @@ jobs:
         run: node tests/test_affiliations_federales.js
       - name: Vérifier les alias d'identifiants anciens
         run: node tests/test_aliases_organismes.js
+      - name: Vérifier les statuts documentaires sans masquer les fiches
+        run: node tests/test_validation_documentaire_organismes.js
