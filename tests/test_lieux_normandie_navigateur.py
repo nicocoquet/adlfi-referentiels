@@ -51,7 +51,7 @@ def main():
         detail_2015=page.locator('#detail').text_content()
         assert 'Cherbourg-Octeville' in detail_2015,detail_2015
         assert '26678/pcrt4Ft3j507NA' not in detail_2015,detail_2015
-        assert 'ne restitue pas les limites de 2015' in detail_2015,detail_2015
+        assert 'Aucun contour communal historique qualifié' in detail_2015,detail_2015
 
         # Les quatre exceptions sont consultables, sans fausse validation.
         page.goto(url+'/lieux/?zoom=normandie&niveau=commune&annee=2026&code=50412&zone=normandie',
