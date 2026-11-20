@@ -2,7 +2,7 @@
 
 **État :** audit éditorial sourcé, en attente de mise à jour du maître XLSX privé ; aucun nouvel ID attribué et aucune donnée publique modifiée.
 
-**Base examinée :** JSON public \`docs/data/organismes.json\`, export du maître \`AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx\`, SHA-256 \`2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4\` (920 autorités, 586 relations).
+**Base examinée :** JSON public `docs/data/organismes.json`, export du maître `AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx`, SHA-256 `2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4` (920 autorités, 586 relations).
 
 **Portée de la vérification d'existence :** recherche d'appellations, acronymes et variantes dans le **JSON public**. Une absence signifie « non repéré dans ce JSON », **pas** « preuve d'absence du dernier XLSX privé ». Dédupliquer à nouveau sur ce dernier avant attribution d'identifiants.
 
@@ -10,9 +10,9 @@
 
 ### IRAMAT — deux ORG existantes et continuité partielle déjà documentée
 
-- **ORG-0393** : IRAMAT **UMR 5060**, 1999-01-01 → 2021-12-31, inactif ; RNSR \`199911751G\`.
-- **ORG-0299** : IRAMAT **UMR 7065**, depuis 2022-01-01, actif ; RNSR \`202224174K\`, ROR \`https://ror.org/01cw28e72\`.
-- **REL-0127** : ORG-0393 → ORG-0299, \`succession_partielle\`, validée, début 2022-01-01. **REL-0128** : ORG-0393 → ORG-0537, autre succession partielle. Ne jamais fusionner ORG-0393 et ORG-0299 ni remplacer les successions partielles par une succession totale.
+- **ORG-0393** : IRAMAT **UMR 5060**, 1999-01-01 → 2021-12-31, inactif ; RNSR `199911751G`.
+- **ORG-0299** : IRAMAT **UMR 7065**, depuis 2022-01-01, actif ; RNSR `202224174K`, ROR `https://ror.org/01cw28e72`.
+- **REL-0127** : ORG-0393 → ORG-0299, `succession_partielle`, validée, début 2022-01-01. **REL-0128** : ORG-0393 → ORG-0537, autre succession partielle. Ne jamais fusionner ORG-0393 et ORG-0299 ni remplacer les successions partielles par une succession totale.
 - Les deux composantes demandées, **Centre Ernest-Babelon (CEB)** et **Laboratoire Métallurgies et Cultures (LMC)**, ne sont pas repérées par nom dans le JSON. Proposer **deux SER de composantes**, avec liens temporels à ORG-0393 pour 1999–2021 et à ORG-0299 depuis 2022, **sous réserve de confirmation de leur continuité institutionnelle exacte** et des dates de chaque rattachement. Ne pas attribuer la création du CEB à 2002 : il s'agit de la date de sa contractualisation avec l'université d'Orléans. Le LMC est basé à Sèvenans / site de Belfort et associé à l'UTBM.
 - Sources institutionnelles : [présentation IRAMAT UMR 7065](https://iramat.cnrs.fr/presentation-2/) ; [accueil IRAMAT](https://iramat.cnrs.fr/).
 
@@ -25,7 +25,7 @@
 ### Variantes : ne pas créer de doublons
 
 - **SER-0188** *Service du patrimoine et des musées de Cavaillon* possède **déjà** l'entrée **HIS-SER-0080** : « Conservation des Musées et du Patrimoine de Cavaillon », variante valide, sans dates. L'autorité est rattachée à **ORG-0708** (Ville de Cavaillon). **Ne rien créer de supplémentaire** pour la demande.
-- **ORG-0321** *Association Montagne et Patrimoine* (AMONT) existe. Son site et le CTHS attestent une création en **1981** à **Saint-Martin-Vésubie**. La mairie cite « Association Montagne et Traditions » : proposer l'enregistrement de cette forme comme **variante à sourcer**, ajouter ville et date de création après vérification sur le maître ; actualiser le statut d'activité si la continuité actuelle est établie par les documents de l'association. SIREN \`399696905\`, à vérifier avec l'identité administrative.
+- **ORG-0321** *Association Montagne et Patrimoine* (AMONT) existe. Son site et le CTHS attestent une création en **1981** à **Saint-Martin-Vésubie**. La mairie cite « Association Montagne et Traditions » : proposer l'enregistrement de cette forme comme **variante à sourcer**, ajouter ville et date de création après vérification sur le maître ; actualiser le statut d'activité si la continuité actuelle est établie par les documents de l'association. SIREN `399696905`, à vérifier avec l'identité administrative.
 - Sources : [Association AMONT — histoire](https://www.amont-alpesmaritimes.fr/lassociation/objet-et-histoire.html) ; [CTHS](https://cths.fr/an/societe.php?id=3752) ; [mairie de Saint-Martin-Vésubie](https://mairie.saintmartinvesubie.fr/annuaire-categories/associations/).
 
 ### Centre européen d'archéométrie : correction d'acronyme
@@ -43,7 +43,7 @@
 ### CICRP
 
 - Non repéré dans le JSON. **ORG publique autonome de type GIP**, et non SER de la Ville de Marseille ; membres : État (Culture), Ville de Marseille, Région PACA, Département des Bouches-du-Rhône.
-- Le site officiel indique une création en **2002**, alors qu'une convention constitutive a été approuvée dès novembre **2001**. **Qualifier le sens de \`date_debut\`** (constitution juridique / démarrage opérationnel) avant de figer une date.
+- Le site officiel indique une création en **2002**, alors qu'une convention constitutive a été approuvée dès novembre **2001**. **Qualifier le sens de `date_debut`** (constitution juridique / démarrage opérationnel) avant de figer une date.
 - Sources : [CICRP](https://cicrp.fr/), [Statuts CICRP](https://cicrp.fr/statuts/), [ministère de la Culture](https://www.culture.gouv.fr/thematiques/sciences-du-patrimoine/partenariats-scientifiques).
 
 ## Autres créations candidates (non repérées sous ces appellations)
@@ -54,7 +54,7 @@
 | Société française d'étude de la céramique antique en Gaule (SFECAG) | ORG, association | Autonome, pas un service universitaire | https://sfecag.org/ |
 | Tufts University (Medford, Massachusetts, États-Unis) | ORG, université | Contrôle ROR / statut avant saisie | https://www.tufts.edu/ |
 | Musée Gassendi, Digne-les-Bains | SER, musée municipal | **Ville de Digne-les-Bains** : ORG parent non repérée, créer si absente du maître ; vérifier la structure du pôle muséal Ambulo | https://www.musee-gassendi.org/ |
-| Musée d'Archéologie de Nice / Cimiez | SER, musée municipal | **ORG-0160 Ville de Nice** existe, hors catalogue ; lien \`rattachement_service\` | https://www.nice.fr/lieux/musee-darcheologie-de-nice-cimiez/ |
+| Musée d'Archéologie de Nice / Cimiez | SER, musée municipal | **ORG-0160 Ville de Nice** existe, hors catalogue ; lien `rattachement_service` | https://www.nice.fr/lieux/musee-darcheologie-de-nice-cimiez/ |
 | Association Provence Archéologie (APA), Aix-en-Provence | ORG, association | Identité légale et statut à confirmer | Signalement éditorial |
 | Céraphin, Arles | ORG, association | Création 2005 proposée, date à vérifier | Signalement éditorial |
 | Sapienza Università di Roma | ORG, université | Contrôle d'identifiants institutionnels | https://www.uniroma1.it/ |
@@ -71,7 +71,7 @@
 
 1. Récupérer le maître XLSX du 20 novembre ou sa version la plus récente et auditer les identifiants, variantes et références par feuille. Ne pas substituer le JSON public au maître.
 2. Traiter d'abord **les deux SER IRAMAT**, **la filiation partielle Lenain de Tillemont**, **les variantes AMONT**, puis **CEA**, **ENSG** et **CICRP** ; les associations et musées suivront après vérification d'identité.
-3. Pour les futures relations, distinguer \`rattachement_service\`, \`tutelle\`, \`filiation_partielle\`, \`membre\` (école-membre), \`affiliation_federale\` ; vérifier le rendu de chacun avant publication. Ne jamais utiliser le type \`tutelle\` pour une simple appartenance universitaire sans preuve.
+3. Pour les futures relations, distinguer `rattachement_service`, `tutelle`, `filiation_partielle`, `membre` (école-membre), `affiliation_federale` ; vérifier le rendu de chacun avant publication. Ne jamais utiliser le type `tutelle` pour une simple appartenance universitaire sans preuve.
 4. Après migration, exporter le JSON et auditer identifiants, relations, total des autorités, présence des images et navigation, notamment vers les parents hors catalogue.
 
 Suivi de lot : [issue #174](https://github.com/nicocoquet/adlfi-referentiels/issues/174).
