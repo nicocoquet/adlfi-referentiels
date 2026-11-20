@@ -11,11 +11,15 @@ def main():
         page.on('pageerror',lambda e:errors.append(str(e)))
 
         def consulter(ident):
-            page.goto(url+'/organismes/#'+ident,wait_until='domcontentloaded',timeout=45000)
+            # Une navigation ne changeant que le fragment n'initialise pas
+            # à nouveau l'application : changer aussi l'URL de requête.
+            page.goto(url+'/organismes/?fiche='+ident+'#'+ident,
+                      wait_until='domcontentloaded',timeout=45000)
+            expected='ORG-0747' if ident=='SER-0063' else ident
             page.wait_for_function(
-                "() => document.querySelector('#details')?.open && "
-                "document.querySelector('#detail-content .detail-head')?.textContent.length>20",
-                timeout=45000)
+                "(expected) => document.querySelector('#details')?.open && "
+                "document.querySelector('#detail-content .detail-head .ident')?.textContent.trim()===expected",
+                arg=expected, timeout=45000)
             return page.locator('#details')
 
         # Ancien identifiant conservé pour la navigation ; l'autorité est ORG.
