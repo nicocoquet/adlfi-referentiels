@@ -109,8 +109,16 @@ def qualifier_exceptions(dossiers:dict)->list:
                     "commune_déléguée" not in external):
                 raise ValueError("Isigny-sur-Mer : les contradictions RDF ont changé, réexaminer")
         elif code=="27112":
-            shared=(set(current["exactMatch"]) & set(old["exactMatch"]))
-            if "http://www.wikidata.org/entity/Q467162" not in shared:
+            # Les deux écritures Wikidata (entity/Q... et wiki/Q...) pointent
+            # vers le même identifiant ; comparer les QID, non les URL brutes.
+            def qids(links):
+                found=set()
+                for uri in links:
+                    m=re.search(r"https?://(?:www\\.)?wikidata\\.org/(?:entity|wiki)/(Q[0-9]+)$",uri)
+                    if m:found.add(m.group(1))
+                return found
+            shared=qids(current["exactMatch"]) & qids(old["exactMatch"])
+            if "Q467162" not in shared:
                 raise ValueError("Breteuil : intersection des Wikidata RDF modifiée")
         elif code=="50546":
             notes=" ".join(n["texte"] for n in current["notes"] if n["type"]=="historyNote")
