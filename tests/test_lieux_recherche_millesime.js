@@ -38,5 +38,15 @@ const sorted=recherche.trier(homonymes,'Testville',2026,normandie);
 assert.equal(sorted[0].id,'new');
 assert.equal(recherche.etat({kind:'admin',code:'50129'},2026,normandie),'hors_cog_regional');
 assert.throws(()=>recherche.etat(entries[0],2027,periodes),/Millésime/);
+const dureeNulle=recherche.preparer({pdl:{cog:{periodes_com:[
+ {code_insee:'44225',typecom:'COM',debut_inclus:'2018-01-01',fin_exclue:'2018-01-01'},
+ {code_insee:'44225',typecom:'COM',debut_inclus:'2019-01-01',fin_exclue:null}
+]}}},['pdl']);
+assert.equal(recherche.etat({kind:'cog',zone:'pdl',code:'44225'},2018,dureeNulle),'historique',
+ 'Un épisode COG de durée nulle ne doit pas être considéré comme actif');
+assert.equal(recherche.etat({kind:'cog',zone:'pdl',code:'44225'},2019,dureeNulle),'actif');
+assert.throws(()=>recherche.preparer({pdl:{cog:{periodes_com:[
+ {code_insee:'44225',typecom:'COM',debut_inclus:'2019-01-01',fin_exclue:'2018-01-01'}
+]}}},['pdl']),/invalide/);
 assert.throws(()=>recherche.preparer({corse:{cog:{}}},['corse']),/Chronologie/);
 console.log('LIEUX_RECHERCHE_MILLESIME_OK — codes historiques, ARK explicite, communes actives');
