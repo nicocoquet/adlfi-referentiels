@@ -70,13 +70,13 @@ def main():
         assert 'Corse' in page.locator('#map-status').text_content()
         assert count('corse')==1,seen
 
-        # Zoom national : conserver les quatre régions 2026, sans tronquer la
+        # Zoom national : conserver les cinq régions 2026, sans tronquer la
         # couverture déjà publiée dans le modèle initial.
         select('metropole')
         page.wait_for_function(
-            "() => document.querySelector('#map-status')?.textContent.includes('6410 contours communaux 2026')",
+            "() => document.querySelector('#map-status')?.textContent.includes('9054 contours communaux 2026')",
             timeout=60000)
-        assert all(count(id)==1 for id in ('paca','corse','pdl','bfc')),seen
+        assert all(count(id)==1 for id in ('paca','corse','pdl','bfc','normandie')),seen
 
         # En année historique, la source 2026 n'est jamais qualifiée d'état
         # ancien. Le repère reste désactivable.

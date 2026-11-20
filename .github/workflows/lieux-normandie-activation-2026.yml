@@ -1,0 +1,52 @@
+name: Lieux — publier Normandie 2026 (2 644 contours et 16 ARK)
+
+on:
+  pull_request:
+    paths:
+      - 'docs/assets/lieux-multiechelon.js'
+      - 'docs/assets/lieux-normandie-pactols.js'
+      - 'docs/lieux/index.html'
+      - 'tests/test_lieux_normandie_pactols.js'
+      - 'tests/test_lieux_normandie_navigateur.py'
+      - 'tests/test_lieux_chargement_progressif_navigateur.py'
+      - 'tests/test_lieux_ui.py'
+      - '.github/workflows/lieux-normandie-activation-2026.yml'
+      - 'recette/lieux/NORMANDIE-ACTIVATION-CARTOGRAPHIQUE-2026.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  activer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contrats normands et syntaxe JavaScript
+        run: |
+          set -euo pipefail
+          node --check docs/assets/lieux-multiechelon.js
+          node --check docs/assets/lieux-normandie-pactols.js
+          node tests/test_lieux_normandie_pactols.js
+          node tests/test_lieux_communes_vue.js
+          python3 -m unittest discover -s tests -p 'test_lieux_ui.py' -v
+      - name: Préparer Playwright et Chromium
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Recette navigateur Normandie, identité 2026 et état 2015
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_normandie_navigateur.py
+          python3 tests/test_lieux_chargement_progressif_navigateur.py
+      - name: Non-régressions navigateur des quatre régions antérieures
+        run: |
+          set -euo pipefail
+          python3 tests/test_lieux_corse_pactols_navigateur.py
+          python3 tests/test_lieux_pdl_pactols_navigateur.py
+          python3 tests/test_lieux_bfc_pactols_navigateur.py
+          python3 tests/test_lieux_paca_pactols_navigateur.py
