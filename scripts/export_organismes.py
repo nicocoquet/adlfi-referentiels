@@ -28,6 +28,7 @@ MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'
 REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 NS = {'x': MAIN}
 CORE = ('Organismes','Services','Historique','Historique_services','Statuts_historiques','Relations','Relations_services','Localisations','Affiliations_sources','Correspondances_affiliations')
+OPTIONAL = ('Fusions identifiants',)
 
 
 def column_number(cell: str) -> int:
@@ -49,7 +50,7 @@ def parse_workbook(path: Path) -> dict[str,list[dict]]:
         sheets = {}
         for s in wb.findall('x:sheets/x:sheet',NS):
             name = s.get('name')
-            if name not in CORE: continue
+            if name not in CORE and name not in OPTIONAL: continue
             target = paths[s.attrib[f'{{{REL}}}id']]
             realpath = target.lstrip('/') if target.startswith('/') else 'xl/' + target
             root = ET.fromstring(z.read(realpath))
@@ -132,6 +133,36 @@ def media_for(ident: str):
     return {'image': None,
             'logo': 'assets/organismes/' + logo.name if logo.is_file() else None}
 
+
+
+def collect_identity_aliases(rows: list[dict], existing_ids: set[str]) -> list[dict]:
+    """Exporter uniquement les identifiants de navigation, sans commentaires privés.
+
+    Une correction ORG/SER ou une fusion éditoriale ne crée pas une succession
+    historique. L'ancien identifiant doit être retiré des autorités, et sa cible
+    doit être canonique et effectivement publiée.
+    """
+    aliases = []
+    retired_ids = set()
+    pattern = re.compile(r'(?:ORG|SER)-[0-9]{4}\Z')
+    for row_number, row in enumerate(rows, 2):
+        retired = value(row, 'Identifiant retiré')
+        canonical = value(row, 'Identifiant canonique')
+        if retired is None and canonical is None:
+            continue
+        if not retired or not canonical:
+            raise ValueError(f'Alias incomplet ligne {row_number}')
+        if not pattern.fullmatch(retired) or not pattern.fullmatch(canonical):
+            raise ValueError(f'Alias invalide ligne {row_number}: {retired} → {canonical}')
+        if retired == canonical or retired in existing_ids:
+            raise ValueError(f'Identifiant retiré encore canonique: {retired}')
+        if canonical not in existing_ids:
+            raise ValueError(f'Cible canonique absente: {retired} → {canonical}')
+        if retired in retired_ids:
+            raise ValueError(f'Identifiant retiré dupliqué: {retired}')
+        retired_ids.add(retired)
+        aliases.append({'from': retired, 'to': canonical})
+    return aliases
 
 def build(source: Path):
     sh=parse_workbook(source)
@@ -259,6 +290,7 @@ def build(source: Path):
                 raise ValueError(f"Périmètre de compétence inconnu pour {ident}: {rec['classification']['territorial_competence']}")
             entities.append(rec)
     if len({x['id'] for x in entities})!=len(entities):raise ValueError('IDs ORG/SER dupliqués')
+    aliases = collect_identity_aliases(sh.get('Fusions identifiants', []), {x['id'] for x in entities})
     sector_audit = apply_sector_inheritance(entities, relations)
     # L'échelon résolu est institutionnel, non un territoire de compétence.
     level_audit = apply_level_inheritance(entities, relations,
@@ -277,7 +309,8 @@ def build(source: Path):
                   'service_sector_unresolved_ids':sector_audit['unresolved_service_ids'],
                   'service_level_resolution':level_audit['counts'],
                   'service_level_unresolved_ids':level_audit['unresolved_service_ids']},
-        'authorities':entities, 'relations':relations,'locations':locations}
+        'authorities':entities, 'relations':relations,'locations':locations,
+        'aliases':aliases}
     return public
 
 
