@@ -81,6 +81,11 @@
       if (band && !band.querySelector('.lab-logo-item')) band.remove();
       return;
     }
+    if (img.classList.contains('detail-brand-logo')) {
+      // Un logo absent ne doit pas laisser un pictogramme géant dans l'en-tête.
+      img.closest('.detail-brand')?.remove();
+      return;
+    }
     if (img.classList.contains('parent-logo')) {
       const replacement=document.createElement('span');
       replacement.className='parent-picto';
@@ -466,7 +471,13 @@
     const extras=r.names.other_acronyms.length?r.names.other_acronyms.join(' · '):null;
     const kind=r.kind;
     let rnsr=r.identifiers.rnsr?link('https://rnsr.adc.education.fr/structure/'+encodeURIComponent(r.identifiers.rnsr),r.identifiers.rnsr):null;
-    let content=`<div class="detail-head"><span class="kind ${kind==='SER'?'ser':''}">${kind}</span> <span class="ident">${esc(id)}</span><h2>${esc(r.names.preferred)}</h2><p class="detail-desc">${esc(natural(r.classification.type))} · ${esc(flagLabel(r.activity.active))}</p></div><div class="detail-body">
+    const headerLogo=r.presentation?.media?.logo
+      ? `<div class="detail-brand">${assetImg(id,'Logo de '+r.names.preferred,'detail-brand-logo')}</div>` : '';
+    let content=`<div class="detail-head"><div class="detail-head-inner">
+      <div class="detail-head-copy"><span class="kind ${kind==='SER'?'ser':''}">${kind}</span>
+      <span class="ident">${esc(id)}</span><h2>${esc(r.names.preferred)}</h2>
+      <p class="detail-desc">${esc(natural(r.classification.type))} · ${esc(flagLabel(r.activity.active))}</p></div>
+      ${headerLogo}</div></div><div class="detail-body">
     <section class="detail-block"><h3>Identité et classification</h3><dl class="detail-dl">${row('Sigle',esc(sigle))}${row('Autres acronymes',extras?esc(extras):null)}${row('Catégorie BSR',esc(r.classification.bsr||'Non renseignée'))}${row('Secteur',esc(natural(r.classification.sector)))}${row('Échelon institutionnel',esc(natural(r.classification.level)))}${r.classification.territorial_competence?row('Périmètre de compétence',esc(natural(r.classification.territorial_competence))):''}${row('Type détaillé',esc(natural(r.classification.type)))}</dl></section>
     <section class="detail-block"><h3>Période d'existence</h3><dl class="detail-dl">${row('Statut',esc(flagLabel(r.activity.active)))}${row('Début',esc(r.activity.start||'Non documenté'))}${row('Fin',esc(r.activity.end||'Non documentée'))}</dl></section>
     <section class="detail-block"><h3>Localisation déclarée</h3><dl class="detail-dl">${row('Pays institutionnel',esc(country(r.geography.institutional_country_iso2)))}${row('Ville(s) d’implantation',esc(r.geography.cities_label||'Non renseignée(s)'))}</dl><p class="detail-desc" style="margin-top:9px">Les villes ne constituent pas une géolocalisation vérifiée. Les établissements multi-sites ne sont pas ramenés à un point unique.</p></section>
