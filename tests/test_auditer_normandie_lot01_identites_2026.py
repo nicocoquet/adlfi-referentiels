@@ -35,6 +35,7 @@ class Lot01NormandieTests(unittest.TestCase):
         self.assertEqual(sum(len(audit.arks_attendus(c)) for c in audit.CASES), 19)
         self.assertEqual(audit.CASES["50412"]["actuel"], None)
         self.assertTrue(audit.CASES["27467"]["cas_homonyme"])
+        self.assertEqual(audit.CASES["27467"]["actuel"], "26678/pcrttaqrTGrSS9")
         self.assertEqual(audit.CASES["50129"]["date"], "2016-01-01")
         self.assertEqual(audit.CASES["61194"]["date"], "2018-01-01")
         self.assertEqual(audit.CASES["14456"]["date"], "2017-01-01")
@@ -42,18 +43,32 @@ class Lot01NormandieTests(unittest.TestCase):
     def test_anciennes_identites_non_promues_et_homonymie_bloquee(self):
         for code, spec in audit.CASES.items():
             d = details(spec["ancienne"])
+            if spec.get("cas_homonyme"):
+                d["exactMatch"] = ["http://www.wikidata.org/entity/Q367667"]
+                d["notes"] = [{"type": "definition", "texte": "Pont-Audemer est une ancienne commune française"}]
             self.assertIn(
                 audit.classer(code, spec["ancien"], d),
                 {"IDENTITE_ANCIENNE_COMMUNE_A_PRESERVER",
                  "ANCIENNE_COMMUNE_DELEGUEE_IDENTIFIEE"},
             )
             if spec["actuel"]:
+                current = details(spec["nom"])
+                if spec.get("cas_homonyme"):
+                    current["exactMatch"] = ["http://www.wikidata.org/entity/Q47067820"]
+                    current["notes"] = [{"type": "definition", "texte": "Pont-Audemer est une commune française"}]
                 self.assertEqual(
-                    audit.classer(code, spec["actuel"], details(spec["nom"])),
+                    audit.classer(code, spec["actuel"], current),
                     "CANDIDAT_COMMUNE_NOUVELLE_2026_A_ARBITRER",
                 )
         self.assertEqual(
             audit.classer("27467", "26678/pcrttaqrTGrSS9", details("Pont-Audemer")),
+            "HOMONYMIE_PERSISTANTE_A_INSTRUIRE",
+        )  # Pas de promotion sans URI Wikidata + définition explicite.
+        wrong_q = details("Pont-Audemer")
+        wrong_q["exactMatch"] = ["http://www.wikidata.org/entity/Q367667"]
+        wrong_q["notes"] = [{"type": "definition", "texte": "Pont-Audemer est une commune française"}]
+        self.assertEqual(
+            audit.classer("27467", "26678/pcrttaqrTGrSS9", wrong_q),
             "HOMONYMIE_PERSISTANTE_A_INSTRUIRE",
         )
         dep = details("Vire Normandie")
@@ -76,6 +91,13 @@ class Lot01NormandieTests(unittest.TestCase):
                     label = spec["nom"] if ark == spec["actuel"] else spec["ancienne"]
                 rows.append(preuve(code, ark, label))
                 metadata[ark] = details(label)
+                if spec.get("cas_homonyme"):
+                    if ark == spec["actuel"]:
+                        metadata[ark]["exactMatch"] = ["http://www.wikidata.org/entity/Q47067820"]
+                        metadata[ark]["notes"] = [{"type": "definition", "texte": "Pont-Audemer est une commune française"}]
+                    else:
+                        metadata[ark]["exactMatch"] = ["http://www.wikidata.org/entity/Q367667"]
+                        metadata[ark]["notes"] = [{"type": "definition", "texte": "Pont-Audemer est une ancienne commune française"}]
             hits[code] = rows
         return hits, metadata
 
@@ -87,8 +109,8 @@ class Lot01NormandieTests(unittest.TestCase):
             result = audit.produire(Path("fiction-rdf.xml"))
         self.assertEqual(result["bilan"]["dossiers"], 10)
         self.assertEqual(result["bilan"]["candidats_Pactols"], 19)
-        self.assertEqual(result["bilan"]["codes_avec_candidat_distinct_commune_actuelle"], 8)
-        self.assertEqual(result["bilan"]["codes_sans_arbitrage_identite_actuelle"], 2)
+        self.assertEqual(result["bilan"]["codes_avec_candidat_distinct_commune_actuelle"], 9)
+        self.assertEqual(result["bilan"]["codes_sans_arbitrage_identite_actuelle"], 1)
         self.assertEqual(result["bilan"]["nouvelles_validations_publiees"], 0)
         self.assertEqual(result["bilan"]["limites_historiques_inferrees"], 0)
         self.assertTrue(all(
