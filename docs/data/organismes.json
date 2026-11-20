@@ -2,9 +2,9 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx",
-    "source_sha256": "6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668",
-    "exported_at_utc": "2026-11-20T16:00:00+00:00",
+    "source_filename": "AdlFI_referentiel_1-51_affiliations_federales_20261120_RECETTE.xlsx",
+    "source_sha256": "af3ee809099a28373a5b183afe70af27066aeb3d23e1776fd501a192be91e1d4",
+    "exported_at_utc": "2026-11-20T21:22:11+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
   "totals": {
@@ -4128,7 +4128,7 @@
         "cities_label": "Taverny",
         "locations": []
       },
-      "website": null,
+      "website": "https://casavo.fr/",
       "usage": {
         "affiliations_linked": 5,
         "affiliations_validated": 1,
@@ -4139,7 +4139,7 @@
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
-        "no_website": true
+        "no_website": false
       }
     },
     {
@@ -27604,7 +27604,7 @@
       },
       "geography": {
         "institutional_country_iso2": "FR",
-        "cities_label": null,
+        "cities_label": "Hyères",
         "locations": []
       },
       "website": null,
@@ -27616,7 +27616,7 @@
       "quality": {
         "activity_unknown": true,
         "end_missing": false,
-        "city_unrecorded": true,
+        "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true
       }
@@ -70179,6 +70179,42 @@
       "target": "ORG-0391",
       "type": "filiation_partielle",
       "start": "2006-01-01",
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "REL-0341",
+      "source": "ORG-0069",
+      "target": "ORG-0120",
+      "type": "affiliation_federale",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "REL-0342",
+      "source": "ORG-0419",
+      "target": "ORG-0120",
+      "type": "affiliation_federale",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "REL-0343",
+      "source": "ORG-0521",
+      "target": "ORG-0120",
+      "type": "affiliation_federale",
+      "start": null,
+      "end": null,
+      "validation": "valide"
+    },
+    {
+      "id": "REL-0344",
+      "source": "ORG-0355",
+      "target": "ORG-0701",
+      "type": "affiliation_federale",
+      "start": null,
       "end": null,
       "validation": "valide"
     },
