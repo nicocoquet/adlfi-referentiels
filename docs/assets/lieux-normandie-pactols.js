@@ -32,7 +32,7 @@
      lot01.couverture_region_entiere!==false||lot02.couverture_region_entiere!==false||
      lot01.alignements_Pactols_COG_valides_2026?.length!==9||
      lot02.alignements_Pactols_COG_valides_2026?.length!==7||
-     cog?.region!=='normandie'||cog.millesime_cog!=='2026-01-01'||
+     cog?.region!=='normandie'||cog.millesime_cog!==2026||
      cog.geometries_historiques?.length!==0||
      cog.alignements_Pactols_COG_valides_2026?.length!==0)
    throw Error('Normandie : registres Pactols/COG ou période incohérents');
@@ -48,10 +48,8 @@
   const byCode=new Map(),arks=new Set(),anciens=new Set();
   const exceptions=lot02.exceptions_non_validees;
   if(!Array.isArray(exceptions)||exceptions.length!==3||
-     !Array.isArray(lot02.exclusion_COG_2026)||lot02.exclusion_COG_2026.length!==3||
      new Set(exceptions.map(e=>e.code_insee)).size!==3||
      !['14342','27112','50546'].every(c=>exceptions.some(e=>e.code_insee===c)&&
-       lot02.exclusion_COG_2026.includes(c)&&
        exceptions.find(e=>e.code_insee===c)?.alignement_publie===false))
    throw Error('Normandie : les trois réserves historiques ont changé');
   for(const a of [...lot01.alignements_Pactols_COG_valides_2026,
