@@ -12,6 +12,8 @@ SOURCES = {
         '41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642',
     'AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx':
         '2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4',
+    'AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx':
+        '6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
@@ -26,15 +28,15 @@ class PublicationSnapshotsTests(unittest.TestCase):
         source = d['provenance']['source_filename']
         self.assertIn(source, SOURCES)
         self.assertEqual(d['provenance']['source_sha256'], SOURCES[source])
-        self.assertEqual(len(self.by_id), 920)
-        self.assertEqual(len(self.relations), 586)
-        self.assertEqual(d['totals']['organismes'], 725)
-        self.assertEqual(d['totals']['services'], 195)
-        self.assertEqual(d['totals']['catalog_included'], 670)
+        self.assertEqual(len(self.by_id), 934)
+        self.assertEqual(len(self.relations), 594)
+        self.assertEqual(d['totals']['organismes'], 734)
+        self.assertEqual(d['totals']['services'], 200)
+        self.assertEqual(d['totals']['catalog_included'], 682)
 
     def test_historical_publication_and_adera_correction(self):
         is_149 = self.data['provenance']['source_filename'].startswith(
-            'AdlFI_referentiel_1-49_')
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_'))
         histories = [
             (a['id'], h)
             for a in self.data['authorities'] if a['kind'] == 'ORG'
@@ -46,7 +48,10 @@ class PublicationSnapshotsTests(unittest.TestCase):
         ]
         self.assertEqual(len(service_histories), 96)
         if is_149:
-            self.assertEqual(len(histories), 140)
+            self.assertEqual(len(histories), 143)
+            # Les 140 entrées de l'instantané 1.49 restent présentes ;
+            # les trois nouveaux historiques, dont GECAG, sont conservés.
+            self.assertIn('HIS-0143', {h['id'] for _, h in histories})
             added = [(authority, h) for authority, h in histories
                      if h.get('id') in {
                          f'HIS-{n:04d}' for n in range(67, 125)}]
