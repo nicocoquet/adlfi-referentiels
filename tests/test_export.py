@@ -18,6 +18,8 @@ SOURCES = {
         '2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4',
     'AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx':
         '6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668',
+    'AdlFI_referentiel_1-51_affiliations_federales_20261120_RECETTE.xlsx':
+        'af3ee809099a28373a5b183afe70af27066aeb3d23e1776fd501a192be91e1d4',
 }
 
 
@@ -94,7 +96,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
@@ -278,7 +280,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
         self.assertEqual(self.d['totals']['organismes'], 734)
         self.assertEqual(self.d['totals']['services'], 200)
-        self.assertEqual(len(self.d['relations']), 594)
+        self.assertEqual(len(self.d['relations']), 598)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),
