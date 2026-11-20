@@ -18,10 +18,15 @@ class ValidationEditoriale(unittest.TestCase):
             'statut_validation':'a_verifier','affichage_catalogue':'oui'},'SER-0202'),
             {'status':'a_verifier','established':False})
 
-    def test_rejet_statut_vide_ou_inconnu(self):
-        for source in ({}, {'statut_validation':'en_attente'}, {'statut_validation':''}):
-            with self.subTest(source=source), self.assertRaisesRegex(ValueError,'Statut de validation'):
-                authority_validation(source,'ORG-9999')
+    def test_statut_absent_non_valide_par_defaut(self):
+        for source in ({}, {'statut_validation':''}):
+            with self.subTest(source=source):
+                self.assertEqual(authority_validation(source,'ORG-9999'),
+                                 {'status':'non_renseigne','established':False})
+
+    def test_rejet_statut_inconnu(self):
+        with self.assertRaisesRegex(ValueError,'Statut de validation'):
+            authority_validation({'statut_validation':'en_attente'},'ORG-9999')
 
     def test_variantes_de_valide(self):
         for word in ('valide','validée','validee'):
