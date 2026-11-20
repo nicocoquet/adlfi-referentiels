@@ -1,0 +1,78 @@
+name: Lieux — Normandie lot 02, sept validations 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/valider_normandie_lot02_pactols_2026.py'
+      - 'tests/test_valider_normandie_lot02_pactols_2026.py'
+      - 'docs/data/lieux-chronologie/pactols-normandie-lot02-2026.json'
+      - 'recette/lieux/NORMANDIE-LOT02-VALIDATIONS-PRUDENTES-2026.md'
+      - '.github/workflows/lieux-normandie-lot02-validation-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  identites-2026:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: referentiels
+      - uses: actions/checkout@v4
+        with:
+          repository: frantiq/PACTOLS
+          ref: 69bf9697e24cefd645a69465bbd271702786285a
+          path: pactols
+          lfs: true
+          sparse-checkout: |
+            pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tester l'absence de promotion des anciens ARK et les trois exceptions
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_valider_normandie_lot02_pactols_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_valider_normandie_lot01_pactols_2026.py' -v
+      - name: Certifier l'empreinte du RDF Pactols
+        run: |
+          echo '3a0effe42a27da20c30497a6847fc1becbb736745945f01e4321b4791f0067c7  pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf' | sha256sum -c -
+      - name: Doubler la validation des sept communes
+        working-directory: referentiels
+        run: |
+          set -euo pipefail
+          for n in 1 2; do
+            opts=()
+            if test -f docs/data/lieux-chronologie/pactols-normandie-lot02-2026.json; then
+              opts+=(--comparer docs/data/lieux-chronologie/pactols-normandie-lot02-2026.json)
+            fi
+            python3 scripts/valider_normandie_lot02_pactols_2026.py \
+              --rdf ../pactols/pactols-latest-version/pactols_lieux_all/Pactols_Lieux_th17_20260722.rdf \
+              --lot01 docs/data/lieux-chronologie/pactols-normandie-lot01-2026.json \
+              --sortie "$RUNNER_TEMP/normandie-lot02-valide-$n.json" "${opts[@]}"
+          done
+          cmp "$RUNNER_TEMP/normandie-lot02-valide-1.json" "$RUNNER_TEMP/normandie-lot02-valide-2.json"
+          python3 - "$RUNNER_TEMP/normandie-lot02-valide-1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding="utf8"))
+          assert d["nombre_communes"]==7 and d["communes_lot02_suspendues"]==3
+          assert d["cumule_avec_lot01"]==16
+          assert d["nouvelles_geometries"]==0 and d["liens_historiques_inferes"]==0
+          assert not d["active_dans_interface"] and not d["couverture_region_entiere"]
+          assert {x["code_insee"] for x in d["exceptions_non_validees"]}=={"14342","27112","50546"}
+          assert {x["code_insee"] for x in d["alignements_Pactols_COG_valides_2026"]}=={"14035","14654","27471","50239","61211","61341","76258"}
+          assert next(x for x in d["alignements_Pactols_COG_valides_2026"] if x["code_insee"]=="14654")["preuve_creation_RDF"]["longueur_note_complete"]>1600
+          print("NORMANDIE_LOT02_RECETTE",json.dumps({"validees":d["nombre_communes"],"suspendues":d["communes_lot02_suspendues"],"cumule":d["cumule_avec_lot01"]},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: normandie-lot02-sept-validations-2026
+          path: ${{ runner.temp }}/normandie-lot02-valide-1.json
+          retention-days: 30
+          if-no-files-found: error
