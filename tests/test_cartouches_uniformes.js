@@ -9,7 +9,7 @@ const apiBody=[
  '    setup:d=>{records=d.authorities;recordById=new Map(records.map(r=>[r.id,r]));',
  '      relsById=new Map();d.relations.forEach(rel=>{',
  '        if(!relsById.has(rel.source))relsById.set(rel.source,[]);relsById.get(rel.source).push(rel)});',
- '      indexEvolutions(d.relations);',
+ '      indexEvolutions(d.relations);indexServiceChildren(d.relations);',
  '    },',
  '    card, parentBlock',
  '  };',
@@ -48,6 +48,10 @@ for(const authority of [ville,musee,association,lab]){
  assert.doesNotMatch(html,/lab-logo-band|lab-tutelle-logo/,
    'Les tutelles et rattachements ne deviennent plus un bandeau de logos');
 }
+const cityHtml=api.card(ville);
+assert.match(cityHtml,/Services liés/, 'La collectivité affiche ses services rattachés');
+assert.match(cityHtml,/data-detail="SER-0180"/,
+ 'La collectivité permet de naviguer vers le musée (relation entrante)');
 const museumHtml=api.card(musee);
 assert.match(museumHtml,/Musée/);
 assert.match(museumHtml,/data-detail="ORG-0697"/,
