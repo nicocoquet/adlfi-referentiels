@@ -205,6 +205,23 @@ class LieuxUITests(unittest.TestCase):
         self.assertIn("layer.on('mouseout',()=>state.layer?.resetStyle(layer))", js)
         self.assertIn("dashArray:reference?(communeRepere?'2,5':'5,5'):null", js)
 
+    def test_cinquieme_region_normandie_cog_et_pactols_non_historiques(self):
+        js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
+        helper = (ROOT / "docs/assets/lieux-normandie-pactols.js").read_text(encoding="utf-8")
+        self.assertIn("const ids=['paca','corse','pdl','bfc','normandie']", js)
+        self.assertIn("state.normandiePactols=normandiePactols.creer", js)
+        self.assertIn("state.normandiePactols.index", js)
+        self.assertIn("x.zone==='normandie'?(year()===2026?", js)
+        self.assertIn("zones.map(chargerRegionCommune)", js)
+        self.assertIn("2644", helper)
+        self.assertIn("lot01.nombre_communes!==9", helper)
+        self.assertIn("lot02.nombre_communes!==7", helper)
+        self.assertIn("EXCLUS=['50412','14342','27112','50546']", helper)
+        self.assertIn('option value="normandie"', self.html)
+        self.assertIn('lieux-normandie-pactols.js', self.html)
+        self.assertLess(self.html.index('lieux-normandie-pactols.js'),
+                        self.html.index('lieux-multiechelon.js'))
+
     def test_chargement_regional_progressif_des_contours_2026(self):
         js = (ROOT / "docs/assets/lieux-multiechelon.js").read_text(encoding="utf-8")
         module = (ROOT / "docs/assets/lieux-communes-vue.js").read_text(encoding="utf-8")
@@ -296,6 +313,7 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-polynesie-associees.js",
                 "../assets/lieux-corse-pactols.js",
                 "../assets/lieux-bfc-pactols.js",
+                "../assets/lieux-normandie-pactols.js?v=20261120-16",
                 "../assets/lieux-pdl-pactols.js",
                 "../assets/lieux-pdl-uuid-resolus.js",
                 "../assets/lieux-pdl-communes-nouvelles-lot01.js",
@@ -314,12 +332,12 @@ class LieuxUITests(unittest.TestCase):
                 "../assets/lieux-nc-contours.js",
                 "../assets/lieux-pf-contours.js",
                 "../assets/lieux-communes-vue.js?v=20261120-v1",
-                "../assets/lieux-multiechelon.js?v=20261120-communes-vue1",
+                "../assets/lieux-multiechelon.js?v=20261120-normandie-v1",
             ],
         )
         for path in (
             "docs/assets/lieux-chronologie-core.js", "docs/assets/lieux-search.js",
-            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-communes-vue.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
+            "docs/assets/lieux-multiechelon.js", "docs/assets/lieux-communes-vue.js", "docs/assets/lieux-corse-pactols.js", "docs/assets/lieux-bfc-pactols.js", "docs/assets/lieux-normandie-pactols.js", "docs/assets/lieux-pdl-pactols.js", "docs/assets/lieux-pdl-uuid-resolus.js", "docs/assets/lieux-pdl-communes-nouvelles-lot01.js", "docs/assets/lieux-pdl-chemille-2026.js", "docs/assets/lieux-pdl-communes-nouvelles-lot02.js", "docs/assets/lieux-pdl-oree-mod50.js", "docs/assets/lieux-pdl-wikidata-p374.js", "docs/assets/lieux-pdl-trois-collisions.js", "docs/assets/lieux-pdl-deux-2024.js", "docs/assets/lieux-paca-pactols.js", "docs/assets/lieux-paca-renommages.js", "docs/assets/lieux-paca-communes-nouvelles.js", "docs/assets/lieux-paca-abries-ristolas.js", "docs/assets/lieux-drom-contours.js", "docs/assets/lieux-spm-contours.js", "docs/assets/lieux-nc-contours.js", "docs/assets/lieux-pf-contours.js", "docs/assets/lieux-outremer-search.js",
             "docs/assets/lieux-guyane-historique.js",
             "docs/assets/lieux-martinique-historique.js",
             "docs/assets/lieux-guadeloupe-historique.js",
