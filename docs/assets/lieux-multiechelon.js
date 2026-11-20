@@ -120,10 +120,11 @@ async function initZoneTree(){
   });
  }
 }
-const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], noMap:false, renderer:null};
+const state={map:null, layer:null, reference:null, selected:null, bounds:new Map(), indexes:[], periodesRecherche:new Map(), noMap:false, renderer:null};
 let activeRequest=0;
 const ROOT='../data/';
 const communeVue=window.AdlfiLieuxCommunesVue;
+const rechercheMillesime=window.AdlfiLieuxRechercheMillesime;
 const layerData=new Map();
 const communeDataPromises=new Map();
 let outremerDataPromise=null;
@@ -330,7 +331,7 @@ async function chargerCommunes2026(zones=ids){
  return communes2026(zones);
 }
 async function start(){
- if(!communeVue || !core || !corsePactols || !bfcPactols || !normandiePactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!communeVue || !rechercheMillesime || !core || !corsePactols || !bfcPactols || !normandiePactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -359,6 +360,7 @@ async function start(){
    if(data.region!==id)throw Error('Corps communal mal identifié : '+id);
    commun.regions[id]={cog:data};
  }
+ state.periodesRecherche=rechercheMillesime.preparer(commun.regions,ids);
  // Les seize validations normandes 2026 sont indépendantes des contours et des états historiques.
  const [normandieLot01,normandieLot02]=await Promise.all([
    loadJSON(ROOT+'lieux-chronologie/pactols-normandie-lot01-2026.json'),
@@ -679,18 +681,9 @@ function search(){
  ul.replaceChildren();
  if(q.length<2){hideResults();return}
  const terms=q.split(' ');
- const score=h=>{
-   const n=core.normaliser(h.label||''),c=core.normaliser(h.code||'');
-   if(h.kind==='admin'&&h.year===year()&&n===q)return 0;
-   if(n===q||c===q||core.normaliser(h.ark||h.arkValide||'')===q)return 1;
-   if(n.startsWith(q))return 2;
-   if(c.startsWith(q))return 3;
-   return 4;
- };
- const hits=state.indexes.filter(h=>terms.every(t=>h.champs.some(ch=>ch.includes(t))))
-   .sort((a,b)=>score(a)-score(b)||
-     a.label.localeCompare(b.label,'fr',{sensitivity:'base'})||
-     String(a.id||a.code).localeCompare(String(b.id||b.code))).slice(0,22);
+ const hits=rechercheMillesime.trier(
+   state.indexes.filter(h=>terms.every(t=>h.champs.some(ch=>ch.includes(t)))),
+   q,year(),state.periodesRecherche).slice(0,22);
  for(const h of hits){
    const li=document.createElement('li'),btn=document.createElement('button');
    btn.type='button';
@@ -708,7 +701,12 @@ function search(){
      sub.textContent='Commune historique · Guyane · '+h.code+' · COG jusqu’en 1969 (sans contour)';
    else if(h.kind==='cogHistoriqueGuadeloupe')
      sub.textContent='Ancienne commune · Guadeloupe · '+h.code+' · COG jusqu’en 2007 (sans contour ni ARK aligné)';
-   else sub.textContent=`${h.kind==='pactols'?'Pactols validé en 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`;
+   else{
+     const situation=rechercheMillesime.etat(h,year(),state.periodesRecherche);
+     const qualif=situation==='actif'?' · actif en '+year():
+       situation==='historique'?' · non actif au 1er janvier '+year()+' (historique)':'';
+     sub.textContent=`${h.kind==='pactols'?'Pactols validé pour 2026':'Commune COG'} · ${nomZones[h.zone]} · ${h.code}`+qualif;
+   }
    btn.append(heading,sub);
    btn.addEventListener('click',()=>{
      if(h.kind==='admin'){
