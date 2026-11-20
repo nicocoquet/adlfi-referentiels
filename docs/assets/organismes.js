@@ -123,9 +123,9 @@
       :(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
     const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
     const inner=`<span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span>`;
-    const allowed=parent.presentation?.visible;
-    return allowed?`<button type="button" class="attachment-item attachment-link" data-detail="${esc(parent.id)}" aria-label="Consulter la fiche de ${esc(parent.names.preferred)}">${inner}</button>`
-      :`<div class="attachment-item">${inner}</div>`;
+    // Le statut « hors catalogue » masque le cartouche de résultat,
+    // jamais la fiche de l'autorité liée par une relation validée.
+    return `<button type="button" class="attachment-item attachment-link" data-detail="${esc(parent.id)}" aria-label="Consulter la fiche de ${esc(parent.names.preferred)}">${inner}</button>`;
   }).join('');
   return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s) dans la fiche</span>`:''}</div>`;
 }
@@ -154,9 +154,7 @@
     const type=current?'Service rattaché':'Service historiquement rattaché ou statut actuel indéterminé';
     const date=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'début non documenté'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
     const inner=`<span class="parent-visual">${parentVisual(child)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${date}</span><strong>${esc(child.names.preferred)}</strong></span>`;
-    return child.presentation?.visible
-      ?`<button type="button" class="attachment-item attachment-link" data-detail="${esc(child.id)}" aria-label="Consulter la fiche de ${esc(child.names.preferred)}">${inner}</button>`
-      :`<div class="attachment-item">${inner}</div>`;
+    return `<button type="button" class="attachment-item attachment-link" data-detail="${esc(child.id)}" aria-label="Consulter la fiche de ${esc(child.names.preferred)}">${inner}</button>`;
   }).join('');
   return `<div class="children-block"><p class="children-label">Services liés</p><div class="attachments">${display}${links.length>shown.length?`<span class="attachment-extra">+ ${links.length-shown.length} autre(s) service(s) dans la fiche</span>`:''}</div></div>`;
 }
@@ -241,7 +239,7 @@
     return (count===1?'Structure ayant succédé ':'Structures ayant succédé ')+suffix;
   }
   function evolutionLink(item){
-    const p=item.partner,allowed=p.presentation.visible;
+    const p=item.partner;
     const name=p.names.preferred;
     // Le titre est le nom éditorial normalisé, jamais le seul acronyme.
     // L'acronyme demeure une aide à l'identification, sous le titre.
@@ -257,10 +255,9 @@
     const content=`<span class="evolution-thumbnail-wrap">${visual}</span>
       <span class="evolution-link-content"><strong title="${esc(p.names.preferred)}">${esc(name)}</strong>
         <span>${esc(context)}</span><small>${esc(label)}</small></span>
-      <span class="evolution-link-symbol" aria-hidden="true">${allowed?'↗':''}</span>`;
-    return allowed?`<button type="button" class="evolution-link" data-detail="${esc(p.id)}"
-      aria-label="Consulter la fiche de ${esc(p.names.preferred)}">${content}</button>`
-      :`<div class="evolution-link evolution-unlinked" title="Autorité hors catalogue">${content}</div>`;
+      <span class="evolution-link-symbol" aria-hidden="true">↗</span>`;
+    return `<button type="button" class="evolution-link" data-detail="${esc(p.id)}"
+      aria-label="Consulter la fiche de ${esc(p.names.preferred)}">${content}</button>`;
   }
   function evolutionBlock(r,compact=false){
     const entries=evolutionEntries(r);
@@ -473,10 +470,13 @@
     let rnsr=r.identifiers.rnsr?link('https://rnsr.adc.education.fr/structure/'+encodeURIComponent(r.identifiers.rnsr),r.identifiers.rnsr):null;
     const headerLogo=r.presentation?.media?.logo
       ? `<div class="detail-brand">${assetImg(id,'Logo de '+r.names.preferred,'detail-brand-logo')}</div>` : '';
+    const contextNotice=r.presentation?.visible ? ''
+      : '<p class="detail-context-note">Autorité hors catalogue : cette fiche est consultable par les relations institutionnelles, mais aucun cartouche autonome ne figure dans les résultats de recherche.</p>';
     let content=`<div class="detail-head"><div class="detail-head-inner">
       <div class="detail-head-copy"><span class="kind ${kind==='SER'?'ser':''}">${kind}</span>
       <span class="ident">${esc(id)}</span><h2>${esc(r.names.preferred)}</h2>
-      <p class="detail-desc">${esc(natural(r.classification.type))} · ${esc(flagLabel(r.activity.active))}</p></div>
+      <p class="detail-desc">${esc(natural(r.classification.type))} · ${esc(flagLabel(r.activity.active))}</p>
+      ${contextNotice}</div>
       ${headerLogo}</div></div><div class="detail-body">
     <section class="detail-block"><h3>Identité et classification</h3><dl class="detail-dl">${row('Sigle',esc(sigle))}${row('Autres acronymes',extras?esc(extras):null)}${row('Catégorie BSR',esc(r.classification.bsr||'Non renseignée'))}${row('Secteur',esc(natural(r.classification.sector)))}${row('Échelon institutionnel',esc(natural(r.classification.level)))}${r.classification.territorial_competence?row('Périmètre de compétence',esc(natural(r.classification.territorial_competence))):''}${row('Type détaillé',esc(natural(r.classification.type)))}</dl></section>
     <section class="detail-block"><h3>Période d'existence</h3><dl class="detail-dl">${row('Statut',esc(flagLabel(r.activity.active)))}${row('Début',esc(r.activity.start||'Non documenté'))}${row('Fin',esc(r.activity.end||'Non documentée'))}</dl></section>
