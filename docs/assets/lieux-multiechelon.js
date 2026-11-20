@@ -21,6 +21,7 @@ const polynesieHistorique=window.AdlfiLieuxPolynesieHistorique;
 const polynesieAssociees=window.AdlfiLieuxPolynesieAssociees;
 const corsePactols=window.AdlfiLieuxCorsePactols;
 const bfcPactols=window.AdlfiLieuxBFCPactols;
+const normandiePactols=window.AdlfiLieuxNormandiePactols;
 const pdlPactols=window.AdlfiLieuxPDLPactols;
 const pdlUUIDResolus=window.AdlfiLieuxPDLUUIDResolus;
 const pdlNouvellesLot01=window.AdlfiLieuxPDLNouvellesLot01;
@@ -41,9 +42,9 @@ const pfContours=window.AdlfiLieuxPFContours;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const label={region:'Région',departement:'Département',commune:'Commune'};
-const ids=['paca','corse','pdl','bfc'];
-const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté'};
-const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],'saint-martin':[[18.04,-63.17],[18.15,-62.96]],'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
+const ids=['paca','corse','pdl','bfc','normandie'];
+const nomZones={paca:'Provence-Alpes-Côte d’Azur',corse:'Corse',pdl:'Pays de la Loire',bfc:'Bourgogne-Franche-Comté',normandie:'Normandie'};
+const views={metropole:[[41.2,-5.7],[51.4,10.1]],bfc:[[46.0,2.7],[49.0,8.0]],pdl:[[46.9,-2.7],[48.7,0.9]],normandie:[[48.17,-1.96],[50.08,1.82]],corse:[[41.2,8.5],[43.2,9.7]],paca:[[42.8,4.2],[45.3,7.9]],antilles:[[1,-64],[18.5,-51]],'saint-martin':[[18.04,-63.17],[18.15,-62.96]],'saint-barthelemy':[[17.86,-62.92],[17.98,-62.77]],indien:[[-22,43],[-10,57]],pacifique:[[-27,-160],[23,-130]],caledonie:[[-22.9,163.3],[-19.3,168.4]],atlantique:[[46.5,-57.0],[47.3,-55.5]],taaf:[[-52,41],[-36,79]]};
 
 // Cadrages documentés par les contours régionaux 2026 (COG / Etalab-IGN).
 const zonesRegion2026={
@@ -329,7 +330,7 @@ async function chargerCommunes2026(zones=ids){
  return communes2026(zones);
 }
 async function start(){
- if(!communeVue || !core || !corsePactols || !bfcPactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
+ if(!communeVue || !core || !corsePactols || !bfcPactols || !normandiePactols || !pdlPactols || !pdlUUIDResolus || !pdlNouvellesLot01 || !pdlChemille || !pdlNouvellesLot02 || !pdlOreeMod50 || !pdlWikidataP374 || !pdlTroisCollisions || !pdlDeux2024 || !pacaPactols || !pacaRenommages || !pacaNouvelles || !pacaAbriesRistolas || !dromContours || !spmContours || !ncContours || !pfContours || !window.AdlfiLieuxSearch || !outremerSearch || !guyaneHistorique || !martiniqueHistorique || !guadeloupeHistorique || !reunionHistorique || !mayotteHistorique || !spmHistorique || !antilles2007 || !wallisHistorique || !polynesieHistorique || !polynesieAssociees)throw Error('Moteur du référentiel communal absent');
  const [pactols,adminIndex,adminIndex2026,adminIndexAnnuels,indexPonts,indexOutremer,indexGuyaneHistorique,indexMartiniqueHistorique,indexGuadeloupeHistorique,indexReunionHistorique,indexMayotteHistorique,indexSPMHistorique,indexAntilles2007,indexWallisHistorique,indexPolynesieHistorique,indexPolynesieAssociees,...cogs]=await Promise.all([
    loadJSON(ROOT+'lieux.json'),
    loadJSON(ROOT+'lieux-historique/index.json'),
@@ -358,6 +359,12 @@ async function start(){
    if(data.region!==id)throw Error('Corps communal mal identifié : '+id);
    commun.regions[id]={cog:data};
  }
+ // Les seize validations normandes 2026 sont indépendantes des contours et des états historiques.
+ const [normandieLot01,normandieLot02]=await Promise.all([
+   loadJSON(ROOT+'lieux-chronologie/pactols-normandie-lot01-2026.json'),
+   loadJSON(ROOT+'lieux-chronologie/pactols-normandie-lot02-2026.json')
+ ]);
+ state.normandiePactols=normandiePactols.creer(normandieLot01,normandieLot02,commun.regions.normandie.cog);
  // Les validations Pactols corses pour 2026 sont indépendantes des périodes COG.
  const corsePublication=await loadJSON(ROOT+'lieux-chronologie/pactols-corse-2026.json');
  state.corsePactols=corsePactols.creer(corsePublication,commun.regions.corse.cog);
@@ -413,7 +420,7 @@ async function start(){
      state.associees=polynesieAssociees.creer(indexPolynesieAssociees,indexOutremer);
  state.indexes=ids.flatMap(id=>core.indexer(commun.regions[id].cog)
    .map(e=>({...e,zone:id,champs:[...new Set([...(e.champs||[]),...(e.kind==='pactols'?(variants.get(e.ark)||[]):[])])]})))
-   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pdlNouvellesLot02.index,state.pdlOreeMod50.index,state.pdlWikidataP374.index,state.pdlTroisCollisions.index,state.pdlDeux2024.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
+   .concat(adminIndex.entries,adminIndex2026.entries,adminIndexAnnuels.entries,indexPonts.entries,autresCOG,state.guyane.historicalIndex,state.guadeloupe.historicalIndex,state.associees.entries,state.corsePactols.index,state.bfcPactols.index,state.normandiePactols.index,state.pdlPactols.index,state.pdlUUIDResolus.index,state.pdlNouvellesLot01.index,state.pdlChemille.index,state.pdlNouvellesLot02.index,state.pdlOreeMod50.index,state.pdlWikidataP374.index,state.pdlTroisCollisions.index,state.pdlDeux2024.index,state.pacaPactols.index,state.pacaRenommages.index,state.pacaNouvelles.index,state.pacaAbriesRistolas.index);
  const params=new URLSearchParams(location.search);
  const zoom=params.get('zoom')||params.get('region');
  if(views[zoom])$('zoom').value=zoom;
@@ -628,10 +635,10 @@ async function render(){
     // Conserver la formulation détaillée des quatre familles ultramarines :
     // elle fait partie du contrat d'information et de non-régression publique.
     desc=features.length+' contours communaux 2026 chargés : '+
-      (zones.length===ids.length?'quatre régions métropolitaines':
+      (zones.length===ids.length?'cinq régions métropolitaines':
        zones.length?zones.map(id=>nomZones[id]).join(', '):
        'aucune région métropolitaine publiée dans la vue actuelle')+
-      ' et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue) et 28 communes de Polynésie (20 contours restant à qualifier). Au zoom national, les quatre régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
+      ' et 129 communes des cinq DROM et deux communes de Saint-Pierre-et-Miquelon et 32 communes de Nouvelle-Calédonie (Dumbéa exclue) et 28 communes de Polynésie (20 contours restant à qualifier). Au zoom national, les cinq régions métropolitaines restent visibles ; au zoom local, seules les régions intersectant la vue sont chargées. Les liens Pactols sont distincts des géométries et aucune limite historique n’est inférée.';
   }else if(l==='commune'){
     desc='Les états COG communaux restent consultables par recherche pour '+y+
       ', mais aucun contour communal historique '+y+' n’est qualifié. Le fond OpenStreetMap est contemporain.';
@@ -1462,6 +1469,7 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  const align=data.alignements_Pactols_COG_valides_2026.find(a=>a.code_insee===x.code) ||
    (x.zone==='corse'?state.corsePactols?.byCode.get(x.code):
     x.zone==='bfc'?state.bfcPactols?.byCode.get(x.code):
+    x.zone==='normandie'?(year()===2026?state.normandiePactols?.byCode.get(x.code):null):
     x.zone==='pdl'?(state.pdlPactols?.byCode.get(x.code)||state.pdlUUIDResolus?.byCode.get(x.code)||state.pdlNouvellesLot01?.byCode.get(x.code)||state.pdlChemille?.byCode.get(x.code)||state.pdlNouvellesLot02?.byCode.get(x.code)||state.pdlOreeMod50?.byCode.get(x.code)||state.pdlWikidataP374?.byCode.get(x.code)||state.pdlTroisCollisions?.byCode.get(x.code)||state.pdlDeux2024?.byCode.get(x.code)):
     x.zone==='paca'?(state.pacaPactols?.byCode.get(x.code)||state.pacaRenommages?.byCode.get(x.code)||state.pacaNouvelles?.byCode.get(x.code)||state.pacaAbriesRistolas?.byCode.get(x.code)):null);
  const h=document.createElement('h2');h.textContent=stateCom.etat?.libelle||x.code;target.append(h);
@@ -1471,7 +1479,9 @@ function detail(){const target=$('detail');target.replaceChildren();const x=stat
  if(align){ligne(dl,'Concept Pactols',align.libelle_pactols,'https://ark.frantiq.fr/ark:/'+align.ark_pactols);ligne(dl,'ARK',align.ark_pactols)}
  target.append(dl);
  const note=document.createElement('p');note.className=align?'source':'warning';
- if(align?.nature_validation==='INSEE_RDF_UUID_codeINSEE_owl_sameAs'){
+ if(x.zone==='normandie'&&align){
+   note.textContent='Correspondance Pactols–COG validée uniquement pour la commune normande au 1er janvier 2026, sur la base d’un exactMatch INSEE et de l’histoire de création administrative. Le concept de l’ancienne commune conserve un ARK distinct ('+align.ancien_ark_non_promu+'). Cette correspondance ne valide aucune limite historique et ne s’applique pas rétroactivement aux années antérieures.';
+ }else if(align?.nature_validation==='INSEE_RDF_UUID_codeINSEE_owl_sameAs'){
    note.textContent='Correspondance Pactols–COG validée pour 2026 : l’exactMatch Pactols renvoie à une URI UUID de l’Insee, dont le code officiel a été confirmé par geo:codeINSEE et owl:sameAs dans le RDF de l’Insee. Ce lien ne valide pas automatiquement les identités communales antérieures.';
  }else if(align?.source_registre==='recette/lieux/PDL-17-WIKIDATA-P374-PUBLICATION-2026.md'){
    note.textContent='Correspondance Pactols–COG validée uniquement pour 2026 par une chaîne de preuves explicites : skos:exactMatch de Pactols vers Wikidata '+align.qid_Wikidata+' ; propriété Wikidata P374 vers le code INSEE '+align.code_insee+' ; création de commune nouvelle attestée au '+align.date_creation_COG+' dans le COG. Pactols ne fournit pas directement d’exactMatch INSEE pour cet ARK. Le concept Pactols de l’ancienne commune (« '+align.libelle_ancienne_commune+' ») reste distinct, sans rétroprojection historique.';
