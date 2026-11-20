@@ -16,13 +16,13 @@ class OrganismesCompetenceUI(unittest.TestCase):
 
     def test_provenance_et_effectifs_maitre_149(self):
         self.assertEqual(self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx')
-        self.assertEqual(self.d['totals']['authorities'],920)
-        self.assertEqual(self.d['totals']['organismes'],725)
-        self.assertEqual(self.d['totals']['services'],195)
-        self.assertEqual(self.d['totals']['catalog_included'],670)
-        self.assertIn('920 autorités',self.readme)
-        self.assertIn('maître 1.49',self.readme)
+            'AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx')
+        self.assertEqual(self.d['totals']['authorities'],934)
+        self.assertEqual(self.d['totals']['organismes'],734)
+        self.assertEqual(self.d['totals']['services'],200)
+        self.assertEqual(self.d['totals']['catalog_included'],682)
+        self.assertIn('934 autorités',self.readme)
+        self.assertIn('maître 1.50',self.readme)
 
     def test_treize_perimetres_explicitement_renseignes(self):
         explicit={r['id']:r for r in self.d['authorities']
@@ -37,7 +37,7 @@ class OrganismesCompetenceUI(unittest.TestCase):
             self.assertIn(r['classification']['territorial_competence'],
                           ('regional','interregional'))
         self.assertEqual(sum(x['classification'].get('territorial_competence') is None
-                             for x in self.d['authorities']),907)
+                             for x in self.d['authorities']),921)
 
     def test_fiche_et_csv_distincts_sans_fausse_facette(self):
         self.assertIn("row('Échelon institutionnel'",self.js)
@@ -51,9 +51,9 @@ class OrganismesCompetenceUI(unittest.TestCase):
 
     def test_secteur_et_categorie_reste_distincts(self):
         services=[a for a in self.d['authorities'] if a['kind']=='SER']
-        self.assertEqual(len(services),195)
+        self.assertEqual(len(services),200)
         self.assertEqual({key:sum(x['classification']['sector']==key for x in services)
-                          for key in ('public','prive')},{'public':191,'prive':4})
+                          for key in ('public','prive')},{'public':197,'prive':3})
         self.assertEqual(self.org['ORG-0292']['classification']['sector'],'public')
         self.assertEqual(self.org['ORG-0292']['classification']['bsr'],'PRIV')
 

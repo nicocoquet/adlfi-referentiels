@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 PUBLIC=ROOT/'docs/data/organismes.json'
-MASTER='AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx'
-MASTER_SHA='2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4'
+MASTER='AdlFI_referentiel_1-50_lot_institutionnel_20261120_QUALIFIE_RECETTE.xlsx'
+MASTER_SHA='6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668'
 
 
 class OrganismesPublication920Tests(unittest.TestCase):
@@ -26,15 +26,15 @@ class OrganismesPublication920Tests(unittest.TestCase):
         self.assertEqual(d['schema_version'],'0.3.0')
         self.assertEqual(d['provenance']['source_filename'],MASTER)
         self.assertEqual(d['provenance']['source_sha256'],MASTER_SHA)
-        self.assertEqual(len(self.entities),920)
-        self.assertEqual(len(self.relations),586)
-        self.assertEqual(d['totals']['organismes'],725)
-        self.assertEqual(d['totals']['services'],195)
-        self.assertEqual(d['totals']['catalog_included'],670)
-        self.assertEqual(d['totals']['catalog_excluded'],250)
-        self.assertEqual(sum(a['presentation']['visible'] for a in self.entities.values()),670)
+        self.assertEqual(len(self.entities),934)
+        self.assertEqual(len(self.relations),594)
+        self.assertEqual(d['totals']['organismes'],734)
+        self.assertEqual(d['totals']['services'],200)
+        self.assertEqual(d['totals']['catalog_included'],682)
+        self.assertEqual(d['totals']['catalog_excluded'],252)
+        self.assertEqual(sum(a['presentation']['visible'] for a in self.entities.values()),682)
         self.assertEqual(Counter(a['kind'] for a in self.entities.values()),
-                         Counter({'ORG':725,'SER':195}))
+                         Counter({'ORG':734,'SER':200}))
 
     def test_references_and_source_types(self):
         for rid, rel in self.relations.items():
@@ -49,8 +49,8 @@ class OrganismesPublication920Tests(unittest.TestCase):
                 self.assertTrue(rid.startswith('RSE-'),rid)
                 self.assertEqual(source,'SER',rid)
                 self.assertIn(target,('SER','ORG'),rid)
-        self.assertEqual(sum(r.startswith('REL-') for r in self.relations),335)
-        self.assertEqual(sum(r.startswith('RSE-') for r in self.relations),251)
+        self.assertEqual(sum(r.startswith('REL-') for r in self.relations),338)
+        self.assertEqual(sum(r.startswith('RSE-') for r in self.relations),256)
 
     def test_traces_fusion_and_imbé(self):
         for rid,source,target,date in [
@@ -88,7 +88,20 @@ class OrganismesPublication920Tests(unittest.TestCase):
         media={a['presentation']['media']['logo']
                for a in self.entities.values()
                if a['presentation']['media']['logo']}
-        self.assertEqual(media,logos)
+        # Les logos encore adressables par un ancien ID doivent être couverts
+        # par un alias documenté et avoir exactement les mêmes octets que le
+        # fichier canonique, sans ouvrir la porte à d'autres orphelins.
+        from hashlib import sha256
+        legacy=logos-media
+        self.assertEqual(legacy,{'assets/organismes/SER-0063.jpg'})
+        aliases={x['from']:x['to'] for x in self.data['aliases']}
+        for ref in legacy:
+            old=Path(ref).stem
+            self.assertIn(old,aliases)
+            target='assets/organismes/'+aliases[old]+'.jpg'
+            self.assertIn(target,media)
+            self.assertEqual(sha256((ROOT/'docs'/ref).read_bytes()).digest(),
+                             sha256((ROOT/'docs'/target).read_bytes()).digest())
         self.assertEqual(len(media),661)
         for a in self.entities.values():
             self.assertIsNone(a['presentation']['media']['image'])

@@ -30,11 +30,11 @@ const established=data.relations.filter(r=>r.type==='rattachement_service'
   && valid.has(r.validation) && byId.get(r.source)?.kind==='SER'
   && byId.get(r.source)?.presentation.visible
   && byId.has(r.target) && !byId.get(r.target).presentation.visible);
-assert.equal(established.length,193,'193 rattachements validés dans le maître publié');
-assert.equal(new Set(established.map(r=>r.source)).size,173);
-assert.equal(new Set(established.map(r=>r.target)).size,170);
-assert.equal(data.authorities.length,920);
-assert.equal(api.baseCount(),670,'La recherche ne contient que les 670 autorités visibles');
+assert.equal(established.length,195,'195 rattachements validés vers des autorités hors catalogue');
+assert.equal(new Set(established.map(r=>r.source)).size,175);
+assert.equal(new Set(established.map(r=>r.target)).size,171);
+assert.equal(data.authorities.length,934);
+assert.equal(api.baseCount(),682,'La recherche ne contient que les 682 autorités visibles');
 for(const rel of established){
   const sourceAuthority=byId.get(rel.source);
   const targetAuthority=byId.get(rel.target);
@@ -57,4 +57,4 @@ assert.doesNotMatch(api.parentBlock(candidate),/data-detail="ORG-0700"/,
 assert.match(source,/const baseRecords = \(\) => records\.filter\(r=>r\.presentation\.visible\)/,
   'Les fiches hors catalogue ne doivent pas rejoindre la recherche');
 assert.match(source,/Autorité hors catalogue : cette fiche est consultable par les relations/);
-console.log('OK — 193 rattachements navigables, 670 cartouches, 920 fiches, statut éditorial préservé');
+console.log('OK — 195 rattachements navigables, 682 cartouches, 934 fiches, statut éditorial préservé');

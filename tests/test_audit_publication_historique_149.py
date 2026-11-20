@@ -14,6 +14,22 @@ class AuditHistorique149Tests(unittest.TestCase):
         # Reconstituer une FIXTURE SYNTHÉTIQUE 1.47 (829 autorités) à partir
         # du JSON courant, sans modifier les données publiées et sans
         # imposer de conserver l'instantané 1.49 comme publication active.
+        # Le 1.50 a corrigé la nature juridique du GRASM : pour ce test d'une
+        # ancienne publication, restituer uniquement son ancien ID SER et
+        # son rattachement, sans créer une succession dans le JSON public.
+        if 'SER-0063' not in {a['id'] for a in published['authorities']}:
+            new_grasm=next(a for a in published['authorities']
+                           if a['id']=='ORG-0747')
+            legacy=copy.deepcopy(new_grasm)
+            legacy['id']='SER-0063'
+            legacy['kind']='SER'
+            legacy['classification']['type']='groupe_associatif'
+            legacy['presentation']['media']['logo']='assets/organismes/SER-0063.jpg'
+            published['authorities'].append(legacy)
+            published['relations'].append({
+                'id':'RSE-0083','source':'SER-0063','target':'ORG-0120',
+                'type':'rattachement_service','start':None,'end':None,
+                'validation':'valide'})
         def historical_authority(a):
             number=int(a['id'].split('-')[-1])
             return number <= (676 if a['kind']=='ORG' else 175)

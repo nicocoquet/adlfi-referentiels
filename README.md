@@ -105,7 +105,7 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
 
-Dans la publication issue du maître **consolidé du 20 novembre 2026** : **920 autorités** (725 ORG et 195 SER), **670 fiches visibles**, 250 autorités conservées hors catalogue et **586 relations** ; les **195 SER** ont un secteur résolu (**191 publics**, **4 privés**). Deux secteurs sont hérités de rattachements validés et 193 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
+Dans la publication issue du maître **consolidé du 20 novembre 2026** : **934 autorités** (734 ORG et 200 SER), **682 fiches visibles**, 252 autorités conservées hors catalogue et **594 relations** ; les **200 SER** ont un secteur résolu (**197 publics**, **3 privés**). Deux secteurs sont hérités de rattachements validés et 198 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
 ## Héritage de l'échelon institutionnel des services
@@ -129,7 +129,7 @@ La facette, la fiche et le CSV utilisent la même valeur calculée.
 uniquement dans `Services.echelon_institutionnel`. Le champ facultatif
 `perimetre_competence` est exporté séparément sous
 `classification.territorial_competence` et **n'est jamais hérité** de l'ORG.
-Le maître 1.49 et le JSON de publication contiennent désormais des valeurs explicites pour ces champs. Elles restent facultatives : l'absence de renseignement n'autorise aucune inférence sur l'étendue de compétence.
+Le maître 1.50 et le JSON de publication contiennent désormais des valeurs explicites pour ces champs. Elles restent facultatives : l'absence de renseignement n'autorise aucune inférence sur l'étendue de compétence.
 
 Le vocabulaire de `perimetre_competence` est contrôlé : `national`,
 `interregional`, `regional`, `departemental`, `intercommunal`, `communal`,
