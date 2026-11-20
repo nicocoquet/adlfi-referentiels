@@ -37,7 +37,7 @@ def main():
             "() => !document.querySelector('#results')?.hidden && "
             "document.querySelector('#results')?.textContent.includes('Cherbourg-en-Cotentin')",
             timeout=30000)
-        assert 'Pactols validé pour 2026' in page.locator('#results').text_content()
+        assert 'Pactols validé en 2026' in page.locator('#results').text_content()
 
         # Remonter à 2015 : conserver l'état administratif COG de 2015,
         # sans étiqueter comme valide l'ARK de la commune nouvelle de 2016.
