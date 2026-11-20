@@ -38,3 +38,5 @@ jobs:
         run: node tests/test_relations_historiques.js
       - name: Vérifier les cartouches uniformisés et les liens des autorités
         run: node tests/test_cartouches_uniformes.js
+      - name: Vérifier les fiches hors catalogue navigables
+        run: node tests/test_organismes_fiches_contextuelles.js
