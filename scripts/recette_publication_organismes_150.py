@@ -76,8 +76,8 @@ def validate_candidate(data: dict) -> list[str]:
     check(all(a.get('validation',{}).get('established') is not True
               for a in authorities if a.get('validation',{}).get('status')=='a_verifier'),
           'aucune autorité a_verifier n’est indiquée comme validée')
-    check(sum(a.get('presentation',{}).get('visible',False) for a in authorities)>670,
-          'les nouvelles autorités sont visibles sans cacher la majorité du catalogue')
+    check(sum(a.get('presentation',{}).get('visible',False) for a in authorities)==682,
+          '682 autorités visibles attendues (dont les qualifications à vérifier)')
     return failures
 
 
