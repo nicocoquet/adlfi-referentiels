@@ -33,6 +33,7 @@
   ];
   facets.forEach(f=>state.selected[f.key]=new Set());
   let data,records,recordById,relsById;
+  let childrenById=new Map();
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
@@ -98,26 +99,62 @@
     .filter(rel=>rel.source===r.id && VALID_STATES.has(rel.validation||'') && RATTACHEMENT_TYPES.has(rel.type) && recordById.has(rel.target));
   const parentVisual=(parent)=>assetImg(parent.id,
     'Identité visuelle : '+parent.names.preferred,'parent-logo') || `<span class="parent-picto">${BLDG}</span>`;
-  function parentBlock(r,compact=false) {
-    const links=establishedRattachements(r);
-    if(!links.length) return '';
-    const orderedLinks=(r.kind==='ORG' && r.classification.type==='laboratoire')
-      ? [
-          ...links.filter(rel=>rel.type==='tutelle')
-            .sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))),
-          ...links.filter(rel=>rel.type!=='tutelle')
-        ]
-      : links;
-    const display=orderedLinks.slice(0,compact?2:10).map(rel=>{
-      const parent=recordById.get(rel.target);
-      const type=!currentRattachement(r,parent,rel)?'Rattachement historique ou non actuel'
-        :(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
-      const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
-      return `<div class="attachment-item" title="${esc(type)}"><span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span></div>`;
-    }).join('');
-    return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s)</span>`:''}</div>`;
-  }
+  function parentBlock(r,compact=false){
+  const links=establishedRattachements(r);
+  if(!links.length)return '';
+  const activeTutelleIds=new Set(r.kind==='ORG'&&r.classification.type==='laboratoire'
+    ?laboratoryTutelles(r).map(x=>x.id):[]);
+  const orderedLinks=(r.kind==='ORG'&&r.classification.type==='laboratoire')
+    ? [
+        ...links.filter(rel=>rel.type==='tutelle')
+          .sort((a,b)=>Number(activeTutelleIds.has(b.target))-Number(activeTutelleIds.has(a.target))
+             ||tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))),
+        ...links.filter(rel=>rel.type!=='tutelle')
+      ]
+    :links;
+  const display=orderedLinks.slice(0,compact?2:10).map(rel=>{
+    const parent=recordById.get(rel.target);
+    const type=!currentRattachement(r,parent,rel)?'Rattachement historique ou non actuel'
+      :(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
+    const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
+    const inner=`<span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span>`;
+    const allowed=parent.presentation?.visible;
+    return allowed?`<button type="button" class="attachment-item attachment-link" data-detail="${esc(parent.id)}" aria-label="Consulter la fiche de ${esc(parent.names.preferred)}">${inner}</button>`
+      :`<div class="attachment-item">${inner}</div>`;
+  }).join('');
+  return `<div class="attachments">${display}${links.length>(compact?2:10)?`<span class="attachment-extra">+ ${links.length-(compact?2:10)} autre(s) rattachement(s) dans la fiche</span>`:''}</div>`;
+}
 
+
+  function indexServiceChildren(relations){
+  childrenById=new Map();
+  for(const rel of relations){
+    if(rel.type!=='rattachement_service'||!VALID_STATES.has(rel.validation||'')
+       ||!recordById.has(rel.source)||!recordById.has(rel.target)
+       ||recordById.get(rel.source).kind!=='SER')continue;
+    if(!childrenById.has(rel.target))childrenById.set(rel.target,[]);
+    childrenById.get(rel.target).push(rel);
+  }
+}
+  function childrenBlock(r,compact=false){
+  const links=(childrenById.get(r.id)||[])
+    .sort((a,b)=>Number(currentRattachement(recordById.get(b.source),r,b))
+      -Number(currentRattachement(recordById.get(a.source),r,a))
+      ||collator.compare(recordById.get(a.source).names.preferred,recordById.get(b.source).names.preferred));
+  if(!links.length)return '';
+  const shown=links.slice(0,compact?2:10);
+  const display=shown.map(rel=>{
+    const child=recordById.get(rel.source);
+    const current=currentRattachement(child,r,rel);
+    const type=current?'Service rattaché':'Service historiquement rattaché ou statut actuel indéterminé';
+    const date=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'début non documenté'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
+    const inner=`<span class="parent-visual">${parentVisual(child)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${date}</span><strong>${esc(child.names.preferred)}</strong></span>`;
+    return child.presentation?.visible
+      ?`<button type="button" class="attachment-item attachment-link" data-detail="${esc(child.id)}" aria-label="Consulter la fiche de ${esc(child.names.preferred)}">${inner}</button>`
+      :`<div class="attachment-item">${inner}</div>`;
+  }).join('');
+  return `<div class="children-block"><p class="children-label">Services liés</p><div class="attachments">${display}${links.length>shown.length?`<span class="attachment-extra">+ ${links.length-shown.length} autre(s) service(s) dans la fiche</span>`:''}</div></div>`;
+}
 
   // Cartouche éditorial des laboratoires : uniquement les tutelles validées
   // sans date de fin, jamais les relations proposées ou historiques.
@@ -242,47 +279,39 @@
       Une fusion constitutive ou une filiation partielle ne prouve pas une succession juridique intégrale.</p>`}</section>`;
   }
 
-  function laboratoryCard(r) {
-    const tutelles=laboratoryTutelles(r);
-    const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
-    const labMeta=[r.names.acronym,r.identifiers.lab].filter(Boolean).map(esc).join(' · ');
-    const place=[r.geography.cities_label,country(r.geography.institutional_country_iso2)]
-      .filter((v,i)=>i===0?Boolean(v):Boolean(r.geography.institutional_country_iso2))
-      .map(esc).join(' · ') || 'Localisation à documenter';
-    const website=safeUrl(r.website);
-    const visual=assetImg(r.id,
-      'Logo du laboratoire : '+r.names.preferred,'lab-primary-logo');
-    const trustees=tutelles.length
-      ? `<div class="lab-tutelles"><span class="lab-field-label">Tutelles</span><ul>${tutelles.slice(0,4).map(t=>`<li>${esc(t.names.preferred)}</li>`).join('')}</ul>${tutelles.length>4?`<span class="lab-extra">+ ${tutelles.length-4} autre(s) tutelle(s) dans la fiche</span>`:''}</div>`
-      : '<p class="lab-tutelles-undocumented">Tutelles non documentées dans le référentiel</p>';
-    // Le logo carré local de chaque tutelle est recherché directement.
-    // Les entrées sans fichier sont retirées à l'échec de chargement.
-    const logos=tutelles
-      .sort(tutelleLogoOrder)
-      .map(t=>({name:t.names.preferred,html:assetImg(t.id,
-        'Logo de '+t.names.preferred,'lab-tutelle-logo')}))
-      .filter(x=>x.html);
-    const logoBand=logos.length
-      ? `<div class="lab-logo-band" aria-label="Identités visuelles des tutelles">${logos.map(l=>`<span class="lab-logo-item" title="${esc(l.name)}">${l.html}</span>`).join('')}</div>`
-      : '';
-    const count=r.usage.affiliations_linked;
-    const usage=count===1?'1 affiliation source liée':count>1?`${count} affiliations sources liées`:'Aucune affiliation source liée';
-    return `<article class="authority-card laboratory-card" data-id="${esc(r.id)}">
-      <div class="card-head lab-head"><span class="kind lab-kind">Laboratoire</span><span class="ident">${esc(r.id)}</span><span class="state"><span class="state-dot ${stateclass}"></span>${flagLabel(r.activity.active)}</span></div>
-      <div class="lab-layout">
-        <div class="lab-visual">${visual}</div>
-        <div class="lab-content"><h2 class="card-title lab-title">${esc(r.names.preferred)}</h2>
-          ${labMeta?`<p class="lab-meta">${labMeta}</p>`:''}
-          <p class="lab-place" title="Ville de référence et pays de rattachement institutionnel">${place}</p>
-          ${website?`<a class="lab-website" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Site officiel <span aria-hidden="true">↗</span></a>`:''}
-          ${trustees}
-        </div>
+  function unifiedCard(r){
+  const isLab=r.kind==='ORG'&&r.classification.type==='laboratoire';
+  const category=isLab?'Laboratoire':natural(r.classification.bsr||r.kind);
+  const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
+  const typ=r.classification.type?natural(r.classification.type):null;
+  const sector=r.classification.sector?natural(r.classification.sector):null;
+  const meta=[r.names.acronym,isLab?r.identifiers.lab:typ,!isLab?sector:null]
+    .filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i).map(esc).join(' · ');
+  const place=[r.geography.cities_label,country(r.geography.institutional_country_iso2)]
+    .filter((v,i)=>i===0?Boolean(v):Boolean(r.geography.institutional_country_iso2))
+    .map(esc).join(' · ')||'Localisation à documenter';
+  const website=safeUrl(r.website);
+  const visual=assetImg(r.id,'Logo : '+r.names.preferred,'lab-primary-logo');
+  const count=r.usage.affiliations_linked;
+  const usage=count===1?'1 affiliation source liée':count>1?`${count} affiliations sources liées`:'Aucune affiliation source liée';
+  const excluded=!r.presentation.visible?'<span class="editorial-state">Hors catalogue</span>':'';
+  return `<article class="authority-card laboratory-card${r.presentation.visible?'':' editorial-hidden'}" data-id="${esc(r.id)}">
+    <div class="card-head lab-head"><span class="kind lab-kind">${esc(category)}</span><span class="ident">${esc(r.id)}</span>${excluded}<span class="state"><span class="state-dot ${stateclass}"></span>${flagLabel(r.activity.active)}</span></div>
+    <div class="lab-layout">
+      <div class="lab-visual">${visual}</div>
+      <div class="lab-content"><h2 class="card-title lab-title">${esc(r.names.preferred)}</h2>
+        ${meta?`<p class="lab-meta">${meta}</p>`:''}
+        <p class="lab-place" title="Ville de référence et pays de rattachement institutionnel">${place}</p>
+        ${website?`<a class="lab-website" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Site officiel <span aria-hidden="true">↗</span></a>`:''}
       </div>
-      ${logoBand}
-      ${evolutionBlock(r,true)}
-      <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
-    </article>`;
-  }
+    </div>
+    ${parentBlock(r,true)}
+    ${childrenBlock(r,true)}
+    ${evolutionBlock(r,true)}
+    <div class="card-foot lab-foot"><span class="ref">${usage}</span><button class="details-trigger" type="button" data-detail="${esc(r.id)}">Consulter la fiche →</button></div>
+  </article>`;
+}
+  function laboratoryCard(r){return unifiedCard(r);}
 
   // Les niveaux institutionnels sont documentés pour certaines ORG seulement.
   // Ne pas inférer ici l'échelon des SER, des associations, des entreprises ni des
@@ -374,26 +403,7 @@
     else sorted.sort((a,b)=>collator.compare(a.names.preferred,b.names.preferred));
     return sorted;
   }
-  function card(r){
-    if(r.kind==='ORG' && r.classification.type==='laboratoire')return laboratoryCard(r);
-    const cat=r.classification.bsr||'Non classé';
-    const typ=r.classification.type?natural(r.classification.type):'Type non précisé';
-    const sector=r.classification.sector?natural(r.classification.sector):null;
-    const city=r.geography.cities_label?esc(r.geography.cities_label):'<em>Ville à documenter</em>';
-    const geography=city+(r.geography.institutional_country_iso2?` <span class="country-context">· pays institutionnel : ${esc(country(r.geography.institutional_country_iso2))}</span>`:'');
-    const sigle=r.names.acronym?` <span class="acronym">(${esc(r.names.acronym)})</span>`:'';
-    const stateclass=r.activity.active===true?'yes':r.activity.active===false?'no':'';
-    const iden=[r.identifiers.lab?esc(r.identifiers.lab):null,r.identifiers.rnsr?'RNSR '+esc(r.identifiers.rnsr):null].filter(Boolean).join(' · ');
-    const primary=assetImg(r.id,'Logo : '+r.names.preferred,'authority-image')||`<span class="image-placeholder">${BLDG}<small>Illustration à ajouter</small></span>`;
-    const excluded=!r.presentation.visible?'<span class="editorial-state">Hors catalogue</span>':'';
-    return `<article class="authority-card${r.presentation.visible?'':' editorial-hidden'}" data-id="${esc(r.id)}">
-      <div class="card-head"><span class="kind ${r.kind==='SER'?'ser':''}">${r.kind}</span><span class="ident">${esc(r.id)}</span>${excluded}<span class="state"><span class="state-dot ${stateclass}"></span>${flagLabel(r.activity.active)}</span></div>
-      <div class="card-identity"><div class="card-visual">${primary}</div><div class="card-identity-copy"><h2 class="card-title">${esc(r.names.preferred)}${sigle}</h2><div class="card-cats"><span class="cat bsr">${esc(cat)}</span><span class="cat">${esc(typ)}</span>${sector?`<span class="cat">${esc(sector)}</span>`:''}</div><p class="card-sub">${iden||'Identifiants complémentaires non renseignés'}</p></div></div>
-      <div class="lineinfo"><span class="glyph" aria-hidden="true">⌖</span><span>${geography}</span></div>
-      ${parentBlock(r,true)}
-      ${evolutionBlock(r,true)}
-      <div class="card-foot"><span class="ref">${r.usage.affiliations_linked?`${r.usage.affiliations_linked} affiliation(s) source liée(s)`:'Aucune affiliation source liée'}</span><button class="details-trigger" type="button" data-detail="${r.id}">Consulter la fiche →</button></div></article>`;
-  }
+  function card(r){return unifiedCard(r);}
 
   function render(){
     const filtered=sortEntries(baseRecords().filter(matches));
@@ -465,7 +475,7 @@
     ${organeHist?`<section class="detail-block"><h3>Désignations historiques d’organes</h3><p class="detail-desc">Ces appellations concernent un organe de l’autorité (par exemple son assemblée délibérante), et non un changement d’identité juridique de l’autorité elle-même.</p>${organeHist}</section>`:''}
     ${varianteHist?`<section class="detail-block"><h3>Variantes de dénomination</h3>${varianteHist}</section>`:''}
     <section class="detail-block"><h3>Évolution du statut institutionnel</h3>${legalHtml}</section>
-    <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section><section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
+    <section class="detail-block"><h3>Rattachement institutionnel</h3>${parentBlock(r)||'<p class="detail-desc">Aucun rattachement validé à présenter.</p>'}</section>${childrenBlock(r)?`<section class="detail-block"><h3>Services rattachés</h3>${childrenBlock(r)}</section>`:''}<section class="detail-block"><h3>Relations institutionnelles validées</h3>${relHtml}</section>
     ${evolutionBlock(r,false)?`<section class="detail-block">${evolutionBlock(r,false)}</section>`:''}
     <section class="detail-block"><h3>Affiliations documentées</h3><dl class="detail-dl">${row('Libellés sources liés',esc(r.usage.affiliations_linked))}${row('Dont correspondances validées',esc(r.usage.affiliations_validated))}</dl><p class="detail-desc" style="margin-top:7px">Ces nombres décrivent les rapprochements du référentiel, non le nombre de notices archéologiques publiées.</p></section>
     </div>`;
@@ -485,6 +495,7 @@
     data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
+    indexServiceChildren(d.relations);
 
     $('#query').addEventListener('input',e=>{state.q=e.target.value.trim();state.page=1;render()});
     $('#toggle-filters').addEventListener('click',e=>{const panel=$('.filter-panel');const open=panel.classList.toggle('mobile-filters-open');e.target.setAttribute('aria-expanded',String(open));e.target.textContent=open?'Masquer':'Afficher';});
