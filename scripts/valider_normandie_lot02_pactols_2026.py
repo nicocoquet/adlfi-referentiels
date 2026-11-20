@@ -114,7 +114,7 @@ def qualifier_exceptions(dossiers:dict)->list:
             def qids(links):
                 found=set()
                 for uri in links:
-                    m=re.search(r"https?://(?:www\\.)?wikidata\\.org/(?:entity|wiki)/(Q[0-9]+)$",uri)
+                    m=re.search(r"https?://(?:www\.)?wikidata\.org/(?:entity|wiki)/(Q[0-9]+)$",uri)
                     if m:found.add(m.group(1))
                 return found
             shared=qids(current["exactMatch"]) & qids(old["exactMatch"])
