@@ -28,7 +28,8 @@ def rapport_synthetique():
                 definition=[{"type":"definition","texte":"Isigny-sur-Mer est une ancienne commune"}]
                 exact+=["http://fr.dbpedia.org/page/Isigny-sur-Mer_(commune_déléguée)"]
             if code=="27112":
-                exact+=["http://www.wikidata.org/entity/Q467162"]
+                exact+=["https://www.wikidata.org/wiki/Q467162" if current
+                        else "http://www.wikidata.org/entity/Q467162"]
             if code=="50546" and current:
                 definition=[{"type":"historyNote","texte":"Création en 2016-01-01"}]
             notes=definition or ([{"type":"historyNote",
@@ -105,7 +106,7 @@ class Lot02Validations(unittest.TestCase):
         x=rapport_synthetique()
         d=next(c for c in x["dossiers"] if c["code_COG_2026"]=="27112")
         current=next(c for c in d["candidats_Pactols"] if c["ark"]==m.CASES["27112"]["actuel"])
-        current["exactMatch"].remove("http://www.wikidata.org/entity/Q467162")
+        current["exactMatch"].remove("https://www.wikidata.org/wiki/Q467162")
         with self.assertRaisesRegex(ValueError,"Breteuil"):
             m.construire(x,notes_synthetiques(),registre_lot01())
 
