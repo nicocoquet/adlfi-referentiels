@@ -36,6 +36,28 @@
   const baseRecords = () => records.filter(r=>r.presentation.visible);
   const VALID_STATES = new Set(['valide','validee','validée']);
   const RATTACHEMENT_TYPES = new Set(['rattachement_administratif','rattachement_service','rattachement_institutionnel','rattachement','tutelle']);
+  // Dates partielles : début inclusif, fin inclusive. Pas de date inventée.
+  const todayISO=()=>new Date().toISOString().slice(0,10);
+  function dateBound(raw,upper=false){
+    if(!raw)return null;
+    const s=String(raw).trim();
+    if(!/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(s))return null;
+    return s.length===4?s+(upper?'-12-31':'-01-01')
+      :s.length===7?s+(upper?'-31':'-01'):s;
+  }
+  function currentAuthority(r,day=todayISO()){
+    if(!r||r.activity?.active===false)return false;
+    const a=r.activity||{},start=dateBound(a.start),end=dateBound(a.end,true);
+    if((a.start&&!start)||(a.end&&!end))return false;
+    return !(start&&start>day)&&!(end&&end<day);
+  }
+  function currentRelation(rel,day=todayISO()){
+    const start=dateBound(rel.start),end=dateBound(rel.end,true);
+    if((rel.start&&!start)||(rel.end&&!end))return false;
+    return !(start&&start>day)&&!(end&&end<day);
+  }
+  const currentRattachement=(source,target,rel,day=todayISO())=>
+    currentAuthority(source,day)&&currentAuthority(target,day)&&currentRelation(rel,day);
   const BLDG = '<svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27V11l11-6 11 6v16M9 27v-9h14v9M13 9v5M19 9v5M3 27h26"/><path d="M14 27v-5h4v5"/></svg>';
   // Un logo JPEG par identifiant stable : ORG-XXXX.jpg / SER-XXXX.jpg.
   // Aucun ancien chemin de média, ni format alternatif.
@@ -86,7 +108,8 @@
       : links;
     const display=orderedLinks.slice(0,compact?2:10).map(rel=>{
       const parent=recordById.get(rel.target);
-      const type=rel.end?'Rattachement historique':(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
+      const type=!currentRattachement(r,parent,rel)?'Rattachement historique ou non actuel'
+        :(rel.type==='tutelle'?'Tutelle':rel.type==='rattachement_service'?'Service rattaché à':'Rattachement administratif');
       const period=rel.start||rel.end?` (${rel.start?'depuis '+esc(rel.start):'date de début inconnue'}${rel.end?' ; jusqu’à '+esc(rel.end):''})`:'';
       return `<div class="attachment-item" title="${esc(type)}"><span class="parent-visual">${parentVisual(parent)}</span><span class="attachment-names"><span class="attachment-caption">${esc(type)}${period}</span><strong>${esc(parent.names.preferred)}</strong></span></div>`;
     }).join('');
@@ -105,18 +128,26 @@
   const tutelleLogoOrder=(a,b)=>(LOGO_ORDER.get(a.id)??2)-(LOGO_ORDER.get(b.id)??2)
     || tutelleTextOrder(a,b);
 
-  function laboratoryTutelles(r) {
+  function laboratoryTutelles(r,asOf=todayISO()) {
+    if(!currentAuthority(r,asOf))return [];
     const seen=new Set();
     return (relsById.get(r.id)||[])
       .filter(rel=>rel.source===r.id && rel.type==='tutelle'
-        && VALID_STATES.has(rel.validation||'') && !rel.end && recordById.has(rel.target))
+        && VALID_STATES.has(rel.validation||'') && recordById.has(rel.target)
+        && currentRattachement(r,recordById.get(rel.target),rel,asOf))
       .filter(rel=>{if(seen.has(rel.target))return false;seen.add(rel.target);return true})
       .map(rel=>recordById.get(rel.target))
       .sort(tutelleTextOrder);
   }
 
-  // Succession d'autorités distinctes ; les affiliations ne sont jamais fusionnées.
-  const SUCCESSION_TYPES=new Set(['succession_institutionnelle','succession_service']);
+  // Les filiations sont orientées du prédécesseur/contributeur vers l'autorité issue
+  // de l'évolution, y compris SER → ORG. Elles ne prouvent pas une succession totale.
+  const SUCCESSION_TYPES=new Set([
+    'succession_institutionnelle','succession_service','succession',
+    'fusion_constitutive','scission_constitutive',
+    'succession_partielle','filiation_partielle'
+  ]);
+  const TOTAL_SUCCESSION_TYPES=new Set(['succession_institutionnelle','succession_service','succession']);
   let evolutionById=new Map();
   const EVOLUTION_MONTHS=['janvier','février','mars','avril','mai','juin',
     'juillet','août','septembre','octobre','novembre','décembre'];
@@ -147,9 +178,19 @@
       ?(a.direction==='successor'?-1:1)
       :collator.compare(a.partner.names.preferred,b.partner.names.preferred));
   }
-  const evolutionTypeLabel=type=>type==='succession_service'
-    ?'Succession de service':'Succession institutionnelle';
-  function evolutionGroupLabel(r,direction,count){
+  const EVOLUTION_TYPE_LABELS={
+    succession_institutionnelle:'Succession institutionnelle',
+    succession_service:'Succession de service',
+    succession:'Succession',
+    fusion_constitutive:'Fusion constitutive',
+    scission_constitutive:'Scission constitutive',
+    succession_partielle:'Succession partielle',
+    filiation_partielle:'Filiation partielle'
+  };
+  const evolutionTypeLabel=type=>EVOLUTION_TYPE_LABELS[type]||'Évolution institutionnelle';
+  function evolutionGroupLabel(r,direction,count,items=[]){
+    if(items.some(x=>!TOTAL_SUCCESSION_TYPES.has(x.relation.type)))
+      return direction==='predecessor'?'Origines et filiations antérieures':'Évolutions et filiations ultérieures';
     if(direction==='predecessor')return count===1?'Structure antérieure':'Structures antérieures';
     const suffix=r.kind==='SER'?'à ce service':r.classification.type==='laboratoire'
       ?'à ce laboratoire':'à cet organisme';
@@ -186,7 +227,7 @@
       const all=entries.filter(e=>e.direction===direction);
       const list=shown.filter(e=>e.direction===direction);
       if(!list.length)continue;
-      groups.push(`<div class="evolution-group"><div class="evolution-group-label">${esc(evolutionGroupLabel(r,direction,all.length))}</div>
+      groups.push(`<div class="evolution-group"><div class="evolution-group-label">${esc(evolutionGroupLabel(r,direction,all.length,all))}</div>
         ${list.map(evolutionLink).join('')}</div>`);
     }
     const remaining=entries.length-shown.length;
@@ -195,7 +236,8 @@
       ${groups.join('')}
       ${remaining?`<p class="evolution-more">+ ${remaining} autre(s) relation(s) dans la fiche</p>`:''}
       ${compact?'':`<p class="evolution-note">Ces relations concernent des autorités distinctes :
-      elles ne fusionnent pas leurs notices ni leurs affiliations historiques.</p>`}</section>`;
+      elles ne fusionnent pas leurs notices ni leurs affiliations historiques.
+      Une fusion constitutive ou une filiation partielle ne prouve pas une succession juridique intégrale.</p>`}</section>`;
   }
 
   function laboratoryCard(r) {
@@ -370,7 +412,7 @@
     const r=recordById.get(id);if(!r)return;
     const verified=(relsById.get(id)||[]).filter(x=>x.source===id&&['valide','validee','validée'].includes(x.validation||''));
     const byType=Object.groupBy?Object.groupBy(verified,x=>x.type||'relation'):verified.reduce((a,x)=>{(a[x.type||'relation'] ||= []).push(x);return a},{});
-    const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${(type==='tutelle'?[...items].sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))):items).map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'actuel ou inconnu')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
+    const relHtml=Object.entries(byType).map(([type,items])=>`<p><strong>${esc(natural(type))}</strong></p><ul class="subtle-list">${(type==='tutelle'?[...items].sort((a,b)=>tutelleTextOrder(recordById.get(a.target),recordById.get(b.target))):items).map(item=>`<li>${esc(recordById.get(item.target)?.names.preferred||item.target)} ${item.start||item.end?`<small>(${esc(item.start||'début non daté')} – ${esc(item.end||'fin non documentée')})</small>`:''}</li>`).join('')}</ul>`).join('')||'<p class="detail-desc">Aucune relation validée disponible dans cette extraction.</p>';
     const historicalForms={denominations:[],organes:[],variantes:[],nonValidees:[]};
     for (const item of r.names.history||[]) {
       if (!item.label) continue;
