@@ -11,7 +11,7 @@ def main():
         page.on('pageerror',lambda err:errs.append(str(err)))
 
         def consulter(ident):
-            page.goto(url+'/organismes/#'+ident,
+            page.goto(url+'/organismes/?fiche='+ident+'#'+ident,
                       wait_until='domcontentloaded',timeout=45000)
             page.wait_for_function(
                 "() => document.querySelector('#details')?.open && "
