@@ -182,7 +182,8 @@
                 "valide",
                 "validee",
                 "validée",
-                "a_verifier"
+                "a_verifier",
+                "non_renseigne"
               ],
               "type": "string"
             },
