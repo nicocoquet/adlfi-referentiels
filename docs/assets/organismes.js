@@ -581,6 +581,9 @@
   }
   function init(d){
     data=d;records=d.authorities;recordById=new Map(records.map(x=>[x.id,x]));relsById=new Map();
+    const currentVersion=String(d.provenance?.source_filename||'').match(/referentiel_(\d+)-(\d+)/);
+    const versionNode=$('#dataset-version');
+    if(versionNode)versionNode.textContent=currentVersion?currentVersion[1]+'.'+currentVersion[2]:'Non précisée';
     indexIdentityAliases(d.aliases||[]);
     d.relations.forEach(x=>{if(!relsById.has(x.source))relsById.set(x.source,[]);relsById.get(x.source).push(x)});
     indexEvolutions(d.relations);
