@@ -1,0 +1,36 @@
+name: Organismes — distinguer échelon institutionnel et compétence
+
+on:
+  pull_request:
+    paths:
+      - 'docs/assets/organismes.js'
+      - 'README.md'
+      - 'tests/test_organismes_competence_ui.py'
+      - 'tests/test_organismes_competence_navigateur.py'
+      - '.github/workflows/organismes-competence-explicite.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contrat-et-rendu:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Vérifier JSON maître 1.49, exporter et champs visibles
+        run: |
+          set -euo pipefail
+          node --check docs/assets/organismes.js
+          python3 -m unittest discover -s tests -p 'test_export.py' -v
+          python3 -m unittest discover -s tests -p 'test_organismes_competence_ui.py' -v
+      - name: Installer Playwright
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.58.0
+          python3 -m playwright install chromium
+      - name: Vérifier les fiches institutionnelles dans Chromium
+        run: python3 tests/test_organismes_competence_navigateur.py
