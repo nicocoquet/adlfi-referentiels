@@ -46,7 +46,9 @@
       :s.length===7?s+(upper?'-31':'-01'):s;
   }
   function currentAuthority(r,day=todayISO()){
-    if(!r||r.activity?.active===false)return false;
+    // Dans le JSON réel, 'actif: null' signifie activité indéterminée.
+    // Ne pas convertir cette incertitude en tutelle actuelle.
+    if(!r||(r.activity&&r.activity.active!==true))return false;
     const a=r.activity||{},start=dateBound(a.start),end=dateBound(a.end,true);
     if((a.start&&!start)||(a.end&&!end))return false;
     return !(start&&start>day)&&!(end&&end<day);
