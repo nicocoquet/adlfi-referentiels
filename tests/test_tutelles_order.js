@@ -70,13 +70,19 @@ assert.equal(api.getTutelles(lab).map(x=>x.id).join(','),
   'ORG-0022,ORG-0004,ORG-0399,ORG-0023',
   'Les relations validées sont triées et les doublons/relations non établies exclus');
 const html=api.card(lab);
-const texts=html.match(/<div class="lab-tutelles">([\s\S]*?)<\/div>/)?.[1]||'';
-const logos=html.match(/<div class="lab-logo-band"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
-assert.deepEqual([...texts.matchAll(/<li>([^<]+)<\/li>/g)].map(m=>m[1]).join('|'),
-  'Aix Marseille Université|Centre national de la recherche scientifique|Établissement français du sang|Ministère de la Culture');
-assert.equal([...logos.matchAll(/title="([^"]+)"/g)].map(m=>m[1]).join('|'),
-  'Ministère de la Culture|Centre national de la recherche scientifique|Aix Marseille Université|Établissement français du sang',
-  'Le navigateur recherche un JPEG pour chaque tutelle, même sans logo dans le JSON');
-assert.match(logos, /assets\/organismes\/ORG-0399\.jpg/,
-  'Le logo carré non encore connu du JSON est recherché par son ID');
-console.log('OK — classement textuel, logos prioritaires, relations validées et rendu du cartouche');
+assert.match(html,/class="authority-card laboratory-card"/);
+assert.match(html,/class="attachments"/,
+  'Les tutelles utilisent désormais les mêmes cartouches de relations que les autres autorités');
+assert.match(html,/data-detail="ORG-0004"/,
+  'Le CNRS est une relation consultable et non un simple logo');
+assert.match(html,/data-detail="ORG-0023"/,
+  'Le ministère de la Culture est consultable');
+assert.doesNotMatch(html,/class="lab-logo-band"/,
+  'Aucun bandeau de logos des tutelles ne doit être généré');
+const texts=[...html.matchAll(/<span class="attachment-names">[\s\S]*?<strong>([^<]+)<\/strong>/g)]
+ .map(x=>x[1]);
+assert.equal(texts.join('|'),
+ 'Aix Marseille Université|Centre national de la recherche scientifique',
+ 'Le cartouche montre deux tutelles et renvoie à la fiche pour les suivantes');
+
+console.log('OK — ordre des tutelles, relations consultables et absence de bandeau de logos');
