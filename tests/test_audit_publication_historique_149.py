@@ -11,26 +11,51 @@ class AuditHistorique149Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         published=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
+        # Reconstituer une FIXTURE SYNTHÉTIQUE 1.47 (829 autorités) à partir
+        # du JSON courant, sans modifier les données publiées et sans
+        # imposer de conserver l'instantané 1.49 comme publication active.
+        def historical_authority(a):
+            number=int(a['id'].split('-')[-1])
+            return number <= (676 if a['kind']=='ORG' else 175)
+
         cls.baseline=copy.deepcopy(published)
-        # Les tests du garde-fou restent valides après la publication 1.49 :
-        # reconstruire un instantané "avant migration" sans fixture privée.
-        if published['provenance']['source_filename']==SOURCE_FILE:
-            ids={f'HIS-{i:04d}' for i in range(67,125)}
-            for a in cls.baseline['authorities']:
-                history=a['names']['history']
-                old=[h for h in history if h.get('id') not in ids]
-                for h in old:
+        cls.baseline['authorities']=[
+            a for a in cls.baseline['authorities'] if historical_authority(a)]
+        cls.baseline['relations']=[
+            rel for rel in cls.baseline['relations']
+            if int(rel['id'].split('-')[-1])
+               <= (306 if rel['id'].startswith('REL-') else 228)]
+        cls.baseline['locations']=cls.baseline['locations'][:4]
+        totals=cls.baseline['totals']
+        totals.update(authorities=829, organismes=655, services=174,
+                      catalog_included=591, catalog_excluded=238)
+        for a in cls.baseline['authorities']:
+            if a['kind']=='ORG':
+                history=[h for h in a['names']['history']
+                         if h.get('id','').startswith('HIS-')
+                         and int(h['id'].split('-')[-1])<=66]
+                for h in history:
                     h.pop('id',None)
                     h.pop('source',None)
-                a['names']['history']=old
-            old_org=next(a for a in cls.baseline['authorities'] if a['id']=='ORG-0662')
-            old_org['names']['acronym']=None
-            cls.baseline['provenance']['source_filename']=(
-                'AdlFI_referentiel_1-47_20261111_echelons_competences_Inrap.xlsx')
-            cls.baseline['provenance']['source_sha256']=(
-                '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51')
+            else:
+                history=[h for h in a['names']['history']
+                         if h.get('id','').startswith('HIS-SER-')
+                         and int(h['id'].split('-')[-1])<=72]
+            a['names']['history']=history
+
+        old_org=next(a for a in cls.baseline['authorities']
+                     if a['id']=='ORG-0662')
+        old_org['names']['acronym']=None
+        cls.baseline['provenance']['source_filename']=(
+            'AdlFI_referentiel_1-47_20261111_echelons_competences_Inrap.xlsx')
+        cls.baseline['provenance']['source_sha256']=(
+            '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51')
+        assert len(cls.baseline['authorities'])==829
+        assert len(cls.baseline['relations'])==531
         assert sum(len(a['names']['history']) for a in cls.baseline['authorities']
                    if a['kind']=='ORG')==66
+        assert sum(len(a['names']['history']) for a in cls.baseline['authorities']
+                   if a['kind']=='SER')==72
 
     def candidate(self):
         after=copy.deepcopy(self.baseline)
