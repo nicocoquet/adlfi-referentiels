@@ -23,7 +23,7 @@ L'export des notices AdlFI permet de prioriser les dix codes d'après la fréque
 | [14456](https://www.insee.fr/fr/statistiques/2011101?geo=COM-14456) | **Moult-Chicheboville** (2017-01-01) | `26678/pcrtNAhK2vpwPa` | Moult : `26678/pcrtetxgQaGZ5H` |
 | [61194](https://www.insee.fr/fr/statistiques/2011101?geo=COM-61194) | **Monts-sur-Orne** (2018-01-01) | `26678/pcrtZtrHp1bjSL` | Goulet : `26678/pcrtinAdI9l885` |
 | [14762](https://www.insee.fr/fr/statistiques/2011101?geo=COM-14762) | **Vire Normandie** (2016-01-01) | `26678/pcrt78ZZg0wMbU` | Vire : `26678/pcrtkeqj9I3nbw` |
-| [27467](https://www.insee.fr/fr/statistiques/2011101?geo=COM-27467) | **Pont-Audemer** (2018-01-01) | **Non arbitré** : `26678/pcrttaqrTGrSS9` porte le seul nom « Pont-Audemer » | `26678/pcrtFmM1SUxsz6` porte le libellé « Pont-Audemer (commune déléguée) » ; le simple libellé sans qualificatif ne date pas le concept |
+| [27467](https://www.insee.fr/fr/statistiques/2011101?geo=COM-27467) | **Pont-Audemer** (2018-01-01) | `26678/pcrttaqrTGrSS9` : concept contemporain différencié par définition et [Wikidata Q47067820](https://www.wikidata.org/wiki/Q47067820) | `26678/pcrtFmM1SUxsz6` : ancienne commune déléguée, définition distincte et [Wikidata Q367667](https://www.wikidata.org/wiki/Q367667) |
 | [27022](https://www.insee.fr/fr/statistiques/2011101?geo=COM-27022) | **Le Val d’Hazey** (2016-01-01) | `26678/pcrt5SNyKsPv04` | Aubevoye : `26678/pcrtABogj7gxSP` |
 | [14098](https://www.insee.fr/fr/statistiques/2011101?geo=COM-14098) | **Thue et Mue** (2017-01-01) | `26678/pcrt32xA0aWOKZ` | Bretteville-l’Orgueilleuse : `26678/pcrt37IBobgENS` |
 | [14014](https://www.insee.fr/fr/statistiques/2011101?geo=COM-14014) | **Colomby-Anguerny** (2016-01-01) | `26678/pcrtAHatdH8M5h` | Anguerny : `26678/pcrtqhCH2knMXr` |
@@ -31,8 +31,8 @@ L'export des notices AdlFI permet de prioriser les dix codes d'après la fréque
 
 ### Statuts éditoriaux
 
-- **Huit codes avec un candidat de commune nouvelle distinctement nommé**, à instruire à partir des notes de concept avant toute décision d'alignement.
-- **Deux codes maintenus non résolus** : Port-Bail-sur-Mer (seul ARK à `exactMatch` = Portbail) et Pont-Audemer (homonymie de la commune ancienne et de la commune nouvelle, même code).
+- **Neuf codes avec un candidat de commune nouvelle distinct de l'ancienne identité**, à instruire avant toute décision d'alignement. Huit sont différenciés par le libellé et leurs notes RDF ; le neuvième, Pont-Audemer, nécessite deux preuves supplémentaires : les `skos:definition` (« commune » contre « ancienne commune ») et les `exactMatch` vers **deux éléments Wikidata distincts** (Q47067820 contre Q367667), corroborés par la création au 1er janvier 2018 dans l'Insee.
+- **Un code reste non résolu** : Port-Bail-sur-Mer (le seul ARK à `exactMatch` vers 50412 porte le libellé et l'identité de Portbail).
 - **Dix anciennes identités ne sont jamais assimilées automatiquement aux communes nouvelles**. Certaines anciennes communes conservent des codes identiques au COG 2026 ; l'événement administratif ne crée pas une relation `skos:exactMatch` entre leurs ARK.
 - **Aucun nouvel alignement, aucune nouvelle géométrie ni chronologie rétroprojetée** par ce dossier.
 
@@ -44,5 +44,5 @@ Les notices AdlFI sont indexées par le thésaurus disponible au moment du trait
 
 1. Analyser le rapport enrichi du RDF et ses `skos:historyNote` / `skos:definition`, puis décider un premier lot de correspondances **2026 seulement**, séparément de la présente PR.
 2. Rechercher, si elle existe, l'autorité de **Port-Bail-sur-Mer** hors des seuls `exactMatch` vers `50412` ; ne pas créer un ARK fictif.
-3. Pour **Pont-Audemer**, examiner l'historique et les définitions de chacun des deux concepts et leur éventuelle relation de succession ; ne pas arbitrer sur le seul libellé.
+3. Conserver **Pont-Audemer** comme candidat contemporain sur la convergence entre définition RDF, deux URI Wikidata distinctes et COG 2018 : ne pas attribuer ces deux ARK à une même autorité historique ni déduire une relation de succession ontologique par simple conservation du code.
 4. Préserver les 148 exceptions de la Normandie et le classement par poids documentaire ; la publication de la couche cartographique 2026 de Normandie sera une opération distincte.
