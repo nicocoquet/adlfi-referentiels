@@ -103,7 +103,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         if is_149:
             self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0093.jpg').is_file())
             self.assertTrue((ROOT / 'docs/assets/organismes/ORG-0675.jpg').is_file())
-        self.assertIsNone(old['website'])
+        self.assertEqual(old['website'], 'https://www.archeologie.alsace/')
         self.assertEqual(new['website'], 'https://www.archeologie.alsace/')
         rels = {r['id']: r for r in self.d['relations']}
         self.assertEqual(
