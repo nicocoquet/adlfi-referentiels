@@ -1,6 +1,6 @@
 # Lieux — Normandie, préparation des états COG et contours communaux 2026
 
-**20 novembre 2026 — prépublication, aucun contour affiché dans l'interface au stade de la recette.**
+**20 novembre 2026 — fichiers COG et GeoJSON 2026 versionnés après recette officielle et GEOS ; aucun contour normand encore activé dans l'interface.**
 
 Suivi : [#152](https://github.com/nicocoquet/adlfi-referentiels/issues/152). Le chargeur régional à la demande est déjà déployé par [#157](https://github.com/nicocoquet/adlfi-referentiels/pull/157). Correspondances Pactols–COG 2026 : **16** validées dans les deux registres indépendants [#156](https://github.com/nicocoquet/adlfi-referentiels/pull/156) et [#160](https://github.com/nicocoquet/adlfi-referentiels/pull/160) ; aucune n'est créée ou rétroprojetée ici.
 
@@ -21,7 +21,7 @@ Suivi : [#152](https://github.com/nicocoquet/adlfi-referentiels/issues/152). Le 
 
 Le générateur refuse toute source dont le SHA diffère, un doublon de code, un rattachement COG 2026 incompatible, une géométrie vide ou non polygonale, un anneau ouvert, une coordonnée non finie ou incohérente avec l'emprise normande, et toute différence entre les 2 644 codes du COG courant et les 2 644 contours. **Une géométrie manquante bloque la publication plutôt que d'être fabriquée à partir d'une autre année.**
 
-La CI produit deux jeux indépendants et les compare octet à octet, puis archive les résultats pour examen. Elle utilise également **GEOS/Shapely 2.1.2** pour certifier la validité de chacun des 2 644 contours et vérifier l'absence de modification géométrique non documentée. Les scripts peuvent ensuite être utilisés pour versionner les deux données dans `docs/data/lieux-chronologie/` avec leurs empreintes, une fois le contrôle terminé.
+La CI produit deux jeux indépendants et les compare octet à octet, puis archive les résultats pour examen. Elle utilise également **GEOS/Shapely 2.1.2** pour certifier la validité de chacun des 2 644 contours et vérifier l'absence de modification géométrique non documentée. **Après réussite de ces contrôles**, le workflow versionne dans la branche de la PR les deux sorties `docs/data/lieux-chronologie/cog-normandie.json` et `docs/data/lieux-chronologie/contours-2026-normandie.geojson`. Les exécutions suivantes vérifient leur conformité octet à octet à la génération reproductible.
 
 ## Correction topologique unique : Cahagnes (Calvados, 14120)
 
