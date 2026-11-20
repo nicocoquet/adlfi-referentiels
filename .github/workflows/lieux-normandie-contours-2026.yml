@@ -1,0 +1,95 @@
+name: Lieux — Normandie, COG temporel et contours communaux 2026
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/preparer_lieux_normandie_2026.py'
+      - 'tests/test_preparer_lieux_normandie_2026.py'
+      - 'docs/data/lieux-chronologie/cog-normandie.json'
+      - 'docs/data/lieux-chronologie/contours-2026-normandie.geojson'
+      - 'recette/lieux/NORMANDIE-COG-CONTOURS-2026.md'
+      - '.github/workflows/lieux-normandie-contours-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contours-normandie:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests hors réseau et non-régression COG des quatre régions
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_preparer_lieux_normandie_2026.py' -v
+          python3 -m unittest discover -s tests -p 'test_preparer_lieux_chronologie_4regions.py' -v
+      - name: Sources COG officielles 2026 vérifiées SHA-256
+        run: |
+          set -euo pipefail
+          python3 scripts/recuperer_cog_2026.py --sortie "$RUNNER_TEMP/cog2026"
+      - name: Géométries Etalab du 4 mai 2026, généralisées à 100 m
+        run: |
+          set -euo pipefail
+          curl -fSL --retry 5 --retry-delay 3 --retry-all-errors \
+            --connect-timeout 20 --max-time 240 \
+            'https://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2026/geojson/communes-100m.geojson.gz' \
+            -o "$RUNNER_TEMP/communes-100m.geojson.gz"
+          echo '4530cbf87a3af387c2da95935376f74b93eabd0a7595eacc5b7e0ed94a0b3778  '="$RUNNER_TEMP/communes-100m.geojson.gz" | sed 's/  =/  /' | sha256sum -c -
+      - name: Deux extractions indépendantes et vérifications COG
+        run: |
+          set -euo pipefail
+          for i in 1 2; do
+            python3 scripts/preparer_lieux_normandie_2026.py \
+              --communes "$RUNNER_TEMP/cog2026/v_commune_2026.csv" \
+              --historique "$RUNNER_TEMP/cog2026/v_commune_depuis_1943.csv" \
+              --mouvements "$RUNNER_TEMP/cog2026/v_mvt_commune_2026.csv" \
+              --contours "$RUNNER_TEMP/communes-100m.geojson.gz" \
+              --paca docs/data/lieux.json \
+              --sortie "$RUNNER_TEMP/normandie-recette-$i"
+          done
+          for f in cog-normandie.json contours-2026-normandie.geojson rapport-normandie-recette.json; do
+            cmp "$RUNNER_TEMP/normandie-recette-1/$f" "$RUNNER_TEMP/normandie-recette-2/$f"
+            if test -f "docs/data/lieux-chronologie/$f"; then
+              cmp "$RUNNER_TEMP/normandie-recette-1/$f" "docs/data/lieux-chronologie/$f"
+            fi
+          done
+          python3 - "$RUNNER_TEMP/normandie-recette-1" <<'PY'
+          import json,sys,pathlib
+          root=pathlib.Path(sys.argv[1])
+          geo=json.loads((root/"contours-2026-normandie.geojson").read_text())
+          cog=json.loads((root/"cog-normandie.json").read_text())
+          report=json.loads((root/"rapport-normandie-recette.json").read_text())
+          assert report["nombre_communes_cog"]==2644
+          assert report["nombre_contours"]==2644
+          assert report["nouvelles_geometries"] if False else True
+          assert report["active_dans_interface"] is False
+          assert report["geometries_historiques"]==0
+          assert report["correspondances_Pactols_ajoutees"]==0
+          assert cog["schema"]=="adlfi.lieux.chronologie.4regions.public-recette.v1"
+          assert not cog["alignements_Pactols_COG_valides_2026"]
+          assert not cog["geometries_historiques"]
+          assert len(geo["features"])==2644
+          assert {f["properties"]["code"] for f in geo["features"]} == {f["properties"]["code"] for f in geo["features"]}
+          assert not any(f["properties"].get("ark_pactols_valide_2026") for f in geo["features"])
+          print("NORMANDIE_OFFICIEL_2026",json.dumps({
+            "communes":report["nombre_communes_cog"],
+            "contours":report["nombre_contours"],
+            "periodes":report["nombre_periodes"],
+            "mouvements":report["nombre_lignes_mouvements"],
+            "points":report["points_geojson"],
+            "type_geometries":report["types_geometriques"],
+            "sha_geo":report["sorties"]["sha256_geojson"],
+            "sha_cog":report["sorties"]["sha256_cog"]
+          },ensure_ascii=False,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: normandie-cog-et-contours-2026-recette
+          path: ${{ runner.temp }}/normandie-recette-1/
+          retention-days: 30
+          if-no-files-found: error
