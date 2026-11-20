@@ -102,7 +102,7 @@ class OrganismesPublication920Tests(unittest.TestCase):
             self.assertIn(target,media)
             self.assertEqual(sha256((ROOT/'docs'/ref).read_bytes()).digest(),
                              sha256((ROOT/'docs'/target).read_bytes()).digest())
-        self.assertEqual(len(media),661)
+        self.assertEqual(len(media),684)
         for a in self.entities.values():
             self.assertIsNone(a['presentation']['media']['image'])
         source=PUBLIC.read_text(encoding='utf-8')
