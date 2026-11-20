@@ -64,10 +64,10 @@ class NormandieCOGContours(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"Doublon"):
                     m.courant_normand(path)
 
-    def test_commune_historique_non_localisee_par_prefixe(self):
-        self.assertIn("Les régions historiques ne sont pas reconstituées",
-                      m.construire.__doc__ or 
-                      "Les régions historiques ne sont pas reconstituées par préfixe de département.")
+    def test_regionalisation_normandie_seulement_en_2026(self):
+        self.assertEqual(tuple(m.REGION),("normandie",))
+        self.assertEqual(m.REGION["normandie"]["reg"],"28")
+        self.assertEqual(m.base.SCHEMA,"adlfi.lieux.chronologie.4regions.public-recette.v1")
 
 
 if __name__=="__main__":
