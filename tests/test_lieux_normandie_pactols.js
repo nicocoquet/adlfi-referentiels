@@ -30,7 +30,7 @@ for(const [code,a] of result.byCode){
  assert.notEqual(a.ark_pactols,a.ancien_ark_non_promu);
  assert(result.index.some(i=>i.kind==='pactols'&&i.zone==='normandie'&&
        i.code===code&&i.ark===a.ark_pactols&&
-       i.champs.includes(a.ark_pactols.toLowerCase())));
+       i.champs.includes(a.ark_pactols.toLowerCase().replace('/',' '))));
 }
 for(const code of ['50412','14342','27112','50546']){
  assert(!result.byCode.has(code),'Une exception a été publiée : '+code);
