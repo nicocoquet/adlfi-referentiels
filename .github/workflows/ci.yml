@@ -40,3 +40,5 @@ jobs:
         run: node tests/test_cartouches_uniformes.js
       - name: Vérifier les fiches hors catalogue navigables
         run: node tests/test_organismes_fiches_contextuelles.js
+      - name: Vérifier les affiliations fédérales réciproques
+        run: node tests/test_affiliations_federales.js
