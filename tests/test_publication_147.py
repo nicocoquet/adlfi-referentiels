@@ -10,6 +10,8 @@ SOURCES = {
         '1138c330f59c91c301d0cb6a5136c1e1347fbf491a75a9bddfe7d9b9fa83df51',
     'AdlFI_referentiel_1-49_20261111_Historique_consolide.xlsx':
         '41c39072771435c4b5d18eccfee7483aa82af5f3f43c8f06d4d4c8cd13261642',
+    'AdlFI_referentiel_1-49_enrichi_relations_586_20261120.xlsx':
+        '2fcec08dccecc1532cbd25b590514118156e0161292de4b368d665ca992768f4',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
@@ -24,11 +26,11 @@ class PublicationSnapshotsTests(unittest.TestCase):
         source = d['provenance']['source_filename']
         self.assertIn(source, SOURCES)
         self.assertEqual(d['provenance']['source_sha256'], SOURCES[source])
-        self.assertEqual(len(self.by_id), 829)
-        self.assertEqual(len(self.relations), 531)
-        self.assertEqual(d['totals']['organismes'], 655)
-        self.assertEqual(d['totals']['services'], 174)
-        self.assertEqual(d['totals']['catalog_included'], 591)
+        self.assertEqual(len(self.by_id), 920)
+        self.assertEqual(len(self.relations), 586)
+        self.assertEqual(d['totals']['organismes'], 725)
+        self.assertEqual(d['totals']['services'], 195)
+        self.assertEqual(d['totals']['catalog_included'], 670)
 
     def test_historical_publication_and_adera_correction(self):
         is_149 = self.data['provenance']['source_filename'].startswith(
@@ -42,9 +44,9 @@ class PublicationSnapshotsTests(unittest.TestCase):
             h for a in self.data['authorities'] if a['kind'] == 'SER'
             for h in a['names']['history']
         ]
-        self.assertEqual(len(service_histories), 72)
+        self.assertEqual(len(service_histories), 96)
         if is_149:
-            self.assertEqual(len(histories), 124)
+            self.assertEqual(len(histories), 140)
             added = [(authority, h) for authority, h in histories
                      if h.get('id') in {
                          f'HIS-{n:04d}' for n in range(67, 125)}]
