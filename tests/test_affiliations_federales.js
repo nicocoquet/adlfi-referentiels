@@ -1,5 +1,5 @@
 'use strict';
-// Régression du rendu réel des affiliations fédérales : données 1.50 et cas négatifs.
+// Régression des affiliations fédérales : lot 1.51, données et cas négatifs.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -29,7 +29,7 @@ vm.runInNewContext(instrumented,ctx,{filename:'organismes.js'});
 const api=ctx.__federalTest;
 const by=new Map(published.authorities.map(x=>[x.id,x]));
 assert.equal(by.size,934);
-assert.equal(published.relations.length,594);
+assert.equal(published.relations.length,598);
 assert.ok(!by.has('SER-0063'),'L’ancien SER a été reclassé en ORG');
 api.setup(published);
 assert.equal(api.count(),682);
@@ -40,6 +40,25 @@ assert.match(api.block(by.get('ORG-0120')),/data-detail="ORG-0747"/,
 assert.match(api.block(by.get('ORG-0422')),/data-detail="ORG-0701"/);
 assert.match(api.block(by.get('ORG-0701')),/data-detail="ORG-0422"/);
 assert.match(api.card(by.get('ORG-0747')),/data-detail="ORG-0120"/);
+// Quatre nouvelles affiliations documentées ; les deux premières subsistent.
+for(const [member,federation,relation] of [
+  ['ORG-0069','ORG-0120','REL-0341'],
+  ['ORG-0419','ORG-0120','REL-0342'],
+  ['ORG-0521','ORG-0120','REL-0343'],
+  ['ORG-0355','ORG-0701','REL-0344']
+]){
+ const r=published.relations.find(x=>x.id===relation);
+ assert.ok(r,relation);
+ assert.equal(r.source,member);assert.equal(r.target,federation);
+ assert.equal(r.type,'affiliation_federale');assert.equal(r.validation,'valide');
+ assert.equal(r.start,null,'Date initiale non inférée');
+ assert.equal(r.end,null,'Fin non présumée');
+ assert.match(api.block(by.get(member)),new RegExp('data-detail="'+federation+'"'));
+ assert.match(api.block(by.get(federation)),new RegExp('data-detail="'+member+'"'));
+ assert.doesNotMatch(api.parent(by.get(member)),new RegExp('data-detail="'+federation+'"'),
+    'Une affiliation n’est pas une tutelle administrative');
+}
+assert.equal(published.relations.filter(x=>x.type==='affiliation_federale').length,6);
 assert.doesNotMatch(api.block(by.get('ORG-0120')),/SER-0063/);
 assert.doesNotMatch(api.parent(by.get('ORG-0747')),/data-detail="ORG-0120"/,
  'Une affiliation fédérale n’est pas une tutelle');
@@ -69,4 +88,4 @@ assert.match(api.block(by.get('ORG-0701')),/data-detail="ORG-0422"/);
 assert.doesNotMatch(api.block(by.get('ORG-0120')),/data-detail="ORG-0120"/);
 assert.match(src,/indexFederalAffiliations\(d\.relations\)/);
 assert.match(src,/<h3>Affiliations fédérales<\/h3>/);
-console.log('OK — affiliations FFESSM/FFS du 1.50, navigation et exclusions documentaires');
+console.log('OK — six affiliations fédérales FFESSM/FFS du 1.51, navigation et exclusions');

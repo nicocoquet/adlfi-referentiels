@@ -1,4 +1,4 @@
-"""Recette Chromium du maître institutionnel 1.50 : identités, filiations et réserves."""
+"""Recette Chromium 1.51 : continuité du 1.50 et nouveaux liens fédéraux."""
 from test_lieux_corse_pactols_navigateur import serveur
 
 
@@ -24,7 +24,7 @@ def main():
 
         # Ancien identifiant conservé pour la navigation ; l'autorité est ORG.
         modal=consulter('SER-0063')
-        assert page.locator('#dataset-version').inner_text()=='1.50'
+        assert page.locator('#dataset-version').inner_text()=='1.51'
         assert page.url.endswith('#ORG-0747'),page.url
         head=modal.locator('.detail-head').inner_text()
         assert 'ORG-0747' in head and 'Groupe de recherche archéologique sous-marine' in head,head
@@ -38,6 +38,18 @@ def main():
         modal.locator('.detail-head').get_by_text('Fédération française').wait_for(timeout=15000)
         assert modal.locator('button.attachment-link[data-detail="ORG-0747"]').count()==1, (
             'Le lien réciproque FFESSM → GRASM manque')
+
+        # Les nouveaux liens fédéraux doivent être navigables dans les deux sens.
+        for membre,federation in [
+            ('ORG-0069','ORG-0120'), ('ORG-0419','ORG-0120'),
+            ('ORG-0521','ORG-0120'), ('ORG-0355','ORG-0701')
+        ]:
+            fiche=consulter(membre)
+            assert fiche.locator(f'button.attachment-link[data-detail="{federation}"]').count()>=1, membre
+            texte=fiche.locator('#detail-content').inner_text()
+            assert 'Dates non documentées' in texte, membre
+            inverse=consulter(federation)
+            assert inverse.locator(f'button.attachment-link[data-detail="{membre}"]').count()>=1, membre
 
         # Filiations institutionnelles anciennes sans fausse succession totale.
         iramat=consulter('ORG-0299')
@@ -66,7 +78,7 @@ def main():
         assert 'À confirmer' in text
         assert riez.locator('button.attachment-link[data-detail="ORG-0755"]').count()==0
         assert not errors,errors
-        print('ORGANISMES_150_NAVIGATEUR_OK — alias GRASM, FFESSM, IRAMAT, CEB, LMC, CEA, SFECAG, Riez')
+        print('ORGANISMES_151_NAVIGATEUR_OK — quatre liens fédéraux, alias GRASM, IRAMAT, CEB, LMC, CEA, SFECAG, Riez')
         browser.close()
 
 

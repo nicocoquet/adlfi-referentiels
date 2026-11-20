@@ -77,7 +77,7 @@ class Lot03HistoryTests(unittest.TestCase):
         self.assertEqual(self.d['totals']['organismes'],734)
         self.assertEqual(self.d['totals']['services'],200)
         self.assertEqual(self.d['totals']['catalog_included'],682)
-        self.assertEqual(len(self.d['relations']),594)
+        self.assertEqual(len(self.d['relations']),598)
         rels={r['id']:r for r in self.d['relations']}
         for key,source,target in [
             ('REL-0292','ORG-0658','ORG-0659'),
