@@ -24,6 +24,8 @@ SOURCES = {
         '373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5',
     'AdlFI_referentiel_1-53_A05_AFAN_CNRS_INRAP_CANDIDAT.xlsx':
         'fbea8c20b5867e742fa6bf82e058409c249c1017e0d0ec61e9612f926b878415',
+    'AdlFI_referentiel_1-54_A05B_CNRS_INRAP_LABOS_CANDIDAT.xlsx':
+        '32e69ba481331a0f1470c93ae40827e69dbb58cca20d739921459be30b218f15',
 }
 
 
@@ -100,7 +102,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
