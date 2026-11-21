@@ -2,9 +2,9 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-54_A05B_CNRS_INRAP_LABOS_CANDIDAT.xlsx",
-    "source_sha256": "32e69ba481331a0f1470c93ae40827e69dbb58cca20d739921459be30b218f15",
-    "exported_at_utc": "2026-11-21T00:00:00+00:00",
+    "source_filename": "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx",
+    "source_sha256": "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35",
+    "exported_at_utc": "2026-11-22T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
   "totals": {
@@ -302,7 +302,7 @@
       "website": "https://www.cnrs.fr/",
       "usage": {
         "affiliations_linked": 173,
-        "affiliations_validated": 18,
+        "affiliations_validated": 19,
         "source_occurrences_linked": 326
       },
       "quality": {
@@ -434,7 +434,7 @@
       "website": "https://www.inrap.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 14,
+        "affiliations_validated": 17,
         "source_occurrences_linked": 270
       },
       "quality": {
@@ -4724,7 +4724,7 @@
       "website": "https://craham.unicaen.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 4,
+        "affiliations_validated": 6,
         "source_occurrences_linked": 120
       },
       "quality": {
@@ -23118,9 +23118,9 @@
       },
       "website": null,
       "usage": {
-        "affiliations_linked": 9,
-        "affiliations_validated": 0,
-        "source_occurrences_linked": 9
+        "affiliations_linked": 10,
+        "affiliations_validated": 1,
+        "source_occurrences_linked": 11
       },
       "quality": {
         "activity_unknown": false,
@@ -29591,8 +29591,8 @@
       "id": "ORG-0451",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "inclure",
@@ -29619,8 +29619,8 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
-        "start": null,
+        "active": true,
+        "start": "1976",
         "end": null,
         "catalog": "inclure"
       },
@@ -29633,19 +29633,19 @@
       },
       "geography": {
         "institutional_country_iso2": "FR",
-        "cities_label": null,
+        "cities_label": "Notre-Dame-de-Bliquetuit",
         "locations": []
       },
       "website": null,
       "usage": {
-        "affiliations_linked": 5,
-        "affiliations_validated": 0,
-        "source_occurrences_linked": 5
+        "affiliations_linked": 6,
+        "affiliations_validated": 3,
+        "source_occurrences_linked": 7
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
-        "city_unrecorded": true,
+        "city_unrecorded": false,
         "country_unrecorded": false,
         "no_website": true
       }
