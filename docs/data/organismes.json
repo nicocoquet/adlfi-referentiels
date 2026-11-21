@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-53_A05_AFAN_CNRS_INRAP_CANDIDAT.xlsx",
-    "source_sha256": "fbea8c20b5867e742fa6bf82e058409c249c1017e0d0ec61e9612f926b878415",
+    "source_filename": "AdlFI_referentiel_1-54_A05B_CNRS_INRAP_LABOS_CANDIDAT.xlsx",
+    "source_sha256": "32e69ba481331a0f1470c93ae40827e69dbb58cca20d739921459be30b218f15",
     "exported_at_utc": "2026-11-21T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
@@ -99,7 +99,7 @@
       "website": "https://ccj.cnrs.fr/",
       "usage": {
         "affiliations_linked": 17,
-        "affiliations_validated": 4,
+        "affiliations_validated": 5,
         "source_occurrences_linked": 59
       },
       "quality": {
@@ -302,7 +302,7 @@
       "website": "https://www.cnrs.fr/",
       "usage": {
         "affiliations_linked": 173,
-        "affiliations_validated": 10,
+        "affiliations_validated": 18,
         "source_occurrences_linked": 326
       },
       "quality": {
@@ -434,7 +434,7 @@
       "website": "https://www.inrap.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 7,
+        "affiliations_validated": 14,
         "source_occurrences_linked": 270
       },
       "quality": {
@@ -582,7 +582,7 @@
       "website": "https://la3m.cnrs.fr/",
       "usage": {
         "affiliations_linked": 30,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 60
       },
       "quality": {
@@ -977,7 +977,7 @@
       "website": "https://www.univ-amu.fr/",
       "usage": {
         "affiliations_linked": 35,
-        "affiliations_validated": 3,
+        "affiliations_validated": 4,
         "source_occurrences_linked": 85
       },
       "quality": {
@@ -4577,7 +4577,7 @@
       "website": "https://archeo.ens.fr/",
       "usage": {
         "affiliations_linked": 3,
-        "affiliations_validated": 1,
+        "affiliations_validated": 2,
         "source_occurrences_linked": 10
       },
       "quality": {
@@ -4724,7 +4724,7 @@
       "website": "https://craham.unicaen.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 2,
+        "affiliations_validated": 4,
         "source_occurrences_linked": 120
       },
       "quality": {
@@ -4935,7 +4935,7 @@
       "website": "https://lampea.cnrs.fr/",
       "usage": {
         "affiliations_linked": 10,
-        "affiliations_validated": 1,
+        "affiliations_validated": 2,
         "source_occurrences_linked": 27
       },
       "quality": {
@@ -9601,7 +9601,7 @@
       "website": "https://www.pacea.u-bordeaux.fr/",
       "usage": {
         "affiliations_linked": 22,
-        "affiliations_validated": 2,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 41
       },
       "quality": {
@@ -9675,7 +9675,7 @@
       "website": "https://www.cerege.fr/",
       "usage": {
         "affiliations_linked": 3,
-        "affiliations_validated": 1,
+        "affiliations_validated": 2,
         "source_occurrences_linked": 12
       },
       "quality": {
@@ -9886,7 +9886,7 @@
       "website": "https://traces.univ-tlse2.fr/",
       "usage": {
         "affiliations_linked": 48,
-        "affiliations_validated": 2,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 106
       },
       "quality": {
@@ -9949,7 +9949,7 @@
       "website": "https://creaah.cnrs.fr/",
       "usage": {
         "affiliations_linked": 30,
-        "affiliations_validated": 1,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 45
       },
       "quality": {
@@ -10149,7 +10149,7 @@
       "website": "https://www.unicaen.fr/",
       "usage": {
         "affiliations_linked": 37,
-        "affiliations_validated": 2,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 99
       },
       "quality": {
@@ -12804,7 +12804,7 @@
       "website": "https://arscan.parisnanterre.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 3,
+        "affiliations_validated": 5,
         "source_occurrences_linked": 85
       },
       "quality": {
@@ -14481,7 +14481,7 @@
       "website": "https://www.asm.cnrs.fr/",
       "usage": {
         "affiliations_linked": 41,
-        "affiliations_validated": 1,
+        "affiliations_validated": 2,
         "source_occurrences_linked": 63
       },
       "quality": {
@@ -17703,7 +17703,7 @@
       "website": "https://www.iraa.mom.fr/",
       "usage": {
         "affiliations_linked": 6,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 11
       },
       "quality": {
