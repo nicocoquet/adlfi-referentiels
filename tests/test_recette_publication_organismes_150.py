@@ -19,7 +19,7 @@ class Publication150Gates(unittest.TestCase):
     def snapshot_150(data):
         """Le contrat 1.50 reste vérifié sur son sous-ensemble historique."""
         baseline=copy.deepcopy(data)
-        additions={'REL-0341','REL-0342','REL-0343','REL-0344'}
+        additions={'REL-0341','REL-0342','REL-0343','REL-0344','RSE-0259','RSE-0260'}
         baseline['relations']=[r for r in baseline['relations'] if r['id'] not in additions]
         return baseline
 

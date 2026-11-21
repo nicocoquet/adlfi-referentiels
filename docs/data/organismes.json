@@ -2,9 +2,9 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-51_affiliations_federales_20261120_RECETTE.xlsx",
-    "source_sha256": "af3ee809099a28373a5b183afe70af27066aeb3d23e1776fd501a192be91e1d4",
-    "exported_at_utc": "2026-11-20T21:22:11+00:00",
+    "source_filename": "AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx",
+    "source_sha256": "373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5",
+    "exported_at_utc": "2026-11-21T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
   "totals": {
@@ -20,70 +20,18 @@
     "service_sector_unresolved_ids": [],
     "service_level_resolution": {
       "cantonal": 2,
-      "communal": 49,
-      "departemental": 41,
-      "intercommunal": 23,
+      "communal": 56,
+      "departemental": 43,
+      "intercommunal": 24,
       "metropolitain": 1,
-      "national": 8,
-      "regional": 20,
-      "unresolved": 56
+      "national": 24,
+      "not_applicable": 8,
+      "provincial": 1,
+      "regional": 39,
+      "unresolved": 2
     },
     "service_level_unresolved_ids": [
-      "SER-0014",
-      "SER-0015",
-      "SER-0016",
-      "SER-0017",
-      "SER-0018",
-      "SER-0019",
-      "SER-0020",
-      "SER-0021",
-      "SER-0022",
-      "SER-0023",
-      "SER-0024",
-      "SER-0025",
-      "SER-0026",
-      "SER-0027",
-      "SER-0028",
-      "SER-0029",
-      "SER-0033",
-      "SER-0037",
-      "SER-0047",
-      "SER-0050",
-      "SER-0069",
-      "SER-0080",
-      "SER-0083",
-      "SER-0097",
-      "SER-0100",
-      "SER-0104",
-      "SER-0105",
-      "SER-0107",
-      "SER-0108",
-      "SER-0111",
-      "SER-0116",
-      "SER-0118",
-      "SER-0121",
-      "SER-0124",
-      "SER-0129",
-      "SER-0130",
-      "SER-0146",
-      "SER-0149",
-      "SER-0150",
-      "SER-0151",
-      "SER-0152",
-      "SER-0153",
-      "SER-0154",
-      "SER-0156",
-      "SER-0167",
-      "SER-0176",
       "SER-0178",
-      "SER-0187",
-      "SER-0190",
-      "SER-0191",
-      "SER-0195",
-      "SER-0196",
-      "SER-0197",
-      "SER-0198",
-      "SER-0199",
       "SER-0202"
     ]
   },
@@ -1064,13 +1012,16 @@
         "type": "ministere",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
         "active": true,
-        "start": "1959",
+        "start": "1959-02-03",
         "end": null,
         "catalog": "exclure"
       },
@@ -2523,8 +2474,11 @@
         "type": "service_deconcentre_etat",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "regional",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -2795,8 +2749,11 @@
         "type": "ministere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -4232,8 +4189,11 @@
         "type": "collectivite_territoriale",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "regional",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_territorial"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -5711,13 +5671,16 @@
         "type": "collectivite_territoriale",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "departemental",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_territorial"
+        },
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
-        "start": null,
+        "active": true,
+        "start": "2021-01-01",
         "end": null,
         "catalog": "exclure"
       },
@@ -5740,7 +5703,7 @@
         "source_occurrences_linked": 0
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
@@ -8941,8 +8904,11 @@
         "type": "etablissement_enseignement_superieur",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -16241,7 +16207,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": "1991",
         "end": null,
         "catalog": "exclure"
@@ -16265,7 +16231,7 @@
         "source_occurrences_linked": 23
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
@@ -17190,8 +17156,11 @@
         "type": "ministere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -22516,8 +22485,8 @@
       "id": "ORG-0339",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "exclure",
@@ -22560,8 +22529,8 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
-        "start": null,
+        "active": true,
+        "start": "1999-12-30",
         "end": null,
         "catalog": "exclure"
       },
@@ -22577,18 +22546,18 @@
         "cities_label": "Amiens",
         "locations": []
       },
-      "website": null,
+      "website": "https://www.amiens.fr/",
       "usage": {
         "affiliations_linked": 1,
         "affiliations_validated": 0,
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
-        "no_website": true
+        "no_website": false
       }
     },
     {
@@ -33186,8 +33155,11 @@
         "type": "ministere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -34634,8 +34606,8 @@
       "id": "ORG-0529",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "exclure",
@@ -34654,16 +34626,19 @@
         "legal_status_history": []
       },
       "classification": {
-        "type": "collectivite_territoriale",
+        "type": "epci",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "intercommunal",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_territorial"
+        },
         "territorial_competence": null
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "2007-11-26",
         "end": null,
         "catalog": "exclure"
       },
@@ -34679,7 +34654,7 @@
         "cities_label": "Lillebonne",
         "locations": []
       },
-      "website": null,
+      "website": "https://www.cauxseine.fr/",
       "usage": {
         "affiliations_linked": 1,
         "affiliations_validated": 0,
@@ -34690,7 +34665,7 @@
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
-        "no_website": true
+        "no_website": false
       }
     },
     {
@@ -40833,8 +40808,11 @@
         "type": "ministere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -41377,8 +41355,11 @@
         "type": "ministere",
         "bsr": "AUT",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -42242,8 +42223,11 @@
         "type": "administration_centrale_etrangere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -43373,8 +43357,11 @@
         "type": "etablissement_public",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "provincial",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -43436,8 +43423,11 @@
         "type": "etablissement_public",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "departemental",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -46312,8 +46302,11 @@
         "type": "etablissement_public",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
@@ -49277,18 +49270,20 @@
         "type": "agence_executive_publique_etrangere",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0638"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "inherited",
           "scope": "all_validated_attachments",
+          "org_ids": [
+            "ORG-0638"
+          ],
+          "relation_ids": [
+            "RSE-0159"
+          ]
+        },
+        "level_origin": {
+          "method": "inherited",
           "org_ids": [
             "ORG-0638"
           ],
@@ -49328,7 +49323,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -49358,14 +49353,7 @@
         "type": "bureau_ministeriel",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49379,6 +49367,16 @@
               "RSE-0133"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0053",
+            "RSE-0133"
+          ]
         }
       },
       "activity": {
@@ -49412,7 +49410,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -49442,16 +49440,20 @@
         "type": "commandement_militaire_historique",
         "bsr": null,
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "inherited",
           "scope": "all_validated_attachments",
+          "org_ids": [
+            "ORG-0256"
+          ],
+          "relation_ids": [
+            "RSE-0208"
+          ]
+        },
+        "level_origin": {
+          "method": "inherited_historical",
           "org_ids": [
             "ORG-0256"
           ],
@@ -49491,7 +49493,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -49522,15 +49524,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0242"
-          ],
-          "relation_ids": [
-            "RSE-0108"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49545,6 +49538,15 @@
               "RSE-0138"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0242"
+          ],
+          "relation_ids": [
+            "RSE-0108"
+          ]
         }
       },
       "activity": {
@@ -49620,15 +49622,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0274"
-          ],
-          "relation_ids": [
-            "RSE-0126"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49641,6 +49634,15 @@
               "RSE-0126"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0274"
+          ],
+          "relation_ids": [
+            "RSE-0126"
+          ]
         }
       },
       "activity": {
@@ -49716,15 +49718,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0649"
-          ],
-          "relation_ids": [
-            "RSE-0179"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49737,6 +49730,15 @@
               "RSE-0179"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0649"
+          ],
+          "relation_ids": [
+            "RSE-0179"
+          ]
         }
       },
       "activity": {
@@ -49801,15 +49803,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0209"
-          ],
-          "relation_ids": [
-            "RSE-0163"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49822,6 +49815,15 @@
               "RSE-0163"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0209"
+          ],
+          "relation_ids": [
+            "RSE-0163"
+          ]
         }
       },
       "activity": {
@@ -49897,15 +49899,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0648"
-          ],
-          "relation_ids": [
-            "RSE-0178"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -49918,6 +49911,15 @@
               "RSE-0178"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0648"
+          ],
+          "relation_ids": [
+            "RSE-0178"
+          ]
         }
       },
       "activity": {
@@ -49982,15 +49984,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0645"
-          ],
-          "relation_ids": [
-            "RSE-0175"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50003,6 +49996,15 @@
               "RSE-0175"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0645"
+          ],
+          "relation_ids": [
+            "RSE-0175"
+          ]
         }
       },
       "activity": {
@@ -50067,15 +50069,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0647"
-          ],
-          "relation_ids": [
-            "RSE-0177"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50088,6 +50081,15 @@
               "RSE-0177"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0647"
+          ],
+          "relation_ids": [
+            "RSE-0177"
+          ]
         }
       },
       "activity": {
@@ -50152,15 +50154,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0646"
-          ],
-          "relation_ids": [
-            "RSE-0176"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50173,6 +50166,15 @@
               "RSE-0176"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0646"
+          ],
+          "relation_ids": [
+            "RSE-0176"
+          ]
         }
       },
       "activity": {
@@ -50248,15 +50250,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "metropolitain",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0650"
-          ],
-          "relation_ids": [
-            "RSE-0181"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50271,6 +50264,15 @@
               "RSE-0181"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0650"
+          ],
+          "relation_ids": [
+            "RSE-0181"
+          ]
         }
       },
       "activity": {
@@ -50346,15 +50348,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0640"
-          ],
-          "relation_ids": [
-            "RSE-0171"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50367,6 +50360,15 @@
               "RSE-0171"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0640"
+          ],
+          "relation_ids": [
+            "RSE-0171"
+          ]
         }
       },
       "activity": {
@@ -50431,15 +50433,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0641"
-          ],
-          "relation_ids": [
-            "RSE-0172"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50452,6 +50445,15 @@
               "RSE-0172"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0641"
+          ],
+          "relation_ids": [
+            "RSE-0172"
+          ]
         }
       },
       "activity": {
@@ -50516,15 +50518,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0642"
-          ],
-          "relation_ids": [
-            "RSE-0173"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50537,6 +50530,15 @@
               "RSE-0173"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0642"
+          ],
+          "relation_ids": [
+            "RSE-0173"
+          ]
         }
       },
       "activity": {
@@ -50601,15 +50603,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0644"
-          ],
-          "relation_ids": [
-            "RSE-0174"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50622,6 +50615,15 @@
               "RSE-0174"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0644"
+          ],
+          "relation_ids": [
+            "RSE-0174"
+          ]
         }
       },
       "activity": {
@@ -50686,15 +50688,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0297"
-          ],
-          "relation_ids": [
-            "RSE-0164"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50707,6 +50700,15 @@
               "RSE-0164"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0297"
+          ],
+          "relation_ids": [
+            "RSE-0164"
+          ]
         }
       },
       "activity": {
@@ -50782,15 +50784,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0639"
-          ],
-          "relation_ids": [
-            "RSE-0166"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50805,6 +50798,15 @@
               "RSE-0166"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0639"
+          ],
+          "relation_ids": [
+            "RSE-0166"
+          ]
         }
       },
       "activity": {
@@ -50868,14 +50870,7 @@
         "type": "musee_service_princier",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0651"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50888,6 +50883,15 @@
               "RSE-0182"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0651"
+          ],
+          "relation_ids": [
+            "RSE-0182"
+          ]
         }
       },
       "activity": {
@@ -50921,7 +50925,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -50952,15 +50956,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0258"
-          ],
-          "relation_ids": [
-            "RSE-0119"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -50973,6 +50968,15 @@
               "RSE-0119"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0258"
+          ],
+          "relation_ids": [
+            "RSE-0119"
+          ]
         }
       },
       "activity": {
@@ -51048,15 +51052,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0285"
-          ],
-          "relation_ids": [
-            "RSE-0122"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51069,6 +51064,15 @@
               "RSE-0122"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0285"
+          ],
+          "relation_ids": [
+            "RSE-0122"
+          ]
         }
       },
       "activity": {
@@ -51132,14 +51136,7 @@
         "type": "musee_territorial",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0071"
-          ]
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51154,6 +51151,15 @@
               "RSE-0168"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0071"
+          ],
+          "relation_ids": [
+            "RSE-0168"
+          ]
         }
       },
       "activity": {
@@ -51187,7 +51193,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -51238,14 +51244,7 @@
         "type": "musee_territorial",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0071"
-          ]
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51260,6 +51259,15 @@
               "RSE-0170"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0071"
+          ],
+          "relation_ids": [
+            "RSE-0170"
+          ]
         }
       },
       "activity": {
@@ -51293,7 +51301,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -51323,14 +51331,7 @@
         "type": "service_administration_centrale",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51343,6 +51344,15 @@
               "RSE-0053"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0053"
+          ]
         }
       },
       "activity": {
@@ -51376,7 +51386,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -51407,14 +51417,8 @@
         "bsr": "UNIV",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0130"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -51426,6 +51430,12 @@
               "RSE-0160"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "service_archeologie_preventive_universitaire",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -51459,7 +51469,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -51490,15 +51500,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0074"
-          ],
-          "relation_ids": [
-            "RSE-0046"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51511,6 +51512,15 @@
               "RSE-0046"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0074"
+          ],
+          "relation_ids": [
+            "RSE-0046"
+          ]
         }
       },
       "activity": {
@@ -51575,15 +51585,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0089"
-          ],
-          "relation_ids": [
-            "RSE-0047"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51596,6 +51597,15 @@
               "RSE-0047"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0089"
+          ],
+          "relation_ids": [
+            "RSE-0047"
+          ]
         }
       },
       "activity": {
@@ -51660,15 +51670,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0090"
-          ],
-          "relation_ids": [
-            "RSE-0048"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51681,6 +51682,15 @@
               "RSE-0048"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0090"
+          ],
+          "relation_ids": [
+            "RSE-0048"
+          ]
         }
       },
       "activity": {
@@ -51776,15 +51786,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0091"
-          ],
-          "relation_ids": [
-            "RSE-0050"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51797,6 +51798,15 @@
               "RSE-0050"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0091"
+          ],
+          "relation_ids": [
+            "RSE-0050"
+          ]
         }
       },
       "activity": {
@@ -51872,15 +51882,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0094"
-          ],
-          "relation_ids": [
-            "RSE-0051"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51893,6 +51894,15 @@
               "RSE-0051"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0094"
+          ],
+          "relation_ids": [
+            "RSE-0051"
+          ]
         }
       },
       "activity": {
@@ -51968,15 +51978,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0095"
-          ],
-          "relation_ids": [
-            "RSE-0052"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -51989,6 +51990,15 @@
               "RSE-0052"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0095"
+          ],
+          "relation_ids": [
+            "RSE-0052"
+          ]
         }
       },
       "activity": {
@@ -52066,15 +52076,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0100"
-          ],
-          "relation_ids": [
-            "RSE-0054"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52087,6 +52088,15 @@
               "RSE-0054"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0100"
+          ],
+          "relation_ids": [
+            "RSE-0054"
+          ]
         }
       },
       "activity": {
@@ -52162,15 +52172,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0101"
-          ],
-          "relation_ids": [
-            "RSE-0055"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52183,6 +52184,15 @@
               "RSE-0055"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0101"
+          ],
+          "relation_ids": [
+            "RSE-0055"
+          ]
         }
       },
       "activity": {
@@ -52258,15 +52268,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0103"
-          ],
-          "relation_ids": [
-            "RSE-0056"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52279,6 +52280,15 @@
               "RSE-0056"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0103"
+          ],
+          "relation_ids": [
+            "RSE-0056"
+          ]
         }
       },
       "activity": {
@@ -52364,15 +52374,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0104"
-          ],
-          "relation_ids": [
-            "RSE-0057"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52385,6 +52386,15 @@
               "RSE-0057"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0104"
+          ],
+          "relation_ids": [
+            "RSE-0057"
+          ]
         }
       },
       "activity": {
@@ -52449,15 +52459,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0105"
-          ],
-          "relation_ids": [
-            "RSE-0058"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52470,6 +52471,15 @@
               "RSE-0058"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0105"
+          ],
+          "relation_ids": [
+            "RSE-0058"
+          ]
         }
       },
       "activity": {
@@ -52545,15 +52555,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0106"
-          ],
-          "relation_ids": [
-            "RSE-0059"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52566,6 +52567,15 @@
               "RSE-0059"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0106"
+          ],
+          "relation_ids": [
+            "RSE-0059"
+          ]
         }
       },
       "activity": {
@@ -52630,15 +52640,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0635"
-          ],
-          "relation_ids": [
-            "RSE-0145"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52653,6 +52654,15 @@
               "RSE-0145"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0635"
+          ],
+          "relation_ids": [
+            "RSE-0145"
+          ]
         }
       },
       "activity": {
@@ -52717,15 +52727,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0108"
-          ],
-          "relation_ids": [
-            "RSE-0061"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52738,6 +52739,15 @@
               "RSE-0061"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0108"
+          ],
+          "relation_ids": [
+            "RSE-0061"
+          ]
         }
       },
       "activity": {
@@ -52802,15 +52812,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0109"
-          ],
-          "relation_ids": [
-            "RSE-0062"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52823,6 +52824,15 @@
               "RSE-0062"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0109"
+          ],
+          "relation_ids": [
+            "RSE-0062"
+          ]
         }
       },
       "activity": {
@@ -52897,12 +52907,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "departemental",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -52915,6 +52920,15 @@
               "RSE-0213"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0668"
+          ],
+          "relation_ids": [
+            "RSE-0213"
+          ]
         }
       },
       "activity": {
@@ -52948,7 +52962,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -52979,15 +52993,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0110"
-          ],
-          "relation_ids": [
-            "RSE-0067"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53000,6 +53005,15 @@
               "RSE-0067"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0110"
+          ],
+          "relation_ids": [
+            "RSE-0067"
+          ]
         }
       },
       "activity": {
@@ -53075,15 +53089,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0111"
-          ],
-          "relation_ids": [
-            "RSE-0068"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53096,6 +53101,15 @@
               "RSE-0068"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0111"
+          ],
+          "relation_ids": [
+            "RSE-0068"
+          ]
         }
       },
       "activity": {
@@ -53159,12 +53173,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53177,6 +53186,15 @@
               "RSE-0069"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0112"
+          ],
+          "relation_ids": [
+            "RSE-0069"
+          ]
         }
       },
       "activity": {
@@ -53210,7 +53228,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -53252,15 +53270,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0113"
-          ],
-          "relation_ids": [
-            "RSE-0070"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53273,6 +53282,15 @@
               "RSE-0070"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0113"
+          ],
+          "relation_ids": [
+            "RSE-0070"
+          ]
         }
       },
       "activity": {
@@ -53390,15 +53408,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0114"
-          ],
-          "relation_ids": [
-            "RSE-0072"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53411,6 +53420,15 @@
               "RSE-0072"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0114"
+          ],
+          "relation_ids": [
+            "RSE-0072"
+          ]
         }
       },
       "activity": {
@@ -53475,15 +53493,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0115"
-          ],
-          "relation_ids": [
-            "RSE-0073"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53496,6 +53505,15 @@
               "RSE-0073"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0115"
+          ],
+          "relation_ids": [
+            "RSE-0073"
+          ]
         }
       },
       "activity": {
@@ -53560,15 +53578,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0116"
-          ],
-          "relation_ids": [
-            "RSE-0074"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53581,6 +53590,15 @@
               "RSE-0074"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0116"
+          ],
+          "relation_ids": [
+            "RSE-0074"
+          ]
         }
       },
       "activity": {
@@ -53696,15 +53714,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0117"
-          ],
-          "relation_ids": [
-            "RSE-0075"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53717,6 +53726,15 @@
               "RSE-0075"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0117"
+          ],
+          "relation_ids": [
+            "RSE-0075"
+          ]
         }
       },
       "activity": {
@@ -53781,15 +53799,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0118"
-          ],
-          "relation_ids": [
-            "RSE-0076"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53802,6 +53811,15 @@
               "RSE-0076"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0118"
+          ],
+          "relation_ids": [
+            "RSE-0076"
+          ]
         }
       },
       "activity": {
@@ -53866,15 +53884,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0119"
-          ],
-          "relation_ids": [
-            "RSE-0077"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53887,6 +53896,15 @@
               "RSE-0077"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0119"
+          ],
+          "relation_ids": [
+            "RSE-0077"
+          ]
         }
       },
       "activity": {
@@ -53951,15 +53969,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0121"
-          ],
-          "relation_ids": [
-            "RSE-0078"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -53972,6 +53981,15 @@
               "RSE-0078"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0121"
+          ],
+          "relation_ids": [
+            "RSE-0078"
+          ]
         }
       },
       "activity": {
@@ -54036,15 +54054,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0125"
-          ],
-          "relation_ids": [
-            "RSE-0079"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54057,6 +54066,15 @@
               "RSE-0079"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0125"
+          ],
+          "relation_ids": [
+            "RSE-0079"
+          ]
         }
       },
       "activity": {
@@ -54121,15 +54139,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0126"
-          ],
-          "relation_ids": [
-            "RSE-0080"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54142,6 +54151,15 @@
               "RSE-0080"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0126"
+          ],
+          "relation_ids": [
+            "RSE-0080"
+          ]
         }
       },
       "activity": {
@@ -54206,15 +54224,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0127"
-          ],
-          "relation_ids": [
-            "RSE-0081"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54227,6 +54236,15 @@
               "RSE-0081"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0127"
+          ],
+          "relation_ids": [
+            "RSE-0081"
+          ]
         }
       },
       "activity": {
@@ -54291,15 +54309,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0138"
-          ],
-          "relation_ids": [
-            "RSE-0082"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54312,6 +54321,15 @@
               "RSE-0082"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0138"
+          ],
+          "relation_ids": [
+            "RSE-0082"
+          ]
         }
       },
       "activity": {
@@ -54397,15 +54415,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0146"
-          ],
-          "relation_ids": [
-            "RSE-0084"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54418,6 +54427,15 @@
               "RSE-0084"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0146"
+          ],
+          "relation_ids": [
+            "RSE-0084"
+          ]
         }
       },
       "activity": {
@@ -54526,15 +54544,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0024"
-          ],
-          "relation_ids": [
-            "RSE-0085"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54547,6 +54556,15 @@
               "RSE-0085"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0024"
+          ],
+          "relation_ids": [
+            "RSE-0085"
+          ]
         }
       },
       "activity": {
@@ -54655,15 +54673,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0029"
-          ],
-          "relation_ids": [
-            "RSE-0086"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54676,6 +54685,15 @@
               "RSE-0086"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0029"
+          ],
+          "relation_ids": [
+            "RSE-0086"
+          ]
         }
       },
       "activity": {
@@ -54740,15 +54758,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0161"
-          ],
-          "relation_ids": [
-            "RSE-0087"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54761,6 +54770,15 @@
               "RSE-0087"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0161"
+          ],
+          "relation_ids": [
+            "RSE-0087"
+          ]
         }
       },
       "activity": {
@@ -54840,15 +54858,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0030"
-          ],
-          "relation_ids": [
-            "RSE-0088"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54861,6 +54870,15 @@
               "RSE-0088"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0030"
+          ],
+          "relation_ids": [
+            "RSE-0088"
+          ]
         }
       },
       "activity": {
@@ -54924,12 +54942,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -54942,6 +54955,15 @@
               "RSE-0089"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0160"
+          ],
+          "relation_ids": [
+            "RSE-0089"
+          ]
         }
       },
       "activity": {
@@ -54975,7 +54997,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -55050,15 +55072,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0025"
-          ],
-          "relation_ids": [
-            "RSE-0091"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55071,6 +55084,15 @@
               "RSE-0091"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0025"
+          ],
+          "relation_ids": [
+            "RSE-0091"
+          ]
         }
       },
       "activity": {
@@ -55163,15 +55185,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0031"
-          ],
-          "relation_ids": [
-            "RSE-0092"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55184,6 +55197,15 @@
               "RSE-0092"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0031"
+          ],
+          "relation_ids": [
+            "RSE-0092"
+          ]
         }
       },
       "activity": {
@@ -55248,15 +55270,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0163"
-          ],
-          "relation_ids": [
-            "RSE-0215"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55271,6 +55284,15 @@
               "RSE-0215"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0163"
+          ],
+          "relation_ids": [
+            "RSE-0215"
+          ]
         }
       },
       "activity": {
@@ -55335,15 +55357,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0183"
-          ],
-          "relation_ids": [
-            "RSE-0094"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55356,6 +55369,15 @@
               "RSE-0094"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0183"
+          ],
+          "relation_ids": [
+            "RSE-0094"
+          ]
         }
       },
       "activity": {
@@ -55431,15 +55453,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0188"
-          ],
-          "relation_ids": [
-            "RSE-0096"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55452,6 +55465,15 @@
               "RSE-0096"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0188"
+          ],
+          "relation_ids": [
+            "RSE-0096"
+          ]
         }
       },
       "activity": {
@@ -55516,15 +55538,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0207"
-          ],
-          "relation_ids": [
-            "RSE-0097"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55537,6 +55550,15 @@
               "RSE-0097"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0207"
+          ],
+          "relation_ids": [
+            "RSE-0097"
+          ]
         }
       },
       "activity": {
@@ -55601,15 +55623,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0202"
-          ],
-          "relation_ids": [
-            "RSE-0098"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55622,6 +55635,15 @@
               "RSE-0098"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0202"
+          ],
+          "relation_ids": [
+            "RSE-0098"
+          ]
         }
       },
       "activity": {
@@ -55686,15 +55708,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0184"
-          ],
-          "relation_ids": [
-            "RSE-0099"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55707,6 +55720,15 @@
               "RSE-0099"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0184"
+          ],
+          "relation_ids": [
+            "RSE-0099"
+          ]
         }
       },
       "activity": {
@@ -55771,15 +55793,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0211"
-          ],
-          "relation_ids": [
-            "RSE-0100"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55792,6 +55805,15 @@
               "RSE-0100"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0211"
+          ],
+          "relation_ids": [
+            "RSE-0100"
+          ]
         }
       },
       "activity": {
@@ -55855,12 +55877,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "departemental",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55873,6 +55890,15 @@
               "RSE-0101"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0072"
+          ],
+          "relation_ids": [
+            "RSE-0101"
+          ]
         }
       },
       "activity": {
@@ -55906,7 +55932,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -55937,15 +55963,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0126"
-          ],
-          "relation_ids": [
-            "RSE-0102"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -55958,6 +55975,15 @@
               "RSE-0102"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0126"
+          ],
+          "relation_ids": [
+            "RSE-0102"
+          ]
         }
       },
       "activity": {
@@ -56022,15 +56048,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0220"
-          ],
-          "relation_ids": [
-            "RSE-0104"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56045,6 +56062,15 @@
               "RSE-0104"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0220"
+          ],
+          "relation_ids": [
+            "RSE-0104"
+          ]
         }
       },
       "activity": {
@@ -56132,15 +56158,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0180"
-          ],
-          "relation_ids": [
-            "RSE-0106"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56153,6 +56170,15 @@
               "RSE-0106"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0180"
+          ],
+          "relation_ids": [
+            "RSE-0106"
+          ]
         }
       },
       "activity": {
@@ -56238,15 +56264,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0232"
-          ],
-          "relation_ids": [
-            "RSE-0107"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56259,6 +56276,15 @@
               "RSE-0107"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0232"
+          ],
+          "relation_ids": [
+            "RSE-0107"
+          ]
         }
       },
       "activity": {
@@ -56323,15 +56349,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0249"
-          ],
-          "relation_ids": [
-            "RSE-0111"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56344,6 +56361,15 @@
               "RSE-0111"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0249"
+          ],
+          "relation_ids": [
+            "RSE-0111"
+          ]
         }
       },
       "activity": {
@@ -56429,15 +56455,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0190"
-          ],
-          "relation_ids": [
-            "RSE-0112"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56450,6 +56467,15 @@
               "RSE-0112"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0190"
+          ],
+          "relation_ids": [
+            "RSE-0112"
+          ]
         }
       },
       "activity": {
@@ -56514,15 +56540,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0251"
-          ],
-          "relation_ids": [
-            "RSE-0113"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56535,6 +56552,15 @@
               "RSE-0113"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0251"
+          ],
+          "relation_ids": [
+            "RSE-0113"
+          ]
         }
       },
       "activity": {
@@ -56620,15 +56646,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0252"
-          ],
-          "relation_ids": [
-            "RSE-0114"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56641,6 +56658,15 @@
               "RSE-0114"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0252"
+          ],
+          "relation_ids": [
+            "RSE-0114"
+          ]
         }
       },
       "activity": {
@@ -56705,15 +56731,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0254"
-          ],
-          "relation_ids": [
-            "RSE-0115"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56726,6 +56743,15 @@
               "RSE-0115"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0254"
+          ],
+          "relation_ids": [
+            "RSE-0115"
+          ]
         }
       },
       "activity": {
@@ -56801,15 +56827,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0072"
-          ],
-          "relation_ids": [
-            "RSE-0117"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56822,6 +56839,15 @@
               "RSE-0117"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0072"
+          ],
+          "relation_ids": [
+            "RSE-0117"
+          ]
         }
       },
       "activity": {
@@ -56886,15 +56912,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0260"
-          ],
-          "relation_ids": [
-            "RSE-0120"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -56911,6 +56928,15 @@
               "RSE-0220"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0260"
+          ],
+          "relation_ids": [
+            "RSE-0120"
+          ]
         }
       },
       "activity": {
@@ -57016,15 +57042,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0272"
-          ],
-          "relation_ids": [
-            "RSE-0123"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57037,6 +57054,15 @@
               "RSE-0123"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0272"
+          ],
+          "relation_ids": [
+            "RSE-0123"
+          ]
         }
       },
       "activity": {
@@ -57111,12 +57137,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57129,6 +57150,15 @@
               "RSE-0124"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0248"
+          ],
+          "relation_ids": [
+            "RSE-0124"
+          ]
         }
       },
       "activity": {
@@ -57162,7 +57192,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57193,15 +57223,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0273"
-          ],
-          "relation_ids": [
-            "RSE-0125"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57214,6 +57235,15 @@
               "RSE-0125"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0273"
+          ],
+          "relation_ids": [
+            "RSE-0125"
+          ]
         }
       },
       "activity": {
@@ -57278,15 +57308,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0198"
-          ],
-          "relation_ids": [
-            "RSE-0127"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57299,6 +57320,15 @@
               "RSE-0127"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0198"
+          ],
+          "relation_ids": [
+            "RSE-0127"
+          ]
         }
       },
       "activity": {
@@ -57363,15 +57393,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "cantonal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0664"
-          ],
-          "relation_ids": [
-            "RSE-0205"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57384,6 +57405,15 @@
               "RSE-0205"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0664"
+          ],
+          "relation_ids": [
+            "RSE-0205"
+          ]
         }
       },
       "activity": {
@@ -57447,14 +57477,7 @@
         "type": "service_competence_nationale",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57467,6 +57490,15 @@
               "RSE-0105"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0105"
+          ]
         }
       },
       "activity": {
@@ -57500,7 +57532,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57530,14 +57562,7 @@
         "type": "service_competence_nationale",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57550,6 +57575,15 @@
               "RSE-0129"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0129"
+          ]
         }
       },
       "activity": {
@@ -57583,7 +57617,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57613,14 +57647,7 @@
         "type": "service_competence_nationale",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57633,6 +57660,15 @@
               "RSE-0132"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0132"
+          ]
         }
       },
       "activity": {
@@ -57666,7 +57702,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57696,12 +57732,7 @@
         "type": "service_competence_nationale",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57714,6 +57745,15 @@
               "RSE-0121"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0121"
+          ]
         }
       },
       "activity": {
@@ -57747,7 +57787,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57788,14 +57828,7 @@
         "type": "service_competence_nationale",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57808,6 +57841,15 @@
               "RSE-0128"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0128"
+          ]
         }
       },
       "activity": {
@@ -57841,7 +57883,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57892,14 +57934,7 @@
         "type": "service_competence_nationale",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0023"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -57912,6 +57947,15 @@
               "RSE-0183"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0183"
+          ]
         }
       },
       "activity": {
@@ -57945,7 +57989,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -57987,15 +58031,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0073"
-          ],
-          "relation_ids": [
-            "RSE-0155"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58008,6 +58043,15 @@
               "RSE-0155"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0073"
+          ],
+          "relation_ids": [
+            "RSE-0155"
+          ]
         }
       },
       "activity": {
@@ -58072,15 +58116,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0039"
-          ],
-          "relation_ids": [
-            "RSE-0161"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58093,6 +58128,15 @@
               "RSE-0161"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0039"
+          ],
+          "relation_ids": [
+            "RSE-0161"
+          ]
         }
       },
       "activity": {
@@ -58171,15 +58215,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0214"
-          ],
-          "relation_ids": [
-            "RSE-0147"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58194,6 +58229,15 @@
               "RSE-0147"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0214"
+          ],
+          "relation_ids": [
+            "RSE-0147"
+          ]
         }
       },
       "activity": {
@@ -58269,15 +58313,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0636"
-          ],
-          "relation_ids": [
-            "RSE-0149"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58292,6 +58327,15 @@
               "RSE-0149"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0636"
+          ],
+          "relation_ids": [
+            "RSE-0149"
+          ]
         }
       },
       "activity": {
@@ -58355,14 +58399,7 @@
         "type": "service_intercommunal_patrimoine",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0529"
-          ]
-        },
+        "level": "intercommunal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58375,6 +58412,15 @@
               "RSE-0150"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0529"
+          ],
+          "relation_ids": [
+            "RSE-0150"
+          ]
         }
       },
       "activity": {
@@ -58408,7 +58454,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -58439,15 +58485,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0505"
-          ],
-          "relation_ids": [
-            "RSE-0162"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58460,6 +58497,15 @@
               "RSE-0162"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0505"
+          ],
+          "relation_ids": [
+            "RSE-0162"
+          ]
         }
       },
       "activity": {
@@ -58524,15 +58570,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0656"
-          ],
-          "relation_ids": [
-            "RSE-0195"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58545,6 +58582,15 @@
               "RSE-0195"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0656"
+          ],
+          "relation_ids": [
+            "RSE-0195"
+          ]
         }
       },
       "activity": {
@@ -58609,15 +58655,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0013"
-          ],
-          "relation_ids": [
-            "RSE-0196"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58630,6 +58667,15 @@
               "RSE-0196"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0013"
+          ],
+          "relation_ids": [
+            "RSE-0196"
+          ]
         }
       },
       "activity": {
@@ -58715,15 +58761,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0657"
-          ],
-          "relation_ids": [
-            "RSE-0197"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58736,6 +58773,15 @@
               "RSE-0197"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0657"
+          ],
+          "relation_ids": [
+            "RSE-0197"
+          ]
         }
       },
       "activity": {
@@ -58800,15 +58846,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0637"
-          ],
-          "relation_ids": [
-            "RSE-0151"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58821,6 +58858,15 @@
               "RSE-0151"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0637"
+          ],
+          "relation_ids": [
+            "RSE-0151"
+          ]
         }
       },
       "activity": {
@@ -58885,15 +58931,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0528"
-          ],
-          "relation_ids": [
-            "RSE-0152"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -58906,6 +58943,15 @@
               "RSE-0152"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0528"
+          ],
+          "relation_ids": [
+            "RSE-0152"
+          ]
         }
       },
       "activity": {
@@ -58981,15 +59027,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0296"
-          ],
-          "relation_ids": [
-            "RSE-0153"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59002,6 +59039,15 @@
               "RSE-0153"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0296"
+          ],
+          "relation_ids": [
+            "RSE-0153"
+          ]
         }
       },
       "activity": {
@@ -59077,15 +59123,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0263"
-          ],
-          "relation_ids": [
-            "RSE-0154"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59098,6 +59135,15 @@
               "RSE-0154"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0263"
+          ],
+          "relation_ids": [
+            "RSE-0154"
+          ]
         }
       },
       "activity": {
@@ -59162,15 +59208,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0027"
-          ],
-          "relation_ids": [
-            "RSE-0198"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59183,6 +59220,15 @@
               "RSE-0198"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0027"
+          ],
+          "relation_ids": [
+            "RSE-0198"
+          ]
         }
       },
       "activity": {
@@ -59247,15 +59293,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0116"
-          ],
-          "relation_ids": [
-            "RSE-0156"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59268,6 +59305,15 @@
               "RSE-0156"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0116"
+          ],
+          "relation_ids": [
+            "RSE-0156"
+          ]
         }
       },
       "activity": {
@@ -59332,15 +59378,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0660"
-          ],
-          "relation_ids": [
-            "RSE-0201"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59357,6 +59394,15 @@
               "RSE-0201"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0660"
+          ],
+          "relation_ids": [
+            "RSE-0201"
+          ]
         }
       },
       "activity": {
@@ -59421,15 +59467,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0007"
-          ],
-          "relation_ids": [
-            "RSE-0001"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59442,6 +59479,15 @@
               "RSE-0001"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0007"
+          ],
+          "relation_ids": [
+            "RSE-0001"
+          ]
         }
       },
       "activity": {
@@ -59506,15 +59552,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0032"
-          ],
-          "relation_ids": [
-            "RSE-0002"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59527,6 +59564,15 @@
               "RSE-0002"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0032"
+          ],
+          "relation_ids": [
+            "RSE-0002"
+          ]
         }
       },
       "activity": {
@@ -59591,15 +59637,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0033"
-          ],
-          "relation_ids": [
-            "RSE-0003"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59612,6 +59649,15 @@
               "RSE-0003"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0033"
+          ],
+          "relation_ids": [
+            "RSE-0003"
+          ]
         }
       },
       "activity": {
@@ -59676,15 +59722,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0034"
-          ],
-          "relation_ids": [
-            "RSE-0004"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59697,6 +59734,15 @@
               "RSE-0004"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0034"
+          ],
+          "relation_ids": [
+            "RSE-0004"
+          ]
         }
       },
       "activity": {
@@ -59761,15 +59807,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0035"
-          ],
-          "relation_ids": [
-            "RSE-0005"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59782,6 +59819,15 @@
               "RSE-0005"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0035"
+          ],
+          "relation_ids": [
+            "RSE-0005"
+          ]
         }
       },
       "activity": {
@@ -59846,15 +59892,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0036"
-          ],
-          "relation_ids": [
-            "RSE-0006"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59867,6 +59904,15 @@
               "RSE-0006"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0036"
+          ],
+          "relation_ids": [
+            "RSE-0006"
+          ]
         }
       },
       "activity": {
@@ -59931,15 +59977,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0037"
-          ],
-          "relation_ids": [
-            "RSE-0007"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -59952,6 +59989,15 @@
               "RSE-0007"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0037"
+          ],
+          "relation_ids": [
+            "RSE-0007"
+          ]
         }
       },
       "activity": {
@@ -60016,15 +60062,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0038"
-          ],
-          "relation_ids": [
-            "RSE-0008"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60037,6 +60074,15 @@
               "RSE-0008"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0038"
+          ],
+          "relation_ids": [
+            "RSE-0008"
+          ]
         }
       },
       "activity": {
@@ -60101,15 +60147,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0039"
-          ],
-          "relation_ids": [
-            "RSE-0009"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60122,6 +60159,15 @@
               "RSE-0009"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0039"
+          ],
+          "relation_ids": [
+            "RSE-0009"
+          ]
         }
       },
       "activity": {
@@ -60186,15 +60232,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0040"
-          ],
-          "relation_ids": [
-            "RSE-0010"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60207,6 +60244,15 @@
               "RSE-0010"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0040"
+          ],
+          "relation_ids": [
+            "RSE-0010"
+          ]
         }
       },
       "activity": {
@@ -60271,15 +60317,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0045"
-          ],
-          "relation_ids": [
-            "RSE-0011"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60292,6 +60329,15 @@
               "RSE-0011"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0045"
+          ],
+          "relation_ids": [
+            "RSE-0011"
+          ]
         }
       },
       "activity": {
@@ -60356,15 +60402,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0046"
-          ],
-          "relation_ids": [
-            "RSE-0012"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60377,6 +60414,15 @@
               "RSE-0012"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0046"
+          ],
+          "relation_ids": [
+            "RSE-0012"
+          ]
         }
       },
       "activity": {
@@ -60441,15 +60487,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0047"
-          ],
-          "relation_ids": [
-            "RSE-0013"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60462,6 +60499,15 @@
               "RSE-0013"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0047"
+          ],
+          "relation_ids": [
+            "RSE-0013"
+          ]
         }
       },
       "activity": {
@@ -60525,12 +60571,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60543,6 +60584,15 @@
               "RSE-0014"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0052"
+          ],
+          "relation_ids": [
+            "RSE-0014"
+          ]
         }
       },
       "activity": {
@@ -60576,7 +60626,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -60606,12 +60656,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60624,6 +60669,15 @@
               "RSE-0015"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0053"
+          ],
+          "relation_ids": [
+            "RSE-0015"
+          ]
         }
       },
       "activity": {
@@ -60657,7 +60711,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -60687,12 +60741,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60705,6 +60754,15 @@
               "RSE-0016"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0054"
+          ],
+          "relation_ids": [
+            "RSE-0016"
+          ]
         }
       },
       "activity": {
@@ -60738,7 +60796,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -60768,12 +60826,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60786,6 +60839,15 @@
               "RSE-0017"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0055"
+          ],
+          "relation_ids": [
+            "RSE-0017"
+          ]
         }
       },
       "activity": {
@@ -60819,7 +60881,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -60849,12 +60911,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60867,6 +60924,15 @@
               "RSE-0018"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0056"
+          ],
+          "relation_ids": [
+            "RSE-0018"
+          ]
         }
       },
       "activity": {
@@ -60900,7 +60966,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -60930,12 +60996,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -60948,6 +61009,15 @@
               "RSE-0019"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0057"
+          ],
+          "relation_ids": [
+            "RSE-0019"
+          ]
         }
       },
       "activity": {
@@ -60981,7 +61051,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61011,12 +61081,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61029,6 +61094,15 @@
               "RSE-0020"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0058"
+          ],
+          "relation_ids": [
+            "RSE-0020"
+          ]
         }
       },
       "activity": {
@@ -61062,7 +61136,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61092,12 +61166,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61110,6 +61179,15 @@
               "RSE-0021"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0059"
+          ],
+          "relation_ids": [
+            "RSE-0021"
+          ]
         }
       },
       "activity": {
@@ -61143,7 +61221,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61173,12 +61251,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61191,6 +61264,15 @@
               "RSE-0022"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0060"
+          ],
+          "relation_ids": [
+            "RSE-0022"
+          ]
         }
       },
       "activity": {
@@ -61224,7 +61306,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61254,12 +61336,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61272,6 +61349,15 @@
               "RSE-0023"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0061"
+          ],
+          "relation_ids": [
+            "RSE-0023"
+          ]
         }
       },
       "activity": {
@@ -61305,7 +61391,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61335,12 +61421,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61353,6 +61434,15 @@
               "RSE-0024"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0062"
+          ],
+          "relation_ids": [
+            "RSE-0024"
+          ]
         }
       },
       "activity": {
@@ -61386,7 +61476,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61416,12 +61506,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61434,6 +61519,15 @@
               "RSE-0025"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0063"
+          ],
+          "relation_ids": [
+            "RSE-0025"
+          ]
         }
       },
       "activity": {
@@ -61467,7 +61561,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61497,12 +61591,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61515,6 +61604,15 @@
               "RSE-0026"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0064"
+          ],
+          "relation_ids": [
+            "RSE-0026"
+          ]
         }
       },
       "activity": {
@@ -61548,7 +61646,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61578,12 +61676,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61596,6 +61689,15 @@
               "RSE-0027"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0065"
+          ],
+          "relation_ids": [
+            "RSE-0027"
+          ]
         }
       },
       "activity": {
@@ -61629,7 +61731,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61659,12 +61761,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61677,6 +61774,15 @@
               "RSE-0028"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0066"
+          ],
+          "relation_ids": [
+            "RSE-0028"
+          ]
         }
       },
       "activity": {
@@ -61710,7 +61816,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61740,12 +61846,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61758,6 +61859,15 @@
               "RSE-0029"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0067"
+          ],
+          "relation_ids": [
+            "RSE-0029"
+          ]
         }
       },
       "activity": {
@@ -61791,7 +61901,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61821,14 +61931,7 @@
         "type": "service_regional_archeologie",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0044"
-          ]
-        },
+        "level": "regional",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61841,6 +61944,15 @@
               "RSE-0049"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0044"
+          ],
+          "relation_ids": [
+            "RSE-0049"
+          ]
         }
       },
       "activity": {
@@ -61874,7 +61986,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -61905,15 +62017,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0669"
-          ],
-          "relation_ids": [
-            "RSE-0214"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -61928,6 +62031,15 @@
               "RSE-0214"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0669"
+          ],
+          "relation_ids": [
+            "RSE-0214"
+          ]
         }
       },
       "activity": {
@@ -61992,15 +62104,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0043"
-          ],
-          "relation_ids": [
-            "RSE-0109"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62013,6 +62116,15 @@
               "RSE-0109"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0043"
+          ],
+          "relation_ids": [
+            "RSE-0109"
+          ]
         }
       },
       "activity": {
@@ -62077,15 +62189,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0041"
-          ],
-          "relation_ids": [
-            "RSE-0118"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62098,6 +62201,15 @@
               "RSE-0118"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0041"
+          ],
+          "relation_ids": [
+            "RSE-0118"
+          ]
         }
       },
       "activity": {
@@ -62162,15 +62274,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0665"
-          ],
-          "relation_ids": [
-            "RSE-0206"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62183,6 +62286,15 @@
               "RSE-0206"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0665"
+          ],
+          "relation_ids": [
+            "RSE-0206"
+          ]
         }
       },
       "activity": {
@@ -62278,15 +62390,6 @@
         "bsr": "MC",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0039"
-          ],
-          "relation_ids": [
-            "RSE-0158"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62301,6 +62404,15 @@
               "RSE-0158"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0039"
+          ],
+          "relation_ids": [
+            "RSE-0158"
+          ]
         }
       },
       "activity": {
@@ -62365,15 +62477,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "regional",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0663"
-          ],
-          "relation_ids": [
-            "RSE-0204"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62386,6 +62489,15 @@
               "RSE-0204"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0663"
+          ],
+          "relation_ids": [
+            "RSE-0204"
+          ]
         }
       },
       "activity": {
@@ -62461,14 +62573,8 @@
         "bsr": "PRIV",
         "sector": "prive",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0662"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -62482,6 +62588,12 @@
               "RSE-0203"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "cellule_transfert_technologique",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -62515,7 +62627,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62556,14 +62668,7 @@
         "type": "musee_territorial",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0667"
-          ]
-        },
+        "level": "provincial",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62576,6 +62681,15 @@
               "RSE-0207"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0667"
+          ],
+          "relation_ids": [
+            "RSE-0207"
+          ]
         }
       },
       "activity": {
@@ -62609,7 +62723,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62650,16 +62764,28 @@
         "type": "service_etat_historique",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
-          "field": "Services.secteur_institutionnel"
+          "field": "Services.secteur_institutionnel",
+          "corroborated_by": {
+            "org_ids": [
+              "ORG-0023"
+            ],
+            "relation_ids": [
+              "RSE-0259"
+            ]
+          }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0259"
+          ]
         }
       },
       "activity": {
@@ -62693,7 +62819,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62723,16 +62849,28 @@
         "type": "service_etat_historique",
         "bsr": "MC",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
-          "field": "Services.secteur_institutionnel"
+          "field": "Services.secteur_institutionnel",
+          "corroborated_by": {
+            "org_ids": [
+              "ORG-0023"
+            ],
+            "relation_ids": [
+              "RSE-0260"
+            ]
+          }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0260"
+          ]
         }
       },
       "activity": {
@@ -62766,7 +62904,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62796,12 +62934,7 @@
         "type": "service_municipal_historique",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62814,6 +62947,15 @@
               "RSE-0136"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0634"
+          ],
+          "relation_ids": [
+            "RSE-0136"
+          ]
         }
       },
       "activity": {
@@ -62847,7 +62989,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62877,12 +63019,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62895,6 +63032,15 @@
               "RSE-0139"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0141"
+          ],
+          "relation_ids": [
+            "RSE-0139"
+          ]
         }
       },
       "activity": {
@@ -62928,7 +63074,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -62970,17 +63116,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0242"
-          ],
-          "relation_ids": [
-            "RSE-0108",
-            "RSE-0140",
-            "RSE-0142"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -62997,6 +63132,17 @@
               "RSE-0142"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0242"
+          ],
+          "relation_ids": [
+            "RSE-0108",
+            "RSE-0140",
+            "RSE-0142"
+          ]
         }
       },
       "activity": {
@@ -63060,12 +63206,7 @@
         "type": "service_archeologique_territorial",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63078,6 +63219,15 @@
               "RSE-0143"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0273"
+          ],
+          "relation_ids": [
+            "RSE-0143"
+          ]
         }
       },
       "activity": {
@@ -63111,7 +63261,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -63142,15 +63292,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0653"
-          ],
-          "relation_ids": [
-            "RSE-0185"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63163,6 +63304,15 @@
               "RSE-0185"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0653"
+          ],
+          "relation_ids": [
+            "RSE-0185"
+          ]
         }
       },
       "activity": {
@@ -63227,15 +63377,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0654"
-          ],
-          "relation_ids": [
-            "RSE-0186"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63248,6 +63389,15 @@
               "RSE-0186"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0654"
+          ],
+          "relation_ids": [
+            "RSE-0186"
+          ]
         }
       },
       "activity": {
@@ -63312,15 +63462,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0240"
-          ],
-          "relation_ids": [
-            "RSE-0187"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63333,6 +63474,15 @@
               "RSE-0187"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0240"
+          ],
+          "relation_ids": [
+            "RSE-0187"
+          ]
         }
       },
       "activity": {
@@ -63397,15 +63547,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0145"
-          ],
-          "relation_ids": [
-            "RSE-0188"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63422,6 +63563,15 @@
               "RSE-0218"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0145"
+          ],
+          "relation_ids": [
+            "RSE-0188"
+          ]
         }
       },
       "activity": {
@@ -63486,15 +63636,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0096"
-          ],
-          "relation_ids": [
-            "RSE-0189"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63509,6 +63650,15 @@
               "RSE-0216"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0096"
+          ],
+          "relation_ids": [
+            "RSE-0189"
+          ]
         }
       },
       "activity": {
@@ -63573,15 +63723,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0102"
-          ],
-          "relation_ids": [
-            "RSE-0190"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63594,6 +63735,15 @@
               "RSE-0190"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0102"
+          ],
+          "relation_ids": [
+            "RSE-0190"
+          ]
         }
       },
       "activity": {
@@ -63669,15 +63819,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0655"
-          ],
-          "relation_ids": [
-            "RSE-0191"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63690,6 +63831,15 @@
               "RSE-0191"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0655"
+          ],
+          "relation_ids": [
+            "RSE-0191"
+          ]
         }
       },
       "activity": {
@@ -63754,15 +63904,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0339"
-          ],
-          "relation_ids": [
-            "RSE-0192"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63775,6 +63916,15 @@
               "RSE-0192"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0339"
+          ],
+          "relation_ids": [
+            "RSE-0192"
+          ]
         }
       },
       "activity": {
@@ -63839,15 +63989,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0294"
-          ],
-          "relation_ids": [
-            "RSE-0193"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63860,6 +64001,15 @@
               "RSE-0193"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0294"
+          ],
+          "relation_ids": [
+            "RSE-0193"
+          ]
         }
       },
       "activity": {
@@ -63924,15 +64074,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0189"
-          ],
-          "relation_ids": [
-            "RSE-0194"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -63945,6 +64086,15 @@
               "RSE-0194"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0189"
+          ],
+          "relation_ids": [
+            "RSE-0194"
+          ]
         }
       },
       "activity": {
@@ -64008,12 +64158,7 @@
         "type": "service_competence_nationale",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -64026,6 +64171,15 @@
               "RSE-0212"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0023"
+          ],
+          "relation_ids": [
+            "RSE-0212"
+          ]
         }
       },
       "activity": {
@@ -64059,7 +64213,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -64101,15 +64255,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0221"
-          ]
-        },
         "territorial_competence": "regional",
         "sector_origin": {
           "method": "explicit",
@@ -64122,6 +64267,15 @@
               "RSE-0221"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0221"
+          ]
         }
       },
       "activity": {
@@ -64197,15 +64351,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0222"
-          ]
-        },
         "territorial_competence": "regional",
         "sector_origin": {
           "method": "explicit",
@@ -64218,6 +64363,15 @@
               "RSE-0222"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0222"
+          ]
         }
       },
       "activity": {
@@ -64282,15 +64436,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0223"
-          ]
-        },
         "territorial_competence": "interregional",
         "sector_origin": {
           "method": "explicit",
@@ -64303,6 +64448,15 @@
               "RSE-0223"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0223"
+          ]
         }
       },
       "activity": {
@@ -64378,15 +64532,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0224"
-          ]
-        },
         "territorial_competence": "regional",
         "sector_origin": {
           "method": "explicit",
@@ -64399,6 +64544,15 @@
               "RSE-0224"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0224"
+          ]
         }
       },
       "activity": {
@@ -64463,15 +64617,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0225"
-          ]
-        },
         "territorial_competence": "interregional",
         "sector_origin": {
           "method": "explicit",
@@ -64484,6 +64629,15 @@
               "RSE-0225"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0225"
+          ]
         }
       },
       "activity": {
@@ -64559,15 +64713,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0226"
-          ]
-        },
         "territorial_competence": "regional",
         "sector_origin": {
           "method": "explicit",
@@ -64580,6 +64725,15 @@
               "RSE-0226"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0226"
+          ]
         }
       },
       "activity": {
@@ -64655,15 +64809,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0227"
-          ]
-        },
         "territorial_competence": "interregional",
         "sector_origin": {
           "method": "explicit",
@@ -64676,6 +64821,15 @@
               "RSE-0227"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0227"
+          ]
         }
       },
       "activity": {
@@ -64751,15 +64905,6 @@
         "bsr": "Inrap",
         "sector": "public",
         "level": "national",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0008"
-          ],
-          "relation_ids": [
-            "RSE-0228"
-          ]
-        },
         "territorial_competence": "interregional",
         "sector_origin": {
           "method": "explicit",
@@ -64772,6 +64917,15 @@
               "RSE-0228"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0008"
+          ],
+          "relation_ids": [
+            "RSE-0228"
+          ]
         }
       },
       "activity": {
@@ -64835,16 +64989,28 @@
         "type": "service_municipal",
         "bsr": "COL",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
+        "level": "communal",
         "territorial_competence": "communal",
         "sector_origin": {
           "method": "explicit",
-          "field": "Services.secteur_institutionnel"
+          "field": "Services.secteur_institutionnel",
+          "corroborated_by": {
+            "org_ids": [
+              "ORG-0677"
+            ],
+            "relation_ids": [
+              "RSE-0229"
+            ]
+          }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0677"
+          ],
+          "relation_ids": [
+            "RSE-0229"
+          ]
         }
       },
       "activity": {
@@ -64878,7 +65044,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -64909,15 +65075,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0696"
-          ],
-          "relation_ids": [
-            "RSE-0230"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -64930,6 +65087,15 @@
               "RSE-0230"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0696"
+          ],
+          "relation_ids": [
+            "RSE-0230"
+          ]
         }
       },
       "activity": {
@@ -65007,15 +65173,15 @@
         "bsr": "MUS",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel"
+        },
+        "level_origin": {
+          "method": "unresolved",
+          "reason": "no_validated_current_attachment",
+          "org_ids": []
         }
       },
       "activity": {
@@ -65093,15 +65259,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0030"
-          ],
-          "relation_ids": [
-            "RSE-0232"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65114,6 +65271,15 @@
               "RSE-0232"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0030"
+          ],
+          "relation_ids": [
+            "RSE-0232"
+          ]
         }
       },
       "activity": {
@@ -65180,15 +65346,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0697"
-          ],
-          "relation_ids": [
-            "RSE-0233"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65201,6 +65358,15 @@
               "RSE-0233"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0697"
+          ],
+          "relation_ids": [
+            "RSE-0233"
+          ]
         }
       },
       "activity": {
@@ -65278,15 +65444,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0698"
-          ],
-          "relation_ids": [
-            "RSE-0234"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65299,6 +65456,15 @@
               "RSE-0234"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0698"
+          ],
+          "relation_ids": [
+            "RSE-0234"
+          ]
         }
       },
       "activity": {
@@ -65363,15 +65529,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0699"
-          ],
-          "relation_ids": [
-            "RSE-0235"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65384,6 +65541,15 @@
               "RSE-0235"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0699"
+          ],
+          "relation_ids": [
+            "RSE-0235"
+          ]
         }
       },
       "activity": {
@@ -65448,15 +65614,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0699"
-          ],
-          "relation_ids": [
-            "RSE-0236"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65469,6 +65626,15 @@
               "RSE-0236"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0699"
+          ],
+          "relation_ids": [
+            "RSE-0236"
+          ]
         }
       },
       "activity": {
@@ -65533,15 +65699,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0699"
-          ],
-          "relation_ids": [
-            "RSE-0237"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65554,6 +65711,15 @@
               "RSE-0237"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited_historical",
+          "org_ids": [
+            "ORG-0699"
+          ],
+          "relation_ids": [
+            "RSE-0237"
+          ]
         }
       },
       "activity": {
@@ -65618,15 +65784,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0703"
-          ],
-          "relation_ids": [
-            "RSE-0240"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65639,6 +65796,15 @@
               "RSE-0240"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0703"
+          ],
+          "relation_ids": [
+            "RSE-0240"
+          ]
         }
       },
       "activity": {
@@ -65703,15 +65869,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "cantonal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0704"
-          ],
-          "relation_ids": [
-            "RSE-0241"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65724,6 +65881,15 @@
               "RSE-0241"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0704"
+          ],
+          "relation_ids": [
+            "RSE-0241"
+          ]
         }
       },
       "activity": {
@@ -65788,14 +65954,8 @@
         "bsr": "PRIV",
         "sector": "prive",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0707"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -65807,6 +65967,12 @@
               "RSE-0242"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "departement_entreprise_archeologie",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -65840,7 +66006,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -65902,15 +66068,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0708"
-          ],
-          "relation_ids": [
-            "RSE-0243"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -65923,6 +66080,15 @@
               "RSE-0243"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0708"
+          ],
+          "relation_ids": [
+            "RSE-0243"
+          ]
         }
       },
       "activity": {
@@ -65998,15 +66164,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0656"
-          ],
-          "relation_ids": [
-            "RSE-0244"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -66019,6 +66176,15 @@
               "RSE-0244"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0656"
+          ],
+          "relation_ids": [
+            "RSE-0244"
+          ]
         }
       },
       "activity": {
@@ -66084,14 +66250,7 @@
         "type": "musee_national",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0712"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -66104,6 +66263,15 @@
               "RSE-0245"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0712"
+          ],
+          "relation_ids": [
+            "RSE-0245"
+          ]
         }
       },
       "activity": {
@@ -66137,7 +66305,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66167,14 +66335,7 @@
         "type": "musee_national",
         "bsr": "MUS",
         "sector": "public",
-        "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0137"
-          ]
-        },
+        "level": "national",
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -66187,6 +66348,15 @@
               "RSE-0246"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0137"
+          ],
+          "relation_ids": [
+            "RSE-0246"
+          ]
         }
       },
       "activity": {
@@ -66220,7 +66390,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66253,15 +66423,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0725"
-          ],
-          "relation_ids": [
-            "RSE-0247"
-          ]
-        },
         "territorial_competence": "departemental",
         "sector_origin": {
           "method": "explicit",
@@ -66274,6 +66435,15 @@
               "RSE-0247"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0725"
+          ],
+          "relation_ids": [
+            "RSE-0247"
+          ]
         }
       },
       "activity": {
@@ -66338,16 +66508,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "departemental",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0725"
-          ],
-          "relation_ids": [
-            "RSE-0247",
-            "RSE-0248"
-          ]
-        },
         "territorial_competence": "departemental",
         "sector_origin": {
           "method": "explicit",
@@ -66361,6 +66521,16 @@
               "RSE-0248"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0725"
+          ],
+          "relation_ids": [
+            "RSE-0247",
+            "RSE-0248"
+          ]
         }
       },
       "activity": {
@@ -66425,15 +66595,6 @@
         "bsr": "COL",
         "sector": "public",
         "level": "intercommunal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0163"
-          ],
-          "relation_ids": [
-            "RSE-0249"
-          ]
-        },
         "territorial_competence": "intercommunal",
         "sector_origin": {
           "method": "explicit",
@@ -66446,6 +66607,15 @@
               "RSE-0249"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0163"
+          ],
+          "relation_ids": [
+            "RSE-0249"
+          ]
         }
       },
       "activity": {
@@ -66510,14 +66680,8 @@
         "bsr": "LAB",
         "sector": "prive",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0735"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -66529,6 +66693,12 @@
               "RSE-0250"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "service_recherche",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -66562,7 +66732,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66593,12 +66763,8 @@
         "bsr": "LAB",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -66610,6 +66776,12 @@
               "RSE-0251"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "service_recherche",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -66643,7 +66815,7 @@
         "country_unrecorded": false,
         "no_website": true,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66674,14 +66846,8 @@
         "bsr": "LAB",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0299"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -66693,6 +66859,12 @@
               "RSE-0253"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "composante_laboratoire",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -66726,7 +66898,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66757,14 +66929,8 @@
         "bsr": "LAB",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0299"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -66776,6 +66942,12 @@
               "RSE-0254"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "composante_laboratoire",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -66809,7 +66981,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66840,14 +67012,8 @@
         "bsr": "UNIV",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "missing_parent_level",
-          "org_ids": [
-            "ORG-0280"
-          ]
-        },
         "territorial_competence": null,
+        "level_applicability": "not_applicable",
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel",
@@ -66859,6 +67025,12 @@
               "RSE-0255"
             ]
           }
+        },
+        "level_origin": {
+          "method": "not_applicable",
+          "reason": "explicit_service_applicability_qualification",
+          "service_type": "centre_universitaire",
+          "field": "Qualification_echelons.applicabilite_echelon"
         }
       },
       "activity": {
@@ -66892,7 +67064,7 @@
         "country_unrecorded": false,
         "no_website": false,
         "sector_unresolved": false,
-        "level_unresolved": true
+        "level_unresolved": false
       }
     },
     {
@@ -66923,15 +67095,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0160"
-          ],
-          "relation_ids": [
-            "RSE-0256"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -66944,6 +67107,15 @@
               "RSE-0256"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0160"
+          ],
+          "relation_ids": [
+            "RSE-0256"
+          ]
         }
       },
       "activity": {
@@ -67008,15 +67180,6 @@
         "bsr": "MUS",
         "sector": "public",
         "level": "communal",
-        "level_origin": {
-          "method": "inherited",
-          "org_ids": [
-            "ORG-0754"
-          ],
-          "relation_ids": [
-            "RSE-0257"
-          ]
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
@@ -67029,6 +67192,15 @@
               "RSE-0257"
             ]
           }
+        },
+        "level_origin": {
+          "method": "inherited",
+          "org_ids": [
+            "ORG-0754"
+          ],
+          "relation_ids": [
+            "RSE-0257"
+          ]
         }
       },
       "activity": {
@@ -67093,15 +67265,15 @@
         "bsr": "MUS",
         "sector": "public",
         "level": null,
-        "level_origin": {
-          "method": "unresolved",
-          "reason": "no_validated_current_attachment",
-          "org_ids": []
-        },
         "territorial_competence": null,
         "sector_origin": {
           "method": "explicit",
           "field": "Services.secteur_institutionnel"
+        },
+        "level_origin": {
+          "method": "unresolved",
+          "reason": "no_validated_current_attachment",
+          "org_ids": []
         }
       },
       "activity": {
@@ -72257,9 +72429,9 @@
       "source": "SER-0176",
       "target": "ORG-0677",
       "type": "rattachement_service",
-      "start": "1992-01",
+      "start": null,
       "end": null,
-      "validation": "a_verifier"
+      "validation": "valide"
     },
     {
       "id": "RSE-0230",
@@ -72521,6 +72693,24 @@
       "start": null,
       "end": null,
       "validation": "a_verifier"
+    },
+    {
+      "id": "RSE-0259",
+      "source": "SER-0151",
+      "target": "ORG-0023",
+      "type": "rattachement_service",
+      "start": "1966",
+      "end": "1996",
+      "validation": "valide"
+    },
+    {
+      "id": "RSE-0260",
+      "source": "SER-0152",
+      "target": "ORG-0023",
+      "type": "rattachement_service",
+      "start": "1980",
+      "end": "1996",
+      "validation": "valide"
     }
   ],
   "locations": [

@@ -29,7 +29,7 @@ vm.runInNewContext(instrumented,ctx,{filename:'organismes.js'});
 const api=ctx.__federalTest;
 const by=new Map(published.authorities.map(x=>[x.id,x]));
 assert.equal(by.size,934);
-assert.equal(published.relations.length,598);
+assert.equal(published.relations.length,600);
 assert.ok(!by.has('SER-0063'),'L’ancien SER a été reclassé en ORG');
 api.setup(published);
 assert.equal(api.count(),682);

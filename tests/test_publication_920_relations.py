@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 PUBLIC=ROOT/'docs/data/organismes.json'
-MASTER='AdlFI_referentiel_1-51_affiliations_federales_20261120_RECETTE.xlsx'
-MASTER_SHA='af3ee809099a28373a5b183afe70af27066aeb3d23e1776fd501a192be91e1d4'
+MASTER='AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx'
+MASTER_SHA='373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5'
 
 
 class OrganismesPublication920Tests(unittest.TestCase):
@@ -27,7 +27,7 @@ class OrganismesPublication920Tests(unittest.TestCase):
         self.assertEqual(d['provenance']['source_filename'],MASTER)
         self.assertEqual(d['provenance']['source_sha256'],MASTER_SHA)
         self.assertEqual(len(self.entities),934)
-        self.assertEqual(len(self.relations),598)
+        self.assertEqual(len(self.relations),600)
         self.assertEqual(d['totals']['organismes'],734)
         self.assertEqual(d['totals']['services'],200)
         self.assertEqual(d['totals']['catalog_included'],682)
@@ -50,7 +50,7 @@ class OrganismesPublication920Tests(unittest.TestCase):
                 self.assertEqual(source,'SER',rid)
                 self.assertIn(target,('SER','ORG'),rid)
         self.assertEqual(sum(r.startswith('REL-') for r in self.relations),342)
-        self.assertEqual(sum(r.startswith('RSE-') for r in self.relations),256)
+        self.assertEqual(sum(r.startswith('RSE-') for r in self.relations),258)
 
     def test_traces_fusion_and_imbé(self):
         for rid,source,target,date in [
