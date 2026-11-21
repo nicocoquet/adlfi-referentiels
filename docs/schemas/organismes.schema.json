@@ -126,6 +126,10 @@
                 null
               ]
             },
+            "level_applicability": {
+              "type": ["string", "null"],
+              "enum": ["not_applicable", null]
+            },
             "level_origin": {
               "type": [
                 "object",

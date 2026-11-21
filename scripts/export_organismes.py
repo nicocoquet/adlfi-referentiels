@@ -28,7 +28,7 @@ MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'
 REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 NS = {'x': MAIN}
 CORE = ('Organismes','Services','Historique','Historique_services','Statuts_historiques','Relations','Relations_services','Localisations','Affiliations_sources','Correspondances_affiliations')
-OPTIONAL = ('Fusions identifiants',)
+OPTIONAL = ('Fusions identifiants', 'Qualification_echelons')
 
 
 def column_number(cell: str) -> int:
@@ -310,6 +310,21 @@ def build(source: Path):
                 raise ValueError(f"Périmètre de compétence inconnu pour {ident}: {rec['classification']['territorial_competence']}")
             entities.append(rec)
     if len({x['id'] for x in entities})!=len(entities):raise ValueError('IDs ORG/SER dupliqués')
+    # Qualification explicite d'applicabilite : distinction avec la validation globale.
+    by_id = {a['id']: a for a in entities}
+    qualified_ids = set()
+    for row in sh.get('Qualification_echelons', []):
+        ident = value(row, 'service_id')
+        applicability = value(row, 'applicabilite_echelon')
+        status = value(row, 'statut_validation')
+        if not ident or ident in qualified_ids or ident not in by_id:
+            raise ValueError(f'Qualification echelon invalide ou dupliquee: {ident}')
+        if by_id[ident]['kind'] != 'SER':
+            raise ValueError(f'Qualification portant sur un non-service: {ident}')
+        if applicability != 'not_applicable' or status not in ('valide','validee','validée'):
+            raise ValueError(f'Qualification non approuvee pour {ident}: {applicability} / {status}')
+        qualified_ids.add(ident)
+        by_id[ident]['classification']['level_applicability'] = applicability
     aliases = collect_identity_aliases(sh.get('Fusions identifiants', []), {x['id'] for x in entities})
     sector_audit = apply_sector_inheritance(entities, relations)
     # L'échelon résolu est institutionnel, non un territoire de compétence.
