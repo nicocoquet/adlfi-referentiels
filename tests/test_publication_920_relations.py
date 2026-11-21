@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 PUBLIC=ROOT/'docs/data/organismes.json'
-MASTER='AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx'
-MASTER_SHA='373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5'
+MASTER='AdlFI_referentiel_1-53_A05_AFAN_CNRS_INRAP_CANDIDAT.xlsx'
+MASTER_SHA='fbea8c20b5867e742fa6bf82e058409c249c1017e0d0ec61e9612f926b878415'
 
 
 class OrganismesPublication920Tests(unittest.TestCase):

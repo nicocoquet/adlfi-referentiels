@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx",
-    "source_sha256": "373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5",
+    "source_filename": "AdlFI_referentiel_1-53_A05_AFAN_CNRS_INRAP_CANDIDAT.xlsx",
+    "source_sha256": "fbea8c20b5867e742fa6bf82e058409c249c1017e0d0ec61e9612f926b878415",
     "exported_at_utc": "2026-11-21T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
@@ -99,7 +99,7 @@
       "website": "https://ccj.cnrs.fr/",
       "usage": {
         "affiliations_linked": 17,
-        "affiliations_validated": 1,
+        "affiliations_validated": 4,
         "source_occurrences_linked": 59
       },
       "quality": {
@@ -251,8 +251,8 @@
       "id": "ORG-0004",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "inclure",
@@ -274,13 +274,16 @@
         "type": "organisme_national_recherche",
         "bsr": "CNRS",
         "sector": "public",
-        "level": null,
-        "level_origin": null,
+        "level": "national",
+        "level_origin": {
+          "method": "explicit",
+          "field": "Organismes.echelon_institutionnel"
+        },
         "territorial_competence": null
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "1939-10-19",
         "end": null,
         "catalog": "inclure"
       },
@@ -299,7 +302,7 @@
       "website": "https://www.cnrs.fr/",
       "usage": {
         "affiliations_linked": 173,
-        "affiliations_validated": 5,
+        "affiliations_validated": 10,
         "source_occurrences_linked": 326
       },
       "quality": {
@@ -380,8 +383,8 @@
       "id": "ORG-0008",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "inclure",
@@ -412,7 +415,7 @@
       },
       "activity": {
         "active": true,
-        "start": null,
+        "start": "2002-02-01",
         "end": null,
         "catalog": "inclure"
       },
@@ -431,7 +434,7 @@
       "website": "https://www.inrap.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 6,
+        "affiliations_validated": 7,
         "source_occurrences_linked": 270
       },
       "quality": {
@@ -974,7 +977,7 @@
       "website": "https://www.univ-amu.fr/",
       "usage": {
         "affiliations_linked": 35,
-        "affiliations_validated": 2,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 85
       },
       "quality": {
@@ -3977,8 +3980,8 @@
       "id": "ORG-0068",
       "kind": "ORG",
       "validation": {
-        "status": "a_verifier",
-        "established": false
+        "status": "valide",
+        "established": true
       },
       "presentation": {
         "catalog": "inclure",
@@ -4025,7 +4028,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 5,
-        "affiliations_validated": 1,
+        "affiliations_validated": 5,
         "source_occurrences_linked": 2270
       },
       "quality": {
@@ -8932,7 +8935,7 @@
       "website": "https://www.mnhn.fr/",
       "usage": {
         "affiliations_linked": 20,
-        "affiliations_validated": 2,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 75
       },
       "quality": {
@@ -12801,7 +12804,7 @@
       "website": "https://arscan.parisnanterre.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 1,
+        "affiliations_validated": 3,
         "source_occurrences_linked": 85
       },
       "quality": {
@@ -22333,7 +22336,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 2,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 2
       },
       "quality": {

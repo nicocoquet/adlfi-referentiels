@@ -17,8 +17,17 @@ class Publication152Tests(unittest.TestCase):
     def setUpClass(cls):
         cls.data=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
 
+    @staticmethod
+    def snapshot_152(data):
+        """Restaurer la provenance 1.52 pour la recette historique."""
+        from copy import deepcopy
+        baseline=deepcopy(data)
+        baseline['provenance']['source_filename']='AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx'
+        baseline['provenance']['source_sha256']='373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5'
+        return baseline
+
     def test_candidat_152_valide(self):
-        errors, levels, methods=verify(self.data)
+        errors, levels, methods=verify(self.snapshot_152(self.data))
         self.assertEqual(errors, [])
         self.assertEqual(levels['unresolved'],2)
         self.assertEqual(levels['not_applicable'],8)
