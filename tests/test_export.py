@@ -20,6 +20,8 @@ SOURCES = {
         '6b6bf9a0ea0da8c54a56fc4b33224ac1161b5f885b599a0a4c6ca2d71cfe0668',
     'AdlFI_referentiel_1-51_affiliations_federales_20261120_RECETTE.xlsx':
         'af3ee809099a28373a5b183afe70af27066aeb3d23e1776fd501a192be91e1d4',
+    'AdlFI_referentiel_1-52_A02_A03_QUALIFIE_CANDIDAT.xlsx':
+        '373091d86be0378313068e64db842be45a99a3a71bdf21f57b0915c77a7772d5',
 }
 
 
@@ -96,7 +98,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
@@ -255,7 +257,7 @@ class TestReferentielOrganismes(unittest.TestCase):
     def test_culture_master_consolidation(self):
         # Jalons historiques conservés après migration du maître 1.41.
         expected = {
-            'ORG-0023': '1959',
+            'ORG-0023': '1959-02-03',
             'ORG-0035': '1969', 'ORG-0055': '1980',
             'ORG-0057': '1969', 'ORG-0067': '1969',
             'ORG-0041': '1981-12-20', 'ORG-0042': '1992',
@@ -280,7 +282,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
         self.assertEqual(self.d['totals']['organismes'], 734)
         self.assertEqual(self.d['totals']['services'], 200)
-        self.assertEqual(len(self.d['relations']), 598)
+        self.assertEqual(len(self.d['relations']), 600)
         rels = {rel['id']: rel for rel in self.d['relations']}
         for key, src, dst, role in [
             ('REL-0288','ORG-0478','ORG-0023','tutelle'),

@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données publiées depuis le maître enrichi du 20 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données candidates du maître qualifié 1.52, 21 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -105,7 +105,7 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
 
-Dans la publication issue du maître **consolidé du 20 novembre 2026** : **934 autorités** (734 ORG et 200 SER), **682 fiches visibles**, 252 autorités conservées hors catalogue et **594 relations** ; les **200 SER** ont un secteur résolu (**197 publics**, **3 privés**). Deux secteurs sont hérités de rattachements validés et 198 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
+Dans le JSON candidat du maître **1.52 (21 novembre 2026)** : **934 autorités** (734 ORG et 200 SER), **682 fiches visibles**, 252 autorités conservées hors catalogue et **600 relations** (342 REL et 258 RSE). Les **200 SER** possèdent un secteur résolu (**197 publics**, **3 privés**). La résolution des échelons institutionnels donne **190 échelons classés**, **8 explicitement non applicables** et **2 à instruire** (SER-0178 et SER-0202), dont **33 héritages historiques** documentés. Deux secteurs sont hérités de rattachements validés et 198 explicitement documentés dans le maître. La SCP `ORG-0292` conserve une catégorie BSR `PRIV` et un secteur institutionnel `public`. Les secteurs de `SER-0151` (DRASM) et `SER-0152` (CNRAS) sont **renseignés directement** dans la feuille `Services`, sur pièces institutionnelles historiques, sans les déduire de la fusion constitutive du Drassm. Le secteur institutionnel est distinct de la catégorie BSR et de la forme juridique.
 
 
 ## Héritage de l'échelon institutionnel des services

@@ -61,7 +61,7 @@ class Lot03HistoryTests(unittest.TestCase):
             self.assertEqual(rec['classification']['type'],'epci')
             self.assertEqual(rec['classification']['level'],'intercommunal')
         self.assertEqual(self.by['ORG-0190']['activity']['active'],True)
-        self.assertEqual(self.by['ORG-0242']['activity']['active'],None)
+        self.assertEqual(self.by['ORG-0242']['activity']['active'],True)
         self.assertEqual(self.by['ORG-0516']['activity']['active'],True)
 
     def test_riom_dissolution_is_documented_not_inferred_from_status(self):
@@ -77,7 +77,7 @@ class Lot03HistoryTests(unittest.TestCase):
         self.assertEqual(self.d['totals']['organismes'],734)
         self.assertEqual(self.d['totals']['services'],200)
         self.assertEqual(self.d['totals']['catalog_included'],682)
-        self.assertEqual(len(self.d['relations']),598)
+        self.assertEqual(len(self.d['relations']),600)
         rels={r['id']:r for r in self.d['relations']}
         for key,source,target in [
             ('REL-0292','ORG-0658','ORG-0659'),
