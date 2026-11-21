@@ -14,9 +14,9 @@ import os
 import sys
 from pathlib import Path
 
-from scripts.export_organismes import build
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.export_organismes import build
 EXPECTED_NAME = "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx"
 EXPECTED_SHA = "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35"
 EPOCH = "1795305600"  # 22 novembre 2026, 00:00:00 UTC
