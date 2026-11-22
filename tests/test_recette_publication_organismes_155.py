@@ -14,7 +14,19 @@ SOURCE = "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx"
 class Publication155Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.data = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
+        current = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
+        # Restituer l'état historique de 1.55 depuis la version publiée 1.56.
+        cls.data = copy.deepcopy(current)
+        cls.data["provenance"]["source_filename"] = "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx"
+        cls.data["provenance"]["source_sha256"] = "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35"
+        previous = {
+            "ORG-0004": 19, "ORG-0008": 17, "ORG-0192": 0,
+            "ORG-0241": 0, "ORG-0348": 1, "ORG-0351": 0,
+            "ORG-0451": 3, "SER-0041": 0,
+        }
+        for a in cls.data["authorities"]:
+            if a["id"] in previous:
+                a["usage"]["affiliations_validated"] = previous[a["id"]]
 
     def test_candidat(self):
         self.assertEqual(validate(self.data), [])
@@ -42,11 +54,14 @@ class Publication155Tests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("node"), "Node.js indisponible")
     def test_diff_strict_contre_154(self):
-        result = subprocess.run(
-            ["node", str(ROOT / "scripts/recette_organismes_155_diff.cjs"),
-             str(ROOT / "docs/data/organismes.json")],
-            cwd=ROOT, text=True, capture_output=True)
-        self.assertEqual(result.returncode, 0, result.stdout + "\n" + result.stderr)
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as tmp:
+            historic = Path(tmp) / "organismes-155.json"
+            historic.write_text(json.dumps(self.data, ensure_ascii=False), encoding="utf-8")
+            result = subprocess.run(
+                ["node", str(ROOT / "scripts/recette_organismes_155_diff.cjs"),
+                 str(historic)], cwd=ROOT, text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stdout + "\n" + result.stderr)
 
 if __name__ == "__main__":
     unittest.main()

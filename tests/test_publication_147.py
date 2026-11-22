@@ -24,6 +24,8 @@ SOURCES = {
         '32e69ba481331a0f1470c93ae40827e69dbb58cca20d739921459be30b218f15',
     'AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx':
         '2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35',
+    'AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx':
+        '0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
@@ -46,7 +48,7 @@ class PublicationSnapshotsTests(unittest.TestCase):
 
     def test_historical_publication_and_adera_correction(self):
         is_149 = self.data['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_'))
         histories = [
             (a['id'], h)
             for a in self.data['authorities'] if a['kind'] == 'ORG'
