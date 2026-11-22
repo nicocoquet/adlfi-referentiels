@@ -28,11 +28,11 @@ const ctx={fetch:()=>({then(){return this;},catch(){return this;}})};
 vm.runInNewContext(instrumented,ctx,{filename:'organismes.js'});
 const api=ctx.__federalTest;
 const by=new Map(published.authorities.map(x=>[x.id,x]));
-assert.equal(by.size,934);
+assert.equal(by.size,935);
 assert.equal(published.relations.length,600);
 assert.ok(!by.has('SER-0063'),'L’ancien SER a été reclassé en ORG');
 api.setup(published);
-assert.equal(api.count(),682);
+assert.equal(api.count(),683);
 assert.match(api.block(by.get('ORG-0747')),/data-detail="ORG-0120"/,
  'GRASM affilié à FFESSM après migration');
 assert.match(api.block(by.get('ORG-0120')),/data-detail="ORG-0747"/,
