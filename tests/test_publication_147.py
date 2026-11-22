@@ -1,5 +1,6 @@
 """Contrôles des instantanés publiés 1.47 et 1.49 : provenance, Inrap et historique."""
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -30,6 +31,8 @@ SOURCES = {
         '8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009',
     'AdlFI_referentiel_1-58_A05F_ARCHEO_ATLANTICA_CANDIDAT.xlsx':
         '6aa15da3019bc0a08987cd48631e95d09172d36b9fb80009b10a9636f1bf67d8',
+    'AdlFI_referentiel_1-59_activites_CANDIDAT.xlsx':
+        '3926b703b9e0fb20d3ed09068282ca97ea718eff14659ba8e3692b2cae0fe53e',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
@@ -51,8 +54,10 @@ class PublicationSnapshotsTests(unittest.TestCase):
         self.assertEqual(d['totals']['catalog_included'], 683)
 
     def test_historical_publication_and_adera_correction(self):
-        is_149 = self.data['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_', 'AdlFI_referentiel_1-58_'))
+        # Les historiques enrichis s'appliquent à toutes les versions >= 1.49.
+        source = self.data['provenance']['source_filename']
+        match = re.match(r'^AdlFI_referentiel_1-(\d+)_', source)
+        is_149 = bool(match and int(match.group(1)) >= 49)
         histories = [
             (a['id'], h)
             for a in self.data['authorities'] if a['kind'] == 'ORG'

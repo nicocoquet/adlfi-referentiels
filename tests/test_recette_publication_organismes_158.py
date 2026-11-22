@@ -1,3 +1,4 @@
+from scripts.recette_instantanes_organismes import charger_instantane
 """Recette A05f : publication 1.58 et reconstitution strictement réversible de 1.57."""
 import copy,json,shutil,subprocess,tempfile,unittest
 from pathlib import Path
@@ -8,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication158Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.d=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.d=charger_instantane("1.58")
 
     def test_publication_attendue(self):
         self.assertEqual(validate(self.d),[])
@@ -53,10 +54,13 @@ class Publication158Tests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstitution_stricte_157(self):
-        r=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_158_diff.cjs"),
-                          str(ROOT/"docs/data/organismes.json")],
-                         cwd=ROOT,text=True,capture_output=True)
-        self.assertEqual(r.returncode,0,r.stdout+"\n"+r.stderr)
+        # Le contrôle A05f reçoit l'instantané authentique 1.58, pas le JSON courant.
+        with tempfile.TemporaryDirectory() as tmp:
+            snapshot=Path(tmp)/"organismes-158.json"
+            snapshot.write_text(json.dumps(self.d,ensure_ascii=False),encoding="utf-8")
+            r=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_158_diff.cjs"),
+                              str(snapshot)],cwd=ROOT,text=True,capture_output=True)
+            self.assertEqual(r.returncode,0,r.stdout+"\n"+r.stderr)
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstitution_refuse_mutation_inattendue(self):

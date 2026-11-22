@@ -1,3 +1,4 @@
+from scripts.recette_instantanes_organismes import charger_instantane
 from scripts.recette_historique_organismes_158 import sans_a05f
 """Tests positifs et négatifs de publication Organismes 1.56."""
 import copy,json,shutil,subprocess,tempfile,unittest
@@ -8,12 +9,8 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication156Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Restaurer la version historique 1.56 à partir du JSON public 1.57.
-        current=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
-        cls.d=sans_a05f(current)
-        cls.d["provenance"]["source_filename"]="AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx"
-        cls.d["provenance"]["source_sha256"]="0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389"
-        next(a for a in cls.d["authorities"] if a["id"]=="ORG-0156")["usage"]["affiliations_validated"]=1
+        cls.d=charger_instantane("1.56")
+
     def test_candidat(self):
         self.assertEqual(validate(self.d),[])
     def test_sha_bloquant(self):
