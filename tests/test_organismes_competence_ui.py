@@ -16,12 +16,12 @@ class OrganismesCompetenceUI(unittest.TestCase):
 
     def test_provenance_et_effectifs_maitre_149(self):
         self.assertEqual(self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx')
-        self.assertEqual(self.d['totals']['authorities'],934)
-        self.assertEqual(self.d['totals']['organismes'],734)
+            'AdlFI_referentiel_1-58_A05F_ARCHEO_ATLANTICA_CANDIDAT.xlsx')
+        self.assertEqual(self.d['totals']['authorities'],935)
+        self.assertEqual(self.d['totals']['organismes'],735)
         self.assertEqual(self.d['totals']['services'],200)
-        self.assertEqual(self.d['totals']['catalog_included'],682)
-        self.assertIn('934 autorités',self.readme)
+        self.assertEqual(self.d['totals']['catalog_included'],683)
+        self.assertIn('935 autorités',self.readme)
         self.assertIn('maître 1.50',self.readme)
 
     def test_treize_perimetres_explicitement_renseignes(self):
