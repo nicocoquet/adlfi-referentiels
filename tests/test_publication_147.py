@@ -33,6 +33,8 @@ SOURCES = {
         '6aa15da3019bc0a08987cd48631e95d09172d36b9fb80009b10a9636f1bf67d8',
     'AdlFI_referentiel_1-59_activites_CANDIDAT.xlsx':
         '3926b703b9e0fb20d3ed09068282ca97ea718eff14659ba8e3692b2cae0fe53e',
+    'AdlFI_referentiel_1-60_lot01_quatre_activites_CANDIDAT.xlsx':
+        '70aeff4fedc66a54d1a45240af0d22cee1130565e2b29cefb1495e83aa434098',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
