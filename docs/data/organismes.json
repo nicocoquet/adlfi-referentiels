@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx",
-    "source_sha256": "0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389",
+    "source_filename": "AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx",
+    "source_sha256": "8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009",
     "exported_at_utc": "2026-11-22T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
@@ -10212,7 +10212,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 3,
-        "affiliations_validated": 1,
+        "affiliations_validated": 2,
         "source_occurrences_linked": 9
       },
       "quality": {
