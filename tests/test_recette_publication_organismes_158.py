@@ -1,3 +1,4 @@
+from scripts.recette_instantanes_organismes import charger_instantane
 """Recette A05f : publication 1.58 et reconstitution strictement réversible de 1.57."""
 import copy,json,shutil,subprocess,tempfile,unittest
 from pathlib import Path
@@ -8,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication158Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.d=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.d=charger_instantane("1.58")
 
     def test_publication_attendue(self):
         self.assertEqual(validate(self.d),[])
