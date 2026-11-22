@@ -37,6 +37,8 @@ SOURCES = {
         '70aeff4fedc66a54d1a45240af0d22cee1130565e2b29cefb1495e83aa434098',
     'AdlFI_referentiel_1-61_lot01_activites_et_date_CANDIDAT.xlsx':
         'fb475d0270ca74757c7d34dc97978897dccdf5b12cc10c2ec8aa3f35a65e8b98',
+    'AdlFI_referentiel_1-62_lot01_huit_associations_CANDIDAT.xlsx':
+        '430cef30bd9aa2cd0a70e2b6c384f9cbc91cc7aca4e8d70b53de7a666645cc52',
 }
 
 class PublicationSnapshotsTests(unittest.TestCase):
