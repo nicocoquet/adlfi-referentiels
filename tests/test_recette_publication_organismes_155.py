@@ -20,7 +20,7 @@ class Publication155Tests(unittest.TestCase):
         cls.data["provenance"]["source_filename"] = "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx"
         cls.data["provenance"]["source_sha256"] = "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35"
         previous = {
-            "ORG-0004": 19, "ORG-0008": 17, "ORG-0192": 0,
+            "ORG-0156": 1, "ORG-0004": 19, "ORG-0008": 17, "ORG-0192": 0,
             "ORG-0241": 0, "ORG-0348": 1, "ORG-0351": 0,
             "ORG-0451": 3, "SER-0041": 0,
         }
