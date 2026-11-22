@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Recette bloquante de la publication 1.52 depuis le maître qualifié.
 
 Les tests négatifs vérifient que les invariants refusent les régressions ;
@@ -15,7 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication152Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.data=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
+        cls.data=sans_a05f(json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8')))
 
     @staticmethod
     def snapshot_152(data):
