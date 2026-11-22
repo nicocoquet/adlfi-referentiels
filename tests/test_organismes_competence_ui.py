@@ -37,7 +37,7 @@ class OrganismesCompetenceUI(unittest.TestCase):
             self.assertIn(r['classification']['territorial_competence'],
                           ('regional','interregional'))
         self.assertEqual(sum(x['classification'].get('territorial_competence') is None
-                             for x in self.d['authorities']),921)
+                             for x in self.d['authorities']),922)
 
     def test_fiche_et_csv_distincts_sans_fausse_facette(self):
         self.assertIn("row('Échelon institutionnel'",self.js)
