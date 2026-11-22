@@ -40,6 +40,8 @@ SOURCES = {
         '70aeff4fedc66a54d1a45240af0d22cee1130565e2b29cefb1495e83aa434098',
     'AdlFI_referentiel_1-61_lot01_activites_et_date_CANDIDAT.xlsx':
         'fb475d0270ca74757c7d34dc97978897dccdf5b12cc10c2ec8aa3f35a65e8b98',
+    'AdlFI_referentiel_1-62_lot01_huit_associations_CANDIDAT.xlsx':
+        '430cef30bd9aa2cd0a70e2b6c384f9cbc91cc7aca4e8d70b53de7a666645cc52',
 }
 
 
@@ -116,7 +118,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_', 'AdlFI_referentiel_1-58_', 'AdlFI_referentiel_1-59_', 'AdlFI_referentiel_1-60_', 'AdlFI_referentiel_1-61_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_', 'AdlFI_referentiel_1-58_', 'AdlFI_referentiel_1-59_', 'AdlFI_referentiel_1-60_', 'AdlFI_referentiel_1-61_', 'AdlFI_referentiel_1-62_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
