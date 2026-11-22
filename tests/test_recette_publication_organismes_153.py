@@ -20,6 +20,14 @@ class Publication153Tests(unittest.TestCase):
         for a in cls.data['authorities']:
             if a['id'] in before:
                 a['usage']['affiliations_validated']=before[a['id']]
+            if a['id']=='ORG-0451':
+                a['validation']={'status':'a_verifier','established':False}
+                a['activity']['active']=None
+                a['activity']['start']=None
+                a['geography']['cities_label']=None
+                a['usage'].update(affiliations_linked=5,affiliations_validated=0,source_occurrences_linked=5)
+                a['quality']['activity_unknown']=True
+                a['quality']['city_unrecorded']=True
     def test_candidat(self):
         self.assertEqual(validate_153(self.data),[])
     def test_rejet_provenance(self):
