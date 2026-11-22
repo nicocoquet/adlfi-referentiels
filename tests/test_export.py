@@ -30,6 +30,8 @@ SOURCES = {
         '2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35',
     'AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx':
         '0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389',
+    'AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx':
+        '8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009',
 }
 
 
@@ -106,7 +108,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
