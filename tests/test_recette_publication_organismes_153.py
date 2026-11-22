@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Recette et non-régressions du lot AFAN–CNRS–Inrap."""
 import copy,json,unittest
 from pathlib import Path
@@ -10,7 +11,7 @@ class Publication153Tests(unittest.TestCase):
     def setUpClass(cls):
         current=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
         # Le contrat 1.53 doit rester testé sur son état historique, distinct du lot 1.54.
-        cls.data=copy.deepcopy(current)
+        cls.data=sans_a05f(current)
         cls.data['provenance']['source_filename']='AdlFI_referentiel_1-53_A05_AFAN_CNRS_INRAP_CANDIDAT.xlsx'
         cls.data['provenance']['source_sha256']='fbea8c20b5867e742fa6bf82e058409c249c1017e0d0ec61e9612f926b878415'
         before={'ORG-0001':4,'ORG-0004':10,'ORG-0008':7,'ORG-0010':0,

@@ -32,6 +32,8 @@ SOURCES = {
         '0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389',
     'AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx':
         '8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009',
+    'AdlFI_referentiel_1-58_A05F_ARCHEO_ATLANTICA_CANDIDAT.xlsx':
+        '6aa15da3019bc0a08987cd48631e95d09172d36b9fb80009b10a9636f1bf67d8',
 }
 
 
@@ -74,7 +76,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.d['totals']['service_sector_resolution'], {'prive': 3, 'public': 197})
         visible = [a for a in self.authorities.values() if a['presentation']['visible']]
         self.assertEqual(sum(a['classification']['sector'] == 'public' for a in visible), 452)
-        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 230)
+        self.assertEqual(sum(a['classification']['sector'] == 'prive' for a in visible), 231)
         self.assertEqual(sum(a['classification']['sector'] is None for a in visible), 0)
         scp = self.authorities['ORG-0292']
         self.assertEqual(scp['classification']['bsr'], 'PRIV')
@@ -108,7 +110,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         # Le logo historique ORG-0093 a été ajouté au lot de publication
         # 1.49 ; son absence était propre à l'instantané 1.47.
         is_149 = self.d['provenance']['source_filename'].startswith(
-            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_'))
+            ('AdlFI_referentiel_1-49_', 'AdlFI_referentiel_1-50_', 'AdlFI_referentiel_1-51_', 'AdlFI_referentiel_1-52_', 'AdlFI_referentiel_1-53_', 'AdlFI_referentiel_1-54_', 'AdlFI_referentiel_1-55_', 'AdlFI_referentiel_1-56_', 'AdlFI_referentiel_1-57_', 'AdlFI_referentiel_1-58_'))
         self.assertEqual(
             old['presentation']['media']['logo'],
             'assets/organismes/ORG-0093.jpg' if is_149 else None)
@@ -290,7 +292,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         self.assertEqual(self.authorities['SER-0151']['names']['history'][0]['start'],
                          '1991')
         self.assertEqual(self.authorities['SER-0083']['names']['history'], [])
-        self.assertEqual(self.d['totals']['organismes'], 734)
+        self.assertEqual(self.d['totals']['organismes'], 735)
         self.assertEqual(self.d['totals']['services'], 200)
         self.assertEqual(len(self.d['relations']), 600)
         rels = {rel['id']: rel for rel in self.d['relations']}
@@ -321,7 +323,7 @@ class TestReferentielOrganismes(unittest.TestCase):
         }
         relations = {(r['source'], r['target'], r['type'], r['validation'])
                      for r in self.d['relations']}
-        self.assertEqual(self.d['totals']['authorities'], 934)
+        self.assertEqual(self.d['totals']['authorities'], 935)
         for service, tutelle in expected.items():
             self.assertIn(service, self.authorities)
             self.assertIn(tutelle, self.authorities)

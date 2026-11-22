@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 PUBLIC=ROOT/'docs/data/organismes.json'
-MASTER='AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx'
-MASTER_SHA='8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009'
+MASTER='AdlFI_referentiel_1-58_A05F_ARCHEO_ATLANTICA_CANDIDAT.xlsx'
+MASTER_SHA='6aa15da3019bc0a08987cd48631e95d09172d36b9fb80009b10a9636f1bf67d8'
 
 
 class OrganismesPublication920Tests(unittest.TestCase):
@@ -26,15 +26,15 @@ class OrganismesPublication920Tests(unittest.TestCase):
         self.assertEqual(d['schema_version'],'0.3.0')
         self.assertEqual(d['provenance']['source_filename'],MASTER)
         self.assertEqual(d['provenance']['source_sha256'],MASTER_SHA)
-        self.assertEqual(len(self.entities),934)
+        self.assertEqual(len(self.entities),935)
         self.assertEqual(len(self.relations),600)
-        self.assertEqual(d['totals']['organismes'],734)
+        self.assertEqual(d['totals']['organismes'],735)
         self.assertEqual(d['totals']['services'],200)
-        self.assertEqual(d['totals']['catalog_included'],682)
+        self.assertEqual(d['totals']['catalog_included'],683)
         self.assertEqual(d['totals']['catalog_excluded'],252)
-        self.assertEqual(sum(a['presentation']['visible'] for a in self.entities.values()),682)
+        self.assertEqual(sum(a['presentation']['visible'] for a in self.entities.values()),683)
         self.assertEqual(Counter(a['kind'] for a in self.entities.values()),
-                         Counter({'ORG':734,'SER':200}))
+                         Counter({'ORG':735,'SER':200}))
 
     def test_references_and_source_types(self):
         for rid, rel in self.relations.items():

@@ -24,8 +24,8 @@ vm.runInNewContext(src.replace(/\}\)\(\);\s*$/,inject),ctx,{filename:'organismes
 const api=ctx.__aliasTest;
 api.setup(d);
 const by=new Map(d.authorities.map(a=>[a.id,a]));
-assert.equal(by.size,934);
-assert.equal(api.visible(),682);
+assert.equal(by.size,935);
+assert.equal(api.visible(),683);
 assert.equal(api.aliases().size,3);
 for(const [old,canonical] of [['SER-0063','ORG-0747'],
  ['ORG-0395','ORG-0300'],['SER-0139','SER-0148']]){
@@ -49,4 +49,4 @@ assert.equal(api.resolve('SER-4000'),'SER-4000');
 assert.match(src,/function details\(id,shouldUpdateHash=true\)\{\s*id=resolveIdentityAlias\(id\);/);
 assert.match(src,/if\(recordById.has\(canonical\)\)details\(canonical,canonical!==id\)/);
 assert.doesNotMatch(src,/succession.*SER-0063.*ORG-0747/i);
-console.log('OK — trois alias réels, recherche, URL, protections et 682 fiches');
+console.log('OK — trois alias réels, recherche, URL, protections et 683 fiches');

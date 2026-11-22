@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Recette A05e : contrôles positifs, négatifs, et reconstruction de 1.56."""
 import copy
 import json
@@ -14,7 +15,10 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication157Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.d=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
+        current=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.d=sans_a05f(current)
+        cls.d["provenance"]["source_filename"]="AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx"
+        cls.d["provenance"]["source_sha256"]="8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009"
 
     def test_candidat(self):
         self.assertEqual(validate(self.d),[])
@@ -46,9 +50,12 @@ class Publication157Tests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstruction_stricte_156(self):
-        p=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_157_diff.cjs"),
-                           str(ROOT/"docs/data/organismes.json")],cwd=ROOT,text=True,capture_output=True)
-        self.assertEqual(p.returncode,0,p.stdout+"\n"+p.stderr)
+        with tempfile.TemporaryDirectory() as tmp:
+            historic=Path(tmp)/"organismes-157.json"
+            historic.write_text(json.dumps(self.d,ensure_ascii=False),encoding="utf-8")
+            p=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_157_diff.cjs"),
+                              str(historic)],cwd=ROOT,text=True,capture_output=True)
+            self.assertEqual(p.returncode,0,p.stdout+"\n"+p.stderr)
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstruction_detecte_modification_etrangere(self):

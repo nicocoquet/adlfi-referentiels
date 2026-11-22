@@ -29,7 +29,7 @@ class EPCI42PublicationTests(unittest.TestCase):
             self.assertEqual(record['kind'],'ORG')
             self.assertEqual(record['classification']['type'],'epci',ident)
             self.assertEqual(record['classification']['level'],'intercommunal',ident)
-        self.assertEqual(self.data['totals']['organismes'],734)
+        self.assertEqual(self.data['totals']['organismes'],735)
         self.assertEqual(self.data['totals']['services'],200)
 
     def test_metropole_is_a_form_not_an_echelon(self):

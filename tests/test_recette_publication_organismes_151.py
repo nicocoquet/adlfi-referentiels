@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Contrôle de la publication 1.51, sans modifier le maître privé."""
 import json
 import copy
@@ -13,7 +14,7 @@ from recette_publication_organismes_151 import validate_151
 class Organismes151PublicationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.data=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf8'))
+        cls.data=sans_a05f(json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf8')))
 
     @staticmethod
     def snapshot_151(data):

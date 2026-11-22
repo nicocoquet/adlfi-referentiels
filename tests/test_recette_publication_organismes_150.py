@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Le contrat 1.50 exige une validation positive et rejette une régression 1.49."""
 import copy
 import json
@@ -13,7 +14,7 @@ from recette_publication_organismes_150 import validate_candidate
 class Publication150Gates(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.public=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf8'))
+        cls.public=sans_a05f(json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf8')))
 
     @staticmethod
     def snapshot_150(data):
