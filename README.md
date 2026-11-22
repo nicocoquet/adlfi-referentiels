@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données du maître qualifié 1.59, 22 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données du maître qualifié 1.60, 22 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -104,6 +104,8 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 ## Secteur institutionnel des services
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
+
+La version **1.60 (22 novembre 2026)** qualifie quatre activités supplémentaires (AVVAS, ARSSAT, Archeoverde et Escles-Archéologie), sans nouvelle autorité ni relation institutionnelle. Les activités passent à **713 actives, 141 inactives et 81 non renseignées**. Le service SER-0195 reste à instruire. Les preuves et réserves sont consignées dans le registre de recette du lot 1.60.
 
 La version **1.59 (22 novembre 2026)** qualifie 34 activités auparavant non renseignées (33 actives et une inactive) et corrige la date de fin d’`ORG-0503` en `2008`. L’état publié comporte **709 autorités actives, 141 inactives et 85 sans activité renseignée** ; les 935 autorités, 683 fiches visibles et 600 relations sont conservées. Cette consolidation n’ajoute ni autorité ni relation institutionnelle.
 
