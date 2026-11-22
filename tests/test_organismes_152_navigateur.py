@@ -25,7 +25,7 @@ def main():
                 'xpath=following-sibling::dd[1]').inner_text().strip()
 
         consulter('SER-0027')
-        assert page.locator('#dataset-version').inner_text()=='1.55'
+        assert page.locator('#dataset-version').inner_text()=='1.56'
         assert echelon()=='Régional',echelon()
 
         for ident,expected in [
