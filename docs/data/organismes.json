@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx",
-    "source_sha256": "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35",
+    "source_filename": "AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx",
+    "source_sha256": "0410751ceaea8831cac45935afc65dd71b2b187060f0641215c90ad1822ac389",
     "exported_at_utc": "2026-11-22T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
@@ -302,7 +302,7 @@
       "website": "https://www.cnrs.fr/",
       "usage": {
         "affiliations_linked": 173,
-        "affiliations_validated": 19,
+        "affiliations_validated": 22,
         "source_occurrences_linked": 326
       },
       "quality": {
@@ -434,7 +434,7 @@
       "website": "https://www.inrap.fr/",
       "usage": {
         "affiliations_linked": 46,
-        "affiliations_validated": 17,
+        "affiliations_validated": 18,
         "source_occurrences_linked": 270
       },
       "quality": {
@@ -12676,7 +12676,7 @@
       "website": "https://www.parisnanterre.fr/",
       "usage": {
         "affiliations_linked": 14,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 21
       },
       "quality": {
@@ -16116,7 +16116,7 @@
       "website": "https://www.univ-rouen.fr/",
       "usage": {
         "affiliations_linked": 7,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 32
       },
       "quality": {
@@ -23119,7 +23119,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 10,
-        "affiliations_validated": 1,
+        "affiliations_validated": 10,
         "source_occurrences_linked": 11
       },
       "quality": {
@@ -23329,7 +23329,7 @@
       "website": "https://www.mshmondes.cnrs.fr/",
       "usage": {
         "affiliations_linked": 2,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 2
       },
       "quality": {
@@ -29639,7 +29639,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 6,
-        "affiliations_validated": 3,
+        "affiliations_validated": 6,
         "source_occurrences_linked": 7
       },
       "quality": {
@@ -52421,7 +52421,7 @@
       "website": null,
       "usage": {
         "affiliations_linked": 2,
-        "affiliations_validated": 0,
+        "affiliations_validated": 1,
         "source_occurrences_linked": 16
       },
       "quality": {
