@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Tests positifs/négatifs du JSON publié 1.55, et contrôle différentiel avec 1.54."""
 import copy
 import json
@@ -16,7 +17,7 @@ class Publication155Tests(unittest.TestCase):
     def setUpClass(cls):
         current = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
         # Restituer l'état historique de 1.55 depuis la version publiée 1.56.
-        cls.data = copy.deepcopy(current)
+        cls.data = sans_a05f(current)
         cls.data["provenance"]["source_filename"] = "AdlFI_referentiel_1-55_A05C_GAVS_PRETECH_INRAP_CANDIDAT.xlsx"
         cls.data["provenance"]["source_sha256"] = "2bd1df994401624fe84c0d696d1ecb1d13266d9b03cadb7ef76e3b65d3ae3c35"
         previous = {
