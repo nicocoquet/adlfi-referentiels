@@ -9,6 +9,7 @@ import json
 import subprocess
 import unittest
 from pathlib import Path
+from scripts.recette_instantanes_organismes import charger_instantane
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "8dbac1ed2afe0e7a65022da8f332d0338f54bc3b"
@@ -40,7 +41,7 @@ def differences(old, new, path=()):
 class Publication161Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.data = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.data = charger_instantane("1.61")
         proc = subprocess.run(
             ["git", "show", f"{BASE}:docs/data/organismes.json"],
             cwd=ROOT, capture_output=True, check=True
