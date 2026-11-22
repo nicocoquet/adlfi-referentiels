@@ -23,7 +23,7 @@ const ctx={fetch:()=>({then(){return this;},catch(){return this;}}),URL};
 vm.runInNewContext(src.replace(/\}\)\(\);\s*$/,inject),ctx,{filename:'organismes.js'});
 const api=ctx.__validationTest;
 api.setup(data);
-assert.equal(api.count(),682,'Catalogue 1.50 avec qualification documentaire explicite');
+assert.equal(api.count(),683,'Catalogue 1.50 avec qualification documentaire explicite');
 const prototype=data.authorities.find(x=>x.id==='ORG-0747');
 assert.ok(prototype);
 const draft={...prototype,validation:{status:'a_verifier',established:false}};
