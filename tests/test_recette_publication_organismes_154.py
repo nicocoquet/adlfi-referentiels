@@ -1,3 +1,4 @@
+from scripts.recette_historique_organismes_158 import sans_a05f
 """Recette positive et négative des correspondances du lot A05b."""
 import copy,json,unittest
 from pathlib import Path
@@ -9,7 +10,7 @@ class Publication154Tests(unittest.TestCase):
     def setUpClass(cls):
         current=json.loads((ROOT/'docs/data/organismes.json').read_text(encoding='utf-8'))
         # Reconstituer la publication 1.54 pour conserver son contrat historique.
-        cls.data=copy.deepcopy(current)
+        cls.data=sans_a05f(current)
         cls.data['provenance']['source_filename']='AdlFI_referentiel_1-54_A05B_CNRS_INRAP_LABOS_CANDIDAT.xlsx'
         cls.data['provenance']['source_sha256']='32e69ba481331a0f1470c93ae40827e69dbb58cca20d739921459be30b218f15'
         for a in cls.data['authorities']:
