@@ -6,6 +6,7 @@ des 35 cellules OOXML reste un contrôle distinct, exécuté avant publication.
 import json
 import unittest
 from pathlib import Path
+from scripts.recette_instantanes_organismes import charger_instantane
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = "AdlFI_referentiel_1-59_activites_CANDIDAT.xlsx"
@@ -26,7 +27,7 @@ BECOME_ACTIVE = {
 class Publication159Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.data = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.data = charger_instantane("1.59")
         cls.by_id = {a["id"]: a for a in cls.data["authorities"]}
 
     def test_provenance_exacte(self):
