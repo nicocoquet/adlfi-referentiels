@@ -50,9 +50,12 @@ class Publication157Tests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstruction_stricte_156(self):
-        p=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_157_diff.cjs"),
-                           str(ROOT/"docs/data/organismes.json")],cwd=ROOT,text=True,capture_output=True)
-        self.assertEqual(p.returncode,0,p.stdout+"\n"+p.stderr)
+        with tempfile.TemporaryDirectory() as tmp:
+            historic=Path(tmp)/"organismes-157.json"
+            historic.write_text(json.dumps(self.d,ensure_ascii=False),encoding="utf-8")
+            p=subprocess.run(["node",str(ROOT/"scripts/recette_organismes_157_diff.cjs"),
+                              str(historic)],cwd=ROOT,text=True,capture_output=True)
+            self.assertEqual(p.returncode,0,p.stdout+"\n"+p.stderr)
 
     @unittest.skipUnless(shutil.which("node"),"Node.js indisponible")
     def test_reconstruction_detecte_modification_etrangere(self):
