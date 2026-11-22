@@ -24,7 +24,7 @@ def main():
 
         # Ancien identifiant conservé pour la navigation ; l'autorité est ORG.
         modal=consulter('SER-0063')
-        assert page.locator('#dataset-version').inner_text()=='1.60'
+        assert page.locator('#dataset-version').inner_text()=='1.61'
         assert page.url.endswith('#ORG-0747'),page.url
         head=modal.locator('.detail-head').inner_text()
         assert 'ORG-0747' in head and 'Groupe de recherche archéologique sous-marine' in head,head

@@ -7,6 +7,7 @@ import json
 import subprocess
 import unittest
 from pathlib import Path
+from scripts.recette_instantanes_organismes import charger_instantane
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_COMMIT = "3b34b353f11cc702531de0e83237bcb4c81fac90"
@@ -36,7 +37,7 @@ def diff(a, b, path=()):
 class Publication160Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.d = json.loads((ROOT / "docs/data/organismes.json").read_text(encoding="utf-8"))
+        cls.d = charger_instantane("1.60")
         p = subprocess.run(
             ["git", "show", f"{BASE_COMMIT}:docs/data/organismes.json"],
             cwd=ROOT, capture_output=True, check=True,

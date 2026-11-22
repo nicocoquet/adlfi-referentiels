@@ -27,6 +27,11 @@ SNAPSHOTS = {
         "AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx",
         "8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009",
     ),
+    "1.60": (
+        "8dbac1ed2afe0e7a65022da8f332d0338f54bc3b",
+        "AdlFI_referentiel_1-60_lot01_quatre_activites_CANDIDAT.xlsx",
+        "70aeff4fedc66a54d1a45240af0d22cee1130565e2b29cefb1495e83aa434098",
+    ),
     "1.59": (
         "3b34b353f11cc702531de0e83237bcb4c81fac90",
         "AdlFI_referentiel_1-59_activites_CANDIDAT.xlsx",
