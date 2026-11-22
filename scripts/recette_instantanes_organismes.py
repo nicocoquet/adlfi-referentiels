@@ -27,6 +27,11 @@ SNAPSHOTS = {
         "AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx",
         "8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009",
     ),
+    "1.59": (
+        "3b34b353f11cc702531de0e83237bcb4c81fac90",
+        "AdlFI_referentiel_1-59_activites_CANDIDAT.xlsx",
+        "3926b703b9e0fb20d3ed09068282ca97ea718eff14659ba8e3692b2cae0fe53e",
+    ),
     "1.58": (
         "d4f3f80a2242774ca193e421aab24e70b3798311",
         "AdlFI_referentiel_1-58_A05F_ARCHEO_ATLANTICA_CANDIDAT.xlsx",
