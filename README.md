@@ -6,7 +6,7 @@ Prototype autonome du site **Référentiels AdlFI**, destiné à la publication 
 
 - **Lieux** — autorités Pactols et correspondances historiques COG (en préparation).
 - **Personnes** — noms, variantes et identifiants (en préparation).
-- **Organismes** — premier explorateur fonctionnel des ORG et SER (données du maître qualifié 1.61, 22 novembre 2026).
+- **Organismes** — premier explorateur fonctionnel des ORG et SER (données du maître qualifié 1.62, 22 novembre 2026).
 - **Natures d’opération** — codes historiques, libellés et référentiels (en préparation).
 
 Le dépôt `atlas-documentaire` reste **indépendant** : il pourra importer des exports JSON versionnés du présent dépôt.
@@ -104,6 +104,8 @@ Le maître éditorial reste hors du dépôt. Le JSON de publication est daté et
 ## Secteur institutionnel des services
 
 Le secteur `public`/`prive` des SER est calculé dans le JSON par héritage des relations validées de type `rattachement_service`, y compris le long de chaînes SER → SER → ORG, **sauf lorsqu'une valeur explicite est documentée dans la feuille `Services`**. Les relations non validées ne sont pas prises en compte ; le champ `classification.sector_origin` conserve la provenance des rattachements retenus. Ce classement ne prétend pas attribuer un secteur à une date donnée.
+
+La version **1.62 (22 novembre 2026)** qualifie huit associations comme actives à partir d'attestations documentaires datées de 2026 (Société de recherche archéologique d'Alsace Bossue, Groupe de recherche en archéologie navale, AMONT, Anao, Comité départemental de spéléologie et de canyon des Alpes-Maritimes, Les Amis du Mez, SAMM et Société des sciences naturelles, archéologiques et historiques de la Creuse). Les effectifs deviennent **727 actives, 142 inactives, 66 indéterminées**. Les **935 autorités, 683 fiches visibles et 600 relations** sont préservées. Trois dossiers restent explicitement à instruire (ORG-0212, ORG-0342 et ORG-0355). Aucune date historique, dénomination ou filiation n'est modifiée ; les réserves ANAO/SAMM sont consignées dans le rapport du lot.
 
 La version **1.61 (22 novembre 2026)** qualifie sept activités auparavant indéterminées (six actives, une inactive : Atelier Bell) et établit à **2011** la date de début de la Cellule alpine de recherches archéologiques (SER-0193), sans préjuger de son activité actuelle. La répartition passe à **719 actives, 142 inactives et 74 indéterminées**. Le JSON compte toujours **935 autorités, 683 fiches visibles et 600 relations** ; aucune identité institutionnelle ou filiation n'est ajoutée. La date de fin d'Atelier Bell demeure à instruire ; l'indicateur documentaire « fin manquante » devient donc vrai. La recette du lot est conservée dans `recette/organismes/`.
 
