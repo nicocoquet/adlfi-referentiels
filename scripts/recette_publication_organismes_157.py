@@ -59,7 +59,7 @@ def main():
     failures=validate(json.loads(p.read_text(encoding="utf-8")))
     for x in failures:print("ÉCHEC :",x,file=sys.stderr)
     if failures:return 1
-    print("OK — 1.57 : 934 autorités, 569 validées, 600 relations, huit compteurs A05e")
+    print("OK — 1.57 : 934 autorités, 569 validées, 600 relations, neuf compteurs A05e")
     return 0
 
 if __name__=="__main__":raise SystemExit(main())
