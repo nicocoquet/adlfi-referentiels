@@ -16,7 +16,7 @@ class OrganismesCompetenceUI(unittest.TestCase):
 
     def test_provenance_et_effectifs_maitre_149(self):
         self.assertEqual(self.d['provenance']['source_filename'],
-            'AdlFI_referentiel_1-56_A05D_GAVS_PRETECH_QUALIFIE_CANDIDAT.xlsx')
+            'AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx')
         self.assertEqual(self.d['totals']['authorities'],934)
         self.assertEqual(self.d['totals']['organismes'],734)
         self.assertEqual(self.d['totals']['services'],200)
