@@ -1,3 +1,4 @@
+from scripts.recette_instantanes_organismes import charger_instantane
 from scripts.recette_historique_organismes_158 import sans_a05f
 """Recette A05e : contrôles positifs, négatifs, et reconstruction de 1.56."""
 import copy
@@ -15,10 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class Publication157Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        current=json.loads((ROOT/"docs/data/organismes.json").read_text(encoding="utf-8"))
-        cls.d=sans_a05f(current)
-        cls.d["provenance"]["source_filename"]="AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx"
-        cls.d["provenance"]["source_sha256"]="8408870084fc5bd2407f75a36cb308e28c220e21d1b3f03a61254bf03a87a009"
+        cls.d=charger_instantane("1.57")
 
     def test_candidat(self):
         self.assertEqual(validate(self.d),[])
