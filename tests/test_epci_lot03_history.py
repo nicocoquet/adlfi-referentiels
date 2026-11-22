@@ -73,10 +73,10 @@ class Lot03HistoryTests(unittest.TestCase):
         self.assertFalse(riom['quality']['end_missing'])
 
     def test_other_ids_and_historical_continuities_preserved(self):
-        self.assertEqual(self.d['totals']['authorities'],934)
-        self.assertEqual(self.d['totals']['organismes'],734)
+        self.assertEqual(self.d['totals']['authorities'],935)
+        self.assertEqual(self.d['totals']['organismes'],735)
         self.assertEqual(self.d['totals']['services'],200)
-        self.assertEqual(self.d['totals']['catalog_included'],682)
+        self.assertEqual(self.d['totals']['catalog_included'],683)
         self.assertEqual(len(self.d['relations']),600)
         rels={r['id']:r for r in self.d['relations']}
         for key,source,target in [
