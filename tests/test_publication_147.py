@@ -1,5 +1,6 @@
 """Contrôles des instantanés publiés 1.47 et 1.49 : provenance, Inrap et historique."""
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -55,7 +56,7 @@ class PublicationSnapshotsTests(unittest.TestCase):
     def test_historical_publication_and_adera_correction(self):
         # Les historiques enrichis s'appliquent à toutes les versions >= 1.49.
         source = self.data['provenance']['source_filename']
-        match = __import__('re').match(r'^AdlFI_referentiel_1-(\d+)_', source)
+        match = re.match(r'^AdlFI_referentiel_1-(\d+)_', source)
         is_149 = bool(match and int(match.group(1)) >= 49)
         histories = [
             (a['id'], h)
