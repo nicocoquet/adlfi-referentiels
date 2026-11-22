@@ -2,8 +2,8 @@
   "schema_version": "0.3.0",
   "dataset": "adlfi-referentiels/organismes",
   "provenance": {
-    "source_filename": "AdlFI_referentiel_1-60_lot01_quatre_activites_CANDIDAT.xlsx",
-    "source_sha256": "70aeff4fedc66a54d1a45240af0d22cee1130565e2b29cefb1495e83aa434098",
+    "source_filename": "AdlFI_referentiel_1-61_lot01_activites_et_date_CANDIDAT.xlsx",
+    "source_sha256": "fb475d0270ca74757c7d34dc97978897dccdf5b12cc10c2ec8aa3f35a65e8b98",
     "exported_at_utc": "2026-11-22T00:00:00+00:00",
     "caution": "Villes déclarées non géocodées ; seules les relations validées sont présentées comme établies. Les statuts historiques non validés sont signalés comme provisoires. Le secteur des SER est déduit des rattachements validés, sauf attribution directe documentée dans le maître pour des services historiques, sans attribuer ce secteur à une date donnée. L’échelon institutionnel des SER est résolu par les rattachements validés applicables, indépendamment du périmètre de compétence."
   },
@@ -23162,7 +23162,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -23186,7 +23186,7 @@
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": true,
         "country_unrecorded": false,
@@ -24824,7 +24824,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": false,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -24848,8 +24848,8 @@
         "source_occurrences_linked": 2
       },
       "quality": {
-        "activity_unknown": true,
-        "end_missing": false,
+        "activity_unknown": false,
+        "end_missing": true,
         "city_unrecorded": true,
         "country_unrecorded": false,
         "no_website": false
@@ -28821,7 +28821,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -28845,7 +28845,7 @@
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": true,
         "country_unrecorded": false,
@@ -30701,7 +30701,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -30725,7 +30725,7 @@
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": true,
         "country_unrecorded": false,
@@ -32330,7 +32330,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -32354,7 +32354,7 @@
         "source_occurrences_linked": 1
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": true,
         "country_unrecorded": false,
@@ -46625,7 +46625,7 @@
         "territorial_competence": null
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -46649,7 +46649,7 @@
         "source_occurrences_linked": 0
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
@@ -66601,7 +66601,7 @@
       },
       "activity": {
         "active": null,
-        "start": null,
+        "start": "2011",
         "end": null,
         "catalog": "inclure"
       },
@@ -66768,7 +66768,7 @@
         }
       },
       "activity": {
-        "active": null,
+        "active": true,
         "start": null,
         "end": null,
         "catalog": "inclure"
@@ -66792,7 +66792,7 @@
         "source_occurrences_linked": 0
       },
       "quality": {
-        "activity_unknown": true,
+        "activity_unknown": false,
         "end_missing": false,
         "city_unrecorded": false,
         "country_unrecorded": false,
