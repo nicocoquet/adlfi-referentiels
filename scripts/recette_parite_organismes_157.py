@@ -2,7 +2,7 @@
 """Parité stricte entre l'exporteur officiel et le JSON candidat 1.57.
 
 Exécution locale avec le maître privé (jamais déposé dans le dépôt) :
-    python3 scripts/recette_parite_organismes_157.py "/chemin/vers/maitre-1-56.xlsx"
+    python3 scripts/recette_parite_organismes_157.py "/chemin/vers/AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx"
 
 Lecture seule : n'écrit ni dans le classeur ni dans docs/data/organismes.json.
 """
@@ -51,7 +51,7 @@ def first_differences(actual, expected, path="$", limit=24):
 def main(argv=None):
     args = sys.argv[1:] if argv is None else argv
     if len(args) != 1:
-        print("Usage : python3 scripts/recette_parite_organismes_157.py '/chemin/maitre_1-56.xlsx'", file=sys.stderr)
+        print("Usage : python3 scripts/recette_parite_organismes_157.py '/chemin/AdlFI_referentiel_1-57_A05E_NANTES_GAVS_QUALIFIE_CANDIDAT.xlsx'", file=sys.stderr)
         return 2
 
     source = Path(args[0]).expanduser().resolve()
