@@ -25,6 +25,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Contrôler la syntaxe JavaScript
         run: |
+          node --check docs/assets/personnes.js
           node --check docs/assets/organismes.js
           node --check docs/assets/lieux-search.js
           node --check docs/assets/lieux.js

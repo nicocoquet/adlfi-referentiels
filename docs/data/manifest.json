@@ -610,10 +610,10 @@
     "personnes": {
       "status": "pilote",
       "data": "data/personnes.json",
-      "data_schema": "0.3.0",
-      "autorites_validees": 12,
-      "contributions_adlfi": 299,
-      "notices_adlfi": 298,
+      "data_schema": "0.4.0",
+      "autorites_validees": 42,
+      "contributions_adlfi": 956,
+      "notices_adlfi": 930,
       "page": "personnes/"
     },
     "organismes": {

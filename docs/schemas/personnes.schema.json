@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://nicocoquet.github.io/adlfi-referentiels/schemas/personnes.schema.json",
-  "title": "Référentiel Personnes — première publication pilote",
-  "description": "Schéma de prévisualisation, publication non autorisée.",
+  "title": "Référentiel Personnes — projection publique",
+  "description": "Schéma des autorités et contributions publiables du module Personnes.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -18,7 +18,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "0.3.0"
+      "const": "0.4.0"
     },
     "dataset": {
       "const": "adlfi-referentiels/personnes"
@@ -40,28 +40,29 @@
       ],
       "properties": {
         "authorities": {
-          "const": 12
+          "type": "integer",
+          "minimum": 0
         },
         "contributions": {
-          "const": 299
+          "type": "integer",
+          "minimum": 0
         },
         "notices": {
-          "const": 298
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
     "authorities": {
       "type": "array",
-      "minItems": 12,
-      "maxItems": 12,
+      "minItems": 1,
       "items": {
         "$ref": "#/$defs/authority"
       }
     },
     "contributions": {
       "type": "array",
-      "minItems": 299,
-      "maxItems": 299,
+      "minItems": 1,
       "items": {
         "$ref": "#/$defs/contribution"
       }
@@ -210,6 +211,11 @@
               }
             }
           }
+        },
+        "family_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Patronyme retenu dans Heurist, clé explicite de classement alphabétique."
         }
       }
     },
