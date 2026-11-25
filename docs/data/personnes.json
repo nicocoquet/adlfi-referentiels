@@ -2,11 +2,11 @@
   "schema_version": "0.4.0",
   "dataset": "adlfi-referentiels/personnes",
   "publication_status": "PUBLIC_PILOT",
-  "scope_note": "Catalogue pilote du référentiel Personnes AdlFI : 42 autorités éditorialement validées et 956 contributions associées à 930 notices AdlFI. Les relations avec les articles Gallia et Gallia Préhistoire restent à intégrer.",
+  "scope_note": "Catalogue pilote du référentiel Personnes AdlFI : 72 autorités éditorialement validées et 1 276 contributions associées à 1 222 notices AdlFI. Les relations avec les articles Gallia et Gallia Préhistoire restent à intégrer.",
   "totals": {
-    "authorities": 42,
-    "contributions": 956,
-    "notices": 930
+    "authorities": 72,
+    "contributions": 1276,
+    "notices": 1222
   },
   "authorities": [
     {
@@ -575,6 +575,425 @@
         "wikidata": "Q138572646"
       },
       "contributions_count": 19,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000043",
+      "name": "Florence Mocci",
+      "name_idref": "",
+      "family_name": "Mocci",
+      "identifiers": {
+        "idref": "112126618",
+        "bnf": "cb15513529r",
+        "orcid": "0000-0001-7048-1821",
+        "idhal": "florence-mocci",
+        "persee": "225250",
+        "wikidata": "Q137752290"
+      },
+      "contributions_count": 12,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000044",
+      "name": "Katherine Gruel",
+      "name_idref": "",
+      "family_name": "Gruel",
+      "identifiers": {
+        "idref": "026904918",
+        "bnf": "cb11906052j",
+        "orcid": "0000-0003-0055-9368",
+        "idhal": "katherine-gruel",
+        "persee": "237633",
+        "wikidata": "Q112519233"
+      },
+      "contributions_count": 11,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000045",
+      "name": "Romain Pigeaud",
+      "name_idref": "",
+      "family_name": "Pigeaud",
+      "identifiers": {
+        "idref": "067353754",
+        "bnf": "cb14635743s",
+        "orcid": "0000-0002-5231-6424",
+        "idhal": "romain-pigeaud",
+        "persee": "143754",
+        "wikidata": "Q3440737"
+      },
+      "contributions_count": 11,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000046",
+      "name": "Michiel Gazenbeek",
+      "name_idref": "",
+      "family_name": "Gazenbeek",
+      "identifiers": {
+        "idref": "048653462",
+        "bnf": "cb13548827f",
+        "persee": "226230",
+        "wikidata": "Q58639966"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000047",
+      "name": "Nathalie Bonvalot",
+      "name_idref": "",
+      "family_name": "Bonvalot",
+      "identifiers": {
+        "idref": "092110215",
+        "bnf": "cb150017617",
+        "persee": "67638",
+        "wikidata": "Q113785814"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000048",
+      "name": "Elsa Sagetat-Basseuil",
+      "name_idref": "",
+      "family_name": "Sagetat-Basseuil",
+      "identifiers": {
+        "idref": "159763762",
+        "orcid": "0009-0003-8031-1107",
+        "idhal": "elsa-sagetat-basseuil",
+        "persee": "1581847",
+        "wikidata": "Q138572635"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000049",
+      "name": "Vincent Ard",
+      "name_idref": "",
+      "family_name": "Ard",
+      "identifiers": {
+        "idref": "161182097",
+        "bnf": "cb165636621",
+        "orcid": "0000-0001-5846-4949",
+        "idhal": "vincent-ard",
+        "persee": "276448",
+        "wikidata": "Q116916213"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000050",
+      "name": "Vincent Delvigne",
+      "name_idref": "",
+      "family_name": "Delvigne",
+      "identifiers": {
+        "idref": "19350345X",
+        "orcid": "0000-0001-6477-2104",
+        "idhal": "vincent-delvigne"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000051",
+      "name": "Vanessa Elizagoyen",
+      "name_idref": "",
+      "family_name": "Elizagoyen",
+      "identifiers": {
+        "idref": "269619909",
+        "orcid": "0000-0003-2078-5717",
+        "idhal": "vanessa-elizagoyen",
+        "persee": "1585205",
+        "wikidata": "Q138572254"
+      },
+      "contributions_count": 10,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000052",
+      "name": "Michèle Julien",
+      "name_idref": "",
+      "family_name": "Julien",
+      "identifiers": {
+        "idref": "026942844",
+        "bnf": "cb11909208b",
+        "persee": "146635",
+        "wikidata": "Q112564690"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000053",
+      "name": "Philippe Barral",
+      "name_idref": "",
+      "family_name": "Barral",
+      "identifiers": {
+        "idref": "029141923",
+        "bnf": "cb120829331",
+        "orcid": "0000-0002-1281-5229",
+        "idhal": "philippe-barral",
+        "persee": "159175",
+        "wikidata": "Q104446931"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000054",
+      "name": "Joseph Cesari",
+      "name_idref": "",
+      "family_name": "Cesari",
+      "identifiers": {
+        "idref": "029373832",
+        "bnf": "cb121014348",
+        "persee": "215328",
+        "wikidata": "Q123015516"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000055",
+      "name": "Martial Monteil",
+      "name_idref": "",
+      "family_name": "Monteil",
+      "identifiers": {
+        "idref": "031790135",
+        "bnf": "cb12294045k",
+        "orcid": "0000-0002-9455-1078",
+        "idhal": "martial-monteil",
+        "persee": "260520",
+        "wikidata": "Q110979516"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000056",
+      "name": "Béatrice Cauuet",
+      "name_idref": "",
+      "family_name": "Cauuet",
+      "identifiers": {
+        "idref": "033900515",
+        "bnf": "cb12471090m",
+        "orcid": "0000-0002-0058-0717",
+        "idhal": "beatrice-cauuet",
+        "persee": "248074",
+        "wikidata": "Q138572153"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000057",
+      "name": "Yves Lanchon",
+      "name_idref": "",
+      "family_name": "Lanchon",
+      "identifiers": {
+        "idref": "056544561",
+        "bnf": "cb12938760b",
+        "persee": "163590",
+        "wikidata": "Q55770977"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000058",
+      "name": "Yves Manniez",
+      "name_idref": "",
+      "family_name": "Manniez",
+      "identifiers": {
+        "idref": "056905483",
+        "bnf": "cb12939807d",
+        "persee": "275810",
+        "wikidata": "Q79318653"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000059",
+      "name": "Jean-Pierre Coutard",
+      "name_idref": "",
+      "family_name": "Coutard",
+      "identifiers": {
+        "idref": "057314616",
+        "bnf": "cb15328023c",
+        "persee": "267739",
+        "wikidata": "Q55627547"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000060",
+      "name": "Gérald Barbet",
+      "name_idref": "",
+      "family_name": "Barbet",
+      "identifiers": {
+        "idref": "057572771",
+        "bnf": "cb13207779t",
+        "persee": "173818",
+        "wikidata": "Q137106894"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000061",
+      "name": "Boris Valentin",
+      "name_idref": "",
+      "family_name": "Valentin",
+      "identifiers": {
+        "idref": "05777059X",
+        "bnf": "cb13625855q",
+        "idhal": "valentin-boris",
+        "persee": "146878",
+        "wikidata": "Q42433797"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000062",
+      "name": "Thierry Argant",
+      "name_idref": "",
+      "family_name": "Argant",
+      "identifiers": {
+        "idref": "060944560",
+        "orcid": "0000-0003-0308-9584",
+        "idhal": "thierry-argant",
+        "persee": "222323"
+      },
+      "contributions_count": 9,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000063",
+      "name": "Vincent Goustard",
+      "name_idref": "",
+      "family_name": "Goustard",
+      "identifiers": {
+        "idref": "184668344",
+        "persee": "146583",
+        "wikidata": "Q138572328"
+      },
+      "contributions_count": 18,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000064",
+      "name": "Dominique Pitte",
+      "name_idref": "",
+      "family_name": "Pitte",
+      "identifiers": {
+        "idref": "030111102"
+      },
+      "contributions_count": 13,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000065",
+      "name": "Pierre Bodu",
+      "name_idref": "",
+      "family_name": "Bodu",
+      "identifiers": {
+        "idref": "057770603",
+        "idhal": "pierre-bodu",
+        "persee": "146374"
+      },
+      "contributions_count": 13,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000066",
+      "name": "Yoann Rabasté",
+      "name_idref": "",
+      "family_name": "Rabasté",
+      "identifiers": {
+        "idref": "16109743X",
+        "idhal": "yoann-rabaste"
+      },
+      "contributions_count": 13,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000067",
+      "name": "Sandrine Bertaudière",
+      "name_idref": "",
+      "family_name": "Bertaudière",
+      "identifiers": {
+        "idref": "243730233",
+        "persee": "199579",
+        "wikidata": "Q138572079"
+      },
+      "contributions_count": 13,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000068",
+      "name": "Sébastien Jeandemange",
+      "name_idref": "",
+      "family_name": "Jeandemange",
+      "identifiers": {
+        "idref": "249886383",
+        "wikidata": "Q138572370"
+      },
+      "contributions_count": 13,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000069",
+      "name": "Jean-Philippe Baigl",
+      "name_idref": "",
+      "family_name": "Baigl",
+      "identifiers": {
+        "idref": "136224830",
+        "persee": "173569",
+        "wikidata": "Q138572052"
+      },
+      "contributions_count": 12,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000070",
+      "name": "Stéphane Dubois",
+      "name_idref": "",
+      "family_name": "Dubois",
+      "identifiers": {
+        "idref": "170483290",
+        "persee": "146283",
+        "wikidata": "Q138572241"
+      },
+      "contributions_count": 11,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000071",
+      "name": "Jonathan Letuppe",
+      "name_idref": "",
+      "family_name": "Letuppe",
+      "identifiers": {
+        "idref": "281432848",
+        "wikidata": "Q138572451"
+      },
+      "contributions_count": 11,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000072",
+      "name": "Jean-Pierre Urlacher",
+      "name_idref": "",
+      "family_name": "Urlacher",
+      "identifiers": {
+        "idref": "028814355"
+      },
+      "contributions_count": 10,
       "name_variants": []
     }
   ],
@@ -16553,6 +16972,5298 @@
         "title": "Aléria – Mare Stagno/Cap Gros"
       },
       "handle": "20.500.13089/w19f",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/177152",
+        "title": "Thorame-Basse – Saint-Pierre II"
+      },
+      "handle": "20.500.13089/143g1",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/180712",
+        "title": "Thorame-Basse et Thorame-Haute – Territoire communaux"
+      },
+      "handle": "20.500.13089/143ma",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/180707",
+        "title": "Thorame-Basse – Saint-Pierre II"
+      },
+      "handle": "20.500.13089/143mb",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/182372",
+        "title": "Thorame-Basse – Saint-Pierre II"
+      },
+      "handle": "20.500.13089/143n0",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/182387",
+        "title": "Thorame-Basse et Thorame-Haute – Territoires communaux"
+      },
+      "handle": "20.500.13089/143n3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/182819",
+        "title": "Villar-d’Arène – Chamoulet, Le Légat et Serre-Bla"
+      },
+      "handle": "20.500.13089/143oi",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/197090",
+        "title": "Châteauredon – La Blache"
+      },
+      "handle": "20.500.13089/14c9d",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/199826",
+        "title": "Cadenet – Oppidum du Castellar (partie sud)"
+      },
+      "handle": "20.500.13089/14cta",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/200347",
+        "title": "Parc national des Écrins – Abri des Écrins"
+      },
+      "handle": "20.500.13089/14cuf",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203883",
+        "title": "Thorame-Basse – Saint-Pierre II"
+      },
+      "handle": "20.500.13089/14dzd",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203890",
+        "title": "Communes de Thorame-Basse et Thorame-Haute"
+      },
+      "handle": "20.500.13089/14dze",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000043",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/127874",
+        "title": "Bourg-d’Oisans – Rilauv.01 et Rilauv.02"
+      },
+      "handle": "20.500.13089/989p",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/2066",
+        "title": "Allonnes – La Forêterie : le sanctuaire de Mars Mullo, les niveaux du ier apr. J.-C."
+      },
+      "handle": "20.500.13089/8ton",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/2085",
+        "title": "Du site à la cité, le territoire de la Sarthe"
+      },
+      "handle": "20.500.13089/8toq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31348",
+        "title": "Allonnes – La Forêterie"
+      },
+      "handle": "20.500.13089/904t",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33066",
+        "title": "Allonnes – La Forêterie, sanctuaire de Mars Mullo"
+      },
+      "handle": "20.500.13089/90fh",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36082",
+        "title": "Allonnes – La Forêtrie"
+      },
+      "handle": "20.500.13089/915d",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36383",
+        "title": "Allonnes – La Forêterie"
+      },
+      "handle": "20.500.13089/91ba",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36503",
+        "title": "Allonnes – La Forêterie"
+      },
+      "handle": "20.500.13089/91dg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36763",
+        "title": "Allonnes – La Forêterie, sanctuaire de Mars Mullo"
+      },
+      "handle": "20.500.13089/91hz",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/38069",
+        "title": "Allonnes – La Forêterie"
+      },
+      "handle": "20.500.13089/91xo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/38807",
+        "title": "Allonnes – La Forêtrie"
+      },
+      "handle": "20.500.13089/9241",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000044",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/39983",
+        "title": "Allonnes – La Foresterie"
+      },
+      "handle": "20.500.13089/9271",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/2212",
+        "title": "Thorigné-en-Charnie – Grotte Margot"
+      },
+      "handle": "20.500.13089/8tpm",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/24676",
+        "title": "Saint-Cirq – La grotte du Sorcier"
+      },
+      "handle": "20.500.13089/8yni",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31317",
+        "title": "Louverné – Grotte de la Roche"
+      },
+      "handle": "20.500.13089/904i",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31334",
+        "title": "Thorigné-en-Charnie – Grotte Margot"
+      },
+      "handle": "20.500.13089/904o",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33057",
+        "title": "Thorigné-en-Charnie – Grotte Margot"
+      },
+      "handle": "20.500.13089/90fc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/35595",
+        "title": "Thorigné-en-Charnie – Grotte de Mayenne-Sciences"
+      },
+      "handle": "20.500.13089/90xg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/35761",
+        "title": "Thorigné-en-Charnie – La grotte ornée de Mayenne-Sciences"
+      },
+      "handle": "20.500.13089/9104",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/35927",
+        "title": "Chémeré-le-Roi – Grotte de Maubusson"
+      },
+      "handle": "20.500.13089/912v",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/35934",
+        "title": "Thorigné-en-Charnie – Grotte de Mayenne-Sciences"
+      },
+      "handle": "20.500.13089/912z",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36381",
+        "title": "Thorigné-en-Charnie – Grotte Mayenne-Sciences"
+      },
+      "handle": "20.500.13089/91b8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000045",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36758",
+        "title": "Thorigné-en-Charnie – Grottes Margot et Mayenne Sciences"
+      },
+      "handle": "20.500.13089/91hv",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33712",
+        "title": "Senon – Assainissement"
+      },
+      "handle": "20.500.13089/90ml",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33830",
+        "title": "Metz – 17 rue Migette"
+      },
+      "handle": "20.500.13089/90o8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64138",
+        "title": "Jâlons – L’Ajau, le Champ Doyen (phase 1)"
+      },
+      "handle": "20.500.13089/93qc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65078",
+        "title": "Mont-Saint-Martin – Rue Jean-Jaurès"
+      },
+      "handle": "20.500.13089/93te",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65298",
+        "title": "Brocourt-en-Argonne – La Vieille Voie"
+      },
+      "handle": "20.500.13089/93u5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66720",
+        "title": "Ogy-Montoy-Flanville – Rue de Puch, Saint-Agnan"
+      },
+      "handle": "20.500.13089/93xt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66903",
+        "title": "Thionville – Chaussée d’Amérique, avenue du Comte-de-Bertier (phase 2)"
+      },
+      "handle": "20.500.13089/93yj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66913",
+        "title": "Tressange – Lotissement Les Arbrisseaux 4, Bure, la Perche"
+      },
+      "handle": "20.500.13089/93ym",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66950",
+        "title": "Volmunster – Lotissement Rebberg (tranche 4)"
+      },
+      "handle": "20.500.13089/93yr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000046",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/67733",
+        "title": "Ingwiller – Place du Marché"
+      },
+      "handle": "20.500.13089/9426",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/8475",
+        "title": "Granges cisterciennes de Franche-Comté"
+      },
+      "handle": "20.500.13089/8vfr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25293",
+        "title": "Les granges cisterciennes en Franche-Comté et dans les régions Champagne et Lorraine : réseaux, territoires et environnement"
+      },
+      "handle": "20.500.13089/8ytz",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25370",
+        "title": "Granges cisterciennes de Franche-Comté"
+      },
+      "handle": "20.500.13089/8yv3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25521",
+        "title": "Granges cisterciennes de Franche-Comté"
+      },
+      "handle": "20.500.13089/8yxn",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25819",
+        "title": "Granges de l’abbaye de Bithaine (Haute-Saône)"
+      },
+      "handle": "20.500.13089/8z2l",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26188",
+        "title": "Vars – Grange cistercienne de Montverrat"
+      },
+      "handle": "20.500.13089/8z78",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26577",
+        "title": "Évans – Cimetière des Sarrazins"
+      },
+      "handle": "20.500.13089/8zcu",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26698",
+        "title": "Les agglomérations secondaires antiques de la Haute-Saône"
+      },
+      "handle": "20.500.13089/8ze9",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26932",
+        "title": "Les agglomérations secondaires antiques de la Haute-Saône"
+      },
+      "handle": "20.500.13089/8zhx",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000047",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36262",
+        "title": "Les granges cisterciennes en Franche-Comté et en Champagne : réseaux, territoires et environnement"
+      },
+      "handle": "20.500.13089/918p",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/179274",
+        "title": "Marseille – 19 rue Henri-Barbusse"
+      },
+      "handle": "20.500.13089/143ka",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/179344",
+        "title": "Port-de-Bouc – La Mérindole Ouest"
+      },
+      "handle": "20.500.13089/143kg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/179364",
+        "title": "Saint-Étienne-du-Grès – Cours du Loup"
+      },
+      "handle": "20.500.13089/143kl",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/184378",
+        "title": "Peynier – La Corneirelle, chemin de la Treille"
+      },
+      "handle": "20.500.13089/143rp",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/184842",
+        "title": "Paradou – 78 avenue Jean-Bessat, lot 3"
+      },
+      "handle": "20.500.13089/143tc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/185562",
+        "title": "Aubagne – Le Gast, route Napollon"
+      },
+      "handle": "20.500.13089/143uc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/185772",
+        "title": "Maussane-les-Alpilles – Roquerousse et Capelette"
+      },
+      "handle": "20.500.13089/143v5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/200704",
+        "title": "Alleins – Jardinets, Pierrefeu"
+      },
+      "handle": "20.500.13089/14cve",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/201376",
+        "title": "Saint-Rémy-de-Provence – 2 boulevard Marceau"
+      },
+      "handle": "20.500.13089/14cx3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000048",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/204448",
+        "title": "Marseille – « Port antique », rue Henri-Barbusse"
+      },
+      "handle": "20.500.13089/14e4o",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/163700",
+        "title": "Lugasson – Roquefort"
+      },
+      "handle": "20.500.13089/11xti",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/165972",
+        "title": "Monumentalismes et territoires au Néolithique entre Loire et Charente, formes et environnements des mégalithes et des enceintes"
+      },
+      "handle": "20.500.13089/11xxm",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/166007",
+        "title": "Dynamique d’occupation et d’exploitation du sel dans les golfes charentais, du Néolithique à l’âge du Fer"
+      },
+      "handle": "20.500.13089/11xxp",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/198191",
+        "title": "Lugasson – Roquefort"
+      },
+      "handle": "20.500.13089/150l3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203333",
+        "title": "Monumentalisme et territoires au Néolithique entre Loire et Charente. Formes et environnements des mégalithes et des enceintes"
+      },
+      "handle": "20.500.13089/150r2",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203375",
+        "title": "Dynamiques d’occupations et d’exploitation du sel dans les golfes charentais du Néolithique à l’âge du Fer"
+      },
+      "handle": "20.500.13089/150r6",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/101094",
+        "title": "Dynamiques d’occupation et d’exploitation du sel dans les golfes charentais, du Néolithique à l’âge du Fer"
+      },
+      "handle": "20.500.13089/966n",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/101224",
+        "title": "Monumentalismes et territoires au Néolithique entre Loire et Charente : formes et environnements des mégalithes et des enceintes"
+      },
+      "handle": "20.500.13089/9670",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/106809",
+        "title": "Monumentalisme et territoires au Néolithique entre Loire et Charente : formes et environnement des enceintes et des mégalithes"
+      },
+      "handle": "20.500.13089/96nk",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000049",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/106849",
+        "title": "Dynamiques d’occupation et d’exploitation du sel dans les golfes charentais, du Néolithique à l’âge du Fer"
+      },
+      "handle": "20.500.13089/96nm",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/166137",
+        "title": "Réseau de lithothèques en Nouvelle-Aquitaine"
+      },
+      "handle": "20.500.13089/11xy3",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/194893",
+        "title": "Brive-la-Gaillarde – Grotte Bouyssonie"
+      },
+      "handle": "20.500.13089/150ip",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203655",
+        "title": "Réseau de lithothèques en Nouvelle-Aquitaine"
+      },
+      "handle": "20.500.13089/150rn",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/45566",
+        "title": "Réseau de lithothèques en région Centre-Val de Loire"
+      },
+      "handle": "20.500.13089/92l3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/47227",
+        "title": "Réseau de lithothèques en région Centre-Val de Loire"
+      },
+      "handle": "20.500.13089/92qc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/50946",
+        "title": "Réseau de lithothèques en région Centre-Val de Loire"
+      },
+      "handle": "20.500.13089/92zm",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/101219",
+        "title": "Réseau de lithothèques en Nouvelle-Aquitaine"
+      },
+      "handle": "20.500.13089/966z",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/107039",
+        "title": "Réseau de lithothèques en Nouvelle-Aquitaine"
+      },
+      "handle": "20.500.13089/96o1",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/131605",
+        "title": "Réseau de lithothèques en région Centre-Val de Loire"
+      },
+      "handle": "20.500.13089/98mj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000050",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/142791",
+        "title": "Brive-la-Gaillarde – Grotte Bouyssonie"
+      },
+      "handle": "20.500.13089/99lt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/163330",
+        "title": "Montignac-sur-Vézère – Le Buy"
+      },
+      "handle": "20.500.13089/11xsc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/164660",
+        "title": "Villeneuve-sur-Lot – Anglade"
+      },
+      "handle": "20.500.13089/11xuy",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/166092",
+        "title": "Bordeaux – Parunis-Grand Rabbin Joseph Cohen"
+      },
+      "handle": "20.500.13089/11xxy",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/203529",
+        "title": "Bordeaux Parunis-Grand Rabbin Joseph Cohen"
+      },
+      "handle": "20.500.13089/150rf",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/24644",
+        "title": "Montignac – Le Buy"
+      },
+      "handle": "20.500.13089/8yn7",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/24646",
+        "title": "Montignac – La plaine du Chambon"
+      },
+      "handle": "20.500.13089/8yn8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/24652",
+        "title": "Périgueux – Chemin de Halage"
+      },
+      "handle": "20.500.13089/8ynd",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/101558",
+        "title": "Montignac-sur-Vézère – Saint-Pierre"
+      },
+      "handle": "20.500.13089/967o",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/101818",
+        "title": "Aubas, Auriac-du-Périgord, Les Farges, Montignac-sur-Vézère – Saint-Pierre, la plaine du Chambon"
+      },
+      "handle": "20.500.13089/968f",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000051",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/102209",
+        "title": "Saint-Geours-de-Maremne – Bellocq, une fenêtre sur l’occupation des sols dans les Landes du Tardiglaciaire à l’Antiquité tardive"
+      },
+      "handle": "20.500.13089/969n",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/167505",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/121hg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/167943",
+        "title": "La Grande-Paroisse – Pincevent"
+      },
+      "handle": "20.500.13089/121ip",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169370",
+        "title": "Ethnologie des habitats tardiglaciaires du Bassin parisien"
+      },
+      "handle": "20.500.13089/12ujt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171328",
+        "title": "La Grande-Paroisse – Pincevent"
+      },
+      "handle": "20.500.13089/12uq6",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/172353",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/12uty",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214214",
+        "title": "La Grande-Paroisse – Pincevent"
+      },
+      "handle": "20.500.13089/14lno",
+      "roles": [
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36946",
+        "title": "La Grande-Paroisse – Pincevent"
+      },
+      "handle": "20.500.13089/91kh",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37408",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/91os",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000052",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/147733",
+        "title": "Habitats et peuplements tardiglaciaires du Bassin parisien"
+      },
+      "handle": "20.500.13089/99sz",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/8513",
+        "title": "Problématiques liées à la fortification d’Epomanduodurum à l’Antiquité tardive"
+      },
+      "handle": "20.500.13089/8vg1",
+      "roles": [
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25281",
+        "title": "Approche pluridisciplinaire d’une agglomération antique : Epomanduodurum (Mandeure-Mathay, Doubs)"
+      },
+      "handle": "20.500.13089/8ytv",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25382",
+        "title": "Mandeure – Champs sous la Grande Planche"
+      },
+      "handle": "20.500.13089/8yva",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25531",
+        "title": "Approche pluridisciplinaire d’une agglomération antique : Epomanduodurum"
+      },
+      "handle": "20.500.13089/8yxr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26055",
+        "title": "Secteur de Neublans (Jura)"
+      },
+      "handle": "20.500.13089/8z5f",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26154",
+        "title": "Grozon – Au Village"
+      },
+      "handle": "20.500.13089/8z6p",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26277",
+        "title": "Petit-Noir – Bois Chaussemourot"
+      },
+      "handle": "20.500.13089/8z8p",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26540",
+        "title": "Mathay – Les Longues Raies"
+      },
+      "handle": "20.500.13089/8zcb",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000053",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36261",
+        "title": "Approche pluridisciplinaire d’une agglomération antique, Epomanduodurum : archéologie, territoire et environnement"
+      },
+      "handle": "20.500.13089/918o",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/18847",
+        "title": "Sartène – Pozzone"
+      },
+      "handle": "20.500.13089/8xhr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23075",
+        "title": "Cargèse – U Scumunicatu"
+      },
+      "handle": "20.500.13089/8y6r",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23078",
+        "title": "Sartène – Rinaghiu II"
+      },
+      "handle": "20.500.13089/8y6t",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23292",
+        "title": "Coti-Chiavari – Statue-menhir de Portigliolo"
+      },
+      "handle": "20.500.13089/8y9o",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23387",
+        "title": "Sollacaro – I Calanchi-Sapar’Alta"
+      },
+      "handle": "20.500.13089/8yb1",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23455",
+        "title": "Sollacaro – I Calanchi Sapar’Alta"
+      },
+      "handle": "20.500.13089/8yc0",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/50007",
+        "title": "Casalabriva – Sépulture mégalithique de Contra Maiò"
+      },
+      "handle": "20.500.13089/92wo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/53762",
+        "title": "Casalabriva – Sépulture mégalithique de Contra Maiò"
+      },
+      "handle": "20.500.13089/937c",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000054",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/155867",
+        "title": "Casalabriva – Dolmen de Contra Maiò"
+      },
+      "handle": "20.500.13089/w18z",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/2165",
+        "title": "Rezé – Saint-Lupien"
+      },
+      "handle": "20.500.13089/8tp9",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/2294",
+        "title": "Les agglomérations secondaires de Bretagne et des Pays de la Loire"
+      },
+      "handle": "20.500.13089/8tq2",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31209",
+        "title": "Rezé – Saint-Lupien"
+      },
+      "handle": "20.500.13089/903a",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/32951",
+        "title": "Arthon-en-Retz – Aqueduc"
+      },
+      "handle": "20.500.13089/90dn",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/32985",
+        "title": "Rezé – Saint-Lupien"
+      },
+      "handle": "20.500.13089/90eb",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36682",
+        "title": "Arthon-en-Retz – Aqueduc"
+      },
+      "handle": "20.500.13089/91g6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36713",
+        "title": "Rezé – Saint-Lupien"
+      },
+      "handle": "20.500.13089/91gx",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/125914",
+        "title": "L’enceinte romaine du Mans : bilan des connaissances"
+      },
+      "handle": "20.500.13089/9820",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000055",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/133606",
+        "title": "L’enceinte romaine du Mans : bilan des connaissances"
+      },
+      "handle": "20.500.13089/98vp",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/206116",
+        "title": "Château-Chervix – La Fagassière"
+      },
+      "handle": "20.500.13089/14efi",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/206333",
+        "title": "Communes de La Meyze, Ladignac-le-Long, Le Chalard et Saint-Yrieix-la-Perche"
+      },
+      "handle": "20.500.13089/14eg0",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/212915",
+        "title": "Saint-Yrieix-la-Perche – Le Mazeau « Lauriéras »"
+      },
+      "handle": "20.500.13089/14iun",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/212922",
+        "title": "Saint-Yrieix-la-Perche – Laurière"
+      },
+      "handle": "20.500.13089/14iuo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/213013",
+        "title": "Mines d’or et d’étain du Limousin"
+      },
+      "handle": "20.500.13089/14iux",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/41271",
+        "title": "Livré-la-Touche – Vieuville"
+      },
+      "handle": "20.500.13089/929l",
+      "roles": [
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/41306",
+        "title": "Les anciennes aurières du sud de la Mayenne"
+      },
+      "handle": "20.500.13089/929q",
+      "roles": [
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/143453",
+        "title": "Le Chalard – Cros-Gallet"
+      },
+      "handle": "20.500.13089/99n8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000056",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/143673",
+        "title": "Mines d’or et d’étain antiques et habitats associés du Limousin"
+      },
+      "handle": "20.500.13089/99nr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/168058",
+        "title": "Souppes-sur-Loing – Le Prieuré-le-Boulay"
+      },
+      "handle": "20.500.13089/121j4",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/168098",
+        "title": "Vignely – Pièce des Hayettes"
+      },
+      "handle": "20.500.13089/121j8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169990",
+        "title": "Vignely – La porte aux Bergers"
+      },
+      "handle": "20.500.13089/12ulq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171078",
+        "title": "Paris (10e) – 63 rue de Lancry"
+      },
+      "handle": "20.500.13089/12upb",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171558",
+        "title": "Vignely – La porte aux Bergers"
+      },
+      "handle": "20.500.13089/12ur6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214025",
+        "title": "Changis-sur-Marne – Le Dessus de la Chaussée, les Pétreaux"
+      },
+      "handle": "20.500.13089/14ln7",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36903",
+        "title": "Changis-sur-Marne – Les Pétreaux"
+      },
+      "handle": "20.500.13089/91k7",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37193",
+        "title": "Neuilly-sur-Marne – La Haute Île"
+      },
+      "handle": "20.500.13089/91ms",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000057",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/145578",
+        "title": "Changis-sur-Marne – Le Dessus de la Chaussée, les Pétreaux (secteur 5)"
+      },
+      "handle": "20.500.13089/99oo",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/18706",
+        "title": "Aléria – Le Fort, Maison Rossi"
+      },
+      "handle": "20.500.13089/8xgi",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31881",
+        "title": "Carnas – Bois de la Tour"
+      },
+      "handle": "20.500.13089/907z",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31907",
+        "title": "Nîmes – 93-95 route de Beaucaire"
+      },
+      "handle": "20.500.13089/9086",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31908",
+        "title": "Nîmes – Saint-Joseph, musée de la Romanité"
+      },
+      "handle": "20.500.13089/9087",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31912",
+        "title": "Nîmes – 109 route de Beaucaire"
+      },
+      "handle": "20.500.13089/9089",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/31942",
+        "title": "Uzès – Carrignargues, impasse des Arbousiers"
+      },
+      "handle": "20.500.13089/908q",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/32061",
+        "title": "Villeneuve-lès-Béziers – Place Gabriel-Péri"
+      },
+      "handle": "20.500.13089/909x",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/53857",
+        "title": "Aléria – Lamajone"
+      },
+      "handle": "20.500.13089/937s",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000058",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/156067",
+        "title": "Pietroso – Casa Pieraggi"
+      },
+      "handle": "20.500.13089/w19u",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/7426",
+        "title": "Saint-Pierre-Église, Clitourps – Le mont Étolan"
+      },
+      "handle": "20.500.13089/8v4b",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/7484",
+        "title": "Digulleville – Jardeheu"
+      },
+      "handle": "20.500.13089/8v4x",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/7544",
+        "title": "Barneville-Carteret – Carrefour Boudet"
+      },
+      "handle": "20.500.13089/8v5m",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/17027",
+        "title": "Saint-Gabriel-Brécy – Le Laicourt"
+      },
+      "handle": "20.500.13089/8x92",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/17095",
+        "title": "Le site de Durcet/Sainte-Opportune"
+      },
+      "handle": "20.500.13089/8x9f",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/24132",
+        "title": "Croisilles – Les Fours à Chaux"
+      },
+      "handle": "20.500.13089/8yiq",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/71199",
+        "title": "Olendon – Les Feugres"
+      },
+      "handle": "20.500.13089/94c7",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/78330",
+        "title": "Pierrepont – Parcelle B 15"
+      },
+      "handle": "20.500.13089/94yz",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000059",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/78595",
+        "title": "Le Rozel – Le Pou"
+      },
+      "handle": "20.500.13089/94zw",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25223",
+        "title": "Tavaux – Les Terres Saint-Gervais"
+      },
+      "handle": "20.500.13089/8yt5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25496",
+        "title": "Tavaux – Les Charmes d’Amont, zone industrielle"
+      },
+      "handle": "20.500.13089/8yx5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26158",
+        "title": "Pont-de-Poitte – Villa de Vicourt"
+      },
+      "handle": "20.500.13089/8z6s",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26288",
+        "title": "Pont-de-Poitte – En Vicourt"
+      },
+      "handle": "20.500.13089/8z8t",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26628",
+        "title": "Chassey-lès-Montbozon – Pré Guillemin"
+      },
+      "handle": "20.500.13089/8zdr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26800",
+        "title": "Chassey-lès-Montbozon – Pré Guillemin"
+      },
+      "handle": "20.500.13089/8zfw",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26892",
+        "title": "Chassey-lès-Montbozon – Pré Guillemin"
+      },
+      "handle": "20.500.13089/8zhb",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26971",
+        "title": "Chassey-lès-Montbozon – Prés Guillemin"
+      },
+      "handle": "20.500.13089/8zis",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000060",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36228",
+        "title": "Tavaux – Les Terres-Saint-Gervais"
+      },
+      "handle": "20.500.13089/9182",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/167505",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/121hg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169370",
+        "title": "Ethnologie des habitats tardiglaciaires du Bassin parisien"
+      },
+      "handle": "20.500.13089/12ujt",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169730",
+        "title": "Donnemarie-Dontilly – La Fouillotte"
+      },
+      "handle": "20.500.13089/12ukt",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171278",
+        "title": "Donnemarie-Dontilly – La Fouillotte"
+      },
+      "handle": "20.500.13089/12uq0",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/172353",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/12uty",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/216489",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/14lrk",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/49138",
+        "title": "Paléolithique final et Mésolithique dans le Bassin parisien et ses marges : habitats, sociétés et environnements"
+      },
+      "handle": "20.500.13089/92uh",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/113064",
+        "title": "Art rupestre préhistorique dans les chaos gréseux du Bassin parisien : étude, archivage, valorisation et relevés rupestres des abris ornés"
+      },
+      "handle": "20.500.13089/96y6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000061",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/147733",
+        "title": "Habitats et peuplements tardiglaciaires du Bassin parisien"
+      },
+      "handle": "20.500.13089/99sz",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/176184",
+        "title": "Belleville-en-Beaujolais – Fontenailles"
+      },
+      "handle": "20.500.13089/12zzs",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/14514",
+        "title": "Villars-les-Dombes – Mantolière"
+      },
+      "handle": "20.500.13089/8wv2",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/51767",
+        "title": "Le Carbet – Angle de la rue Pory-Papy et de la place Jules-Grévy"
+      },
+      "handle": "20.500.13089/932n",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/57256",
+        "title": "La Mure – La Roche, Pré Lambert"
+      },
+      "handle": "20.500.13089/93aq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/59751",
+        "title": "Lyon (1er) – 7-11 rue des Chartreux"
+      },
+      "handle": "20.500.13089/93fr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/60758",
+        "title": "Civrieux – Zac Bergerie (tranche 1)"
+      },
+      "handle": "20.500.13089/93ir",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/60761",
+        "title": "Civrieux – Zac de la Bergerie (tranche 2)"
+      },
+      "handle": "20.500.13089/93is",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/99020",
+        "title": "Divonne-les-Bains – Les Abergements, rue René-Vidart"
+      },
+      "handle": "20.500.13089/9626",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000062",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/99083",
+        "title": "Saint-Vulbas – PIPA-LIMA, avenue de la Verpillière"
+      },
+      "handle": "20.500.13089/962k",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/168403",
+        "title": "Étampes – Rue de la Prison"
+      },
+      "handle": "20.500.13089/121k6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/168443",
+        "title": "Saint-Maurice-Montcouronne – La maison Neuve"
+      },
+      "handle": "20.500.13089/121kc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171798",
+        "title": "Saint-Germain-en-Laye – Cour du Château"
+      },
+      "handle": "20.500.13089/12urx",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171878",
+        "title": "Saint-Maurice-Montcouronne – La Maison Neuve"
+      },
+      "handle": "20.500.13089/12us8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214773",
+        "title": "Linas – Église Saint-Merry"
+      },
+      "handle": "20.500.13089/14lp5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214815",
+        "title": "Montlhéry – 27 Grande-Rue"
+      },
+      "handle": "20.500.13089/14lp9",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214836",
+        "title": "Saint-Maurice-Montcouronne – La Maison Neuve"
+      },
+      "handle": "20.500.13089/14lpc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37135",
+        "title": "Crosne – Église Notre-Dame"
+      },
+      "handle": "20.500.13089/91m9",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37144",
+        "title": "Linas – Église Saint-Merry"
+      },
+      "handle": "20.500.13089/91mc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37146",
+        "title": "Longpont-sur-Orge – Basilique Notre-Dame-de-Bonne-Garde"
+      },
+      "handle": "20.500.13089/91md",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37150",
+        "title": "Viry-Châtillon – Église Saint-Denis"
+      },
+      "handle": "20.500.13089/91mf",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/110752",
+        "title": "Arpajon – Cœur de Ville (phase 2)"
+      },
+      "handle": "20.500.13089/96st",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/110837",
+        "title": "Dourdan – Extension du musée du château de Dourdan, place du Général-de-Gaulle"
+      },
+      "handle": "20.500.13089/96sy",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/110957",
+        "title": "Saclas – 8 avenue Jean-Jaurès"
+      },
+      "handle": "20.500.13089/96t8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/110967",
+        "title": "Saint-Chéron – 9 rue des Carrières"
+      },
+      "handle": "20.500.13089/96t9",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/146118",
+        "title": "Crosne – Église Notre-Dame"
+      },
+      "handle": "20.500.13089/99qa",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/146203",
+        "title": "La Ferté-Alais – Église Saint-Pierre"
+      },
+      "handle": "20.500.13089/99qh",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000063",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/153288",
+        "title": "Saint-Chéron – La Rogère, chemin de la Juinière"
+      },
+      "handle": "20.500.13089/9a9m",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/215003",
+        "title": "Le Bec-Hellouin – Abbaye Notre-Dame du Bec"
+      },
+      "handle": "20.500.13089/14l7r",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/215276",
+        "title": "Pont-de-l’Arche – Abbaye de Bonport"
+      },
+      "handle": "20.500.13089/14l8n",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/16559",
+        "title": "Gaillon – Le Château"
+      },
+      "handle": "20.500.13089/8x5z",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/17776",
+        "title": "Rouen – Archevêché"
+      },
+      "handle": "20.500.13089/8xfl",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/73193",
+        "title": "Gaillon – Les Jardins Hauts"
+      },
+      "handle": "20.500.13089/94jf",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/75118",
+        "title": "Gaillon – Les Jardins Hauts du Château"
+      },
+      "handle": "20.500.13089/94q3",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77183",
+        "title": "Le Bec-Hellouin – Abbaye Notre-Dame, logis abbatial"
+      },
+      "handle": "20.500.13089/94ux",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77223",
+        "title": "Gaillon – Château"
+      },
+      "handle": "20.500.13089/94v5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77623",
+        "title": "Oissel – Quartier de la Gare"
+      },
+      "handle": "20.500.13089/94wj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77663",
+        "title": "Rouen – Archevêché"
+      },
+      "handle": "20.500.13089/94wo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/151296",
+        "title": "Les Andelys – Château Gaillard"
+      },
+      "handle": "20.500.13089/9a2o",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/153794",
+        "title": "Bus-Saint-Rémy – Abbaye Notre-Dame-du-Trésor"
+      },
+      "handle": "20.500.13089/9abj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000064",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/153879",
+        "title": "Ivry-la-Bataille – Le Château"
+      },
+      "handle": "20.500.13089/9abu",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/167505",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/121hg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/168517",
+        "title": "Rueil-Malmaison – Le Closeau"
+      },
+      "handle": "20.500.13089/121kh",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169370",
+        "title": "Ethnologie des habitats tardiglaciaires du Bassin parisien"
+      },
+      "handle": "20.500.13089/12ujt",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/169730",
+        "title": "Donnemarie-Dontilly – La Fouillotte"
+      },
+      "handle": "20.500.13089/12ukt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171278",
+        "title": "Donnemarie-Dontilly – La Fouillotte"
+      },
+      "handle": "20.500.13089/12uq0",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/171938",
+        "title": "Nanterre et Rueil-Malmaison – Autoroute A86"
+      },
+      "handle": "20.500.13089/12usi",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/172353",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/12uty",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/214861",
+        "title": "Rueil-Malmaison – Le Closeau"
+      },
+      "handle": "20.500.13089/14lpg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/216489",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/14lrk",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37408",
+        "title": "Habitats et peuplements du Tardiglaciaire dans le Bassin parisien"
+      },
+      "handle": "20.500.13089/91os",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/111627",
+        "title": "Ormesson – Les Bossats"
+      },
+      "handle": "20.500.13089/96uy",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/146273",
+        "title": "Rueil-Malmaison – Le site à Federmesser du Closeau"
+      },
+      "handle": "20.500.13089/99qp",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000065",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/152283",
+        "title": "Ormesson – Le gisement du Paléolithique moyen et Paléolithique supérieur des Bossats"
+      },
+      "handle": "20.500.13089/9a6g",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33339",
+        "title": "Cernay-lès-Reims, Saint-Léonard – Parc de Référence de Cernay-lès-Reims – Saint-Léonard (tranche 3, phase B)"
+      },
+      "handle": "20.500.13089/90in",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33344",
+        "title": "Cernay-lès-Reims – Parc de Référence de Cernay-lès-Reims – Saint-Léonard le Bas de la Noue Saint-Rémi (secteur 1, zone 7)"
+      },
+      "handle": "20.500.13089/90io",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33345",
+        "title": "Cernay-lès-Reims – Parc de Référence de Cernay-lès-Reims – Saint-Léonard le Bas de la Noue Saint-Rémi (secteur 1, zone 9)"
+      },
+      "handle": "20.500.13089/90ip",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33346",
+        "title": "Cernay-lès-Reims – Parc de Référence de Cernay-lès-Reims – Saint-Léonard le Bas de la Noue Saint-Rémi (secteur 3, zone 8)"
+      },
+      "handle": "20.500.13089/90iq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33347",
+        "title": "Cernay-lès-Reims – Parc de Référence de Cernay-lès-Reims, Saint-Léonard le Bas de la Noue Saint-Rémi (secteur 3, zone 10)"
+      },
+      "handle": "20.500.13089/90ir",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33348",
+        "title": "Cernay-lès-Reims – Parc de Référence de Cernay-lès-Reims, Saint-Léonard le Bas de la Noue Saint-Rémi (secteur 3, zone 11)"
+      },
+      "handle": "20.500.13089/90is",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33385",
+        "title": "Isles-sur-Suippe, Lavannes – Les Sohettes, val des Bois (secteur 4d nord-sud)"
+      },
+      "handle": "20.500.13089/90j8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33436",
+        "title": "Saint-Léonard – Parc de Référence de Cernay-lès-Reims – Saint-Léonard, la Croix Faille (zone 5)"
+      },
+      "handle": "20.500.13089/90jx",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/46756",
+        "title": "Saint Marcel – Les Mersans"
+      },
+      "handle": "20.500.13089/92op",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64023",
+        "title": "Cernay-lès-Reims – Rue de Sillery"
+      },
+      "handle": "20.500.13089/93py",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64038",
+        "title": "Châlons-en-Champagne – Rue des Viviers"
+      },
+      "handle": "20.500.13089/93q1",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64783",
+        "title": "Saint-Dizier – 510 avenue de la République"
+      },
+      "handle": "20.500.13089/93sf",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000066",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64788",
+        "title": "Saint-Dizier – Rues du Maréchal-de-Lattre-de-Tassigny et Gambetta"
+      },
+      "handle": "20.500.13089/93sg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/215129",
+        "title": "Harcourt – Domaine d’Harcourt"
+      },
+      "handle": "20.500.13089/14l86",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/215339",
+        "title": "Le Vieil-Évreux – Le Grand Sanctuaire"
+      },
+      "handle": "20.500.13089/14l8s",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/16599",
+        "title": "Le Vieil-Évreux – Le Grand Sanctuaire : la basilique"
+      },
+      "handle": "20.500.13089/8x66",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23929",
+        "title": "Le Vieil-Évreux – La basilique"
+      },
+      "handle": "20.500.13089/8ygq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/49457",
+        "title": "Le Vieil-Évreux – La Basilique"
+      },
+      "handle": "20.500.13089/92vb",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/71579",
+        "title": "Le Vieil-Évreux – La Basilique"
+      },
+      "handle": "20.500.13089/94di",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/73463",
+        "title": "Le Vieil-Évreux – La basilique"
+      },
+      "handle": "20.500.13089/94k9",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/75383",
+        "title": "Le Vieil-Évreux – La Basilique"
+      },
+      "handle": "20.500.13089/94qx",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77373",
+        "title": "Le Vieil-Évreux – Le Grand Sanctuaire"
+      },
+      "handle": "20.500.13089/94vn",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/119868",
+        "title": "Le Vieil-Évreux – La Basilique"
+      },
+      "handle": "20.500.13089/97mt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/149483",
+        "title": "Cierrey – Rue des Trois Communes"
+      },
+      "handle": "20.500.13089/99wr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/149723",
+        "title": "Le Vieil-Évreux – La basilique"
+      },
+      "handle": "20.500.13089/99xi",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000067",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/154004",
+        "title": "Le Vieil-Évreux – Grand sanctuaire central"
+      },
+      "handle": "20.500.13089/9acg",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33512",
+        "title": "Saudron, Gillaumé – Chapet, le Chien, CIGEO, centre industriel de stockage géologique (lot 2)"
+      },
+      "handle": "20.500.13089/90kq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33636",
+        "title": "Lunéville – 37-39-41 rue de la République, rue du rempart, cinéma"
+      },
+      "handle": "20.500.13089/90lj",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33799",
+        "title": "Hombourg-Haut – 74bis rue de l’Église"
+      },
+      "handle": "20.500.13089/90nt",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33891",
+        "title": "Vic-sur-Seille – 2 rue Haute, extension Ehpad Sainte-Marie (tranche 2, zone A)"
+      },
+      "handle": "20.500.13089/90p5",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33893",
+        "title": "Vic-sur-Seille – 2 rue Haute, extension Ehpad Sainte-Marie (tranche 1, phase 2)"
+      },
+      "handle": "20.500.13089/90p6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64878",
+        "title": "Bures – Les Grands Champs"
+      },
+      "handle": "20.500.13089/93sr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65033",
+        "title": "Lunéville – Cinéma Lunéville, 37-39-41 rue de la République et rue du Rempart"
+      },
+      "handle": "20.500.13089/93t9",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65038",
+        "title": "Méréville – Lotissement Le Petit Verger, rue du Coteau"
+      },
+      "handle": "20.500.13089/93ta",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65258",
+        "title": "Bar-le-Duc – Rue Ernest-Bradfer"
+      },
+      "handle": "20.500.13089/93u0",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65869",
+        "title": "Brouviller – Mounisplaz"
+      },
+      "handle": "20.500.13089/93vk",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66434",
+        "title": "Faulquemont – Rue de la Piscine"
+      },
+      "handle": "20.500.13089/93wg",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66739",
+        "title": "Phalsbourg – Porte de France"
+      },
+      "handle": "20.500.13089/93xw",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000068",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/66935",
+        "title": "Vic-sur-Seille – Place Carl-Flasche (tranche 1)"
+      },
+      "handle": "20.500.13089/93yp",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/161707",
+        "title": "Saintes – Chemin des Sables"
+      },
+      "handle": "20.500.13089/11vdi",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/161722",
+        "title": "Saintes – 9 rue des Thermes romains"
+      },
+      "handle": "20.500.13089/11vdj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/218076",
+        "title": "Marthon – Le Donjon"
+      },
+      "handle": "20.500.13089/14vvq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/218440",
+        "title": "Saintes – Rue du Palais"
+      },
+      "handle": "20.500.13089/14vwj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193559",
+        "title": "Saintes – 1 rue du Bois-Taillis"
+      },
+      "handle": "20.500.13089/150fo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193566",
+        "title": "Saintes – 4 cours Genêt"
+      },
+      "handle": "20.500.13089/150fp",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193573",
+        "title": "Saintes – 24 cours Genêt"
+      },
+      "handle": "20.500.13089/150fq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193580",
+        "title": "Saintes – 55 rue du Petit-Village"
+      },
+      "handle": "20.500.13089/150fr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193587",
+        "title": "Saintes – 87 rue de la Boule"
+      },
+      "handle": "20.500.13089/150fs",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193594",
+        "title": "Saintes – 136 rue de la Boule"
+      },
+      "handle": "20.500.13089/150ft",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193601",
+        "title": "Saintes – Boulevard Ambroise-Paré"
+      },
+      "handle": "20.500.13089/150fu",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000069",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/193608",
+        "title": "Saintes – Rue de l’Abattoir"
+      },
+      "handle": "20.500.13089/150fv",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/215806",
+        "title": "Eu – Le Bois l’Abbé"
+      },
+      "handle": "20.500.13089/14lhk",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/17689",
+        "title": "Eu – Le Bois l’Abbé"
+      },
+      "handle": "20.500.13089/8xeu",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/23991",
+        "title": "Eu – Bois-l’Abbé"
+      },
+      "handle": "20.500.13089/8yh2",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/49622",
+        "title": "Eu – Bois l’Abbé"
+      },
+      "handle": "20.500.13089/92vq",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/74158",
+        "title": "Eu – Bois-l’Abbé"
+      },
+      "handle": "20.500.13089/94m8",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/75888",
+        "title": "Eu – Bois l’Abbé"
+      },
+      "handle": "20.500.13089/94sr",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/77513",
+        "title": "Eu – Le Bois l’Abbé"
+      },
+      "handle": "20.500.13089/94w4",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/120544",
+        "title": "Eu – Bois l’Abbé"
+      },
+      "handle": "20.500.13089/97pk",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/120559",
+        "title": "Topographie générale et insertion territoriale de l’agglomération antique de Briga (Eu)"
+      },
+      "handle": "20.500.13089/97pl",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/151651",
+        "title": "Eu – Bois-l’Abbé"
+      },
+      "handle": "20.500.13089/9a41",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000070",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/151656",
+        "title": "Topographie générale et insertion territoriale de la ville antique de Briga"
+      },
+      "handle": "20.500.13089/9a42",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/161772",
+        "title": "Saintes et Fontcouverte – Courbiac, fleuve Charente"
+      },
+      "handle": "20.500.13089/11vdo",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/190611",
+        "title": "Au large d’Agde – Agde J"
+      },
+      "handle": "20.500.13089/1474d",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/205052",
+        "title": "Au large de Agde – Agde J"
+      },
+      "handle": "20.500.13089/14enq",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/219267",
+        "title": "Au large de Agde, Marseillan, Sète – Atlas des biens culturels maritimes"
+      },
+      "handle": "20.500.13089/14z1q",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/219309",
+        "title": "Au large de Frontignan – Épaves du Lion et du Robuste"
+      },
+      "handle": "20.500.13089/14z1s",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/197600",
+        "title": "Jarnac – Quai du fleuve Charente"
+      },
+      "handle": "20.500.13089/150jr",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/16164",
+        "title": "Saint-Auvent – Pont de Lascaux"
+      },
+      "handle": "20.500.13089/8x3f",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/51505",
+        "title": "Montbouy – Canal de Briare"
+      },
+      "handle": "20.500.13089/931o",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/69904",
+        "title": "Saintes, Fontcouverte – Courbiac"
+      },
+      "handle": "20.500.13089/947v",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/104199",
+        "title": "Saintes, Fontcouverte – Courbiac, fleuve Charente"
+      },
+      "handle": "20.500.13089/96g6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000071",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/138016",
+        "title": "Au large de Frontignan – Le Lion (EA 1866) et le Robuste (EA 987)"
+      },
+      "handle": "20.500.13089/995y",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/8393",
+        "title": "Saint-Vit – Les Champs Perret 2"
+      },
+      "handle": "20.500.13089/8vf6",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25539",
+        "title": "Blussangeaux – Carrefour RD316-316A « La Paule, Au Fenil »"
+      },
+      "handle": "20.500.13089/8yxz",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25760",
+        "title": "Thise – Les Chenevières, Sous Vignier"
+      },
+      "handle": "20.500.13089/8z1s",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25947",
+        "title": "Saint-Vit – Les Champs Traversains"
+      },
+      "handle": "20.500.13089/8z3s",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26087",
+        "title": "Adam-lès-Passavant – Grotte de la Bouloie"
+      },
+      "handle": "20.500.13089/8z5r",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26128",
+        "title": "Saint-Vit – Les Champs Traversains : nécropole du haut Moyen Âge et enclos protohistorique"
+      },
+      "handle": "20.500.13089/8z68",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26232",
+        "title": "Saint-Vit – Les Champs Traversains"
+      },
+      "handle": "20.500.13089/8z7x",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26394",
+        "title": "Saint-Vit – Les Champs Traversains"
+      },
+      "handle": "20.500.13089/8zaa",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26548",
+        "title": "Saint-Vit – Les Champs Traversains, nécropole mérovingienne"
+      },
+      "handle": "20.500.13089/8zce",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000072",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26942",
+        "title": "La Rivière-Drugeon – Les Poiriers"
+      },
+      "handle": "20.500.13089/8zi5",
       "roles": [
         "aut"
       ],
