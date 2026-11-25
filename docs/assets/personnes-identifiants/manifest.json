@@ -1,0 +1,12 @@
+{
+  "version": "2.6",
+  "available": {
+    "idref": "idref.png",
+    "bnf": "bnf.png",
+    "orcid": "orcid.png",
+    "idhal": "idhal.png",
+    "persee": "persee.png",
+    "wikidata": "wikidata.png"
+  },
+  "note": "Iconographies fournies pour la recette locale, sans attribution automatique de nouveaux identifiants."
+}

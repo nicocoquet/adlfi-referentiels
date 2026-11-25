@@ -608,8 +608,13 @@
       }
     },
     "personnes": {
-      "status": "preparation",
-      "data": null
+      "status": "pilote",
+      "data": "data/personnes.json",
+      "data_schema": "0.3.0",
+      "autorites_validees": 12,
+      "contributions_adlfi": 299,
+      "notices_adlfi": 298,
+      "page": "personnes/"
     },
     "organismes": {
       "status": "prototype",
