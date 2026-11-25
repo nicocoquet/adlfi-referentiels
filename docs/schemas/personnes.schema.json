@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nicocoquet.github.io/adlfi-referentiels/schemas/personnes.schema.json",
+  "title": "Référentiel Personnes — première publication pilote",
+  "description": "Schéma de prévisualisation, publication non autorisée.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset",
+    "publication_status",
+    "scope_note",
+    "totals",
+    "authorities",
+    "contributions",
+    "role_taxonomy",
+    "publication_sections"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.3.0"
+    },
+    "dataset": {
+      "const": "adlfi-referentiels/personnes"
+    },
+    "publication_status": {
+      "const": "PUBLIC_PILOT"
+    },
+    "scope_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorities",
+        "contributions",
+        "notices"
+      ],
+      "properties": {
+        "authorities": {
+          "const": 12
+        },
+        "contributions": {
+          "const": 299
+        },
+        "notices": {
+          "const": 298
+        }
+      }
+    },
+    "authorities": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "$ref": "#/$defs/authority"
+      }
+    },
+    "contributions": {
+      "type": "array",
+      "minItems": 299,
+      "maxItems": 299,
+      "items": {
+        "$ref": "#/$defs/contribution"
+      }
+    },
+    "role_taxonomy": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/journal_taxonomy"
+      }
+    },
+    "publication_sections": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "journal",
+          "label",
+          "kind",
+          "data_status"
+        ],
+        "properties": {
+          "journal": {
+            "enum": [
+              "adlfi",
+              "gallia",
+              "gallia_prehistoire"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "notice",
+              "article"
+            ]
+          },
+          "data_status": {
+            "enum": [
+              "present",
+              "awaiting_relations"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "name_idref",
+        "identifiers",
+        "contributions_count"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^PER-[0-9]{6}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name_idref": {
+          "type": "string"
+        },
+        "identifiers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "idref"
+          ],
+          "properties": {
+            "idref": {
+              "type": "string",
+              "pattern": "^[0-9]{8}[0-9X]$"
+            },
+            "bnf": {
+              "type": "string",
+              "pattern": "^cb[0-9]{8}[0-9a-z]$"
+            },
+            "orcid": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$"
+            },
+            "idhal": {
+              "type": "string",
+              "minLength": 1
+            },
+            "persee": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "wikidata": {
+              "type": "string",
+              "pattern": "^Q[1-9][0-9]*$"
+            }
+          }
+        },
+        "contributions_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name_variants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "kind",
+              "source"
+            ],
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "nom_usuel",
+                  "nom_compose",
+                  "nom_naissance",
+                  "nom_usage",
+                  "variante_graphique",
+                  "renvoi_autorite",
+                  "autre_forme_attestee"
+                ]
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "contribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "person_id",
+        "notice",
+        "handle",
+        "roles",
+        "journal",
+        "normalized_roles"
+      ],
+      "properties": {
+        "person_id": {
+          "type": "string",
+          "pattern": "^PER-[0-9]{6}$"
+        },
+        "notice": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "url",
+            "title"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "pattern": "^https://journals\\.openedition\\.org/adlfi/[0-9]+$"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "handle": {
+          "type": "string",
+          "pattern": "^20\\.500\\.13089/[A-Za-z0-9]+$"
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "aut",
+              "fld"
+            ]
+          }
+        },
+        "journal": {
+          "enum": [
+            "adlfi",
+            "gallia",
+            "gallia_prehistoire"
+          ]
+        },
+        "normalized_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "auteur",
+              "responsable_operation",
+              "collaborateur"
+            ]
+          }
+        }
+      }
+    },
+    "journal_taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal",
+        "label",
+        "data_status",
+        "roles"
+      ],
+      "properties": {
+        "journal": {
+          "enum": [
+            "adlfi",
+            "gallia",
+            "gallia_prehistoire"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "data_status": {
+          "enum": [
+            "present",
+            "awaiting_relations"
+          ]
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "label",
+              "source_code"
+            ],
+            "properties": {
+              "code": {
+                "enum": [
+                  "auteur",
+                  "responsable_operation",
+                  "collaborateur"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "source_code": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
