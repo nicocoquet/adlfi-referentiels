@@ -32,7 +32,7 @@
   // Secours : patronyme déclaré, puis nom affiché ; tie-break PER stable.
   const familySortKey = person => {
     const idref=String(person.name_idref || '');
-    return idref.includes(',') ? idref.split(',')[0].trim() : (person.family_name || person.name);
+    return person.family_name || (idref.includes(',') ? idref.split(',')[0].trim() : person.name);
   };
   const surnameCollator = new Intl.Collator('fr', {sensitivity:'base', numeric:true});
   const surnameOrder = (a,b) =>
@@ -259,7 +259,7 @@
     fetch('../assets/personnes-identifiants/manifest.json',{cache:'no-store'}).then(r=>r.ok?r.json():{available:{}}).catch(()=>({available:{}}))
   ]).then(([json,icons])=>{
     iconManifest=icons.available||{};
-    if(json.publication_status!=='PUBLIC_PILOT'||json.totals.authorities!==12||!Array.isArray(json.contributions)||!Array.isArray(json.publication_sections))throw Error('Projection de recette inattendue');
+    if(json.publication_status!=='PUBLIC_PILOT'||json.totals.authorities!==json.authorities.length || json.totals.contributions!==json.contributions.length||!Array.isArray(json.contributions)||!Array.isArray(json.publication_sections))throw Error('Projection de recette inattendue');
     data=json;renderFacets();render();
   }).catch(()=>{$('#per-results').textContent='Données indisponibles. Ouvrez ce prototype depuis un serveur HTTP local.';});
 })();
