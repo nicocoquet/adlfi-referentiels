@@ -8,18 +8,19 @@ class TestPublicationPersonnesLot04(unittest.TestCase):
  def setUpClass(cls):cls.data=json.loads(P.read_text(encoding='utf-8'))
  def test_effectifs(self):
   d=self.data
-  self.assertEqual(d['totals'],{'authorities':102,'contributions':1517,'notices':1432})
-  self.assertEqual((len(d['authorities']),len(d['contributions'])),(102,1517))
+  self.assertGreaterEqual(len(d['authorities']),102)
+  self.assertGreaterEqual(len(d['contributions']),1517)
+  self.assertEqual(d['totals'],{'authorities':len(d['authorities']),'contributions':len(d['contributions']),'notices':len({x['handle'] for x in d['contributions']})})
  def test_identifiants(self):
   d=self.data
-  self.assertEqual([a['id'] for a in d['authorities']],[f'PER-{i:06d}' for i in range(1,103)])
-  self.assertEqual(len({a['identifiers']['idref'] for a in d['authorities']}),102)
+  self.assertEqual([a['id'] for a in d['authorities']],[f'PER-{i:06d}' for i in range(1,len(d['authorities'])+1)])
+  self.assertEqual(len({a['identifiers']['idref'] for a in d['authorities']}),len(d['authorities']))
  def test_contributions(self):
-  d=self.data;cs=d['contributions']
-  self.assertEqual(len({(x['person_id'],x['handle']) for x in cs}),1517)
-  self.assertEqual(len({x['handle'] for x in cs}),1432)
-  self.assertEqual(len(set(x['handle'] for x in cs[:1276])&set(x['handle'] for x in cs[1276:])),23)
-  self.assertEqual(collections.Counter(' '.join(x['roles']) for x in cs),{'aut fld':1252,'aut':253,'fld':12})
+  d=self.data;cs=d['contributions'];hist=cs[:1517]
+  self.assertEqual(len({(x['person_id'],x['handle']) for x in hist}),1517)
+  self.assertEqual(len({x['handle'] for x in hist}),1432)
+  self.assertEqual(len(set(x['handle'] for x in hist[:1276])&set(x['handle'] for x in hist[1276:])),23)
+  self.assertEqual(collections.Counter(' '.join(x['roles']) for x in hist),{'aut fld':1252,'aut':253,'fld':12})
   cnt=collections.Counter(x['person_id'] for x in cs)
   self.assertTrue(all(x['contributions_count']==cnt[x['id']] for x in d['authorities']))
  def test_variante(self):

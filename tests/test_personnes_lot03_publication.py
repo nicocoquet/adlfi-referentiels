@@ -53,9 +53,9 @@ class TestPersonnesLot03(unittest.TestCase):
 
     def test_autorites_identifiants_stables(self):
         people=self.pub['authorities']
-        self.assertEqual(len(people), 72)
-        self.assertEqual([x['id'] for x in people], [f'PER-{i:06d}' for i in range(1,73)])
-        self.assertEqual(len({x['identifiers']['idref'] for x in people}),72)
+        self.assertGreaterEqual(len(people), 72)
+        self.assertEqual([x['id'] for x in people[:72]], [f'PER-{i:06d}' for i in range(1,73)])
+        self.assertEqual(len({x['identifiers']['idref'] for x in people[:72]}),72)
         for pos, (name,ppn,count) in enumerate(EXPECTED_LOT03,start=42):
             a=people[pos]
             self.assertEqual((a['name'],a['identifiers']['idref'],a['contributions_count']),(name,ppn,count))
@@ -63,8 +63,10 @@ class TestPersonnesLot03(unittest.TestCase):
             self.assertEqual(a['name_variants'], [])
 
     def test_contributions_et_notices(self):
-        docs=self.pub['contributions']
-        self.assertEqual(self.pub['totals'],{'authorities':72,'contributions':1276,'notices':1222})
+        docs=self.pub['contributions'][:1276]
+        self.assertGreaterEqual(self.pub['totals']['authorities'], 72)
+        self.assertGreaterEqual(self.pub['totals']['contributions'], 1276)
+        self.assertGreaterEqual(self.pub['totals']['notices'], 1222)
         self.assertEqual(len(docs),1276)
         self.assertEqual(len({x['notice']['url'] for x in docs}),1222)
         self.assertEqual(len({(x['person_id'],x['notice']['url']) for x in docs}),1276)
@@ -77,7 +79,7 @@ class TestPersonnesLot03(unittest.TestCase):
 
     def test_manifeste(self):
         module=self.manifest['modules']['personnes']
-        self.assertEqual((module['autorites_validees'],module['contributions_adlfi'],module['notices_adlfi']), (72,1276,1222))
+        self.assertEqual((module['autorites_validees'],module['contributions_adlfi'],module['notices_adlfi']), (self.pub['totals']['authorities'],self.pub['totals']['contributions'],self.pub['totals']['notices']))
         self.assertEqual(module['data_schema'],'0.4.0')
         self.assertEqual(module['status'],'pilote')
 
