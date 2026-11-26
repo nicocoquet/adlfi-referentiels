@@ -611,9 +611,9 @@
       "status": "pilote",
       "data": "data/personnes.json",
       "data_schema": "0.4.0",
-      "autorites_validees": 72,
-      "contributions_adlfi": 1276,
-      "notices_adlfi": 1222,
+      "autorites_validees": 102,
+      "contributions_adlfi": 1517,
+      "notices_adlfi": 1432,
       "page": "personnes/"
     },
     "organismes": {
