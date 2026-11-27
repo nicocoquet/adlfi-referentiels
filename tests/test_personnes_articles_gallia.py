@@ -96,6 +96,26 @@ class TestProjectionArticleHeurist(unittest.TestCase):
         self.assertEqual(result["articles"][0]["url"],
                          "https://journals.openedition.org/galliap/891")
 
+    def test_refuse_deux_articles_partageant_un_doi(self):
+        a, r, m, p = fixture()
+        second = {**a["articles"][0], "article_id": "heurist:1519:73:719",
+                  "title": "Sous-section du premier article",
+                  "url": "https://journals.openedition.org/gallia/124"}
+        a["articles"].append(second)
+        r["relations"].append({**r["relations"][0], "article_id": second["article_id"]})
+        with self.assertRaisesRegex(ValueError, "DOI dupliqué"):
+            module.project(a, r, m, p)
+
+    def test_refuse_deux_articles_partageant_une_url(self):
+        a, r, m, p = fixture()
+        second = {**a["articles"][0], "article_id": "heurist:1519:73:719",
+                  "title": "Sous-section du premier article",
+                  "doi": "10.4000/gallia.124"}
+        a["articles"].append(second)
+        r["relations"].append({**r["relations"][0], "article_id": second["article_id"]})
+        with self.assertRaisesRegex(ValueError, "URL dupliquée"):
+            module.project(a, r, m, p)
+
     def test_refuse_url_hors_liste(self):
         a, r, m, p = fixture()
         a["articles"][0]["url"] = "https://example.net/private"
@@ -122,14 +142,19 @@ class TestCatalogueArticlesPublic(unittest.TestCase):
                                     "articles", "contributions"})
         published = json.loads(PERSONS.read_text(encoding="utf-8"))
         persons = {x["id"] for x in published["authorities"]}
-        article_ids = set()
+        article_ids, doi_ids, article_urls = set(), set(), set()
         for article in obj["articles"]:
             self.assertEqual(set(article), {"id", "journal", "title", "year", "volume",
                                            "first_page", "last_page", "url", "doi"})
             self.assertIn(article["journal"], {"gallia", "gallia_prehistoire"})
             self.assertNotIn(article["id"], article_ids)
             article_ids.add(article["id"])
+            if article["doi"]:
+                self.assertNotIn(article["doi"], doi_ids)
+                doi_ids.add(article["doi"])
             if article["url"]:
+                self.assertNotIn(article["url"], article_urls)
+                article_urls.add(article["url"])
                 u = urlparse(article["url"])
                 self.assertEqual(u.scheme, "https")
                 self.assertIn(u.netloc, {"www.persee.fr", "journals.openedition.org"})
