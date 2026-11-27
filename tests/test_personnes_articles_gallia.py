@@ -134,6 +134,17 @@ class TestProjectionArticleHeurist(unittest.TestCase):
 
 
 class TestCatalogueArticlesPublic(unittest.TestCase):
+    def test_schema_personnes_v05_zero_adlfi(self):
+        persons_schema = json.loads((ROOT / "docs/schemas/personnes.schema.json").read_text())
+        data = json.loads(PERSONS.read_text(encoding="utf-8"))
+        self.assertEqual(persons_schema["properties"]["schema_version"]["const"], "0.5.0")
+        self.assertEqual(data["schema_version"], "0.5.0")
+        authority = persons_schema["$defs"]["authority"]
+        self.assertEqual(authority["properties"]["contributions_count"]["minimum"], 0)
+        self.assertIn("idref", authority["properties"]["identifiers"]["required"])
+        self.assertEqual(authority["properties"]["identifiers"]["properties"]["idref"]["pattern"],
+                         "^[0-9]{8}[0-9X]$")
+
     def test_schema_structure(self):
         schema = json.loads((ROOT / "docs/schemas/personnes-articles.schema.json").read_text())
         self.assertEqual(schema["properties"]["publication_status"]["const"], "PUBLIC_PILOT")
