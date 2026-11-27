@@ -7,6 +7,9 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_BASE_AUTHORITIES = "b4f075587d38984f9ad9238ec542311427e1198f254aaf84491caea39035f021"
 EXPECTED_BASE_CONTRIBUTIONS = "923034ee1d65c29561599320fb258eb241d2529320560bc34f4004eea45368c4"
+# Bornes de non-régression des 202 fiches et 1 980 relations validées avant l'extension Heurist.
+EXPECTED_LOT08_AUTHORITIES = "04d941527e4aec2f6a7c6d2a040633c7bf00fc36de88729f14c24b8867484cc7"
+EXPECTED_LOT08_CONTRIBUTIONS = "a3702aa0b75446add146f9c907bd2ebad5112a5ab9e5aa833fdfbbae601aea76"
 EXPECTED_IDENTIFIERS = {
     193: {"idref": "235280070", "persee": "148661", "wikidata": "Q130530468"},
     194: {"idref": "09016945X", "orcid": "0000-0003-3565-8681", "persee": "426599", "wikidata": "Q86982487", "idhal": "nicolas-garnier"},
@@ -65,6 +68,10 @@ class TestPersonnesLot08Publication(unittest.TestCase):
     def test_integrite_du_lot07(self):
         self.assertEqual(checksum(self.data["authorities"][:192]), EXPECTED_BASE_AUTHORITIES)
         self.assertEqual(checksum(self.data["contributions"][:1953]), EXPECTED_BASE_CONTRIBUTIONS)
+
+    def test_integrite_du_lot08_pour_extensions_heurist(self):
+        self.assertEqual(checksum(self.data["authorities"][:202]), EXPECTED_LOT08_AUTHORITIES)
+        self.assertEqual(checksum(self.data["contributions"][:1980]), EXPECTED_LOT08_CONTRIBUTIONS)
 
     def test_dix_autorites_et_alignements(self):
         by_id = {row["id"]: row for row in self.data["authorities"]}
