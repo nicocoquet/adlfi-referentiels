@@ -19,7 +19,60 @@
     parent.appendChild(child);
   };
   let data;
+  let articleWorks=[];
   let iconManifest={};
+  // Le catalogue AdlFI reste indépendant des éventuelles contributions aux articles.
+  const allContributions = () => data.contributions.concat(articleWorks);
+  const allowArticleUrl = raw => {
+    try {
+      const hostname = new URL(raw).hostname;
+      return ['journals.openedition.org','www.persee.fr'].includes(hostname) ? allowUrl(raw, hostname) : null;
+    } catch {return null;}
+  };
+  // Chargement interdit pour les projections non visées (CANDIDAT_NON_VALIDE).
+  const attachPublishedArticles = payload => {
+    if (!payload || payload.publication_status!=='PUBLIC_PILOT' ||
+        payload.dataset!=='adlfi-referentiels/personnes-articles' ||
+        payload.schema_version!=='0.1.0' || !Array.isArray(payload.articles) ||
+        !Array.isArray(payload.contributions)) throw Error('Catalogue complémentaire non publiable');
+    const articles=new Map();
+    for(const a of payload.articles){
+      if(!['gallia','gallia_prehistoire'].includes(a.journal) || articles.has(a.id) ||
+         typeof a.title!=='string' || !a.title.trim()) throw Error('Article complémentaire invalide');
+      articles.set(a.id,a);
+    }
+    const people=new Set(data.authorities.map(p=>p.id));
+    const pairs=new Set(), works=[], linkedPeople=new Set();
+    for(const c of payload.contributions){
+      const article=articles.get(c.article_id);
+      if(!article || !people.has(c.person_id) || !['auteur','collaborateur'].includes(c.role))
+        throw Error('Contribution complémentaire non publiable');
+      const pair=[c.article_id,c.person_id,c.role].join('|');
+      if(pairs.has(pair)) throw Error('Contribution complémentaire répétée');
+      pairs.add(pair);linkedPeople.add(c.person_id);
+      works.push({
+        person_id:c.person_id, journal:article.journal,
+        handle:c.article_id, normalized_roles:[c.role],
+        notice:{title:article.title,url:article.url},
+        bibliography:{volume:article.volume,year:article.year,
+                      first_page:article.first_page,last_page:article.last_page}
+      });
+    }
+    if(!payload.totals || payload.totals.articles!==articles.size ||
+       payload.totals.contributions!==works.length ||
+       payload.totals.authorities!==linkedPeople.size ||
+       new Set(works.map(c=>c.handle)).size!==articles.size)
+      throw Error('Effectifs bibliographiques incohérents');
+    articleWorks=works;
+    // Autoriser la publication progressive d'une revue sans activer l'autre.
+    const availableJournals=new Set(works.map(c=>c.journal));
+    for(const item of data.role_taxonomy){
+      if(availableJournals.has(item.journal)) item.data_status='present';
+    }
+    for(const item of data.publication_sections){
+      if(availableJournals.has(item.journal)) item.data_status='present';
+    }
+  };
   const iconDefinitions=[
     {key:'idref',name:'IdRef',glyph:'ID',origin:'www.idref.fr',pattern:/^[0-9]{8}[0-9X]$/,url:v=>'https://www.idref.fr/'+v},
     {key:'bnf',name:'BnF',glyph:'BnF',origin:'data.bnf.fr',pattern:/^cb[0-9]{8}[0-9a-z]$/,url:v=>'https://data.bnf.fr/ark:/12148/'+v},
@@ -97,7 +150,7 @@
       journalLabel.appendChild(parentInput);
       journalLabel.appendChild(create('span','per-role-journal-name',group.label));
       header.appendChild(journalLabel);
-      const total=data.contributions.filter(c=>c.journal===group.journal).length;
+      const total=allContributions().filter(c=>c.journal===group.journal).length;
       const info=create('span','per-role-status',group.data_status==='present'?`${total} contribution${total>1?'s':''}`:'Données à intégrer');
       header.appendChild(info);
       block.appendChild(header);
@@ -111,7 +164,7 @@
         input.addEventListener('change',()=>changeChild(group,role,input.checked));
         label.appendChild(input);label.appendChild(create('span','',role.label));
         if (group.data_status==='present') {
-          const count=data.contributions.filter(c=>c.journal===group.journal&&c.normalized_roles.includes(role.code)).length;
+          const count=allContributions().filter(c=>c.journal===group.journal&&c.normalized_roles.includes(role.code)).length;
           label.appendChild(create('span','per-role-count',`${count} contribution${count>1?'s':''}`));
         }
         options.appendChild(label);
@@ -169,7 +222,7 @@
     const byDoc=new Map();
     for(const c of records){
       const docKey=c.notice?.url || c.handle;
-      if(!byDoc.has(docKey))byDoc.set(docKey,{notice:c.notice,roles:new Set(),handle:c.handle});
+      if(!byDoc.has(docKey))byDoc.set(docKey,{notice:c.notice,roles:new Set(),handle:c.handle,bibliography:c.bibliography});
       for(const r of c.normalized_roles||[])byDoc.get(docKey).roles.add(r);
     }
     const count=byDoc.size;
@@ -187,11 +240,17 @@
     const list=create('ul','per-doc-list');
     for(const row of byDoc.values()){
       const li=create('li','per-doc-item');
-      const origin=section.journal==='adlfi'?'journals.openedition.org':'journals.openedition.org';
-      const url=allowUrl(row.notice?.url,origin);
+      const url=section.journal==='adlfi' ? allowUrl(row.notice?.url,'journals.openedition.org') : allowArticleUrl(row.notice?.url);
       const title=row.notice?.title||'Publication sans titre';
       if(url){const a=create('a','per-doc-link',title);a.href=url;a.target='_blank';a.rel='noopener noreferrer';li.appendChild(a);}
       else li.appendChild(create('span','per-doc-title',title));
+      if(row.bibliography){
+        const b=row.bibliography;
+        const pages=b.first_page && b.last_page ? 'p. '+b.first_page+'–'+b.last_page
+          : b.first_page ? 'p. '+b.first_page : '';
+        const reference=[b.volume,b.year,pages].filter(Boolean).join(' · ');
+        if(reference)li.appendChild(create('span','per-doc-biblio',reference));
+      }
       const taxonomy=data.role_taxonomy.find(x=>x.journal===section.journal);
       const roles=[...row.roles].map(x=>taxonomy?.roles.find(r=>r.code===x)?.label||x).join(' · ');
       li.appendChild(create('span','per-doc-role',roles));
@@ -221,9 +280,10 @@
   function render() {
     if(!data)return;
     const container=$('#per-cards');container.replaceChildren();
-    const filtered=data.contributions.filter(matchesSelection);
+    const works=allContributions();
+    const filtered=works.filter(matchesSelection);
     const matchingByPerson=new Map(),allByPerson=new Map();
-    for(const c of data.contributions){
+    for(const c of works){
       if(!allByPerson.has(c.person_id))allByPerson.set(c.person_id,[]);
       allByPerson.get(c.person_id).push(c);
     }
@@ -256,10 +316,18 @@
   document.addEventListener('keydown',event=>{if(event.key==='Escape'){$('#per-role-menu').open=false;$('#per-role-menu-trigger').focus();}});
   Promise.all([
     fetch('../data/personnes.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json();}),
-    fetch('../assets/personnes-identifiants/manifest.json',{cache:'no-store'}).then(r=>r.ok?r.json():{available:{}}).catch(()=>({available:{}}))
-  ]).then(([json,icons])=>{
+    fetch('../assets/personnes-identifiants/manifest.json',{cache:'no-store'}).then(r=>r.ok?r.json():{available:{}}).catch(()=>({available:{}})),
+    fetch('../data/personnes-articles.json',{cache:'no-store'})
+      .then(r=>r.status===404?null:r.ok?r.json():Promise.reject(Error('HTTP '+r.status)))
+      .catch(()=>null)
+  ]).then(([json,icons,articles])=>{
     iconManifest=icons.available||{};
     if(json.publication_status!=='PUBLIC_PILOT'||json.totals.authorities!==json.authorities.length || json.totals.contributions!==json.contributions.length||!Array.isArray(json.contributions)||!Array.isArray(json.publication_sections))throw Error('Projection de recette inattendue');
-    data=json;renderFacets();render();
+    data=json;
+    if(articles){
+      try {attachPublishedArticles(articles);}
+      catch {console.warn('Catalogue bibliographique complémentaire écarté ; données AdlFI conservées.');}
+    }
+    renderFacets();render();
   }).catch(()=>{$('#per-results').textContent='Données indisponibles. Ouvrez ce prototype depuis un serveur HTTP local.';});
 })();

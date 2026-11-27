@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nicocoquet.github.io/adlfi-referentiels/schemas/personnes-articles.schema.json",
+  "title": "Personnes — articles et contributions Gallia / Gallia Préhistoire",
+  "description": "Projection publique uniquement : auteurs et collaborateurs d'articles. Catalogue distinct des contributions AdlFI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset",
+    "publication_status",
+    "scope_note",
+    "source_sha256",
+    "totals",
+    "articles",
+    "contributions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "dataset": {
+      "const": "adlfi-referentiels/personnes-articles"
+    },
+    "publication_status": {
+      "const": "PUBLIC_PILOT"
+    },
+    "scope_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "articles",
+        "contributions",
+        "authorities"
+      ],
+      "properties": {
+        "articles": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contributions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authorities": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "articles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "journal",
+          "title",
+          "year",
+          "volume",
+          "first_page",
+          "last_page",
+          "url",
+          "doi"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^heurist:[0-9]+:73:[0-9]+$"
+          },
+          "journal": {
+            "enum": [
+              "gallia",
+              "gallia_prehistoire"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "year": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1900,
+            "maximum": 2100
+          },
+          "volume": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "first_page": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "last_page": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "pattern": "^https://(journals\\.openedition\\.org|www\\.persee\\.fr)/"
+              }
+            ]
+          },
+          "doi": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "contributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "article_id",
+          "person_id",
+          "role",
+          "position_in_role"
+        ],
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "pattern": "^heurist:[0-9]+:73:[0-9]+$"
+          },
+          "person_id": {
+            "type": "string",
+            "pattern": "^PER-[0-9]{6}$"
+          },
+          "role": {
+            "enum": [
+              "auteur",
+              "collaborateur"
+            ]
+          },
+          "position_in_role": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}
