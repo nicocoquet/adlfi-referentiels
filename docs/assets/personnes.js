@@ -64,11 +64,13 @@
        new Set(works.map(c=>c.handle)).size!==articles.size)
       throw Error('Effectifs bibliographiques incohérents');
     articleWorks=works;
+    // Autoriser la publication progressive d'une revue sans activer l'autre.
+    const availableJournals=new Set(works.map(c=>c.journal));
     for(const item of data.role_taxonomy){
-      if(item.journal!=='adlfi') item.data_status='present';
+      if(availableJournals.has(item.journal)) item.data_status='present';
     }
     for(const item of data.publication_sections){
-      if(item.journal!=='adlfi') item.data_status='present';
+      if(availableJournals.has(item.journal)) item.data_status='present';
     }
   };
   const iconDefinitions=[
