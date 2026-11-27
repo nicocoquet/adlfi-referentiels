@@ -67,6 +67,8 @@ def project(articles_doc, relations_doc, mapping_doc, persons_doc):
 
     articles = []
     article_by_id = {}
+    article_by_doi = {}
+    article_by_url = {}
     for raw in articles_doc["articles"]:
         if raw["journal"] not in JOURNALS:
             raise ValueError("Revue hors du périmètre")
@@ -83,6 +85,24 @@ def project(articles_doc, relations_doc, mapping_doc, persons_doc):
         }
         if not article["title"] or article["id"] in article_by_id:
             raise ValueError("Article absent ou en double")
+        # Des fiches Heurist distinctes peuvent décrire un article et une section.
+        # Interdire la double projection publique sous un même DOI ou une même URL.
+        # L'exclusion de la section relève d'un visa documentaire, pas d'une
+        # fusion automatique effectuée dans ce script.
+        if article["doi"]:
+            if article["doi"] in article_by_doi:
+                raise ValueError(
+                    "DOI dupliqué entre articles Heurist : "
+                    + article_by_doi[article["doi"]] + " / " + article["id"]
+                )
+            article_by_doi[article["doi"]] = article["id"]
+        if article["url"]:
+            if article["url"] in article_by_url:
+                raise ValueError(
+                    "URL dupliquée entre articles Heurist : "
+                    + article_by_url[article["url"]] + " / " + article["id"]
+                )
+            article_by_url[article["url"]] = article["id"]
         article_by_id[article["id"]] = article
         articles.append(article)
 
