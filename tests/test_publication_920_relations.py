@@ -102,9 +102,12 @@ class OrganismesPublication920Tests(unittest.TestCase):
             self.assertIn(target,media)
             self.assertEqual(sha256((ROOT/'docs'/ref).read_bytes()).digest(),
                              sha256((ROOT/'docs'/target).read_bytes()).digest())
-        self.assertEqual(len(media),729)  # 684 médias antérieurs + 45 nouveaux logos
+        self.assertEqual(len(media),765)  # 684 médias antérieurs + 45 + 36 logos publiés
         for a in self.entities.values():
             self.assertIsNone(a['presentation']['media']['image'])
+            logo = a['presentation']['media']['logo']
+            if logo:
+                self.assertEqual(logo, f"assets/organismes/{a['id']}.jpg", a['id'])
         source=PUBLIC.read_text(encoding='utf-8')
         self.assertNotIn('"commentaire"',source)
         self.assertNotIn('"source_documentaire"',source)
