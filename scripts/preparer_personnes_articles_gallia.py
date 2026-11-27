@@ -36,6 +36,11 @@ def safe_article_url(value):
     if not value:
         return None
     url = urlparse(value)
+    # Uniformisation contrôlée d'anciennes URL HTTP du domaine OpenEdition ;
+    # l'accessibilité de la page doit encore être vérifiée en recette.
+    if url.scheme == "http" and url.netloc == "journals.openedition.org":
+        value = "https://" + value[len("http://"):]
+        url = urlparse(value)
     if url.scheme != "https" or url.netloc not in HOSTS or not url.path.startswith("/"):
         raise ValueError("URL article hors des deux hébergeurs autorisés")
     if url.username or url.password or url.query or url.fragment:
