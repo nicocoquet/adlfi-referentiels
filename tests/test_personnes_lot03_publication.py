@@ -80,7 +80,8 @@ class TestPersonnesLot03(unittest.TestCase):
     def test_manifeste(self):
         module=self.manifest['modules']['personnes']
         self.assertEqual((module['autorites_validees'],module['contributions_adlfi'],module['notices_adlfi']), (self.pub['totals']['authorities'],self.pub['totals']['contributions'],self.pub['totals']['notices']))
-        self.assertEqual(module['data_schema'],'0.4.0')
+        self.assertEqual(module['data_schema'],self.pub['schema_version'])
+        self.assertGreaterEqual(tuple(map(int,module['data_schema'].split('.'))),(0,4,0))
         self.assertEqual(module['status'],'pilote')
 
     def test_aucune_donnee_de_visa_publique(self):
