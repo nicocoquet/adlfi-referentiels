@@ -143,5 +143,24 @@ async function renderWith(optional, status=200, profile=base){
   const absent=await renderWith(null,404);
   assert.match(absent.get('#per-results').textContent,/1 contribution/);
   assert.doesNotMatch(collectText(absent.get('#per-cards')),/Article de test/);
-  console.log('OK : interface AdlFI, complément public, rôles, autorité sans AdlFI, liens Persée, rejet du candidat');
+  // Recette d'intégration sur les données effectivement publiées, en complément des fixtures.
+  const realPeople=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/data/personnes.json'),'utf8'));
+  const realArticles=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/data/personnes-articles.json'),'utf8'));
+  const live=await renderWith(realArticles,200,()=>realPeople);
+  const liveCards=live.get('#per-cards');
+  assert.equal(liveCards.children.length,242);
+  assert.match(live.get('#per-results').textContent,/242 autorités affichées.*2558 contributions/);
+  const newPerson=liveCards.children.find(x=>collectText(x).includes('PER-000203'));
+  assert.ok(newPerson,'Une nouvelle autorité bibliographique doit apparaître');
+  assert.match(collectText(newPerson),/Christine Oberlin/);
+  assert.match(collectText(newPerson),/Gallia/);
+  assert.doesNotMatch(collectText(newPerson),/Consulter les notices AdlFI liées/);
+  const noUrlPerson=liveCards.children.find(x=>collectText(x).includes('PER-000231'));
+  assert.ok(noUrlPerson,'La fiche contenant un article dépourvu d’URL doit apparaître');
+  const noUrlTitle='Découverte de la tombe d\'un oculiste à Lyon';
+  assert.match(collectText(noUrlPerson),/Découverte de la tombe d'un oculiste à Lyon/);
+  assert.ok(!collectNodes(noUrlPerson,'a').some(x=>(x.textContent||'').includes(noUrlTitle)),
+            'Un article sans URL ne doit pas recevoir un lien artificiel');
+  console.log('OK : interface réelle 242 PER / 2558 contributions, rôle Gallia, absence de fausse notice AdlFI, article sans URL');
+
 })().catch(err=>{console.error(err);process.exitCode=1;});

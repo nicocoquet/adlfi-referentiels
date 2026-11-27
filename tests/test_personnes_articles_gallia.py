@@ -219,7 +219,10 @@ class TestPiloteGalliaV02Publication(unittest.TestCase):
         self.assertIn("heurist:1519:73:872", by_id)
         self.assertNotIn("heurist:1519:73:1392", by_id)
         self.assertEqual(by_id["heurist:1519:73:872"]["doi"], "10.3406/galia.1998.3258")
-        self.assertEqual([a["id"] for a in self.articles["articles"] if not a["url"]],
+        # Le pilote v0.2 conserve son article sans URL ; les lots futurs
+        # peuvent légitimement contenir d'autres articles dépourvus de lien.
+        self.assertEqual(by_id["heurist:1519:73:942"]["url"], None)
+        self.assertEqual([a["id"] for a in self.articles["articles"][:337] if not a["url"]],
                          ["heurist:1519:73:942"])
 
     def test_identites_et_champs_publics(self):
