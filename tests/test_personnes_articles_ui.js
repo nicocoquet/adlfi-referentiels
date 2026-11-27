@@ -34,7 +34,7 @@ const base=()=>{
     publication_status:'PUBLIC_PILOT',
     totals:{authorities:1,contributions:1,notices:1},
     authorities:[{id:'PER-000001',name:'Personne Exemple',family_name:'Exemple',
-                  name_idref:'',identifiers:{idref:'028293290'},name_variants:[]}],
+                  name_idref:'',identifiers:{idref:'028293290'},contributions_count:1,name_variants:[]}],
     contributions:[{person_id:'PER-000001',journal:'adlfi',
                     handle:'20.500.13089/xyz',roles:['aut'],
                     normalized_roles:['auteur'],
@@ -60,7 +60,7 @@ const supplement=()=>({
     {article_id:'heurist:1519:73:718',person_id:'PER-000001',role:'collaborateur',position_in_role:1}
   ]
 });
-async function renderWith(optional, status=200){
+async function renderWith(optional, status=200, profile=base){
   const nodes=new Map();
   const document={
     querySelector(selector){
@@ -72,7 +72,7 @@ async function renderWith(optional, status=200){
     addEventListener(){}
   };
   const fetch=async url=>{
-    if(url.endsWith('/personnes.json'))return {ok:true,status:200,json:async()=>base()};
+    if(url.endsWith('/personnes.json'))return {ok:true,status:200,json:async()=>profile()};
     if(url.endsWith('/manifest.json'))return {ok:true,status:200,json:async()=>({available:{}})};
     if(url.endsWith('/personnes-articles.json'))return {
       ok:status!==404,status,
@@ -108,8 +108,40 @@ async function renderWith(optional, status=200){
   const rejected=await renderWith(unexpected);
   assert.doesNotMatch(collectText(rejected.get('#per-cards')),/Article de test/);
 
+  // Une nouvelle autorité Heurist peut exister avec des articles Gallia,
+  // sans aucune relation et sans aucune notice AdlFI fictive.
+  const galliaOnlyPersons=()=>{
+    const p=base();
+    p.authorities.push({
+      id:'PER-000203',name:'Personne Gallia uniquement',family_name:'Gallia',
+      name_idref:'',identifiers:{idref:'99000001X'},
+      contributions_count:0,name_variants:[]
+    });
+    p.totals.authorities=2;
+    return p;
+  };
+  const galliaOnlyArticles=()=>{
+    const a=supplement();
+    a.contributions.push({
+      article_id:'heurist:1519:73:718',person_id:'PER-000203',
+      role:'collaborateur',position_in_role:1
+    });
+    a.totals.contributions=3;
+    a.totals.authorities=2;
+    return a;
+  };
+  const extra=await renderWith(galliaOnlyArticles(),200,galliaOnlyPersons);
+  const extendedCards=extra.get('#per-cards');
+  assert.equal(extendedCards.children.length,2);
+  const galliaCard=extendedCards.children.find(x=>collectText(x).includes('Personne Gallia uniquement'));
+  assert.ok(galliaCard,'L’autorité sans notice AdlFI doit être affichée');
+  assert.match(collectText(galliaCard),/Article de test/);
+  assert.match(collectText(galliaCard),/Collaborateur/);
+  assert.doesNotMatch(collectText(galliaCard),/Consulter les notices AdlFI liées/);
+  assert.match(extra.get('#per-results').textContent,/2 autorités.*4 contributions/);
+
   const absent=await renderWith(null,404);
   assert.match(absent.get('#per-results').textContent,/1 contribution/);
   assert.doesNotMatch(collectText(absent.get('#per-cards')),/Article de test/);
-  console.log('OK : interface AdlFI, complément public, rôles, liens Persée, rejet du candidat');
+  console.log('OK : interface AdlFI, complément public, rôles, autorité sans AdlFI, liens Persée, rejet du candidat');
 })().catch(err=>{console.error(err);process.exitCode=1;});
