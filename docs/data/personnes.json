@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.4.0",
+  "schema_version": "0.5.0",
   "dataset": "adlfi-referentiels/personnes",
   "publication_status": "PUBLIC_PILOT",
   "scope_note": "Catalogue pilote du référentiel Personnes AdlFI : 202 autorités éditorialement validées et 1 980 contributions associées à 1 779 notices AdlFI, après validation du groupe pilote du lot 08 (10 autorités et 27 contributions). Les relations avec les articles Gallia et Gallia Préhistoire restent à intégrer.",
