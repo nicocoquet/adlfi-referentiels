@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://nicocoquet.github.io/adlfi-referentiels/schemas/personnes.schema.json",
   "title": "Référentiel Personnes — projection publique",
-  "description": "Schéma des autorités et contributions publiables du module Personnes.",
+  "description": "Schéma des autorités Personnes et des contributions AdlFI. Une autorité peut avoir 0 contribution AdlFI si elle est associée à des articles dans le catalogue bibliographique Gallia.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -18,7 +18,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "0.4.0"
+      "const": "0.5.0"
     },
     "dataset": {
       "const": "adlfi-referentiels/personnes"
@@ -170,11 +170,13 @@
               "type": "string",
               "pattern": "^Q[1-9][0-9]*$"
             }
-          }
+          },
+          "description": "Pour ce premier jalon d'extension, un PPN IdRef unique reste obligatoire. La prise en charge d'identités sans IdRef fera l'objet d'un schéma et d'un visa distincts."
         },
         "contributions_count": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 0,
+          "description": "Nombre de contributions AdlFI publiées pour cette personne (et non total des articles Gallia / Gallia Préhistoire). Valeur 0 permise si une contribution bibliographique publique est liée dans personnes-articles.json."
         },
         "name_variants": {
           "type": "array",
