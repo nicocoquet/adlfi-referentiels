@@ -2,10 +2,20 @@
 import importlib.util
 import json
 from pathlib import Path
+import hashlib
 import unittest
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
+# Instantanés canoniques des données v0.2 (conservés lors des extensions futures).
+ORIGINAL_GALLIA_ARTICLES_SHA256 = "cf9280855af2e57b5625e4faa33efa37a59dc8123df76b101e16acd62f893511"
+ORIGINAL_GALLIA_RELATIONS_SHA256 = "79ecc564847a6a266ca363d3a8166ad28c637b3c41cb17254512524f34b4bcb6"
+
+
+def fingerprint(value):
+    canonical = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
 SCRIPT = ROOT / "scripts/preparer_personnes_articles_gallia.py"
 PUBLIC = ROOT / "docs/data/personnes-articles.json"
 PERSONS = ROOT / "docs/data/personnes.json"
@@ -185,14 +195,13 @@ class TestPiloteGalliaV02Publication(unittest.TestCase):
 
     def test_jalon_source_et_effectifs(self):
         obj = self.articles
-        self.assertEqual(obj["source_sha256"],
-                         "de44407287e2f85132338119354924458320b2dd90cfd4ac30b8b4ee6c44c051")
-        self.assertEqual(obj["totals"], {"articles": 337, "contributions": 473, "authorities": 193})
-        from collections import Counter
-        self.assertEqual(Counter(a["journal"] for a in obj["articles"]),
-                         {"gallia": 210, "gallia_prehistoire": 127})
-        self.assertEqual(Counter(c["role"] for c in obj["contributions"]),
-                         {"auteur": 424, "collaborateur": 49})
+        # Verrouiller le pilote publié sans bloquer les futurs lots Heurist.
+        self.assertRegex(obj["source_sha256"], r"^[0-9a-f]{64}$")
+        self.assertGreaterEqual(obj["totals"]["articles"], 337)
+        self.assertGreaterEqual(obj["totals"]["contributions"], 473)
+        self.assertGreaterEqual(obj["totals"]["authorities"], 193)
+        self.assertEqual(fingerprint(obj["articles"][:337]), ORIGINAL_GALLIA_ARTICLES_SHA256)
+        self.assertEqual(fingerprint(obj["contributions"][:473]), ORIGINAL_GALLIA_RELATIONS_SHA256)
 
     def test_article_section_documentee(self):
         by_id = {a["id"]: a for a in self.articles["articles"]}
@@ -206,10 +215,10 @@ class TestPiloteGalliaV02Publication(unittest.TestCase):
         from collections import Counter
         obj = self.articles
         valid = {p["id"] for p in self.persons["authorities"]}
-        self.assertEqual(len(valid), 202)
+        self.assertGreaterEqual(len(valid), 202)
         self.assertEqual({c["person_id"] for c in obj["contributions"]}.difference(valid), set())
         self.assertEqual(len({(c["article_id"], c["person_id"], c["role"])
-                              for c in obj["contributions"]}), 473)
+                              for c in obj["contributions"]}), len(obj["contributions"]))
         self.assertEqual(len({a["doi"] for a in obj["articles"] if a["doi"]}),
                          sum(bool(a["doi"]) for a in obj["articles"]))
         self.assertEqual(len({a["url"] for a in obj["articles"] if a["url"]}),
@@ -218,6 +227,22 @@ class TestPiloteGalliaV02Publication(unittest.TestCase):
         self.assertEqual(public_roles, {"auteur", "collaborateur"})
         self.assertTrue(all(c["position_in_role"] > 0 for c in obj["contributions"]))
         self.assertEqual(obj["publication_status"], "PUBLIC_PILOT")
+
+    def test_comptage_adlfi_et_autorites_sans_notice_adlfi(self):
+        # Les articles Gallia ne doivent jamais gonfler contributions_count.
+        from collections import Counter
+        published_adlfi = Counter(c["person_id"] for c in self.persons["contributions"])
+        gallia_people = {c["person_id"] for c in self.articles["contributions"]}
+        all_people = {a["id"] for a in self.persons["authorities"]}
+        self.assertEqual(len(all_people), len(self.persons["authorities"]))
+        self.assertEqual(self.persons["schema_version"], "0.5.0")
+        for authority in self.persons["authorities"]:
+            per = authority["id"]
+            count = published_adlfi.get(per, 0)
+            with self.subTest(per=per):
+                self.assertEqual(authority["contributions_count"], count)
+                if count == 0:
+                    self.assertIn(per, gallia_people)
 
     def test_manifest_bibliographique(self):
         obj = self.articles
@@ -229,11 +254,15 @@ class TestPiloteGalliaV02Publication(unittest.TestCase):
         self.assertEqual([complement["articles"], complement["contributions"],
                           complement["autorites_reliees"]],
                          [obj["totals"][k] for k in ("articles", "contributions", "authorities")])
-        self.assertEqual(complement["auteurs"], 424)
-        self.assertEqual(complement["collaborateurs"], 49)
-        self.assertEqual(complement["par_revue"], {"gallia": 210, "gallia_prehistoire": 127})
-        self.assertEqual([module["autorites_validees"], module["contributions_adlfi"],
-                          module["notices_adlfi"]], [202, 1980, 1779])
+        from collections import Counter
+        roles = Counter(c["role"] for c in obj["contributions"])
+        journals = Counter(a["journal"] for a in obj["articles"])
+        self.assertEqual(complement["auteurs"], roles["auteur"])
+        self.assertEqual(complement["collaborateurs"], roles["collaborateur"])
+        self.assertEqual(complement["par_revue"], dict(journals))
+        self.assertGreaterEqual(module["autorites_validees"], 202)
+        self.assertEqual(module["contributions_adlfi"], 1980)
+        self.assertEqual(module["notices_adlfi"], 1779)
 
 
 
