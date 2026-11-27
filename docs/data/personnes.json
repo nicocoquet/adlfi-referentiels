@@ -2,11 +2,11 @@
   "schema_version": "0.4.0",
   "dataset": "adlfi-referentiels/personnes",
   "publication_status": "PUBLIC_PILOT",
-  "scope_note": "Catalogue pilote du référentiel Personnes AdlFI : 192 autorités éditorialement validées et 1 953 contributions associées à 1 759 notices AdlFI. Les relations avec les articles Gallia et Gallia Préhistoire restent à intégrer.",
+  "scope_note": "Catalogue pilote du référentiel Personnes AdlFI : 202 autorités éditorialement validées et 1 980 contributions associées à 1 779 notices AdlFI, après validation du groupe pilote du lot 08 (10 autorités et 27 contributions). Les relations avec les articles Gallia et Gallia Préhistoire restent à intégrer.",
   "totals": {
-    "authorities": 192,
-    "contributions": 1953,
-    "notices": 1759
+    "authorities": 202,
+    "contributions": 1980,
+    "notices": 1779
   },
   "authorities": [
     {
@@ -2595,6 +2595,147 @@
       "contributions_count": 4,
       "name_variants": [],
       "family_name": "Carrato"
+    },
+    {
+      "id": "PER-000193",
+      "name": "Sophie Liegard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "235280070",
+        "persee": "148661",
+        "wikidata": "Q130530468"
+      },
+      "contributions_count": 4,
+      "name_variants": [],
+      "family_name": "Liegard"
+    },
+    {
+      "id": "PER-000194",
+      "name": "Nicolas Garnier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "09016945X",
+        "orcid": "0000-0003-3565-8681",
+        "persee": "426599",
+        "wikidata": "Q86982487",
+        "idhal": "nicolas-garnier"
+      },
+      "contributions_count": 3,
+      "name_variants": [],
+      "family_name": "Garnier"
+    },
+    {
+      "id": "PER-000195",
+      "name": "Simon Ritz",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "197593097",
+        "orcid": "0000-0002-2728-2031",
+        "wikidata": "Q138572604",
+        "idhal": "simon-ritz"
+      },
+      "contributions_count": 3,
+      "name_variants": [],
+      "family_name": "Ritz"
+    },
+    {
+      "id": "PER-000196",
+      "name": "Alain Braguier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "061626937",
+        "persee": "170157",
+        "wikidata": "Q55620345"
+      },
+      "contributions_count": 3,
+      "name_variants": [],
+      "family_name": "Braguier"
+    },
+    {
+      "id": "PER-000197",
+      "name": "Amandine Viellet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "118228838",
+        "persee": "148331"
+      },
+      "contributions_count": 3,
+      "name_variants": [],
+      "family_name": "Viellet"
+    },
+    {
+      "id": "PER-000198",
+      "name": "Aurélie Troublard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "281433968",
+        "wikidata": "Q138572692"
+      },
+      "contributions_count": 3,
+      "name_variants": [],
+      "family_name": "Troublard"
+    },
+    {
+      "id": "PER-000199",
+      "name": "Agnès Lamotte",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "060904321",
+        "bnf": "cb14539821j",
+        "orcid": "0000-0002-5550-7197",
+        "persee": "171845",
+        "wikidata": "Q116790786",
+        "idhal": "agnes-lamotte"
+      },
+      "contributions_count": 2,
+      "name_variants": [],
+      "family_name": "Lamotte"
+    },
+    {
+      "id": "PER-000200",
+      "name": "Alain Ferdière",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028611624",
+        "bnf": "cb12041196n",
+        "persee": "401015",
+        "wikidata": "Q112468247"
+      },
+      "contributions_count": 2,
+      "name_variants": [],
+      "family_name": "Ferdière"
+    },
+    {
+      "id": "PER-000201",
+      "name": "Aldo Borlenghi",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "112277691",
+        "bnf": "cb16584156c",
+        "orcid": "0000-0001-6244-8167",
+        "persee": "1618429",
+        "wikidata": "Q21541966",
+        "idhal": "aldo-borlenghi"
+      },
+      "contributions_count": 2,
+      "name_variants": [],
+      "family_name": "Borlenghi"
+    },
+    {
+      "id": "PER-000202",
+      "name": "Alexis Gorgues",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "068696310",
+        "bnf": "cb15579302v",
+        "orcid": "0000-0003-3763-0893",
+        "persee": "173570",
+        "wikidata": "Q138572326",
+        "idhal": "alexis-gorgues"
+      },
+      "contributions_count": 2,
+      "name_variants": [],
+      "family_name": "Gorgues"
     }
   ],
   "contributions": [
@@ -34913,6 +35054,445 @@
         "title": "Narbonne – Port-la-Nautique 2"
       },
       "handle": "20.500.13089/992i",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000193",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/37474",
+        "title": "Les sarcophages en grès de la bordure septentrionale du Massif central dans la région Centre et l’ouest de la Bourgogne"
+      },
+      "handle": "20.500.13089/91pj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000193",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/46546",
+        "title": "Poupry – Villeneuve"
+      },
+      "handle": "20.500.13089/92o2",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000193",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/46611",
+        "title": "Thiron-Gardais – Cloître et façade nord de l’abbatiale"
+      },
+      "handle": "20.500.13089/92o8",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000193",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/51395",
+        "title": "Vendôme – 59bis et ter sur du Faubourg-Chartrain"
+      },
+      "handle": "20.500.13089/931b",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000194",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/22628",
+        "title": "Aléria – Mare Stagno"
+      },
+      "handle": "20.500.13089/8y2q",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000194",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/53892",
+        "title": "Aléria – Piede Tignoso"
+      },
+      "handle": "20.500.13089/937u",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000194",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/156067",
+        "title": "Pietroso – Casa Pieraggi"
+      },
+      "handle": "20.500.13089/w19u",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000195",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33714",
+        "title": "L’agglomération antique de Senon-Amel"
+      },
+      "handle": "20.500.13089/90mm",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000195",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65243",
+        "title": "Amel-sur-l’Étang, Senon – L’agglomération antique de Senon-Amel"
+      },
+      "handle": "20.500.13089/93tx",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000195",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/65248",
+        "title": "Amel-sur-l’Étang, Senon – L’agglomération antique de Senon-Amel, la Petite Hayette, Sèche-Pré"
+      },
+      "handle": "20.500.13089/93ty",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000196",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/41216",
+        "title": "Vallée de la Loire, Chênehutte, Gennes, Saint-Just"
+      },
+      "handle": "20.500.13089/929d",
+      "roles": [
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation"
+      ]
+    },
+    {
+      "person_id": "PER-000196",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/41772",
+        "title": "Saint-Rémy-la-Varenne – La Vivier du Prieuré"
+      },
+      "handle": "20.500.13089/92bz",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000196",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/41792",
+        "title": "Vallée de la Loire – Saumurois, Les Mauges"
+      },
+      "handle": "20.500.13089/92c3",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000197",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/26541",
+        "title": "Communes de Mathay et Mandeure"
+      },
+      "handle": "20.500.13089/8zcc",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000197",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25791",
+        "title": "Fontenu – Chalain, station 19"
+      },
+      "handle": "20.500.13089/8z25",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000197",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/8500",
+        "title": "Fontenu – Chalain, station 19"
+      },
+      "handle": "20.500.13089/8vfy",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000198",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/33412",
+        "title": "Reims – 9 rue Marlot"
+      },
+      "handle": "20.500.13089/90jj",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000198",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64343",
+        "title": "Reims – 18bis, 20 et 22 rue de la Magdeleine"
+      },
+      "handle": "20.500.13089/93qy",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000198",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/64368",
+        "title": "Reims – 8 rue Chanzy, musée des Beaux-Arts"
+      },
+      "handle": "20.500.13089/93r1",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000199",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/25262",
+        "title": "Le Paléolithique inférieur et moyen du nord de la Franche-Comté"
+      },
+      "handle": "20.500.13089/8yts",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000199",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/36271",
+        "title": "Le Paléolithique inférieur et moyen du nord de la Franche-Comté"
+      },
+      "handle": "20.500.13089/918t",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000200",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/47247",
+        "title": "Atlas des fermes et villae gallo-romaines de Beauce"
+      },
+      "handle": "20.500.13089/92qg",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000200",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/45635",
+        "title": "Atlas des fermes et villae gallo-romaines de Beauce"
+      },
+      "handle": "20.500.13089/92l6",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000201",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/97460",
+        "title": "Panossas – Les Buissières"
+      },
+      "handle": "20.500.13089/95wm",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000201",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/57316",
+        "title": "Panossas – Les Buissières"
+      },
+      "handle": "20.500.13089/93av",
+      "roles": [
+        "aut"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000202",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/119313",
+        "title": "Amigny – La Montanguerie : Opération Cobra"
+      },
+      "handle": "20.500.13089/97km",
+      "roles": [
+        "aut",
+        "fld"
+      ],
+      "journal": "adlfi",
+      "normalized_roles": [
+        "responsable_operation",
+        "auteur"
+      ]
+    },
+    {
+      "person_id": "PER-000202",
+      "notice": {
+        "url": "https://journals.openedition.org/adlfi/181899",
+        "title": "Amigny – La Montanguerie"
+      },
+      "handle": "20.500.13089/137h7",
       "roles": [
         "aut",
         "fld"
