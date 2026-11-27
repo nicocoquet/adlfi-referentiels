@@ -614,7 +614,23 @@
       "autorites_validees": 202,
       "contributions_adlfi": 1980,
       "notices_adlfi": 1779,
-      "page": "personnes/"
+      "page": "personnes/",
+      "articles_lies": {
+        "status": "pilote",
+        "data": "data/personnes-articles.json",
+        "data_schema": "0.1.0",
+        "source": "Heurist, export du 27 novembre 2026",
+        "autorites_reliees": 193,
+        "articles": 337,
+        "contributions": 473,
+        "auteurs": 424,
+        "collaborateurs": 49,
+        "par_revue": {
+          "gallia": 210,
+          "gallia_prehistoire": 127
+        },
+        "perimetre": "Contributions bibliographiques des auteurs et collaborateurs aux articles ; couverture non exhaustive"
+      }
     },
     "organismes": {
       "status": "prototype",

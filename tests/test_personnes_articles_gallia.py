@@ -175,5 +175,67 @@ class TestCatalogueArticlesPublic(unittest.TestCase):
         })
 
 
+
+class TestPiloteGalliaV02Publication(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.articles = json.loads(PUBLIC.read_text(encoding="utf-8"))
+        cls.persons = json.loads(PERSONS.read_text(encoding="utf-8"))
+        cls.manifest = json.loads((ROOT / "docs/data/manifest.json").read_text(encoding="utf-8"))
+
+    def test_jalon_source_et_effectifs(self):
+        obj = self.articles
+        self.assertEqual(obj["source_sha256"],
+                         "de44407287e2f85132338119354924458320b2dd90cfd4ac30b8b4ee6c44c051")
+        self.assertEqual(obj["totals"], {"articles": 337, "contributions": 473, "authorities": 193})
+        from collections import Counter
+        self.assertEqual(Counter(a["journal"] for a in obj["articles"]),
+                         {"gallia": 210, "gallia_prehistoire": 127})
+        self.assertEqual(Counter(c["role"] for c in obj["contributions"]),
+                         {"auteur": 424, "collaborateur": 49})
+
+    def test_article_section_documentee(self):
+        by_id = {a["id"]: a for a in self.articles["articles"]}
+        self.assertIn("heurist:1519:73:872", by_id)
+        self.assertNotIn("heurist:1519:73:1392", by_id)
+        self.assertEqual(by_id["heurist:1519:73:872"]["doi"], "10.3406/galia.1998.3258")
+        self.assertEqual([a["id"] for a in self.articles["articles"] if not a["url"]],
+                         ["heurist:1519:73:942"])
+
+    def test_identites_et_champs_publics(self):
+        from collections import Counter
+        obj = self.articles
+        valid = {p["id"] for p in self.persons["authorities"]}
+        self.assertEqual(len(valid), 202)
+        self.assertEqual({c["person_id"] for c in obj["contributions"]}.difference(valid), set())
+        self.assertEqual(len({(c["article_id"], c["person_id"], c["role"])
+                              for c in obj["contributions"]}), 473)
+        self.assertEqual(len({a["doi"] for a in obj["articles"] if a["doi"]}),
+                         sum(bool(a["doi"]) for a in obj["articles"]))
+        self.assertEqual(len({a["url"] for a in obj["articles"] if a["url"]}),
+                         sum(bool(a["url"]) for a in obj["articles"]))
+        public_roles = {c["role"] for c in obj["contributions"]}
+        self.assertEqual(public_roles, {"auteur", "collaborateur"})
+        self.assertTrue(all(c["position_in_role"] > 0 for c in obj["contributions"]))
+        self.assertEqual(obj["publication_status"], "PUBLIC_PILOT")
+
+    def test_manifest_bibliographique(self):
+        obj = self.articles
+        module = self.manifest["modules"]["personnes"]
+        complement = module["articles_lies"]
+        self.assertEqual(complement["data"], "data/personnes-articles.json")
+        self.assertEqual(complement["data_schema"], obj["schema_version"])
+        self.assertEqual(complement["status"], "pilote")
+        self.assertEqual([complement["articles"], complement["contributions"],
+                          complement["autorites_reliees"]],
+                         [obj["totals"][k] for k in ("articles", "contributions", "authorities")])
+        self.assertEqual(complement["auteurs"], 424)
+        self.assertEqual(complement["collaborateurs"], 49)
+        self.assertEqual(complement["par_revue"], {"gallia": 210, "gallia_prehistoire": 127})
+        self.assertEqual([module["autorites_validees"], module["contributions_adlfi"],
+                          module["notices_adlfi"]], [202, 1980, 1779])
+
+
+
 if __name__ == "__main__":
     unittest.main()
