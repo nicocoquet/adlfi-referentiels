@@ -2,7 +2,8 @@
 """Recette AdlFI 1.63 : quatorze qualifications d'activité.
 
 Comparaison stricte avec le JSON 1.62 publié,
-au commit de référence immuable.
+au commit de référence immuable, en distinguant les 36 logos ajoutés
+par le commit 43cf611 du lot des 14 activités qualifiées.
 """
 import copy
 import json
@@ -32,6 +33,23 @@ IDS = (
     "ORG-0404", "ORG-0423", "ORG-0453",
     "ORG-0454", "ORG-0455", "ORG-0460",
     "ORG-0473", "ORG-0710",
+)
+
+
+# 36 nouveaux logos ajoutés à main le 27 novembre 2026 (43cf611).
+LOGO_IDS = (
+    "ORG-0026", "ORG-0597", "ORG-0617",
+    "ORG-0622", "ORG-0638", "ORG-0671",
+    "ORG-0672", "ORG-0677", "ORG-0679",
+    "ORG-0680", "ORG-0682", "ORG-0697",
+    "ORG-0698", "ORG-0702", "ORG-0703",
+    "ORG-0704", "ORG-0708", "ORG-0712",
+    "ORG-0716", "ORG-0725", "ORG-0730",
+    "ORG-0742", "ORG-0752", "ORG-0753",
+    "ORG-0754", "SER-0121", "SER-0135",
+    "SER-0185", "SER-0187", "SER-0188",
+    "SER-0189", "SER-0190", "SER-0192",
+    "SER-0193", "SER-0194", "SER-0195",
 )
 
 
@@ -90,6 +108,11 @@ class Publication163Tests(unittest.TestCase):
             paths.add(("authorities", i, "activity", "active"))
             paths.add(
                 ("authorities", i, "quality", "activity_unknown")
+            )
+        for ident in LOGO_IDS:
+            i = index[ident]
+            paths.add(
+                ("authorities", i, "presentation", "media", "logo")
             )
         return paths
 
@@ -150,11 +173,28 @@ class Publication163Tests(unittest.TestCase):
                     False,
                 )
 
-    def test_trente_differences_exactes(self):
+    def test_logos_publication_distincte(self):
+        self.assertEqual(len(LOGO_IDS), 36)
+        self.assertEqual(len(set(LOGO_IDS)), 36)
+        for ident in LOGO_IDS:
+            with self.subTest(ident=ident):
+                self.assertIn(ident, self.old)
+                self.assertIn(ident, self.new)
+                self.assertIsNone(
+                    self.old[ident]["presentation"]["media"]["logo"]
+                )
+                expected = f"assets/organismes/{ident}.jpg"
+                self.assertEqual(
+                    self.new[ident]["presentation"]["media"]["logo"],
+                    expected,
+                )
+                self.assertTrue((ROOT / "docs" / expected).is_file())
+
+    def test_66_differences_exactes_activites_et_logos(self):
         found = list(differences(self.before, self.after))
         expected = self.expected_paths()
 
-        self.assertEqual(len(found), 30)
+        self.assertEqual(len(found), 66)
         self.assertEqual(
             {path for path, _, _ in found},
             expected,
