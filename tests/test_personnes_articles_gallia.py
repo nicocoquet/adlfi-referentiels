@@ -89,6 +89,13 @@ class TestProjectionArticleHeurist(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "IdRef"):
             module.project(a, r, m, p)
 
+    def test_normalise_ancien_http_openedition(self):
+        a, r, m, p = fixture()
+        a["articles"][0]["url"] = "http://journals.openedition.org/galliap/891"
+        result = module.project(a, r, m, p)
+        self.assertEqual(result["articles"][0]["url"],
+                         "https://journals.openedition.org/galliap/891")
+
     def test_refuse_url_hors_liste(self):
         a, r, m, p = fixture()
         a["articles"][0]["url"] = "https://example.net/private"
