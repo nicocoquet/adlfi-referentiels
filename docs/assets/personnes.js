@@ -226,6 +226,9 @@
       for(const r of c.normalized_roles||[])byDoc.get(docKey).roles.add(r);
     }
     const count=byDoc.size;
+    // Une autorité Heurist peut être liée à Gallia sans notice AdlFI.
+    // Ne jamais afficher une fausse section « Notices AdlFI (0) ».
+    if(section.journal==='adlfi' && count===0)return;
     if(section.data_status!=='present' && !count){
       const inactive=create('div','per-doc-section per-doc-section--pending');
       const p=create('div','per-doc-pending');
