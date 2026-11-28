@@ -33,9 +33,8 @@ def valid_ppn(ppn):
         return False
     if not (ppn[8].isdigit() or ppn[8] == "X"):
         return False
-    return sum(int(c) * (i + 1) for i, c in enumerate(ppn[:8])) % 11 == (
-        10 if ppn[8] == "X" else int(ppn[8])
-    )
+    return sum((10 if char == "X" else int(char)) * (9 - i)
+               for i, char in enumerate(ppn)) % 11 == 0
 
 
 class TestPublicationHeuristLot06(unittest.TestCase):
