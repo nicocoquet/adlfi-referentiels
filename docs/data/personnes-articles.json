@@ -2,12 +2,12 @@
   "schema_version": "0.1.0",
   "dataset": "adlfi-referentiels/personnes-articles",
   "publication_status": "PUBLIC_PILOT",
-  "scope_note": "Premier corpus pilote non exhaustif d’articles Gallia et Gallia Préhistoire, issu de l’export Heurist du 27 novembre 2026 : 401 articles bibliographiques et 578 relations publiques (493 auteur, 85 collaborateur), liées à 233 autorités Personnes, dont 40 nouvellement intégrées. Les rôles bibliographiques sont ceux enregistrés sur chaque article.",
+  "scope_note": "Corpus bibliographique pilote non exhaustif de Gallia et Gallia Préhistoire, issu de l'export Heurist du 27 novembre 2026 : 592 articles et 911 relations (788 auteur, 123 collaborateur) associées à 313 autorités Personnes. Les rôles proviennent des champs de contribution de chaque article.",
   "source_sha256": "de44407287e2f85132338119354924458320b2dd90cfd4ac30b8b4ee6c44c051",
   "totals": {
-    "articles": 401,
-    "contributions": 578,
-    "authorities": 233
+    "articles": 592,
+    "contributions": 911,
+    "authorities": 313
   },
   "articles": [
     {
@@ -4420,6 +4420,2107 @@
       "last_page": "192",
       "url": "https://journals.openedition.org/galliap/4520",
       "doi": "10.4000/11wmd"
+    },
+    {
+      "id": "heurist:1519:73:223",
+      "journal": "gallia",
+      "title": "Variabilité des pratiques funéraires protohistoriques dans le sud de la France : défunts incinérés, défunts non brûlés",
+      "year": 2004,
+      "volume": "Gallia, 61",
+      "first_page": "193",
+      "last_page": "222",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2004_num_61_1_3062",
+      "doi": "10.3406/galia.2004.3062"
+    },
+    {
+      "id": "heurist:1519:73:247",
+      "journal": "gallia",
+      "title": "Quand l’argent était d’or : paroles de Gaulois",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "211",
+      "last_page": "241",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3296",
+      "doi": "10.3406/galia.2006.3296"
+    },
+    {
+      "id": "heurist:1519:73:277",
+      "journal": "gallia",
+      "title": "La voie entre Cessero (Saint-Thibéry, Hérault) et Segodunum (Rodez, Aveyron) : lieux d'étape de la moyenne vallée de l'Hérault",
+      "year": 2016,
+      "volume": "Gallia, 73-1",
+      "first_page": "219",
+      "last_page": "251",
+      "url": "https://journals.openedition.org/gallia/596",
+      "doi": "10.4000/gallia.596"
+    },
+    {
+      "id": "heurist:1519:73:283",
+      "journal": "gallia",
+      "title": "Chapitre VI – L’image sociale et culturelle des pratiques funéraires : expressions et évolutions de la société romaine dans le sud-est de la Gaule",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "311",
+      "last_page": "343",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3377",
+      "doi": "10.3406/galia.2009.3377"
+    },
+    {
+      "id": "heurist:1519:73:316",
+      "journal": "gallia",
+      "title": "Diversité des cheptels et diversification des morphotypes bovins dans le tiers nord-ouest des Gaules entre la fin de l'âge du Fer et la période romaine",
+      "year": 2012,
+      "volume": "Gallia, 69-2",
+      "first_page": "79",
+      "last_page": "114",
+      "url": "https://journals.openedition.org/gallia/2330",
+      "doi": "10.4000/gallia.2330"
+    },
+    {
+      "id": "heurist:1519:73:323",
+      "journal": "gallia",
+      "title": "L'évolution de la topographie de l'Arles antique : un état de la question",
+      "year": 1994,
+      "volume": "Gallia, 51",
+      "first_page": "135",
+      "last_page": "170",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1994_num_51_1_2975",
+      "doi": "10.3406/galia.1994.2975"
+    },
+    {
+      "id": "heurist:1519:73:324",
+      "journal": "gallia",
+      "title": "Le Capitolium de Tolosa ? Les fouilles du parking Esquirol : premiers résultats et essai d'interprétation",
+      "year": 1997,
+      "volume": "Gallia, 54",
+      "first_page": "203",
+      "last_page": "238",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1997_num_54_1_2997",
+      "doi": "10.3406/galia.1997.2997"
+    },
+    {
+      "id": "heurist:1519:73:334",
+      "journal": "gallia",
+      "title": "Sains-du-Nord (Nord) : une agglomération de la cité des Nerviens",
+      "year": 2017,
+      "volume": "Gallia, 74-2",
+      "first_page": "131",
+      "last_page": "167",
+      "url": "https://journals.openedition.org/gallia/2184",
+      "doi": "10.4000/gallia.2184"
+    },
+    {
+      "id": "heurist:1519:73:355",
+      "journal": "gallia",
+      "title": "L'occupation protohistorique de la Grotte Suspendue de Collias (Gard)",
+      "year": 1976,
+      "volume": "Gallia, 34-1",
+      "first_page": "129",
+      "last_page": "166",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1976_num_34_1_1547",
+      "doi": "10.3406/galia.1976.1547"
+    },
+    {
+      "id": "heurist:1519:73:358",
+      "journal": "gallia",
+      "title": "À la recherche du forum perdu d'Aquae Tarbellicae (Dax)",
+      "year": 2011,
+      "volume": "Gallia, 68-2",
+      "first_page": "155",
+      "last_page": "193",
+      "url": "https://journals.openedition.org/gallia/2611",
+      "doi": "10.4000/gallia.2611"
+    },
+    {
+      "id": "heurist:1519:73:368",
+      "journal": "gallia",
+      "title": "L’aven sépulcral de Plérimond à Aups, Var (VIe s. av. J.-C.)",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "171",
+      "last_page": "209",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3295",
+      "doi": "10.3406/galia.2006.3295"
+    },
+    {
+      "id": "heurist:1519:73:372",
+      "journal": "gallia",
+      "title": "L'atelier de la Butte",
+      "year": 1997,
+      "volume": "Gallia, 54",
+      "first_page": "5",
+      "last_page": "43",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1997_num_54_1_3233",
+      "doi": "10.3406/galia.1997.3233"
+    },
+    {
+      "id": "heurist:1519:73:402",
+      "journal": "gallia",
+      "title": "La maison de l'oppidum languedocien durant la Protohistoire : forme et utilisation de l'espace",
+      "year": 1999,
+      "volume": "Gallia, 56",
+      "first_page": "313",
+      "last_page": "355",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1999_num_56_1_3012",
+      "doi": "10.3406/galia.1999.3012"
+    },
+    {
+      "id": "heurist:1519:73:409",
+      "journal": "gallia",
+      "title": "Une marque d'atelier sur une bouteille en verre découverte à Arles",
+      "year": 2014,
+      "volume": "Gallia, 71-2",
+      "first_page": "121",
+      "last_page": "124",
+      "url": "https://journals.openedition.org/gallia/1834",
+      "doi": "10.4000/gallia.1834"
+    },
+    {
+      "id": "heurist:1519:73:418",
+      "journal": "gallia",
+      "title": "Les Gaulois du Midi et Marseille grecque, deux mondes funéraires",
+      "year": 2011,
+      "volume": "Gallia, 68-2",
+      "first_page": "1",
+      "last_page": "45",
+      "url": "https://journals.openedition.org/gallia/2558",
+      "doi": "10.4000/gallia.2558"
+    },
+    {
+      "id": "heurist:1519:73:445",
+      "journal": "gallia",
+      "title": "Thermes et pratiques balnéaires dans le chef-lieu de cité des Parisii",
+      "year": 2008,
+      "volume": "Gallia, 65",
+      "first_page": "355",
+      "last_page": "403",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2008_num_65_1_3348",
+      "doi": "10.3406/galia.2008.3348"
+    },
+    {
+      "id": "heurist:1519:73:446",
+      "journal": "gallia",
+      "title": "Inhumations de fœtus, nouveau-nés et nourrissons dans les habitats protohistoriques du Languedoc : l'exemple de Gailhan (Gard)",
+      "year": 1991,
+      "volume": "Gallia, 48",
+      "first_page": "59",
+      "last_page": "108",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1991_num_48_1_2917",
+      "doi": "10.3406/galia.1991.2917"
+    },
+    {
+      "id": "heurist:1519:73:447",
+      "journal": "gallia",
+      "title": "Les épingles à tête anthropomorphe stylisée : un accessoire de la coiffure féminine de l'Antiquité tardive",
+      "year": 2003,
+      "volume": "Gallia, 60",
+      "first_page": "319",
+      "last_page": "368",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2003_num_60_1_3057",
+      "doi": "10.3406/galia.2003.3057"
+    },
+    {
+      "id": "heurist:1519:73:471",
+      "journal": "gallia",
+      "title": "Le forum gallo-romain de Feurs (Loire)",
+      "year": 1991,
+      "volume": "Gallia, 48",
+      "first_page": "109",
+      "last_page": "164",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1991_num_48_1_2918",
+      "doi": "10.3406/galia.1991.2918"
+    },
+    {
+      "id": "heurist:1519:73:479",
+      "journal": "gallia",
+      "title": "Chapitre V – Les espaces funéraires",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "253",
+      "last_page": "310",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3376",
+      "doi": "10.3406/galia.2009.3376"
+    },
+    {
+      "id": "heurist:1519:73:491",
+      "journal": "gallia",
+      "title": "Chapitre II – L’étape de la crémation : les bûchers funéraires",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "89",
+      "last_page": "150",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3373",
+      "doi": "10.3406/galia.2009.3373"
+    },
+    {
+      "id": "heurist:1519:73:500",
+      "journal": "gallia",
+      "title": "Catalogue des opérations archéologiques, des découvertes anciennes et des inscriptions",
+      "year": 2010,
+      "volume": "Gallia, 67-1",
+      "first_page": "75",
+      "last_page": "140",
+      "url": "https://journals.openedition.org/gallia/2776",
+      "doi": "10.4000/gallia.2776"
+    },
+    {
+      "id": "heurist:1519:73:513",
+      "journal": "gallia",
+      "title": "Chapitre premier – La pratique de l’inhumation",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "15",
+      "last_page": "87",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3372",
+      "doi": "10.3406/galia.2009.3372"
+    },
+    {
+      "id": "heurist:1519:73:516",
+      "journal": "gallia",
+      "title": "Chapitre IV – Structures secondaires et structures accessoires",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "175",
+      "last_page": "251",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3375",
+      "doi": "10.3406/galia.2009.3375"
+    },
+    {
+      "id": "heurist:1519:73:522",
+      "journal": "gallia",
+      "title": "L'attirail d'un magicien rangé dans une cave de Chartres/Autricum",
+      "year": 2010,
+      "volume": "Gallia, 67-2",
+      "first_page": "125",
+      "last_page": "208",
+      "url": "https://journals.openedition.org/gallia/2931",
+      "doi": "10.4000/gallia.2931"
+    },
+    {
+      "id": "heurist:1519:73:525",
+      "journal": "gallia",
+      "title": "Trois cimetières ruraux de l'Antiquité tardive dans la moyenne vallée du Rhône : les sites du Pillon à Marennes (Rhône), du Trillet à Meyzieu (Rhône) et des Girardes à Lapalud (Vaucluse)",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "271",
+      "last_page": "361",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3028",
+      "doi": "10.3406/galia.2001.3028"
+    },
+    {
+      "id": "heurist:1519:73:526",
+      "journal": "gallia",
+      "title": "Bilan des recherches archéologiques sur la ville portuaire de Lattara (Lattes, Hérault)",
+      "year": 1993,
+      "volume": "Gallia, 50",
+      "first_page": "1",
+      "last_page": "93",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1993_num_50_1_2934",
+      "doi": "10.3406/galia.1993.2934"
+    },
+    {
+      "id": "heurist:1519:73:527",
+      "journal": "gallia",
+      "title": "Bronzes et fers de Dax, Landes : la cachette d'un « antiquaire-restaurateur » au IVe s. après J.-C.",
+      "year": 1996,
+      "volume": "Gallia, 53",
+      "first_page": "251",
+      "last_page": "343",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1996_num_53_1_2992",
+      "doi": "10.3406/galia.1996.2992"
+    },
+    {
+      "id": "heurist:1519:73:545",
+      "journal": "gallia",
+      "title": "L’église paléochrétienne de l’enclos Saint-Césaire à Arles (Bouches-du-Rhône)",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "121",
+      "last_page": "124",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3290",
+      "doi": "10.3406/galia.2006.3290"
+    },
+    {
+      "id": "heurist:1519:73:610",
+      "journal": "gallia",
+      "title": "Un quart de statère arverne découvert à Aigremont (Gard)",
+      "year": 1980,
+      "volume": "Gallia, 38-2",
+      "first_page": "241",
+      "last_page": "245",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1980_num_38_2_1799",
+      "doi": "10.3406/galia.1980.1799"
+    },
+    {
+      "id": "heurist:1519:73:634",
+      "journal": "gallia",
+      "title": "Annexe II – Historique et organisation des recherches sur le mont Beuvray de 1914 à 1995",
+      "year": 1998,
+      "volume": "Gallia, 55",
+      "first_page": "130",
+      "last_page": "135",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1998_num_55_1_3263",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:640",
+      "journal": "gallia",
+      "title": "Le sanctuaire gallo-romain",
+      "year": 2007,
+      "volume": "Gallia, 64",
+      "first_page": "390",
+      "last_page": "395",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2007_num_64_1_3320",
+      "doi": "10.3406/galia.2007.3320"
+    },
+    {
+      "id": "heurist:1519:73:662",
+      "journal": "gallia",
+      "title": "L'atelier de la Manutention",
+      "year": 1997,
+      "volume": "Gallia, 54",
+      "first_page": "45",
+      "last_page": "50",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1997_num_54_1_3234",
+      "doi": "10.3406/galia.1997.3234"
+    },
+    {
+      "id": "heurist:1519:73:688",
+      "journal": "gallia",
+      "title": "Une phiale étrusque du Musée de la civilisation gallo-romaine, à Lyon",
+      "year": 1992,
+      "volume": "Gallia, 49",
+      "first_page": "1",
+      "last_page": "7",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1992_num_49_1_2925",
+      "doi": "10.3406/galia.1992.2925"
+    },
+    {
+      "id": "heurist:1519:73:703",
+      "journal": "gallia",
+      "title": "Archéobotanique des semences et des fruits de Lattara : bilan des recherches",
+      "year": 2008,
+      "volume": "Gallia, 65",
+      "first_page": "193",
+      "last_page": "200",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2008_num_65_1_3342",
+      "doi": "10.3406/galia.2008.3342"
+    },
+    {
+      "id": "heurist:1519:73:735",
+      "journal": "gallia",
+      "title": "Les colonies latines de Narbonnaise : un nouveau document d'Arles mentionnant la Colonia Iulia Augusta Avennio",
+      "year": 1992,
+      "volume": "Gallia, 49",
+      "first_page": "37",
+      "last_page": "44",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1992_num_49_1_2927",
+      "doi": "10.3406/galia.1992.2927"
+    },
+    {
+      "id": "heurist:1519:73:738",
+      "journal": "gallia",
+      "title": "L'état de la recherche sur les mines et les métallurgies en Gaule, de l'époque gauloise au haut Moyen Âge",
+      "year": 2000,
+      "volume": "Gallia, 57",
+      "first_page": "3",
+      "last_page": "10",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2000_num_57_1_3017",
+      "doi": "10.3406/galia.2000.3017"
+    },
+    {
+      "id": "heurist:1519:73:742",
+      "journal": "gallia",
+      "title": "Terrestres ou volants : les animaux dans la ville antique de Lattes",
+      "year": 2008,
+      "volume": "Gallia, 65",
+      "first_page": "185",
+      "last_page": "192",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2008_num_65_1_3341",
+      "doi": "10.3406/galia.2008.3341"
+    },
+    {
+      "id": "heurist:1519:73:783",
+      "journal": "gallia",
+      "title": "Le Rhône à Arles : données archéologiques et sédimentologiques",
+      "year": 1999,
+      "volume": "Gallia, 56",
+      "first_page": "121",
+      "last_page": "129",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1999_num_56_1_3249",
+      "doi": "10.3406/galia.1999.3249"
+    },
+    {
+      "id": "heurist:1519:73:785",
+      "journal": "gallia",
+      "title": "Une épée romaine découverte à Saintes (Charente-Maritime)",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "261",
+      "last_page": "269",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3027",
+      "doi": "10.3406/galia.2001.3027"
+    },
+    {
+      "id": "heurist:1519:73:792",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1947,
+      "volume": "Gallia, 5-1",
+      "first_page": "195",
+      "last_page": "196",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1947_num_5_1_2034",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:839",
+      "journal": "gallia",
+      "title": "Sépultures à incinération du ier siècle à Tavel (Gard)",
+      "year": 1961,
+      "volume": "Gallia, 19-1",
+      "first_page": "232",
+      "last_page": "241",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1961_num_19_1_2324",
+      "doi": "10.3406/galia.1961.2324"
+    },
+    {
+      "id": "heurist:1519:73:844",
+      "journal": "gallia",
+      "title": "Éléments d'une catapulte romaine trouvée à Lyon",
+      "year": 1981,
+      "volume": "Gallia, 39-2",
+      "first_page": "201",
+      "last_page": "210",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1981_num_39_2_1830",
+      "doi": "10.3406/galia.1981.1830"
+    },
+    {
+      "id": "heurist:1519:73:873",
+      "journal": "gallia",
+      "title": "La sidérurgie dans l'est de la Gaule : l'organisation spatiale de la production de l'Âge du Fer au haut Moyen Âge",
+      "year": 2000,
+      "volume": "Gallia, 57",
+      "first_page": "11",
+      "last_page": "21",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2000_num_57_1_3206",
+      "doi": "10.3406/galia.2000.3206"
+    },
+    {
+      "id": "heurist:1519:73:877",
+      "journal": "gallia",
+      "title": "Les habitations urbaines en Gaule méridionale durant l’Antiquité tardive",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "47",
+      "last_page": "57",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3283",
+      "doi": "10.3406/galia.2006.3283"
+    },
+    {
+      "id": "heurist:1519:73:885",
+      "journal": "gallia",
+      "title": "Quatre bols Dr. 37 inédits du décorateur C. Cin ( ) Senoviri",
+      "year": 1975,
+      "volume": "Gallia, 33-2",
+      "first_page": "213",
+      "last_page": "223",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1975_num_33_2_1522",
+      "doi": "10.3406/galia.1975.1522"
+    },
+    {
+      "id": "heurist:1519:73:915",
+      "journal": "gallia",
+      "title": "Un habitat de plaine du Premier Âge du Fer à Saint-Martin (Collorgues, Gard)",
+      "year": 1988,
+      "volume": "Gallia, 45",
+      "first_page": "1",
+      "last_page": "12",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1987_num_45_1_2876",
+      "doi": "10.3406/galia.1987.2876"
+    },
+    {
+      "id": "heurist:1519:73:951",
+      "journal": "gallia",
+      "title": "Aménager la berge en rive droite de la Loire à l'époque romaine à Orléans/Cenabum (Loiret)",
+      "year": 2020,
+      "volume": "Gallia, 77-1",
+      "first_page": "387",
+      "last_page": "399",
+      "url": "https://journals.openedition.org/gallia/5452",
+      "doi": "10.4000/gallia.5452"
+    },
+    {
+      "id": "heurist:1519:73:968",
+      "journal": "gallia",
+      "title": "L'instrumentum, support d'écrit",
+      "year": 2004,
+      "volume": "Gallia, 61",
+      "first_page": "53",
+      "last_page": "65",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2004_num_61_1_3187",
+      "doi": "10.3406/galia.2004.3187"
+    },
+    {
+      "id": "heurist:1519:73:988",
+      "journal": "gallia",
+      "title": "Hommages à Christian Goudineau (1939-2018)",
+      "year": 2019,
+      "volume": "Gallia, 76-2",
+      "first_page": "1",
+      "last_page": "14",
+      "url": "https://journals.openedition.org/gallia/4924",
+      "doi": "10.4000/gallia.4924"
+    },
+    {
+      "id": "heurist:1519:73:995",
+      "journal": "gallia",
+      "title": "Ibère, grec et latin à Toulouse (Haute-Garonne) à la fin du IIe s. av. J.-C. : nouvelles inscriptions sur céramique du site de la ZAC Niel",
+      "year": 2015,
+      "volume": "Gallia, 72-2",
+      "first_page": "403",
+      "last_page": "416",
+      "url": "https://journals.openedition.org/gallia/986",
+      "doi": "10.4000/gallia.686"
+    },
+    {
+      "id": "heurist:1519:73:1009",
+      "journal": "gallia",
+      "title": "Une inscription sur bronze trouvée dans l'établissement gallo-romain de L'Auribelle-Basse à Pézenas (Hérault)",
+      "year": 2003,
+      "volume": "Gallia, 60",
+      "first_page": "369",
+      "last_page": "382",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2003_num_60_1_3058",
+      "doi": "10.3406/galia.2003.3058"
+    },
+    {
+      "id": "heurist:1519:73:1015",
+      "journal": "gallia",
+      "title": "Introduction – Les pratiques et les espaces funéraires dans l’Antiquité : état de la recherche, réalités du corpus examiné et orientations du dossier",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "1",
+      "last_page": "14",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3371",
+      "doi": "10.3406/galia.2009.3371"
+    },
+    {
+      "id": "heurist:1519:73:1024",
+      "journal": "gallia",
+      "title": "Sens/Agedincum, cité des Sénons",
+      "year": 2015,
+      "volume": "Gallia, 72-1",
+      "first_page": "231",
+      "last_page": "245",
+      "url": "https://journals.openedition.org/gallia/1546",
+      "doi": "10.4000/gallia.1546"
+    },
+    {
+      "id": "heurist:1519:73:1033",
+      "journal": "gallia",
+      "title": "La Grande Borne à Clermont-Ferrand (Puy-de-Dôme) : un monument funéraire de la première moitié du IIe s. apr. J.-C. en contexte rural",
+      "year": 2018,
+      "volume": "Gallia, 75",
+      "first_page": "103",
+      "last_page": "117",
+      "url": "https://journals.openedition.org/gallia/4261",
+      "doi": "10.4000/gallia.4261"
+    },
+    {
+      "id": "heurist:1519:73:1048",
+      "journal": "gallia",
+      "title": "Les aqueducs de la villa de Vareilles à Paulhan (Hérault) : Ier s. av. J.-C.-IIIe s. apr. J.-C.",
+      "year": 2005,
+      "volume": "Gallia, 62",
+      "first_page": "131",
+      "last_page": "145",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2005_num_62_1_3226",
+      "doi": "10.3406/galia.2005.3226"
+    },
+    {
+      "id": "heurist:1519:73:1055",
+      "journal": "gallia",
+      "title": "L'énigme Nymfius",
+      "year": 1986,
+      "volume": "Gallia, 44-1",
+      "first_page": "151",
+      "last_page": "165",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1986_num_44_1_2856",
+      "doi": "10.3406/galia.1986.2856"
+    },
+    {
+      "id": "heurist:1519:73:1065",
+      "journal": "gallia",
+      "title": "Were sanctuary wells in Roman Gaul intentionally contaminated using animal carcasses (3rd–4th c. AD)?",
+      "year": 2018,
+      "volume": "Gallia, 75",
+      "first_page": "173",
+      "last_page": "188",
+      "url": "https://journals.openedition.org/gallia/2946",
+      "doi": "10.4000/gallia.2946"
+    },
+    {
+      "id": "heurist:1519:73:1086",
+      "journal": "gallia",
+      "title": "La vigne et les débuts de la viticulture en France : apports de l'archéobotanique",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "13",
+      "last_page": "28",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3171",
+      "doi": "10.3406/galia.2001.3171"
+    },
+    {
+      "id": "heurist:1519:73:1087",
+      "journal": "gallia",
+      "title": "La viticulture antique dans le Tricastin (moyenne vallée du Rhône)",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "113",
+      "last_page": "128",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3176",
+      "doi": "10.3406/galia.2001.3176"
+    },
+    {
+      "id": "heurist:1519:73:1088",
+      "journal": "gallia",
+      "title": "La mise en défense de la Gaule méridionale aux ive-vie s.",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "59",
+      "last_page": "74",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3284",
+      "doi": "10.3406/galia.2006.3284"
+    },
+    {
+      "id": "heurist:1519:73:1119",
+      "journal": "gallia",
+      "title": "La place des monuments publics du Haut-Empire dans les villes de la Gaule méridionale durant l’Antiquité tardive (ive-vie s.)",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "25",
+      "last_page": "41",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3281",
+      "doi": "10.3406/galia.2006.3281"
+    },
+    {
+      "id": "heurist:1519:73:1133",
+      "journal": "gallia",
+      "title": "Rennes/Condate, cité des Riédons : aux origines d'une ville-capitale",
+      "year": 2015,
+      "volume": "Gallia, 72-1",
+      "first_page": "79",
+      "last_page": "96",
+      "url": "https://journals.openedition.org/gallia/1424",
+      "doi": "10.4000/gallia.1424"
+    },
+    {
+      "id": "heurist:1519:73:1134",
+      "journal": "gallia",
+      "title": "Esclaves et ministres des Lares dans la société de l'Arles antique",
+      "year": 2014,
+      "volume": "Gallia, 71-2",
+      "first_page": "103",
+      "last_page": "120",
+      "url": "https://journals.openedition.org/gallia/1823",
+      "doi": "10.4000/gallia.1823"
+    },
+    {
+      "id": "heurist:1519:73:1140",
+      "journal": "gallia",
+      "title": "Cuisiner pour les autres : les espaces commerciaux de production alimentaire à Pompéi",
+      "year": 2013,
+      "volume": "Gallia, 70-1",
+      "first_page": "9",
+      "last_page": "26",
+      "url": "https://journals.openedition.org/gallia/642",
+      "doi": "10.4000/gallia.642"
+    },
+    {
+      "id": "heurist:1519:73:1153",
+      "journal": "gallia",
+      "title": "Balances monétaires à tare fixe : typologie, métrologie, interprétation",
+      "year": 1996,
+      "volume": "Gallia, 53",
+      "first_page": "345",
+      "last_page": "362",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1996_num_53_1_2993",
+      "doi": "10.3406/galia.1996.2993"
+    },
+    {
+      "id": "heurist:1519:73:1187",
+      "journal": "gallia",
+      "title": "Une illustration de l'évolution des pratiques funéraires en Languedoc oriental à l'Âge du Fer : la tombe de Font de la Vie à Saint-Bauzille-de-Montmel, Hérault, Ve s. avant J.-C.",
+      "year": 1995,
+      "volume": "Gallia, 52",
+      "first_page": "145",
+      "last_page": "163",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1995_num_52_1_3137",
+      "doi": "10.3406/galia.1995.3137"
+    },
+    {
+      "id": "heurist:1519:73:1189",
+      "journal": "gallia",
+      "title": "Arbres fruitiers et cultures jardinées gallo-romains à Longueil-Sainte-Marie (Oise)",
+      "year": 2002,
+      "volume": "Gallia, 59",
+      "first_page": "253",
+      "last_page": "271",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2002_num_59_1_3052",
+      "doi": "10.3406/galia.2002.3052"
+    },
+    {
+      "id": "heurist:1519:73:1195",
+      "journal": "gallia",
+      "title": "Le port de Lattara : premiers acquis sur les phases préromaines et romaines",
+      "year": 2008,
+      "volume": "Gallia, 65",
+      "first_page": "131",
+      "last_page": "149",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2008_num_65_1_3337",
+      "doi": "10.3406/galia.2008.3337"
+    },
+    {
+      "id": "heurist:1519:73:1224",
+      "journal": "gallia",
+      "title": "Les productions de l'atelier de Loyasse",
+      "year": 1996,
+      "volume": "Gallia, 53",
+      "first_page": "19",
+      "last_page": "38",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1996_num_53_1_3197",
+      "doi": "10.3406/galia.1996.3197"
+    },
+    {
+      "id": "heurist:1519:73:1226",
+      "journal": "gallia",
+      "title": "Le régime du Rhône dans l'Antiquité et au Haut Moyen Âge",
+      "year": 1999,
+      "volume": "Gallia, 56",
+      "first_page": "13",
+      "last_page": "32",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1999_num_56_1_3241",
+      "doi": "10.3406/galia.1999.3241"
+    },
+    {
+      "id": "heurist:1519:73:1259",
+      "journal": "gallia",
+      "title": "Le centre-est de la Gaule : stations routières et groupements de bord de voie",
+      "year": 2016,
+      "volume": "Gallia, 73-1",
+      "first_page": "275",
+      "last_page": "295",
+      "url": "https://journals.openedition.org/gallia/630",
+      "doi": "10.4000/gallia.630"
+    },
+    {
+      "id": "heurist:1519:73:1268",
+      "journal": "gallia",
+      "title": "La datation archéomagnétique des matériaux de construction d'argile cuite : apports chronologiques et technologiques",
+      "year": 1990,
+      "volume": "Gallia, 47",
+      "first_page": "321",
+      "last_page": "341",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1990_num_47_1_2914",
+      "doi": "10.3406/galia.1990.2914"
+    },
+    {
+      "id": "heurist:1519:73:1272",
+      "journal": "gallia",
+      "title": "Un complexe thermal de l'Antiquité tardive : le « Prétoire » à Aléria (Haute-Corse)",
+      "year": 1998,
+      "volume": "Gallia, 55",
+      "first_page": "343",
+      "last_page": "363",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1998_num_55_1_3006",
+      "doi": "10.3406/galia.1998.3006"
+    },
+    {
+      "id": "heurist:1519:73:1275",
+      "journal": "gallia",
+      "title": "La viticulture antique en Languedoc-Roussillon",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "91",
+      "last_page": "111",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3175",
+      "doi": "10.3406/galia.2001.3175"
+    },
+    {
+      "id": "heurist:1519:73:1278",
+      "journal": "gallia",
+      "title": "Les instruments de l'écriture",
+      "year": 2004,
+      "volume": "Gallia, 61",
+      "first_page": "21",
+      "last_page": "41",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2004_num_61_1_3185",
+      "doi": "10.3406/galia.2004.3185"
+    },
+    {
+      "id": "heurist:1519:73:1331",
+      "journal": "gallia",
+      "title": "Les tombes protohistoriques de la bergerie Hermet à Calvisson (Gard)",
+      "year": 1973,
+      "volume": "Gallia, 31-1",
+      "first_page": "37",
+      "last_page": "59",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1973_num_31_1_2624",
+      "doi": "10.3406/galia.1973.2624"
+    },
+    {
+      "id": "heurist:1519:73:1366",
+      "journal": "gallia",
+      "title": "Archéologie des vignobles antiques du sud de la Gaule",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "45",
+      "last_page": "68",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3173",
+      "doi": "10.3406/galia.2001.3173"
+    },
+    {
+      "id": "heurist:1519:73:1367",
+      "journal": "gallia",
+      "title": "Chapitre III – Les pratiques postcrématoires dans les bûchers",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "151",
+      "last_page": "174",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3374",
+      "doi": "10.3406/galia.2009.3374"
+    },
+    {
+      "id": "heurist:1519:73:1369",
+      "journal": "gallia",
+      "title": "Nature des pâtes des céramiques culinaires des ateliers de la Sarra et de Trion",
+      "year": 1997,
+      "volume": "Gallia, 54",
+      "first_page": "69",
+      "last_page": "71",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1997_num_54_1_3238",
+      "doi": "10.3406/galia.1997.3238"
+    },
+    {
+      "id": "heurist:1519:73:1403",
+      "journal": "gallia",
+      "title": "Stylet inscrit de Rouffach (Haut-Rhin)",
+      "year": 2000,
+      "volume": "Gallia, 57",
+      "first_page": "227",
+      "last_page": "229",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2000_num_57_1_3020",
+      "doi": "10.3406/galia.2000.3020"
+    },
+    {
+      "id": "heurist:1519:73:1432",
+      "journal": "gallia",
+      "title": "Les agglomérations/vici/castra du Centre-Est de la Gaule : morphologie et fonctions (IIIe-VIe s. apr. J.-C.)",
+      "year": 2017,
+      "volume": "Gallia, 74-1",
+      "first_page": "91",
+      "last_page": "117",
+      "url": "https://journals.openedition.org/gallia/2385",
+      "doi": "10.4000/gallia.2385"
+    },
+    {
+      "id": "heurist:1519:73:1446",
+      "journal": "gallia",
+      "title": "Une maison à absides sur l'oppidum de Gailhan (Gard) au milieu du Ve s. avant J.-C : la question du plan absidial en Gaule du Sud",
+      "year": 1990,
+      "volume": "Gallia, 47",
+      "first_page": "29",
+      "last_page": "55",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1990_num_47_1_2901",
+      "doi": "10.3406/galia.1990.2901"
+    },
+    {
+      "id": "heurist:1519:73:1447",
+      "journal": "gallia",
+      "title": "Conclusion – Bilan et perspectives",
+      "year": 2009,
+      "volume": "Gallia, 66-1",
+      "first_page": "345",
+      "last_page": "347",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_1_3378",
+      "doi": "10.3406/galia.2009.3378"
+    },
+    {
+      "id": "heurist:1519:73:1473",
+      "journal": "gallia",
+      "title": "Deux dépôts avec armes du vie s. av. J.-C. en Provence orientale : les Clues de Verdaches à Auzet (Alpes-de-Haute-Provence) et la Source du Noyer à Roquefort-les-Pins (Alpes-Maritimes)",
+      "year": 2009,
+      "volume": "Gallia, 66-2",
+      "first_page": "1",
+      "last_page": "28",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2009_num_66_2_3365",
+      "doi": "10.3406/galia.2009.3365"
+    },
+    {
+      "id": "heurist:1519:73:1476",
+      "journal": "gallia",
+      "title": "Les agglomérations du Centre-Est de la Gaule : quel devenir durant l'Antiquité tardive ?",
+      "year": 2017,
+      "volume": "Gallia, 74-1",
+      "first_page": "61",
+      "last_page": "89",
+      "url": "https://journals.openedition.org/gallia/2383",
+      "doi": "10.4000/gallia.2383"
+    },
+    {
+      "id": "heurist:1519:73:1501",
+      "journal": "gallia",
+      "title": "La question des premières installations rurales italiennes en Gaule transalpine (fin du iie s.-milieu du ier s. avant J.-C.)",
+      "year": 2000,
+      "volume": "Gallia, 57",
+      "first_page": "231",
+      "last_page": "260",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2000_num_57_1_3021",
+      "doi": "10.3406/galia.2000.3021"
+    },
+    {
+      "id": "heurist:1519:73:1550",
+      "journal": "gallia",
+      "title": "Conclusion",
+      "year": 1998,
+      "volume": "Gallia, 55",
+      "first_page": "84",
+      "last_page": "88",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1998_num_55_1_3261",
+      "doi": "10.3406/galia.1998.3261"
+    },
+    {
+      "id": "heurist:1519:73:1553",
+      "journal": "gallia",
+      "title": "Introduction",
+      "year": 2004,
+      "volume": "Gallia, 61",
+      "first_page": "3",
+      "last_page": "6",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2004_num_61_1_3183",
+      "doi": "10.3406/galia.2004.3183"
+    },
+    {
+      "id": "heurist:1519:73:4786",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1948,
+      "volume": "Gallia, 6-2",
+      "first_page": "417",
+      "last_page": "424",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1948_num_6_2_2107",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4787",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1952,
+      "volume": "Gallia, 10",
+      "first_page": "100",
+      "last_page": "109",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1952_num_10_1_3398",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4788",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1954,
+      "volume": "Gallia, 12-1",
+      "first_page": "115",
+      "last_page": "128",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1954_num_12_1_1377",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4789",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1955,
+      "volume": "Gallia, 13-2",
+      "first_page": "127",
+      "last_page": "141",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1955_num_13_2_1440",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4790",
+      "journal": "gallia",
+      "title": "XIIe Circonscription [préhistorique]",
+      "year": 1957,
+      "volume": "Gallia, 15-3",
+      "first_page": "126",
+      "last_page": "138",
+      "url": null,
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4813",
+      "journal": "gallia",
+      "title": "XIIIe Circonscription [historique]",
+      "year": 1956,
+      "volume": "Gallia, 14-2",
+      "first_page": "246",
+      "last_page": "260",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1956_num_14_2_1477",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41576",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Alpes-Côte d'Azur",
+      "year": 1984,
+      "volume": "Gallia Préhistoire, 27-2",
+      "first_page": "385",
+      "last_page": "413",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1984_num_27_2_2218",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41578",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Poitou-Charentes",
+      "year": 1983,
+      "volume": "Gallia Préhistoire, 26-2",
+      "first_page": "353",
+      "last_page": "374",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1983_num_26_2_1724",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41597",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Alpes-Côte d'Azur",
+      "year": 1982,
+      "volume": "Gallia Préhistoire, 25-2",
+      "first_page": "509",
+      "last_page": "538",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1982_num_25_2_1706",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41610",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Poitou-Charentes",
+      "year": 1980,
+      "volume": "Gallia Préhistoire, 23-2",
+      "first_page": "301",
+      "last_page": "316",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1980_num_23_2_1655",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41630",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Poitou-Charentes",
+      "year": 1978,
+      "volume": "Gallia Préhistoire, 21-2",
+      "first_page": "503",
+      "last_page": "513",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1978_num_21_2_1600",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41638",
+      "journal": "gallia_prehistoire",
+      "title": "Direction des recherches préhistoriques sous-marines",
+      "year": 1978,
+      "volume": "Gallia Préhistoire, 21-2",
+      "first_page": "735",
+      "last_page": "746",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1978_num_21_2_1609",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41639",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] d'Aix-en-Provence",
+      "year": 1959,
+      "volume": "Gallia Préhistoire, 2",
+      "first_page": "214",
+      "last_page": "252",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1959_num_2_1_1160",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41653",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Poitou-Charentes",
+      "year": 1976,
+      "volume": "Gallia Préhistoire, 19-2",
+      "first_page": "429",
+      "last_page": "444",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1976_num_19_2_1537",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41671",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Poitou-Charentes",
+      "year": 1974,
+      "volume": "Gallia Préhistoire, 17-2",
+      "first_page": "487",
+      "last_page": "501",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1974_num_17_2_1476",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41698",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Côte d'Azur-Corse",
+      "year": 1972,
+      "volume": "Gallia Préhistoire, 15-2",
+      "first_page": "537",
+      "last_page": "569",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1972_num_15_2_1432",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41715",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Côte-d'Azur-Corse",
+      "year": 1970,
+      "volume": "Gallia Préhistoire, 13-2",
+      "first_page": "551",
+      "last_page": "583",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1970_num_13_2_1370",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41725",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] d'Aix-en-Provence",
+      "year": 1961,
+      "volume": "Gallia Préhistoire, 4",
+      "first_page": "337",
+      "last_page": "386",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1961_num_4_1_1198",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41734",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] d'Aix-en-Provence",
+      "year": 1963,
+      "volume": "Gallia Préhistoire, 6",
+      "first_page": "337",
+      "last_page": "369",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1963_num_6_1_1233",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41755",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Côte d'Azur-Corse",
+      "year": 1966,
+      "volume": "Gallia Préhistoire, 9-2",
+      "first_page": "585",
+      "last_page": "622",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1966_num_9_2_1278",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41770",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Côte d'Azur-Corse",
+      "year": 1968,
+      "volume": "Gallia Préhistoire, 11-2",
+      "first_page": "493",
+      "last_page": "528",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1968_num_11_2_1332",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41786",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Languedoc-Roussillon",
+      "year": 1986,
+      "volume": "Gallia Préhistoire, 29-2",
+      "first_page": "353",
+      "last_page": "380",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1986_num_29_2_2257",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41788",
+      "journal": "gallia_prehistoire",
+      "title": "Circonscription [préhistorique] de Provence-Alpes-Côte d'Azur",
+      "year": 1986,
+      "volume": "Gallia Préhistoire, 29-2",
+      "first_page": "473",
+      "last_page": "495",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1986_num_29_2_2387",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41925",
+      "journal": "gallia_prehistoire",
+      "title": "Contribution à la lecture des gravures symboliques de la région du Mont Bego, Tende (Alpes-Maritimes) : les petits personnages associés à un zigzag",
+      "year": 1997,
+      "volume": "Gallia Préhistoire, 39",
+      "first_page": "255",
+      "last_page": "285",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1997_num_39_1_2154",
+      "doi": "10.3406/galip.1997.2154"
+    },
+    {
+      "id": "heurist:1519:73:41927",
+      "journal": "gallia_prehistoire",
+      "title": "Du site au territoire : l'occupation du sol dans les hautes vallées de la Loire et de l'Allier au Paléolithique supérieur (Massif central, France)",
+      "year": 1996,
+      "volume": "Gallia Préhistoire, 38",
+      "first_page": "43",
+      "last_page": "67",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1996_num_38_1_2144",
+      "doi": "10.3406/galip.1996.2144"
+    },
+    {
+      "id": "heurist:1519:73:41936",
+      "journal": "gallia_prehistoire",
+      "title": "Approche minéralogique de la poterie du Néolithique ancien de la Baume Fontbrégoua à Salernes (Var)",
+      "year": 1994,
+      "volume": "Gallia Préhistoire, 36",
+      "first_page": "267",
+      "last_page": "297",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1994_num_36_1_2127",
+      "doi": "10.3406/galip.1994.2127"
+    },
+    {
+      "id": "heurist:1519:73:41958",
+      "journal": "gallia_prehistoire",
+      "title": "Les niveaux funéraires artenaciens de la grotte du Quéroy à Chazelles (Charente)",
+      "year": 1990,
+      "volume": "Gallia Préhistoire, 32",
+      "first_page": "179",
+      "last_page": "235",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1990_num_32_1_2280",
+      "doi": "10.3406/galip.1990.2280"
+    },
+    {
+      "id": "heurist:1519:73:41983",
+      "journal": "gallia_prehistoire",
+      "title": "Le dépôt de fondeur du Bronze final II de Cabanelle à Castelnau-Valence (Gard)",
+      "year": 1982,
+      "volume": "Gallia Préhistoire, 25-1",
+      "first_page": "187",
+      "last_page": "210",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1982_num_25_1_1695",
+      "doi": "10.3406/galip.1982.1695"
+    },
+    {
+      "id": "heurist:1519:73:41996",
+      "journal": "gallia_prehistoire",
+      "title": "Un cas de cannibalisme au Néolithique : boucherie et rejet de restes humains et animaux dans la grotte de Fontbrégoua à Salernes (Var)",
+      "year": 1986,
+      "volume": "Gallia Préhistoire, 29-1",
+      "first_page": "143",
+      "last_page": "171",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1986_num_29_1_2243",
+      "doi": "10.3406/galip.1986.2243"
+    },
+    {
+      "id": "heurist:1519:73:42028",
+      "journal": "gallia_prehistoire",
+      "title": "Les dépôts humains et animaux en fosses de plan circulaire du 5e millénaire entre Rhin et Danube",
+      "year": 2019,
+      "volume": "Gallia Préhistoire, 59",
+      "first_page": "109",
+      "last_page": "149",
+      "url": "https://journals.openedition.org/galliap/1512",
+      "doi": "10.4000/galliap.1512"
+    },
+    {
+      "id": "heurist:1519:73:42036",
+      "journal": "gallia_prehistoire",
+      "title": "[Appendice I] Abri tardenoisien de la Chambre des Fées Coincy (Aisne) : étude de la faune",
+      "year": 1964,
+      "volume": "Gallia Préhistoire, 7",
+      "first_page": "93",
+      "last_page": "94",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1964_num_7_1_2186",
+      "doi": "10.3406/galip.1964.2186"
+    },
+    {
+      "id": "heurist:1519:73:42041",
+      "journal": "gallia_prehistoire",
+      "title": "Les stèles anthropomorphes du musée Calvet d'Avignon",
+      "year": 1963,
+      "volume": "Gallia Préhistoire, 6",
+      "first_page": "31",
+      "last_page": "62",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1963_num_6_1_1221",
+      "doi": "10.3406/galip.1963.1221"
+    },
+    {
+      "id": "heurist:1519:73:42043",
+      "journal": "gallia_prehistoire",
+      "title": "Les campaniformes français : état actuel des recherches et perspectives",
+      "year": 1963,
+      "volume": "Gallia Préhistoire, 6",
+      "first_page": "63",
+      "last_page": "128",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1963_num_6_1_1222",
+      "doi": "10.3406/galip.1963.1222"
+    },
+    {
+      "id": "heurist:1519:73:42047",
+      "journal": "gallia_prehistoire",
+      "title": "L'habitat du Bronze final IIIb de Lombren à Vénéjan (Gard)",
+      "year": 1989,
+      "volume": "Gallia Préhistoire, 31",
+      "first_page": "191",
+      "last_page": "207",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1989_num_31_1_2350",
+      "doi": "10.3406/galip.1989.2350"
+    },
+    {
+      "id": "heurist:1519:73:42053",
+      "journal": "gallia_prehistoire",
+      "title": "Les inhumations et les dépôts d’animaux en fosses circulaires du Néolithique récent du sud de la plaine du Rhin supérieur",
+      "year": 2010,
+      "volume": "Gallia Préhistoire, 52",
+      "first_page": "61",
+      "last_page": "116",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2010_num_52_1_2471",
+      "doi": "10.3406/galip.2010.2471"
+    },
+    {
+      "id": "heurist:1519:73:42061",
+      "journal": "gallia_prehistoire",
+      "title": "Pour réécrire la fin du Néolithique dans le sud-est de la France : bilan critique sur cent années d’études",
+      "year": 2010,
+      "volume": "Gallia Préhistoire, 52",
+      "first_page": "241",
+      "last_page": "313",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2010_num_52_1_2474",
+      "doi": "10.3406/galip.2010.2474"
+    },
+    {
+      "id": "heurist:1519:73:42064",
+      "journal": "gallia_prehistoire",
+      "title": "Restitution des aires culturelles au Néolithique final dans le sud-est de la France : dynamiques de formation et d’évolution des styles céramiques",
+      "year": 2011,
+      "volume": "Gallia Préhistoire, 53",
+      "first_page": "85",
+      "last_page": "202",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2011_num_53_1_2488",
+      "doi": "10.3406/galip.2011.2488"
+    },
+    {
+      "id": "heurist:1519:73:42067",
+      "journal": "gallia_prehistoire",
+      "title": "Mégalithismes en France : nouveaux acquis et nouvelles perspectives de recherche",
+      "year": 2011,
+      "volume": "Gallia Préhistoire, 53",
+      "first_page": "289",
+      "last_page": "334",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2011_num_53_1_2490",
+      "doi": "10.3406/galip.2011.2490"
+    },
+    {
+      "id": "heurist:1519:73:42072",
+      "journal": "gallia_prehistoire",
+      "title": "Une inhumation sous tumulus de l’âge du Bronze et une occupation de la fin du Néolithique à Gonesse, La Fosse aux Larrons (Val-d’Oise)",
+      "year": 2012,
+      "volume": "Gallia Préhistoire, 54",
+      "first_page": "239",
+      "last_page": "289",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2012_num_54_1_2496",
+      "doi": "10.3406/galip.2012.2496"
+    },
+    {
+      "id": "heurist:1519:73:42084",
+      "journal": "gallia_prehistoire",
+      "title": "Économie des combustibles (bois et lignite) dans l'abri moustérien des Canalettes : l'expérimentation à la simulation des besoins énergétiques",
+      "year": 2000,
+      "volume": "Gallia Préhistoire, 42",
+      "first_page": "45",
+      "last_page": "55",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2000_num_42_1_2169",
+      "doi": "10.3406/galip.2000.2169"
+    },
+    {
+      "id": "heurist:1519:73:42087",
+      "journal": "gallia_prehistoire",
+      "title": "Le Paléolithique moyen de la grotte de Rigabe (Artigues, Var)",
+      "year": 1960,
+      "volume": "Gallia Préhistoire, 3",
+      "first_page": "1",
+      "last_page": "46",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1960_num_3_1_1166",
+      "doi": "10.3406/galip.1960.1166"
+    },
+    {
+      "id": "heurist:1519:73:42088",
+      "journal": "gallia_prehistoire",
+      "title": "Animaux domestiques, bêtes sauvages et objets en matières animales du Rubané au Michelsberg : de l'économie aux symboles, des techniques à la culture",
+      "year": 2000,
+      "volume": "Gallia Préhistoire, 42",
+      "first_page": "107",
+      "last_page": "194",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2000_num_42_1_2172",
+      "doi": "10.3406/galip.2000.2172"
+    },
+    {
+      "id": "heurist:1519:73:42094",
+      "journal": "gallia_prehistoire",
+      "title": "Le tumulus C de Péré à Prissé-la-Charrière (Deux-Sèvres) : état des recherches après 6 années d'intervention",
+      "year": 2002,
+      "volume": "Gallia Préhistoire, 44",
+      "first_page": "167",
+      "last_page": "214",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2002_num_44_1_2034",
+      "doi": "10.3406/galip.2002.2034"
+    },
+    {
+      "id": "heurist:1519:73:42095",
+      "journal": "gallia_prehistoire",
+      "title": "Outils, armes et parures en os funéraires à la fin du Néolithique d'après Val-de-Reuil et Porte-Joie (Eure) : représentations individuelles et pratiques collectives",
+      "year": 2002,
+      "volume": "Gallia Préhistoire, 44",
+      "first_page": "215",
+      "last_page": "230",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2002_num_44_1_2035",
+      "doi": "10.3406/galip.2002.2035"
+    },
+    {
+      "id": "heurist:1519:73:42108",
+      "journal": "gallia_prehistoire",
+      "title": "Conservation, traitement et consommation des produits végétaux dans la grotte chalcolithique de Foissac (Aveyron) : les données carpologiques",
+      "year": 2005,
+      "volume": "Gallia Préhistoire, 47",
+      "first_page": "147",
+      "last_page": "165",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2005_num_47_1_2048",
+      "doi": "10.3406/galip.2005.2048"
+    },
+    {
+      "id": "heurist:1519:73:42112",
+      "journal": "gallia_prehistoire",
+      "title": "Propriétés combustibles des ossements : données expérimentales et réflexions archéologiques sur leur emploi dans les sites paléolithiques",
+      "year": 2005,
+      "volume": "Gallia Préhistoire, 47",
+      "first_page": "235",
+      "last_page": "254",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2005_num_47_1_2051",
+      "doi": "10.3406/galip.2005.2051"
+    },
+    {
+      "id": "heurist:1519:73:42113",
+      "journal": "gallia_prehistoire",
+      "title": "De l’exploitation des chevaux aux stratégies de subsistance des Magdaléniens du Bassin parisien",
+      "year": 2006,
+      "volume": "Gallia Préhistoire, 48",
+      "first_page": "181",
+      "last_page": "206",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2006_num_48_1_2450",
+      "doi": "10.3406/galip.2006.2450"
+    },
+    {
+      "id": "heurist:1519:73:42130",
+      "journal": "gallia_prehistoire",
+      "title": "Diversité des pratiques funéraires et espaces sépulcraux sectorisés au Chasséen ancien sur le site du Crès à Béziers (Hérault) : croisements de données archéologiques et anthropologiques",
+      "year": 2009,
+      "volume": "Gallia Préhistoire, 51",
+      "first_page": "245",
+      "last_page": "272",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2009_num_51_1_2480",
+      "doi": "10.3406/galip.2009.2480"
+    },
+    {
+      "id": "heurist:1519:73:42169",
+      "journal": "gallia_prehistoire",
+      "title": "Éditorial",
+      "year": 2012,
+      "volume": "Gallia Préhistoire, 54",
+      "first_page": "1",
+      "last_page": "1",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2012_num_54_1_2491",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:42170",
+      "journal": "gallia_prehistoire",
+      "title": "Éditorial",
+      "year": 2016,
+      "volume": "Gallia Préhistoire, 56",
+      "first_page": "1",
+      "last_page": "2",
+      "url": "https://journals.openedition.org/galliap/428",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:42171",
+      "journal": "gallia_prehistoire",
+      "title": "Éditorial",
+      "year": 2013,
+      "volume": "Gallia Préhistoire, 55",
+      "first_page": "1",
+      "last_page": "1",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2013_num_55_1_2497",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:42176",
+      "journal": "gallia_prehistoire",
+      "title": "La caverne de la Grande-Baume (commune de Gémenos, Bouches-du-Rhône)",
+      "year": 1962,
+      "volume": "Gallia Préhistoire, 5-1",
+      "first_page": "145",
+      "last_page": "157",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1962_num_5_1_1206",
+      "doi": "10.3406/galip.1962.1206"
+    },
+    {
+      "id": "heurist:1519:73:42181",
+      "journal": "gallia_prehistoire",
+      "title": "La grotte de l'Église, à Baudinard (Var)",
+      "year": 1967,
+      "volume": "Gallia Préhistoire, 10-2",
+      "first_page": "282",
+      "last_page": "300",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1967_num_10_2_1293",
+      "doi": "10.3406/galip.1967.1293"
+    },
+    {
+      "id": "heurist:1519:73:42208",
+      "journal": "gallia_prehistoire",
+      "title": "La station du Pilon-du-Roy à Allauch (Bouches-du-Rhône)",
+      "year": 1960,
+      "volume": "Gallia Préhistoire, 3",
+      "first_page": "143",
+      "last_page": "149",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1960_num_3_1_1171",
+      "doi": "10.3406/galip.1960.1171"
+    },
+    {
+      "id": "heurist:1519:73:42212",
+      "journal": "gallia_prehistoire",
+      "title": "Le gisement moustérien d'Artenac à Saint-Mary (Charente) : étude préliminaire",
+      "year": 1977,
+      "volume": "Gallia Préhistoire, 20-1",
+      "first_page": "281",
+      "last_page": "291",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1977_num_20_1_1562",
+      "doi": "10.3406/galip.1977.1562"
+    },
+    {
+      "id": "heurist:1519:73:42219",
+      "journal": "gallia_prehistoire",
+      "title": "Une nouvelle grotte sépulcrale : l'Aven de Gage, à Allauch (Bouches-du-Rhône)",
+      "year": 1960,
+      "volume": "Gallia Préhistoire, 3",
+      "first_page": "149",
+      "last_page": "156",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1960_num_3_1_1172",
+      "doi": "10.3406/galip.1960.1172"
+    },
+    {
+      "id": "heurist:1519:73:42228",
+      "journal": "gallia_prehistoire",
+      "title": "Une grotte sépulcrale du bronze moyen en Languedoc : la grotte au collier, commune de Lastours (Aude)",
+      "year": 1963,
+      "volume": "Gallia Préhistoire, 6",
+      "first_page": "149",
+      "last_page": "163",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1963_num_6_1_1226",
+      "doi": "10.3406/galip.1963.1226"
+    },
+    {
+      "id": "heurist:1519:73:42230",
+      "journal": "gallia_prehistoire",
+      "title": "Pointes foliacées moustériennes dans le Midi de la France (Baume-Bonne, Quinson, Basses-Alpes)",
+      "year": 1961,
+      "volume": "Gallia Préhistoire, 4",
+      "first_page": "165",
+      "last_page": "174",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1961_num_4_1_1187",
+      "doi": "10.3406/galip.1961.1187"
+    },
+    {
+      "id": "heurist:1519:73:42239",
+      "journal": "gallia_prehistoire",
+      "title": "La sépulture chalcolithique du Perpétairi à Mollans (Drôme)",
+      "year": 1961,
+      "volume": "Gallia Préhistoire, 4",
+      "first_page": "192",
+      "last_page": "205",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1961_num_4_1_1190",
+      "doi": "10.3406/galip.1961.1190"
+    },
+    {
+      "id": "heurist:1519:73:42258",
+      "journal": "gallia_prehistoire",
+      "title": "III. Les obsidiennes à l'ouest du Rhône",
+      "year": 1994,
+      "volume": "Gallia Préhistoire, 36",
+      "first_page": "323",
+      "last_page": "327",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1994_num_36_1_2131",
+      "doi": "10.3406/galip.1994.2131"
+    },
+    {
+      "id": "heurist:1519:73:42277",
+      "journal": "gallia_prehistoire",
+      "title": "IV. Les animaux domestiques des fosses-silos",
+      "year": 1989,
+      "volume": "Gallia Préhistoire, 31",
+      "first_page": "139",
+      "last_page": "158",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1989_num_31_1_2270",
+      "doi": "10.3406/galip.1989.2270"
+    },
+    {
+      "id": "heurist:1519:73:42283",
+      "journal": "gallia_prehistoire",
+      "title": "II. Sols et vestiges osseux",
+      "year": 1988,
+      "volume": "Gallia Préhistoire, 30",
+      "first_page": "164",
+      "last_page": "166",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1987_num_30_1_2376",
+      "doi": "10.3406/galip.1987.2376"
+    },
+    {
+      "id": "heurist:1519:73:42288",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude archéologique",
+      "year": 1988,
+      "volume": "Gallia Préhistoire, 30",
+      "first_page": "119",
+      "last_page": "143",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1987_num_30_1_2370",
+      "doi": "10.3406/galip.1987.2370"
+    },
+    {
+      "id": "heurist:1519:73:42293",
+      "journal": "gallia_prehistoire",
+      "title": "III. Analyse paléocarpologique d'une empreinte",
+      "year": 1986,
+      "volume": "Gallia Préhistoire, 29-1",
+      "first_page": "191",
+      "last_page": "191",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1986_num_29_1_2247",
+      "doi": "10.3406/galip.1986.2247"
+    },
+    {
+      "id": "heurist:1519:73:42301",
+      "journal": "gallia_prehistoire",
+      "title": "II. Faune et céréales de la grotte 1 de Sargel à Saint-Rome-de-Cernon (Aveyron)",
+      "year": 1984,
+      "volume": "Gallia Préhistoire, 27-1",
+      "first_page": "211",
+      "last_page": "228",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1984_num_27_1_1930",
+      "doi": "10.3406/galip.1984.1930"
+    },
+    {
+      "id": "heurist:1519:73:42307",
+      "journal": "gallia_prehistoire",
+      "title": "I. Présentation",
+      "year": 1967,
+      "volume": "Gallia Préhistoire, 10-1",
+      "first_page": "75",
+      "last_page": "136",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1967_num_10_1_2193",
+      "doi": "10.3406/galip.1967.2193"
+    },
+    {
+      "id": "heurist:1519:73:42311",
+      "journal": "gallia_prehistoire",
+      "title": "II. Le milieu",
+      "year": 1984,
+      "volume": "Gallia Préhistoire, 27-1",
+      "first_page": "41",
+      "last_page": "65",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1984_num_27_1_1918",
+      "doi": "10.3406/galip.1984.1918"
+    },
+    {
+      "id": "heurist:1519:73:42317",
+      "journal": "gallia_prehistoire",
+      "title": "II. La faune",
+      "year": 1980,
+      "volume": "Gallia Préhistoire, 23-1",
+      "first_page": "229",
+      "last_page": "232",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1980_num_23_1_1651",
+      "doi": "10.3406/galip.1980.1651"
+    },
+    {
+      "id": "heurist:1519:73:42318",
+      "journal": "gallia_prehistoire",
+      "title": "II. Études des vestiges osseux de la sépulture I",
+      "year": 1967,
+      "volume": "Gallia Préhistoire, 10-1",
+      "first_page": "137",
+      "last_page": "139",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1967_num_10_1_1285",
+      "doi": "10.3406/galip.1967.1285"
+    },
+    {
+      "id": "heurist:1519:73:42323",
+      "journal": "gallia_prehistoire",
+      "title": "II. L'environnement",
+      "year": 1980,
+      "volume": "Gallia Préhistoire, 23-1",
+      "first_page": "143",
+      "last_page": "144",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1980_num_23_1_1642",
+      "doi": "10.3406/galip.1980.1642"
+    },
+    {
+      "id": "heurist:1519:73:42333",
+      "journal": "gallia_prehistoire",
+      "title": "Datations radiocarbone",
+      "year": 1999,
+      "volume": "Gallia Préhistoire, 41",
+      "first_page": "10",
+      "last_page": "12",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1999_num_41_1_2339",
+      "doi": "10.3406/galip.1999.2339"
+    },
+    {
+      "id": "heurist:1519:73:42340",
+      "journal": "gallia_prehistoire",
+      "title": "IV. Sépulture II : le milieu",
+      "year": 1967,
+      "volume": "Gallia Préhistoire, 10-1",
+      "first_page": "156",
+      "last_page": "167",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1967_num_10_1_1287",
+      "doi": "10.3406/galip.1967.1287"
+    },
+    {
+      "id": "heurist:1519:73:42348",
+      "journal": "gallia_prehistoire",
+      "title": "Étude archéozoologique de l’unité T125 : originalité de la chasse des rennes et des chevaux",
+      "year": 2006,
+      "volume": "Gallia Préhistoire, 48",
+      "first_page": "18",
+      "last_page": "35",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2006_num_48_1_2433",
+      "doi": "10.3406/galip.2006.2433"
+    },
+    {
+      "id": "heurist:1519:73:42359",
+      "journal": "gallia_prehistoire",
+      "title": "Répartition des témoins animaux : une gestion de l’espace rythmée par les saisons ?",
+      "year": 2006,
+      "volume": "Gallia Préhistoire, 48",
+      "first_page": "134",
+      "last_page": "135",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2006_num_48_1_2444",
+      "doi": "10.3406/galip.2006.2444"
+    },
+    {
+      "id": "heurist:1519:73:42372",
+      "journal": "gallia_prehistoire",
+      "title": "II. Étude de la faune",
+      "year": 1974,
+      "volume": "Gallia Préhistoire, 17-1",
+      "first_page": "215",
+      "last_page": "217",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1974_num_17_1_1465",
+      "doi": "10.3406/galip.1974.1465"
+    },
+    {
+      "id": "heurist:1519:73:42376",
+      "journal": "gallia_prehistoire",
+      "title": "III. Étude de la faune",
+      "year": 1971,
+      "volume": "Gallia Préhistoire, 14-1",
+      "first_page": "121",
+      "last_page": "131",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1971_num_14_1_1380",
+      "doi": "10.3406/galip.1971.1380"
+    },
+    {
+      "id": "heurist:1519:73:42385",
+      "journal": "gallia_prehistoire",
+      "title": "IV. Étude de la faune",
+      "year": 1972,
+      "volume": "Gallia Préhistoire, 15-1",
+      "first_page": "129",
+      "last_page": "135",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1972_num_15_1_1409",
+      "doi": "10.3406/galip.1972.1409"
+    },
+    {
+      "id": "heurist:1519:73:42391",
+      "journal": "gallia_prehistoire",
+      "title": "II. Étude de la faune",
+      "year": 1972,
+      "volume": "Gallia Préhistoire, 15-2",
+      "first_page": "309",
+      "last_page": "322",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1972_num_15_2_1417",
+      "doi": "10.3406/galip.1972.1417"
+    },
+    {
+      "id": "heurist:1519:73:42396",
+      "journal": "gallia_prehistoire",
+      "title": "II. Analyses de laboratoire",
+      "year": 1973,
+      "volume": "Gallia Préhistoire, 16-1",
+      "first_page": "195",
+      "last_page": "200",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1973_num_16_1_1442",
+      "doi": "10.3406/galip.1973.1442"
+    },
+    {
+      "id": "heurist:1519:73:42409",
+      "journal": "gallia_prehistoire",
+      "title": "V. Étude de la faune",
+      "year": 1976,
+      "volume": "Gallia Préhistoire, 19-1",
+      "first_page": "61",
+      "last_page": "67",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1976_num_19_1_1519",
+      "doi": "10.3406/galip.1976.1519"
+    },
+    {
+      "id": "heurist:1519:73:42415",
+      "journal": "gallia_prehistoire",
+      "title": "III. Analyse fonctionnelle des outillages de pierre",
+      "year": 1995,
+      "volume": "Gallia Préhistoire, 37",
+      "first_page": "287",
+      "last_page": "316",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1995_num_37_1_2140",
+      "doi": "10.3406/galip.1995.2140"
+    },
+    {
+      "id": "heurist:1519:73:42420",
+      "journal": "gallia_prehistoire",
+      "title": "II. Étude de la faune",
+      "year": 1977,
+      "volume": "Gallia Préhistoire, 20-1",
+      "first_page": "83",
+      "last_page": "89",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1977_num_20_1_2207",
+      "doi": "10.3406/galip.1977.2207"
+    },
+    {
+      "id": "heurist:1519:73:42427",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude archéologique",
+      "year": 1977,
+      "volume": "Gallia Préhistoire, 20-1",
+      "first_page": "229",
+      "last_page": "269",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1977_num_20_1_1559",
+      "doi": "10.3406/galip.1977.1559"
+    },
+    {
+      "id": "heurist:1519:73:42431",
+      "journal": "gallia_prehistoire",
+      "title": "III. Le site paléolithique du Terrier (suite)",
+      "year": 1978,
+      "volume": "Gallia Préhistoire, 21-1",
+      "first_page": "47",
+      "last_page": "89",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1978_num_21_1_1583",
+      "doi": "10.3406/galip.1978.1583"
+    },
+    {
+      "id": "heurist:1519:73:42435",
+      "journal": "gallia_prehistoire",
+      "title": "II. Étude des vestiges osseux de la cabane 11",
+      "year": 1978,
+      "volume": "Gallia Préhistoire, 21-1",
+      "first_page": "183",
+      "last_page": "188",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1978_num_21_1_1589",
+      "doi": "10.3406/galip.1978.1589"
+    },
+    {
+      "id": "heurist:1519:73:42436",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude archéologique",
+      "year": 1978,
+      "volume": "Gallia Préhistoire, 21-1",
+      "first_page": "189",
+      "last_page": "206",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1978_num_21_1_1591",
+      "doi": "10.3406/galip.1978.1591"
+    },
+    {
+      "id": "heurist:1519:73:42455",
+      "journal": "gallia_prehistoire",
+      "title": "[Annexe V] Résultats de l'analyse anthracologique",
+      "year": 1994,
+      "volume": "Gallia Préhistoire, 36",
+      "first_page": "140",
+      "last_page": "144",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1994_num_36_1_2105",
+      "doi": "10.3406/galip.1994.2105"
+    },
+    {
+      "id": "heurist:1519:73:42517",
+      "journal": "gallia",
+      "title": "Un plomb inscrit de Saint-Couat-d’Aude (Aude) : des pérégrins sur le territoire de Narbonne",
+      "year": 2021,
+      "volume": "Gallia, 78",
+      "first_page": "219",
+      "last_page": "226",
+      "url": "https://journals.openedition.org/gallia/6278",
+      "doi": "10.4000/gallia.6278"
+    },
+    {
+      "id": "heurist:1519:73:42520",
+      "journal": "gallia",
+      "title": "Les fours « à pain » dans les Gaules et les Germanies (Ve s. av. J.-C.-Ve s. apr. J.-C.), un regard technique",
+      "year": 2021,
+      "volume": "Gallia, 78",
+      "first_page": "227",
+      "last_page": "259",
+      "url": "https://journals.openedition.org/gallia/6288",
+      "doi": "10.4000/gallia.6288"
+    },
+    {
+      "id": "heurist:1519:73:42521",
+      "journal": "gallia",
+      "title": "Contribution à l’histoire de la boulangerie romaine : étude de « pains/galettes » découverts en Gaule",
+      "year": 2021,
+      "volume": "Gallia, 78",
+      "first_page": "261",
+      "last_page": "296",
+      "url": "https://journals.openedition.org/gallia/6298",
+      "doi": "10.4000/gallia.6298"
+    },
+    {
+      "id": "heurist:1519:73:42720",
+      "journal": "gallia",
+      "title": "L’infanticide féminin en question chez les Gaulois du Midi : l’apport des analyses ADN sur les nouveau-nés enterrés dans les habitats de l’âge du Fer",
+      "year": 2022,
+      "volume": "Gallia, 79-2",
+      "first_page": "27",
+      "last_page": "46",
+      "url": "https://journals.openedition.org/gallia/6693",
+      "doi": "10.4000/gallia.6693"
+    },
+    {
+      "id": "heurist:1519:73:42756",
+      "journal": "gallia",
+      "title": "La flore sauvage du boulevard Dr Henri-Henrot à Reims/Durocortorum : approche carpologique de l’environnement du site et des productions de denrées végétales",
+      "year": 2022,
+      "volume": "Gallia, 79-1",
+      "first_page": "69",
+      "last_page": "83",
+      "url": "https://journals.openedition.org/gallia/6574",
+      "doi": "10.4000/gallia.6574"
+    },
+    {
+      "id": "heurist:1519:73:42770",
+      "journal": "gallia",
+      "title": "Économie végétale à partir des études carpologiques du boulevard Dr Henri-Henrot à Reims/Durocortorum",
+      "year": 2022,
+      "volume": "Gallia, 79-1",
+      "first_page": "293",
+      "last_page": "300",
+      "url": "https://journals.openedition.org/gallia/6584",
+      "doi": "10.4000/gallia.6584"
+    },
+    {
+      "id": "heurist:1519:73:42856",
+      "journal": "gallia",
+      "title": "La mise en œuvre d’un aqueduc : l’exemple de la Brévenne à Lyon",
+      "year": 2023,
+      "volume": "Gallia, 80-1",
+      "first_page": "127",
+      "last_page": "144",
+      "url": "https://journals.openedition.org/gallia/8450",
+      "doi": "10.4000/11ucy"
+    },
+    {
+      "id": "heurist:1519:73:42868",
+      "journal": "gallia",
+      "title": "Analyse des terres cuites architecturales de l’aqueduc de Nyon/Colonia Iulia Equestris (Suisse)",
+      "year": 2023,
+      "volume": "Gallia, 80-1",
+      "first_page": "275",
+      "last_page": "281",
+      "url": "https://journals.openedition.org/gallia/8565",
+      "doi": "10.4000/11ud9"
+    },
+    {
+      "id": "heurist:1519:73:42873",
+      "journal": "gallia",
+      "title": "Trois monnaies en contexte « aqueduc » à Lyon à l’épreuve de la numismatique et de l’archéologie",
+      "year": 2023,
+      "volume": "Gallia, 80-1",
+      "first_page": "327",
+      "last_page": "332",
+      "url": "https://journals.openedition.org/gallia/8615",
+      "doi": "10.4000/11udf"
+    },
+    {
+      "id": "heurist:1519:73:43036",
+      "journal": "gallia",
+      "title": "L’occupation polynucléaire des villes de Gaule narbonnaise durant l’Antiquité tardive : quelques exemples provençaux",
+      "year": 2025,
+      "volume": "Gallia, 82",
+      "first_page": "123",
+      "last_page": "134",
+      "url": "https://journals.openedition.org/gallia/9463",
+      "doi": "10.4000/15h46"
+    },
+    {
+      "id": "heurist:1519:73:43049",
+      "journal": "gallia",
+      "title": "Autun durant l’Antiquité tardive : naissance d’une ville multipolaire",
+      "year": 2025,
+      "volume": "Gallia, 82",
+      "first_page": "209",
+      "last_page": "236",
+      "url": "https://journals.openedition.org/gallia/9547",
+      "doi": "10.4000/15h4b"
+    },
+    {
+      "id": "heurist:1519:73:43050",
+      "journal": "gallia",
+      "title": "La topographie de Sens et de Troyes durant l’Antiquité tardive",
+      "year": 2025,
+      "volume": "Gallia, 82",
+      "first_page": "237",
+      "last_page": "254",
+      "url": "https://journals.openedition.org/gallia/9568",
+      "doi": "10.4000/15h4c"
+    },
+    {
+      "id": "heurist:1519:73:43191",
+      "journal": "gallia_prehistoire",
+      "title": "Nouvelles données sur le début du Néolithique dans la Haute vallée du Rhône : le site des Anciens Arsenaux à Sion (Valais, Suisse)",
+      "year": 2025,
+      "volume": "Gallia Préhistoire, 65",
+      "first_page": null,
+      "last_page": null,
+      "url": "https://journals.openedition.org/galliap/5430",
+      "doi": "10.4000/14lia"
+    },
+    {
+      "id": "heurist:1519:73:43199",
+      "journal": "gallia_prehistoire",
+      "title": "Éditorial",
+      "year": 2022,
+      "volume": "Gallia Préhistoire, 62",
+      "first_page": "5",
+      "last_page": "6",
+      "url": "https://journals.openedition.org/galliap/3365",
+      "doi": "10.4000/galliap.3365"
+    },
+    {
+      "id": "heurist:1519:73:43208",
+      "journal": "gallia_prehistoire",
+      "title": "Occupation et gestion du territoire bergeracois entre 250 et 35 kA : essai de synthèse techno-économique",
+      "year": 2022,
+      "volume": "Gallia Préhistoire, 62",
+      "first_page": "153",
+      "last_page": "214",
+      "url": "https://journals.openedition.org/galliap/3169",
+      "doi": "10.4000/galliap.3169"
     }
   ],
   "contributions": [
@@ -7890,6 +9991,2004 @@
       "person_id": "PER-000239",
       "role": "auteur",
       "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:703",
+      "person_id": "PER-000321",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1399",
+      "person_id": "PER-000321",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:449",
+      "person_id": "PER-000320",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:475",
+      "person_id": "PER-000320",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:237",
+      "person_id": "PER-000254",
+      "role": "collaborateur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:456",
+      "person_id": "PER-000254",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42136",
+      "person_id": "PER-000254",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42981",
+      "person_id": "PER-000254",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:479",
+      "person_id": "PER-000316",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:491",
+      "person_id": "PER-000316",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:513",
+      "person_id": "PER-000316",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:516",
+      "person_id": "PER-000316",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:1367",
+      "person_id": "PER-000316",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:334",
+      "person_id": "PER-000263",
+      "role": "collaborateur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:1132",
+      "person_id": "PER-000263",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:527",
+      "person_id": "PER-000302",
+      "role": "collaborateur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:529",
+      "person_id": "PER-000303",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:306",
+      "person_id": "PER-000304",
+      "role": "collaborateur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-000300",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:274",
+      "person_id": "PER-000305",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:792",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:839",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4786",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4787",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4788",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4789",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4790",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:4813",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41639",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41698",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41715",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41725",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41734",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41755",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41770",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42041",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42181",
+      "person_id": "PER-000312",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42317",
+      "person_id": "PER-000312",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:296",
+      "person_id": "PER-000253",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:324",
+      "person_id": "PER-000253",
+      "role": "collaborateur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:447",
+      "person_id": "PER-000253",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43224",
+      "person_id": "PER-000253",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:494",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 12
+    },
+    {
+      "article_id": "heurist:1519:73:1086",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1189",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41923",
+      "person_id": "PER-000245",
+      "role": "collaborateur",
+      "position_in_role": 10
+    },
+    {
+      "article_id": "heurist:1519:73:41939",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:42108",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42293",
+      "person_id": "PER-000245",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:403",
+      "person_id": "PER-000246",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:618",
+      "person_id": "PER-000246",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1086",
+      "person_id": "PER-000246",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1087",
+      "person_id": "PER-000246",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1490",
+      "person_id": "PER-000246",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42108",
+      "person_id": "PER-000246",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42115",
+      "person_id": "PER-000246",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:512",
+      "person_id": "PER-000299",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1366",
+      "person_id": "PER-000299",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:283",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:479",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:491",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:500",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:504",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:513",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:516",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:525",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1015",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1033",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1367",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1447",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42089",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42092",
+      "person_id": "PER-000243",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:470",
+      "person_id": "PER-000306",
+      "role": "auteur",
+      "position_in_role": 10
+    },
+    {
+      "article_id": "heurist:1519:73:738",
+      "person_id": "PER-000306",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:873",
+      "person_id": "PER-000306",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-000306",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42897",
+      "person_id": "PER-000306",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42903",
+      "person_id": "PER-000306",
+      "role": "collaborateur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:277",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1009",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1048",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1275",
+      "person_id": "PER-000259",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1399",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1501",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1558",
+      "person_id": "PER-000259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:378",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:688",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:785",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:844",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:968",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1153",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1278",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1403",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1478",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1553",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42517",
+      "person_id": "PER-000267",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:471",
+      "person_id": "PER-000270",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:634",
+      "person_id": "PER-000270",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:872",
+      "person_id": "PER-000270",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:988",
+      "person_id": "PER-000270",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1550",
+      "person_id": "PER-000270",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:358",
+      "person_id": "PER-000273",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:445",
+      "person_id": "PER-000273",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1272",
+      "person_id": "PER-000273",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1375",
+      "person_id": "PER-000273",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:247",
+      "person_id": "PER-000281",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1055",
+      "person_id": "PER-000281",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:378",
+      "person_id": "PER-000280",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:742",
+      "person_id": "PER-000280",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:526",
+      "person_id": "PER-000276",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1195",
+      "person_id": "PER-000276",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:256",
+      "person_id": "PER-000261",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-000261",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:640",
+      "person_id": "PER-000261",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:979",
+      "person_id": "PER-000261",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1259",
+      "person_id": "PER-000261",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:223",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:355",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:368",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:402",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:405",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:418",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:446",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:512",
+      "person_id": "PER-000244",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:610",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:885",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:915",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1187",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1331",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1446",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1473",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41983",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42047",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42436",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42720",
+      "person_id": "PER-000244",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-000264",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:1193",
+      "person_id": "PER-000264",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:316",
+      "person_id": "PER-000258",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:346",
+      "person_id": "PER-000258",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:496",
+      "person_id": "PER-000258",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:522",
+      "person_id": "PER-000258",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1065",
+      "person_id": "PER-000258",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42895",
+      "person_id": "PER-000258",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42981",
+      "person_id": "PER-000258",
+      "role": "auteur",
+      "position_in_role": 14
+    },
+    {
+      "article_id": "heurist:1519:73:222",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:256",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:533",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 11
+    },
+    {
+      "article_id": "heurist:1519:73:979",
+      "person_id": "PER-000256",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1024",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1250",
+      "person_id": "PER-000256",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:1259",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1476",
+      "person_id": "PER-000256",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:942",
+      "person_id": "PER-000279",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1355",
+      "person_id": "PER-000279",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:268",
+      "person_id": "PER-000265",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:995",
+      "person_id": "PER-000265",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:335",
+      "person_id": "PER-000266",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1268",
+      "person_id": "PER-000266",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:496",
+      "person_id": "PER-000260",
+      "role": "collaborateur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:618",
+      "person_id": "PER-000260",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42521",
+      "person_id": "PER-000260",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42756",
+      "person_id": "PER-000260",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42770",
+      "person_id": "PER-000260",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42771",
+      "person_id": "PER-000260",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:256",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:482",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:895",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:980",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1250",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1432",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43033",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:43049",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43050",
+      "person_id": "PER-000268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:268",
+      "person_id": "PER-000247",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41958",
+      "person_id": "PER-000247",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42305",
+      "person_id": "PER-000247",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42963",
+      "person_id": "PER-000247",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:409",
+      "person_id": "PER-000274",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:427",
+      "person_id": "PER-000274",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:1134",
+      "person_id": "PER-000274",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:288",
+      "person_id": "PER-000255",
+      "role": "collaborateur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:323",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:545",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:735",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:783",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:877",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1088",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1119",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43036",
+      "person_id": "PER-000255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1140",
+      "person_id": "PER-000271",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1558",
+      "person_id": "PER-000271",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42520",
+      "person_id": "PER-000271",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42521",
+      "person_id": "PER-000271",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:951",
+      "person_id": "PER-000322",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:245",
+      "person_id": "PER-000319",
+      "role": "auteur",
+      "position_in_role": 15
+    },
+    {
+      "article_id": "heurist:1519:73:1316",
+      "person_id": "PER-000319",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1275",
+      "person_id": "PER-000278",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1478",
+      "person_id": "PER-000278",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:315",
+      "person_id": "PER-000277",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1133",
+      "person_id": "PER-000277",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:533",
+      "person_id": "PER-000282",
+      "role": "auteur",
+      "position_in_role": 13
+    },
+    {
+      "article_id": "heurist:1519:73:924",
+      "person_id": "PER-000282",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:403",
+      "person_id": "PER-000249",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1087",
+      "person_id": "PER-000249",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1226",
+      "person_id": "PER-000249",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42066",
+      "person_id": "PER-000249",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:988",
+      "person_id": "PER-000248",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42043",
+      "person_id": "PER-000248",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42228",
+      "person_id": "PER-000248",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42258",
+      "person_id": "PER-000248",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:358",
+      "person_id": "PER-000301",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1013",
+      "person_id": "PER-000315",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:783",
+      "person_id": "PER-000275",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1226",
+      "person_id": "PER-000275",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:246",
+      "person_id": "PER-000251",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42057",
+      "person_id": "PER-000251",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:372",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:535",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:662",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1224",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1369",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42868",
+      "person_id": "PER-000269",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:355",
+      "person_id": "PER-000250",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:41786",
+      "person_id": "PER-000250",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43191",
+      "person_id": "PER-000288",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:43196",
+      "person_id": "PER-000288",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42106",
+      "person_id": "PER-000297",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:43200",
+      "person_id": "PER-000297",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:41576",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41597",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41638",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41788",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41936",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:41996",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42176",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42181",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42208",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42219",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42239",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42257",
+      "person_id": "PER-000313",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42288",
+      "person_id": "PER-000313",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42300",
+      "person_id": "PER-000307",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41925",
+      "person_id": "PER-000318",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42087",
+      "person_id": "PER-000318",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42230",
+      "person_id": "PER-000318",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42028",
+      "person_id": "PER-000284",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42053",
+      "person_id": "PER-000284",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:43191",
+      "person_id": "PER-000284",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:43223",
+      "person_id": "PER-000284",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:42117",
+      "person_id": "PER-000287",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43195",
+      "person_id": "PER-000287",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:41914",
+      "person_id": "PER-000291",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42049",
+      "person_id": "PER-000291",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42028",
+      "person_id": "PER-000298",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:42788",
+      "person_id": "PER-000298",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:42096",
+      "person_id": "PER-000295",
+      "role": "auteur",
+      "position_in_role": 11
+    },
+    {
+      "article_id": "heurist:1519:73:42333",
+      "person_id": "PER-000295",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42115",
+      "person_id": "PER-000309",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:41958",
+      "person_id": "PER-000283",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42067",
+      "person_id": "PER-000283",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42094",
+      "person_id": "PER-000283",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43195",
+      "person_id": "PER-000283",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42139",
+      "person_id": "PER-000290",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:43193",
+      "person_id": "PER-000290",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:42066",
+      "person_id": "PER-000310",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42307",
+      "person_id": "PER-000308",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42427",
+      "person_id": "PER-000308",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42027",
+      "person_id": "PER-000317",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42113",
+      "person_id": "PER-000317",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42348",
+      "person_id": "PER-000317",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42359",
+      "person_id": "PER-000317",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42361",
+      "person_id": "PER-000317",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42125",
+      "person_id": "PER-000293",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42415",
+      "person_id": "PER-000293",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41933",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:41969",
+      "person_id": "PER-000311",
+      "role": "collaborateur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:42036",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42283",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42301",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42311",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:42318",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42323",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42340",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42372",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42376",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42385",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42391",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42396",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42409",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42420",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42435",
+      "person_id": "PER-000311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42130",
+      "person_id": "PER-000289",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42133",
+      "person_id": "PER-000289",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42084",
+      "person_id": "PER-000286",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42112",
+      "person_id": "PER-000286",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42138",
+      "person_id": "PER-000286",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:41939",
+      "person_id": "PER-000262",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:41951",
+      "person_id": "PER-000262",
+      "role": "auteur",
+      "position_in_role": 9
+    },
+    {
+      "article_id": "heurist:1519:73:42089",
+      "person_id": "PER-000262",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42455",
+      "person_id": "PER-000262",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41578",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41610",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41630",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41653",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41671",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42212",
+      "person_id": "PER-000314",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42431",
+      "person_id": "PER-000314",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:41927",
+      "person_id": "PER-000285",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42169",
+      "person_id": "PER-000285",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42171",
+      "person_id": "PER-000285",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42790",
+      "person_id": "PER-000285",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42061",
+      "person_id": "PER-000292",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42064",
+      "person_id": "PER-000292",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42068",
+      "person_id": "PER-000252",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42981",
+      "person_id": "PER-000252",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:43208",
+      "person_id": "PER-000252",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:43222",
+      "person_id": "PER-000252",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42170",
+      "person_id": "PER-000294",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43199",
+      "person_id": "PER-000294",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42088",
+      "person_id": "PER-000296",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42095",
+      "person_id": "PER-000296",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41923",
+      "person_id": "PER-000257",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42028",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42053",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42070",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42072",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:42277",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42366",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:43196",
+      "person_id": "PER-000257",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42846",
+      "person_id": "PER-000272",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42856",
+      "person_id": "PER-000272",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42869",
+      "person_id": "PER-000272",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42873",
+      "person_id": "PER-000272",
+      "role": "auteur",
+      "position_in_role": 2
     }
   ]
 }
