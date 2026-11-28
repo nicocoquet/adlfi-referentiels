@@ -148,8 +148,8 @@ async function renderWith(optional, status=200, profile=base){
   const realArticles=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/data/personnes-articles.json'),'utf8'));
   const live=await renderWith(realArticles,200,()=>realPeople);
   const liveCards=live.get('#per-cards');
-  assert.equal(liveCards.children.length,322);
-  assert.match(live.get('#per-results').textContent,/322 autorités affichées.*2891 contributions/);
+  assert.equal(liveCards.children.length,442);
+  assert.match(live.get('#per-results').textContent,/442 autorités affichées.*3389 contributions/);
   const newPerson=liveCards.children.find(x=>collectText(x).includes('PER-000203'));
   assert.ok(newPerson,'Une nouvelle autorité bibliographique doit apparaître');
   assert.match(collectText(newPerson),/Christine Oberlin/);
@@ -177,6 +177,19 @@ async function renderWith(optional, status=200, profile=base){
   assert.ok(unlinked1957,'La référence de 1957 sans URL doit être affichée');
   assert.equal(collectNodes(unlinked1957,'a').length,0,
                'La référence de 1957 sans URL ne doit pas recevoir de lien');
-  console.log('OK : interface réelle 322 PER / 2891 contributions, deux pilotes Heurist et articles sans URL');
+  const thirdPilot=liveCards.children.find(x=>collectText(x).includes('PER-000323'));
+  assert.ok(thirdPilot,'La première autorité du troisième pilote Heurist doit apparaître');
+  assert.match(collectText(thirdPilot),/Aurélia Borvon/);
+  assert.match(collectText(thirdPilot),/Gallia/);
+  assert.doesNotMatch(collectText(thirdPilot),/Consulter les notices AdlFI liées/);
+  const thirdNoUrl=liveCards.children.find(x=>collectText(x).includes('PER-000442'));
+  assert.ok(thirdNoUrl,'La dernière autorité du troisième pilote doit apparaître');
+  const missingLinkRef=collectNodes(thirdNoUrl,'li').find(x=>
+    collectText(x).includes('Recherches archéologiques en Gaule en 1954') &&
+    collectText(x).includes('Gallia, 15-3') && collectText(x).includes('1957'));
+  assert.ok(missingLinkRef,'L’article de 1957 sans URL doit être rendu avec sa référence');
+  assert.equal(collectNodes(missingLinkRef,'a').length,0,
+               'L’article sans URL ne doit pas recevoir un lien fabriqué');
+  console.log('OK : interface réelle 442 PER / 3389 contributions, trois pilotes Heurist et références sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
