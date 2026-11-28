@@ -261,7 +261,29 @@ async function renderWith(optional, status=200, profile=base){
   assert.doesNotMatch(collectText(sixthFirst),/Consulter les notices AdlFI liées/);
   assert.doesNotMatch(collectText(sixthLast),/Consulter les notices AdlFI liées/);
   assert.match(collectText(sixthFirst),/Gallia Préhistoire/);
+  // Septième lot : 200 autorités exclusivement bibliographiques, sans notices fictives.
+  const seventhAuthorities=realPeople.authorities.filter(x=>{
+    const num=Number(x.id.replace('PER-',''));
+    return num>=1003 && num<=1202;
+  });
+  assert.equal(seventhAuthorities.length,200);
+  assert.ok(seventhAuthorities.every(x=>x.contributions_count===0));
+  const seventhRelations=realArticles.contributions.filter(x=>{
+    const num=Number(x.person_id.replace('PER-',''));
+    return num>=1003 && num<=1202;
+  });
+  assert.equal(seventhRelations.length,586);
+  assert.equal(seventhRelations.filter(x=>x.role==='auteur').length,545);
+  assert.equal(seventhRelations.filter(x=>x.role==='collaborateur').length,41);
+  const seventhFirst=liveCards.children.find(x=>collectText(x).includes('PER-001003'));
+  const seventhLast=liveCards.children.find(x=>collectText(x).includes('PER-001202'));
+  assert.ok(seventhFirst && seventhLast,'Les autorités extrêmes du septième lot doivent apparaître');
+  assert.match(collectText(seventhFirst),/Guillaume Asselin/);
+  assert.match(collectText(seventhLast),/Sandrine Paradis-Grenouillet/);
+  assert.doesNotMatch(collectText(seventhFirst),/Consulter les notices AdlFI liées/);
+  assert.doesNotMatch(collectText(seventhLast),/Consulter les notices AdlFI liées/);
+  assert.match(collectText(seventhFirst),/Gallia/);
   console.log('OK : interface réelle '+realPeople.totals.authorities+' PER / '+displayContributions+
-              ' contributions, six lots Heurist et références sans URL');
+              ' contributions, sept lots Heurist et références sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
