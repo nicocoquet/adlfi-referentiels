@@ -148,8 +148,15 @@ async function renderWith(optional, status=200, profile=base){
   const realArticles=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/data/personnes-articles.json'),'utf8'));
   const live=await renderWith(realArticles,200,()=>realPeople);
   const liveCards=live.get('#per-cards');
-  assert.equal(liveCards.children.length,442);
-  assert.match(live.get('#per-results').textContent,/442 autorités affichées.*3389 contributions/);
+  // Les effectifs affichés doivent suivre les catalogues publiés et non rester
+  // figés sur le troisième lot ; les jalons antérieurs restent contrôlés ci-dessous.
+  assert.equal(liveCards.children.length,realPeople.totals.authorities);
+  assert.ok(liveCards.children.length>=602,'Le quatrième lot de 160 PER doit rester publié');
+  assert.equal(realPeople.totals.contributions,1980,'Les contributions AdlFI restent constantes');
+  assert.ok(realArticles.totals.contributions>=1960,'Le quatrième lot bibliographique doit rester publié');
+  const displayContributions=realPeople.totals.contributions+realArticles.totals.contributions;
+  assert.match(live.get('#per-results').textContent,
+               new RegExp(realPeople.totals.authorities+' autorités affichées.*'+displayContributions+' contributions'));
   const newPerson=liveCards.children.find(x=>collectText(x).includes('PER-000203'));
   assert.ok(newPerson,'Une nouvelle autorité bibliographique doit apparaître');
   assert.match(collectText(newPerson),/Christine Oberlin/);
@@ -190,6 +197,27 @@ async function renderWith(optional, status=200, profile=base){
   assert.ok(missingLinkRef,'L’article de 1957 sans URL doit être rendu avec sa référence');
   assert.equal(collectNodes(missingLinkRef,'a').length,0,
                'L’article sans URL ne doit pas recevoir un lien fabriqué');
-  console.log('OK : interface réelle 442 PER / 3389 contributions, trois pilotes Heurist et références sans URL');
+  // Quatrième lot : 160 autorités bibliographiques sans création de notice AdlFI.
+  const fourthAuthorities=realPeople.authorities.filter(x=>{
+    const num=Number(x.id.replace('PER-',''));
+    return num>=443 && num<=602;
+  });
+  assert.equal(fourthAuthorities.length,160);
+  assert.ok(fourthAuthorities.every(x=>x.contributions_count===0));
+  const fourthRelations=realArticles.contributions.filter(x=>{
+    const num=Number(x.person_id.replace('PER-',''));
+    return num>=443 && num<=602;
+  });
+  assert.equal(fourthRelations.length,551);
+  const fourthFirst=liveCards.children.find(x=>collectText(x).includes('PER-000443'));
+  assert.ok(fourthFirst,'La première autorité du quatrième lot doit être affichée');
+  assert.match(collectText(fourthFirst),/Yves Desfossés/);
+  assert.doesNotMatch(collectText(fourthFirst),/Consulter les notices AdlFI liées/);
+  const fourthLast=liveCards.children.find(x=>collectText(x).includes('PER-000602'));
+  assert.ok(fourthLast,'La dernière autorité du quatrième lot doit être affichée');
+  assert.match(collectText(fourthLast),/Laurent Klaric/);
+  assert.doesNotMatch(collectText(fourthLast),/Consulter les notices AdlFI liées/);
+  console.log('OK : interface réelle '+realPeople.totals.authorities+' PER / '+displayContributions+
+              ' contributions, quatre pilotes Heurist et références sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
