@@ -2,9 +2,9 @@
   "schema_version": "0.5.0",
   "dataset": "adlfi-referentiels/personnes",
   "publication_status": "PUBLIC_PILOT",
-  "scope_note": "Catalogue pilote du référentiel Personnes : 602 autorités validées, dont 202 liées à 1 980 contributions aux notices AdlFI (1 779 notices) et 400 autorités supplémentaires issues de Heurist avec des articles dans Gallia et Gallia Préhistoire. Les liens aux articles sont documentés dans le catalogue bibliographique distinct.",
+  "scope_note": "Catalogue pilote du référentiel Personnes : 802 autorités validées, dont 202 liées à 1 980 contributions aux notices AdlFI (1 779 notices) et 600 autorités supplémentaires issues de Heurist avec des articles dans Gallia et Gallia Préhistoire. Les liens aux articles sont documentés dans le catalogue bibliographique distinct.",
   "totals": {
-    "authorities": 602,
+    "authorities": 802,
     "contributions": 1980,
     "notices": 1779
   },
@@ -9141,6 +9141,3002 @@
         "orcid": "0000-0002-0859-3686",
         "wikidata": "Q55620902",
         "persee": "68340"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000603",
+      "name": "Claude Constantin",
+      "family_name": "Constantin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035450045",
+        "wikidata": "Q123144535",
+        "persee": "146189",
+        "bnf": "cb131901644"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000604",
+      "name": "François Prat",
+      "family_name": "Prat",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "085696374",
+        "wikidata": "Q107701102",
+        "persee": "65921",
+        "bnf": "cb12632866q"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000605",
+      "name": "Fritz Schweingruber",
+      "family_name": "Schweingruber",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "032779402",
+        "wikidata": "Q58398938",
+        "persee": "164852",
+        "bnf": "cb123742347"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Fritz Hans Schweingruber",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000606",
+      "name": "Philippe Forré",
+      "family_name": "Forré",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "philippe-forre",
+        "idref": "15562587X",
+        "persee": "386870"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000607",
+      "name": "Sandrine Thiol",
+      "family_name": "Thiol",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "075699419",
+        "wikidata": "Q55231091",
+        "persee": "146861"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000608",
+      "name": "Sylvie Beyries",
+      "family_name": "Beyries",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "029590752",
+        "orcid": "0000-0003-4798-701X",
+        "persee": "146364"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000609",
+      "name": "Dany Barraud",
+      "family_name": "Barraud",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "070192340",
+        "wikidata": "Q138572057",
+        "persee": "217090",
+        "bnf": "cb155836102"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000610",
+      "name": "Gilles Loison",
+      "family_name": "Loison",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "076917703",
+        "wikidata": "Q138572460",
+        "persee": "203675",
+        "bnf": "cb15060654p"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000611",
+      "name": "Émile Thellier",
+      "family_name": "Thellier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "151378134",
+        "wikidata": "Q16739581",
+        "persee": "170426",
+        "bnf": "cb128069195"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000612",
+      "name": "Jean-Louis Vernet",
+      "family_name": "Vernet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027181839",
+        "wikidata": "Q55987916",
+        "persee": "294572",
+        "bnf": "cb11928028k"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000613",
+      "name": "Guy Gaudron",
+      "family_name": "Gaudron",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "186166168",
+        "wikidata": "Q95296329",
+        "persee": "388914"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000614",
+      "name": "Jacques Allain",
+      "family_name": "Allain",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "073302929",
+        "wikidata": "Q107214670",
+        "persee": "277696"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000615",
+      "name": "Bui Thi Mai",
+      "family_name": "Thi Mai",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "121094863",
+        "wikidata": "Q138572675",
+        "persee": "220690"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000616",
+      "name": "Jean-Louis Guendon",
+      "family_name": "Guendon",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "076747964",
+        "wikidata": "Q138572339",
+        "persee": "172186"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000617",
+      "name": "Denis Maréchal",
+      "family_name": "Maréchal",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "270774378",
+        "wikidata": "Q138572484",
+        "persee": "308833"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000618",
+      "name": "Jacqueline Degros",
+      "family_name": "Degros",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "23175518X",
+        "wikidata": "Q133804500",
+        "persee": "146471"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000619",
+      "name": "Hélène Martin",
+      "family_name": "Martin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "268212791",
+        "wikidata": "Q138572491",
+        "persee": "337938"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000620",
+      "name": "Hyacinthe Brabant",
+      "family_name": "Brabant",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "067329152",
+        "wikidata": "Q55626636",
+        "persee": "172398"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000621",
+      "name": "Emmanuel Marot",
+      "family_name": "Marot",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "153289732",
+        "wikidata": "Q138572488",
+        "persee": "222402",
+        "bnf": "cb16524846r"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000622",
+      "name": "Souen Fontaine",
+      "family_name": "Fontaine",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "souen-fontaine",
+        "idref": "150907028",
+        "wikidata": "Q114313997",
+        "persee": "227221"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000623",
+      "name": "Jean-Noël Barrandon",
+      "family_name": "Barrandon",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028278720",
+        "wikidata": "Q82026302",
+        "persee": "251438",
+        "bnf": "cb120147596"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000624",
+      "name": "Benoît Helly",
+      "family_name": "Helly",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "152384731",
+        "wikidata": "Q100589883",
+        "persee": "398463",
+        "bnf": "cb16506158w"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000625",
+      "name": "Christophe Sireix",
+      "family_name": "Sireix",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "131363433",
+        "wikidata": "Q133710062",
+        "persee": "245182",
+        "bnf": "cb133448692"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000626",
+      "name": "Samuel Longepierre",
+      "family_name": "Longepierre",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "161223095",
+        "wikidata": "Q114728681",
+        "persee": "398393",
+        "bnf": "cb16634697g"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000627",
+      "name": "Venceslas Kruta",
+      "family_name": "Kruta",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026954532",
+        "wikidata": "Q1408252",
+        "persee": "172557",
+        "bnf": "cb11910143m"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000628",
+      "name": "Jean Brodeur",
+      "family_name": "Brodeur",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "060454830",
+        "wikidata": "Q112584476",
+        "persee": "240156",
+        "bnf": "cb14619723q"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000629",
+      "name": "Martine Genin",
+      "family_name": "Genin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035440384",
+        "wikidata": "Q134547664",
+        "persee": "276909",
+        "bnf": "cb13189541j"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000630",
+      "name": "José Antonio López Sáez",
+      "family_name": "López Sáez",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "202956601",
+        "wikidata": "Q131060133",
+        "persee": "217409",
+        "bnf": "cb15100570k"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000631",
+      "name": "Georges Depeyrot",
+      "family_name": "Depeyrot",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026824981",
+        "wikidata": "Q33082896",
+        "persee": "251793",
+        "bnf": "cb118996429"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000632",
+      "name": "Pierre Mille",
+      "family_name": "Mille",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "156823365",
+        "wikidata": "Q138572519",
+        "persee": "236879",
+        "bnf": "cb13743082h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000633",
+      "name": "Michel Passelac",
+      "family_name": "Passelac",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027059707",
+        "wikidata": "Q111079774",
+        "persee": "253399",
+        "bnf": "cb119187227"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000634",
+      "name": "Bernard Guineau",
+      "family_name": "Guineau",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "059752955",
+        "wikidata": "Q113791911",
+        "persee": "395963",
+        "bnf": "cb12611339s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000635",
+      "name": "Jean Hiernard",
+      "family_name": "Hiernard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02692188X",
+        "wikidata": "Q55622455",
+        "persee": "397275",
+        "bnf": "cb119074955"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000636",
+      "name": "Anne Roth Congès",
+      "family_name": "Roth Congès",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028310799",
+        "wikidata": "Q55089910",
+        "persee": "44381",
+        "bnf": "cb120172942"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000637",
+      "name": "Pierre-Yves Lambert",
+      "family_name": "Lambert",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026962713",
+        "wikidata": "Q3332412",
+        "persee": "401713",
+        "bnf": "cb119108337"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000638",
+      "name": "Michel Dubar",
+      "family_name": "Dubar",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "067167985",
+        "wikidata": "Q138572239",
+        "persee": "242584",
+        "bnf": "cb12603031g"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000639",
+      "name": "Núria Nin",
+      "family_name": "Nin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028303180",
+        "wikidata": "Q55628698",
+        "persee": "281129",
+        "bnf": "cb126630729"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000640",
+      "name": "Jonathan Simon",
+      "family_name": "Simon",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "jonathan-simon",
+        "idref": "098536885",
+        "wikidata": "Q138572657",
+        "persee": "1719409"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000641",
+      "name": "Pierre Poupet",
+      "family_name": "Poupet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030631491",
+        "wikidata": "Q113725003",
+        "persee": "389790",
+        "bnf": "cb12200881t"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000642",
+      "name": "Anaïs Roumégous",
+      "family_name": "Roumégous",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "138966141",
+        "wikidata": "Q138572623",
+        "persee": "398388",
+        "bnf": "cb16173422r"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000643",
+      "name": "Chérine Gébara",
+      "family_name": "Gébara",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035612843",
+        "wikidata": "Q113790763",
+        "persee": "253403",
+        "bnf": "cb13324577f"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000644",
+      "name": "Vincent Ollive",
+      "family_name": "Ollive",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "vincent-ollive",
+        "idref": "120509067",
+        "wikidata": "Q138572545",
+        "persee": "173970"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000645",
+      "name": "Anna Roes",
+      "family_name": "Roes",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "113276036",
+        "wikidata": "Q63455829",
+        "persee": "12818",
+        "bnf": "cb12764068g"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Anna Vollgraff-Roes",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000646",
+      "name": "Céline Barthélemy",
+      "family_name": "Barthélemy",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "celine-barthelemy-sylvand",
+        "idref": "101664710",
+        "wikidata": "Q138572058",
+        "persee": "287217"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Céline Barthélemy-Sylvand",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000647",
+      "name": "Verónica Martínez",
+      "family_name": "Martínez",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "181742861",
+        "wikidata": "Q138572493",
+        "persee": "223677",
+        "bnf": "cb170329868"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Verónica Martínez Ferreras",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000648",
+      "name": "David Wigg-Wolf",
+      "family_name": "Wigg-Wolf",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "114124809",
+        "wikidata": "Q111449800",
+        "persee": "162502",
+        "bnf": "cb14609519q"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "David G. Wigg",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000649",
+      "name": "Yves Lavoquer",
+      "family_name": "Lavoquer",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "224279963",
+        "wikidata": "Q16683803",
+        "persee": "170213",
+        "bnf": "cb12619014j"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Yves René Léon Jean Lavoquer",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000650",
+      "name": "Natàlia Alonso",
+      "family_name": "Alonso",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "052636577",
+        "wikidata": "Q138572030",
+        "persee": "223678",
+        "bnf": "cb13570732f"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Natàlia Alonso i Martínez",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000651",
+      "name": "Sara Santoro",
+      "family_name": "Santoro",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "066926300",
+        "wikidata": "Q105479886",
+        "persee": "396367",
+        "bnf": "cb137430668"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Sara Santoro Bianchi",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000652",
+      "name": "Henriette Alimen",
+      "family_name": "Alimen",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026681986",
+        "wikidata": "Q15429610",
+        "persee": "77795",
+        "bnf": "cb118884471"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Marie-Henriette Alimen",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000653",
+      "name": "Sheppard Frere",
+      "family_name": "Frere",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030710022",
+        "wikidata": "Q2278187",
+        "persee": "146550",
+        "bnf": "cb12207147d"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Sheppard Sunderland Frere",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000654",
+      "name": "Henri Breuil",
+      "family_name": "Breuil",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "034301917",
+        "wikidata": "Q366786",
+        "persee": "175538",
+        "bnf": "cb12299444j"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Abbé Breuil",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000655",
+      "name": "Nicole Fick",
+      "family_name": "Fick",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "031428533",
+        "wikidata": "Q55623787",
+        "persee": "248082",
+        "bnf": "cb12264440b"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Nicole Fick-Michel",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000656",
+      "name": "Nelson Ahmed-Delacroix",
+      "family_name": "Ahmed-Delacroix",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "eric-nelson-ahmed-delacroix",
+        "idref": "256957320",
+        "orcid": "0000-0001-8905-4555",
+        "persee": "1592740"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Éric Nelson Ahmed-Delacroix",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000657",
+      "name": "Ian Stead",
+      "family_name": "Stead",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028774051",
+        "wikidata": "Q55741217",
+        "persee": "172255",
+        "bnf": "cb12054097n"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Ian Mathieson Stead",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000658",
+      "name": "Jean de Heinzelin",
+      "family_name": "de Heinzelin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "033378568",
+        "wikidata": "Q2683659",
+        "persee": "146606",
+        "bnf": "cb124250311"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Jean de Heinzelin de Braucourt",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000659",
+      "name": "Christine Mennessier",
+      "family_name": "Mennessier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "034082328",
+        "wikidata": "Q138572508",
+        "persee": "203678",
+        "bnf": "cb124874535"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Christine Mennessier-Jouannet",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000660",
+      "name": "Karl-Joseph Gilles",
+      "family_name": "Gilles",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "050138138",
+        "wikidata": "Q57781556",
+        "persee": "173801",
+        "bnf": "cb12924283f"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Karl-Josef Gilles",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000661",
+      "name": "Monique Mainjonet",
+      "family_name": "Mainjonet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027002748",
+        "wikidata": "Q125097131",
+        "persee": "8136",
+        "bnf": "cb11914004d"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Monique Mainjonet-Brun",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000662",
+      "name": "Grace Simpson",
+      "family_name": "Simpson",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030500931",
+        "wikidata": "Q55415750",
+        "persee": "193776",
+        "bnf": "cb12190259p"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Mary Grace Simpson",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000663",
+      "name": "Élise Boucharlat",
+      "family_name": "Boucharlat",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "032058667",
+        "wikidata": "Q59147875",
+        "persee": "218516",
+        "bnf": "cb123161226"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Élise Faure-Boucharlat",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000664",
+      "name": "Adrien Blanchet",
+      "family_name": "Blanchet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "086057677",
+        "wikidata": "Q5578765",
+        "persee": "272972",
+        "bnf": "cb118922744"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Jules-Adrien Blanchet",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000665",
+      "name": "Georges Laplace",
+      "family_name": "Laplace",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "091649951",
+        "wikidata": "Q3103032",
+        "persee": "243934",
+        "bnf": "cb16218222b"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Georges-Louis Laplace-Jauretche",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000666",
+      "name": "Anne Villard",
+      "family_name": "Villard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "057033501",
+        "wikidata": "Q115764679",
+        "persee": "275805",
+        "bnf": "cb12954513q"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Anne Villard-Le Tiec",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000667",
+      "name": "Henri Laville",
+      "family_name": "Laville",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "029584418",
+        "wikidata": "Q27437130",
+        "persee": "77435",
+        "bnf": "cb121179182"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "Henri-Jean Laville",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000668",
+      "name": "Marius Hudry",
+      "family_name": "Hudry",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026926954",
+        "wikidata": "Q3293808",
+        "persee": "442214",
+        "bnf": "cb119079152"
+      },
+      "contributions_count": 0,
+      "name_variants": [
+        {
+          "value": "François Marius Hudry",
+          "kind": "autre_forme_attestee",
+          "source": "Heurist"
+        }
+      ]
+    },
+    {
+      "id": "PER-000669",
+      "name": "Stéphane Izri",
+      "family_name": "Izri",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "151245266",
+        "wikidata": "Q138572363",
+        "persee": "1630869",
+        "bnf": "cb16559790s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000670",
+      "name": "Gilles Grévin",
+      "family_name": "Grévin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "070733317",
+        "wikidata": "Q138572332",
+        "persee": "236149",
+        "bnf": "cb14451153j"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000671",
+      "name": "Graziella Tendron",
+      "family_name": "Tendron",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "168694867",
+        "wikidata": "Q138572671",
+        "persee": "398476",
+        "bnf": "cb16738964g"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000672",
+      "name": "Isabelle Béraud",
+      "family_name": "Béraud",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035612851",
+        "wikidata": "Q138572072",
+        "persee": "253402",
+        "bnf": "cb13324578s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000673",
+      "name": "Daniel Frascone",
+      "family_name": "Frascone",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "057716927",
+        "wikidata": "Q138572282",
+        "persee": "273218",
+        "bnf": "cb135790393"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000674",
+      "name": "Laurent Grimbert",
+      "family_name": "Grimbert",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "laurent-grimbert",
+        "idref": "28142943X",
+        "wikidata": "Q138572334",
+        "persee": "217012"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000675",
+      "name": "Michel Amandry",
+      "family_name": "Amandry",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026683903",
+        "wikidata": "Q1930626",
+        "persee": "279327",
+        "bnf": "cb118886169"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000676",
+      "name": "William Mourey",
+      "family_name": "Mourey",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02708485X",
+        "wikidata": "Q138572533",
+        "persee": "396473",
+        "bnf": "cb11920786r"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000677",
+      "name": "Lucas Guillaud",
+      "family_name": "Guillaud",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "lucas-guillaud",
+        "idref": "193891131",
+        "wikidata": "Q138572342",
+        "persee": "1630797"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000678",
+      "name": "Florent Delencre",
+      "family_name": "Delencre",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "florent-delencre",
+        "idref": "226967905",
+        "orcid": "0000-0003-3523-0132",
+        "wikidata": "Q136242867"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000679",
+      "name": "Suzanne Plouin",
+      "family_name": "Plouin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030125375",
+        "wikidata": "Q138572579",
+        "persee": "173961",
+        "bnf": "cb121603925"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000680",
+      "name": "Margaux Tillier",
+      "family_name": "Tillier",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "margaux-tillier",
+        "idref": "242756255",
+        "orcid": "0000-0002-5688-8673",
+        "wikidata": "Q133651057"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000681",
+      "name": "Richard Delage",
+      "family_name": "Delage",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "richard-delage",
+        "idref": "073437700",
+        "wikidata": "Q138572212",
+        "persee": "248892"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000682",
+      "name": "Sébastien Cormier",
+      "family_name": "Cormier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "137201370",
+        "wikidata": "Q138572189",
+        "persee": "160331",
+        "bnf": "cb17114488t"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000683",
+      "name": "Lionel Orengo",
+      "family_name": "Orengo",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "059847611",
+        "wikidata": "Q138784242",
+        "persee": "222405",
+        "bnf": "cb14598442d"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000684",
+      "name": "Jean Perrier",
+      "family_name": "Perrier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030224195",
+        "wikidata": "Q138572564",
+        "persee": "396531",
+        "bnf": "cb121685334"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000685",
+      "name": "Nicolas Coquet",
+      "family_name": "Coquet",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-coquet",
+        "idref": "271102209",
+        "orcid": "0000-0002-8583-6805",
+        "wikidata": "Q133187796"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000686",
+      "name": "Michel Vidal",
+      "family_name": "Vidal",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "031155693",
+        "wikidata": "Q56448415",
+        "persee": "363756",
+        "bnf": "cb12242594n"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000687",
+      "name": "Ghislaine Macabéo",
+      "family_name": "Macabéo",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "113984227",
+        "wikidata": "Q55620275",
+        "persee": "239467",
+        "bnf": "cb15039159k"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000688",
+      "name": "Jean-Marie Gassend",
+      "family_name": "Gassend",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026883279",
+        "wikidata": "Q93428326",
+        "persee": "273073",
+        "bnf": "cb126079715"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000689",
+      "name": "Ramon Buxó i Capdevila",
+      "family_name": "Buxó i Capdevila",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "074087673",
+        "orcid": "0000-0003-1428-3673",
+        "wikidata": "Q55992175",
+        "persee": "173782",
+        "bnf": "cb14649666b"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000690",
+      "name": "Anne Richier",
+      "family_name": "Richier",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "anne-richier",
+        "idref": "180245643",
+        "orcid": "0000-0003-2266-3510",
+        "wikidata": "Q138572603",
+        "persee": "398880"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000691",
+      "name": "Assumpció Toledo i Mur",
+      "family_name": "Toledo i Mur",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "assumpcio-toledo-i-mur",
+        "idref": "028354958",
+        "wikidata": "Q55999275",
+        "persee": "281089",
+        "bnf": "cb12020742q"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000692",
+      "name": "Miklós Szabó",
+      "family_name": "Szabó",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027152987",
+        "orcid": "0000-0002-8319-8088",
+        "wikidata": "Q1293702",
+        "persee": "175813",
+        "bnf": "cb119258538"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000693",
+      "name": "Dieter Quast",
+      "family_name": "Quast",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "070949115",
+        "orcid": "0000-0002-7181-9158",
+        "wikidata": "Q112453313",
+        "persee": "1126225",
+        "bnf": "cb129821321"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000694",
+      "name": "Gaétan Le Cloirec",
+      "family_name": "Le Cloirec",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "gaetan-le-cloirec",
+        "idref": "060714085",
+        "wikidata": "Q124308526",
+        "persee": "236854",
+        "bnf": "cb137740873"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000695",
+      "name": "Clément Laplaige",
+      "family_name": "Laplaige",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "clement-laplaige",
+        "idref": "193164523",
+        "orcid": "0000-0002-4744-5758",
+        "wikidata": "Q138572406",
+        "persee": "1712353"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000696",
+      "name": "Nadine Dieudonné-Glad",
+      "family_name": "Dieudonné-Glad",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nadine-dieudonne-glad",
+        "idref": "050241516",
+        "wikidata": "Q113812502",
+        "persee": "146426",
+        "bnf": "cb135209308"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000697",
+      "name": "Nicolas Mathieu",
+      "family_name": "Mathieu",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-mathieu",
+        "idref": "13275150X",
+        "wikidata": "Q138572499",
+        "persee": "396350",
+        "bnf": "cb135364238"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000698",
+      "name": "Véronique Mathieu",
+      "family_name": "Mathieu",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "veronique-mathieu",
+        "idref": "193470306",
+        "orcid": "0000-0003-4333-6084",
+        "wikidata": "Q110979536",
+        "persee": "226029"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000699",
+      "name": "Jean-Luc Boudartchouk",
+      "family_name": "Boudartchouk",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "jean-luc-boudartchouk",
+        "idref": "03579819X",
+        "wikidata": "Q33637029",
+        "persee": "273087",
+        "bnf": "cb13337211m"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000700",
+      "name": "Bérangère Fort",
+      "family_name": "Fort",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "berangere-fort",
+        "idref": "147799112",
+        "orcid": "0000-0001-6273-143X",
+        "wikidata": "Q138572274",
+        "persee": "162324"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000701",
+      "name": "François Baratte",
+      "family_name": "Baratte",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "francois-baratte",
+        "idref": "026703963",
+        "wikidata": "Q33141709",
+        "persee": "278091",
+        "bnf": "cb11890114h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000702",
+      "name": "Michel Dabas",
+      "family_name": "Dabas",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "michel-dabas",
+        "idref": "155746545",
+        "orcid": "0000-0001-7405-3453",
+        "wikidata": "Q57848029",
+        "persee": "254829"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000703",
+      "name": "Nicolas Laubry",
+      "family_name": "Laubry",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-laubry",
+        "idref": "132370344",
+        "orcid": "0000-0002-7155-9261",
+        "wikidata": "Q133740924",
+        "persee": "386028"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000704",
+      "name": "Laure Pecqueur",
+      "family_name": "Pecqueur",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "laure-pecqueur",
+        "idref": "147994586",
+        "orcid": "0000-0002-6943-4654",
+        "wikidata": "Q138572558",
+        "persee": "585570"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000705",
+      "name": "Cédric Roms",
+      "family_name": "Roms",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "cedric-roms",
+        "idref": "267209657",
+        "orcid": "0000-0003-2885-1862",
+        "wikidata": "Q138572616",
+        "persee": "1617471"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000706",
+      "name": "Julien Vieugué",
+      "family_name": "Vieugué",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "julien-vieugue",
+        "idref": "152162488",
+        "wikidata": "Q55622425",
+        "persee": "386747",
+        "bnf": "cb16949514m"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000707",
+      "name": "Laurent Vidal",
+      "family_name": "Vidal",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "laurent-vidal",
+        "idref": "272728179",
+        "orcid": "0009-0005-1238-6240",
+        "wikidata": "Q83843428",
+        "persee": "226223"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000708",
+      "name": "Malina Robert",
+      "family_name": "Robert",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "malina-robert",
+        "idref": "23252470X",
+        "orcid": "0000-0003-0226-4598",
+        "wikidata": "Q137735405",
+        "persee": "1573019"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000709",
+      "name": "Olivier Devillers",
+      "family_name": "Devillers",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "olivier-devillers",
+        "idref": "07677967X",
+        "wikidata": "Q100068291",
+        "persee": "247954",
+        "bnf": "cb13761860b"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000710",
+      "name": "Philippe Curdy",
+      "family_name": "Curdy",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "029654408",
+        "orcid": "0000-0001-7075-1844",
+        "wikidata": "Q112441811",
+        "persee": "251280",
+        "bnf": "cb12123337x"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000711",
+      "name": "Clémence Pagnoux",
+      "family_name": "Pagnoux",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "cpagnoux",
+        "idref": "229312225",
+        "orcid": "0000-0002-7554-477X",
+        "wikidata": "Q138572551",
+        "persee": "686305"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000712",
+      "name": "Marie-Pierre Rothé",
+      "family_name": "Rothé",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "marie-pierre-rothe",
+        "idref": "059775742",
+        "wikidata": "Q138572617",
+        "persee": "398469",
+        "bnf": "cb14459767t"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000713",
+      "name": "Jean-Pierre Pelletier",
+      "family_name": "Pelletier",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "jean-pierre-pelletier",
+        "idref": "034798978",
+        "wikidata": "Q111010806",
+        "persee": "243851",
+        "bnf": "cb131977158"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000714",
+      "name": "Benoît Favennec",
+      "family_name": "Favennec",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "benoit-favennec",
+        "idref": "196268737",
+        "orcid": "0000-0001-8145-1791",
+        "wikidata": "Q87760953",
+        "persee": "398468"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000715",
+      "name": "Christian Vernou",
+      "family_name": "Vernou",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "christian-vernou",
+        "idref": "03313670X",
+        "wikidata": "Q138572708",
+        "persee": "173794",
+        "bnf": "cb124033658"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000716",
+      "name": "Anne-Marie Curé",
+      "family_name": "Curé",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "anne-marie-cure",
+        "idref": "178150568",
+        "orcid": "0000-0003-4499-0141",
+        "wikidata": "Q138572199",
+        "persee": "1630783"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000717",
+      "name": "Nicolas Thomas",
+      "family_name": "Thomas",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-thomas",
+        "idref": "140758755",
+        "orcid": "0000-0003-0890-9297",
+        "wikidata": "Q88446051",
+        "persee": "254717"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000718",
+      "name": "Bastien Dubuis",
+      "family_name": "Dubuis",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "bastien-dubuis",
+        "idref": "244320446",
+        "wikidata": "Q137871677",
+        "persee": "616129",
+        "bnf": "cb181917698"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000719",
+      "name": "Guillaume Huitorel",
+      "family_name": "Huitorel",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "guillaume-huitorel",
+        "idref": "226255786",
+        "orcid": "0000-0002-9653-8379",
+        "wikidata": "Q138572362",
+        "persee": "1797005"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000720",
+      "name": "Jörg Schibler",
+      "family_name": "Schibler",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "060760702",
+        "orcid": "0000-0003-2290-3553",
+        "wikidata": "Q59223275",
+        "persee": "173955",
+        "bnf": "cb13629921n"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000721",
+      "name": "Nadia Cantin",
+      "family_name": "Cantin",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nadia-cantin",
+        "idref": "163741093",
+        "orcid": "0000-0002-5568-0942",
+        "wikidata": "Q138572144",
+        "persee": "398399"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000722",
+      "name": "Nicolas Fouillet",
+      "family_name": "Fouillet",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-fouillet",
+        "idref": "267461356",
+        "orcid": "0009-0001-9849-8358",
+        "wikidata": "Q138769246",
+        "persee": "198912"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000723",
+      "name": "Franck Perrin",
+      "family_name": "Perrin",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "franck-perrin",
+        "idref": "030282322",
+        "wikidata": "Q138572565",
+        "persee": "173573",
+        "bnf": "cb12173153n"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000724",
+      "name": "Dominique Pieri",
+      "family_name": "Pieri",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "dominiquepieri",
+        "idref": "162220812",
+        "orcid": "0000-0002-9305-3755",
+        "wikidata": "Q55090955",
+        "persee": "275168"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000725",
+      "name": "Sébastien Barberan",
+      "family_name": "Barberan",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "sebastien-barberan",
+        "idref": "087234025",
+        "wikidata": "Q56697194",
+        "persee": "245082",
+        "bnf": "cb146301777"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000726",
+      "name": "John Pearce",
+      "family_name": "Pearce",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "056261780",
+        "orcid": "0000-0003-1334-2985",
+        "wikidata": "Q47069146",
+        "persee": "173814",
+        "bnf": "cb15004513j"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000727",
+      "name": "Antonin Nüsslein",
+      "family_name": "Nüsslein",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "antonin-nusslein",
+        "idref": "19757033X",
+        "orcid": "0000-0002-9403-2526",
+        "wikidata": "Q109336326",
+        "bnf": "cb17866701g"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000728",
+      "name": "John Scheid",
+      "family_name": "Scheid",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027125742",
+        "orcid": "0000-0003-4992-8371",
+        "wikidata": "Q836784",
+        "persee": "350733",
+        "bnf": "cb119239354"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000729",
+      "name": "Mélanie Pruvost",
+      "family_name": "Pruvost",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "melanie-pruvost",
+        "idref": "095212620",
+        "orcid": "0000-0001-7824-2155",
+        "wikidata": "Q93496732",
+        "persee": "148614"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000730",
+      "name": "Véronique Guitton",
+      "family_name": "Guitton",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "veronique-guitton",
+        "idref": "272779598",
+        "wikidata": "Q95386967",
+        "persee": "1727624",
+        "bnf": "cb14595616p"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000731",
+      "name": "Jonhattan Vidal",
+      "family_name": "Vidal",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "jonhattan-vidal",
+        "idref": "177245840",
+        "orcid": "0000-0003-2362-9090",
+        "wikidata": "Q133577236",
+        "bnf": "cb167234144"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000732",
+      "name": "Bruno Chaume",
+      "family_name": "Chaume",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "bruno-chaume",
+        "idref": "057028192",
+        "wikidata": "Q55629019",
+        "persee": "181033",
+        "bnf": "cb12953616s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000733",
+      "name": "Filipe Ferreira",
+      "family_name": "Ferreira",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "ferreira-filipe",
+        "idref": "223312525",
+        "orcid": "0000-0002-0098-1019",
+        "wikidata": "Q138572262",
+        "persee": "1134854"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000734",
+      "name": "Quentin Verriez",
+      "family_name": "Verriez",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "quentin-verriez",
+        "idref": "192400355",
+        "orcid": "0000-0002-6823-4183",
+        "wikidata": "Q137433617",
+        "persee": "1802499"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000735",
+      "name": "Nicolas Bernigaud",
+      "family_name": "Bernigaud",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "nicolas-bernigaud",
+        "idref": "168706806",
+        "orcid": "0000-0002-2234-2728",
+        "wikidata": "Q138572077",
+        "persee": "198003"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000736",
+      "name": "Rémi Corbineau",
+      "family_name": "Corbineau",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "remi-corbineau",
+        "idref": "192093606",
+        "orcid": "0000-0002-2642-3517",
+        "wikidata": "Q138572187",
+        "persee": "1619130"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000737",
+      "name": "Valérie Pichot",
+      "family_name": "Pichot",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "valerie-pichot",
+        "idref": "24532058X",
+        "orcid": "0000-0002-7592-2638",
+        "wikidata": "Q55622310",
+        "persee": "162445"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000738",
+      "name": "Maria-Pia Darblade-Audoin",
+      "family_name": "Darblade-Audoin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "071278850",
+        "orcid": "0000-0002-8514-6281",
+        "wikidata": "Q55619927",
+        "persee": "261223",
+        "bnf": "cb155208141"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000739",
+      "name": "Dominique Todisco",
+      "family_name": "Todisco",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "dominique-todisco",
+        "idref": "225424770",
+        "orcid": "0000-0001-7929-0204",
+        "wikidata": "Q137915366",
+        "persee": "262382"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000740",
+      "name": "Grégory Bayle",
+      "family_name": "Bayle",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "gregory-bayle",
+        "idref": "204195489",
+        "orcid": "0000-0002-5684-0725",
+        "wikidata": "Q131387942",
+        "persee": "586282"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000741",
+      "name": "Joseba Rios Garaizar",
+      "family_name": "Rios Garaizar",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "164166114",
+        "orcid": "0000-0001-8474-2156",
+        "wikidata": "Q55950254",
+        "persee": "414593",
+        "bnf": "cb16757754s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000742",
+      "name": "Michel Barbaza",
+      "family_name": "Barbaza",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "055768342",
+        "orcid": "0000-0002-5228-7838",
+        "wikidata": "Q124564682",
+        "persee": "248148",
+        "bnf": "cb248148"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000743",
+      "name": "Maïtena Sohn",
+      "family_name": "Sohn",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "maitena-sohn",
+        "idref": "114573042",
+        "wikidata": "Q55622971",
+        "persee": "148414",
+        "bnf": "cb16659651s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000744",
+      "name": "Aline Thomas",
+      "family_name": "Thomas",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "alinethomasmnhn",
+        "idref": "160237963",
+        "orcid": "0000-0003-4018-3123",
+        "wikidata": "Q55620122",
+        "persee": "226471"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000745",
+      "name": "Lamys Hachem",
+      "family_name": "Hachem",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "lamys-hachem",
+        "idref": "057635625",
+        "wikidata": "Q130678080",
+        "persee": "146199",
+        "bnf": "cb13501120k"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000746",
+      "name": "Jean Combier",
+      "family_name": "Combier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026796309",
+        "wikidata": "Q133760886",
+        "persee": "58321",
+        "bnf": "cb118974350"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000747",
+      "name": "Brigitte Delluc",
+      "family_name": "Delluc",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026821095",
+        "wikidata": "Q40323255",
+        "persee": "162921",
+        "bnf": "cb11899369h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000748",
+      "name": "Jean-Louis Roudil",
+      "family_name": "Roudil",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "03060432X",
+        "wikidata": "Q124100826",
+        "persee": "294584",
+        "bnf": "cb12198613d"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000749",
+      "name": "Charles-Tanguy Le Roux",
+      "family_name": "Le Roux",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "058554874",
+        "wikidata": "Q2958312",
+        "persee": "235481",
+        "bnf": "cb12702618v"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000750",
+      "name": "Jean Clottes",
+      "family_name": "Clottes",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026792133",
+        "wikidata": "Q3109280",
+        "persee": "262866",
+        "bnf": "cb11897101v"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000751",
+      "name": "Jean L'Helgouach",
+      "family_name": "L'Helgouach",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026955547",
+        "wikidata": "Q3172912",
+        "persee": "235459",
+        "bnf": "cb119102207"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000752",
+      "name": "Gilles Delluc",
+      "family_name": "Delluc",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026821109",
+        "wikidata": "Q40323282",
+        "persee": "162922",
+        "bnf": "cb11899370q"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000753",
+      "name": "Roger Agache",
+      "family_name": "Agache",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "032693249",
+        "wikidata": "Q3438633",
+        "persee": "262425",
+        "bnf": "cb12367402p"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000754",
+      "name": "Jacques-Pierre Millotte",
+      "family_name": "Millotte",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027030539",
+        "wikidata": "Q55672233",
+        "persee": "269182",
+        "bnf": "cb119161792"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000755",
+      "name": "Jean-Philippe Rigaud",
+      "family_name": "Rigaud",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027100308",
+        "wikidata": "Q114574183",
+        "persee": "171969",
+        "bnf": "cb11921971h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000756",
+      "name": "Jean Vaquer",
+      "family_name": "Vaquer",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "03020187X",
+        "wikidata": "Q133785643",
+        "persee": "146886",
+        "bnf": "cb12166750s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000757",
+      "name": "Gilles Gaucher",
+      "family_name": "Gaucher",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026883775",
+        "wikidata": "Q123136253",
+        "persee": "166704",
+        "bnf": "cb11904295w"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000758",
+      "name": "Jean Dastugue",
+      "family_name": "Dastugue",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "059905441",
+        "wikidata": "Q55772303",
+        "persee": "235596",
+        "bnf": "cb109446512"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000759",
+      "name": "Jacques Briard",
+      "family_name": "Briard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02675245X",
+        "wikidata": "Q3158401",
+        "persee": "64843",
+        "bnf": "cb11893996m"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000760",
+      "name": "Jacques Tixier",
+      "family_name": "Tixier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02716439X",
+        "wikidata": "Q6120910",
+        "persee": "166848",
+        "bnf": "cb11926727p"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000761",
+      "name": "Michel Gruet",
+      "family_name": "Gruet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035119969",
+        "wikidata": "Q3309831",
+        "persee": "235875",
+        "bnf": "cb134750974"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000762",
+      "name": "Yves Guillien",
+      "family_name": "Guillien",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "157964450",
+        "wikidata": "Q55773075",
+        "persee": "241378",
+        "bnf": "cb128770499"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000763",
+      "name": "Gérard Bailloud",
+      "family_name": "Bailloud",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026701138",
+        "wikidata": "Q55992737",
+        "persee": "1532",
+        "bnf": "cb118898988"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000764",
+      "name": "Éric Mahieu",
+      "family_name": "Mahieu",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030282594",
+        "wikidata": "Q93240117",
+        "persee": "294604",
+        "bnf": "cb12173175z"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000765",
+      "name": "Joël Vital",
+      "family_name": "Vital",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "029654335",
+        "wikidata": "Q124102037",
+        "persee": "224328",
+        "bnf": "cb121233326"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000766",
+      "name": "Fanny Chenal",
+      "family_name": "Chenal",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "258182806",
+        "orcid": "0000-0002-8610-3005",
+        "wikidata": "Q95838453",
+        "persee": "226465"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000767",
+      "name": "Paul Ambert",
+      "family_name": "Ambert",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "076525996",
+        "wikidata": "Q55771353",
+        "persee": "397364",
+        "bnf": "cb12585552s"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000768",
+      "name": "Claude Chauchat",
+      "family_name": "Chauchat",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "050639013",
+        "wikidata": "Q134393465",
+        "persee": "144014",
+        "bnf": "cb129411606"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000769",
+      "name": "Jackie Despriée",
+      "family_name": "Despriée",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "029295661",
+        "wikidata": "Q117236114",
+        "persee": "76669",
+        "bnf": "cb12095251z"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000770",
+      "name": "Claude Masset",
+      "family_name": "Masset",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "034547037",
+        "wikidata": "Q115971337",
+        "persee": "275686",
+        "bnf": "cb125291841"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000771",
+      "name": "Harold Lewis Dibble",
+      "family_name": "Dibble",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "035369604",
+        "wikidata": "Q5661408",
+        "persee": "65069",
+        "bnf": "cb134806326"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000772",
+      "name": "Frédéric Bazile",
+      "family_name": "Bazile",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "104688890",
+        "wikidata": "Q55625217",
+        "persee": "163822",
+        "bnf": "cb153298930"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000773",
+      "name": "Marie-Françoise Bonifay",
+      "family_name": "Bonifay",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030368529",
+        "wikidata": "Q93820443",
+        "persee": "165070",
+        "bnf": "cb121797919"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000774",
+      "name": "Grégory Debout",
+      "family_name": "Debout",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "184277116",
+        "wikidata": "Q128840731",
+        "persee": "198661",
+        "bnf": "cb16938900k"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000775",
+      "name": "Louis Chaix",
+      "family_name": "Chaix",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "028740564",
+        "wikidata": "Q59607184",
+        "persee": "277709",
+        "bnf": "cb120514611"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000776",
+      "name": "Samuel Van Willigen",
+      "family_name": "Van Willigen",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "050421263",
+        "wikidata": "Q111975827",
+        "persee": "148271",
+        "bnf": "cb13528976h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000777",
+      "name": "Pierre Antoine",
+      "family_name": "Antoine",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "antoine-pierre-felix",
+        "idref": "249001772",
+        "orcid": "0000-0002-4176-8388",
+        "persee": "162878"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000778",
+      "name": "Benoît Chevrier",
+      "family_name": "Chevrier",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "170745317",
+        "orcid": "0000-0002-9065-0984",
+        "wikidata": "Q104139365",
+        "persee": "162901"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000779",
+      "name": "Daniel Mordant",
+      "family_name": "Mordant",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027037215",
+        "wikidata": "Q123144643",
+        "persee": "166698",
+        "bnf": "cb11916745d"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000780",
+      "name": "Maurice-Jacques Graindor",
+      "family_name": "Graindor",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "032197772",
+        "wikidata": "Q55771278",
+        "persee": "165594",
+        "bnf": "cb12327488d"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000781",
+      "name": "Jean-Pierre Duhard",
+      "family_name": "Duhard",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030562805",
+        "wikidata": "Q3169241",
+        "persee": "143160",
+        "bnf": "cb121953386"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000782",
+      "name": "Michel Lorblanchet",
+      "family_name": "Lorblanchet",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026994224",
+        "wikidata": "Q58704721",
+        "persee": "221235",
+        "bnf": "cb11913336m"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000783",
+      "name": "René Desbrosse",
+      "family_name": "Desbrosse",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026826380",
+        "wikidata": "Q47004595",
+        "persee": "181099",
+        "bnf": "cb118997626"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000784",
+      "name": "Georges Costantini",
+      "family_name": "Costantini",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "078526256",
+        "wikidata": "Q57406877",
+        "persee": "223894",
+        "bnf": "cb12598515h"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000785",
+      "name": "Marylène Patou-Mathis",
+      "family_name": "Patou-Mathis",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "033609691",
+        "wikidata": "Q16928480",
+        "persee": "77464",
+        "bnf": "cb124459924"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000786",
+      "name": "André Clot",
+      "family_name": "Clot",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030400589",
+        "wikidata": "Q137795036",
+        "persee": "78098",
+        "bnf": "cb12182223z"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000787",
+      "name": "Alexandre Lucquin",
+      "family_name": "Lucquin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "120473542",
+        "orcid": "0000-0003-4892-6323",
+        "wikidata": "Q58322631",
+        "persee": "220565"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000788",
+      "name": "Gilbert Pion",
+      "family_name": "Pion",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "059406003",
+        "wikidata": "Q117267447",
+        "persee": "179285",
+        "bnf": "cb150120267"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000789",
+      "name": "André Debénath",
+      "family_name": "Debénath",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "030768934",
+        "wikidata": "Q55770511",
+        "persee": "70746",
+        "bnf": "cb12211863b"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000790",
+      "name": "Roger Joussaume",
+      "family_name": "Joussaume",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026941759",
+        "wikidata": "Q130734646",
+        "persee": "146633",
+        "bnf": "cb119091218"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000791",
+      "name": "Jacques Cauvin",
+      "family_name": "Cauvin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026773058",
+        "wikidata": "Q6120488",
+        "persee": "279677",
+        "bnf": "cb11895619t"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000792",
+      "name": "André Coffyn",
+      "family_name": "Coffyn",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "026792885",
+        "wikidata": "Q55629335",
+        "persee": "350647",
+        "bnf": "cb11897161q"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000793",
+      "name": "Alain Roussot",
+      "family_name": "Roussot",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02711323X",
+        "wikidata": "Q55620255",
+        "persee": "143158",
+        "bnf": "cb119229425"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000794",
+      "name": "Michel Campy",
+      "family_name": "Campy",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "02952993X",
+        "wikidata": "Q15136775",
+        "persee": "77269",
+        "bnf": "cb121137114"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000795",
+      "name": "François Poplin",
+      "family_name": "Poplin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "07326671X",
+        "wikidata": "Q123144505",
+        "persee": "396114",
+        "bnf": "cb12713914r"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000796",
+      "name": "Lionel Visset",
+      "family_name": "Visset",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027188299",
+        "wikidata": "Q121952105",
+        "persee": "235769",
+        "bnf": "cb11928546w"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000797",
+      "name": "Alain Villes",
+      "family_name": "Villes",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "055792170",
+        "wikidata": "Q136567291",
+        "persee": "146899",
+        "bnf": "cb12645198b"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000798",
+      "name": "Claudine Karlin",
+      "family_name": "Karlin",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "115488308",
+        "wikidata": "Q95877288",
+        "persee": "146638",
+        "bnf": "cb16917042c"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000799",
+      "name": "Myriam Boudadi-Maligne",
+      "family_name": "Boudadi-Maligne",
+      "name_idref": "",
+      "identifiers": {
+        "idhal": "myriam-boudadi-maligne",
+        "idref": "150785313",
+        "orcid": "0000-0003-0583-7419",
+        "persee": "616101"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000800",
+      "name": "Armand Hampé",
+      "family_name": "Hampé",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "034251251",
+        "wikidata": "Q137170482",
+        "persee": "390502",
+        "bnf": "cb125025992"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000801",
+      "name": "Denise de Sonneville-Bordes",
+      "family_name": "de Sonneville-Bordes",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "027143511",
+        "wikidata": "Q3023106",
+        "persee": "167434",
+        "bnf": "cb11925144c"
+      },
+      "contributions_count": 0,
+      "name_variants": []
+    },
+    {
+      "id": "PER-000802",
+      "name": "Philippe Guillerault",
+      "family_name": "Guillerault",
+      "name_idref": "",
+      "identifiers": {
+        "idref": "032563272",
+        "wikidata": "Q124528758",
+        "persee": "77643",
+        "bnf": "cb12356900x"
       },
       "contributions_count": 0,
       "name_variants": []
