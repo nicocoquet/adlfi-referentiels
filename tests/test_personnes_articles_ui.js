@@ -148,8 +148,8 @@ async function renderWith(optional, status=200, profile=base){
   const realArticles=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/data/personnes-articles.json'),'utf8'));
   const live=await renderWith(realArticles,200,()=>realPeople);
   const liveCards=live.get('#per-cards');
-  assert.equal(liveCards.children.length,242);
-  assert.match(live.get('#per-results').textContent,/242 autorités affichées.*2558 contributions/);
+  assert.equal(liveCards.children.length,322);
+  assert.match(live.get('#per-results').textContent,/322 autorités affichées.*2891 contributions/);
   const newPerson=liveCards.children.find(x=>collectText(x).includes('PER-000203'));
   assert.ok(newPerson,'Une nouvelle autorité bibliographique doit apparaître');
   assert.match(collectText(newPerson),/Christine Oberlin/);
@@ -161,6 +161,16 @@ async function renderWith(optional, status=200, profile=base){
   assert.match(collectText(noUrlPerson),/Découverte de la tombe d'un oculiste à Lyon/);
   assert.ok(!collectNodes(noUrlPerson,'a').some(x=>(x.textContent||'').includes(noUrlTitle)),
             'Un article sans URL ne doit pas recevoir un lien artificiel');
-  console.log('OK : interface réelle 242 PER / 2558 contributions, rôle Gallia, absence de fausse notice AdlFI, article sans URL');
+  const secondPilot=liveCards.children.find(x=>collectText(x).includes('PER-000243'));
+  assert.ok(secondPilot,'Une autorité du deuxième pilote Heurist doit apparaître');
+  assert.match(collectText(secondPilot),/Frédérique Blaizot/);
+  assert.match(collectText(secondPilot),/Gallia/);
+  assert.doesNotMatch(collectText(secondPilot),/Consulter les notices AdlFI liées/);
+  const oldNoUrl=liveCards.children.find(x=>collectText(x).includes('PER-000312'));
+  assert.ok(oldNoUrl,'La fiche du nouveau pilote liée à un article sans URL doit apparaître');
+  assert.match(collectText(oldNoUrl),/XIIe Circonscription \[préhistorique\]/);
+  assert.ok(!collectNodes(oldNoUrl,'a').some(x=>(x.textContent||'').includes('XIIe Circonscription [préhistorique]')),
+            'Un article du deuxième pilote sans URL ne doit pas recevoir un lien');
+  console.log('OK : interface réelle 322 PER / 2891 contributions, deux pilotes Heurist et articles sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
