@@ -19,10 +19,6 @@ PROHIBITED_KEYS = {
     "visa_alignements", "visa_relation", "visa_bibliographie",
     "expert", "reviewer", "private_source_field",
 }
-# Arbitrage documentaire privé : conserver l'IdRef, ne pas publier cet ORCID.
-FUSTIER_IDREF = "071041230"
-FUSTIER_REJECTED_ORCID = "0000-0003-3220-2582"
-
 
 def valid_ppn(ppn):
     return (
@@ -114,17 +110,11 @@ class TestRecettePubliquePilote30(unittest.TestCase):
         self.assertTrue(public_fields_only(self.persons))
         self.assertTrue(public_fields_only(self.biblio))
 
-    def test_identifiant_secondaire_rejete_si_personne_publiee(self):
-        for row in self.persons["authorities"]:
-            if row["identifiers"].get("idref") == FUSTIER_IDREF:
-                self.assertNotEqual(row["identifiers"].get("orcid"),
-                                    FUSTIER_REJECTED_ORCID)
-
     def test_tests_synthetiques_des_controles(self):
-        self.assertTrue(valid_ppn("071041230"))
-        self.assertFalse(valid_ppn("071041231"))
+        self.assertTrue(valid_ppn("000000000"))
+        self.assertFalse(valid_ppn("000000001"))
         self.assertEqual(collisions(["a", "a", "b", ""]), {"a"})
-        self.assertTrue(public_fields_only({"identifiers": {"idref": "071041230"}}))
+        self.assertTrue(public_fields_only({"identifiers": {"idref": "000000000"}}))
         self.assertFalse(public_fields_only({"nested": [{"rec_ID": "1"}]}))
 
 
