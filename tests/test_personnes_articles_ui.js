@@ -239,7 +239,29 @@ async function renderWith(optional, status=200, profile=base){
   assert.match(collectText(fifthLast),/Philippe Guillerault/);
   assert.doesNotMatch(collectText(fifthFirst),/Consulter les notices AdlFI liées/);
   assert.doesNotMatch(collectText(fifthLast),/Consulter les notices AdlFI liées/);
+  // Sixième lot : 200 autorités exclusivement bibliographiques, sans notices fictives.
+  const sixthAuthorities=realPeople.authorities.filter(x=>{
+    const num=Number(x.id.replace('PER-',''));
+    return num>=803 && num<=1002;
+  });
+  assert.equal(sixthAuthorities.length,200);
+  assert.ok(sixthAuthorities.every(x=>x.contributions_count===0));
+  const sixthRelations=realArticles.contributions.filter(x=>{
+    const num=Number(x.person_id.replace('PER-',''));
+    return num>=803 && num<=1002;
+  });
+  assert.equal(sixthRelations.length,452);
+  assert.equal(sixthRelations.filter(x=>x.role==='auteur').length,388);
+  assert.equal(sixthRelations.filter(x=>x.role==='collaborateur').length,64);
+  const sixthFirst=liveCards.children.find(x=>collectText(x).includes('PER-000803'));
+  const sixthLast=liveCards.children.find(x=>collectText(x).includes('PER-001002'));
+  assert.ok(sixthFirst && sixthLast,'Les autorités extrêmes du sixième lot doivent apparaître');
+  assert.match(collectText(sixthFirst),/Jean Le Gall/);
+  assert.match(collectText(sixthLast),/Amable Audin/);
+  assert.doesNotMatch(collectText(sixthFirst),/Consulter les notices AdlFI liées/);
+  assert.doesNotMatch(collectText(sixthLast),/Consulter les notices AdlFI liées/);
+  assert.match(collectText(sixthFirst),/Gallia Préhistoire/);
   console.log('OK : interface réelle '+realPeople.totals.authorities+' PER / '+displayContributions+
-              ' contributions, quatre pilotes Heurist et références sans URL');
+              ' contributions, six lots Heurist et références sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
