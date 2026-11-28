@@ -5,9 +5,9 @@
   "scope_note": "Corpus bibliographique pilote non exhaustif de Gallia et Gallia Préhistoire, issu de l'export Heurist du 27 novembre 2026 : 1 755 articles et 2 891 relations (2 538 auteur, 353 collaborateur) associées à 993 autorités Personnes. Les rôles proviennent des champs de contribution de chaque article.",
   "source_sha256": "de44407287e2f85132338119354924458320b2dd90cfd4ac30b8b4ee6c44c051",
   "totals": {
-    "articles": 2103,
-    "contributions": 3477,
-    "authorities": 1193
+    "articles": 2193,
+    "contributions": 3738,
+    "authorities": 1393
   },
   "articles": [
     {
@@ -23142,6 +23142,996 @@
       "last_page": "98",
       "url": "https://journals.openedition.org/gallia/8410",
       "doi": "10.4000/11uct"
+    },
+    {
+      "id": "heurist:1519:73:219",
+      "journal": "gallia",
+      "title": "Direction des recherches archéologiques sous-marines",
+      "year": 1969,
+      "volume": "Gallia, 27-2",
+      "first_page": "465",
+      "last_page": "499",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1969_num_27_2_2540",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:240",
+      "journal": "gallia",
+      "title": "Le trésor de Coesmes (Ille-et-Vilaine). La circulation monétaire en Armorique vers 275 après J.-C. : les monnaies officielles, leurs imitations locales et les persistances de l'art celtique",
+      "year": 1947,
+      "volume": "Gallia, 5-2",
+      "first_page": "319",
+      "last_page": "349",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1947_num_5_2_2044",
+      "doi": "10.3406/galia.1947.2044"
+    },
+    {
+      "id": "heurist:1519:73:249",
+      "journal": "gallia",
+      "title": "L'atelier de potier gallo-romain de Galane à Lombez (Gers)",
+      "year": 1957,
+      "volume": "Gallia, 15-1",
+      "first_page": "41",
+      "last_page": "71",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1957_num_15_1_1487",
+      "doi": "10.3406/galia.1957.1487"
+    },
+    {
+      "id": "heurist:1519:73:251",
+      "journal": "gallia",
+      "title": "Inscriptions latines de Bourges (II)",
+      "year": 1974,
+      "volume": "Gallia, 32-2",
+      "first_page": "255",
+      "last_page": "285",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1974_num_32_2_2667",
+      "doi": "10.3406/galia.1974.2667"
+    },
+    {
+      "id": "heurist:1519:73:294",
+      "journal": "gallia",
+      "title": "Les établissements et les villas gallo-romains de Lalonquette (Pyrénées-Atlantiques)",
+      "year": 1973,
+      "volume": "Gallia, 31-1",
+      "first_page": "123",
+      "last_page": "156",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1973_num_31_1_2627",
+      "doi": "10.3406/galia.1973.2627"
+    },
+    {
+      "id": "heurist:1519:73:297",
+      "journal": "gallia",
+      "title": "La trouvaille de monnaies romaines de Thibouville (Eure)",
+      "year": 1961,
+      "volume": "Gallia, 19-1",
+      "first_page": "71",
+      "last_page": "104",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1961_num_19_1_2316",
+      "doi": "10.3406/galia.1961.2316"
+    },
+    {
+      "id": "heurist:1519:73:326",
+      "journal": "gallia",
+      "title": "La pratique de l'écriture dans les tuileries gallo-romaines",
+      "year": 2004,
+      "volume": "Gallia, 61",
+      "first_page": "67",
+      "last_page": "102",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2004_num_61_1_3188",
+      "doi": "10.3406/galia.2004.3188"
+    },
+    {
+      "id": "heurist:1519:73:360",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Provence-Côte-d'Azur-Corse (région sud)",
+      "year": 1967,
+      "volume": "Gallia, 25-2",
+      "first_page": "397",
+      "last_page": "435",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1967_num_25_2_2484",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:364",
+      "journal": "gallia",
+      "title": "Le Finage antique et médiéval",
+      "year": 1989,
+      "volume": "Gallia, 46",
+      "first_page": "261",
+      "last_page": "299",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1989_num_46_1_2899",
+      "doi": "10.3406/galia.1989.2899"
+    },
+    {
+      "id": "heurist:1519:73:388",
+      "journal": "gallia",
+      "title": "Le sanctuaire gallo-romain des Basiols à Saint-Beauzély (Aveyron)",
+      "year": 1993,
+      "volume": "Gallia, 50",
+      "first_page": "139",
+      "last_page": "179",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1993_num_50_1_2936",
+      "doi": "10.3406/galia.1993.2936"
+    },
+    {
+      "id": "heurist:1519:73:390",
+      "journal": "gallia",
+      "title": "Les graffites gallo-romains de Peyrestortes (Pyrénées-Orientales)",
+      "year": 1958,
+      "volume": "Gallia, 16-1",
+      "first_page": "41",
+      "last_page": "81",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1958_num_16_1_2225",
+      "doi": "10.3406/galia.1958.2225"
+    },
+    {
+      "id": "heurist:1519:73:432",
+      "journal": "gallia",
+      "title": "Le char processionnel de La Côte-Saint-André (Isère)",
+      "year": 1962,
+      "volume": "Gallia, 20-1",
+      "first_page": "33",
+      "last_page": "78",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1962_num_20_1_2348",
+      "doi": "10.3406/galia.1962.2348"
+    },
+    {
+      "id": "heurist:1519:73:503",
+      "journal": "gallia",
+      "title": "La trouvaille de monnaies romaines de Thibouville (Eure) (Fin)",
+      "year": 1962,
+      "volume": "Gallia, 20-1",
+      "first_page": "255",
+      "last_page": "322",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1962_num_20_1_2355",
+      "doi": "10.3406/galia.1962.2355"
+    },
+    {
+      "id": "heurist:1519:73:569",
+      "journal": "gallia",
+      "title": "Limousin",
+      "year": 1944,
+      "volume": "Gallia, 2",
+      "first_page": "225",
+      "last_page": "229",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1944_num_2_1_1991",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:575",
+      "journal": "gallia",
+      "title": "Fouilles à Bercey, commune de Voisines (Haute-Marne) en 1946-1947",
+      "year": 1948,
+      "volume": "Gallia, 6-1",
+      "first_page": "182",
+      "last_page": "186",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1948_num_6_1_2072",
+      "doi": "10.3406/galia.1948.2072"
+    },
+    {
+      "id": "heurist:1519:73:590",
+      "journal": "gallia",
+      "title": "Révision d'une borne milliaire dédiée à Galère sur la via domitia (Castelnau-le-Lez, Hérault)",
+      "year": 1990,
+      "volume": "Gallia, 47",
+      "first_page": "265",
+      "last_page": "269",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1990_num_47_1_2912",
+      "doi": "10.3406/galia.1990.2912"
+    },
+    {
+      "id": "heurist:1519:73:619",
+      "journal": "gallia",
+      "title": "Alpis Graia (col du Petit-Saint-Bernard, Savoie, Val d'Aoste) : découvertes anciennes et recherches récentes",
+      "year": 2016,
+      "volume": "Gallia, 73-1",
+      "first_page": "113",
+      "last_page": "118",
+      "url": "https://journals.openedition.org/gallia/498",
+      "doi": "10.4000/gallia.498"
+    },
+    {
+      "id": "heurist:1519:73:626",
+      "journal": "gallia",
+      "title": "Alexandre Albenque (1909-1951)",
+      "year": 1951,
+      "volume": "Gallia, 9",
+      "first_page": "71",
+      "last_page": "71",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1951_num_9_1_2689",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:661",
+      "journal": "gallia",
+      "title": "Une stèle figurée d'époque gallo-romaine découverte à Grand (Vosges)",
+      "year": 1985,
+      "volume": "Gallia, 43-1",
+      "first_page": "215",
+      "last_page": "220",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1985_num_43_1_2829",
+      "doi": "10.3406/galia.1985.2829"
+    },
+    {
+      "id": "heurist:1519:73:695",
+      "journal": "gallia",
+      "title": "Les potins du centre-ouest et du sud-ouest de la Gaule : état de la question",
+      "year": 1995,
+      "volume": "Gallia, 52",
+      "first_page": "129",
+      "last_page": "135",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1995_num_52_1_3134",
+      "doi": "10.3406/galia.1995.3134"
+    },
+    {
+      "id": "heurist:1519:73:716",
+      "journal": "gallia",
+      "title": "Une anse de chaudron étrusques à Sainte-Gemmes-sur-Loire (Maine-et-Loire)",
+      "year": 1983,
+      "volume": "Gallia, 41-2",
+      "first_page": "209",
+      "last_page": "215",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1983_num_41_2_1890",
+      "doi": "10.3406/galia.1983.1890"
+    },
+    {
+      "id": "heurist:1519:73:776",
+      "journal": "gallia",
+      "title": "Une date consulaire (213 après J.-C.) sur un tuyau de plomb viennois",
+      "year": 1992,
+      "volume": "Gallia, 49",
+      "first_page": "89",
+      "last_page": "97",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1992_num_49_1_2931",
+      "doi": "10.3406/galia.1992.2931"
+    },
+    {
+      "id": "heurist:1519:73:791",
+      "journal": "gallia",
+      "title": "Antiques du musée de Vienne (Isère)",
+      "year": 1961,
+      "volume": "Gallia, 19-2",
+      "first_page": "259",
+      "last_page": "267",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1961_num_19_2_2330",
+      "doi": "10.3406/galia.1961.2330"
+    },
+    {
+      "id": "heurist:1519:73:823",
+      "journal": "gallia",
+      "title": "La moyenne vallée du Rhône, de l'Isère à l'Ardèche",
+      "year": 1999,
+      "volume": "Gallia, 56",
+      "first_page": "81",
+      "last_page": "90",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1999_num_56_1_3245",
+      "doi": "10.3406/galia.1999.3245"
+    },
+    {
+      "id": "heurist:1519:73:826",
+      "journal": "gallia",
+      "title": "Lercoul (Pyrénées ariégeoises) : un site sidérurgique du iiie s. de notre ère",
+      "year": 2000,
+      "volume": "Gallia, 57",
+      "first_page": "53",
+      "last_page": "62",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2000_num_57_1_3209",
+      "doi": "10.3406/galia.2000.3209"
+    },
+    {
+      "id": "heurist:1519:73:827",
+      "journal": "gallia",
+      "title": "Les carrières de grès de La Croix-Guillaume à Saint-Quirin (Moselle)",
+      "year": 2002,
+      "volume": "Gallia, 59",
+      "first_page": "145",
+      "last_page": "154",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2002_num_59_1_3102",
+      "doi": "10.3406/galia.2002.3102"
+    },
+    {
+      "id": "heurist:1519:73:847",
+      "journal": "gallia",
+      "title": "Le temple tardif de l'agglomération de Liberchies dans le cadre de la cité des Tongres",
+      "year": 2014,
+      "volume": "Gallia, 71-1",
+      "first_page": "119",
+      "last_page": "129",
+      "url": "https://journals.openedition.org/gallia/2059",
+      "doi": "10.4000/gallia.2059"
+    },
+    {
+      "id": "heurist:1519:73:936",
+      "journal": "gallia",
+      "title": "Un bas-relief dionysiaque au pressoir, une Epona et une cuve baptismale trouvés à Thaims (Charente-Maritime)",
+      "year": 1953,
+      "volume": "Gallia, 11-1",
+      "first_page": "82",
+      "last_page": "85",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1953_num_11_1_1322",
+      "doi": "10.3406/galia.1953.1322"
+    },
+    {
+      "id": "heurist:1519:73:959",
+      "journal": "gallia",
+      "title": "Tête sculptée du musée de Roanne",
+      "year": 1954,
+      "volume": "Gallia, 12-1",
+      "first_page": "89",
+      "last_page": "90",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1954_num_12_1_1365",
+      "doi": "10.3406/galia.1954.1365"
+    },
+    {
+      "id": "heurist:1519:73:969",
+      "journal": "gallia",
+      "title": "Les cités de la Gaule méridionale du iiie au viie s.",
+      "year": 2006,
+      "volume": "Gallia, 63",
+      "first_page": "11",
+      "last_page": "23",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2006_num_63_1_3280",
+      "doi": "10.3406/galia.2006.3280"
+    },
+    {
+      "id": "heurist:1519:73:987",
+      "journal": "gallia",
+      "title": "Le mausolée turriforme d’une villa près de Carcassonne/Carcasso (Aude)",
+      "year": 2019,
+      "volume": "Gallia, 76-1",
+      "first_page": "91",
+      "last_page": "104",
+      "url": "https://journals.openedition.org/gallia/4627",
+      "doi": "10.4000/gallia.4627"
+    },
+    {
+      "id": "heurist:1519:73:1011",
+      "journal": "gallia",
+      "title": "Deux inscriptions d'Aléria (Haute-Corse)",
+      "year": 2005,
+      "volume": "Gallia, 62",
+      "first_page": "279",
+      "last_page": "292",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2005_num_62_1_3071",
+      "doi": "10.3406/galia.2005.3071"
+    },
+    {
+      "id": "heurist:1519:73:1012",
+      "journal": "gallia",
+      "title": "L'aqueduc de l'agglomération antique de Balaruc-les-Bains (Hérault)",
+      "year": 2005,
+      "volume": "Gallia, 62",
+      "first_page": "35",
+      "last_page": "48",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2005_num_62_1_3219",
+      "doi": "10.3406/galia.2005.3219"
+    },
+    {
+      "id": "heurist:1519:73:1017",
+      "journal": "gallia",
+      "title": "Nécropole gallo-romaine du ive siècle à Barisis-aux-Bois (Aisne)",
+      "year": 1954,
+      "volume": "Gallia, 12-2",
+      "first_page": "367",
+      "last_page": "380",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1954_num_12_2_1398",
+      "doi": "10.3406/galia.1954.1398"
+    },
+    {
+      "id": "heurist:1519:73:1026",
+      "journal": "gallia",
+      "title": "Développement et abandon d'un sanctuaire du iiie s. à Sains-du-Nord chez les Nerviens",
+      "year": 2014,
+      "volume": "Gallia, 71-1",
+      "first_page": "81",
+      "last_page": "95",
+      "url": null,
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1028",
+      "journal": "gallia",
+      "title": "Le devenir de l'agglomération de Chilleurs-aux-Bois (Loiret) durant l'Antiquité tardive",
+      "year": 2017,
+      "volume": "Gallia, 74-1",
+      "first_page": "165",
+      "last_page": "179",
+      "url": "https://journals.openedition.org/gallia/2423",
+      "doi": "10.4000/gallia.2423"
+    },
+    {
+      "id": "heurist:1519:73:1036",
+      "journal": "gallia",
+      "title": "Milliaire d'Antibes",
+      "year": 1956,
+      "volume": "Gallia, 14-1",
+      "first_page": "89",
+      "last_page": "90",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1956_num_14_1_1462",
+      "doi": "10.3406/galia.1956.1462"
+    },
+    {
+      "id": "heurist:1519:73:1039",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Nord et Picardie",
+      "year": 1971,
+      "volume": "Gallia, 29-2",
+      "first_page": "219",
+      "last_page": "233",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1971_num_29_2_2580",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1064",
+      "journal": "gallia",
+      "title": "L'agglomération de Bliesbruck (Moselle) durant l'Antiquité tardive : entre ruptures et continuités",
+      "year": 2017,
+      "volume": "Gallia, 74-1",
+      "first_page": "149",
+      "last_page": "164",
+      "url": "https://journals.openedition.org/gallia/2428",
+      "doi": "10.4000/gallia.2428"
+    },
+    {
+      "id": "heurist:1519:73:1068",
+      "journal": "gallia",
+      "title": "Le problème des ruines du Vieil-Évreux (Eure)",
+      "year": 1943,
+      "volume": "Gallia, 1-2",
+      "first_page": "191",
+      "last_page": "206",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1943_num_1_2_1974",
+      "doi": "10.3406/galia.1943.1974"
+    },
+    {
+      "id": "heurist:1519:73:1074",
+      "journal": "gallia",
+      "title": "Inscriptions latines de Bourges (I)",
+      "year": 1973,
+      "volume": "Gallia, 31-2",
+      "first_page": "297",
+      "last_page": "312",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1973_num_31_2_2635",
+      "doi": "10.3406/galia.1973.2635"
+    },
+    {
+      "id": "heurist:1519:73:1079",
+      "journal": "gallia",
+      "title": "Un four de potier au Ve siècle avant J.-C. à Béziers, place de la Madeleine",
+      "year": 1988,
+      "volume": "Gallia, 45",
+      "first_page": "13",
+      "last_page": "28",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1987_num_45_1_2877",
+      "doi": "10.3406/galia.1987.2877"
+    },
+    {
+      "id": "heurist:1519:73:1080",
+      "journal": "gallia",
+      "title": "Un témoignage de loyalisme impérial dans un décor peint ?",
+      "year": 1994,
+      "volume": "Gallia, 51",
+      "first_page": "217",
+      "last_page": "232",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1994_num_51_1_2979",
+      "doi": "10.3406/galia.1994.2979"
+    },
+    {
+      "id": "heurist:1519:73:1094",
+      "journal": "gallia",
+      "title": "Une statuette-portrait romaine en albâtre et marbre au musée d'Agen (Lot-et-Garonne)",
+      "year": 1959,
+      "volume": "Gallia, 17-1",
+      "first_page": "63",
+      "last_page": "78",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1959_num_17_1_2256",
+      "doi": "10.3406/galia.1959.2256"
+    },
+    {
+      "id": "heurist:1519:73:1099",
+      "journal": "gallia",
+      "title": "Au musée des antiques de Bordeaux : stèles, cippes et loculi",
+      "year": 1965,
+      "volume": "Gallia, 23-1",
+      "first_page": "87",
+      "last_page": "102",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1965_num_23_1_2220",
+      "doi": "10.3406/galia.1965.2220"
+    },
+    {
+      "id": "heurist:1519:73:1108",
+      "journal": "gallia",
+      "title": "Toulouse/Tolosa, cité des Tolosates, et Auch/Elimberris, cité des Ausques : des centres de pouvoir indigènes aux capitales romaines",
+      "year": 2015,
+      "volume": "Gallia, 72-1",
+      "first_page": "35",
+      "last_page": "51",
+      "url": "https://journals.openedition.org/gallia/1379",
+      "doi": "10.4000/gallia.1379"
+    },
+    {
+      "id": "heurist:1519:73:1125",
+      "journal": "gallia",
+      "title": "Georges Matherat (1890-1973)",
+      "year": 1974,
+      "volume": "Gallia, 32-2",
+      "first_page": "223",
+      "last_page": "224",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1974_num_32_2_2662",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1129",
+      "journal": "gallia",
+      "title": "Céramique laténienne domestique de la région lilloise (Nord)",
+      "year": 1984,
+      "volume": "Gallia, 42-1",
+      "first_page": "79",
+      "last_page": "95",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1984_num_42_1_1911",
+      "doi": "10.3406/galia.1984.1911"
+    },
+    {
+      "id": "heurist:1519:73:1149",
+      "journal": "gallia",
+      "title": "Les inscriptions de la cité de Vence (Vintium)",
+      "year": 1991,
+      "volume": "Gallia, 48",
+      "first_page": "267",
+      "last_page": "284",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1991_num_48_1_2921",
+      "doi": "10.3406/galia.1991.2921"
+    },
+    {
+      "id": "heurist:1519:73:1151",
+      "journal": "gallia",
+      "title": "La canalisation sous-fluviale d'Arles à Trinquetaille",
+      "year": 1993,
+      "volume": "Gallia, 50",
+      "first_page": "205",
+      "last_page": "222",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1993_num_50_1_2938",
+      "doi": "10.3406/galia.1993.2938"
+    },
+    {
+      "id": "heurist:1519:73:1165",
+      "journal": "gallia",
+      "title": "Quelques considérations sur le chariot des vendanges de Langres (Haute-Marne)",
+      "year": 1984,
+      "volume": "Gallia, 42-1",
+      "first_page": "97",
+      "last_page": "114",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1984_num_42_1_1912",
+      "doi": "10.3406/galia.1984.1912"
+    },
+    {
+      "id": "heurist:1519:73:1171",
+      "journal": "gallia",
+      "title": "La viande de chien à l'âge du Fer : quels individus pour quelles consommations ?",
+      "year": 2014,
+      "volume": "Gallia, 71-2",
+      "first_page": "69",
+      "last_page": "87",
+      "url": "https://journals.openedition.org/gallia/1807",
+      "doi": "10.4000/gallia.1807"
+    },
+    {
+      "id": "heurist:1519:73:1188",
+      "journal": "gallia",
+      "title": "Deux assainissements avec amphores à Mayence (Germanie supérieure)",
+      "year": 2002,
+      "volume": "Gallia, 59",
+      "first_page": "233",
+      "last_page": "251",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2002_num_59_1_3051",
+      "doi": "10.3406/galia.2002.3051"
+    },
+    {
+      "id": "heurist:1519:73:1205",
+      "journal": "gallia",
+      "title": "Un four de la Graufesenque (Aveyron) : la cuisson des vases sigillés",
+      "year": 1981,
+      "volume": "Gallia, 39-1",
+      "first_page": "25",
+      "last_page": "43",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1981_num_39_1_1819",
+      "doi": "10.3406/galia.1981.1819"
+    },
+    {
+      "id": "heurist:1519:73:1214",
+      "journal": "gallia",
+      "title": "Nivernais",
+      "year": 1946,
+      "volume": "Gallia, 4",
+      "first_page": "313",
+      "last_page": "315",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1946_num_4_1_2683",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1241",
+      "journal": "gallia",
+      "title": "Trois mosaïques découvertes dans une villa gallo-romaine à Mérande (Savoie)",
+      "year": 1974,
+      "volume": "Gallia, 32-1",
+      "first_page": "63",
+      "last_page": "82",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1974_num_32_1_2653",
+      "doi": "10.3406/galia.1974.2653"
+    },
+    {
+      "id": "heurist:1519:73:1244",
+      "journal": "gallia",
+      "title": "Une tour de l'enceinte gallo-romaine d'Angers (Maine-et-Loire)",
+      "year": 1980,
+      "volume": "Gallia, 38-1",
+      "first_page": "97",
+      "last_page": "116",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1980_num_38_1_1790",
+      "doi": "10.3406/galia.1980.1790"
+    },
+    {
+      "id": "heurist:1519:73:1254",
+      "journal": "gallia",
+      "title": "Apports de l’étude archéo-ichtyologique de l’Isle-Saint-Georges (Gironde) au commerce de poissons marins sur l’axe aquitain : processus interculturel et modalités de diffusion (Ier s. av. J.-C. – IIIe s. apr. J.-C.)",
+      "year": 2018,
+      "volume": "Gallia, 75",
+      "first_page": "119",
+      "last_page": "139",
+      "url": "https://journals.openedition.org/gallia/3956",
+      "doi": "10.4000/gallia.3956"
+    },
+    {
+      "id": "heurist:1519:73:1276",
+      "journal": "gallia",
+      "title": "Le tonneau en Gaule romaine",
+      "year": 2001,
+      "volume": "Gallia, 58",
+      "first_page": "181",
+      "last_page": "201",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2001_num_58_1_3179",
+      "doi": "10.3406/galia.2001.3179"
+    },
+    {
+      "id": "heurist:1519:73:1289",
+      "journal": "gallia",
+      "title": "La villa à mosaïques de Mienne-Marboué (Eure-et-Loir)",
+      "year": 1981,
+      "volume": "Gallia, 39-1",
+      "first_page": "63",
+      "last_page": "83",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1981_num_39_1_1821",
+      "doi": "10.3406/galia.1981.1821"
+    },
+    {
+      "id": "heurist:1519:73:1308",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Rhône-Alpes",
+      "year": 1977,
+      "volume": "Gallia, 35-2",
+      "first_page": "473",
+      "last_page": "494",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1977_num_35_2_1579",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1318",
+      "journal": "gallia",
+      "title": "Le tumulus du Puy-de-Lafont, commune de Saint-Priest-de-Gimel (Corrèze)",
+      "year": 1981,
+      "volume": "Gallia, 39-1",
+      "first_page": "3",
+      "last_page": "24",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1981_num_39_1_1818",
+      "doi": "10.3406/galia.1981.1818"
+    },
+    {
+      "id": "heurist:1519:73:1325",
+      "journal": "gallia",
+      "title": "Les photographies aériennes prises en France par l'aviation interalliée, déposées à l'École française de Rome",
+      "year": 1966,
+      "volume": "Gallia, 24-2",
+      "first_page": "529",
+      "last_page": "531",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1966_num_24_2_2457",
+      "doi": "10.3406/galia.1966.2457"
+    },
+    {
+      "id": "heurist:1519:73:1349",
+      "journal": "gallia",
+      "title": "Étude d'une production de lampes en Gaule",
+      "year": 1983,
+      "volume": "Gallia, 41-1",
+      "first_page": "167",
+      "last_page": "189",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1983_num_41_1_1885",
+      "doi": "10.3406/galia.1983.1885"
+    },
+    {
+      "id": "heurist:1519:73:1372",
+      "journal": "gallia",
+      "title": "Les restaurations modernes de la grande mosaïque de Lillebonne (Seine-Maritime)",
+      "year": 1978,
+      "volume": "Gallia, 36-1",
+      "first_page": "65",
+      "last_page": "88",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1978_num_36_1_1587",
+      "doi": "10.3406/galia.1978.1587"
+    },
+    {
+      "id": "heurist:1519:73:1383",
+      "journal": "gallia",
+      "title": "Circonscription [historique] d'Auvergne et Limousin",
+      "year": 1967,
+      "volume": "Gallia, 25-2",
+      "first_page": "297",
+      "last_page": "325",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1967_num_25_2_2481",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1405",
+      "journal": "gallia",
+      "title": "Entre Narbonnaise et Italie : le territoire de la province des Alpes Maritimae",
+      "year": 2010,
+      "volume": "Gallia, 67-2",
+      "first_page": "99",
+      "last_page": "124",
+      "url": "https://journals.openedition.org/gallia/2929",
+      "doi": "10.4000/gallia.2929"
+    },
+    {
+      "id": "heurist:1519:73:1424",
+      "journal": "gallia",
+      "title": "Un ensemble monumental gallo-romain dans le sous-sol de Bourges (Cher)",
+      "year": 1977,
+      "volume": "Gallia, 35-1",
+      "first_page": "115",
+      "last_page": "140",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1977_num_35_1_1558",
+      "doi": "10.3406/galia.1977.1558"
+    },
+    {
+      "id": "heurist:1519:73:1427",
+      "journal": "gallia",
+      "title": "La grande mosaïque de Migennes (Yonne)",
+      "year": 1981,
+      "volume": "Gallia, 39-1",
+      "first_page": "123",
+      "last_page": "148",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1981_num_39_1_1824",
+      "doi": "10.3406/galia.1981.1824"
+    },
+    {
+      "id": "heurist:1519:73:1444",
+      "journal": "gallia",
+      "title": "Corniches et couronnements gallo-romains à Alésia (Alise-Sainte-Reine, Côte-d'Or)",
+      "year": 1989,
+      "volume": "Gallia, 46",
+      "first_page": "43",
+      "last_page": "69",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1989_num_46_1_2891",
+      "doi": "10.3406/galia.1989.2891"
+    },
+    {
+      "id": "heurist:1519:73:1451",
+      "journal": "gallia",
+      "title": "La christianisation des campagnes (ive-viiie s.)",
+      "year": 2007,
+      "volume": "Gallia, 64",
+      "first_page": "57",
+      "last_page": "83",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_2007_num_64_1_3306",
+      "doi": "10.3406/galia.2007.3306"
+    },
+    {
+      "id": "heurist:1519:73:1472",
+      "journal": "gallia",
+      "title": "Circonscription de Rhône-Alpes",
+      "year": 1980,
+      "volume": "Gallia, 38-2",
+      "first_page": "507",
+      "last_page": "534",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1980_num_38_2_1814",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:1474",
+      "journal": "gallia",
+      "title": "Fouilles de Mâlain - Mediolanum (Côte-d'Or)",
+      "year": 1979,
+      "volume": "Gallia, 37-1",
+      "first_page": "201",
+      "last_page": "228",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1979_num_37_1_1600",
+      "doi": "10.3406/galia.1979.1600"
+    },
+    {
+      "id": "heurist:1519:73:1617",
+      "journal": "gallia",
+      "title": "Circonscription [historique] du Nord",
+      "year": 1973,
+      "volume": "Gallia, 31-2",
+      "first_page": "313",
+      "last_page": "321",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1973_num_31_2_2638",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:3157",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Lyon",
+      "year": 1961,
+      "volume": "Gallia, 19-2",
+      "first_page": "433",
+      "last_page": "455",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1961_num_19_2_2341",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:3190",
+      "journal": "gallia",
+      "title": "Circonscription [historique] d'Auvergne et Limousin",
+      "year": 1969,
+      "volume": "Gallia, 27-2",
+      "first_page": "317",
+      "last_page": "341",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1969_num_27_2_2536",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:3259",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Franche-Comté",
+      "year": 1974,
+      "volume": "Gallia, 32-2",
+      "first_page": "401",
+      "last_page": "426",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1974_num_32_2_2675",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:3260",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Franche-Comté",
+      "year": 1976,
+      "volume": "Gallia, 34-2",
+      "first_page": "413",
+      "last_page": "437",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1976_num_34_2_1634",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:4035",
+      "journal": "gallia",
+      "title": "Circonscription [historique] de Rhône-Alpes",
+      "year": 1975,
+      "volume": "Gallia, 33-2",
+      "first_page": "529",
+      "last_page": "558",
+      "url": "https://www.persee.fr/doc/galia_0016-4119_1975_num_33_2_1538",
+      "doi": null
+    },
+    {
+      "id": "heurist:1519:73:41979",
+      "journal": "gallia_prehistoire",
+      "title": "L'industrie lithique du Paléolithique inférieur et moyen de la grotte de Coupe-Gorge à Montmaurin (Haute-Garonne)",
+      "year": 1982,
+      "volume": "Gallia Préhistoire, 25-1",
+      "first_page": "79",
+      "last_page": "105",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1982_num_25_1_1691",
+      "doi": "10.3406/galip.1982.1691"
+    },
+    {
+      "id": "heurist:1519:73:41994",
+      "journal": "gallia_prehistoire",
+      "title": "Essai d'interprétation d'une concentration lithique : technologie et remontage. Couche VI du Flageolet I à Bézenac (Dordogne)",
+      "year": 1986,
+      "volume": "Gallia Préhistoire, 29-1",
+      "first_page": "29",
+      "last_page": "62",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1986_num_29_1_2241",
+      "doi": "10.3406/galip.1986.2241"
+    },
+    {
+      "id": "heurist:1519:73:42124",
+      "journal": "gallia_prehistoire",
+      "title": "Pierres gravées de la Marche à Lussac-les-Châteaux (Vienne) : techniques, technologie et interprétations",
+      "year": 2008,
+      "volume": "Gallia Préhistoire, 50",
+      "first_page": "143",
+      "last_page": "268",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_2008_num_50_1_2460",
+      "doi": "10.3406/galip.2008.2460"
+    },
+    {
+      "id": "heurist:1519:73:42235",
+      "journal": "gallia_prehistoire",
+      "title": "La grotte du Bois-Ragot à Gouex (Vienne) : note préliminaire",
+      "year": 1974,
+      "volume": "Gallia Préhistoire, 17-1",
+      "first_page": "285",
+      "last_page": "291",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1974_num_17_1_1468",
+      "doi": "10.3406/galip.1974.1468"
+    },
+    {
+      "id": "heurist:1519:73:42280",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude préliminaire des principales structures",
+      "year": 1989,
+      "volume": "Gallia Préhistoire, 31",
+      "first_page": "93",
+      "last_page": "118",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1989_num_31_1_2267",
+      "doi": "10.3406/galip.1989.2267"
+    },
+    {
+      "id": "heurist:1519:73:42316",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude archéologique",
+      "year": 1982,
+      "volume": "Gallia Préhistoire, 25-1",
+      "first_page": "1",
+      "last_page": "68",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1982_num_25_1_1689",
+      "doi": "10.3406/galip.1982.1689"
+    },
+    {
+      "id": "heurist:1519:73:42386",
+      "journal": "gallia_prehistoire",
+      "title": "I. Étude archéologique",
+      "year": 1972,
+      "volume": "Gallia Préhistoire, 15-1",
+      "first_page": "137",
+      "last_page": "185",
+      "url": "https://www.persee.fr/doc/galip_0016-4127_1972_num_15_1_2413",
+      "doi": "10.3406/galip.1972.2413"
+    },
+    {
+      "id": "heurist:1519:73:42847",
+      "journal": "gallia",
+      "title": "Prologue. La longue histoire de la recherche sur les aqueducs romains de Lyon",
+      "year": 2023,
+      "volume": "Gallia, 80-1",
+      "first_page": "45",
+      "last_page": "47",
+      "url": "https://journals.openedition.org/gallia/8350",
+      "doi": "10.4000/11ucn"
+    },
+    {
+      "id": "heurist:1519:73:42863",
+      "journal": "gallia",
+      "title": "L’aqueduc du Gier : étude des ponts-siphons du Garon à Brignais et Chaponost (Rhône) et de Beaunant à Sainte-Foy-lès-Lyon (Métropole de Lyon)",
+      "year": 2023,
+      "volume": "Gallia, 80-1",
+      "first_page": "187",
+      "last_page": "198",
+      "url": "https://journals.openedition.org/gallia/8510",
+      "doi": "10.4000/11ud3"
+    },
+    {
+      "id": "heurist:1519:73:43034",
+      "journal": "gallia",
+      "title": "Des sépultures multiples témoins d’une crise sanitaire tardo-antique dans la nécropole de Saint-Seurin à Bordeaux",
+      "year": 2025,
+      "volume": "Gallia, 82",
+      "first_page": "87",
+      "last_page": "95",
+      "url": "https://journals.openedition.org/gallia/9407",
+      "doi": "10.4000/15h43"
+    },
+    {
+      "id": "heurist:1519:73:43052",
+      "journal": "gallia",
+      "title": "État des connaissances sur Besançon durant l’Antiquité tardive",
+      "year": 2025,
+      "volume": "Gallia, 82",
+      "first_page": "281",
+      "last_page": "294",
+      "url": "https://journals.openedition.org/gallia/9610",
+      "doi": "10.4000/15h4f"
     }
   ],
   "contributions": [
@@ -44006,6 +44996,1572 @@
       "person_id": "PER-001154",
       "role": "auteur",
       "position_in_role": 12
+    },
+    {
+      "article_id": "heurist:1519:73:237",
+      "person_id": "PER-001212",
+      "role": "collaborateur",
+      "position_in_role": 17
+    },
+    {
+      "article_id": "heurist:1519:73:4035",
+      "person_id": "PER-001353",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:3259",
+      "person_id": "PER-001269",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:3260",
+      "person_id": "PER-001269",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:569",
+      "person_id": "PER-001356",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1568",
+      "person_id": "PER-001236",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:3157",
+      "person_id": "PER-001248",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1582",
+      "person_id": "PER-001249",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:360",
+      "person_id": "PER-001249",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1617",
+      "person_id": "PER-001255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42722",
+      "person_id": "PER-001268",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1011",
+      "person_id": "PER-001246",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1012",
+      "person_id": "PER-001310",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1017",
+      "person_id": "PER-001233",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1019",
+      "person_id": "PER-001248",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1036",
+      "person_id": "PER-001392",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1039",
+      "person_id": "PER-001255",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1068",
+      "person_id": "PER-001362",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1074",
+      "person_id": "PER-001241",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1080",
+      "person_id": "PER-001401",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1085",
+      "person_id": "PER-001385",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1087",
+      "person_id": "PER-001253",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1094",
+      "person_id": "PER-001238",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1094",
+      "person_id": "PER-001239",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1099",
+      "person_id": "PER-001238",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1125",
+      "person_id": "PER-001325",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1126",
+      "person_id": "PER-001338",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1128",
+      "person_id": "PER-001259",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1129",
+      "person_id": "PER-001270",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1141",
+      "person_id": "PER-001230",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1149",
+      "person_id": "PER-001246",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1151",
+      "person_id": "PER-001264",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1165",
+      "person_id": "PER-001266",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1186",
+      "person_id": "PER-001358",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1188",
+      "person_id": "PER-001384",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1205",
+      "person_id": "PER-001227",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1206",
+      "person_id": "PER-001366",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1214",
+      "person_id": "PER-001376",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1241",
+      "person_id": "PER-001399",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1244",
+      "person_id": "PER-001231",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1275",
+      "person_id": "PER-001268",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1276",
+      "person_id": "PER-001382",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1289",
+      "person_id": "PER-001308",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1308",
+      "person_id": "PER-001313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1309",
+      "person_id": "PER-001257",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1309",
+      "person_id": "PER-001360",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1318",
+      "person_id": "PER-001265",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1349",
+      "person_id": "PER-001321",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1364",
+      "person_id": "PER-001265",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1372",
+      "person_id": "PER-001234",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1393",
+      "person_id": "PER-001233",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1397",
+      "person_id": "PER-001270",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1420",
+      "person_id": "PER-001390",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1424",
+      "person_id": "PER-001350",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1424",
+      "person_id": "PER-001331",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1427",
+      "person_id": "PER-001234",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1437",
+      "person_id": "PER-001395",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1444",
+      "person_id": "PER-001247",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-001245",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-001318",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-001381",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:1448",
+      "person_id": "PER-001219",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1455",
+      "person_id": "PER-001316",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1474",
+      "person_id": "PER-001332",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1489",
+      "person_id": "PER-001308",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1489",
+      "person_id": "PER-001247",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:219",
+      "person_id": "PER-001352",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:246",
+      "person_id": "PER-001378",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:249",
+      "person_id": "PER-001316",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:251",
+      "person_id": "PER-001241",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:267",
+      "person_id": "PER-001257",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:270",
+      "person_id": "PER-001329",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:286",
+      "person_id": "PER-001347",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:286",
+      "person_id": "PER-001244",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:294",
+      "person_id": "PER-001393",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:297",
+      "person_id": "PER-001223",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:297",
+      "person_id": "PER-001250",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:316",
+      "person_id": "PER-001242",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:321",
+      "person_id": "PER-001227",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:323",
+      "person_id": "PER-001361",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:324",
+      "person_id": "PER-001309",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:324",
+      "person_id": "PER-001206",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:325",
+      "person_id": "PER-001386",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:325",
+      "person_id": "PER-001394",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:325",
+      "person_id": "PER-001314",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:325",
+      "person_id": "PER-001349",
+      "role": "auteur",
+      "position_in_role": 11
+    },
+    {
+      "article_id": "heurist:1519:73:326",
+      "person_id": "PER-001375",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:340",
+      "person_id": "PER-001309",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:341",
+      "person_id": "PER-001224",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:341",
+      "person_id": "PER-001237",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:364",
+      "person_id": "PER-001229",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:373",
+      "person_id": "PER-001354",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:388",
+      "person_id": "PER-001364",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:390",
+      "person_id": "PER-001230",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:432",
+      "person_id": "PER-001379",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:461",
+      "person_id": "PER-001244",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:471",
+      "person_id": "PER-001383",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001377",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001367",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001359",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001221",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001213",
+      "role": "collaborateur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001208",
+      "role": "collaborateur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001205",
+      "role": "collaborateur",
+      "position_in_role": 9
+    },
+    {
+      "article_id": "heurist:1519:73:493",
+      "person_id": "PER-001214",
+      "role": "collaborateur",
+      "position_in_role": 11
+    },
+    {
+      "article_id": "heurist:1519:73:494",
+      "person_id": "PER-001323",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:494",
+      "person_id": "PER-001252",
+      "role": "auteur",
+      "position_in_role": 17
+    },
+    {
+      "article_id": "heurist:1519:73:503",
+      "person_id": "PER-001223",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:503",
+      "person_id": "PER-001250",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:532",
+      "person_id": "PER-001396",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:575",
+      "person_id": "PER-001236",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:590",
+      "person_id": "PER-001333",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:626",
+      "person_id": "PER-001398",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:639",
+      "person_id": "PER-001311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:639",
+      "person_id": "PER-001267",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:657",
+      "person_id": "PER-001373",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:661",
+      "person_id": "PER-001337",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:687",
+      "person_id": "PER-001240",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:695",
+      "person_id": "PER-001402",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:716",
+      "person_id": "PER-001231",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:741",
+      "person_id": "PER-001258",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:750",
+      "person_id": "PER-001357",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:791",
+      "person_id": "PER-001239",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:818",
+      "person_id": "PER-001240",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:823",
+      "person_id": "PER-001253",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:827",
+      "person_id": "PER-001245",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:846",
+      "person_id": "PER-001336",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:909",
+      "person_id": "PER-001341",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:919",
+      "person_id": "PER-001389",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:959",
+      "person_id": "PER-001319",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1383",
+      "person_id": "PER-001315",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:446",
+      "person_id": "PER-001335",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:415",
+      "person_id": "PER-001209",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:873",
+      "person_id": "PER-001363",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:474",
+      "person_id": "PER-001229",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:776",
+      "person_id": "PER-001226",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:776",
+      "person_id": "PER-001264",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:240",
+      "person_id": "PER-001345",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:504",
+      "person_id": "PER-001343",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:512",
+      "person_id": "PER-001254",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1451",
+      "person_id": "PER-001267",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:826",
+      "person_id": "PER-001334",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:969",
+      "person_id": "PER-001311",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:505",
+      "person_id": "PER-001351",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:875",
+      "person_id": "PER-001368",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1380",
+      "person_id": "PER-001271",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1156",
+      "person_id": "PER-001258",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1156",
+      "person_id": "PER-001340",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:1252",
+      "person_id": "PER-001326",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:518",
+      "person_id": "PER-001222",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:358",
+      "person_id": "PER-001204",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1323",
+      "person_id": "PER-001228",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42720",
+      "person_id": "PER-001254",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42724",
+      "person_id": "PER-001391",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:401",
+      "person_id": "PER-001224",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:401",
+      "person_id": "PER-001237",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42895",
+      "person_id": "PER-001220",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42895",
+      "person_id": "PER-001217",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42859",
+      "person_id": "PER-001320",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42863",
+      "person_id": "PER-001225",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42854",
+      "person_id": "PER-001225",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:3190",
+      "person_id": "PER-001315",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1472",
+      "person_id": "PER-001313",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:37565",
+      "person_id": "PER-001380",
+      "role": "auteur",
+      "position_in_role": 12
+    },
+    {
+      "article_id": "heurist:1519:73:1325",
+      "person_id": "PER-001322",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:464",
+      "person_id": "PER-001344",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1485",
+      "person_id": "PER-001256",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1485",
+      "person_id": "PER-001272",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1485",
+      "person_id": "PER-001346",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1485",
+      "person_id": "PER-001207",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1405",
+      "person_id": "PER-001324",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1493",
+      "person_id": "PER-001203",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:419",
+      "person_id": "PER-001261",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42847",
+      "person_id": "PER-001226",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1254",
+      "person_id": "PER-001397",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:666",
+      "person_id": "PER-001312",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1173",
+      "person_id": "PER-001312",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1554",
+      "person_id": "PER-001271",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:988",
+      "person_id": "PER-001388",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:1406",
+      "person_id": "PER-001260",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:987",
+      "person_id": "PER-001232",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:289",
+      "person_id": "PER-001327",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:406",
+      "person_id": "PER-001251",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:236",
+      "person_id": "PER-001215",
+      "role": "collaborateur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:43034",
+      "person_id": "PER-001307",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:43052",
+      "person_id": "PER-001369",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43039",
+      "person_id": "PER-001387",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:936",
+      "person_id": "PER-001342",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1033",
+      "person_id": "PER-001252",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:619",
+      "person_id": "PER-001330",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:258",
+      "person_id": "PER-001243",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:274",
+      "person_id": "PER-001262",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:274",
+      "person_id": "PER-001372",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:274",
+      "person_id": "PER-001216",
+      "role": "collaborateur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:888",
+      "person_id": "PER-001339",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:985",
+      "person_id": "PER-001328",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1028",
+      "person_id": "PER-001218",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:334",
+      "person_id": "PER-001235",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:950",
+      "person_id": "PER-001314",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:1465",
+      "person_id": "PER-001400",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:1465",
+      "person_id": "PER-001307",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:1478",
+      "person_id": "PER-001310",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1030",
+      "person_id": "PER-001228",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1106",
+      "person_id": "PER-001266",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1133",
+      "person_id": "PER-001371",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:1108",
+      "person_id": "PER-001262",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:891",
+      "person_id": "PER-001251",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1171",
+      "person_id": "PER-001242",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:847",
+      "person_id": "PER-001260",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:894",
+      "person_id": "PER-001261",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:906",
+      "person_id": "PER-001374",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:1026",
+      "person_id": "PER-001235",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:510",
+      "person_id": "PER-001317",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:417",
+      "person_id": "PER-001348",
+      "role": "auteur",
+      "position_in_role": 11
+    },
+    {
+      "article_id": "heurist:1519:73:1421",
+      "person_id": "PER-001365",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1079",
+      "person_id": "PER-001272",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:1079",
+      "person_id": "PER-001256",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:37577",
+      "person_id": "PER-001370",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:37577",
+      "person_id": "PER-001355",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:1064",
+      "person_id": "PER-001317",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:468",
+      "person_id": "PER-001243",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:1231",
+      "person_id": "PER-001210",
+      "role": "collaborateur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42753",
+      "person_id": "PER-001263",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42754",
+      "person_id": "PER-001263",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:527",
+      "person_id": "PER-001211",
+      "role": "collaborateur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:490",
+      "person_id": "PER-001259",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43328",
+      "person_id": "PER-001232",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43198",
+      "person_id": "PER-001274",
+      "role": "auteur",
+      "position_in_role": 12
+    },
+    {
+      "article_id": "heurist:1519:73:41913",
+      "person_id": "PER-001302",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:41955",
+      "person_id": "PER-001305",
+      "role": "auteur",
+      "position_in_role": 5
+    },
+    {
+      "article_id": "heurist:1519:73:41956",
+      "person_id": "PER-001298",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:41956",
+      "person_id": "PER-001288",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:41979",
+      "person_id": "PER-001273",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:41994",
+      "person_id": "PER-001284",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42013",
+      "person_id": "PER-001286",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42049",
+      "person_id": "PER-001289",
+      "role": "auteur",
+      "position_in_role": 9
+    },
+    {
+      "article_id": "heurist:1519:73:42059",
+      "person_id": "PER-001278",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42059",
+      "person_id": "PER-001293",
+      "role": "auteur",
+      "position_in_role": 7
+    },
+    {
+      "article_id": "heurist:1519:73:42096",
+      "person_id": "PER-001275",
+      "role": "auteur",
+      "position_in_role": 9
+    },
+    {
+      "article_id": "heurist:1519:73:42124",
+      "person_id": "PER-001290",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42129",
+      "person_id": "PER-001303",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42230",
+      "person_id": "PER-001276",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:42235",
+      "person_id": "PER-001282",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42280",
+      "person_id": "PER-001281",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42316",
+      "person_id": "PER-001304",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42333",
+      "person_id": "PER-001285",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42355",
+      "person_id": "PER-001287",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42382",
+      "person_id": "PER-001306",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42386",
+      "person_id": "PER-001279",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:42056",
+      "person_id": "PER-001277",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42138",
+      "person_id": "PER-001294",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:41910",
+      "person_id": "PER-001295",
+      "role": "auteur",
+      "position_in_role": 4
+    },
+    {
+      "article_id": "heurist:1519:73:42134",
+      "person_id": "PER-001297",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:42081",
+      "person_id": "PER-001280",
+      "role": "auteur",
+      "position_in_role": 3
+    },
+    {
+      "article_id": "heurist:1519:73:43204",
+      "person_id": "PER-001291",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43207",
+      "person_id": "PER-001292",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:43207",
+      "person_id": "PER-001299",
+      "role": "auteur",
+      "position_in_role": 8
+    },
+    {
+      "article_id": "heurist:1519:73:42788",
+      "person_id": "PER-001296",
+      "role": "auteur",
+      "position_in_role": 1
+    },
+    {
+      "article_id": "heurist:1519:73:43224",
+      "person_id": "PER-001300",
+      "role": "auteur",
+      "position_in_role": 2
+    },
+    {
+      "article_id": "heurist:1519:73:43196",
+      "person_id": "PER-001301",
+      "role": "auteur",
+      "position_in_role": 6
+    },
+    {
+      "article_id": "heurist:1519:73:43229",
+      "person_id": "PER-001283",
+      "role": "auteur",
+      "position_in_role": 15
     }
   ]
 }
