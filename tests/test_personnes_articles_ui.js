@@ -283,7 +283,33 @@ async function renderWith(optional, status=200, profile=base){
   assert.doesNotMatch(collectText(seventhFirst),/Consulter les notices AdlFI liées/);
   assert.doesNotMatch(collectText(seventhLast),/Consulter les notices AdlFI liées/);
   assert.match(collectText(seventhFirst),/Gallia/);
+  // Huitième lot : 200 autorités exclusivement bibliographiques, sans notices fictives.
+  const eighthAuthorities=realPeople.authorities.filter(x=>{
+    const num=Number(x.id.replace('PER-',''));
+    return num>=1203 && num<=1402;
+  });
+  assert.equal(eighthAuthorities.length,200);
+  assert.ok(eighthAuthorities.every(x=>x.contributions_count===0));
+  const eighthRelations=realArticles.contributions.filter(x=>{
+    const num=Number(x.person_id.replace('PER-',''));
+    return num>=1203 && num<=1402;
+  });
+  assert.equal(eighthRelations.length,261);
+  assert.equal(eighthRelations.filter(x=>x.role==='auteur').length,241);
+  assert.equal(eighthRelations.filter(x=>x.role==='collaborateur').length,20);
+  const eighthFirst=liveCards.children.find(x=>collectText(x).includes('PER-001203'));
+  const eighthLast=liveCards.children.find(x=>collectText(x).includes('PER-001402'));
+  assert.ok(eighthFirst && eighthLast,'Les autorités extrêmes du huitième lot doivent apparaître');
+  assert.match(collectText(eighthFirst),/Benoît Mille/);
+  assert.match(collectText(eighthLast),/Richard Boudet/);
+  assert.doesNotMatch(collectText(eighthFirst),/Consulter les notices AdlFI liées/);
+  assert.doesNotMatch(collectText(eighthLast),/Consulter les notices AdlFI liées/);
+  const eighthNoUrl=liveCards.children.find(x=>collectText(x).includes('PER-001235'));
+  const eighthNoUrlArticle=collectNodes(eighthNoUrl,'li').find(x=>
+    collectText(x).includes('Développement et abandon d') && collectText(x).includes('Sains-du-Nord'));
+  assert.ok(eighthNoUrlArticle,'L’article sans URL doit être rendu avec sa référence');
+  assert.equal(collectNodes(eighthNoUrlArticle,'a').length,0,'Aucun lien artificiel sur cet article');
   console.log('OK : interface réelle '+realPeople.totals.authorities+' PER / '+displayContributions+
-              ' contributions, sept lots Heurist et références sans URL');
+              ' contributions, huit lots Heurist et références sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
