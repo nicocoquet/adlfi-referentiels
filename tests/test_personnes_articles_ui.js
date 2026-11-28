@@ -152,6 +152,7 @@ async function renderWith(optional, status=200, profile=base){
   // figés sur le troisième lot ; les jalons antérieurs restent contrôlés ci-dessous.
   assert.equal(liveCards.children.length,realPeople.totals.authorities);
   assert.ok(liveCards.children.length>=602,'Le quatrième lot de 160 PER doit rester publié');
+  assert.ok(liveCards.children.length>=802,'Le cinquième lot de 200 PER doit rester publié');
   assert.equal(realPeople.totals.contributions,1980,'Les contributions AdlFI restent constantes');
   assert.ok(realArticles.totals.contributions>=1960,'Le quatrième lot bibliographique doit rester publié');
   const displayContributions=realPeople.totals.contributions+realArticles.totals.contributions;
@@ -217,6 +218,27 @@ async function renderWith(optional, status=200, profile=base){
   assert.ok(fourthLast,'La dernière autorité du quatrième lot doit être affichée');
   assert.match(collectText(fourthLast),/Laurent Klaric/);
   assert.doesNotMatch(collectText(fourthLast),/Consulter les notices AdlFI liées/);
+  // Cinquième lot : 200 autorités exclusivement bibliographiques.
+  const fifthAuthorities=realPeople.authorities.filter(x=>{
+    const num=Number(x.id.replace('PER-',''));
+    return num>=603 && num<=802;
+  });
+  assert.equal(fifthAuthorities.length,200);
+  assert.ok(fifthAuthorities.every(x=>x.contributions_count===0));
+  const fifthRelations=realArticles.contributions.filter(x=>{
+    const num=Number(x.person_id.replace('PER-',''));
+    return num>=603 && num<=802;
+  });
+  assert.ok(fifthRelations.length>=479);
+  assert.ok(fifthRelations.some(x=>x.role==='auteur'));
+  assert.ok(fifthRelations.some(x=>x.role==='collaborateur'));
+  const fifthFirst=liveCards.children.find(x=>collectText(x).includes('PER-000603'));
+  const fifthLast=liveCards.children.find(x=>collectText(x).includes('PER-000802'));
+  assert.ok(fifthFirst && fifthLast,'Les autorités extrêmes du cinquième lot doivent apparaître');
+  assert.match(collectText(fifthFirst),/Claude Constantin/);
+  assert.match(collectText(fifthLast),/Philippe Guillerault/);
+  assert.doesNotMatch(collectText(fifthFirst),/Consulter les notices AdlFI liées/);
+  assert.doesNotMatch(collectText(fifthLast),/Consulter les notices AdlFI liées/);
   console.log('OK : interface réelle '+realPeople.totals.authorities+' PER / '+displayContributions+
               ' contributions, quatre pilotes Heurist et références sans URL');
 
