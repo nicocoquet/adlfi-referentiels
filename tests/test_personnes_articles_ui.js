@@ -169,8 +169,14 @@ async function renderWith(optional, status=200, profile=base){
   const oldNoUrl=liveCards.children.find(x=>collectText(x).includes('PER-000312'));
   assert.ok(oldNoUrl,'La fiche du nouveau pilote liée à un article sans URL doit apparaître');
   assert.match(collectText(oldNoUrl),/XIIe Circonscription \[préhistorique\]/);
-  assert.ok(!collectNodes(oldNoUrl,'a').some(x=>(x.textContent||'').includes('XIIe Circonscription [préhistorique]')),
-            'Un article du deuxième pilote sans URL ne doit pas recevoir un lien');
+  // Plusieurs articles historiques ont le même titre : cibler la notice
+  // bibliographique de 1957 et non toutes les autres occurrences de ce titre.
+  const unlinked1957=collectNodes(oldNoUrl,'li').find(x=>
+    collectText(x).includes('XIIe Circonscription [préhistorique]') &&
+    collectText(x).includes('Gallia, 15-3') && collectText(x).includes('1957'));
+  assert.ok(unlinked1957,'La référence de 1957 sans URL doit être affichée');
+  assert.equal(collectNodes(unlinked1957,'a').length,0,
+               'La référence de 1957 sans URL ne doit pas recevoir de lien');
   console.log('OK : interface réelle 322 PER / 2891 contributions, deux pilotes Heurist et articles sans URL');
 
 })().catch(err=>{console.error(err);process.exitCode=1;});
